@@ -13,11 +13,25 @@ CResMgr::~CResMgr()
 
 void CResMgr::init()
 {
+	CreateResClassTypeIndex();
+
 	CreateDefaultMesh();
 	CreateDefaultGraphicsShader();
 	CreateDefaultMaterial();
 
 	LoadDefaultTexture();
+}
+
+void CResMgr::CreateResClassTypeIndex()
+{
+	m_mapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMesh)), RES_TYPE::MESH));
+	//m_mapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMesh)), RES_TYPE::MESHDATA));
+	m_mapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMaterial)), RES_TYPE::MATERIAL));
+	m_mapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CTexture)), RES_TYPE::TEXTURE));
+	//m_mapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CSound)), RES_TYPE::SOUND));
+	//m_mapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CPrefab)), RES_TYPE::PREFAB));
+	m_mapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CGraphicsShader)), RES_TYPE::GRAPHICS_SHADER));
+	//m_mapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CComputeShader)), RES_TYPE::COMPUTE_SHADER));
 }
 
 void CResMgr::CreateDefaultMesh()

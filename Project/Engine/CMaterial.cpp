@@ -9,6 +9,7 @@ CMaterial::CMaterial()
 	, m_Const{}
 	, m_arrTex{}
 {	
+
 }
 
 CMaterial::~CMaterial()

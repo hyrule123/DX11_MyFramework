@@ -49,6 +49,8 @@ SamplerState g_sam_0 : register(s0);
 SamplerState g_sam_1 : register(s1);
 
 
+#define COLOR_KEY g_vec4_0
+
 // VS 입력 구조체
 struct VS_IN
 {   
@@ -90,6 +92,9 @@ float4 PS_Test(VS_OUT _in) : SV_Target
         vColor = g_tex_0.Sample(g_sam_0, _in.vOutUV);      
     else if(g_int_0 == 1)
         vColor = g_tex_0.Sample(g_sam_1, _in.vOutUV);
+    
+    if (all(vColor == g_vec4_0))
+        discard;
     
     return vColor;
 }

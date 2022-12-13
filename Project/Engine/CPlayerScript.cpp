@@ -5,7 +5,8 @@
 #include "CMaterial.h"
 
 
-CPlayerScript::CPlayerScript()
+CPlayerScript::CPlayerScript() : 
+	m_ColorKey(1.f, 1.f, 1.f, 1.f)
 {
 }
 
@@ -62,4 +63,6 @@ void CPlayerScript::tick()
 		int a = 1;
 		MeshRender()->GetMaterial()->SetScalarParam(INT_0, &a);
 	}
+
+	MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, &m_ColorKey);
 }

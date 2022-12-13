@@ -14,7 +14,7 @@ CTexture::~CTexture()
 }
 
 
-void CTexture::UpdateData(int _iRegisterNum, int _PipelineStage)
+void CTexture::UpdateData(int _iRegisterNum, UINT8 _PipelineStage)
 {
 	if (PIPELINE_STAGE::PS_VERTEX & _PipelineStage)
 	{

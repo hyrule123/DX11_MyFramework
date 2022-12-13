@@ -7,6 +7,7 @@
 CGraphicsShader::CGraphicsShader()
 	: CShader(RES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	, m_PIPELINE_STAGE_Flag()
 {
 }
 
@@ -68,6 +69,8 @@ void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const stri
 	{
 		assert(nullptr);
 	}
+
+	AddPipeLineStage(PIPELINE_STAGE::PS_VERTEX);
 }
 
 void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string& _strFuncName)
@@ -88,6 +91,8 @@ void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const strin
 	// 컴파일된 객체로 PixelShader 를 만든다.
 	DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
 		, nullptr, m_PS.GetAddressOf());
+
+	AddPipeLineStage(PIPELINE_STAGE::PS_PIXEL);
 }
 
 void CGraphicsShader::UpdateData()
@@ -95,9 +100,30 @@ void CGraphicsShader::UpdateData()
 	CONTEXT->IASetInputLayout(m_Layout.Get());
 	CONTEXT->IASetPrimitiveTopology(m_eTopology);
 
-	CONTEXT->VSSetShader(m_VS.Get(), nullptr, 0);
-	//CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
-	//CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
-	//CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
-	CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
+	if (PIPELINE_STAGE::PS_VERTEX & m_PIPELINE_STAGE_Flag)
+	{
+		CONTEXT->VSSetShader(m_VS.Get(), nullptr, 0);
+	}
+
+	if (PIPELINE_STAGE::PS_HULL & m_PIPELINE_STAGE_Flag)
+	{
+		CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
+	}
+
+	if (PIPELINE_STAGE::PS_DOMAIN & m_PIPELINE_STAGE_Flag)
+	{
+		CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
+	}
+
+	if (PIPELINE_STAGE::PS_GEOMETRY & m_PIPELINE_STAGE_Flag)
+	{
+		CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
+	}
+
+	if (PIPELINE_STAGE::PS_PIXEL & m_PIPELINE_STAGE_Flag)
+	{
+		CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
+	}
 }
+
+
