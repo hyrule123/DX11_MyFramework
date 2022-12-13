@@ -378,6 +378,10 @@ FodyWeavers.xsd
 ## Winmerge
 *.[bB][aA][kK]
 
+#Include External Libraries
+!External/*
+!DirectXTex*
+
 # Except External/*/Engine Folder : Used to gather header files - automatically generated at build time
 External/*/Engine/
 
@@ -385,20 +389,9 @@ External/*/Engine/
 OutputFile/[Bb]in/*
 OutputFile/[Bb]in_d/*
 
-# Include Content Files, Exclude Only Shader Files(*.fx) - will be copied after build
+# Include Content(Resources) Files, Exclude Only Shader Files(*.fx) - will be copied after build
 !OutputFile/[Bb]in/content/
 OutputFile/[Bb]in/content/shader/
 
 # Exclude Unity cpp File
 Unity_*.cpp
-
-# Exclude Editor Results
-
-# Include Resources
-
-
-
-
-# imgui settings file
-# imgui.ini
-
