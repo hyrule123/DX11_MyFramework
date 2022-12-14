@@ -21,6 +21,11 @@ struct tMtrlConst
 	Matrix arrMat[4];
 };
 
-
+struct tTransform
+{
+	Matrix MatWorld;
+	Matrix MatView;
+	Matrix MatProj;
+};
 
 

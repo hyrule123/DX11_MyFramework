@@ -1,6 +1,8 @@
 #pragma once
 #include "CScript.h"
 
+#define COLOR_KEY VEC4_0
+
 class CPlayerScript :
     public CScript
 {

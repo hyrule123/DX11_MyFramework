@@ -51,6 +51,16 @@ void CPlayerScript::tick()
 	}
 
 	Transform()->SetRelativePos(vCurPos);
+
+	Vector3 vCurRot = Transform()->GetRelativeRot();
+	if (KEY_PRESSED(KEY::A))
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			vCurRot.z += DT * XM_PI;
+		}
+	}
+	Transform()->SetRelativeRot(vCurRot);
 			
 	if (KEY_TAP(KEY::_1))
 	{
@@ -64,5 +74,6 @@ void CPlayerScript::tick()
 		MeshRender()->GetMaterial()->SetScalarParam(INT_0, &a);
 	}
 
-	MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, &m_ColorKey);
+	//상수버퍼에 컬러키를 전달
+	MeshRender()->GetMaterial()->SetScalarParam(COLOR_KEY, &m_ColorKey);
 }

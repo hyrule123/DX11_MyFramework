@@ -3,7 +3,9 @@
 
 cbuffer TRANSFORM : register(b0)
 {
-    float4 vPlayerPos;
+    matrix g_matWorld;
+    matrix g_matView;
+    matrix g_matProj;
 };
 
 cbuffer MATERIAL : register(b1)
@@ -73,10 +75,7 @@ VS_OUT VS_Test(VS_IN _in)
     VS_OUT output = (VS_OUT) 0.f;
             
     // 입력으로 들어온 정점좌표에 상수버퍼 값을 더해서 출력
-    float3 vPos = _in.vPos;
-    vPos.xy += vPlayerPos.xy;    
-    
-    output.vPosition = float4(vPos, 1.f);
+    output.vPosition = mul(float4(_in.vPos, 1.f), g_matWorld);
     output.vOutColor = _in.vColor;
     output.vOutUV = _in.vUV;
     
