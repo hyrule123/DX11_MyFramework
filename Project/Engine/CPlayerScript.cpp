@@ -4,7 +4,6 @@
 #include "CMeshRender.h"
 #include "CMaterial.h"
 
-
 CPlayerScript::CPlayerScript() : 
 	m_ColorKey(1.f, 1.f, 1.f, 1.f)
 {
@@ -12,6 +11,13 @@ CPlayerScript::CPlayerScript() :
 
 CPlayerScript::~CPlayerScript()
 {
+}
+
+void CPlayerScript::init()
+{
+	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
+	MeshRender()->GetMaterial()->SetScalarParam(COLOR_KEY, &m_ColorKey);
+	MeshRender()->GetMaterial()->AddCBufferPipelineStage(ePIPELINE_STAGE::PS_PIXEL);
 }
 
 void CPlayerScript::tick()
@@ -74,6 +80,5 @@ void CPlayerScript::tick()
 		MeshRender()->GetMaterial()->SetScalarParam(INT_0, &a);
 	}
 
-	//상수버퍼에 컬러키를 전달
-	MeshRender()->GetMaterial()->SetScalarParam(COLOR_KEY, &m_ColorKey);
+
 }

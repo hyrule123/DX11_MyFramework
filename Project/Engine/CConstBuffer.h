@@ -13,15 +13,14 @@ private:
     UINT                    m_iElementSize;
     UINT                    m_iElementCount;
 
-    //상수버퍼를 업데이트할 타겟 쉐이더를 지정한다.
-    //ePIPELINE_STAGE 사용할 것
-    UINT8                   m_flagTargetShader;
         
 
 public:
     void Create(UINT _iElementSize, UINT _iElementCount);
     void SetData(void* _pSrc, UINT _iSize = 0);
-    void UpdateData();
+
+    //기본 플래그는 MAX값으로 전달됨. 따로 지정할 경우 특정 파이프라인에만 상수버퍼가 설정된다.
+    void UpdateData(UINT8 ePIPELINE_STAGE_Flag = UINT8_MAX);
 
 
 

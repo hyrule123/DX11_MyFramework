@@ -18,6 +18,8 @@ public:
     CGameObject* GetOwner() { return m_pOwner ; }
 
 public:
+    //특정 변수에서 초기 설정을 해야 할 경우 이 메소드를 오버라이딩해서 사용할 것.
+    virtual void init() {}
     virtual void tick() {}
     virtual void finaltick() = 0;
     virtual CComponent* Clone() = 0;

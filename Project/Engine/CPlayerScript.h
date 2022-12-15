@@ -10,6 +10,7 @@ private:
     Vec4 m_ColorKey;
 
 public:
+    virtual void init() override;
     virtual void tick() override;
 
 

@@ -8,6 +8,7 @@ CMaterial::CMaterial()
 	: CRes(eRES_TYPE::MATERIAL)
 	, m_Const{}
 	, m_arrTex{}
+	, m_flag_ePIPELINE_STAGE((UINT8)ePIPELINE_STAGE::PS_VERTEX)
 {	
 
 }
@@ -42,7 +43,7 @@ void CMaterial::UpdateData()
 	// Constant Update
 	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::MATERIAL);
 	pMtrlBuffer->SetData(&m_Const);
-	pMtrlBuffer->UpdateData();
+	pMtrlBuffer->UpdateData(m_flag_ePIPELINE_STAGE);
 }
 
 
@@ -85,6 +86,7 @@ void CMaterial::SetScalarParam(eSCALAR_PARAM _Param, void* _Src)
 		break;	
 	}
 }
+
 
 void CMaterial::SetTexParam(eTEX_PARAM _Param, const Ptr<CTexture>& _Tex)
 {

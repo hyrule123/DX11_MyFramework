@@ -3,6 +3,7 @@
 
 #include "CLayer.h"
 
+#include "CGameObject.h"
 
 CLevel::CLevel()
 	: m_arrLayer{}
@@ -46,4 +47,5 @@ void CLevel::render()
 void CLevel::AddGameObject(CGameObject* _Object, int _iLayerIdx)
 {
 	m_arrLayer[_iLayerIdx]->AddGameObject(_Object);
+	_Object->init();
 }

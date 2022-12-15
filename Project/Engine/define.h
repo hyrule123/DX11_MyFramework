@@ -115,11 +115,11 @@ enum eTEX_PARAM
 
 enum ePIPELINE_STAGE : UINT8
 {
-	PS_VERTEX = 1 << 0,
-	PS_HULL = 1 << 1,
-	PS_DOMAIN = 1 << 2,
-	PS_GEOMETRY = 1 << 3,
-	PS_PIXEL = 1 << 4,
+	PS_VERTEX =		1 << 0,
+	PS_HULL =		1 << 1,
+	PS_DOMAIN =		1 << 2,
+	PS_GEOMETRY =	1 << 3,
+	PS_PIXEL =		1 << 4,
 
 	PS_ALL = UINT8_MAX	
 };

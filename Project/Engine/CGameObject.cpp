@@ -7,6 +7,7 @@
 
 CGameObject::CGameObject()
 	: m_arrCom{}
+	, m_initalized(false)
 {
 }
 
@@ -19,6 +20,17 @@ CGameObject::~CGameObject()
 	}*/
 
 	Safe_Del_Array(m_arrCom);
+}
+
+void CGameObject::init()
+{
+	m_initalized = true;
+
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrCom[i])
+			m_arrCom[i]->init();
+	}
 }
 
 void CGameObject::tick()
@@ -54,4 +66,8 @@ void CGameObject::AddComponent(CComponent* _Component)
 
 	_Component->m_pOwner = this;
 	m_arrCom[(UINT)_Component->GetType()] = _Component;
+
+	//이미 작동중일 경우 바로 init() 호출
+	if(m_initalized)
+		_Component->init();
 }
