@@ -5,7 +5,7 @@ class CRes :
     public CEntity
 {
 private:
-    const RES_TYPE  m_Type;
+    const eRES_TYPE  m_Type;
     int             m_iRefCount;
 
     wstring         m_strKey;
@@ -38,7 +38,7 @@ public:
 
 
 public:
-    CRes(RES_TYPE _type);
+    CRes(eRES_TYPE _type);
     virtual ~CRes();
 
     friend class CResMgr;

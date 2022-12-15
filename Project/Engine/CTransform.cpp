@@ -7,7 +7,7 @@
 #include "CTimeMgr.h"
 
 CTransform::CTransform()
-	: CComponent(COMPONENT_TYPE::TRANSFORM),
+	: CComponent(eCOMPONENT_TYPE::TRANSFORM),
 	m_vRelativeScale(1.f, 1.f, 1.f)
 {
 }
@@ -39,7 +39,7 @@ void CTransform::finaltick()
 void CTransform::UpdateData()
 {
 	// 위치값을 상수버퍼에 전달 및 바인딩		
-	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
+	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::TRANSFORM);
 	pTransformBuffer->SetData(&m_matWorld, sizeof(Matrix));
 	//pTransformBuffer->SetData(&m_vRelativePos, sizeof(Vec3));
 	pTransformBuffer->UpdateData();

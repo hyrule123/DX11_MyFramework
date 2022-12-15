@@ -12,7 +12,7 @@ CGameObject::CGameObject()
 
 CGameObject::~CGameObject()
 {
-	/*for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	/*for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			delete m_arrCom[i];
@@ -23,7 +23,7 @@ CGameObject::~CGameObject()
 
 void CGameObject::tick()
 {
-	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->tick();
@@ -32,7 +32,7 @@ void CGameObject::tick()
 
 void CGameObject::finaltick()
 {
-	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::SCRIPT; ++i)
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->finaltick();

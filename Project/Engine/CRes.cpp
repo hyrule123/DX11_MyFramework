@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CRes.h"
 
-CRes::CRes(RES_TYPE _type)
+CRes::CRes(eRES_TYPE _type)
 	: m_Type(_type)
 	, m_iRefCount(0)
 {

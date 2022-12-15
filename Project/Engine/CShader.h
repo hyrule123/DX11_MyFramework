@@ -14,7 +14,7 @@ private:
     virtual int Load(const wstring& _strFilePath) { return S_OK; }
 
 public:
-    CShader(RES_TYPE _eType);
+    CShader(eRES_TYPE _eType);
     ~CShader();
 };
 

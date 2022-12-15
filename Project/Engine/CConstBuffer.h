@@ -12,6 +12,10 @@ private:
 
     UINT                    m_iElementSize;
     UINT                    m_iElementCount;
+
+    //상수버퍼를 업데이트할 타겟 쉐이더를 지정한다.
+    //ePIPELINE_STAGE 사용할 것
+    UINT8                   m_flagTargetShader;
         
 
 public:

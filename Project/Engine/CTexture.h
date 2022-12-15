@@ -28,7 +28,7 @@ public:
 
 
 public:
-    // _PipelineStage : PIPELINE_STAGE
+    // _PipelineStage : ePIPELINE_STAGE
     void UpdateData(int _iRegisterNum, UINT8 _PipelineStage);
 
 private:

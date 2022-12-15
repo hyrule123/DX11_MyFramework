@@ -10,7 +10,7 @@ class CGameObject :
     public CEntity
 {
 private:
-    CComponent*         m_arrCom[(UINT)COMPONENT_TYPE::END];
+    CComponent*         m_arrCom[(UINT)eCOMPONENT_TYPE::END];
 
 
 public:
@@ -24,8 +24,8 @@ public:
 public:
     void AddComponent(CComponent* _Component);
 
-    CTransform* Transform() { return (CTransform*)m_arrCom[(UINT)COMPONENT_TYPE::TRANSFORM]; }
-    CMeshRender* MeshRender() { return (CMeshRender*)m_arrCom[(UINT)COMPONENT_TYPE::MESHRENDER]; }
+    CTransform* Transform() { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
+    CMeshRender* MeshRender() { return (CMeshRender*)m_arrCom[(UINT)eCOMPONENT_TYPE::MESHRENDER]; }
 
 
 

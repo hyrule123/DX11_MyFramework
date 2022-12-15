@@ -16,8 +16,8 @@ private:
 
 
 public:
-    void SetScalarParam(SCALAR_PARAM _Param, void* _Src);
-    void SetTexParam(TEX_PARAM _Param, const Ptr<CTexture>& _Tex);
+    void SetScalarParam(eSCALAR_PARAM _Param, void* _Src);
+    void SetTexParam(eTEX_PARAM _Param, const Ptr<CTexture>& _Tex);
 
 
     void SetShader(Ptr<CGraphicsShader> _Shader) { m_pShader = _Shader; }

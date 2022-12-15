@@ -19,7 +19,7 @@
 
 
 
-enum class COMPONENT_TYPE
+enum class eCOMPONENT_TYPE
 {
 	// update
 	TRANSFORM,		// 위치, 크기, 회전
@@ -45,7 +45,7 @@ enum class COMPONENT_TYPE
 };
 
 
-enum class RES_TYPE
+enum class eRES_TYPE
 {
 	MESHDATA,
 	MATERIAL,
@@ -61,7 +61,7 @@ enum class RES_TYPE
 	END,
 };
 
-enum class CB_TYPE
+enum class eCB_TYPE
 {
 	TRANSFORM,	// b0
 	MATERIAL,	// b1
@@ -70,7 +70,7 @@ enum class CB_TYPE
 };
 
 
-enum SCALAR_PARAM
+enum eSCALAR_PARAM
 {
 	INT_0,
 	INT_1,
@@ -98,7 +98,8 @@ enum SCALAR_PARAM
 	MAT_3,	
 };
 
-enum TEX_PARAM
+
+enum eTEX_PARAM
 {
 	TEX_0,
 	TEX_1,
@@ -112,7 +113,7 @@ enum TEX_PARAM
 	TEX_END,
 };
 
-enum PIPELINE_STAGE : UINT8
+enum ePIPELINE_STAGE : UINT8
 {
 	PS_VERTEX = 1 << 0,
 	PS_HULL = 1 << 1,

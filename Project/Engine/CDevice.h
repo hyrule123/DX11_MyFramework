@@ -31,7 +31,7 @@ private:
 
 
 						
-	CConstBuffer*					m_arrConstBuffer[(UINT)CB_TYPE::END];
+	CConstBuffer*					m_arrConstBuffer[(UINT)eCB_TYPE::END];
 
 
 	// ID3D11RenderTargetView
@@ -55,7 +55,7 @@ private:
 public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }
 	ID3D11DeviceContext* GetDeviceContext() { return m_Context.Get(); }
-	CConstBuffer* GetConstBuffer(CB_TYPE _Type) { return m_arrConstBuffer[(UINT)_Type]; }
+	CConstBuffer* GetConstBuffer(eCB_TYPE _Type) { return m_arrConstBuffer[(UINT)_Type]; }
 
 public:
 	CDevice();

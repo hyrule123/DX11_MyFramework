@@ -22,7 +22,7 @@ void CConstBuffer::Create(UINT _iElementSize, UINT _iElementCount)
 
 	UINT iBufferSize = m_iElementSize * _iElementCount;
 
-	// 16바이트 단위 메모리 정렬
+	// 16바이트 단위 메모리 정렬이 되어있지 않을 경우 에러를 발생시킨다.
 	assert(!(iBufferSize % 16));	
 
 	// 상수버퍼 생성

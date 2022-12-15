@@ -5,7 +5,7 @@
 
 
 CMesh::CMesh()
-	: CRes(RES_TYPE::MESH)
+	: CRes(eRES_TYPE::MESH)
 	, m_tVBDesc{}
 	, m_VtxCount(0)
 	, m_tIBDesc{}

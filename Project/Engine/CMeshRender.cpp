@@ -4,7 +4,7 @@
 #include "CTransform.h"
 
 CMeshRender::CMeshRender()
-	: CComponent(COMPONENT_TYPE::MESHRENDER)		
+	: CComponent(eCOMPONENT_TYPE::MESHRENDER)		
 {
 }
 

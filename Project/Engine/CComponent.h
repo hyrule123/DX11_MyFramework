@@ -11,10 +11,10 @@ class CComponent :
 {
 private:
     CGameObject*         m_pOwner;
-    const COMPONENT_TYPE m_Type;
+    const eCOMPONENT_TYPE m_Type;
 
 public:
-    COMPONENT_TYPE GetType() { return m_Type; }
+    eCOMPONENT_TYPE GetType() { return m_Type; }
     CGameObject* GetOwner() { return m_pOwner ; }
 
 public:
@@ -29,7 +29,7 @@ public:
 
 
 public:
-    CComponent(COMPONENT_TYPE _Type);
+    CComponent(eCOMPONENT_TYPE _Type);
     virtual ~CComponent();
 
     friend class CGameObject;

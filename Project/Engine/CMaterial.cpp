@@ -5,7 +5,7 @@
 #include "CConstBuffer.h"
 
 CMaterial::CMaterial()
-	: CRes(RES_TYPE::MATERIAL)
+	: CRes(eRES_TYPE::MATERIAL)
 	, m_Const{}
 	, m_arrTex{}
 {	
@@ -35,18 +35,18 @@ void CMaterial::UpdateData()
 
 		else
 		{
-			m_arrTex[i]->UpdateData(i, PIPELINE_STAGE::PS_PIXEL);
+			m_arrTex[i]->UpdateData(i, ePIPELINE_STAGE::PS_PIXEL);
 		}
 	}
 
 	// Constant Update
-	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
+	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::MATERIAL);
 	pMtrlBuffer->SetData(&m_Const);
 	pMtrlBuffer->UpdateData();
 }
 
 
-void CMaterial::SetScalarParam(SCALAR_PARAM _Param, void* _Src)
+void CMaterial::SetScalarParam(eSCALAR_PARAM _Param, void* _Src)
 {
 	switch (_Param)
 	{
@@ -86,7 +86,7 @@ void CMaterial::SetScalarParam(SCALAR_PARAM _Param, void* _Src)
 	}
 }
 
-void CMaterial::SetTexParam(TEX_PARAM _Param, const Ptr<CTexture>& _Tex)
+void CMaterial::SetTexParam(eTEX_PARAM _Param, const Ptr<CTexture>& _Tex)
 {
 	m_arrTex[_Param] = _Tex;
 }
