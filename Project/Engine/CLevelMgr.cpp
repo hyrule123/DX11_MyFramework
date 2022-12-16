@@ -5,11 +5,13 @@
 #include "CLayer.h"
 
 #include "CGameObject.h"
-#include "CTransform.h"
+#include "components.h"
 #include "CMeshRender.h"
 #include "CPlayerScript.h"
 
 #include "CResMgr.h"
+
+#include "CCameraMoveScript.h"
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
@@ -31,7 +33,9 @@ void CLevelMgr::init()
 	CGameObject* pObj = new CGameObject;
 	pObj->SetName(L"Player");
 	pObj->AddComponent(new CTransform);
-	pObj->Transform()->SetRelativePosZ(0.5f);
+	pObj->Transform()->SetRelativePosZ(50.f);
+	pObj->Transform()->SetRelativeRot(0.f, 0.f, -XM_PI / 2.f);
+	pObj->Transform()->SetRelativeScale(100.f, 100.f, 1.f);
 	pObj->AddComponent(new CMeshRender);
 	pObj->AddComponent(new CPlayerScript);
 
@@ -43,20 +47,29 @@ void CLevelMgr::init()
 
 	pObj->MeshRender()->SetMesh(CircleMesh);
 	pObj->MeshRender()->SetMaterial(TestMtrl);
-
 	m_pCurLevel->AddGameObject(pObj, 0);
+	pObj = nullptr;
 
 	// Test Object
 	pObj = new CGameObject;
 	pObj->SetName(L"Test Object");
 	pObj->AddComponent(new CTransform);
-	pObj->Transform()->SetRelativePosZ(0.5f);
+	pObj->Transform()->SetRelativePosZ(100.f);
+	pObj->Transform()->SetRelativeScale(100.f, 100.f, 1.f);
 	pObj->AddComponent(new CMeshRender);	
-
 	pObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetMaterial(TestMtrl);
-
 	m_pCurLevel->AddGameObject(pObj, 1);
+	pObj = nullptr;
+
+	// Camera
+	pObj = new CGameObject;
+	pObj->SetName(L"Camera");
+	pObj->AddComponent(new CCamera);
+	pObj->AddComponent(new CTransform);
+	pObj->AddComponent(new CCameraMoveScript);
+	m_pCurLevel->AddGameObject(pObj, 1);
+
 }
 
 void CLevelMgr::tick()

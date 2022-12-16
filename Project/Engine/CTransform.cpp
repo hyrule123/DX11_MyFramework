@@ -29,18 +29,21 @@ void CTransform::finaltick()
 	const DirectX::XMVECTOR& XmVec = XMQuaternionRotationRollPitchYaw(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);
 
 	const Matrix& matRot = Matrix::CreateFromQuaternion(XmVec);
-
+	//const Matrix& matRot = XMMatrixIdentity();
 	const Matrix& matTranslation = Matrix::CreateTranslation(m_vRelativePos);
 
-	m_matWorld = (matScale * matRot * matTranslation).Transpose();
+	m_matWorld = matScale * matRot * matTranslation;
 	//m_matWorld = m_matWorld.Transpose();
 }
 
 void CTransform::UpdateData()
 {
-	// 위치값을 상수버퍼에 전달 및 바인딩		
+	//월드뷰투영행렬을 곱한 후 전치한다.
+	Matrix matWVP = (m_matWorld * g_transform.MatView * g_transform.MatProj).Transpose();
+
+	// 위의 행렬을 상수버퍼에 전달 및 바인딩
 	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::TRANSFORM);
-	pTransformBuffer->SetData(&m_matWorld, sizeof(Matrix));
+	pTransformBuffer->SetData(&matWVP, sizeof(Matrix));
 	//pTransformBuffer->SetData(&m_vRelativePos, sizeof(Vec3));
 	pTransformBuffer->UpdateData();
 }

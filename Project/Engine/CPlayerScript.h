@@ -8,6 +8,8 @@ class CPlayerScript :
 {
 private:
     Vec4 m_ColorKey;
+    float m_MoveSpeed;
+    float m_TurningForceRad;
 
 public:
     virtual void init() override;

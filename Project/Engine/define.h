@@ -18,7 +18,6 @@
 #define SINGLE(type) private: type(); ~type(); friend class CSingleton<type>;
 
 
-
 enum class eCOMPONENT_TYPE
 {
 	// update

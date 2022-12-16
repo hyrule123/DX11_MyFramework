@@ -8,6 +8,7 @@ CConstBuffer::CConstBuffer(UINT _iRegisterNum)
 	, m_iRegisterNum(_iRegisterNum)
 	, m_iElementSize(0)
 	, m_iElementCount(0)
+	, m_ePIPELINE_STAGE_flags(UINT8_MAX)
 {
 }
 
@@ -58,25 +59,25 @@ void CConstBuffer::SetData(void* _pSrc, UINT _iSize)
 	}
 }
 
-void CConstBuffer::UpdateData(UINT8 ePIPELINE_STAGE_Flag)
+void CConstBuffer::UpdateData()
 {
-	if (ePIPELINE_STAGE_Flag & ePIPELINE_STAGE::PS_VERTEX)
+	if (m_ePIPELINE_STAGE_flags & ePIPELINE_STAGE::PS_VERTEX)
 	{
 		CONTEXT->VSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (ePIPELINE_STAGE_Flag & ePIPELINE_STAGE::PS_HULL)
+	if (m_ePIPELINE_STAGE_flags & ePIPELINE_STAGE::PS_HULL)
 	{
 		CONTEXT->HSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (ePIPELINE_STAGE_Flag & ePIPELINE_STAGE::PS_DOMAIN)
+	if (m_ePIPELINE_STAGE_flags & ePIPELINE_STAGE::PS_DOMAIN)
 	{
 		CONTEXT->DSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (ePIPELINE_STAGE_Flag & ePIPELINE_STAGE::PS_GEOMETRY)
+	if (m_ePIPELINE_STAGE_flags & ePIPELINE_STAGE::PS_GEOMETRY)
 	{
 		CONTEXT->GSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (ePIPELINE_STAGE_Flag & ePIPELINE_STAGE::PS_PIXEL)
+	if (m_ePIPELINE_STAGE_flags & ePIPELINE_STAGE::PS_PIXEL)
 	{
 		CONTEXT->PSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
