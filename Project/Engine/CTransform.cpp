@@ -7,8 +7,8 @@
 #include "CTimeMgr.h"
 
 CTransform::CTransform()
-	: CComponent(eCOMPONENT_TYPE::TRANSFORM),
-	m_vRelativeScale(1.f, 1.f, 1.f)
+	: CComponent(eCOMPONENT_TYPE::TRANSFORM)
+	, m_vRelativeDir{}
 {
 }
 
@@ -27,8 +27,32 @@ void CTransform::finaltick()
 	//matRot *= Matrix::CreateRotationZ(m_vRelativeRot.z);
 
 	const DirectX::XMVECTOR& XmVec = XMQuaternionRotationRollPitchYaw(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);
-
 	const Matrix& matRot = Matrix::CreateFromQuaternion(XmVec);
+
+
+
+	//직관적 방향을 계산한다.
+	//방법 1 - 행렬곱과 래핑함수를 사용
+	Matrix matDir;	//기본 단위행렬로 초기화되므로 바로 곱해주면 된다.
+	matDir *= matRot;
+	m_vRelativeDir[(int)eDIR_TYPE::RIGHT] = matDir.Right();
+	m_vRelativeDir[(int)eDIR_TYPE::UP] = matDir.Up();
+	m_vRelativeDir[(int)eDIR_TYPE::FRONT] = matDir.Front();
+
+	//방법 2 - XMVector3TransformNormal을 사용
+	////X
+	//m_vRelativeDir[(int)eDIR_TYPE::Right] = XMVector3TransformNormal(Vec3(1.f, 0.f, 0.f), matRot);
+
+	////Y
+	//m_vRelativeDir[(int)eDIR_TYPE::Up] = XMVector3TransformNormal(Vec3(0.f, 1.f, 0.f), matRot);
+
+	////Z
+	//m_vRelativeDir[(int)eDIR_TYPE::Front] = XMVector3TransformNormal(Vec3(1.f, 0.f, 1.f), matRot);
+
+
+
+	//m_vRelativeDir[(int)eDIR_TYPE::Front] = Vec4(1.f, 0.f, 0.f, 0.f) * matRot;
+
 	//const Matrix& matRot = XMMatrixIdentity();
 	const Matrix& matTranslation = Matrix::CreateTranslation(m_vRelativePos);
 

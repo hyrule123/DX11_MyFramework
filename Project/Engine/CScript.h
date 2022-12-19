@@ -6,9 +6,8 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
-#include "CGameObject.h"
-#include "CTransform.h"
-#include "CMeshRender.h"
+
+
 
 
 class CScript :

@@ -122,3 +122,18 @@ enum ePIPELINE_STAGE : UINT8
 
 	PS_ALL = UINT8_MAX	
 };
+
+//流包利牢 规氢
+enum class eDIR_TYPE
+{
+	RIGHT,
+	UP,
+	FRONT,
+	END
+};
+
+enum class ePROJ_TYPE
+{
+	ORTHOGRAPHY,
+	PERSPECTIVE
+};

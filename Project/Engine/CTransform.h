@@ -8,6 +8,10 @@ private:
     Vec3    m_vRelativeScale;
     Vec3    m_vRelativeRot;
 
+    //앞, 위, 오른쪽으로 나타내는 직관적인 방향 정보
+    //eDIR_TYPE 열거체를 사용.
+    Vec3  m_vRelativeDir[(int)eDIR_TYPE::END];
+
     Matrix  m_matWorld;
 
 public:
@@ -27,6 +31,7 @@ public:
     Vec3 GetRelativePos() { return m_vRelativePos; }
     Vec3 GetRelativeScale() { return m_vRelativeScale; }
     Vec3 GetRelativeRot() { return m_vRelativeRot; }
+    Vec3 GetRelativeDir(eDIR_TYPE _Dir) { return m_vRelativeDir[(int)_Dir]; }
 
 
 

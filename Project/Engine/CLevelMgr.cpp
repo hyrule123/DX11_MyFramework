@@ -66,6 +66,8 @@ void CLevelMgr::init()
 	pObj = new CGameObject;
 	pObj->SetName(L"Camera");
 	pObj->AddComponent(new CCamera);
+	pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
+
 	pObj->AddComponent(new CTransform);
 	pObj->AddComponent(new CCameraMoveScript);
 	m_pCurLevel->AddGameObject(pObj, 1);

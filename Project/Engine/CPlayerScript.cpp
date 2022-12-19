@@ -3,6 +3,7 @@
 
 #include "CMeshRender.h"
 #include "CMaterial.h"
+#include "CTransform.h"
 
 CPlayerScript::CPlayerScript() : 
 	m_ColorKey(1.f, 1.f, 1.f, 1.f),
@@ -40,14 +41,20 @@ void CPlayerScript::tick()
 	//회전한 방향으로 전진
 	if (KEY_PRESSED(KEY::UP))
 	{
-		vCurPos.x += DT * m_MoveSpeed * cosf(vCurRot.z);
-		vCurPos.y += DT * m_MoveSpeed * sinf(vCurRot.z);
+		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
+		vCurPos += DT * m_MoveSpeed * Dir;
+
+		//vCurPos.x += DT * m_MoveSpeed * cosf(vCurRot.z);
+		//vCurPos.y += DT * m_MoveSpeed * sinf(vCurRot.z);
 	}
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
-		vCurPos.x -= DT * m_MoveSpeed * cosf(vCurRot.z);
-		vCurPos.y -= DT * m_MoveSpeed * sinf(vCurRot.z);
+		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
+		vCurPos -= DT * m_MoveSpeed * Dir;
+
+		//vCurPos.x -= DT * m_MoveSpeed * cosf(vCurRot.z);
+		//vCurPos.y -= DT * m_MoveSpeed * sinf(vCurRot.z);
 	}
 
 
