@@ -137,3 +137,8 @@ enum class ePROJ_TYPE
 	ORTHOGRAPHY,
 	PERSPECTIVE
 };
+
+enum class eRS_TYPE
+{
+
+};

@@ -21,7 +21,7 @@ private:
     D3D11_PRIMITIVE_TOPOLOGY        m_eTopology;
 
     UINT8                   m_ePIPELINE_STAGE_Flag;
-
+    ComPtr<ID3D11RasterizerState> m_RSState;
 
     //RS_TYPE;
     //BS_TYPE;

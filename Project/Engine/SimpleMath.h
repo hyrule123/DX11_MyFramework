@@ -565,17 +565,19 @@ namespace DirectX
             Vector3 Left() const { return Vector3(-_11, -_12, -_13); }
             void Left(const Vector3& v) { _11 = -v.x; _12 = -v.y; _13 = -v.z; }
 
-            Vector3 Forward() const { return Vector3(-_31, -_32, -_33); }
-            void Forward(const Vector3& v) { _31 = -v.x; _32 = -v.y; _33 = -v.z; }
+            Vector3 Forward() const { return Vector3(_31, _32, _33); }
+            void Forward(const Vector3& v) { _31 = v.x; _32 = v.y; _33 = v.z; }
 
 			Vector3 Front() const { return Vector3(_31, _32, _33); }
 			void Front(const Vector3& v) { _31 = v.x; _32 = v.y; _33 = v.z; }
 
-            Vector3 Backward() const { return Vector3(_31, _32, _33); }
-            void Backward(const Vector3& v) { _31 = v.x; _32 = v.y; _33 = v.z; }
+            Vector3 Backward() const { return Vector3(-_31, -_32, -_33); }
+            void Backward(const Vector3& v) { _31 = -v.x; _32 = -v.y; _33 = -v.z; }
 
             Vector3 Translation() const { return Vector3(_41, _42, _43); }
             void Translation(const Vector3& v) { _41 = v.x; _42 = v.y; _43 = v.z; }
+
+            
 
             // Matrix operations
             bool Decompose(Vector3& scale, Quaternion& rotation, Vector3& translation);
@@ -589,6 +591,9 @@ namespace DirectX
             float Determinant() const;
 
             // Static functions
+
+            static Vector3 ExtractPitchYawRollFromMatrix(const Matrix& _rotation);
+
             static Matrix CreateBillboard(const Vector3& object, const Vector3& cameraPosition, const Vector3& cameraUp, _In_opt_ const Vector3* cameraForward = nullptr);
 
             static Matrix CreateConstrainedBillboard(const Vector3& object, const Vector3& cameraPosition, const Vector3& rotateAxis,
@@ -618,7 +623,7 @@ namespace DirectX
 
             static Matrix CreateFromQuaternion(const Quaternion& quat);
 
-            static Matrix CreateFromYawPitchRoll(float yaw, float pitch, float roll);
+            static Matrix CreateFromPitchYawRoll(float pitch, float yaw, float roll);
 
             static Matrix CreateShadow(const Vector3& lightDir, const Plane& plane);
 

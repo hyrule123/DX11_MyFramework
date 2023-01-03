@@ -132,7 +132,7 @@ void CKeyMgr::tick()
 			else if (KEY_STATE::RELEASE == m_vecKey[i].state)
 			{
 				m_vecKey[i].state = KEY_STATE::NONE;
-			}			 
+			}
 		}
 	}	
 }

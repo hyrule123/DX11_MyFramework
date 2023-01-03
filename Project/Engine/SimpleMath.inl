@@ -2375,6 +2375,18 @@ inline float Matrix::Determinant() const
 // Static functions
 //------------------------------------------------------------------------------
 
+//_Use_decl_annotations_
+inline Vector3 Matrix::ExtractPitchYawRollFromMatrix(const Matrix& _rotation)
+{
+    Vector3 ret;
+    ret.x = asinf(-_rotation._32);
+    ret.y = atan2f(_rotation._31, _rotation._33);
+    ret.z = atan2f(_rotation._12, _rotation._22);
+
+    return ret;
+}
+
+
 _Use_decl_annotations_
 inline Matrix Matrix::CreateBillboard(const Vector3& object, const Vector3& cameraPosition, const Vector3& cameraUp, const Vector3* cameraForward)
 {
@@ -2643,7 +2655,7 @@ inline Matrix Matrix::CreateFromQuaternion(const Quaternion& rotation)
     return R;
 }
 
-inline Matrix Matrix::CreateFromYawPitchRoll(float yaw, float pitch, float roll)
+inline Matrix Matrix::CreateFromPitchYawRoll(float pitch, float yaw, float roll)
 {
     using namespace DirectX;
     Matrix R;

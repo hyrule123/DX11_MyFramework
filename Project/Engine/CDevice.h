@@ -23,6 +23,8 @@ private:
 	ComPtr<ID3D11SamplerState>		m_Sampler[2];
 
 
+
+
 	D3D11_VIEWPORT					m_ViewPort;
 
 	// ∑ª¥ı≈∏∞Ÿ «ÿªÛµµ
