@@ -10,7 +10,7 @@ private:
 
     //앞, 위, 오른쪽으로 나타내는 직관적인 방향 정보
     //eDIR_TYPE 열거체를 사용.
-    Vec3  m_vRelativeDir[(int)eDIR_TYPE::END];
+    Vec3  m_vRelativeDir[eDIR_TYPE::eDIR_END];
 
     Matrix  m_matWorld;
 
@@ -27,7 +27,7 @@ public:
     void SetRelativePosY(float _y) { m_vRelativePos.y = _y; }
     void SetRelativePosZ(float _z) { m_vRelativePos.z = _z; }
 
-
+    //Inline methods don't need const reference
     Vec3 GetRelativePos() { return m_vRelativePos; }
     Vec3 GetRelativeScale() { return m_vRelativeScale; }
     Vec3 GetRelativeRot() { return m_vRelativeRot; }

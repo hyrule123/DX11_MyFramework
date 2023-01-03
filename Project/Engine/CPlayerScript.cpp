@@ -41,7 +41,7 @@ void CPlayerScript::tick()
 	//회전한 방향으로 전진
 	if (KEY_PRESSED(KEY::UP))
 	{
-		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
+		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
 		vCurPos += DT * m_MoveSpeed * Dir;
 
 		//vCurPos.x += DT * m_MoveSpeed * cosf(vCurRot.z);
@@ -50,7 +50,7 @@ void CPlayerScript::tick()
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
-		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
+		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
 		vCurPos -= DT * m_MoveSpeed * Dir;
 
 		//vCurPos.x -= DT * m_MoveSpeed * cosf(vCurRot.z);

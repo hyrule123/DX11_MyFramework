@@ -124,12 +124,12 @@ enum ePIPELINE_STAGE : UINT8
 };
 
 //流包利牢 规氢
-enum class eDIR_TYPE
+enum eDIR_TYPE
 {
-	RIGHT,
-	UP,
-	FRONT,
-	END
+	eDIR_RIGHT,
+	eDIR_UP,
+	eDIR_FRONT,
+	eDIR_END
 };
 
 enum class ePROJ_TYPE
