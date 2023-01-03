@@ -8,6 +8,7 @@ CGraphicsShader::CGraphicsShader()
 	: CShader(eRES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, m_ePIPELINE_STAGE_Flag()
+	, m_RSType(eRS_TYPE::CULL_BACK)
 {
 }
 
@@ -99,6 +100,7 @@ void CGraphicsShader::UpdateData()
 {
 	CONTEXT->IASetInputLayout(m_Layout.Get());
 	CONTEXT->IASetPrimitiveTopology(m_eTopology);
+	CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType));
 
 	if (ePIPELINE_STAGE::PS_VERTEX & m_ePIPELINE_STAGE_Flag)
 	{

@@ -14,7 +14,8 @@ void Safe_Del_Array(T* (&arr)[Size])
 template<typename T>
 void Safe_Del_Vec(vector<T*>& _vec)
 {
-	for (size_t i = 0; i < _vec.size(); ++i)
+	size_t size = _vec.size();
+	for (size_t i = 0; i < size; ++i)
 	{
 		if (nullptr != _vec[i])
 		{

@@ -20,8 +20,8 @@ private:
     ComPtr<ID3D11InputLayout>	    m_Layout;
     D3D11_PRIMITIVE_TOPOLOGY        m_eTopology;
 
-    UINT8                   m_ePIPELINE_STAGE_Flag;
-    ComPtr<ID3D11RasterizerState> m_RSState;
+    UINT8                           m_ePIPELINE_STAGE_Flag;
+    eRS_TYPE                        m_RSType;       //Rasterizer Type
 
     //RS_TYPE;
     //BS_TYPE;
@@ -34,6 +34,7 @@ public:
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
     void AddPipeLineStage(UINT8 _ePIPELINE_STAGE_ENUM) { m_ePIPELINE_STAGE_Flag |= _ePIPELINE_STAGE_ENUM; }
     void SetPipeLineStage(UINT8 _ePIPELINE_STAGE_ENUM) { m_ePIPELINE_STAGE_Flag = _ePIPELINE_STAGE_ENUM; }
+    void SetRasterizerState(eRS_TYPE _eRS_TYPE) { m_RSType = _eRS_TYPE; }
 
     virtual void UpdateData() override;
 

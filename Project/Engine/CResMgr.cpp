@@ -124,10 +124,12 @@ void CResMgr::CreateDefaultMesh()
 	//오른쪽 끝부터 피자조각 모양으로 정점버퍼를 추가한다.
 	//마지막 전까지 정점을 계산해서 정점버퍼에 삽입한다.
 	//배열의 0번 인덱스에는 중심점이 들어가 있으므로 1부터 시작하면 i를 인덱스버퍼의 인덱스로 사용 가능
-	for (int i = 0; i < fslice - 1; ++i)
+	for (int i = 0; i < fslice; ++i)
 	{
 		v.vPos.x = radius * cosf(AngleStride * i);
 		v.vPos.y = radius * sinf(AngleStride * i);
+		
+		//UV는 중점 기준으로 더하거나 빼는 방식으로 해준다.
 		v.vUV.x = v.vPos.x + 0.5f;
 		v.vUV.y = -(v.vPos.y) + 0.5f;	//반대 방향
 
@@ -136,8 +138,8 @@ void CResMgr::CreateDefaultMesh()
 		//정점배열의 첫번째는 중심점이 들어가 있으므로 i + 1 == 현재 정점버퍼의 사이즈가 된다
 		//인덱스는 시계 방향으로 삽입
 		//마지막 인덱스는 따로 직접 삽입
-		if (i == (fslice - 2))
-			break;
+		if (i == (fslice - 1))
+			continue;
 
 		vecIdx.push_back(0);
 		vecIdx.push_back(i + 2);
@@ -147,6 +149,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(0);
 	vecIdx.push_back(1);
 	vecIdx.push_back((UINT)vecVtx.size() - 1u);
+	
 
 	//만든 정점버퍼와 인덱스버퍼를 메쉬에 삽입한다.
 	pMesh = new CMesh;
@@ -161,11 +164,12 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	// ===========
 	// Test Shader
-	// ===========
+	// =========== 
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"TestShader");
 	pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
 	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
+	pShader->SetRasterizerState(eRS_TYPE::CULL_FRONT);
 
 	AddRes(L"TestShader", pShader);
 }

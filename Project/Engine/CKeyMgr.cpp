@@ -77,7 +77,8 @@ void CKeyMgr::tick()
 {
 	if (GetFocus())
 	{
-		for (size_t i = 0; i < m_vecKey.size(); ++i)
+		size_t size = m_vecKey.size();
+		for (size_t i = 0; i < size; ++i)
 		{
 			if (GetAsyncKeyState(g_arrVK[(UINT)m_vecKey[i].key]) & 0x8000)
 			{
@@ -122,7 +123,9 @@ void CKeyMgr::tick()
 	// Window 가 focus 상태가 아니다
 	else
 	{
-		for (size_t i = 0; i < m_vecKey.size(); ++i)
+		
+		size_t size = m_vecKey.size();
+		for (size_t i = 0; i < size; ++i)
 		{
 			if (KEY_STATE::TAP == m_vecKey[i].state || KEY_STATE::PRESSED == m_vecKey[i].state)
 			{

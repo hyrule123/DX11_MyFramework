@@ -140,5 +140,9 @@ enum class ePROJ_TYPE
 
 enum class eRS_TYPE
 {
-
+	CULL_BACK,
+	CULL_FRONT,
+	CULL_NONE,
+	WIRE_FRAME,
+	END
 };

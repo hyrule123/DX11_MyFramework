@@ -8,6 +8,7 @@ CDevice::CDevice()
     : m_hWnd(nullptr)  
     , m_ViewPort{}
     , m_arrConstBuffer{}
+    , m_RSState{}
 {
 }
 
@@ -54,6 +55,9 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
     }
 
 
+
+
+
     // 출력 타겟 설정
     m_Context->OMSetRenderTargets(1, m_RTV.GetAddressOf(), m_DSV.Get());
 
@@ -71,6 +75,11 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
     m_Context->RSSetViewports(1, &m_ViewPort);
 
+    //래스터라이저 스테이트 생성
+    if (FAILED(CreateRasterizeState()))
+    {
+        MessageBoxW(nullptr, L"Rasterizer 생성 실패", L"Rasterizer 초기화 문제발생", MB_OK);
+    }
 
     // 샘플러 생성
     if (FAILED(CreateSampler()))
@@ -226,4 +235,35 @@ void CDevice::CreateConstBuffer()
     //Vertex + Pixel Shader에만 상수버퍼를 전달
     CBufferTarget |= (UINT)ePIPELINE_STAGE::PS_PIXEL;
     m_arrConstBuffer[(UINT)eCB_TYPE::MATERIAL]->SetPipelineTarget(CBufferTarget);
+}
+
+HRESULT CDevice::CreateRasterizeState()
+{
+    D3D11_RASTERIZER_DESC Desc = {};
+
+    //1. 기본값은 nullptr로 지정해준다.(기본설정을 굳이 생성할필요X)
+    m_RSState[(UINT)eRS_TYPE::CULL_BACK] = nullptr;
+
+    //2. 프론트페이스 컬링
+    Desc.CullMode = D3D11_CULL_FRONT;
+    Desc.FillMode = D3D11_FILL_SOLID;
+
+    HRESULT Result = S_OK;
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_RSState[(UINT)eRS_TYPE::CULL_FRONT]);
+
+    //3. 컬링 하지 않음
+    Desc.CullMode = D3D11_CULL_NONE;
+    Desc.FillMode = D3D11_FILL_SOLID;
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_RSState[(UINT)eRS_TYPE::CULL_NONE]);
+
+    //3.와이어프레임
+    Desc.CullMode = D3D11_CULL_NONE;
+    Desc.FillMode = D3D11_FILL_WIREFRAME;
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_RSState[(UINT)eRS_TYPE::WIRE_FRAME]);
+
+
+
+        
+
+    return Result;
 }

@@ -14,7 +14,8 @@ CLayer::~CLayer()
 
 void CLayer::tick()
 {
-	for (size_t i = 0; i < m_vecObject.size(); ++i)
+	size_t size = m_vecObject.size();
+	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecObject[i]->tick();
 	}
@@ -22,7 +23,8 @@ void CLayer::tick()
 
 void CLayer::finaltick()
 {
-	for (size_t i = 0; i < m_vecObject.size(); ++i)
+	size_t size = m_vecObject.size();
+	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecObject[i]->finaltick();
 	}
@@ -30,7 +32,8 @@ void CLayer::finaltick()
 
 void CLayer::render()
 {
-	for (size_t i = 0; i < m_vecObject.size(); ++i)
+	size_t size = m_vecObject.size();
+	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecObject[i]->render();
 	}

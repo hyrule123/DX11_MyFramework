@@ -101,7 +101,7 @@ void CCameraMoveScript::Camera3DMove()
 		CamRot.y += DT * MouseDir.x * m_TurningForceRad;
 
 		//x축을 돌려야 상하로 회전한다.
-		CamRot.x += DT * MouseDir.y * m_TurningForceRad;
+		CamRot.x -= DT * MouseDir.y * m_TurningForceRad;
 	}
 
 	pTransform->SetRelativePos(CamPos);
