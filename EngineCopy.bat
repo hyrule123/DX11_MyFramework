@@ -5,4 +5,4 @@ xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\*.h" ".\External\
 xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" ".\External\Include\Engine\"
 
 :: *.fx 파일 복사(쉐이더 컴파일 코드)
-xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\*.fx" ".\OutputFile\bin\content\shader\"
+:: xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\*.fx" ".\OutputFile\bin\content\shader\"

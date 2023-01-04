@@ -35,7 +35,7 @@ void CMaterial::UpdateData()
 
 		else
 		{
-			m_arrTex[i]->UpdateData(i, ePIPELINE_STAGE::PS_PIXEL);
+			m_arrTex[i]->UpdateData(i, eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL);
 		}
 	}
 

@@ -16,27 +16,27 @@ CTexture::~CTexture()
 
 void CTexture::UpdateData(int _iRegisterNum, UINT8 _PipelineStage)
 {
-	if (ePIPELINE_STAGE::PS_VERTEX & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX & _PipelineStage)
 	{
 		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (ePIPELINE_STAGE::PS_HULL & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_HULL & _PipelineStage)
 	{
 		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (ePIPELINE_STAGE::PS_DOMAIN & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_DOMAIN & _PipelineStage)
 	{
 		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (ePIPELINE_STAGE::PS_GEOMETRY & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_GEOMETRY & _PipelineStage)
 	{
 		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (ePIPELINE_STAGE::PS_PIXEL & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL & _PipelineStage)
 	{
 		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}

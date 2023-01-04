@@ -3,6 +3,16 @@
 
 #include "CPathMgr.h"
 
+
+//Shader Header
+#ifdef _DEBUG
+#include "CompiledShaderHeader/Shader_test_vertex_Debug.h"
+#include "CompiledShaderHeader/Shader_test_pixel_Debug.h"
+#else
+#include "CompiledShaderHeader/Shader_test_vertex.h"
+#include "CompiledShaderHeader/Shader_test_pixel.h"
+#endif
+
 CResMgr::CResMgr()
 {
 }
@@ -167,9 +177,16 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// =========== 
 	pShader = new CGraphicsShader;
 	pShader->SetKey(L"TestShader");
-	pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
-	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
-	pShader->SetRasterizerState(eRS_TYPE::CULL_FRONT);
+	pShader->CreateShader((void*)g_test_VS, sizeof(g_test_VS), eSHADERTYPE_VERTEX);
+	pShader->CreateShader((void*)g_test_PS, sizeof(g_test_PS), eSHADERTYPE_PIXEL);
+
+	//pShader->CreateShader(L"shader\\test.fx", "VS_Test", eSHADERTYPE_VERTEX);
+	//pShader->CreateShader(L"shader\\test.fx", "PS_Test", eSHADERTYPE_PIXEL);
+	/*pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
+	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");*/
+
+
+	pShader->SetRasterizerState(eRS_TYPE::CULL_NONE);
 
 	AddRes(L"TestShader", pShader);
 }

@@ -28,7 +28,7 @@ public:
 
 
 public:
-    // _PipelineStage : ePIPELINE_STAGE
+    // _PipelineStage : eSHADER_PIPELINE_STAGE_FLAG
     void UpdateData(int _iRegisterNum, UINT8 _PipelineStage);
 
 private:

@@ -290,9 +290,21 @@
       <Filter>Source\09. Module\SimpleMath</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="Shader_global_header.hlsli">
+      <Filter>Source\08. ShaderCode</Filter>
+    </None>
+    <None Include="Shader_test_header.hlsli">
+      <Filter>Source\08. ShaderCode</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="test.fx">
+      <Filter>Source\08. ShaderCode</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_test_vertex.hlsl">
+      <Filter>Source\08. ShaderCode</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_test_pixel.hlsl">
       <Filter>Source\08. ShaderCode</Filter>
     </FxCompile>
   </ItemGroup>
