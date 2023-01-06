@@ -2,11 +2,10 @@
 #include "Shader_test_header.hlsli"
 
 
-#define COLOR_KEY g_vec4_0
 
 
 // pixel shader
-float4 test_PS(VS_OUT _in) : SV_Target
+float4 PS_test(VS_OUT _in) : SV_Target
 {
     float4 vColor = (float4) 0.f;
   
@@ -15,7 +14,7 @@ float4 test_PS(VS_OUT _in) : SV_Target
     else if (g_int_0 == 1)
         vColor = g_tex_0.Sample(g_sam_1, _in.vOutUV);
     
-    if (all(vColor == g_vec4_0))
+    if (all(vColor == COLOR_KEY))
         discard;
     
     return vColor;

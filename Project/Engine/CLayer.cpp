@@ -9,32 +9,29 @@ CLayer::CLayer()
 
 CLayer::~CLayer()
 {
-	Safe_Del_Vec(m_vecObject);
+	Safe_Del_List(m_listObject);
 }
 
 void CLayer::tick()
 {
-	size_t size = m_vecObject.size();
-	for (size_t i = 0; i < size; ++i)
+	for (auto& iter : m_listObject)
 	{
-		m_vecObject[i]->tick();
+		iter->tick();
 	}
 }
 
 void CLayer::finaltick()
 {
-	size_t size = m_vecObject.size();
-	for (size_t i = 0; i < size; ++i)
+	for (auto& iter : m_listObject)
 	{
-		m_vecObject[i]->finaltick();
+		iter->finaltick();
 	}
 }
 
 void CLayer::render()
 {
-	size_t size = m_vecObject.size();
-	for (size_t i = 0; i < size; ++i)
+	for (auto& iter : m_listObject)
 	{
-		m_vecObject[i]->render();
+		iter->render();
 	}
 }

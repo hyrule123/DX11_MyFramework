@@ -7,7 +7,7 @@ class CLayer :
     public CEntity
 {
 private:
-    vector<CGameObject*>    m_vecObject;
+    list<CGameObject*>    m_listObject;
 
 public:    
     void tick();
@@ -16,7 +16,7 @@ public:
 
 
 public:
-    void AddGameObject(CGameObject* _Object) { m_vecObject.push_back(_Object); }
+    void AddGameObject(CGameObject* _Object) { m_listObject.push_back(_Object); }
 
 
     CLONE(CLayer)

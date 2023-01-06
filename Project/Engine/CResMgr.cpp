@@ -6,11 +6,21 @@
 
 //Shader Header
 #ifdef _DEBUG
+
 #include "CompiledShaderHeader/Shader_test_vertex_Debug.h"
 #include "CompiledShaderHeader/Shader_test_pixel_Debug.h"
+
+#include "CompiledShaderHeader/Shader_std2D_vertex_Debug.h"
+#include "CompiledShaderHeader/Shader_std2D_pixel_Debug.h"
+
 #else
+
 #include "CompiledShaderHeader/Shader_test_vertex.h"
 #include "CompiledShaderHeader/Shader_test_pixel.h"
+
+#include "CompiledShaderHeader/Shader_std2D_vertex.h"
+#include "CompiledShaderHeader/Shader_std2D_pixel.h"
+
 #endif
 
 CResMgr::CResMgr()
@@ -170,35 +180,52 @@ void CResMgr::CreateDefaultMesh()
 
 void CResMgr::CreateDefaultGraphicsShader()
 {
-	Ptr<CGraphicsShader> pShader = nullptr;
-
 	// ===========
 	// Test Shader
 	// =========== 
-	pShader = new CGraphicsShader;
-	pShader->SetKey(L"TestShader");
-	pShader->CreateShader((void*)g_test_VS, sizeof(g_test_VS), eSHADERTYPE_VERTEX);
-	pShader->CreateShader((void*)g_test_PS, sizeof(g_test_PS), eSHADERTYPE_PIXEL);
+	{
+		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		pShader->SetKey(L"TestShader");
+		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADERTYPE_VERTEX);
+		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADERTYPE_PIXEL);
+		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
+		AddRes(L"TestShader", pShader);
+	}
 
-	//pShader->CreateShader(L"shader\\test.fx", "VS_Test", eSHADERTYPE_VERTEX);
-	//pShader->CreateShader(L"shader\\test.fx", "PS_Test", eSHADERTYPE_PIXEL);
-	/*pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
-	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");*/
+	// ===========
+	// std2D Shader
+	// ===========
+	{
+		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		pShader->SetKey(L"std2DShader");
+		pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADERTYPE_VERTEX);
+		pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADERTYPE_PIXEL);
+		AddRes(pShader->GetKey(), pShader);
 
+		pShader->Set
+	}
 
-	pShader->SetRasterizerState(eRS_TYPE::CULL_NONE);
-
-	AddRes(L"TestShader", pShader);
 }
 
 void CResMgr::CreateDefaultMaterial()
 {
-	Ptr<CMaterial> pMtrl = nullptr;
-
 	// Test Material
-	pMtrl = new CMaterial;
-	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TestShader"));
-	AddRes(L"TestMtrl", pMtrl);
+	{
+		Ptr<CMaterial> pMtrl = nullptr;
+		pMtrl = new CMaterial;
+		pMtrl->SetKey(L"TestMtrl");
+		pMtrl->SetShader(FindRes<CGraphicsShader>(L"TestShader"));
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
+
+	// std2D Material
+	{
+		Ptr<CMaterial> pMtrl = nullptr;
+		pMtrl = new CMaterial;
+		pMtrl->SetKey(L"std2DMtrl");
+		pMtrl->SetShader(FindRes<CGraphicsShader>(L"std2DShader"));
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
 }
 
 void CResMgr::LoadDefaultTexture()

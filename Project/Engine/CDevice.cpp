@@ -8,7 +8,9 @@ CDevice::CDevice()
     : m_hWnd(nullptr)  
     , m_ViewPort{}
     , m_arrConstBuffer{}
-    , m_RSState{}
+    , m_arrRSState{}
+    , m_arrDSState{}
+    , m_arrBSState{}
 {
 }
 
@@ -75,19 +77,30 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
     m_Context->RSSetViewports(1, &m_ViewPort);
 
-    //래스터라이저 스테이트 생성
-    if (FAILED(CreateRasterizeState()))
-    {
-        MessageBoxW(nullptr, L"Rasterizer 생성 실패", L"Rasterizer 초기화 문제발생", MB_OK);
-    }
+
 
     // 샘플러 생성
     if (FAILED(CreateSampler()))
     {
-        MessageBox(nullptr, L"샘플러 생성 실패", L"Device 초기화 에러", MB_OK);
+        MessageBox(nullptr, L"Sampler 생성 실패", L"Device 초기화 에러", MB_OK);
         return E_FAIL;
     }
 
+    //래스터라이저 스테이트 생성
+    if (FAILED(CreateRasterizeState()))
+    {
+        MessageBoxW(nullptr, L"Rasterizer State 생성 실패", L"Rasterizer 초기화 에러", MB_OK);
+    }
+
+    if (FAILED(CreateDepthStencilState()))
+    {
+        MessageBoxW(nullptr, L"Depth-Stencil State 생성 실패", L"Depth-Stencil State 초기화 에러", MB_OK);
+    }
+
+    if (FAILED(CreateBlendState()))
+    {
+        MessageBoxW(nullptr, L"Blend State 생성 실패", L"Blend State 초기화 에러", MB_OK);
+    }
 
     // 상수버퍼 생성
     CreateConstBuffer();
@@ -242,28 +255,190 @@ HRESULT CDevice::CreateRasterizeState()
     D3D11_RASTERIZER_DESC Desc = {};
 
     //1. 기본값은 nullptr로 지정해준다.(기본설정을 굳이 생성할필요X)
-    m_RSState[(UINT)eRS_TYPE::CULL_BACK] = nullptr;
+    m_arrRSState[(UINT)eRASTERIZER_TYPE::CULL_BACK] = nullptr;
 
     //2. 프론트페이스 컬링
     Desc.CullMode = D3D11_CULL_FRONT;
     Desc.FillMode = D3D11_FILL_SOLID;
 
     HRESULT Result = S_OK;
-    Result = DEVICE->CreateRasterizerState(&Desc, &m_RSState[(UINT)eRS_TYPE::CULL_FRONT]);
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)eRASTERIZER_TYPE::CULL_FRONT]);
 
     //3. 컬링 하지 않음
     Desc.CullMode = D3D11_CULL_NONE;
     Desc.FillMode = D3D11_FILL_SOLID;
-    Result = DEVICE->CreateRasterizerState(&Desc, &m_RSState[(UINT)eRS_TYPE::CULL_NONE]);
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)eRASTERIZER_TYPE::CULL_NONE]);
 
     //3.와이어프레임
     Desc.CullMode = D3D11_CULL_NONE;
     Desc.FillMode = D3D11_FILL_WIREFRAME;
-    Result = DEVICE->CreateRasterizerState(&Desc, &m_RSState[(UINT)eRS_TYPE::WIRE_FRAME]);
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)eRASTERIZER_TYPE::WIRE_FRAME]);
 
 
 
         
+
+    return Result;
+}
+
+HRESULT CDevice::CreateDepthStencilState()
+{
+    HRESULT Result = S_OK;
+
+    for (int i = 0; i < eDEPTHSTENCIL_TYPE_END; ++i)
+    {
+        D3D11_DEPTH_STENCIL_DESC Desc = {};
+
+        switch (i)
+        {
+        case eDEPTHSTENCIL_TYPE_LESS:
+
+            //이건 기본값이므로 nullptr을 준다.
+            m_arrDSState[i] = nullptr;
+            continue;
+            break;
+
+        case eDEPTHSTENCIL_TYPE_LESS_EQUAL:
+            Desc.DepthEnable = true;
+            Desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+            Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+            Desc.StencilEnable = false;
+            break;
+
+        case eDEPTHSTENCIL_TYPE_GREATER:
+            Desc.DepthEnable = true;
+            Desc.DepthFunc = D3D11_COMPARISON_GREATER;
+            Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+            Desc.StencilEnable = false;
+            break;
+
+        case eDEPTHSTENCIL_TYPE_GREATER_EQUAL:
+            Desc.DepthEnable = true;
+            Desc.DepthFunc = D3D11_COMPARISON_GREATER_EQUAL;
+            Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+            Desc.StencilEnable = false;
+            break;
+
+        case eDEPTHSTENCIL_TYPE_NO_WRITE:
+            Desc.DepthEnable = true;
+            Desc.DepthFunc = D3D11_COMPARISON_LESS;
+            Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+            Desc.StencilEnable = false;
+            break;
+
+        case eDEPTHSTENCIL_TYPE_NO_TEST_NO_WRITE:
+            Desc.DepthEnable = false;
+            Desc.DepthFunc = D3D11_COMPARISON_NEVER;
+            Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+            Desc.StencilEnable = false;
+            break;
+
+        default:
+            break;
+        }
+
+        Result = DEVICE->CreateDepthStencilState(&Desc, m_arrDSState[i].GetAddressOf());
+    }
+
+
+    return Result;
+}
+
+HRESULT CDevice::CreateBlendState()
+{
+    HRESULT Result = S_OK;
+
+    for (int i = 0; i < eBLENDSTATE_END; ++i)
+    {
+        D3D11_BLEND_DESC Desc = {};
+
+        switch (i)
+        {
+        case eBLENDSTATE_DEFAULT:
+            m_arrBSState[i] = nullptr;
+            continue;
+            break;
+
+        case eBLENDSTATE_MASK:
+            //Alpha-To-Coverage 기능을 활성화한다.
+            //Alpha-To-Coverage 기능은 
+            Desc.AlphaToCoverageEnable = true;
+            
+            //아래 옵션은 각 RenderTarget 별로 다른 옵션을 사용할 것인지 여부를 결정한다.
+            //사용으로 설정할 8개의 각 Render Target 별로 다른 알파블렌딩 옵션을 지정할 수 있으며(Desc.RenderTarget[index])
+            //사용하지 않음으로 설정했을 시 Desc.RenderTarget[0]의 옵션만 사용된다. 나머지는 전부 무시된다.
+            Desc.IndependentBlendEnable = false;
+            Desc.RenderTarget[0].BlendEnable = true;
+
+            //ADD = 아래 지정한 설정대로 알파값을 반영한 기존(Dest) 색상과 입력(Src) 색상의 색을 더한다.
+            //Mask의 경우 Alpha-To-Coverage 옵션을 사용하므로 덮어쓰는 쪽의 색상을 1로 해준다.
+            Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+            Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+            Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;
+            
+            Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+            Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+            Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+            //어떤 색상을 덮어씌울건지를 지정한다.
+            //RGB 중 특정 색상만 집어넣도록 할 수도 있으나, 쉐이더 코드로 가능한 작업이고, 오히려 Blend State 단계에서 처리하는 것이 더 불편하므로 그냥 전부 ALL로 해 주는 것이 좋다.
+            Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+            break;
+
+        case eBLENDSTATE_ALPHABLEND:
+            Desc.AlphaToCoverageEnable = false;
+            Desc.IndependentBlendEnable = false;
+            Desc.RenderTarget[0].BlendEnable = true;
+
+            //ADD = 기존(Dest) 색상과 입력(Src) 색상의 색을 더한다.
+            //Dest는 뒷쪽의 오브젝트 색상이고 Src는 앞쪽의 오브젝트 색상이라고 보면 편함.
+            //뒷쪽의 오브젝트는 이미 색상일 칠해진 픽셀이고, 그려질 때 알파값이 적용되어 색칠되었을 것이다.
+            //앞쪽의 오브젝트는 이제 덮어씌워질 색상인데, 앞쪽 오브젝트의 투명도가 얼마냐에 따라서 구분해서 적용되어야 할 것이다.
+            //그러므로 Src 픽셀은 alpha 값만큼 투명하게(연하게) 그려주고, Dest 픽셀은 Src의 Alpha값에서 남은 값 만큼 칠해 주면
+            //반투명하다는 느낌을 줄 수 있게 된다.
+            Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+            Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+            Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+
+            //사실 색상이 결정된 이후에는 알파값이 필요가 없다. 
+            //색상이 결정되었다는 그려졌다는 뜻인데, 이건 이제 Dest 픽셀이 되는 것이고,
+            //위의 설명을 보면 그려질 떄 Src의 알파값만 고려한다는 사실을 알 수 있다.
+            //그러므로 Src의 알파값을 그대로 저장해준다.
+            Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+            Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+            Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+            Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+            break;
+        case eBLENDSTATE_ONEONE: 
+            Desc.AlphaToCoverageEnable = true;
+            Desc.IndependentBlendEnable = false;
+            Desc.RenderTarget[0].BlendEnable = true;
+
+            //ADD = 기존(Dest) 색상과 입력(Src) 색상의 색을 더한다.
+
+            Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+            Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+            Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+
+            Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+            Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+            Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+            //어떤 색상을 덮어씌울건지를 지정한다.
+            //RGB 중 특정 색상만 집어넣도록 할 수도 있으나, 쉐이더 코드로 가능한 작업이고, 오히려 Blend State 단계에서 처리하는 것이 더 불편하므로 그냥 전부 ALL로 해 주는 것이 좋다.
+            Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+            break;
+
+        default:
+            break;
+        }
+
+        Result = DEVICE->CreateBlendState(&Desc, &m_arrBSState[i]);
+    }
+
 
     return Result;
 }

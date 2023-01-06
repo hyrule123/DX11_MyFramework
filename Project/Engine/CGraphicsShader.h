@@ -43,11 +43,15 @@ private:
     D3D11_PRIMITIVE_TOPOLOGY        m_eTopology;
 
     UINT8                           m_ePIPELINE_STAGE_Flag;
-    eRS_TYPE                        m_RSType;       //Rasterizer Type
 
-    //RS_TYPE;
-    //BS_TYPE;
-    //DS_TYPE;
+    //Rasterizer
+    eRASTERIZER_TYPE                m_RSType;       //Rasterizer Type
+    
+    //Output Merger
+    ////Depth & Stencil
+    eDEPTHSTENCIL_TYPE              m_DSType;      //DepthStencil Type
+    ////Blend State
+    eBLENDSTATE_TYPE                m_BSType;
 
 private:
 
@@ -63,7 +67,9 @@ public:
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
     void AddPipeLineStage(UINT8 _eSHADER_PIPELINE_STAGE) { m_ePIPELINE_STAGE_Flag |= _eSHADER_PIPELINE_STAGE; }
     void SetPipeLineStage(UINT8 _eSHADER_PIPELINE_STAGE) { m_ePIPELINE_STAGE_Flag = _eSHADER_PIPELINE_STAGE; }
-    void SetRasterizerState(eRS_TYPE _eRS_TYPE) { m_RSType = _eRS_TYPE; }
+    void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_RSType = _eRS_TYPE; }
+    void SetDepthStencilState(eDEPTHSTENCIL_TYPE _eDS_TYPE) { m_DSType = _eDS_TYPE; }
+    void SetBlendSTate(eBLENDSTATE_TYPE _eBS_TYPE) { m_BSType = _eBS_TYPE; }
 
     virtual void UpdateData() override;
     

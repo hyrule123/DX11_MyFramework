@@ -30,11 +30,12 @@ void CMaterial::UpdateData()
 	{
 		if (nullptr == m_arrTex[i])
 		{
-			continue;
+			m_Const.arrbTex[i] = 0;
 		}
 
 		else
 		{
+			m_Const.arrbTex[i] = 1;
 			m_arrTex[i]->UpdateData(i, eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL);
 		}
 	}
@@ -83,6 +84,8 @@ void CMaterial::SetScalarParam(eSCALAR_PARAM _Param, void* _Src)
 	case MAT_3:
 		m_Const.arrMat[_Param - MAT_0] = *((Matrix*)_Src);
 		break;	
+
+
 	}
 }
 

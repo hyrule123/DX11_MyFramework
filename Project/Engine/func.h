@@ -25,5 +25,18 @@ void Safe_Del_Vec(vector<T*>& _vec)
 	_vec.clear();
 }
 
-
-
+template<typename T>
+void Safe_Del_List(list<T*>& _list)
+{
+	typename list<T*>::iterator iter = _list.begin();
+	typename list<T*>::iterator iterEnd = _list.end();
+	while (iter != iterEnd)
+	{
+		if (nullptr != (*iter))
+		{
+			delete (*iter);
+		}
+		++iter;
+	}
+	_list.clear();
+}

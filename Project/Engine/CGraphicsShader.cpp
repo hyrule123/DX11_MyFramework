@@ -9,7 +9,9 @@ CGraphicsShader::CGraphicsShader()
 	: CShader(eRES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, m_ePIPELINE_STAGE_Flag()
-	, m_RSType(eRS_TYPE::CULL_BACK)
+	, m_RSType(eRASTERIZER_TYPE::CULL_BACK)
+	, m_DSType(eDEPTHSTENCIL_TYPE::eDEPTHSTENCIL_TYPE_LESS)
+	, m_BSType(eBLENDSTATE_TYPE::eBLENDSTATE_DEFAULT)
 	, m_ShaderData{}
 {
 }
@@ -33,7 +35,9 @@ void CGraphicsShader::CreateInputLayout()
 
 	LayoutDesc[1].SemanticName = "COLOR";
 	LayoutDesc[1].SemanticIndex = 0;
-	LayoutDesc[1].AlignedByteOffset = 12;
+
+	//이전 시멘틱에서 얼마나 떨어졌는지 여부를 저장. 0번 인덱스는 R32B32G32(4+4+4 = 12)
+	LayoutDesc[1].AlignedByteOffset = 12;					
 	LayoutDesc[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	LayoutDesc[1].InputSlot = 0;
 	LayoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
@@ -41,6 +45,8 @@ void CGraphicsShader::CreateInputLayout()
 
 	LayoutDesc[2].SemanticName = "TEXCOORD";
 	LayoutDesc[2].SemanticIndex = 0;
+
+	//0번 인덱스 : 12 , 1번 인덱스 : R32B32G32A32(4 * 4 = 16) -> 12 + 16 = 28
 	LayoutDesc[2].AlignedByteOffset = 28;
 	LayoutDesc[2].Format = DXGI_FORMAT_R32G32_FLOAT;
 	LayoutDesc[2].InputSlot = 0;
@@ -95,11 +101,12 @@ void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCod
 	m_ShaderData[_ShaderType].pByteCode = _pShaderByteCode;
 	m_ShaderData[_ShaderType].ByteCodeSize = _ShaderByteCodeSize;
 
+	HRESULT result = S_OK;
 
 	switch (_ShaderType)
 	{
 	case eSHADERTYPE_VERTEX:
-		DEVICE->CreateVertexShader(
+		result = DEVICE->CreateVertexShader(
 			_pShaderByteCode, _ShaderByteCodeSize,
 			nullptr,
 			m_VS.GetAddressOf()
@@ -124,7 +131,7 @@ void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCod
 		break;
 
 	case eSHADERTYPE_PIXEL:
-		DEVICE->CreatePixelShader(_pShaderByteCode, _ShaderByteCodeSize, nullptr, m_PS.GetAddressOf());
+		result = DEVICE->CreatePixelShader(_pShaderByteCode, _ShaderByteCodeSize, nullptr, m_PS.GetAddressOf());
 
 
 		AddPipeLineStage(eSHADER_PIPELINE_FLAG_PIXEL);
@@ -132,6 +139,8 @@ void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCod
 	default:
 		break;
 	}
+
+	assert(false == FAILED(result));
 }
 
 void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADERTYPE _ShaderType)
@@ -371,9 +380,17 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 
 void CGraphicsShader::UpdateData()
 {
+	//Set Input Layout
 	CONTEXT->IASetInputLayout(m_Layout.Get());
 	CONTEXT->IASetPrimitiveTopology(m_eTopology);
+
+	//Set Rasterizer
 	CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType));
+
+	//Set Output Merger(Depth Stencil, Blend)
+	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType), 0);
+	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType))
+
 
 	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX & m_ePIPELINE_STAGE_Flag)
 	{

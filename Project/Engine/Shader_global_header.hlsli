@@ -1,5 +1,4 @@
 
-
 cbuffer TRANSFORM : register(b0)
 {
     matrix g_matWVP;
@@ -31,7 +30,20 @@ cbuffer MATERIAL : register(b1)
     matrix g_mat_1;
     matrix g_mat_2;
     matrix g_mat_3;
+    
+    
+    //텍스처의 유무를 판단하기위한 변수
+    int g_btex_0;
+    int g_btex_1;
+    int g_btex_2;
+    int g_btex_3;
+    int g_btex_4;
+    int g_btex_5;
+    int g_btex_6;
+    int g_btex_7;
 };
+
+#define COLOR_KEY g_vec4_3
 
 
 Texture2D g_tex_0 : register(t0);
