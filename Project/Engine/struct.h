@@ -24,8 +24,7 @@ struct tMtrlConst
 
 struct tTransform
 {
-	Matrix MatView;
-	Matrix MatProj;
+	Matrix matViewProj;
 };
 
 extern tTransform g_transform;

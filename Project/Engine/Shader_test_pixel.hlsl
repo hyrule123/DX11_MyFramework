@@ -17,5 +17,7 @@ float4 PS_test(VS_OUT _in) : SV_Target
     if (all(vColor == COLOR_KEY))
         discard;
     
+    vColor.a = 0.5f;
+    
     return vColor;
 }

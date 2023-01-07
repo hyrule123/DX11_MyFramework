@@ -13,10 +13,10 @@ private:
 public:
     void tick();
     void finaltick();
-    void render();
 
 public:
     void AddGameObject(CGameObject* _Object, int _iLayerIdx);
+    CLayer* GetLayer(UINT _iLayer);
 
 
 
@@ -26,3 +26,10 @@ public:
     ~CLevel();
 };
 
+inline CLayer* CLevel::GetLayer(UINT _iLayer)
+{
+    if (_iLayer >= MAX_LAYER)
+        return nullptr;
+
+    return m_arrLayer[_iLayer];
+}

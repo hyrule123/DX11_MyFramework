@@ -28,10 +28,3 @@ void CLayer::finaltick()
 	}
 }
 
-void CLayer::render()
-{
-	for (auto& iter : m_listObject)
-	{
-		iter->render();
-	}
-}

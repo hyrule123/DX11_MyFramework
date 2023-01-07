@@ -8,6 +8,7 @@
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_initalized(false)
+	, m_RenderCom()
 {
 }
 
@@ -53,19 +54,34 @@ void CGameObject::finaltick()
 
 void CGameObject::render()
 {
-	if (nullptr == MeshRender())
+	if (nullptr == m_RenderCom)
 		return;
 
-	MeshRender()->render();
+	m_RenderCom->render();
 }
 
 void CGameObject::AddComponent(CComponent* _Component)
 {
-	// 이미 보유하고 있는 컴포넌트인 경우
-	assert(!m_arrCom[(UINT)_Component->GetType()]);
+	UINT ComType = (UINT)_Component->GetType();
+
+	// nullptr이 아닐 경우 assert
+	assert(nullptr == m_arrCom[ComType]);
+
+
+	if (
+		(UINT)g_RenderComponentStart <= ComType
+		&&
+		(UINT)g_RenderComponentEnd > ComType
+		)
+	{
+		//m_RenderCom에 하나 이상의 Render 컴포넌트가 들어가 있을 경우 에러 발생시킴.
+		assert(nullptr == m_RenderCom);
+		m_RenderCom = static_cast<CRenderComponent*>(_Component);
+	}
 
 	_Component->m_pOwner = this;
 	m_arrCom[(UINT)_Component->GetType()] = _Component;
+
 
 	//이미 작동중일 경우 바로 init() 호출
 	if(m_initalized)

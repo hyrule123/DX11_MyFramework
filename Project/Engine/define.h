@@ -15,9 +15,12 @@
 
 #define MAX_LAYER 32
 
-#define SINGLE(type) private: type(); ~type(); friend class CSingleton<type>;
+#define SINGLETON(type) private: type(); ~type(); friend class CSingleton<type>;
 
 
+//새로운 컴포넌트를 만들어줄 경우
+//eCOMPONENT_TYPE에 컴포넌트 추가
+//components.h에 컴포넌트 뚫어주기
 enum class eCOMPONENT_TYPE
 {
 	// update
@@ -42,6 +45,9 @@ enum class eCOMPONENT_TYPE
 
 	END,
 };
+
+extern const eCOMPONENT_TYPE g_RenderComponentStart;
+extern const eCOMPONENT_TYPE g_RenderComponentEnd;
 
 
 enum class eRES_TYPE
@@ -167,4 +173,25 @@ enum eBLENDSTATE_TYPE
 	eBLENDSTATE_ALPHABLEND,
 	eBLENDSTATE_ONEONE,	//1:1로 섞는 방식 - 컬러키가 검은색인 이미지에 대한 처리
 	eBLENDSTATE_END
+};
+
+enum eSHADER_DOMAIN
+{
+	eSHADER_DOMAIN_OPAQUE,
+	eSHADER_DOMAIN_MASK,
+	eSHADER_DOMAIN_TRANSPARENT,
+	eSHADER_DOMAIN_POSTPROCESS,
+	eSHADER_DOMAIN_UI,
+	eSHADER_DOMAIN_END,
+	eSHADER_DOMAIN_UNDEFINED
+};
+
+enum eCAMERA_INDEX
+{
+	eCAMIDX_MAIN,
+	eCAMIDX_SUB1,
+	eCAMIDX_SUB2,
+	eCAMIDX_SUB3,
+	eCAMIDX_SUB4,
+	eCAMIDX_END
 };

@@ -56,13 +56,8 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
         return E_FAIL;
     }
 
-
-
-
-
     // 출력 타겟 설정
-    m_Context->OMSetRenderTargets(1, m_RTV.GetAddressOf(), m_DSV.Get());
-
+    SetRenderTarget();
 
     // ViewPort 설정
     m_ViewPort.TopLeftX = 0.f;
@@ -109,6 +104,12 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
     return S_OK; // E_FAIL;
 }
 
+void CDevice::SetRenderTarget()
+{
+    // 출력 타겟 설정
+    m_Context->OMSetRenderTargets(1, m_RTV.GetAddressOf(), m_DSV.Get());
+}
+
 int CDevice::CreateSwapChain()
 {
     // 스왚체인 설정
@@ -117,7 +118,7 @@ int CDevice::CreateSwapChain()
     tDesc.OutputWindow = m_hWnd;    // 출력 윈도우
     tDesc.Windowed = true;          // 창모드, 전체화면 모드
 
-    tDesc.BufferCount = 1;              
+    tDesc.BufferCount = 2;              
     tDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     tDesc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
     tDesc.BufferDesc.Height = (UINT)m_vRenderResolution.y;
@@ -127,7 +128,7 @@ int CDevice::CreateSwapChain()
     tDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
     tDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER::DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
     
-    tDesc.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
+    tDesc.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 
     tDesc.SampleDesc.Count = 1;
     tDesc.SampleDesc.Quality = 0;
@@ -381,7 +382,7 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 
             //어떤 색상을 덮어씌울건지를 지정한다.
-            //RGB 중 특정 색상만 집어넣도록 할 수도 있으나, 쉐이더 코드로 가능한 작업이고, 오히려 Blend State 단계에서 처리하는 것이 더 불편하므로 그냥 전부 ALL로 해 주는 것이 좋다.
+            //RGB 중 특정 색상만 집어넣도록 할 수도 있으나, 쉐이더 코드로도 가능한 작업이고, 오히려 Blend State 단계에서 처리하는 것이 더 불편하므로 그냥 전부 ALL로 해 주는 것이 좋다.
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
             break;
 

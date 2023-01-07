@@ -7,10 +7,21 @@
 //화면 해상도 얻어오기 위함
 #include "CDevice.h"
 
+//레이어를 받아오기 위함
+#include "CLevelMgr.h"
+#include "CLevel.h"
+#include "CLayer.h"
+
+//레이어 정보 받아와서 분류용
+#include "CRenderComponent.h"
+#include "CMaterial.h"
+
 CCamera::CCamera():
 	CComponent(eCOMPONENT_TYPE::CAMERA)
 	, m_AspectRatio()
 	, m_ProjectionType(ePROJ_TYPE::ORTHOGRAPHY)
+	, m_CamIndex(-1)
+	, m_LayerFlag(UINT32_MAX)
 {
 	SetProjType(m_ProjectionType);
 }
@@ -43,8 +54,13 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 		break;
 	}
 
-	//2. 업데이트
-	g_transform.MatProj = m_matProj;
+	//2. 업데이트 - 카메라 별로 렌더링이 진행되므로 굳이 업데이트 할 필요가 없음.
+	//g_transform.MatProj = m_matProj;
+}
+
+void CCamera::SetCamIndex(UINT _Idx)
+{
+	m_CamIndex = (int)_Idx;
 }
 
 void CCamera::init()
@@ -97,8 +113,8 @@ void CCamera::finaltick()
 	m_matView *= Matrix::CreateFromQuaternion(vecQut).Transpose();
 
 
-	//3. transform 상수버퍼 구조체에 업데이트
-	g_transform.MatView = m_matView;
+	//3. transform 상수버퍼 구조체에 업데이트 -> 안함. 나중에 render때 일괄적으로 view 행렬과 proj 행렬을 곱할 예정.
+	//g_transform.matViewProj = m_matView;
 
 
 	////===========
@@ -116,6 +132,64 @@ void CCamera::finaltick()
 	////2. 업데이트
 	//g_transform.MatProj = m_matProj;
 	
+}
+
+
+void CCamera::SortObject()
+{
+	for (UINT32 i = 0; i < MAX_LAYER; ++i)
+	{
+		UINT32 mask = (UINT32)1 << i;
+
+		if (false == (mask & m_LayerFlag))
+			continue;
+
+		//카메라가 출력하고자 하는 레이어의 오브젝트 리스트를 받아와서
+		const list<CGameObject*>& objList = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i)->GetObjList();
+
+		//순회 돌아주면서
+		for (auto& iter : objList)
+		{
+			//출력 담당 컴포넌트를 받아온다.
+			CRenderComponent* Com = iter->GetRenderComponent();
+
+			//컴포넌트가 없거나, 컴포넌트 내부의 출력용 클래스가 등록되어있지 않을 경우 continue
+			if (
+				nullptr == Com
+				||
+				false == Com->GetRenderReady()
+				)
+				continue;
+			
+			//쉐이더 도메인을 받아와서
+			eSHADER_DOMAIN dom = Com->GetMaterial()->GetShader()->GetShaderDomain();
+
+			//만약 쉐이더 도메인이 등록되어있지 않을 경우 assert 처리
+			assert((int)dom < (int)eSHADER_DOMAIN_END);
+
+			//그렇지 않을 경우 push back
+			m_arrvecShaderDomain[(int)dom].push_back(&(*iter));
+		}
+	}
+}
+
+void CCamera::render()
+{
+	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
+	g_transform.matViewProj = m_matView * m_matProj;
+
+
+	for (int i = 0; i < eSHADER_DOMAIN_END; ++i)
+	{
+		size_t size = m_arrvecShaderDomain[i].size();
+		for (size_t j = 0; j < size; ++j)
+		{
+			m_arrvecShaderDomain[i][j]->render();
+		}
+
+		//렌더링 순회 끝나고 나면 비워주기.
+		m_arrvecShaderDomain[i].clear();
+	}
 }
 
 

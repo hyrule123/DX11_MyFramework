@@ -13,6 +13,9 @@
 
 #include "CCameraMoveScript.h"
 
+//Camera Register
+#include "CRenderMgr.h"
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {
@@ -60,7 +63,7 @@ void CLevelMgr::init()
 		CGameObject* pObj = new CGameObject;
 		pObj->SetName(L"Test Object");
 		pObj->AddComponent(new CTransform);
-		pObj->Transform()->SetRelativePosZ(100.f);
+		pObj->Transform()->SetRelativePosZ(20.f);
 		pObj->Transform()->SetRelativeScale(100.f, 100.f, 1.f);
 		pObj->AddComponent(new CMeshRender);
 		pObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
@@ -74,10 +77,13 @@ void CLevelMgr::init()
 		// Camera
 		CGameObject* pObj = new CGameObject;
 		pObj->SetName(L"Camera");
-		pObj->AddComponent(new CCamera);
+		CCamera* Cam = new CCamera;
+		pObj->AddComponent(Cam);
+		CRenderMgr::GetInst()->RegisterCamera(Cam, 0);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		pObj->AddComponent(new CTransform);
 		pObj->AddComponent(new CCameraMoveScript);
+		
 		m_pCurLevel->AddGameObject(pObj, 1);
 	}
 
@@ -87,9 +93,4 @@ void CLevelMgr::tick()
 {
 	m_pCurLevel->tick();
 	m_pCurLevel->finaltick();
-}
-
-void CLevelMgr::render()
-{
-	m_pCurLevel->render();
 }

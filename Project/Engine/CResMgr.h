@@ -11,10 +11,10 @@
 class CResMgr :
     public CSingleton<CResMgr>
 {
-    SINGLE(CResMgr)
+    SINGLETON(CResMgr)
 private:
     unordered_map<wstring, Ptr<CRes>> m_arrRes[(UINT)eRES_TYPE::END];
-    map<std::type_index, eRES_TYPE> m_mapResClassTypeIndex;
+    unordered_map<std::type_index, eRES_TYPE> m_mapResClassTypeIndex;
 
 public:
     void init();

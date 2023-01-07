@@ -53,24 +53,27 @@ private:
     ////Blend State
     eBLENDSTATE_TYPE                m_BSType;
 
+    eSHADER_DOMAIN                  m_ShaderDomain;
+
 private:
 
 
-public:
+public://INITIALIZE, Setter
     void CreateInputLayout();
     void CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADERTYPE _ShaderType);
     void CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADERTYPE _ShaderType);
-    //void CreateVertexShader(const wstring& _strFileName, const string& _strFuncName);
-    //void CreatePixelShader(const wstring& _strFileName, const string& _strFuncName);
-    //void CreateVertexShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize);
-    //void CreatePixelShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize);
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
     void AddPipeLineStage(UINT8 _eSHADER_PIPELINE_STAGE) { m_ePIPELINE_STAGE_Flag |= _eSHADER_PIPELINE_STAGE; }
     void SetPipeLineStage(UINT8 _eSHADER_PIPELINE_STAGE) { m_ePIPELINE_STAGE_Flag = _eSHADER_PIPELINE_STAGE; }
     void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_RSType = _eRS_TYPE; }
     void SetDepthStencilState(eDEPTHSTENCIL_TYPE _eDS_TYPE) { m_DSType = _eDS_TYPE; }
-    void SetBlendSTate(eBLENDSTATE_TYPE _eBS_TYPE) { m_BSType = _eBS_TYPE; }
+    void SetBlendState(eBLENDSTATE_TYPE _eBS_TYPE) { m_BSType = _eBS_TYPE; }
+    void SetShaderDomain(eSHADER_DOMAIN _eSD_TYPE) { m_ShaderDomain = _eSD_TYPE; }
 
+    //Getter
+    eSHADER_DOMAIN GetShaderDomain() const { return m_ShaderDomain; }
+
+public:
     virtual void UpdateData() override;
     
 

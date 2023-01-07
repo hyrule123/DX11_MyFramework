@@ -40,7 +40,7 @@ void CTransform::finaltick()
 void CTransform::UpdateData()
 {
 	//월드뷰투영행렬을 곱한 후 전치한다.(HLSL은 Column-Major Matrix, XMMATRIX에서는 Row-Major Matrix를 사용 중)
-	Matrix matWVP = (m_matWorld * g_transform.MatView * g_transform.MatProj).Transpose();
+	Matrix matWVP = (m_matWorld * g_transform.matViewProj).Transpose();
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
 	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::TRANSFORM);

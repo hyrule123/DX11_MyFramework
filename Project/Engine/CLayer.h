@@ -12,11 +12,12 @@ private:
 public:    
     void tick();
     void finaltick();
-    void render();
 
 
 public:
     void AddGameObject(CGameObject* _Object) { m_listObject.push_back(_Object); }
+    const list<CGameObject*>& GetObjList() const { return m_listObject; }
+
 
 
     CLONE(CLayer)

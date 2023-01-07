@@ -12,6 +12,7 @@ CGraphicsShader::CGraphicsShader()
 	, m_RSType(eRASTERIZER_TYPE::CULL_BACK)
 	, m_DSType(eDEPTHSTENCIL_TYPE::eDEPTHSTENCIL_TYPE_LESS)
 	, m_BSType(eBLENDSTATE_TYPE::eBLENDSTATE_DEFAULT)
+	, m_ShaderDomain(eSHADER_DOMAIN::eSHADER_DOMAIN_UNDEFINED)
 	, m_ShaderData{}
 {
 }
@@ -36,7 +37,7 @@ void CGraphicsShader::CreateInputLayout()
 	LayoutDesc[1].SemanticName = "COLOR";
 	LayoutDesc[1].SemanticIndex = 0;
 
-	//이전 시멘틱에서 얼마나 떨어졌는지 여부를 저장. 0번 인덱스는 R32B32G32(4+4+4 = 12)
+	//이전 시멘틱에서 얼마나 떨어졌는지 여부를 저장. 0번 인덱스는 R32B32G32(4+4+4 = 12) 이므로 오프셋을 12로 잡아준다.
 	LayoutDesc[1].AlignedByteOffset = 12;					
 	LayoutDesc[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	LayoutDesc[1].InputSlot = 0;
@@ -229,7 +230,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		)))
 		{
 			MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-				, "Vertex Shader Compile Failed!!", MB_OK);
+				,"Hull Shader Compile Failed!!", MB_OK);
 		}
 		break;
 	case eSHADERTYPE_DOMAIN:
@@ -242,7 +243,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		)))
 		{
 			MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-				, "Vertex Shader Compile Failed!!", MB_OK);
+				, "Domain Shader Compile Failed!!", MB_OK);
 		}
 		break;
 	case eSHADERTYPE_GEOMETRY:
@@ -255,7 +256,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		)))
 		{
 			MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-				, "Vertex Shader Compile Failed!!", MB_OK);
+				, "Geometry Shader Compile Failed!!", MB_OK);
 		}
 		break;
 	case eSHADERTYPE_PIXEL:
@@ -268,7 +269,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		)))
 		{
 			MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-				, "Vertex Shader Compile Failed!!", MB_OK);
+				, "Pixel Shader Compile Failed!!", MB_OK);
 		}
 		break;
 	
@@ -389,7 +390,7 @@ void CGraphicsShader::UpdateData()
 
 	//Set Output Merger(Depth Stencil, Blend)
 	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType), 0);
-	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType))
+	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType), 0, UINT_MAX);
 
 
 	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX & m_ePIPELINE_STAGE_Flag)

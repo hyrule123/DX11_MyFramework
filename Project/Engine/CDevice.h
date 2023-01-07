@@ -59,8 +59,9 @@ private:
 
 public:
 	int init(HWND _hWnd, UINT _iWidth, UINT _iHeight);
+	void SetRenderTarget();
 	void ClearTarget(float(&_color)[4]);
-	void Present()	{ m_SwapChain->Present(0, 0); }
+	void Present()	{ m_SwapChain->Present(1, 0); }
 
 private:
 	int CreateSwapChain();

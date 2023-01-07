@@ -189,6 +189,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADERTYPE_PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
+		pShader->SetBlendState(eBLENDSTATE_ALPHABLEND);
+		pShader->SetShaderDomain(eSHADER_DOMAIN_TRANSPARENT);
 		AddRes(L"TestShader", pShader);
 	}
 
@@ -200,9 +202,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetKey(L"std2DShader");
 		pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADERTYPE_PIXEL);
+		pShader->SetShaderDomain(eSHADER_DOMAIN_OPAQUE);
 		AddRes(pShader->GetKey(), pShader);
-
-		pShader->Set
 	}
 
 }

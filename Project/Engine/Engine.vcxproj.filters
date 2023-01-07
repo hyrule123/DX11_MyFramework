@@ -53,7 +53,7 @@
       <Filter>Source\06. Component\1. Transform</Filter>
     </ClInclude>
     <ClInclude Include="CMeshRender.h">
-      <Filter>Source\06. Component\2. MeshRender</Filter>
+      <Filter>Source\06. Component\Render Components\1. MeshRender</Filter>
     </ClInclude>
     <ClInclude Include="CRes.h">
       <Filter>Source\07. Resource</Filter>
@@ -106,6 +106,12 @@
     <ClInclude Include="CCameraMoveScript.h">
       <Filter>Source\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CRenderMgr.h">
+      <Filter>Source\03. Manager\06. RenderMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderComponent.h">
+      <Filter>Source\06. Component\Render Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -142,7 +148,7 @@
       <Filter>Source\06. Component\1. Transform</Filter>
     </ClCompile>
     <ClCompile Include="CMeshRender.cpp">
-      <Filter>Source\06. Component\2. MeshRender</Filter>
+      <Filter>Source\06. Component\Render Components\1. MeshRender</Filter>
     </ClCompile>
     <ClCompile Include="CRes.cpp">
       <Filter>Source\07. Resource</Filter>
@@ -192,6 +198,12 @@
     <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>Source\Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="CRenderMgr.cpp">
+      <Filter>Source\03. Manager\06. RenderMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderComponent.cpp">
+      <Filter>Source\06. Component\Render Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -223,9 +235,6 @@
     </Filter>
     <Filter Include="Source\06. Component\1. Transform">
       <UniqueIdentifier>{d0e54e64-2aaa-4fe6-babe-d15fd49d6a77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\06. Component\2. MeshRender">
-      <UniqueIdentifier>{3dd66862-9fa0-441f-8888-fa938d05bdbb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\06. Component\Script">
       <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
@@ -283,6 +292,15 @@
     </Filter>
     <Filter Include="Source\06. Component\3. Camera">
       <UniqueIdentifier>{25086c65-6b09-4d96-a3ce-757727e69697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\03. Manager\06. RenderMgr">
+      <UniqueIdentifier>{9953dac5-f966-4645-b43a-21dd8faa1859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\Render Components">
+      <UniqueIdentifier>{8becc570-32b7-44bb-92b1-a74ff0317140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\Render Components\1. MeshRender">
+      <UniqueIdentifier>{3dd66862-9fa0-441f-8888-fa938d05bdbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

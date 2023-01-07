@@ -4,7 +4,7 @@
 class CTimeMgr
 	: public CSingleton<CTimeMgr>
 {	
-	SINGLE(CTimeMgr);
+	SINGLETON(CTimeMgr);
 private:
 	LARGE_INTEGER	m_llPrevCount;
 	LARGE_INTEGER	m_llCurCount;
