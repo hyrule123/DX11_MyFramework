@@ -6,10 +6,12 @@
 
 //마우스 좌표 받아오는 용도
 #include "CKeyMgr.h"
+#include "CTimeMgr.h"
 
-CCameraMoveScript::CCameraMoveScript() :
-	m_CamSpeed(400.f),
-	m_TurningForceRad(XM_PI)
+CCameraMoveScript::CCameraMoveScript() 
+	: CScript(TYPE_INDEX(CCameraMoveScript))
+	, m_CamSpeed(400.f)
+	, m_TurningForceRad(XM_PI)
 {
 }
 

@@ -45,12 +45,10 @@ void CLevelMgr::init()
 		pObj->Transform()->SetRelativeRot(0.f, 0.f, -XM_PI / 2.f);
 		pObj->Transform()->SetRelativeScale(100.f, 100.f, 1.f);
 		pObj->AddComponent(new CMeshRender);
-		pObj->AddComponent(new CPlayerScript);
+		pObj->AddScript(new CPlayerScript);
 
 		Ptr<CMaterial> Mtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"std2DMtrl");
 		Mtrl->SetTexParam(TEX_0, PlayerTex);
-
-		
 		Mtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 
 		pObj->MeshRender()->SetMesh(CircleMesh);
@@ -79,10 +77,10 @@ void CLevelMgr::init()
 		pObj->SetName(L"Camera");
 		CCamera* Cam = new CCamera;
 		pObj->AddComponent(Cam);
-		CRenderMgr::GetInst()->RegisterCamera(Cam, 0);
+		CRenderMgr::GetInst()->RegisterCamera(Cam, eCAMIDX_MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		pObj->AddComponent(new CTransform);
-		pObj->AddComponent(new CCameraMoveScript);
+		pObj->AddScript(new CCameraMoveScript);
 		
 		m_pCurLevel->AddGameObject(pObj, 1);
 	}

@@ -16,6 +16,7 @@
 #define MAX_LAYER 32
 
 #define SINGLETON(type) private: type(); ~type(); friend class CSingleton<type>;
+#define TYPE_INDEX(Type) std::type_index(typeid(Type))
 
 
 //새로운 컴포넌트를 만들어줄 경우

@@ -12,7 +12,7 @@ private:
 	CCamera* m_arrCam[eCAMIDX_END];
 
 public:
-	bool RegisterCamera(CCamera* _pCam, UINT _idx);
+	bool RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx);
 
 public:
 	void init();

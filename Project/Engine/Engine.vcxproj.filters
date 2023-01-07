@@ -112,6 +112,9 @@
     <ClInclude Include="CRenderComponent.h">
       <Filter>Source\06. Component\Render Components</Filter>
     </ClInclude>
+    <ClInclude Include="CScriptHolder.h">
+      <Filter>Source\06. Component\Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -203,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="CRenderComponent.cpp">
       <Filter>Source\06. Component\Render Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CScriptHolder.cpp">
+      <Filter>Source\06. Component\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

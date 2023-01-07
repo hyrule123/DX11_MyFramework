@@ -35,7 +35,6 @@ public:
 public:
     CComponent(eCOMPONENT_TYPE _Type);
     virtual ~CComponent();
-
     friend class CGameObject;
 };
 

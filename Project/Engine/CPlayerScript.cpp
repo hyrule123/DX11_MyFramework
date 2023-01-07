@@ -5,10 +5,14 @@
 #include "CMaterial.h"
 #include "CTransform.h"
 
-CPlayerScript::CPlayerScript() : 
-	m_ColorKey(1.f, 1.f, 1.f, 1.f),
-	m_MoveSpeed(400.f),
-	m_TurningForceRad(XM_PI / 2.f)
+#include "CTimeMgr.h"
+#include "CKeyMgr.h"
+
+CPlayerScript::CPlayerScript()
+	: CScript(TYPE_INDEX(CPlayerScript))
+	, m_ColorKey(1.f, 1.f, 1.f, 1.f)
+	, m_MoveSpeed(400.f)
+	, m_TurningForceRad(XM_PI / 2.f)
 {
 }
 

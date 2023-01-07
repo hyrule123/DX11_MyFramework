@@ -7,6 +7,7 @@ class CTransform;
 class CMeshRender;
 class CCamera;
 class CRenderComponent;
+class CScript;
 
 class CGameObject :
     public CEntity
@@ -29,6 +30,7 @@ public:
 
 public:
     void AddComponent(CComponent* _Component);
+    void AddScript(CScript* _Script);
 
     CTransform* Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
     CMeshRender* MeshRender() const { return (CMeshRender*)m_arrCom[(UINT)eCOMPONENT_TYPE::MESHRENDER]; }

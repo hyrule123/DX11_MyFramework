@@ -3,6 +3,7 @@
 
 #include "CComponent.h"
 #include "CMeshRender.h"
+#include "CScriptHolder.h"
 
 
 CGameObject::CGameObject()
@@ -63,27 +64,56 @@ void CGameObject::render()
 void CGameObject::AddComponent(CComponent* _Component)
 {
 	UINT ComType = (UINT)_Component->GetType();
-
-	// nullptr이 아닐 경우 assert
 	assert(nullptr == m_arrCom[ComType]);
 
-
-	if (
-		(UINT)g_RenderComponentStart <= ComType
-		&&
-		(UINT)g_RenderComponentEnd > ComType
-		)
+	switch ((eCOMPONENT_TYPE)ComType)
 	{
+	case eCOMPONENT_TYPE::TRANSFORM:
+	case eCOMPONENT_TYPE::COLLIDER2D:
+	case eCOMPONENT_TYPE::COLLIDER3D:
+	case eCOMPONENT_TYPE::ANIMATOR2D:
+	case eCOMPONENT_TYPE::ANIMATOR3D:
+	case eCOMPONENT_TYPE::LIGHT2D:
+	case eCOMPONENT_TYPE::LIGHT3D:
+	case eCOMPONENT_TYPE::CAMERA:
+		break;
+
+	//Render Components
+	case eCOMPONENT_TYPE::MESHRENDER:
+	case eCOMPONENT_TYPE::PARTICLESYSTEM:
+	case eCOMPONENT_TYPE::TILEMAP:
+	case eCOMPONENT_TYPE::LANDSCAPE:
+	case eCOMPONENT_TYPE::DECAL:
 		//m_RenderCom에 하나 이상의 Render 컴포넌트가 들어가 있을 경우 에러 발생시킴.
 		assert(nullptr == m_RenderCom);
 		m_RenderCom = static_cast<CRenderComponent*>(_Component);
+		break;
+
+	case eCOMPONENT_TYPE::SCRIPT:
+		break;
+	default:
+		break;
 	}
 
+	//소유자 주소를 등록.
 	_Component->m_pOwner = this;
-	m_arrCom[(UINT)_Component->GetType()] = _Component;
-
+	m_arrCom[ComType] = _Component;
 
 	//이미 작동중일 경우 바로 init() 호출
 	if(m_initalized)
 		_Component->init();
+}
+
+void CGameObject::AddScript(CScript* _Script)
+{
+	if (nullptr == _Script)
+		return;
+
+	CScriptHolder* pScriptHolder = static_cast<CScriptHolder*>(m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT]);
+	if (nullptr == pScriptHolder)
+	{
+		pScriptHolder = new CScriptHolder;
+		AddComponent(pScriptHolder);
+	}
+	pScriptHolder->AddScript(_Script);
 }

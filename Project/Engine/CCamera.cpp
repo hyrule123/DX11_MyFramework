@@ -16,6 +16,9 @@
 #include "CRenderComponent.h"
 #include "CMaterial.h"
 
+//카메라 등록
+#include "CRenderMgr.h"
+
 CCamera::CCamera():
 	CComponent(eCOMPONENT_TYPE::CAMERA)
 	, m_AspectRatio()
@@ -58,9 +61,12 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 	//g_transform.MatProj = m_matProj;
 }
 
-void CCamera::SetCamIndex(UINT _Idx)
+void CCamera::SetCamIndex(eCAMERA_INDEX _Idx)
 {
-	m_CamIndex = (int)_Idx;
+	assert(_Idx <= eCAMIDX_END);
+
+	m_CamIndex = _Idx;
+	CRenderMgr::GetInst()->RegisterCamera(this, _Idx);
 }
 
 void CCamera::init()

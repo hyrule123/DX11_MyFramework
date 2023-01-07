@@ -17,7 +17,7 @@ private:
 
 public://Setter
     void SetProjType(ePROJ_TYPE _Type);
-    void SetCamIndex(UINT _Idx);
+    void SetCamIndex(eCAMERA_INDEX _Idx);
     void SetLayerFlag(UINT32 _iLayerFlag);
     void AddLayerFlag(UINT _iLayerNum);
     void OffLayerFlag(UINT _iLayerNum);

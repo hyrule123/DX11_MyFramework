@@ -15,7 +15,7 @@ CRenderMgr::~CRenderMgr()
 }
 
 
-bool CRenderMgr::RegisterCamera(CCamera* _pCam, UINT _idx)
+bool CRenderMgr::RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx)
 {
     if (_idx >= eCAMIDX_END)
         return false;
