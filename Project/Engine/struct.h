@@ -19,7 +19,7 @@ struct tMtrlConst
 	Vec2 arrV2[4];
 	Vec4 arrV4[4];
 	Matrix arrMat[4];
-	int arrbTex[eTEX_PARAM::TEX_END];
+	int arrbTex[eTEX_PARAM::eTEX_END];
 };
 
 struct tTransform

@@ -19,6 +19,9 @@ private:
 
     ScratchImage                        m_Image;
 
+public:
+    //returns 0, 0 if no texture registered.
+    Vec2 GetTextureSize();
 
 private:
     virtual int Load(const wstring& _strFilePath) override;
@@ -39,3 +42,8 @@ public:
     ~CTexture();
 };
 
+inline Vec2 CTexture::GetTextureSize()
+{
+    const DirectX::TexMetadata meta = m_Image.GetMetadata();
+    return Vec2((float)meta.width, (float)meta.height);
+}

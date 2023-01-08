@@ -13,18 +13,18 @@ private:
 
     tMtrlConst              m_Const;
 
-
-    Ptr<CTexture>           m_arrTex[TEX_END];
+    Ptr<CTexture>           m_arrTex[eTEX_END];
 
 
 public:
+    //Inline Setter
     void SetScalarParam(eSCALAR_PARAM _Param, void* _Src);
     void SetTexParam(eTEX_PARAM _Param, Ptr<CTexture> _Tex);
-
-
     void SetShader(Ptr<CGraphicsShader> _Shader) { m_pShader = _Shader; }
+
+    //Inline Getter
     Ptr<CGraphicsShader> GetShader() const { return m_pShader; }
-    virtual void UpdateData() override;
+    Ptr<CTexture> GetTexture(eTEX_PARAM _texIdx = eTEX_0) const;
 
 
 
@@ -35,8 +35,17 @@ private:
 public:
     virtual int Save(const wstring& _strRelativePath) { return S_OK; }
 
+    virtual void UpdateData() override;
+
 public:
     CMaterial();
     ~CMaterial();
 };
 
+inline Ptr<CTexture> CMaterial::GetTexture(eTEX_PARAM _texIdx) const
+{
+    if (_texIdx >= eTEX_END)
+        return nullptr;
+
+    return m_arrTex[_texIdx];
+}

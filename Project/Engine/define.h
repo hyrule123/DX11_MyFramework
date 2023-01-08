@@ -109,16 +109,16 @@ enum eSCALAR_PARAM
 
 enum eTEX_PARAM
 {
-	TEX_0,
-	TEX_1,
-	TEX_2,
-	TEX_3,
-	TEX_4,
-	TEX_5,
-	TEX_6,
-	TEX_7,
+	eTEX_0,
+	eTEX_1,
+	eTEX_2,
+	eTEX_3,
+	eTEX_4,
+	eTEX_5,
+	eTEX_6,
+	eTEX_7,
 
-	TEX_END,
+	eTEX_END,
 };
 
 enum eSHADER_PIPELINE_STAGE_FLAG : UINT8

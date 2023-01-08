@@ -61,11 +61,16 @@ void CPlayerScript::tick()
 		//vCurPos.y -= DT * m_MoveSpeed * sinf(vCurRot.z);
 	}
 
-
-
-
 	Transform()->SetRelativePos(vCurPos);
 	Transform()->SetRelativeRot(vCurRot);
+
+
+	if (KEY_PRESSED(KEY::Q))
+	{
+		Vec3 Scale = Transform()->GetRelativeScale();
+		Scale += Vec3(DT);
+		Transform()->SetRelativeScale(Scale);
+	}
 
 			
 	if (KEY_TAP(KEY::_1))

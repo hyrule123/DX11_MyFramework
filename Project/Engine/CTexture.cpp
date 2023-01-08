@@ -6,6 +6,7 @@
 CTexture::CTexture()
 	: CRes(eRES_TYPE::TEXTURE)
 	, m_Desc{}
+	, m_Image{}
 {
 }
 
@@ -45,8 +46,6 @@ void CTexture::UpdateData(int _iRegisterNum, UINT8 _PipelineStage)
 void CTexture::UpdateData()
 {
 }
-
-
 
 
 

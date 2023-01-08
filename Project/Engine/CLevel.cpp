@@ -10,7 +10,7 @@ CLevel::CLevel()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		m_arrLayer[i] = new CLayer;
+		m_arrLayer[i] = new CLayer(i);
 	}
 }
 
@@ -39,6 +39,10 @@ void CLevel::finaltick()
 
 void CLevel::AddGameObject(CGameObject* _Object, int _iLayerIdx)
 {
+	assert(nullptr != _Object || 0 < _iLayerIdx);
+
 	m_arrLayer[_iLayerIdx]->AddGameObject(_Object);
+
+
 	_Object->init();
 }

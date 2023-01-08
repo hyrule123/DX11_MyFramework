@@ -8,6 +8,8 @@ class CMeshRender :
 {
 private:
 
+
+
 public:
     virtual void finaltick() override;
     virtual void render() override;

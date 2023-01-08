@@ -5,11 +5,21 @@
 #include "CMeshRender.h"
 #include "CScriptHolder.h"
 
+//레이어 옮길 때 사용
+#include "CLevelMgr.h"
+#include "CLevel.h"
+#include "CLayer.h"
+
+//트랜스폼 상속
+#include "CTransform.h"
 
 CGameObject::CGameObject()
 	: m_arrCom{}
-	, m_initalized(false)
+	, m_initalized()
 	, m_RenderCom()
+	, m_Parent()
+	, m_iLayerIdx(-1)
+	, m_bFixLayer()
 {
 }
 
@@ -33,6 +43,13 @@ void CGameObject::init()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->init();
 	}
+
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChild[i]->init();
+	}
+
 }
 
 void CGameObject::tick()
@@ -42,6 +59,12 @@ void CGameObject::tick()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->tick();
 	}
+
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChild[i]->tick();
+	}
 }
 
 void CGameObject::finaltick()
@@ -50,6 +73,12 @@ void CGameObject::finaltick()
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->finaltick();
+	}
+
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChild[i]->finaltick();
 	}
 }
 
@@ -117,3 +146,71 @@ void CGameObject::AddScript(CScript* _Script)
 	}
 	pScriptHolder->AddScript(_Script);
 }
+
+void CGameObject::AddChild(CGameObject* _Object)
+{
+	if (nullptr != (_Object->m_Parent))
+		_Object->m_Parent->RemoveChild(_Object);
+
+	_Object->m_Parent = this;
+	m_vecChild.push_back(_Object);
+}
+
+void CGameObject::RemoveChild(CGameObject* _Object)
+{
+	auto iter = m_vecChild.begin();
+	auto iterEnd = m_vecChild.end();
+	while (iter != iterEnd)
+	{
+		if (_Object == (*iter))
+		{
+			m_vecChild.erase(iter);
+			_Object->m_Parent = nullptr;
+			return;
+		}
+		++iter;
+	}
+}
+
+
+void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, list<CGameObject*>& _listObj)
+{
+	//인덱스가 아직 지정되지 않았을 경우 -> 무조건 인덱스 지정을 한번 해줘야함
+	//레이어가 고정되지 않았을 경우 -> 부모 오브젝트의 레이어를 따라감
+	//둘중 하나라도 걸리면 일단 옮겨야함
+	if (-1 == m_iLayerIdx || false == m_bFixLayer)
+	{
+		//만약 어딘가의 레이어에 등록되어 있었다면 기존 레이어에서 자신을 삭제해야 한다.
+		if (m_iLayerIdx > 0)
+		{
+			CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx)->RemoveGameObject(this);
+		}
+
+
+		//삭제하고 새로운 레이어에 등록
+		m_iLayerIdx = _iLayerIdx;
+		_listObj.push_back(this);
+	}
+	
+	//위 조건의 반대는
+	//m_iLayerIdx가 1이 아니고(&&) m_bFixLayer가 true 일때 이므로 이 때는 레이어 이동을 무조건 안하는 경우이다.
+	
+	//자식들을 대상으로도 재귀적으로 호출
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChild[i]->AddAllHierarchyObjects(_iLayerIdx, _listObj);
+	}
+}
+
+bool CGameObject::GetParentWorldMatrix(Matrix& _mat)
+{
+	//부모 오브젝트가 없거나 트랜스폼이 없을 경우 false 반환
+	if (nullptr == m_Parent || nullptr == m_Parent->Transform())
+		return false;
+
+	//있을 경우 인자에 그대로 대입, true 반환.
+	_mat = m_Parent->Transform()->GetWorldMat();
+	return true;
+}
+

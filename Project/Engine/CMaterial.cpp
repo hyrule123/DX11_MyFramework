@@ -26,7 +26,7 @@ void CMaterial::UpdateData()
 
 
 	// Texture Update
-	for (UINT i = 0; i < TEX_END; ++i)
+	for (UINT i = 0; i < eTEX_END; ++i)
 	{
 		if (nullptr == m_arrTex[i])
 		{
