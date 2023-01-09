@@ -8,9 +8,9 @@ class CLayer :
 {
 private:
     list<CGameObject*>    m_listObject;
-    const int                   m_iLayerIdx;
+    const int             m_iLayerIdx;
 
-public:    
+public:
     void tick();
     void finaltick();
 

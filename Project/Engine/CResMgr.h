@@ -2,10 +2,14 @@
 #include "CSingleton.h"
 
 #include "ptr.h"
+#include "CPathMgr.h"
+
+//템플릿에 사용되는 리소스들
 #include "CMesh.h"
 #include "CTexture.h"
 #include "CGraphicsShader.h"
 #include "CMaterial.h"
+
 
 
 class CResMgr :

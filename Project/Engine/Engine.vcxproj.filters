@@ -115,6 +115,9 @@
     <ClInclude Include="CScriptHolder.h">
       <Filter>Source\06. Component\Script</Filter>
     </ClInclude>
+    <ClInclude Include="CTestObjScript.h">
+      <Filter>Source\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -209,6 +212,9 @@
     </ClCompile>
     <ClCompile Include="CScriptHolder.cpp">
       <Filter>Source\06. Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CTestObjScript.cpp">
+      <Filter>Source\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

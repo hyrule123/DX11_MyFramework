@@ -205,6 +205,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CScriptHolder.h" />
     <ClInclude Include="CShader.h" />
     <ClInclude Include="CSingleton.h" />
+    <ClInclude Include="CTestObjScript.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="CTransform.h" />
@@ -246,6 +247,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CScript.cpp" />
     <ClCompile Include="CScriptHolder.cpp" />
     <ClCompile Include="CShader.cpp" />
+    <ClCompile Include="CTestObjScript.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="CTransform.cpp" />

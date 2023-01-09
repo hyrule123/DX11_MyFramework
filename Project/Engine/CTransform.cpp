@@ -22,7 +22,7 @@ void CTransform::finaltick()
 {
 	//여기선 고유 크기(Size)를 반영하지 않은 월드행렬을 만든다.
 	//게임오브젝트 상속 관계에서 고유 크기까지 상속을 받게 되면 기하급수적으로 크기가 커짐 
-	 
+	
 	
 	//크기행렬(CreateScale을 해주면 자동으로 동차좌표를 추가해서 행렬에 삽입해 준다.
 	const Matrix& matScale = Matrix::CreateScale(m_vRelativeScale);
@@ -42,47 +42,55 @@ void CTransform::finaltick()
 	//자신의 월드행렬 완성
 	m_matWorld = matScale * matRot * matTranslation;
 
-	//부모의 월드행렬 상속
-	//우선 단위행렬을 하나 만든 뒤
-	static Matrix matInherit = XMMatrixIdentity();
 
+	//우선 단위행렬을 하나 만든 뒤
+	static Matrix matInherit;
 	//부모의 월드행렬을 받아온다. 성공 시 true가 반환되므로 이 때는 상속 과정을 시작하면 됨
-	if (GetOwner()->GetParentWorldMatrix(matInherit))
+	if (true == GetOwner()->GetParentWorldMatrix(matInherit))
 	{
 		do
 		{
-			//둘 다 상속받는 경우 그대로 빠져나감
+			//둘 다 상속받는 경우 그대로 빠져나감(부모의 월드 매트릭스를 그대로 사용)
 			if (true == m_bInheritScale && true == m_bInheritRot)
 				break;
-			
 			//둘다 상속 안받는 경우
-			if (false == m_bInheritScale && false == m_bInheritRot)
+			else if (false == m_bInheritScale && false == m_bInheritRot)
 			{
+				//회전/크기 정보 부분을 밀어버리고 1.f를 넣어줌
+				//float 4byte * 12(3열까지) = 48
+				memset(matInherit.m, 0, 48);
+				matInherit._11 = 1.f;
+				matInherit._22 = 1.f;
+				matInherit._33 = 1.f;
+
 				//회전, 크기 모두 상속받지 않을경우 모두 제거하고 이동정보만 남김
-				matInherit = Matrix::CreateTranslation(matInherit.Translation());
+				//matInherit = Matrix::CreateTranslation(matInherit.Translation());
 				break;
 			}
 
-			//크기를 구한다.
+			//크기를 구한다.(Right = x, Up = y, Forward = z)
 			Vec3 Scale(matInherit.Right().Length(), matInherit.Up().Length(), matInherit.Forward().Length());
 
 			//둘 중 하나만 상속받는 경우 - 크기를 상속받지 않는경우
-			//모든 벡터를 크기로 나눠줌
+			//회전 정보만 남겨줌 -> 모든 벡터를 크기로 나눠줌
 			if (false == m_bInheritScale)
 			{
 				for (int i = 0; i < 3; ++i)
 				{
-					matInherit.m[0][i] /= Scale.x;
-					matInherit.m[1][i] /= Scale.y;
-					matInherit.m[2][i] /= Scale.z;
+					Scale = Vec3(1.f, 1.f, 1.f) / Scale;
+					matInherit.m[0][i] *= Scale.x;
+					matInherit.m[1][i] *= Scale.y;
+					matInherit.m[2][i] *= Scale.z;
 				}
 			}
-			//회전을 상속받지 않는경우 - 회전만 남김
-			else if (false == m_bInheritScale)
+			//회전을 상속받지 않는경우 - 크기만 남김
+			else if (false == m_bInheritRot)
 			{
-				matInherit.Right(	Vec3(Scale.x, 0.f, 0.f));
-				matInherit.Up(		Vec3(0.f, Scale.y, 0.f));
-				matInherit.Forward(	Vec3(0.f, 0.f, Scale.z));
+				//float(4) * 12 -> 회전 파트를 모두 0으로 밀어버리고 크기만 등록
+				memset(matInherit.m, 0, 48);
+				matInherit._11 = Scale.x;
+				matInherit._22 = Scale.y;
+				matInherit._33 = Scale.z;
 			}
 		} while (false);
 

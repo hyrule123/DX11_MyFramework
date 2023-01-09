@@ -7,7 +7,10 @@
 #include "CGameObject.h"
 #include "components.h"
 #include "CMeshRender.h"
+
+//Scripts
 #include "CPlayerScript.h"
+#include "CTestObjScript.h"
 
 #include "CResMgr.h"
 
@@ -55,37 +58,53 @@ void CLevelMgr::init()
 	m_pCurLevel->AddGameObject(pPlayer, 1);
 
 	// Test Object 1
-	CGameObject* pChild = new CGameObject;
-	pChild->SetName(L"Test Object");
-	pChild->AddComponent(new CTransform);
-	pChild->Transform()->SetRelativePos(100.f, 0.f, 10.f);
-	//pChild->Transform()->SetRotInheritance(false);
-	//pChild->Transform()->SetScaleInheritance(false);
-	pChild->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
-	pChild->AddComponent(new CMeshRender);
-	pChild->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	CGameObject* pTestObj1 = new CGameObject;
+	pTestObj1->SetName(L"Test Object");
+	pTestObj1->AddComponent(new CTransform);
+	pTestObj1->Transform()->SetRelativePos(100.f, 0.f, 10.f);
+	//pTestObj1->Transform()->SetRotInheritance(false);
+	//pTestObj1->Transform()->SetScaleInheritance(false);
+	pTestObj1->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	pTestObj1->AddComponent(new CMeshRender);
+	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
 	TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
-	pChild->MeshRender()->SetMaterial(TestMtrl);
-	pPlayer->AddChild(pChild);
-	m_pCurLevel->AddGameObject(pChild, 1);
+	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
+	pPlayer->AddChild(pTestObj1);
+	m_pCurLevel->AddGameObject(pTestObj1, 1);
+
+
+	// Test Object 2
+	CGameObject* pTestObj2 = new CGameObject;
+	pTestObj2->SetName(L"Test Object");
+	pTestObj2->AddComponent(new CTransform);
+	pTestObj2->Transform()->SetRelativePos(0.f, 100.f, 10.f);
+	pTestObj2->Transform()->SetRotInheritance(false);
+	pTestObj2->Transform()->SetScaleInheritance(false);
+	pTestObj2->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	pTestObj2->AddComponent(new CMeshRender);
+	pTestObj2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
+	pTestObj2->MeshRender()->SetMaterial(TestMtrl);
+	pTestObj1->AddChild(pTestObj2);
+	pTestObj2->AddScript(new CTestObjScript);
+	m_pCurLevel->AddGameObject(pTestObj2, 1);
 
 	{
-		// Test Object 2
-		CGameObject* pObj = new CGameObject;
-		pObj->SetName(L"Test Object");
-		pObj->AddComponent(new CTransform);
-		pObj->Transform()->SetRelativePos(0.f, 100.f, 10.f);
-		pObj->Transform()->SetRotInheritance(false);
-		pObj->Transform()->SetScaleInheritance(false);
-		pObj->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
-		pObj->AddComponent(new CMeshRender);
-		pObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+		// Test Object 3
+		CGameObject* pTestObj3 = new CGameObject;
+		pTestObj3->SetName(L"Test Object");
+		pTestObj3->AddComponent(new CTransform);
+		pTestObj3->Transform()->SetRelativePos(0.f, 100.f, 10.f);
+		pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+		pTestObj3->AddComponent(new CMeshRender);
+		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 		Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
 		TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
-		pObj->MeshRender()->SetMaterial(TestMtrl);
-		pChild->AddChild(pObj);
-		m_pCurLevel->AddGameObject(pObj, 1);
+		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
+		m_pCurLevel->AddGameObject(pTestObj3, 1);
+
+		pTestObj2->AddChild(pTestObj3);
 	}
 
 	{
