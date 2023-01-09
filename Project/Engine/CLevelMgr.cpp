@@ -119,6 +119,8 @@ void CLevelMgr::init()
 		pObj->AddScript(new CCameraMoveScript);
 		
 		m_pCurLevel->AddGameObject(pObj, 1);
+
+		pPlayer->AddChild(pObj);
 	}
 
 }

@@ -30,13 +30,14 @@ void CTransform::finaltick()
 	//방향은 쿼터니언을 사용해서 계산.
 	const Matrix& matRot = Matrix::CreateFromPitchYawRoll(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);
 
-	//직관적 방향을 계산한다.
+	//방금 구한 회전행렬으로 직관적 방향을 계산한다.
 	//회전행렬을 따로 변수에 저장하지 않으므로 지역변수에 계산해놓은 시점에서 직관적 방향도 구해놓는다.
 	//방법 1 - 행렬곱과 래핑함수를 사용
 	m_vRelativeDir[eDIR_TYPE::eDIR_FRONT] = matRot.Forward();
 	m_vRelativeDir[eDIR_TYPE::eDIR_RIGHT] = matRot.Right();
 	m_vRelativeDir[eDIR_TYPE::eDIR_UP] = matRot.Up();
 
+	//이동행렬
 	const Matrix& matTranslation = Matrix::CreateTranslation(m_vRelativePos);
 
 	//자신의 월드행렬 완성
@@ -45,58 +46,62 @@ void CTransform::finaltick()
 
 	//우선 단위행렬을 하나 만든 뒤
 	static Matrix matInherit;
-	//부모의 월드행렬을 받아온다. 성공 시 true가 반환되므로 이 때는 상속 과정을 시작하면 됨
+	//부모 오브젝트가 있을 경우 부모의 월드행렬을 받아온다. 
+	//성공 시 true가 반환되므로 이 때는 상속 과정을 시작하면 됨
+	bool bWorldDirInherit = false;
 	if (true == GetOwner()->GetParentWorldMatrix(matInherit))
 	{
-		do
+		if (true == m_bInheritRot)
 		{
-			//둘 다 상속받는 경우 그대로 빠져나감(부모의 월드 매트릭스를 그대로 사용)
-			if (true == m_bInheritScale && true == m_bInheritRot)
-				break;
-			//둘다 상속 안받는 경우
-			else if (false == m_bInheritScale && false == m_bInheritRot)
-			{
-				//회전/크기 정보 부분을 밀어버리고 1.f를 넣어줌
-				//float 4byte * 12(3열까지) = 48
-				memset(matInherit.m, 0, 48);
-				matInherit._11 = 1.f;
-				matInherit._22 = 1.f;
-				matInherit._33 = 1.f;
-
-				//회전, 크기 모두 상속받지 않을경우 모두 제거하고 이동정보만 남김
-				//matInherit = Matrix::CreateTranslation(matInherit.Translation());
-				break;
-			}
-
-			//크기를 구한다.(Right = x, Up = y, Forward = z)
-			Vec3 Scale(matInherit.Right().Length(), matInherit.Up().Length(), matInherit.Forward().Length());
-
-			//둘 중 하나만 상속받는 경우 - 크기를 상속받지 않는경우
-			//회전 정보만 남겨줌 -> 모든 벡터를 크기로 나눠줌
+			//회전 상속 + 크기 미상속 -> 크기정보 제거
 			if (false == m_bInheritScale)
 			{
 				for (int i = 0; i < 3; ++i)
 				{
-					Scale = Vec3(1.f, 1.f, 1.f) / Scale;
-					matInherit.m[0][i] *= Scale.x;
-					matInherit.m[1][i] *= Scale.y;
-					matInherit.m[2][i] *= Scale.z;
+					//정규화해서 크기정보를 제거
+					matInherit.Right(matInherit.Right().Normalize());
+					matInherit.Up(matInherit.Up().Normalize());
+					matInherit.Forward(matInherit.Forward().Normalize());
+					
+
+					//Vec3 Scale(matInherit.Right().Length(), matInherit.Up().Length(), matInherit.Forward().Length());
+					//Scale = Vec3(1.f, 1.f, 1.f) / Scale;
+					//matInherit.m[0][i] *= Scale.x;
+					//matInherit.m[1][i] *= Scale.y;
+					//matInherit.m[2][i] *= Scale.z;
 				}
 			}
-			//회전을 상속받지 않는경우 - 크기만 남김
-			else if (false == m_bInheritRot)
+			//else: 둘 다 상속 받는 경우에는 작업할 것이 없음. 그냥 빠져나가면 됨
+
+			bWorldDirInherit = true;	//이때만 월드방향을 상속받아주면 된다.
+		}
+		else
+		{
+			//회전 미상속 + 크기 상속 -> 회전정보 제거
+			if (true == m_bInheritScale)
 			{
+				//회전정보만 상속받는 경우: 크기정보만 추출
+				Vec3 Scale(matInherit.Right().Length(), matInherit.Up().Length(), matInherit.Forward().Length());
 				//float(4) * 12 -> 회전 파트를 모두 0으로 밀어버리고 크기만 등록
 				memset(matInherit.m, 0, 48);
 				matInherit._11 = Scale.x;
 				matInherit._22 = Scale.y;
 				matInherit._33 = Scale.z;
 			}
-		} while (false);
+			//회전 미상속 + 크기 미상속 -> 전부 밀고 단위행렬로
+			else
+			{
+				memset(matInherit.m, 0, 48);
+				matInherit._11 = 1.f;
+				matInherit._22 = 1.f;
+				matInherit._33 = 1.f;
+			}
+		}
 
 		//부모의 회전행렬을 곱한다.
 		m_matWorld *= matInherit;
 	}
+	
 }
 
 void CTransform::UpdateData()

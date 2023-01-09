@@ -12,7 +12,10 @@ private:
 
     //앞, 위, 오른쪽으로 나타내는 직관적인 방향 정보
     //eDIR_TYPE 열거체를 사용.
-    Vec3  m_vRelativeDir[eDIR_TYPE::eDIR_END];
+    Vec3    m_vRelativeDir[eDIR_TYPE::eDIR_END];
+
+    //월드 방향(모든 회전정보 누적)
+    Vec3    m_vWorldDir[eDIR_TYPE::eDIR_END];
 
     bool    m_bInheritScale;
     bool    m_bInheritRot;
@@ -41,9 +44,16 @@ public:
     ////Inline methods don't need to return the value by const reference
     Vec3 GetSize() const { return m_vSize; }
     Vec3 GetRelativePos() const { return m_vRelativePos; }
+    Vec3 GetWorldPos() const { return Vec3(m_matWorld.m[3]); }
     Vec3 GetRelativeScale() const { return m_vRelativeScale; }
+    Vec3 GetWorldScale() const;
     Vec3 GetRelativeRot() const { return m_vRelativeRot; }
-    Vec3 GetRelativeDir(eDIR_TYPE _Dir) const { return m_vRelativeDir[(int)_Dir]; }
+
+    //각도를 구하는 매트릭스는 연산량이 너무 많으므로 그냥 크기정보를 제거한 회전 매트릭스만 반환한다.
+    Matrix GetWorldRotMat() const;
+
+    Vec3 GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(int)_eDir]; }
+    Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorld.m[(int)_eDir]).Normalize(); }
     Matrix GetWorldMat() const { return m_matWorld; }
 
 
@@ -59,3 +69,12 @@ public:
     ~CTransform();
 };
 
+inline Vec3 CTransform::GetWorldScale() const
+{
+    return Vec3(m_matWorld.Right().Length(), m_matWorld.Up().Length(), m_matWorld.Front().Length());
+}
+
+inline Matrix CTransform::GetWorldRotMat() const
+{
+    return Matrix(m_matWorld.Right().Normalize(), m_matWorld.Up().Normalize(), m_matWorld.Front().Normalize());
+}
