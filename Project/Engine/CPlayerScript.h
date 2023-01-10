@@ -15,10 +15,15 @@ public:
     virtual void init() override;
     virtual void tick() override;
 
+private:
+    void Shoot();
 
-    CLONE(CPlayerScript);
+
+    
 public:
     CPlayerScript();
     ~CPlayerScript();
+
+    CLONE(CPlayerScript);
 };
 

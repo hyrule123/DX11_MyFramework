@@ -42,7 +42,5 @@ void CLevel::AddGameObject(CGameObject* _Object, int _iLayerIdx)
 	assert(nullptr != _Object || 0 < _iLayerIdx);
 
 	m_arrLayer[_iLayerIdx]->AddGameObject(_Object);
-
-
 	_Object->init();
 }

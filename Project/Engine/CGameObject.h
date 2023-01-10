@@ -7,6 +7,7 @@ class CTransform;
 class CMeshRender;
 class CCamera;
 class CRenderComponent;
+class CScriptHolder;
 class CScript;
 
 class CGameObject :
@@ -15,7 +16,7 @@ class CGameObject :
 private:
 
     //Components
-    CComponent*         m_arrCom[(UINT)eCOMPONENT_TYPE::END];
+    CComponent*         m_arrCom[eCOMPONENT_END];
     CRenderComponent*   m_RenderCom;
 
     //Hierarchy
@@ -27,7 +28,7 @@ private:
 
     //초기화 되어 현재 Level 안에서 작동중인지 여부를 저장.
     //작동 이후 컴포넌트가 추가될 시 바로 init 호출.
-    bool                m_initalized;
+    bool                m_bInitialized;
 
 public:
     //Inline Setter
@@ -35,11 +36,15 @@ public:
     void                SetLayerFixed(bool _bFix) { m_bFixLayer = _bFix; }
 
     //Inline Getter
-    CTransform*         Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
-    CMeshRender*        MeshRender() const { return (CMeshRender*)m_arrCom[(UINT)eCOMPONENT_TYPE::MESHRENDER]; }
-    CCamera*            Camera() const { return (CCamera*)m_arrCom[(UINT)eCOMPONENT_TYPE::CAMERA]; }
+    ////Components
+    CTransform*         Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM]; }
+    CMeshRender*        MeshRender() const { return (CMeshRender*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER]; }
+    CCamera*            Camera() const { return (CCamera*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_CAMERA]; }
     CRenderComponent*   GetRenderComponent() const { return m_RenderCom; }
-    CGameObject*        GetParent() const { return m_Parent; }
+    CScriptHolder*      ScriptHolder() const { return (CScriptHolder*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER]; }
+
+    CGameObject* GetParent() const { return m_Parent; }
+    int          GetLayer() const { return m_iLayerIdx; }
     
     //Master GameObject만 LevelMgr에서 tick()를 호출한다.
     bool                IsMaster()  const { return (nullptr == m_Parent); }
@@ -68,9 +73,9 @@ public:
     CLONE(CGameObject)    
 public:
     CGameObject();
+    CGameObject(const CGameObject& _other);
     ~CGameObject();
 
     //재귀 private 내부 호출을 위해 GameObject끼리는 friend 설정
     friend class CGameObject;
 };
-

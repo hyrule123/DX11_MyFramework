@@ -7,5 +7,5 @@
 
 tTransform g_transform = {};
 
-const eCOMPONENT_TYPE g_RenderComponentStart = eCOMPONENT_TYPE::MESHRENDER;
-const eCOMPONENT_TYPE g_RenderComponentEnd = eCOMPONENT_TYPE::SCRIPT;
+const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER;
+const eCOMPONENT_TYPE g_RenderComIdxEnd = eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER;

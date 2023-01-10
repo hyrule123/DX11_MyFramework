@@ -14,7 +14,6 @@ class CMaterial;
 class CRenderComponent :
     public CComponent
 {
-
 private:
     Ptr<CMesh>              m_pMesh;
     Ptr<CMaterial>          m_pMtrl;
@@ -35,6 +34,7 @@ private:
 
 public:
     CRenderComponent(eCOMPONENT_TYPE _type);
+    CRenderComponent(const CRenderComponent& _other);
     virtual ~CRenderComponent();
 
 };

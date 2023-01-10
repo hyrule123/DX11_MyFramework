@@ -20,13 +20,25 @@
 #include "CRenderMgr.h"
 
 CCamera::CCamera():
-	CComponent(eCOMPONENT_TYPE::CAMERA)
+	CComponent(eCOMPONENT_TYPE::eCOMPONENT_CAMERA)
 	, m_AspectRatio()
 	, m_ProjectionType(ePROJ_TYPE::ORTHOGRAPHY)
 	, m_CamIndex(-1)
 	, m_LayerFlag(UINT32_MAX)
 {
 	SetProjType(m_ProjectionType);
+}
+
+CCamera::CCamera(const CCamera& _other)
+	: CComponent(_other)
+	, m_AspectRatio(_other.m_AspectRatio)
+	, m_ProjectionType(_other.m_ProjectionType)
+	, m_matView()	// finaltick()에서 매 tick마다 계산 됨
+	, m_matProj(_other.m_matProj)
+	, m_CamIndex(-1)
+	, m_arrvecShaderDomain{}
+	, m_LayerFlag(_other.m_LayerFlag)
+{
 }
 
 CCamera::~CCamera()

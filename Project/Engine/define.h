@@ -22,33 +22,33 @@
 //새로운 컴포넌트를 만들어줄 경우
 //eCOMPONENT_TYPE에 컴포넌트 추가
 //components.h에 컴포넌트 뚫어주기
-enum class eCOMPONENT_TYPE
+enum eCOMPONENT_TYPE
 {
 	// update
-	TRANSFORM,		// 위치, 크기, 회전
-	COLLIDER2D,		// 2차원 충돌
-	COLLIDER3D,		// 3차원 충돌
-	ANIMATOR2D,		// Sprite Animation
-	ANIMATOR3D,		// Bone Sknning Animation
-	LIGHT2D,		// 2차원 광원
-	LIGHT3D,		// 3차원 광원
-	CAMERA,			// Camera
+	eCOMPONENT_TRANSFORM,		// 위치, 크기, 회전
+	eCOMPONENT_COLLIDER2D,		// 2차원 충돌
+	eCOMPONENT_COLLIDER3D,		// 3차원 충돌
+	eCOMPONENT_ANIMATOR2D,		// Sprite Animation
+	eCOMPONENT_ANIMATOR3D,		// Bone Sknning Animation
+	eCOMPONENT_LIGHT2D,		// 2차원 광원
+	eCOMPONENT_LIGHT3D,		// 3차원 광원
+	eCOMPONENT_CAMERA,			// Camera
 
 	// render
-	MESHRENDER,		// 기본적인 렌더링
-	PARTICLESYSTEM, // 입자 렌더링
-	TILEMAP,		// 2차원 타일
-	LANDSCAPE,		// 3차원 지형
-	DECAL,			// 내부 렌더링
+	eCOMPONENT_MESH_RENDER,		// 기본적인 렌더링
+	eCOMPONENT_PARTICLE_SYSTEM, // 입자 렌더링
+	eCOMPONENT_TILEMAP,		// 2차원 타일
+	eCOMPONENT_LANDSCAPE,		// 3차원 지형
+	eCOMPONENT_DECAL,			// 내부 렌더링
 
 	// custom
-	SCRIPT,			
+	eCOMPONENT_SCRIPT_HOLDER,			
 
-	END,
+	eCOMPONENT_END
 };
 
-extern const eCOMPONENT_TYPE g_RenderComponentStart;
-extern const eCOMPONENT_TYPE g_RenderComponentEnd;
+extern const eCOMPONENT_TYPE g_RenderComIdxStart;
+extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 
 
 enum class eRES_TYPE
@@ -69,7 +69,7 @@ enum class eRES_TYPE
 
 enum class eCB_TYPE
 {
-	TRANSFORM,	// b0
+	eCOMPONENT_TRANSFORM,	// b0
 	MATERIAL,	// b1
 
 	END,
@@ -197,7 +197,7 @@ enum eCAMERA_INDEX
 	eCAMIDX_END
 };
 
-enum class EVENT_TYPE
+enum class eEVENT_TYPE
 {
 	CREATE_OBJECT,
 	DELETE_OBJECT,

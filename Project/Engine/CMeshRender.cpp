@@ -9,7 +9,7 @@
 #include "CMaterial.h"
 
 CMeshRender::CMeshRender()
-	: CRenderComponent(eCOMPONENT_TYPE::MESHRENDER)		
+	: CRenderComponent(eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER)		
 {
 }
 

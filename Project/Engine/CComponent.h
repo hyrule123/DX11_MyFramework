@@ -15,6 +15,11 @@ private:
     const eCOMPONENT_TYPE m_Type;
 
 public:
+    //inline Setter
+    //소유자 포인터를 하위 클래스에게도 전달해줘야 할 경우 재정의해서 사용해야 함
+    virtual void SetOwner(CGameObject* _pOwner) { m_pOwner = _pOwner; }
+
+    //inline Getter
     eCOMPONENT_TYPE GetType() { return m_Type; }
     CGameObject* GetOwner() { return m_pOwner ; }
 
@@ -34,6 +39,7 @@ public:
 
 public:
     CComponent(eCOMPONENT_TYPE _Type);
+    CComponent(const CComponent& _other);
     virtual ~CComponent();
     friend class CGameObject;
 };

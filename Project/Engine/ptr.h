@@ -37,24 +37,24 @@ public:
 			m_Res->AddRef();
 	}
 
-	bool operator == (T* _Other)
+	bool operator == (T* _other)
 	{
-		return m_Res == _Other;			
+		return m_Res == _other;			
 	}
 
-	bool operator != (T* _Other)
+	bool operator != (T* _other)
 	{
-		return m_Res != _Other;
+		return m_Res != _other;
 	}
 
-	bool operator == (const Ptr<T>& _Other)
+	bool operator == (const Ptr<T>& _other)
 	{
-		return m_Res == _Other.m_Res;
+		return m_Res == _other.m_Res;
 	}
 
-	bool operator != (const Ptr<T>& _Other)
+	bool operator != (const Ptr<T>& _other)
 	{
-		return m_Res != _Other.m_Res;
+		return m_Res != _other.m_Res;
 	}
 
 

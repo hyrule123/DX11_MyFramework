@@ -11,6 +11,7 @@
 //Scripts
 #include "CPlayerScript.h"
 #include "CTestObjScript.h"
+#include "CBulletScript.h"
 
 #include "CResMgr.h"
 
@@ -49,12 +50,12 @@ void CLevelMgr::init()
 	pPlayer->AddComponent(new CMeshRender);
 	pPlayer->AddScript(new CPlayerScript);
 
-	Ptr<CMaterial> Mtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"std2DMtrl");
-	Mtrl->SetTexParam(eTEX_0, PlayerTex);
-	Mtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
+	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"std2DMtrl");
+	PlayerMtrl->SetTexParam(eTEX_0, PlayerTex);
+	PlayerMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 
 	pPlayer->MeshRender()->SetMesh(CircleMesh);
-	pPlayer->MeshRender()->SetMaterial(Mtrl);
+	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
 	m_pCurLevel->AddGameObject(pPlayer, 1);
 
 	// Test Object 1
@@ -99,13 +100,14 @@ void CLevelMgr::init()
 		pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 		pTestObj3->AddComponent(new CMeshRender);
 		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
+		Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
 		TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
 		m_pCurLevel->AddGameObject(pTestObj3, 1);
 
 		pTestObj2->AddChild(pTestObj3);
 	}
+
 
 	{
 		// Camera
@@ -123,6 +125,27 @@ void CLevelMgr::init()
 		pPlayer->AddChild(pObj);
 	}
 
+	{//Prefab
+		CGameObject* pPrefab = new CGameObject;
+
+		pPrefab->AddComponent(new CMeshRender);
+		Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
+		Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"HOS");
+
+		pMtrl->SetTexParam(eTEX_0, pTex);
+		Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh");
+		pPrefab->MeshRender()->SetMaterial(pMtrl);
+		pPrefab->MeshRender()->SetMesh(pMesh);
+
+		pPrefab->AddScript(new CBulletScript);
+
+		pPrefab->AddComponent(new CTransform);
+
+		Ptr<CPrefab> pResPrefab = new CPrefab;
+		pResPrefab->RegisterPrefab(pPrefab);
+
+		CResMgr::GetInst()->AddRes(L"Bullet", pResPrefab);
+	}
 }
 
 void CLevelMgr::tick()

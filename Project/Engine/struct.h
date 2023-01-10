@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 struct tVertex
 {
 	Vec3 vPos;
@@ -28,3 +26,10 @@ struct tTransform
 };
 
 extern tTransform g_transform;
+
+struct tEvent
+{
+	eEVENT_TYPE Type;
+	DWORD_PTR	wParam;
+	DWORD_PTR	lParam;
+};

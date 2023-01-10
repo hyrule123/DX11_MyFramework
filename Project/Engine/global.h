@@ -5,6 +5,7 @@
 #include <map>
 #include <unordered_map>
 #include <string>
+#include <queue>
 
 using std::vector;
 using std::list;
@@ -13,6 +14,7 @@ using std::unordered_map;
 using std::make_pair;
 using std::wstring;
 using std::string;
+using std::queue;
 
 #include <typeinfo>
 #include <typeindex>

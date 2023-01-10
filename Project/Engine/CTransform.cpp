@@ -7,10 +7,11 @@
 #include "CTimeMgr.h"
 
 CTransform::CTransform()
-	: CComponent(eCOMPONENT_TYPE::TRANSFORM)
+	: CComponent(eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM)
 	, m_vRelativeScale(1.f, 1.f, 1.f)
 	, m_bInheritScale(true)
 	, m_bInheritRot(true)
+	, m_vSize(100.f, 100.f, 1.f)
 {
 }
 
@@ -113,7 +114,7 @@ void CTransform::UpdateData()
 	Matrix matWVP = (matSize * m_matWorld * g_transform.matViewProj).Transpose();
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
-	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::TRANSFORM);
+	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::eCOMPONENT_TRANSFORM);
 	pTransformBuffer->SetData(&matWVP, sizeof(Matrix));
 	pTransformBuffer->UpdateData();
 }

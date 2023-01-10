@@ -1,5 +1,5 @@
 
-cbuffer TRANSFORM : register(b0)
+cbuffer eCOMPONENT_TRANSFORM : register(b0)
 {
     matrix g_matWVP;
 };

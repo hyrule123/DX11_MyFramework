@@ -8,7 +8,7 @@
 #include "CResMgr.h"
 #include "CLevelMgr.h"
 #include "CRenderMgr.h"
-
+#include "CEventMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -49,6 +49,7 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CResMgr::GetInst()->init();
 	CLevelMgr::GetInst()->init();		
 	CRenderMgr::GetInst()->init();
+	CEventMgr::GetInst();
 
 	return S_OK;
 }
@@ -58,6 +59,8 @@ void CEngine::progress()
 	tick();
 
 	render();
+
+	CEventMgr::GetInst()->tick();
 }
 
 void CEngine::tick()
@@ -65,7 +68,6 @@ void CEngine::tick()
 	// Manager Tick
 	CTimeMgr::GetInst()->tick();
 	CKeyMgr::GetInst()->tick();	
-
 	CLevelMgr::GetInst()->tick();
 }
 

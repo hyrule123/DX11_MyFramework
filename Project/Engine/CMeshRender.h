@@ -17,6 +17,7 @@ public:
     CLONE(CMeshRender);
 public:
     CMeshRender();
+    //복사할 멤버변수가 없으므로 복사생성 필요 없음.
     ~CMeshRender();
 };
 

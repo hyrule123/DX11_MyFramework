@@ -27,9 +27,6 @@ public:
     Ptr<CTexture> GetTexture(eTEX_PARAM _texIdx = eTEX_0) const;
 
 
-
-
-
 private:
     virtual int Load(const wstring& _strFilePath) { return S_OK; }
 public:
@@ -40,12 +37,12 @@ public:
 public:
     CMaterial();
     ~CMaterial();
+
+    CLONE(CMaterial)
 };
 
 inline Ptr<CTexture> CMaterial::GetTexture(eTEX_PARAM _texIdx) const
 {
-    if (_texIdx >= eTEX_END)
-        return nullptr;
-
+    assert(0 <= _texIdx && _texIdx < eTEX_END);
     return m_arrTex[_texIdx];
 }

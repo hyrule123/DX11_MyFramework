@@ -118,6 +118,15 @@
     <ClInclude Include="CTestObjScript.h">
       <Filter>Source\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CEventMgr.h">
+      <Filter>Source\03. Manager\07. EventMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CPrefab.h">
+      <Filter>Source\07. Resource\5. Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="CBulletScript.h">
+      <Filter>Source\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -214,6 +223,15 @@
       <Filter>Source\06. Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="CTestObjScript.cpp">
+      <Filter>Source\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CEventMgr.cpp">
+      <Filter>Source\03. Manager\07. EventMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CPrefab.cpp">
+      <Filter>Source\07. Resource\5. Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="CBulletScript.cpp">
       <Filter>Source\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -313,6 +331,12 @@
     </Filter>
     <Filter Include="Source\06. Component\Render Components\1. MeshRender">
       <UniqueIdentifier>{3dd66862-9fa0-441f-8888-fa938d05bdbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\03. Manager\07. EventMgr">
+      <UniqueIdentifier>{9a8c8c1a-b05e-4507-a5a2-6a283289572a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\5. Prefab">
+      <UniqueIdentifier>{249a14da-b2f0-4ec0-9486-6169ffd3652c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

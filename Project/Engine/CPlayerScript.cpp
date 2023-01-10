@@ -8,6 +8,13 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
+//Prefab instantiate
+#include "CResMgr.h"
+#include "CEventMgr.h"
+#include "CBulletScript.h"
+#include "CScriptHolder.h"
+
+
 CPlayerScript::CPlayerScript()
 	: CScript(TYPE_INDEX(CPlayerScript))
 	, m_ColorKey(1.f, 1.f, 1.f, 1.f)
@@ -85,5 +92,23 @@ void CPlayerScript::tick()
 		MeshRender()->GetMaterial()->SetScalarParam(INT_0, &a);
 	}
 
+	if (KEY_TAP(KEY::SPACE))
+	{
+		Shoot();
+	}
 
+}
+
+void CPlayerScript::Shoot()
+{
+	CGameObject* Bullet = CResMgr::GetInst()->FindRes<CPrefab>(L"Bullet")->Instantiate();
+
+	const Vec3& vPos = GetOwner()->Transform()->GetWorldPos();
+	const Vec3& vDir = GetOwner()->Transform()->GetRelativeDir(eDIR_RIGHT);
+
+	Bullet->ScriptHolder()->GetScript<CBulletScript>()->SetDefaultVal(vPos, vDir);
+
+	tEvent event = { eEVENT_TYPE::CREATE_OBJECT, (DWORD_PTR)Bullet, (DWORD_PTR)1 };
+
+	CEventMgr::GetInst()->AddEvent(event);
 }

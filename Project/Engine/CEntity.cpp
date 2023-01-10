@@ -13,7 +13,7 @@ CEntity::CEntity(const CEntity& _other)
 	, m_iID(g_iNextID++)
 {
 }
-
+ 
 CEntity::~CEntity()
 {
 }

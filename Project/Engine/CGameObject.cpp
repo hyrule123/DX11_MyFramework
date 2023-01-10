@@ -4,6 +4,7 @@
 #include "CComponent.h"
 #include "CMeshRender.h"
 #include "CScriptHolder.h"
+#include "CScript.h"
 
 //레이어 옮길 때 사용
 #include "CLevelMgr.h"
@@ -13,14 +14,48 @@
 //트랜스폼 상속
 #include "CTransform.h"
 
+
+
 CGameObject::CGameObject()
 	: m_arrCom{}
-	, m_initalized()
+	, m_bInitialized()
 	, m_RenderCom()
 	, m_Parent()
 	, m_iLayerIdx(-1)
 	, m_bFixLayer()
 {
+}
+
+CGameObject::CGameObject(const CGameObject& _other)
+	: CEntity(_other)
+	, m_iLayerIdx(_other.m_iLayerIdx)
+	, m_bFixLayer(_other.m_bFixLayer)
+	, m_bInitialized(_other.m_bInitialized)
+{
+	//1. 컴포넌트 목록 복사
+	for (int i = 0; i < eCOMPONENT_END; ++i)
+	{
+		if (nullptr != _other.m_arrCom[i])
+		{
+			m_arrCom[i] = _other.m_arrCom[i]->Clone();
+			m_arrCom[i]->SetOwner(this);
+
+			//1-1. 렌더링 컴포넌트 일 경우 m_RenderCom에 복사
+			if (g_RenderComIdxStart <= i && i < g_RenderComIdxEnd)
+			{
+				assert(nullptr == m_RenderCom);
+				m_RenderCom = static_cast<CRenderComponent*>(m_arrCom[i]);
+			}
+		}
+	}
+
+	//2. 자녀 오브젝트 복사
+	size_t size = _other.m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		AddChild(_other.m_vecChild[i]->Clone());
+	}
+
 }
 
 CGameObject::~CGameObject()
@@ -36,9 +71,9 @@ CGameObject::~CGameObject()
 
 void CGameObject::init()
 {
-	m_initalized = true;
+	m_bInitialized = true;
 
-	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
+	for (UINT i = 0; i < eCOMPONENT_END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->init();
@@ -54,7 +89,7 @@ void CGameObject::init()
 
 void CGameObject::tick()
 {
-	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
+	for (UINT i = 0; i < eCOMPONENT_END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->tick();
@@ -69,7 +104,7 @@ void CGameObject::tick()
 
 void CGameObject::finaltick()
 {
-	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT; ++i)
+	for (UINT i = 0; i < eCOMPONENT_SCRIPT_HOLDER; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->finaltick();
@@ -97,28 +132,28 @@ void CGameObject::AddComponent(CComponent* _Component)
 
 	switch ((eCOMPONENT_TYPE)ComType)
 	{
-	case eCOMPONENT_TYPE::TRANSFORM:
-	case eCOMPONENT_TYPE::COLLIDER2D:
-	case eCOMPONENT_TYPE::COLLIDER3D:
-	case eCOMPONENT_TYPE::ANIMATOR2D:
-	case eCOMPONENT_TYPE::ANIMATOR3D:
-	case eCOMPONENT_TYPE::LIGHT2D:
-	case eCOMPONENT_TYPE::LIGHT3D:
-	case eCOMPONENT_TYPE::CAMERA:
+	case eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM:
+	case eCOMPONENT_TYPE::eCOMPONENT_COLLIDER2D:
+	case eCOMPONENT_TYPE::eCOMPONENT_COLLIDER3D:
+	case eCOMPONENT_TYPE::eCOMPONENT_ANIMATOR2D:
+	case eCOMPONENT_TYPE::eCOMPONENT_ANIMATOR3D:
+	case eCOMPONENT_TYPE::eCOMPONENT_LIGHT2D:
+	case eCOMPONENT_TYPE::eCOMPONENT_LIGHT3D:
+	case eCOMPONENT_TYPE::eCOMPONENT_CAMERA:
 		break;
 
 	//Render Components
-	case eCOMPONENT_TYPE::MESHRENDER:
-	case eCOMPONENT_TYPE::PARTICLESYSTEM:
-	case eCOMPONENT_TYPE::TILEMAP:
-	case eCOMPONENT_TYPE::LANDSCAPE:
-	case eCOMPONENT_TYPE::DECAL:
+	case eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER:
+	case eCOMPONENT_TYPE::eCOMPONENT_PARTICLE_SYSTEM:
+	case eCOMPONENT_TYPE::eCOMPONENT_TILEMAP:
+	case eCOMPONENT_TYPE::eCOMPONENT_LANDSCAPE:
+	case eCOMPONENT_TYPE::eCOMPONENT_DECAL:
 		//m_RenderCom에 하나 이상의 Render 컴포넌트가 들어가 있을 경우 에러 발생시킴.
 		assert(nullptr == m_RenderCom);
 		m_RenderCom = static_cast<CRenderComponent*>(_Component);
 		break;
 
-	case eCOMPONENT_TYPE::SCRIPT:
+	case eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER:
 		break;
 	default:
 		break;
@@ -129,7 +164,7 @@ void CGameObject::AddComponent(CComponent* _Component)
 	m_arrCom[ComType] = _Component;
 
 	//이미 작동중일 경우 바로 init() 호출
-	if(m_initalized)
+	if(m_bInitialized)
 		_Component->init();
 }
 
@@ -138,7 +173,7 @@ void CGameObject::AddScript(CScript* _Script)
 	if (nullptr == _Script)
 		return;
 
-	CScriptHolder* pScriptHolder = static_cast<CScriptHolder*>(m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT]);
+	CScriptHolder* pScriptHolder = static_cast<CScriptHolder*>(m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER]);
 	if (nullptr == pScriptHolder)
 	{
 		pScriptHolder = new CScriptHolder;

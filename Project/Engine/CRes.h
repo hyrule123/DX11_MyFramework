@@ -29,7 +29,7 @@ public:
     // 파일로 저장
     virtual int Save(const wstring&) = 0;
 
-    // 리소스는 Clone 을 구현하지 않는다.
+    // 리소스는 Clone 을 구현하지 않는다.(Material 제외)
     virtual CRes* Clone() { return nullptr; assert(nullptr); }
 
 public:
@@ -39,6 +39,7 @@ public:
 
 public:
     CRes(eRES_TYPE _type);
+    CRes(const CRes& _other);
     virtual ~CRes();
 
     friend class CResMgr;

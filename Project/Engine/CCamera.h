@@ -33,7 +33,8 @@ public:
     void render();
 
 public:
-    CCamera();
+    CCamera(); 
+    CCamera(const CCamera& _other);
     ~CCamera();
 
     CLONE(CCamera)

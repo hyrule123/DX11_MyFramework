@@ -6,8 +6,15 @@
 #include "CKeyMgr.h"
 
 
-CScript::CScript(const std::type_index& _TypeIndex)
+CScript::CScript(std::type_index _TypeIndex)
 	: m_TypeIndex(_TypeIndex)
+{
+}
+
+CScript::CScript(const CScript& _other)
+	: CEntity(_other)
+	, m_pOwner(nullptr)
+	, m_TypeIndex(_other.m_TypeIndex)
 {
 }
 

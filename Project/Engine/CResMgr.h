@@ -9,7 +9,11 @@
 #include "CTexture.h"
 #include "CGraphicsShader.h"
 #include "CMaterial.h"
+#include "CPrefab.h"
 
+//새 Res 추가
+//1. define.h enum에 Res 타입 추가했는지 확인
+//2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
 
 
 class CResMgr :
@@ -18,7 +22,7 @@ class CResMgr :
     SINGLETON(CResMgr)
 private:
     unordered_map<wstring, Ptr<CRes>> m_arrRes[(UINT)eRES_TYPE::END];
-    unordered_map<std::type_index, eRES_TYPE> m_mapResClassTypeIndex;
+    unordered_map<std::type_index, eRES_TYPE> m_umapResClassTypeIndex;
 
 public:
     void init();
@@ -47,7 +51,7 @@ public:
 template<typename T>
 inline eRES_TYPE CResMgr::GetResType()
 {
-    return m_mapResClassTypeIndex[std::type_index(typeid(T))];
+    return m_umapResClassTypeIndex[std::type_index(typeid(T))];
 
 
     //const std::type_index& mesh = std::type_index(typeid(CMesh));
@@ -80,6 +84,9 @@ inline Ptr<T> CResMgr::FindRes(const wstring& _strKey)
     auto iter = m_arrRes[(UINT)type].find(_strKey);
     if (iter == m_arrRes[(UINT)type].end())
         return nullptr;
+
+    if (type == eRES_TYPE::MATERIAL)
+        return (T*)iter->second.Get()->Clone();
 
     return (T*)iter->second.Get();    
 }

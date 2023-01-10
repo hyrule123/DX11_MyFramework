@@ -36,6 +36,17 @@ void CScriptHolder::init()
 	}
 }
 
+void CScriptHolder::SetOwner(CGameObject* _pOwner)
+{
+	CComponent::SetOwner(_pOwner);
+
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecScript[i]->SetOwner(_pOwner);
+	}
+}
+
 void CScriptHolder::tick()
 {
 	size_t size = m_vecScript.size();
@@ -46,18 +57,20 @@ void CScriptHolder::tick()
 }
 
 CScriptHolder::CScriptHolder()
-	: CComponent(eCOMPONENT_TYPE::SCRIPT)
+	: CComponent(eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER)
 {
 }
 
 CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	: CComponent(_other)
 {
-	size_t size = m_vecScript.size();
+	size_t size = _other.m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecScript.push_back(_other.m_vecScript[i]->Clone());
-		m_vecScript[i]->SetOwner(GetOwner());
+
+		//복사 생성자에는 아직 소유자 포인터 정보가 입력되지 않았으므로 
+		//SetOwner에서 처리해줘야 한다.
 	}
 }
 
