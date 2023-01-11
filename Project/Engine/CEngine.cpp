@@ -81,8 +81,11 @@ void CEngine::render()
 	// ·»´õ¸µ ½ÃÀÛ
 	CDevice::GetInst()->ClearTarget(m_ClearColor);
 
+	//·»´õ¸µ. ·»´õÅ¸°Ù ÇÃ¸³Àº ¿©±â¼­ ÁøÇàÇÏÁö ¾ÊÀ½.
 	CRenderMgr::GetInst()->render();
+}
 
-	// ·»´õ Á¾·á
-	CDevice::GetInst()->Present();
+void CEngine::present()
+{
+	CDevice::GetInst()->present();
 }

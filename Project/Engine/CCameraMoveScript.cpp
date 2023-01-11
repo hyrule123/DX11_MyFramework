@@ -30,32 +30,32 @@ void CCameraMoveScript::Camera2DMove()
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_UP);
 
-		CamPos += DT * m_CamSpeed * Dir;
+		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::S))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_UP);
 
-		CamPos -= DT * m_CamSpeed * Dir;
+		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::A))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
 
-		CamPos -= DT * m_CamSpeed * Dir;
+		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::D))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
 
-		CamPos += DT * m_CamSpeed * Dir;
+		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
 
 
 	if (KEY_PRESSED(KEY::Z))
 	{
-		CamRot.x += DT * XM_PI;
-		CamRot.y += DT * XM_PI;
+		CamRot.x += DELTA_TIME * XM_PI;
+		CamRot.y += DELTA_TIME * XM_PI;
 	}
 
 	pTransform->SetRelativeRot(CamRot);
@@ -73,25 +73,25 @@ void CCameraMoveScript::Camera3DMove()
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_FRONT);
 
-		CamPos += DT * m_CamSpeed * Dir;
+		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::S))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_FRONT);
 
-		CamPos -= DT * m_CamSpeed * Dir;
+		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::A))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
 
-		CamPos -= DT * m_CamSpeed * Dir;
+		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::D))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
 
-		CamPos += DT * m_CamSpeed * Dir;
+		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
 
 	//우클릭시 시점 전환
@@ -100,10 +100,10 @@ void CCameraMoveScript::Camera3DMove()
 		Vec2 MouseDir = CKeyMgr::GetInst()->GetMouseDir();
 
 		//y축을 돌려야 좌우로 회전한다.
-		CamRot.y += DT * MouseDir.x * m_TurningForceRad;
+		CamRot.y += DELTA_TIME * MouseDir.x * m_TurningForceRad;
 
 		//x축을 돌려야 상하로 회전한다.
-		CamRot.x -= DT * MouseDir.y * m_TurningForceRad;
+		CamRot.x -= DELTA_TIME * MouseDir.y * m_TurningForceRad;
 	}
 
 	pTransform->SetRelativePos(CamPos);

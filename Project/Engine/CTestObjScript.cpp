@@ -37,8 +37,8 @@ void CTestObjScript::tick()
 
 	if (KEY_PRESSED(KEY::E))
 	{
-		Scale += Vec3(1.f, 1.f, 0.f) * DT;
-		Rot += Vec3(0.f, 0.f, 1.f) * DT;
+		Scale += Vec3(1.f, 1.f, 0.f) * DELTA_TIME;
+		Rot += Vec3(0.f, 0.f, 1.f) * DELTA_TIME;
 	}
 
 	Transform()->SetRelativeRot(Rot);

@@ -1,3 +1,5 @@
+#include "Shader_header_register.hlsli"
+
 struct VS_IN
 {
     float3 vPos : POSITION; // semantic  

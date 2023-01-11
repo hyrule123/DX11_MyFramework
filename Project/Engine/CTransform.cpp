@@ -6,6 +6,9 @@
 
 #include "CTimeMgr.h"
 
+#include "CRenderMgr.h"
+#include "CMeshRender.h"
+
 CTransform::CTransform()
 	: CComponent(eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM)
 	, m_vRelativeScale(1.f, 1.f, 1.f)
@@ -114,7 +117,15 @@ void CTransform::UpdateData()
 	Matrix matWVP = (matSize * m_matWorld * g_transform.matViewProj).Transpose();
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
-	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::eCOMPONENT_TRANSFORM);
+	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TRANSFORM);
 	pTransformBuffer->SetData(&matWVP, sizeof(Matrix));
 	pTransformBuffer->UpdateData();
+
+	//디버그 쉐이프 렌더링 요청
+	tDebugShapeInfo dbgInfo = {};
+	dbgInfo.eShape = eSHAPE_CIRCLE;
+	dbgInfo.fLifeSpan = 0.f;
+	dbgInfo.matWVP = matWVP;
+	dbgInfo.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	CRenderMgr::GetInst()->AddDebugShapeRender(dbgInfo);
 }

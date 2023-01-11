@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <string>
 #include <queue>
+#include <iterator>
 
 using std::vector;
 using std::list;

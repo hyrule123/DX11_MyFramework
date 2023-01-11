@@ -1,18 +1,10 @@
 ﻿// Client.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
 
-#include "framework.h"
+#include "pch.h"
 #include "Client.h"
 
-// Engine Library
-#include <Engine\global.h>
-#include <Engine\CEngine.h>
-
-#ifdef _DEBUG
-#pragma comment(lib, "Engine//Engine_d")
-#else
-#pragma comment(lib, "Engine//Engine")
-#endif
+#include "CEditorObjMgr.h"
 
 
 
@@ -58,6 +50,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return 0;
     }
 
+    CEditorObjMgr::GetInst()->init();
 
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
@@ -80,6 +73,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             CEngine::GetInst()->progress();
+
+            CEditorObjMgr::GetInst()->progress();
+
+            // 렌더 종료
+            CEngine::GetInst()->present();
         }       
     }
 

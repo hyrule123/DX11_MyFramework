@@ -7,19 +7,25 @@
 //Shader Header
 #ifdef _DEBUG
 
-#include "CompiledShaderHeader/Shader_test_vertex_Debug.h"
-#include "CompiledShaderHeader/Shader_test_pixel_Debug.h"
+#include "CompiledShaderHeader/Shader_Debug_1_vertex_Debug.h"
+#include "CompiledShaderHeader/Shader_Debug_2_pixel_Debug.h"
 
-#include "CompiledShaderHeader/Shader_std2D_vertex_Debug.h"
-#include "CompiledShaderHeader/Shader_std2D_pixel_Debug.h"
+#include "CompiledShaderHeader/Shader_test_1_vertex_Debug.h"
+#include "CompiledShaderHeader/Shader_test_2_pixel_Debug.h"
+
+#include "CompiledShaderHeader/Shader_std2D_1_vertex_Debug.h"
+#include "CompiledShaderHeader/Shader_std2D_2_pixel_Debug.h"
 
 #else
 
-#include "CompiledShaderHeader/Shader_test_vertex.h"
-#include "CompiledShaderHeader/Shader_test_pixel.h"
+#include "CompiledShaderHeader/Shader_Debug_1_vertex.h"
+#include "CompiledShaderHeader/Shader_Debug_2_pixel.h"
 
-#include "CompiledShaderHeader/Shader_std2D_vertex.h"
-#include "CompiledShaderHeader/Shader_std2D_pixel.h"
+#include "CompiledShaderHeader/Shader_test_1_vertex.h"
+#include "CompiledShaderHeader/Shader_test_2_pixel.h"
+
+#include "CompiledShaderHeader/Shader_std2D_1_vertex.h"
+#include "CompiledShaderHeader/Shader_std2D_2_pixel.h"
 
 #endif
 
@@ -49,7 +55,7 @@ void CResMgr::CreateResClassTypeIndex()
 {
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMesh)), eRES_TYPE::MESH));
 	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMesh)), eRES_TYPE::MESHDATA));
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMaterial)), eRES_TYPE::MATERIAL));
+	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMaterial)), eRES_TYPE::eCONST_BUFFER_MATERIAL));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CTexture)), eRES_TYPE::TEXTURE));
 	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CSound)), eRES_TYPE::SOUND));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CPrefab)), eRES_TYPE::PREFAB));
@@ -102,6 +108,18 @@ void CResMgr::CreateDefaultMesh()
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes(L"RectMesh", pMesh);
+	pMesh = nullptr;
+
+	//Debug Rect Mesh
+	vecIdx.clear();
+	vecIdx.push_back(0);
+	vecIdx.push_back(1);
+	vecIdx.push_back(2);
+	vecIdx.push_back(3);
+	vecIdx.push_back(0);
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddRes(L"RectMesh_Debug", pMesh);
 	//============================
 
 
@@ -153,8 +171,8 @@ void CResMgr::CreateDefaultMesh()
 		v.vPos.y = radius * sinf(AngleStride * i);
 		
 		//UV는 중점 기준으로 더하거나 빼는 방식으로 해준다.
-		v.vUV.x = v.vPos.x + 0.5f;
-		v.vUV.y = -(v.vPos.y) + 0.5f;	//반대 방향
+		v.vUV.x = 0.5f + v.vPos.x;
+		v.vUV.y = 0.5f -(v.vPos.y);	//반대 방향
 
 		vecVtx.push_back(v);
 
@@ -178,11 +196,44 @@ void CResMgr::CreateDefaultMesh()
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes(L"CircleMesh", pMesh);
+	pMesh = nullptr;
 
+
+	//디버그 메쉬
+	vecIdx.clear();
+	for (int i = 0; i < fslice; ++i)
+	{
+		vecIdx.push_back(i + 1);
+	}
+	vecIdx.push_back(1);
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	AddRes(L"CircleMesh_Debug", pMesh);
 }
 
 void CResMgr::CreateDefaultGraphicsShader()
 {
+
+	// ============
+	// Debug Shader
+	// Topology: LineStrip
+	// Rasterizer: No Culling
+	// Blend State: Default
+	// Shader Domain: Opaque
+	// ============
+	{
+		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+
+		pShader->SetKey(L"DebugShader");
+		pShader->CreateShader((void*)g_VS_Debug, sizeof(g_VS_Debug), eSHADERTYPE_VERTEX);
+		pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADERTYPE_PIXEL);
+		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
+		pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE_NO_TEST_NO_WRITE);
+		pShader->SetShaderDomain(eSHADER_DOMAIN_OPAQUE);
+		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
+	}
+
 	// ===========
 	// Test Shader
 	// =========== 
@@ -197,9 +248,9 @@ void CResMgr::CreateDefaultGraphicsShader()
 		AddRes(L"TestShader", pShader);
 	}
 
-	// ===========
+	// ============
 	// std2D Shader
-	// ===========
+	// ============
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 		pShader->SetKey(L"std2DShader");
@@ -209,10 +260,19 @@ void CResMgr::CreateDefaultGraphicsShader()
 		AddRes(pShader->GetKey(), pShader);
 	}
 
+
 }
 
 void CResMgr::CreateDefaultMaterial()
 {
+	//Debug Material
+	{
+		Ptr<CMaterial> pMtrl = new CMaterial;
+		pMtrl->SetKey(L"DebugMtrl");
+		pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugShader"));
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
+
 	// Test Material
 	{
 		Ptr<CMaterial> pMtrl = nullptr;

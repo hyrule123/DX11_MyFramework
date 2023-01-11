@@ -27,7 +27,7 @@ private:
 
 
 	//Constant Buffer
-	CConstBuffer* m_arrConstBuffer[(UINT)eCB_TYPE::END];
+	CConstBuffer* m_arrConstBuffer[eCONST_BUFFER_END];
 
 
 	//Depth Stencil View
@@ -61,7 +61,7 @@ public:
 	int init(HWND _hWnd, UINT _iWidth, UINT _iHeight);
 	void SetRenderTarget();
 	void ClearTarget(float(&_color)[4]);
-	void Present()	{ m_SwapChain->Present(1, 0); }
+	void present()	{ m_SwapChain->Present(1, 0); }
 
 private:
 	int CreateSwapChain();
@@ -75,7 +75,7 @@ private:
 public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }
 	ID3D11DeviceContext* GetDeviceContext() { return m_Context.Get(); }
-	CConstBuffer* GetConstBuffer(eCB_TYPE _Type) { return m_arrConstBuffer[(UINT)_Type]; }
+	CConstBuffer* GetConstBuffer(eCONST_BUFFER_TYPE _Type) { return m_arrConstBuffer[(UINT)_Type]; }
 	const Vec2& GetRenderResolution() { return m_vRenderResolution; }
 	ID3D11RasterizerState* GetRSState(eRASTERIZER_TYPE _Type) { return m_arrRSState[(UINT)_Type].Get(); }
 	ID3D11DepthStencilState* GetDSState(eDEPTHSTENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }

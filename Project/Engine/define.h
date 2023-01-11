@@ -11,7 +11,7 @@
 #define KEY_RELEASE(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::RELEASE
 #define KEY_PRESSED(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::PRESSED
 
-#define DT CTimeMgr::GetInst()->GetDeltaTime()
+#define DELTA_TIME CTimeMgr::GetInst()->GetDeltaTime()
 
 #define MAX_LAYER 32
 
@@ -54,7 +54,7 @@ extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 enum class eRES_TYPE
 {
 	MESHDATA,
-	MATERIAL,
+	eCONST_BUFFER_MATERIAL,
 	PREFAB,
 
 	MESH,			// วüลย
@@ -67,12 +67,13 @@ enum class eRES_TYPE
 	END,
 };
 
-enum class eCB_TYPE
+enum eCONST_BUFFER_TYPE : UINT
 {
-	eCOMPONENT_TRANSFORM,	// b0
-	MATERIAL,	// b1
+	eCONST_BUFFER_TRANSFORM,	// b0
+	eCONST_BUFFER_MATERIAL,	// b1
+	eCONST_BUFFER_DEBUGSHAPE, //b2
 
-	END,
+	eCONST_BUFFER_END,
 };
 
 
@@ -204,4 +205,13 @@ enum class eEVENT_TYPE
 	ADD_CHILD,
 	DELETE_RESOURCE,
 	LEVEL_CHANGE
+};
+
+enum eSHAPE_TYPE
+{
+	eSHAPE_RECT,
+	eSHAPE_CIRCLE,
+	eSHAPE_CUBE,
+	eSHAPE_SPHERE,
+	eSHAPE_END,
 };

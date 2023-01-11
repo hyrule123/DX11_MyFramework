@@ -4,7 +4,7 @@ cbuffer eCOMPONENT_TRANSFORM : register(b0)
     matrix g_matWVP;
 };
 
-cbuffer MATERIAL : register(b1)
+cbuffer eCONST_BUFFER_MATERIAL : register(b1)
 {
     int g_int_0;
     int g_int_1;
@@ -58,4 +58,3 @@ Texture2D g_tex_7 : register(t7);
 
 SamplerState g_sam_0 : register(s0);
 SamplerState g_sam_1 : register(s1);
-

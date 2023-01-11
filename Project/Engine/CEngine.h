@@ -19,6 +19,7 @@ public:
 public:
 	int init(HWND _hWnd, UINT _iWidth, UINT _iHeight);
 	void progress();
+	void present();
 
 private:
 	void tick();

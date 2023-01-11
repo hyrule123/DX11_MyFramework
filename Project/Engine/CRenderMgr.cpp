@@ -15,14 +15,16 @@ CRenderMgr::~CRenderMgr()
 }
 
 
-bool CRenderMgr::RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx)
+void CRenderMgr::RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx)
 {
-    if (_idx >= eCAMIDX_END)
-        return false;
-
+    assert(0 <= _idx && _idx < eCAMIDX_END);
     m_arrCam[_idx] = _pCam;
-        
-    return true;
+}
+
+void CRenderMgr::UpdateDebugShapeRender(list<tDebugShapeInfo>& _listDebugRef)
+{
+    std::copy(m_listDebugShapeRender.begin(), m_listDebugShapeRender.end(), std::back_inserter(_listDebugRef));
+    m_listDebugShapeRender.clear();
 }
 
 void CRenderMgr::init()

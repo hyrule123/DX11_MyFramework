@@ -19,13 +19,9 @@
 class CResMgr :
     public CSingleton<CResMgr>
 {
-    SINGLETON(CResMgr)
 private:
     unordered_map<wstring, Ptr<CRes>> m_arrRes[(UINT)eRES_TYPE::END];
     unordered_map<std::type_index, eRES_TYPE> m_umapResClassTypeIndex;
-
-public:
-    void init();
 
 private:
     void CreateResClassTypeIndex();
@@ -46,6 +42,12 @@ public:
 
     template<typename T>
     Ptr<T> Load(const wstring& _strKey, const wstring& _strRelativePath);
+
+
+public:
+    void init();
+
+    SINGLETON(CResMgr)
 };
 
 template<typename T>
@@ -70,7 +72,7 @@ inline eRES_TYPE CResMgr::GetResType()
     //if (typeid(T).hash_code() == texture.hash_code())
     //    return eRES_TYPE::TEXTURE;
     //if (typeid(T).hash_code() == material.hash_code())
-    //    return eRES_TYPE::MATERIAL;
+    //    return eRES_TYPE::eCONST_BUFFER_MATERIAL;
 
     //return eRES_TYPE::END;
 }
@@ -85,7 +87,7 @@ inline Ptr<T> CResMgr::FindRes(const wstring& _strKey)
     if (iter == m_arrRes[(UINT)type].end())
         return nullptr;
 
-    if (type == eRES_TYPE::MATERIAL)
+    if (type == eRES_TYPE::eCONST_BUFFER_MATERIAL)
         return (T*)iter->second.Get()->Clone();
 
     return (T*)iter->second.Get();    

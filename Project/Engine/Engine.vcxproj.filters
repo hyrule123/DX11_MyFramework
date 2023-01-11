@@ -338,34 +338,52 @@
     <Filter Include="Source\07. Resource\5. Prefab">
       <UniqueIdentifier>{249a14da-b2f0-4ec0-9486-6169ffd3652c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\08. ShaderCode\2. Std2D">
+      <UniqueIdentifier>{597954a5-0a18-4d83-8d0f-840ae529dc2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\08. ShaderCode\1. Test">
+      <UniqueIdentifier>{b87c6e0a-ea33-468a-8d31-78634926bbfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\08. ShaderCode\0. Debug">
+      <UniqueIdentifier>{073d0733-63e4-41b8-aa48-271ae230b6b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
       <Filter>Source\09. Module\SimpleMath</Filter>
     </None>
     <None Include="cpp.hint" />
-    <None Include="Shader_global_header.hlsli">
+    <None Include="Shader_header_register.hlsli">
       <Filter>Source\08. ShaderCode</Filter>
     </None>
-    <None Include="Shader_test_header.hlsli">
-      <Filter>Source\08. ShaderCode</Filter>
+    <None Include="Shader_test_0_header.hlsli">
+      <Filter>Source\08. ShaderCode\1. Test</Filter>
     </None>
-    <None Include="Shader_std2D_header.hlsli">
-      <Filter>Source\08. ShaderCode</Filter>
+    <None Include="Shader_Std2D_0_header.hlsli">
+      <Filter>Source\08. ShaderCode\2. Std2D</Filter>
+    </None>
+    <None Include="Shader_Debug_0_header.hlsli">
+      <Filter>Source\08. ShaderCode\0. Debug</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader_test_vertex.hlsl">
-      <Filter>Source\08. ShaderCode</Filter>
+    <FxCompile Include="Shader_test_2_pixel.hlsl">
+      <Filter>Source\08. ShaderCode\1. Test</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_test_pixel.hlsl">
-      <Filter>Source\08. ShaderCode</Filter>
+    <FxCompile Include="Shader_test_1_vertex.hlsl">
+      <Filter>Source\08. ShaderCode\1. Test</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_std2D_vertex.hlsl">
-      <Filter>Source\08. ShaderCode</Filter>
+    <FxCompile Include="Shader_Std2D_2_pixel.hlsl">
+      <Filter>Source\08. ShaderCode\2. Std2D</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_std2D_pixel.hlsl">
-      <Filter>Source\08. ShaderCode</Filter>
+    <FxCompile Include="Shader_Std2D_1_vertex.hlsl">
+      <Filter>Source\08. ShaderCode\2. Std2D</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_Debug_1_vertex.hlsl">
+      <Filter>Source\08. ShaderCode\0. Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_Debug_2_pixel.hlsl">
+      <Filter>Source\08. ShaderCode\0. Debug</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

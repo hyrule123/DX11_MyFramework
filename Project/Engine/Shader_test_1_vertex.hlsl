@@ -1,5 +1,5 @@
-#include "Shader_global_header.hlsli"
-#include "Shader_test_header.hlsli"
+
+#include "Shader_test_0_header.hlsli"
 
 // vertex shader
 // LocalSpace 물체를 NDC 좌표계로 이동

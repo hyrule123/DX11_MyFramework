@@ -5,7 +5,7 @@
 #include "CConstBuffer.h"
 
 CMaterial::CMaterial()
-	: CRes(eRES_TYPE::MATERIAL)
+	: CRes(eRES_TYPE::eCONST_BUFFER_MATERIAL)
 	, m_Const{}
 	, m_arrTex{}
 {	
@@ -43,7 +43,7 @@ void CMaterial::UpdateData()
 	}
 
 	// Constant Update
-	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(eCB_TYPE::MATERIAL);
+	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::eCONST_BUFFER_MATERIAL);
 	pMtrlBuffer->SetData(&m_Const);
 	pMtrlBuffer->UpdateData();
 }

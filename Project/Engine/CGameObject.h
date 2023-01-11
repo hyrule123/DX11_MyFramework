@@ -66,7 +66,7 @@ private:
 public:
     void init();
     void tick();
-    void finaltick();
+    virtual void finaltick();
     void render();
 
 

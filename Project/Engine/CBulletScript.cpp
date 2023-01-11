@@ -13,11 +13,11 @@ void CBulletScript::tick()
 {
 	Vec3 vPos = GetOwner()->Transform()->GetRelativePos();
 
-	vPos += m_vBulletDir * m_fBulletSpeed * DT;
+	vPos += m_vBulletDir * m_fBulletSpeed * DELTA_TIME;
 
 	GetOwner()->Transform()->SetRelativePos(vPos);
 
-	m_fTimeLeft -= DT;
+	m_fTimeLeft -= DELTA_TIME;
 
 	//이벤트 매니저에 삭제 등록을 해놔야함
 }

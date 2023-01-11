@@ -41,31 +41,31 @@ void CPlayerScript::tick()
 	//회전 먼저 적용하고
 	if (KEY_PRESSED(KEY::LEFT))
 	{
-		vCurRot.z += DT * m_TurningForceRad;
+		vCurRot.z += DELTA_TIME * m_TurningForceRad;
 	}
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
-		vCurRot.z -= DT * m_TurningForceRad;
+		vCurRot.z -= DELTA_TIME * m_TurningForceRad;
 	}
 
 	//회전한 방향으로 전진
 	if (KEY_PRESSED(KEY::UP))
 	{
 		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
-		vCurPos += DT * m_MoveSpeed * Dir;
+		vCurPos += DELTA_TIME * m_MoveSpeed * Dir;
 
-		//vCurPos.x += DT * m_MoveSpeed * cosf(vCurRot.z);
-		//vCurPos.y += DT * m_MoveSpeed * sinf(vCurRot.z);
+		//vCurPos.x += DELTA_TIME * m_MoveSpeed * cosf(vCurRot.z);
+		//vCurPos.y += DELTA_TIME * m_MoveSpeed * sinf(vCurRot.z);
 	}
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
 		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
-		vCurPos -= DT * m_MoveSpeed * Dir;
+		vCurPos -= DELTA_TIME * m_MoveSpeed * Dir;
 
-		//vCurPos.x -= DT * m_MoveSpeed * cosf(vCurRot.z);
-		//vCurPos.y -= DT * m_MoveSpeed * sinf(vCurRot.z);
+		//vCurPos.x -= DELTA_TIME * m_MoveSpeed * cosf(vCurRot.z);
+		//vCurPos.y -= DELTA_TIME * m_MoveSpeed * sinf(vCurRot.z);
 	}
 
 	Transform()->SetRelativePos(vCurPos);
@@ -75,7 +75,7 @@ void CPlayerScript::tick()
 	if (KEY_PRESSED(KEY::Q))
 	{
 		Vec3 Scale = Transform()->GetRelativeScale();
-		Scale += Vec3(DT);
+		Scale += Vec3(DELTA_TIME);
 		Transform()->SetRelativeScale(Scale);
 	}
 

@@ -1,5 +1,5 @@
-#include "Shader_global_header.hlsli"
-#include "Shader_std2d_header.hlsli"
+
+#include "Shader_Std2d_0_header.hlsli"
 
 
 

@@ -33,3 +33,12 @@ struct tEvent
 	DWORD_PTR	wParam;
 	DWORD_PTR	lParam;
 };
+
+struct tDebugShapeInfo
+{
+	eSHAPE_TYPE	eShape;
+	float		fLifeSpan;
+	Vec2		bytepadding;
+	Matrix		matWVP;
+	Vec4		vColor;
+};

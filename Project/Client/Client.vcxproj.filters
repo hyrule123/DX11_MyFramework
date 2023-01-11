@@ -8,6 +8,12 @@
     <Filter Include="Default">
       <UniqueIdentifier>{8e093ada-c2c2-4bff-9390-9244f58587a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CEditorObjMgr">
+      <UniqueIdentifier>{47d8c72e-673d-44e2-b75b-7b9b20614e0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CEditorObjMgr\CGameObjectEx">
+      <UniqueIdentifier>{c6cdb7d5-411f-41c3-94ee-c775e7d05ce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -20,6 +26,12 @@
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="CEditorObjMgr.h">
+      <Filter>CEditorObjMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
       <Filter>Default</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,5 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="CEditorObjMgr.cpp">
+      <Filter>CEditorObjMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

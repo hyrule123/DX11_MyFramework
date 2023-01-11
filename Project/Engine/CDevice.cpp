@@ -236,19 +236,25 @@ void CDevice::ClearTarget(float(&_color)[4])
 
 void CDevice::CreateConstBuffer()
 {
-    m_arrConstBuffer[(UINT)eCB_TYPE::eCOMPONENT_TRANSFORM] = new CConstBuffer((UINT)eCB_TYPE::eCOMPONENT_TRANSFORM);
-    m_arrConstBuffer[(UINT)eCB_TYPE::eCOMPONENT_TRANSFORM]->Create(sizeof(Matrix), 1);
+    m_arrConstBuffer[eCONST_BUFFER_TRANSFORM] = new CConstBuffer(eCONST_BUFFER_TRANSFORM);
+    m_arrConstBuffer[eCONST_BUFFER_TRANSFORM]->Create(sizeof(Matrix), 1);
 
     //Vertex Shader에만 상수버퍼를 전달
-    UINT8 CBufferTarget = (UINT)eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX;
-    m_arrConstBuffer[(UINT)eCB_TYPE::eCOMPONENT_TRANSFORM]->SetPipelineTarget(CBufferTarget);
+    UINT8 CBufferTarget = eSHADER_PIPELINE_FLAG_VERTEX;
+    m_arrConstBuffer[eCONST_BUFFER_TRANSFORM]->SetPipelineTarget(CBufferTarget);
 
-    m_arrConstBuffer[(UINT)eCB_TYPE::MATERIAL] = new CConstBuffer((UINT)eCB_TYPE::MATERIAL);
-    m_arrConstBuffer[(UINT)eCB_TYPE::MATERIAL]->Create(sizeof(tMtrlConst), 1);
+    m_arrConstBuffer[eCONST_BUFFER_MATERIAL] = new CConstBuffer(eCONST_BUFFER_MATERIAL);
+    m_arrConstBuffer[eCONST_BUFFER_MATERIAL]->Create(sizeof(tMtrlConst), 1);
 
     //Vertex + Pixel Shader에만 상수버퍼를 전달
-    CBufferTarget |= (UINT)eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL;
-    m_arrConstBuffer[(UINT)eCB_TYPE::MATERIAL]->SetPipelineTarget(CBufferTarget);
+    CBufferTarget |= eSHADER_PIPELINE_FLAG_PIXEL;
+    m_arrConstBuffer[eCONST_BUFFER_MATERIAL]->SetPipelineTarget(CBufferTarget);
+
+    CBufferTarget = eSHADER_PIPELINE_FLAG_VERTEX | eSHADER_PIPELINE_FLAG_PIXEL;
+    m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE] = new CConstBuffer(eCONST_BUFFER_DEBUGSHAPE);
+    m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->Create(sizeof(tDebugShapeInfo), 1);
+
 }
 
 HRESULT CDevice::CreateRasterizeState()
