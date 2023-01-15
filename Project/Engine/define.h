@@ -30,8 +30,8 @@ enum eCOMPONENT_TYPE
 	eCOMPONENT_COLLIDER3D,		// 3차원 충돌
 	eCOMPONENT_ANIMATOR2D,		// Sprite Animation
 	eCOMPONENT_ANIMATOR3D,		// Bone Sknning Animation
-	eCOMPONENT_LIGHT2D,		// 2차원 광원
-	eCOMPONENT_LIGHT3D,		// 3차원 광원
+	eCOMPONENT_LIGHT2D,			// 2차원 광원
+	eCOMPONENT_LIGHT3D,			// 3차원 광원
 	eCOMPONENT_CAMERA,			// Camera
 
 	// render
@@ -133,6 +133,31 @@ enum eSHADER_PIPELINE_STAGE_FLAG : UINT8
 	eSHADER_PIPELINE_FLAG_ALL =			UINT8_MAX	
 };
 
+enum eAXIS2D_TYPE
+{
+	eAXIS2D_X,
+	eAXIS2D_Y,
+	eAXIS2D_END
+};
+
+
+enum eAXIS3D_TYPE
+{
+    eAXIS3D_X,
+    eAXIS3D_Y,
+    eAXIS3D_Z,
+    eAXIS3D_END
+};
+
+enum eAXIS4D_TYPE
+{
+	eAXIS4D_X,
+	eAXIS4D_Y,
+	eAXIS4D_Z,
+	eAXIS4D_W,
+	eAXIS4D_END
+};
+
 //직관적인 방향
 enum eDIR_TYPE
 {
@@ -214,4 +239,17 @@ enum eSHAPE_TYPE
 	eSHAPE_CUBE,
 	eSHAPE_SPHERE,
 	eSHAPE_END,
+};
+
+enum class eCOLLIDER_TYPE
+{
+	_2D_RECT,
+	_2D_CIRCLE,
+	_2D_OBB
+};
+
+enum eDIMENSION_TYPE : UINT
+{
+	eDIMENSION_2D = 2u,
+	eDIMENSION_3D = 3u
 };

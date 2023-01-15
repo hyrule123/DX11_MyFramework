@@ -49,8 +49,8 @@ public:
     Vec3 GetWorldScale() const;
     Vec3 GetRelativeRot() const { return m_vRelativeRot; }
 
-    //각도를 구하는 매트릭스는 연산량이 너무 많으므로 그냥 크기정보를 제거한 회전 매트릭스만 반환한다.
     Matrix GetWorldRotMat() const;
+    Vec3 GetWorldRot(eAXIS3D_TYPE _eAxis) const;
 
     Vec3 GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(int)_eDir]; }
     Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorld.m[(int)_eDir]).Normalize(); }
@@ -78,4 +78,9 @@ inline Vec3 CTransform::GetWorldScale() const
 inline Matrix CTransform::GetWorldRotMat() const
 {
     return Matrix(m_matWorld.Right().Normalize(), m_matWorld.Up().Normalize(), m_matWorld.Front().Normalize());
+}
+
+inline Vec3 CTransform::GetWorldRot(eAXIS3D_TYPE _eAxis) const
+{
+    return m_matWorld.Axis(_eAxis).Normalize();
 }

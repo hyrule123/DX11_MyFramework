@@ -102,10 +102,9 @@ void CTransform::finaltick()
 			}
 		}
 
-		//부모의 회전행렬을 곱한다.
+		//부모의 회전행렬을 뒤에 곱해준다.
 		m_matWorld *= matInherit;
 	}
-	
 }
 
 void CTransform::UpdateData()
@@ -120,12 +119,4 @@ void CTransform::UpdateData()
 	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TRANSFORM);
 	pTransformBuffer->SetData(&matWVP, sizeof(Matrix));
 	pTransformBuffer->UpdateData();
-
-	//디버그 쉐이프 렌더링 요청
-	tDebugShapeInfo dbgInfo = {};
-	dbgInfo.eShape = eSHAPE_CIRCLE;
-	dbgInfo.fLifeSpan = 0.f;
-	dbgInfo.matWVP = matWVP;
-	dbgInfo.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	CRenderMgr::GetInst()->AddDebugShapeRender(dbgInfo);
 }

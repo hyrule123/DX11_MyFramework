@@ -23,6 +23,7 @@ void CRenderMgr::RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx)
 
 void CRenderMgr::UpdateDebugShapeRender(list<tDebugShapeInfo>& _listDebugRef)
 {
+    //렌더 매니저에 저장된 디버그 쉐이프 렌더링 목록을 복사해준뒤 자신의 목록을 비운다.
     std::copy(m_listDebugShapeRender.begin(), m_listDebugShapeRender.end(), std::back_inserter(_listDebugRef));
     m_listDebugShapeRender.clear();
 }

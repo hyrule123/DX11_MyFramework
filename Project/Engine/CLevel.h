@@ -16,6 +16,9 @@ public:
 
 public:
     void AddGameObject(CGameObject* _Object, int _iLayerIdx);
+    void SetLayerName(int _iLayer, const wstring& _sLayerName);
+    const wstring& GetLayerName(int _iLayer);
+    int GetLayerIdxByName(const wstring& _sLayerName);
     CLayer* GetLayer(UINT _iLayer);
 
 

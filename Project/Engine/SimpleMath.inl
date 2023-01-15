@@ -770,6 +770,75 @@ inline bool Vector3::operator != (const Vector3& V) const
     return XMVector3NotEqual(v1, v2);
 }
 
+inline bool Vector3::operator< (const Vector3& V) const
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(this);
+    XMVECTOR v2 = XMLoadFloat3(&V);
+    return XMVector3Less(v1, v2);
+}
+
+inline bool Vector3::operator> (const Vector3& V) const
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(this);
+    XMVECTOR v2 = XMLoadFloat3(&V);
+    return XMVector3Greater(v1, v2);
+}
+
+inline bool Vector3::operator<= (const Vector3& V) const
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(this);
+    XMVECTOR v2 = XMLoadFloat3(&V);
+    return XMVector3LessOrEqual(v1, v2);
+}
+
+inline bool DirectX::SimpleMath::Vector3::operator>(float S) const
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(this);
+    XMFLOAT3 f3(S, S, S);
+    XMVECTOR v2 = XMLoadFloat3(&f3);
+    return XMVector3Greater(v1, v2);
+}
+
+inline bool DirectX::SimpleMath::Vector3::operator<(float S) const
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(this);
+    XMFLOAT3 f3(S, S, S);
+    XMVECTOR v2 = XMLoadFloat3(&f3);
+    return XMVector3Less(v1, v2);
+}
+
+inline bool DirectX::SimpleMath::Vector3::operator>=(float S) const
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(this);
+    XMFLOAT3 f3(S, S, S);
+    XMVECTOR v2 = XMLoadFloat3(&f3);
+    return XMVector3GreaterOrEqual(v1, v2);
+}
+
+inline bool DirectX::SimpleMath::Vector3::operator<=(float S) const
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(this);
+    XMFLOAT3 f3(S, S, S);
+    XMVECTOR v2 = XMLoadFloat3(&f3);
+    return XMVector3LessOrEqual(v1, v2);
+}
+
+inline bool Vector3::operator>= (const Vector3& V) const
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(this);
+    XMVECTOR v2 = XMLoadFloat3(&V);
+    return XMVector3GreaterOrEqual(v1, v2);
+}
+
+
 //------------------------------------------------------------------------------
 // Assignment operators
 //------------------------------------------------------------------------------
@@ -1269,6 +1338,18 @@ inline Vector3 Vector3::Transform(const Vector3& v, const Matrix& m)
     return result;
 }
 
+inline Vector3 Vector3::Transform(const Vector4& v, const Matrix& m)
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat4(&v);
+    XMMATRIX M = XMLoadFloat4x4(&m);
+    XMVECTOR X = XMVector3Transform(v1, M);
+
+    Vector3 result;
+    XMStoreFloat3(&result, X);
+    return result;
+}
+
 _Use_decl_annotations_
 inline void Vector3::Transform(const Vector3* varray, size_t count, const Matrix& m, Vector3* resultArray)
 {
@@ -1314,6 +1395,8 @@ inline Vector3 Vector3::TransformNormal(const Vector3& v, const Matrix& m)
     XMStoreFloat3(&result, X);
     return result;
 }
+
+
 
 _Use_decl_annotations_
 inline void Vector3::TransformNormal(const Vector3* varray, size_t count, const Matrix& m, Vector3* resultArray)

@@ -39,6 +39,6 @@ struct tDebugShapeInfo
 	eSHAPE_TYPE	eShape;
 	float		fLifeSpan;
 	Vec2		bytepadding;
-	Matrix		matWVP;
+	Matrix		matWorld;
 	Vec4		vColor;
 };

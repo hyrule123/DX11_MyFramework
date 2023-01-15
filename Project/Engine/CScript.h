@@ -3,6 +3,7 @@
 
 
 class CGameObject;
+class CCollider;
 
 class CScript :
     public CEntity
@@ -23,6 +24,10 @@ public:
     //특정 변수에서 초기 설정을 해야 할 경우 이 메소드를 오버라이딩해서 사용할 것.
     virtual void init() {}
     virtual void tick() {}
+
+    virtual void BeginCollision(CCollider* _other) {}
+    virtual void OnCollision(CCollider* _other) {}
+    virtual void EndCollision(CCollider* _other) {}
 
 public:
     CScript() = delete;

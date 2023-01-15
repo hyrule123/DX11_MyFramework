@@ -8,6 +8,7 @@
 #include <Engine/CRenderMgr.h>
 #include <Engine/CResMgr.h>
 #include <Engine/CMeshRender.h>
+#include <Engine/CCamera.h>
 
 #define DEBUG_MAT_WVP MAT_0
 #define DEBUG_VEC4_COLOR VEC4_0
@@ -99,6 +100,10 @@ void CEditorObjMgr::render()
 {
 	auto iter = m_listDebugShapeInfo.begin();
 	const auto& iterEnd = m_listDebugShapeInfo.end();
+
+	//메인 카메라의 View Projection  행렬을 가져온다.
+	const Matrix& matVP = CRenderMgr::GetInst()->GetCamera(eCAMIDX_MAIN)->GetViewProjMatrix();
+
 	while (iter != iterEnd)
 	{
 		switch (iter->eShape)
@@ -107,7 +112,9 @@ void CEditorObjMgr::render()
 		{
 			Ptr<CMaterial> pMtrl = m_arrDebugShape[eSHAPE_RECT]->MeshRender()->GetMaterial();
 			//월드행렬 전달.
-			pMtrl->SetScalarParam(DEBUG_MAT_WVP, iter->matWVP.m);
+
+			Matrix matWVP = iter->matWorld * matVP;
+			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
 			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, iter->vColor);
 
 			//레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
@@ -119,7 +126,8 @@ void CEditorObjMgr::render()
 		{
 			Ptr<CMaterial> pMtrl = m_arrDebugShape[eSHAPE_CIRCLE]->MeshRender()->GetMaterial();
 			//월드행렬 전달.
-			pMtrl->SetScalarParam(DEBUG_MAT_WVP, iter->matWVP.m);
+			Matrix matWVP = iter->matWorld * matVP;
+			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
 			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, iter->vColor);
 
 			m_arrDebugShape[eSHAPE_CIRCLE]->render();

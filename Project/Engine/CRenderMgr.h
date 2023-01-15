@@ -13,6 +13,9 @@ private:
 	list<tDebugShapeInfo> m_listDebugShapeRender;
 
 public:
+	//inline getter
+	CCamera* GetCamera(eCAMERA_INDEX _iCamIdx) { return m_arrCam[_iCamIdx]; }
+
 	void RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx);
 	void AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeInfo) { m_listDebugShapeRender.push_back(_tDebugShapeInfo); }
 

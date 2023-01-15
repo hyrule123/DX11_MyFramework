@@ -25,6 +25,7 @@ public://Setter
 
 public://Getter
     ePROJ_TYPE GetProjType() const { return m_ProjectionType; }
+    Matrix GetViewProjMatrix() const { return (m_matView * m_matProj); }
 
 public:
     virtual void init() override;

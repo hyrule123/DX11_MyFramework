@@ -29,6 +29,7 @@
 #define XM_CONSTEXPR
 #endif
 
+
 struct ImVec2;
 struct ImVec4;
 
@@ -214,8 +215,10 @@ namespace DirectX
             // Constants
             static const Vector2 Zero;
             static const Vector2 One;
-            static const Vector2 UnitX;
-            static const Vector2 UnitY;
+            //static const Vector2 UnitX;
+            //static const Vector2 UnitY;
+            //eAXIS
+            static const Vector2 Unit[2];
         };
 
         // Binary operators
@@ -235,11 +238,13 @@ namespace DirectX
             XM_CONSTEXPR Vector3(float _x, float _y, float _z) : XMFLOAT3(_x, _y, _z) {}
             explicit Vector3(_In_reads_(3) const float *pArray) : XMFLOAT3(pArray) {}
             Vector3(FXMVECTOR V) { XMStoreFloat3(this, V); }
+            Vector3(const Vector2& V2, float _z) { this->x = V2.x; this->y = V2.y; this->z = _z; }
             Vector3(const XMFLOAT3& V) { this->x = V.x; this->y = V.y; this->z = V.z; }
             explicit Vector3(const XMVECTORF32& F) { this->x = F.f[0]; this->y = F.f[1]; this->z = F.f[2]; }
 
             Vector3(const Vector3&) = default;
             Vector3& operator=(const Vector3&) = default;
+
 
             Vector3(Vector3&&) = default;
             Vector3& operator=(Vector3&&) = default;
@@ -256,6 +261,16 @@ namespace DirectX
             bool operator == (const Vector3& V) const;
             bool operator != (const Vector3& V) const;
 
+            bool operator> (const Vector3& V) const;
+            bool operator< (const Vector3& V) const;
+            bool operator>= (const Vector3& V) const;
+            bool operator<= (const Vector3& V) const;
+
+            bool operator>  (float S) const;
+            bool operator<  (float S) const;
+            bool operator>= (float S) const;
+            bool operator<= (float S) const;
+
 			float& operator[](int _iIdx)
 			{
 				return *((float*)this + _iIdx);
@@ -268,6 +283,7 @@ namespace DirectX
             Vector3& operator*= (const Vector3& V);
             Vector3& operator*= (float S);
             Vector3& operator/= (float S);
+
 
             // Unary operators
             Vector3 operator+ () const { return *this; }
@@ -328,6 +344,8 @@ namespace DirectX
 
             static void Transform(const Vector3& v, const Matrix& m, Vector3& result);
             static Vector3 Transform(const Vector3& v, const Matrix& m);
+            static Vector3 Transform(const Vector4& v, const Matrix& m);
+
             static void Transform(_In_reads_(count) const Vector3* varray, size_t count, const Matrix& m, _Out_writes_(count) Vector3* resultArray);
 
             static void Transform(const Vector3& v, const Matrix& m, Vector4& result);
@@ -335,14 +353,20 @@ namespace DirectX
 
             static void TransformNormal(const Vector3& v, const Matrix& m, Vector3& result);
             static Vector3 TransformNormal(const Vector3& v, const Matrix& m);
+
+            
+
             static void TransformNormal(_In_reads_(count) const Vector3* varray, size_t count, const Matrix& m, _Out_writes_(count) Vector3* resultArray);
 
             // Constants
             static const Vector3 Zero;
             static const Vector3 One;
-            static const Vector3 UnitX;
-            static const Vector3 UnitY;
-            static const Vector3 UnitZ;
+
+            static const Vector3 Unit[3];
+            //static const Vector3 UnitX;
+            //static const Vector3 UnitY;
+            //static const Vector3 UnitZ;
+
             static const Vector3 Up;
             static const Vector3 Down;
             static const Vector3 Right;
@@ -476,10 +500,12 @@ namespace DirectX
             // Constants
             static const Vector4 Zero;
             static const Vector4 One;
-            static const Vector4 UnitX;
-            static const Vector4 UnitY;
-            static const Vector4 UnitZ;
-            static const Vector4 UnitW;
+
+            static const Vector4 Unit[4];
+            //static const Vector4 UnitX;
+            //static const Vector4 UnitY;
+            //static const Vector4 UnitZ;
+            //static const Vector4 UnitW;
         };
 
         // Binary operators
@@ -553,6 +579,8 @@ namespace DirectX
             Matrix operator- () const;
 
             // Properties
+            Vector3 Axis(int _Axis) const { return Vector3(this->m[_Axis]); }
+
             Vector3 Up() const { return Vector3(_21, _22, _23); }
             void Up(const Vector3& v) { _21 = v.x; _22 = v.y; _23 = v.z; }
 
@@ -634,6 +662,7 @@ namespace DirectX
 
             static void Transform(const Matrix& M, const Quaternion& rotation, Matrix& result);
             static Matrix Transform(const Matrix& M, const Quaternion& rotation);
+
 
             // Constants
             static const Matrix Identity;
