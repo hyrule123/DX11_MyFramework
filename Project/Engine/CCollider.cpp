@@ -7,6 +7,7 @@
 CCollider::CCollider(eCOMPONENT_TYPE _ComType, eCOLLIDER_TYPE _ColType)
 	: CComponent(_ComType)
 	, m_eColType(_ColType)
+	, m_vOffsetScale(Vec3::One)
 {
 }
 
@@ -14,56 +15,47 @@ CCollider::~CCollider()
 {
 }
 
+
+//자신과 상대방의 begincollision 호출
 void CCollider::BeginCollision(CCollider* _other)
 {
-	_other->BeginCollision(this);
+	++m_iCollisionCount;
+	_other->AddCollisionCount();
 
 	CScriptHolder* pSH = GetOwner()->ScriptHolder();
-	if (nullptr == pSH)
-		return;
+	if (nullptr != pSH)
+		pSH->BeginColiision(_other);
+	
 
-	const vector<CScript*>& vecScript = pSH->GetScripts();
-	size_t size = vecScript.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		vecScript[i]->BeginCollision(_other);
-	}
+	pSH = _other->GetOwner()->ScriptHolder();
+	if (nullptr != pSH)
+		pSH->BeginColiision(this);
 }
 
 void CCollider::OnCollision(CCollider* _other)
 {
-	_other->OnCollision(this);
-
 	CScriptHolder* pSH = GetOwner()->ScriptHolder();
-	if (nullptr == pSH)
-		return;
+	if (nullptr != pSH)
+		pSH->OnCollision(_other);
 
-	const vector<CScript*>& vecScript = pSH->GetScripts();
-	size_t size = vecScript.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		vecScript[i]->OnCollision(_other);
-	}
+
+	pSH = _other->GetOwner()->ScriptHolder();
+	if (nullptr != pSH)
+		pSH->OnCollision(this);
 }
 
 void CCollider::EndCollision(CCollider* _other)
 {
-	_other->EndCollision(this);
+	--m_iCollisionCount;
+	_other->SubCollisionCount();
 
 	CScriptHolder* pSH = GetOwner()->ScriptHolder();
-	if (nullptr == pSH)
-		return;
+	if (nullptr != pSH)
+		pSH->EndCollision(_other);
 
-	const vector<CScript*>& vecScript = pSH->GetScripts();
-	size_t size = vecScript.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		vecScript[i]->EndCollision(_other);
-	}
+
+	pSH = _other->GetOwner()->ScriptHolder();
+	if (nullptr != pSH)
+		pSH->EndCollision(this);
 }
 
-//
-void CCollider::finaltick()
-{
-
-}

@@ -23,8 +23,6 @@ const struct Vector2 Vector2::Unit[2] = {Vec2(1.f, 0.f), Vec2(0.f, 1.f)};
 //const struct Vector2 Vector2::UnitY(0.f, 1.f);
 
 const struct Vector3 Vector3::Zero(0.f, 0.f, 0.f);
-
-const struct Vector3 Vector3::Zero(0.f, 0.f, 0.f);
 const struct Vector3 Vector3::One(1.f, 1.f, 1.f);
 
 const struct Vector3 Vector3::Unit[3] = { 

@@ -3,6 +3,8 @@
 
 #include "CScript.h"
 
+#include "CCollider.h"
+
 bool CScriptHolder::AddScript(CScript* _pScript)
 {
 	if (nullptr == _pScript)
@@ -61,6 +63,8 @@ CScriptHolder::CScriptHolder()
 {
 }
 
+
+
 CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	: CComponent(_other)
 {
@@ -74,6 +78,8 @@ CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	}
 }
 
+
+
 CScriptHolder::~CScriptHolder()
 {
 	size_t size = m_vecScript.size();
@@ -81,5 +87,32 @@ CScriptHolder::~CScriptHolder()
 	{
 		if (nullptr != m_vecScript[i])
 			delete m_vecScript[i];
+	}
+}
+
+void CScriptHolder::BeginColiision(CCollider* _Other)
+{
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecScript[i]->BeginCollision(_Other);
+	}
+}
+
+void CScriptHolder::OnCollision(CCollider* _Other)
+{
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecScript[i]->OnCollision(_Other);
+	}
+}
+
+void CScriptHolder::EndCollision(CCollider* _Other)
+{
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecScript[i]->EndCollision(_Other);
 	}
 }

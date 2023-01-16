@@ -31,6 +31,8 @@ public:
     virtual bool CheckCollisionOBB2D(CCollider2D_OBB* _other) override;
 
 public:
-    virtual void finaltick() override;
+    virtual void UpdateColliderInfo() override;
+    virtual void UpdateSpatialPartitionInfo() override;
+    virtual void DebugRender() override;
 };
 

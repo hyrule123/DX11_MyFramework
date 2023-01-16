@@ -20,6 +20,9 @@
 //Camera Register
 #include "CRenderMgr.h"
 
+//충돌 레이어 등록 및 체크용
+#include "CCollisionMgr.h"
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {
@@ -56,6 +59,9 @@ void CLevelMgr::init()
 
 	pPlayer->MeshRender()->SetMesh(CircleMesh);
 	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
+
+	pPlayer->AddComponent(new CCollider2D_OBB);
+
 	m_pCurLevel->AddGameObject(pPlayer, 1);
 
 	// Test Object 1
@@ -91,22 +97,29 @@ void CLevelMgr::init()
 	pTestObj2->AddScript(new CTestObjScript);
 	m_pCurLevel->AddGameObject(pTestObj2, 1);
 
+	for(int i = 0; i < 5; ++i)
 	{
-		// Test Object 3
-		CGameObject* pTestObj3 = new CGameObject;
-		pTestObj3->SetName(L"Test Object");
-		pTestObj3->AddComponent(new CTransform);
-		pTestObj3->Transform()->SetRelativePos(0.f, 100.f, 10.f);
-		pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
-		pTestObj3->AddComponent(new CMeshRender);
-		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-		Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
-		TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
-		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
-		m_pCurLevel->AddGameObject(pTestObj3, 1);
+		for (int j = 0; j < 5; ++j)
+		{
+			// Test Object 3
+			CGameObject* pTestObj3 = new CGameObject;
+			pTestObj3->SetName(L"Test Object");
+			pTestObj3->AddComponent(new CTransform);
+			pTestObj3->Transform()->SetRelativePos(-280.f + 110.f * i, -280.f + 110.f * j, 10.f);
+			pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+			pTestObj3->AddComponent(new CMeshRender);
+			pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+			Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
+			TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
+			pTestObj3->MeshRender()->SetMaterial(TestMtrl);
+			pTestObj3->AddComponent(new CCollider2D_OBB);
 
-		pTestObj2->AddChild(pTestObj3);
+			m_pCurLevel->AddGameObject(pTestObj3, 1);
+		}
+
 	}
+
+
 
 
 	{
@@ -121,8 +134,6 @@ void CLevelMgr::init()
 		pObj->AddScript(new CCameraMoveScript);
 		
 		m_pCurLevel->AddGameObject(pObj, 1);
-
-		pPlayer->AddChild(pObj);
 	}
 
 	{//Prefab

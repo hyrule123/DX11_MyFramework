@@ -1,4 +1,7 @@
 #include "pch.h"
+
+#include "CCollisionMgr.h"
+
 #include "CCollider2D.h"
 
 #include "CCollider2D_Rect.h"
@@ -7,6 +10,7 @@
 
 CCollider2D::CCollider2D(eCOLLIDER_TYPE _eColType)
 	: CCollider(eCOMPONENT_COLLIDER2D, _eColType)
+	, m_SpatialPartitionInfo{}
 {
 }
 
@@ -33,6 +37,15 @@ bool CCollider2D::CheckCollision(CCollider* _other)
 
 
 	return false;
+}
+
+void CCollider2D::finaltick()
+{
+	UpdateColliderInfo();
+	UpdateSpatialPartitionInfo();
+	DebugRender();
+
+	CCollisionMgr::GetInst()->AddCollider2D(this);
 }
 
 

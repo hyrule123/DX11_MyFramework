@@ -6,78 +6,47 @@
 #include "CLayer.h"
 #include "CGameObject.h"
 
+#include "CSpatialPartition2D.h"
+#include "CSpatialPartition3D.h"
+
 
 CCollisionMgr::CCollisionMgr()
-	: m_SpatialPartition2D(eDIMENSION_2D)
-	, m_SpatialPartition3D(eDIMENSION_3D)
+	: m_SpatialPartition2D()
+	, m_SpatialPartition3D()
 {
 }
 
 CCollisionMgr::~CCollisionMgr()
 {
+	if (nullptr != m_SpatialPartition2D) delete m_SpatialPartition2D;
+	if (nullptr != m_SpatialPartition3D) delete m_SpatialPartition3D;
 }
 
 
-void CCollisionMgr::AddLayerInteract(UINT _iLowLayer, UINT _iHighLayer)
+
+void CCollisionMgr::AddCollider2D(CCollider2D* _pCol)
 {
-	UINT Low = _iLowLayer;
-	UINT High = _iHighLayer;
-	if (Low > High)
-	{
-		UINT temp = Low;
-		Low = High;
-		High = temp;
-	}
-
-	//왼쪽으로 올라가는 계단 형태(행렬의 우측 상단만 사용)
-	//ex)1번 레이어의 0번째 = 0번 레이어의 1번째
-	//
-	m_flagLayerCollision[Low] |= 1 << High;
+	m_SpatialPartition2D->AddCollider(_pCol);
 }
 
-
-
-void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, const Vec2& _vLBPos, const Vec2& _vColSize)
+void CCollisionMgr::AddLayerInteraction2D(int _iLayer1, int _iLayer2)
 {
-	m_SpatialPartition2D->ComputeGridArea(_pCol, Vec3(_vLBPos, 0.f), Vec3(_vColSize, 0.f));
+	m_SpatialPartition2D->AddLayerInteract((UINT32)_iLayer1, (UINT32)_iLayer2);
 }
 
-
-void CCollisionMgr::CollisionBtwLayer(int _iLayerNumLow, int _iLayerNumHigh)
-{
-	for()
-
-
-
-
-}
-
-void CCollisionMgr::CollisionBtwObject(CGameObject* _pLeft, CGameObject* _pRight)
-{
-}
-
-void CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRight)
-{
-}
 
 void CCollisionMgr::init()
 {
+	m_SpatialPartition2D = new CSpatialPartition2D(300.f, 5);
+	m_SpatialPartition2D->AddLayerInteract((UINT32)1, (UINT32)1);
 }
 
 void CCollisionMgr::tick()
 {
-	m_umapColID.clear();
+	//공간 분할 클래스에서 충돌 검사를 실시
+	if (nullptr != m_SpatialPartition2D)
+		m_SpatialPartition2D->tick();
 
-	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
-	for (UINT iRow = 0; iRow < MAX_LAYER; ++iRow)
-	{
-		for (UINT iCol = iRow; iCol < MAX_LAYER; ++iCol)
-		{
-			if (false == (m_flagLayerCollision[iRow] & (1 << iCol)))
-				continue;
-
-			//iCol = High, iRow = Low
-			CollisionBtwLayer(iRow, iCol);
-		}
-	}
+	if (nullptr != m_SpatialPartition3D)
+		m_SpatialPartition3D->tick();
 }

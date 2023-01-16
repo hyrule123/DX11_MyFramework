@@ -42,3 +42,26 @@ struct tDebugShapeInfo
 	Matrix		matWorld;
 	Vec4		vColor;
 };
+
+struct tSquareInfo
+{
+	float LB_X;
+	float LB_Y;
+	float Size;
+};
+
+struct tRectInfo
+{
+	Vec2 LB;
+	Vec2 Size;
+};
+
+class CCollider2D;
+struct tColliderPartition
+{
+	CCollider2D* pCol;
+	tRectInfo    RectInfo;
+
+	//더이상 들어갈 수 없을경우 true로 변경
+	bool		 bFinal;
+};

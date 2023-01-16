@@ -5,6 +5,7 @@ class CScript;
 class CTransform;
 class CCamera;
 class CMeshRender;
+class CCollider;
 
 class CScriptHolder :
     public CComponent
@@ -20,6 +21,11 @@ public:
 
     //들고 있는 Script 들에도 Owner 설정이 필요하므로 재정의해서 사용한다.
     virtual void SetOwner(CGameObject* _pOwner) override;
+
+public:
+    void BeginColiision(CCollider* _Other);
+    void OnCollision(CCollider* _Other);
+    void EndCollision(CCollider* _Other);
 
 public:
     virtual void init() final;

@@ -16,6 +16,12 @@ public:
     virtual ~CCollider2D();
 
 private:
+    //공간분할 때 사용할 사각형 정보
+    tRectInfo           m_SpatialPartitionInfo;
+
+public:
+    tRectInfo       GetSpatialPartitionInfo()       const    { return m_SpatialPartitionInfo; }
+    void SetSpatialPartitionInfo(const tRectInfo& _RectInfo) { m_SpatialPartitionInfo = _RectInfo; }
 
 public://자신과 상대방의 충돌을 체크하는 메소드. 무조건 ID가 작은 메소드 쪽에서 호출함.
     virtual bool CheckCollision(CCollider* _other) override;
@@ -32,5 +38,9 @@ private:
 //    virtual void EndCollision(CCollider* _other);
 
 public:
+    virtual void finaltick() final;
+    virtual void UpdateColliderInfo() = 0;
+    virtual void UpdateSpatialPartitionInfo() = 0;
+    virtual void DebugRender() = 0;
 };
 
