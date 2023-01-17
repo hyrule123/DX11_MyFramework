@@ -7,6 +7,7 @@
 
 #include "CRenderMgr.h"
 
+
 CQuadTreeNode::CQuadTreeNode(CSpatialPartition2D* _pOwner, CQuadTreeNode* _pParent, const tSquareInfo& _SquareInfo, int _iRecursiveLevel)
 	: m_pOwner(_pOwner)
 	, m_pParent(_pParent)
@@ -21,44 +22,95 @@ CQuadTreeNode::~CQuadTreeNode()
 }
 
 
-void CQuadTreeNode::Insert(tColliderPartition& _Partition)
+bool CQuadTreeNode::Insert(const tColliderPartInfo& _Partition)
 {
+	//우선 자신의 노드 안에 들어올 수 있는지를 확인
+	if (false == CheckFit(_Partition))
+	{
+		//루트 노드일 경우 자신보다 크더라도 일단 삽입
+		if (true == IsRootNode())
+		{
+			m_vecCollPartInfo.push_back(_Partition);
+			m_vecCollPartInfo.back().bFinal = true;
+			return true;
+		}
+
+		return false;
+	}
+
+	//만약 자신의 노드에 들어올 수 있을 경우 
 	if (nullptr == m_arrChild[0])
 	{
-		//일단 데이터를 추가한다.
-		m_vecpCollider.push_back(_Partition);
-
-		//Capacity 이상으로 데이터가 차있고, 최대 재귀 수준까지 도달하지 않았다면 하위 노드를 생성해서 데이터를 내려보낸다.
-		if ((m_vecpCollider.size() > m_pOwner->GetCapacity()) && m_pOwner->GetMaxRecursiveLevel() > m_iRecursiveLevel)
+		//아직 자리가 남아 있거나 재귀 단계가 끝 단계에 도달했으면 바로 삽입
+		if (m_vecCollPartInfo.size() <= m_pOwner->GetCapacity() 
+			|| 
+			m_iRecursiveLevel >= m_pOwner->GetMaxRecursiveLevel())
 		{
-			//하위 노드 생성 및 하위 노드로 데이터를 내려 보내는 메소드
+			m_vecCollPartInfo.push_back(_Partition);
+			return true;
+		}
+		//그렇지 않을 경우 자식 컴포넌트를 생성하고 값을 추가적으로 더 내림
+		else
+		{ 
 			Split();
 		}
 	}
 
-	//여긴 자식 노드가 있을 경우 진입하게 되는 코드이다.
-	//자식 노드들을 순회돌면서 추가적으로 줄여나갈 수 있는지 확인한다.
+	//Split이 실행된 후 이쪽으로 넘어오면 파티션을 자식노드에 넣을 수 있는지 확인한다.
 	for (int i = 0; i < eQuadrant_End; ++i)
 	{
-		const tSquareInfo& ChildInfo = m_arrChild[i]->GetSquareInfo();
-		if (ChildInfo.LB_X >= _Partition.RectInfo.LB.x + _Partition.RectInfo.Size.x)
-			continue;
-		if (ChildInfo.LB_Y >= _Partition.RectInfo.LB.y + _Partition.RectInfo.Size.y)
-			continue;
-		if (ChildInfo.LB_X + ChildInfo.Size <= _Partition.RectInfo.LB.x)
-			continue;
-		if (ChildInfo.LB_Y + ChildInfo.Size <= _Partition.RectInfo.LB.y)
-			continue;
-
-		//조건에 맞는 자식 노드가 있을 경우 거기에 재귀적으로 삽입한다.
-		m_arrChild[i]->Insert(_Partition);
-		return;
+		if (true == m_arrChild[i]->Insert(_Partition))
+			return true;
 	}
-	
-	//모든 자식 노드에 들어가지 않았을 경우 여기에 삽입.
-	_Partition.bFinal = true;
-	m_vecpCollider.push_back(_Partition);
+
+	//자식노드 쪽에 추가를 시도해봤는데 모든 자식노들에 대해 들어가지 않았으면
+	//최종적으로 자신의 컨테이너에 삽입하고 true를 반환한다.
+	m_vecCollPartInfo.push_back(_Partition);
+	m_vecCollPartInfo.back().bFinal = true;
+	return true;
+
+
+
+
+
+
+
+
+	////루트 노드일 경우 CheckFit에서 false가 반환되어도 강제 삽입.(대신 더이상 검사하지 않음)
+	//if (false == CheckFit(_Partition))
+	//{
+	//	if (true == IsRootNode())
+	//	{
+	//		//이 경우에는 더이상 밑으로 내려 보내지 않음.
+	//		_Partition.bFinal = true;
+	//		m_vecCollPartInfo.push_back(_Partition);
+	//		return true;
+	//	}
+
+	//	return false;
+	//}
+
+	////아직 공간이 남아있거나, 최대 재귀 레벨에 도달한 노드가 아닐 경우에는 더이상 검사하지 않고 삽입한다.
+	//size_t vecsize = m_vecCollPartInfo.size();
+	//if (vecsize < m_pOwner->GetCapacity() || m_iRecursiveLevel >= m_pOwner->GetMaxRecursiveLevel())
+	//{
+	//	m_vecCollPartInfo.push_back(_Partition);
+	//	return true;
+	//}
+	//else
+	//{
+	//	//그렇지 않을 경우 자식 노드를 만들어 공간분할 정보를 자식으로 내려보낸다.
+	//	Split();
+	//}
+	//	
+	//	for (size_t i = 0; i < vecsize; i++)
+	//	{
+	//		Insert(m_vecCollPartInfo[i]);
+	//	}
+	//	m_vecCollPartInfo.clear();
 }
+
+
 
 void CQuadTreeNode::Split()
 {
@@ -90,17 +142,48 @@ void CQuadTreeNode::Split()
 			fSizeHalf },
 		iLevel);
 
-	
-	size_t size = m_vecpCollider.size();
+	//가지고있던 데이터들을 순회돌면서 자식 컨테이너에 들어갔는지 확인
+	size_t size = m_vecCollPartInfo.size();
 	for (size_t i = 0; i < size; ++i)
 	{
+		//이미 확정된 충돌체일 경우 스킵
+		if (true == m_vecCollPartInfo[i].bFinal)
+			continue;
+
+		for (int j = 0; j < eQuadrant_End; ++j)
+		{
+			//어떠한 자식 노드에도 넣지 못했을 경우 bFinal을 켜서 최종적으로 노드를 확정
+			if (false == Insert(m_vecCollPartInfo[i]))
+				m_vecCollPartInfo[i].bFinal = true;
+		}
 
 	}
 
-
-
-
+	//자식 노드에 성공적으로 들어간 노드들은 제거
+	m_vecCollPartInfo.erase(
+		std::remove_if(m_vecCollPartInfo.begin(), m_vecCollPartInfo.end(),
+		std::bind(&CQuadTreeNode::CheckNotFinal, this, std::placeholders::_1)), 
+		m_vecCollPartInfo.end());
 }
+
+
+
+bool CQuadTreeNode::CheckFit(const tColliderPartInfo& _Partition)
+{
+	//AABB검사를 통과 못할 시 return
+	if (m_SquareInfo.LB_X >= _Partition.RectInfo.LB.x + _Partition.RectInfo.Size.x)
+		return false;
+	if (m_SquareInfo.LB_Y >= _Partition.RectInfo.LB.y + _Partition.RectInfo.Size.y)
+		return false;
+	if (m_SquareInfo.LB_X + m_SquareInfo.Size <= _Partition.RectInfo.LB.x)
+		return false;
+	if (m_SquareInfo.LB_Y + m_SquareInfo.Size <= _Partition.RectInfo.LB.y)
+		return false;
+
+	return true;
+}
+
+
 
 void CQuadTreeNode::Collision(CCollider2D* _pColA, CCollider2D* _pColB)
 {
@@ -176,20 +259,23 @@ void CQuadTreeNode::Destroy()
 
 void CQuadTreeNode::DebugRender()
 {
-	float Size = m_pOwner->GetSquareSize();
-	float SizeHalf = Size * 0.5f;
-	Vec3 vPos(m_SquareInfo.LB_X * Size + SizeHalf, m_SquareInfo.LB_Y * Size + SizeHalf, 0.f);
+	float AbsSize = m_pOwner->GetSquareSize();
+	Vec3 vSize(AbsSize, AbsSize, 1.f);
+	const Matrix& matScale = Matrix::CreateScale(vSize);
+	
+	float SizeHalf = m_SquareInfo.Size * 0.5f;
+	Vec3 vPos(m_SquareInfo.LB_X + SizeHalf, m_SquareInfo.LB_Y + SizeHalf, 0.f);
+	vPos *= AbsSize;
 	const Matrix& matTrans = Matrix::CreateTranslation(vPos);
 
-	Vec3 vSize(Size, Size, 1.f);
-	const Matrix& matScale = Matrix::CreateScale(vSize);
 
 	tDebugShapeInfo Info = {};
 	Info.eShape = eSHAPE_RECT;
 	Info.matWorld = matScale * matTrans;
 
 	//충돌 중인 물체가 있을 경우 빨강, 아닐 경우 초록
-	Info.vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+
+	Info.vColor = Vec4(Vec3(0.1f, 0.1f, 0.1f) * (float)m_iRecursiveLevel, 1.f);
 	CRenderMgr::GetInst()->AddDebugShapeRender(Info);
 
 	for (int i = 0; i < eQuadrant_End; ++i)
@@ -204,7 +290,7 @@ void CQuadTreeNode::DebugRender()
 
 void CQuadTreeNode::CheckCollision()
 {
-	CheckCollisionParent(m_vecpCollider);
+	CheckCollisionParent(m_vecCollPartInfo);
 
 	for (int i = 0; i < eQuadrant_End; ++i)
 	{
@@ -215,19 +301,19 @@ void CQuadTreeNode::CheckCollision()
 	}
 }
 
-void CQuadTreeNode::CheckCollisionParent(const vector<tColliderPartition>& _ChildvecpCollider)
+void CQuadTreeNode::CheckCollisionParent(const vector<tColliderPartInfo>& _ChildvecpCollider)
 {
 	//자식 노드로부터 올라온 벡터와 자신의 벡터를 순회 돌면서 충돌검사를 시행
 	size_t sizeC = _ChildvecpCollider.size();
 	for (size_t C = 0; C < sizeC; ++C)
 	{
-		size_t sizeP = m_vecpCollider.size();
+		size_t sizeP = m_vecCollPartInfo.size();
 		for (size_t P = 0; P < sizeP; ++P)
 		{
 			//같은 주소(==같은 객체)일 경우 검사하지 않는다.
-			if (&(_ChildvecpCollider[C]) == &(m_vecpCollider[P]))
+			if (&(_ChildvecpCollider[C]) == &(m_vecCollPartInfo[P]))
 				continue;
-			Collision(_ChildvecpCollider[C].pCol, m_vecpCollider[P].pCol);
+			Collision(_ChildvecpCollider[C].pCol, m_vecCollPartInfo[P].pCol);
 		}
 	}
 

@@ -37,7 +37,7 @@ void CCollisionMgr::AddLayerInteraction2D(int _iLayer1, int _iLayer2)
 
 void CCollisionMgr::init()
 {
-	m_SpatialPartition2D = new CSpatialPartition2D(300.f, 5);
+	m_SpatialPartition2D = new CSpatialPartition2D(400.f, 3);
 	m_SpatialPartition2D->AddLayerInteract((UINT32)1, (UINT32)1);
 }
 

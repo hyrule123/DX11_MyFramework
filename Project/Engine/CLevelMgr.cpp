@@ -97,15 +97,15 @@ void CLevelMgr::init()
 	pTestObj2->AddScript(new CTestObjScript);
 	m_pCurLevel->AddGameObject(pTestObj2, 1);
 
-	for(int i = 0; i < 5; ++i)
+	for(int i = 0; i < 2; ++i)
 	{
-		for (int j = 0; j < 5; ++j)
+		for (int j = 0; j < 2; ++j)
 		{
 			// Test Object 3
 			CGameObject* pTestObj3 = new CGameObject;
 			pTestObj3->SetName(L"Test Object");
 			pTestObj3->AddComponent(new CTransform);
-			pTestObj3->Transform()->SetRelativePos(-280.f + 110.f * i, -280.f + 110.f * j, 10.f);
+			pTestObj3->Transform()->SetRelativePos(110.f * i, 110.f * j, 10.f);
 			pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 			pTestObj3->AddComponent(new CMeshRender);
 			pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));

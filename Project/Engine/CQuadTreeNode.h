@@ -33,37 +33,41 @@ private:
 
 	int m_iRecursiveLevel;
 
-	vector<tColliderPartition> m_vecpCollider;
+	vector<tColliderPartInfo> m_vecCollPartInfo;
 
 	
 public:
 	//Getter/Setter
 	tSquareInfo GetSquareInfo() const { return m_SquareInfo; }
-	
+	bool IsRootNode() const { return (nullptr == m_pParent); }
 
 
 public:
+
 	//0~1 사이로 정규화된 충돌체 정보가 들어올 예정임.
-	void Insert(tColliderPartition& _Partition);
-	bool CheckChildFIt(tColliderPartition& _Partition)
+	bool Insert(const tColliderPartInfo& _Partition);
 	void Clear();
 	void Destroy();
 	void DebugRender();
 
 	void CheckCollision();
 
+	bool CheckFit(const tColliderPartInfo& _Partition);
+
 	//부모에게 자신의 충돌체 리스트를 넘겨서 쭉 타고 올라간다.
-	void CheckCollisionParent(const vector<tColliderPartition>& _ChildvecpCollider);
+	void CheckCollisionParent(const vector<tColliderPartInfo>& _ChildvecpCollider);
 
 private:
 	void Split();
+	
+	bool CheckNotFinal(const tColliderPartInfo& _Partition) { return !_Partition.bFinal; }
 
 	void Collision(CCollider2D* _pColA, CCollider2D* _pColB);
 };
 
 inline void CQuadTreeNode::Clear()
 {
-	m_vecpCollider.clear();
+	m_vecCollPartInfo.clear();
 	for (int i = 0; i < eQuadrant_End; ++i)
 	{
 		if (nullptr == m_arrChild[i])

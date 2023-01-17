@@ -8,7 +8,7 @@
 
 CSpatialPartition2D::CSpatialPartition2D(float _fRootNodeSize, int _iCapacity)
 	: m_fRootNodeSize(_fRootNodeSize)
-	, m_fSizeReserve(-1.f)
+	, m_fReserveResize(-1.f)
 	, m_iCapacity(_iCapacity)
 	, m_iMaxRecursiveLevel(3)
 	, m_flagLayerInteraction{}
@@ -60,10 +60,11 @@ void CSpatialPartition2D::tick()
 	//쿼드트리 내의 데이터를 모두 제거
 	m_Root->Clear();
 
-	if (0.f < m_fSizeReserve)
+	if (0.f < m_fReserveResize)
 	{
-		m_fRootNodeSize = m_fSizeReserve;
-		m_fRootNodeHalfSize = m_fRootNodeSize / 2.f;
+		m_fRootNodeHalfSize = m_fReserveResize;
+		m_fRootNodeSize = m_fRootNodeHalfSize * 2.f;
+		m_fReserveResize = -1.f;
 	}
 
 	m_Root->DebugRender();
@@ -71,26 +72,18 @@ void CSpatialPartition2D::tick()
 
 void CSpatialPartition2D::AddCollider(CCollider2D* _pCol)
 {
-	tColliderPartition Part = {};
+	tColliderPartInfo Part = {};
 	Part.pCol = _pCol;
 	Part.RectInfo = _pCol->GetSpatialPartitionInfo();
 
 	//사이즈를 확장해야하는지 검사
-	float absf = fabsf(Part.RectInfo.LB.x);
-	if (absf > m_fRootNodeHalfSize)
-		ReserveSize(absf * 2.f);
+	Vec2 RT = Part.RectInfo.LB + Part.RectInfo.Size;
 
-	absf = fabsf(Part.RectInfo.LB.y);
-	if (absf > m_fRootNodeHalfSize)
-		ReserveSize(absf * 2.f);
-
-	absf = fabsf(Part.RectInfo.Size.x);
-	if (absf > m_fRootNodeSize)
-		ReserveSize(absf);
-
-	absf = fabsf(Part.RectInfo.Size.y);
-	if (absf > m_fRootNodeSize)
-		ReserveSize(absf);
+	float Biggest = std::fmaxf(fabsf(Part.RectInfo.LB.x),
+		std::fmaxf(fabsf(Part.RectInfo.LB.y),
+			std::fmaxf(fabsf(RT.x), fabsf(RT.y))));
+	if (Biggest > m_fRootNodeHalfSize)
+		ReserveResize(Biggest);
 
 	Part.RectInfo.LB /= m_fRootNodeSize;
 	Part.RectInfo.Size /= m_fRootNodeSize;

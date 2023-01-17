@@ -57,11 +57,9 @@ struct tRectInfo
 };
 
 class CCollider2D;
-struct tColliderPartition
+struct tColliderPartInfo
 {
 	CCollider2D* pCol;
 	tRectInfo    RectInfo;
-
-	//더이상 들어갈 수 없을경우 true로 변경
 	bool		 bFinal;
 };

@@ -42,7 +42,7 @@ private:
 	//가장 큰 사각형(루트 노드)의 한 변의 사이즈
 	float				m_fRootNodeSize;
 	float				m_fRootNodeHalfSize;
-	float				m_fSizeReserve;
+	float				m_fReserveResize;
 
 	int					m_iCapacity;
 
@@ -52,7 +52,7 @@ private:
 	unordered_map<UINT64, tCollisionInfo> m_umapColliding;
 	UINT32 m_flagLayerInteraction[MAX_LAYER];
 public://Inline Methods
-	void ReserveSize(float _size) { if (m_fSizeReserve < _size) { m_fSizeReserve = _size; } }
+	void ReserveResize(float _size) { if (m_fReserveResize < _size) { m_fReserveResize = _size; } }
 	int GetCapacity() { return m_iCapacity; }
 	float GetSquareSize() const { return m_fRootNodeSize; }
 	int GetMaxRecursiveLevel() const { return m_iMaxRecursiveLevel; }
