@@ -1,5 +1,6 @@
 #pragma once
 
+
 #define SAFE_DELETE(Ptr) if(Ptr) { delete Ptr; Ptr = nullptr; }
 #define SAFE_DELETE_ARRAY(Ptr) if(Ptr) { delete[] Ptr; }
 
@@ -42,3 +43,6 @@ void Safe_Del_List(list<T*>& _list)
 	}
 	_list.clear();
 }
+
+class CGameObject;
+void SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx);

@@ -47,7 +47,7 @@ void CLevelMgr::init()
 	CGameObject* pPlayer = new CGameObject;
 	pPlayer->SetName(L"Player");
 	pPlayer->AddComponent(new CTransform);
-	pPlayer->Transform()->SetRelativePosZ(50.f);
+	//pPlayer->Transform()->SetRelativePosZ(50.f);
 	pPlayer->Transform()->SetRelativeRot(0.f, 0.f, -XM_PI / 2.f);
 	pPlayer->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 	pPlayer->AddComponent(new CMeshRender);
@@ -62,7 +62,9 @@ void CLevelMgr::init()
 
 	pPlayer->AddComponent(new CCollider2D_OBB);
 
-	m_pCurLevel->AddGameObject(pPlayer, 1);
+
+	SpawnGameObject(pPlayer, Vec3(0.f, 0.f, 10.f), 1);
+	//m_pCurLevel->AddGameObject(pPlayer, 1);
 
 	// Test Object 1
 	CGameObject* pTestObj1 = new CGameObject;
@@ -77,8 +79,12 @@ void CLevelMgr::init()
 	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
 	TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
+
+
 	pPlayer->AddChild(pTestObj1);
-	m_pCurLevel->AddGameObject(pTestObj1, 1);
+
+	//SpawnGameObject(pPlayer, Vec3(100.f, 0.f, 10.f), 1);
+	//m_pCurLevel->AddGameObject(pTestObj1, 1);
 
 
 	// Test Object 2
@@ -93,9 +99,11 @@ void CLevelMgr::init()
 	pTestObj2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 	pTestObj2->MeshRender()->SetMaterial(TestMtrl);
-	pTestObj1->AddChild(pTestObj2);
 	pTestObj2->AddScript(new CTestObjScript);
-	m_pCurLevel->AddGameObject(pTestObj2, 1);
+
+	pTestObj1->AddChild(pTestObj2);
+	//SpawnGameObject(pTestObj2, Vec3(0.f, 100.f, 10.f), )
+	//m_pCurLevel->AddGameObject(pTestObj2, 1);
 
 	for(int i = 0; i < 10; ++i)
 	{
@@ -114,7 +122,8 @@ void CLevelMgr::init()
 			pTestObj3->MeshRender()->SetMaterial(TestMtrl);
 			pTestObj3->AddComponent(new CCollider2D_OBB);
 
-			m_pCurLevel->AddGameObject(pTestObj3, 1);
+			SpawnGameObject(pTestObj3, Vec3(-300.f + 110.f * i, -300.f + 110.f * j, 10.f), 1);
+			//m_pCurLevel->AddGameObject(pTestObj3, 1);
 		}
 
 	}
@@ -132,8 +141,9 @@ void CLevelMgr::init()
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		pObj->AddComponent(new CTransform);
 		pObj->AddScript(new CCameraMoveScript);
-		
-		m_pCurLevel->AddGameObject(pObj, 1);
+
+		SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 1);
+		//m_pCurLevel->AddGameObject(pObj, 1);
 	}
 
 	{//Prefab

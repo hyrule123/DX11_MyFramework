@@ -300,6 +300,9 @@
     <ClCompile Include="CSpatialPartitionNode.cpp">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>Source\00. Header</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
