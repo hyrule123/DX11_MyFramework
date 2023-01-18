@@ -14,20 +14,20 @@ enum eQuadrant
 
 
 
-class CSpatialPartition2D;
-class CQuadTreeNode
+class CQuadTree;
+class CQuadNode
 	:public CSpatialPartitionNode
 {
 private:
-	CQuadTreeNode() = delete;
+	CQuadNode() = delete;
 public:
-	CQuadTreeNode(CSpatialPartition2D* _pOwner, CQuadTreeNode* _pParent, const tSquareInfo& _SquareInfo, int _iRecursiveLevel);
-	~CQuadTreeNode();
+	CQuadNode(CQuadTree* _pOwner, CQuadNode* _pParent, const tSquareInfo& _SquareInfo, int _iRecursiveLevel);
+	~CQuadNode();
 
 private:
-	CSpatialPartition2D* m_pOwner;
-	CQuadTreeNode* m_pParent;
-	CQuadTreeNode* m_arrChild[eQuadrant_End];
+	CQuadTree* m_pOwner;
+	CQuadNode* m_pParent;
+	CQuadNode* m_arrChild[eQuadrant_End];
 
 	tSquareInfo m_SquareInfo;
 
@@ -65,7 +65,7 @@ private:
 	void Collision(CCollider2D* _pColA, CCollider2D* _pColB);
 };
 
-inline void CQuadTreeNode::Clear()
+inline void CQuadNode::Clear()
 {
 	m_vecCollPartInfo.clear();
 	for (int i = 0; i < eQuadrant_End; ++i)

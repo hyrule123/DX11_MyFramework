@@ -145,16 +145,16 @@
     <ClInclude Include="CCollider2D_Rect.h">
       <Filter>Source\06. Component\1, 2. Collider\1. Collider2D</Filter>
     </ClInclude>
-    <ClInclude Include="CSpatialPartition2D.h">
+    <ClInclude Include="CQuadTree.h">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClInclude>
     <ClInclude Include="CSpatialPartition.h">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CSpatialPartition3D.h">
+    <ClInclude Include="COcTree.h">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CQuadTreeNode.h">
+    <ClInclude Include="CQuadNode.h">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClInclude>
     <ClInclude Include="CSpatialPartitionNode.h">
@@ -285,16 +285,16 @@
     <ClCompile Include="CCollider2D_Rect.cpp">
       <Filter>Source\06. Component\1, 2. Collider\1. Collider2D</Filter>
     </ClCompile>
-    <ClCompile Include="CSpatialPartition2D.cpp">
+    <ClCompile Include="CQuadTree.cpp">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClCompile>
     <ClCompile Include="CSpatialPartition.cpp">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CSpatialPartition3D.cpp">
+    <ClCompile Include="COcTree.cpp">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CQuadTreeNode.cpp">
+    <ClCompile Include="CQuadNode.cpp">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClCompile>
     <ClCompile Include="CSpatialPartitionNode.cpp">

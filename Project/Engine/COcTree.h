@@ -1,7 +1,7 @@
 #pragma once
 #include "CSpatialPartition.h"
 
-class CSpatialPartition3D :
+class COcTree :
     public CSpatialPartition
 {
 

@@ -8,6 +8,8 @@ private:
     ePROJ_TYPE m_ProjectionType;
 
     Matrix m_matView;
+
+    Vec2   m_CamResolution;
     Matrix m_matProj;
 
     int m_CamIndex;
@@ -15,17 +17,20 @@ private:
     vector<CGameObject*>    m_arrvecShaderDomain[eSHADER_DOMAIN_END];
     UINT32 m_LayerFlag;
 
-public://Setter
+public:
+    //Setter
     void SetProjType(ePROJ_TYPE _Type);
     void SetCamIndex(eCAMERA_INDEX _Idx);
     void SetLayerFlag(UINT32 _iLayerFlag);
     void AddLayerFlag(UINT _iLayerNum);
     void OffLayerFlag(UINT _iLayerNum);
 
-
-public://Getter
+    //Getter
     ePROJ_TYPE GetProjType() const { return m_ProjectionType; }
     Matrix GetViewProjMatrix() const { return (m_matView * m_matProj); }
+
+public:
+    void Zoom2D(float _fScale);
 
 public:
     virtual void init() override;

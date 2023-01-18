@@ -25,19 +25,19 @@ struct tCollisionInfo
 };
 
 
-class CQuadTreeNode;
+class CQuadNode;
 
-class CSpatialPartition2D
+class CQuadTree
 	: public CSpatialPartition
 {
 private:
-	CSpatialPartition2D() = delete;
+	CQuadTree() = delete;
 public:
-	CSpatialPartition2D(float _fRootNodeSize, int _iCapacity);
-	~CSpatialPartition2D();
+	CQuadTree(float _fRootNodeSize, int _iCapacity);
+	~CQuadTree();
 
 private:
-	CQuadTreeNode*		m_Root;
+	CQuadNode*		m_Root;
 
 	//가장 큰 사각형(루트 노드)의 한 변의 사이즈
 	float				m_fRootNodeSize;
@@ -55,6 +55,7 @@ public://Inline Methods
 	void ReserveResize(float _size) { if (m_fReserveResize < _size) { m_fReserveResize = _size; } }
 	int GetCapacity() { return m_iCapacity; }
 	float GetSquareSize() const { return m_fRootNodeSize; }
+	float GetSquareHalfSize() const { return m_fRootNodeHalfSize; }
 	int GetMaxRecursiveLevel() const { return m_iMaxRecursiveLevel; }
 
 	bool GetPrevCollided(CollisionID _ColID);
@@ -90,7 +91,7 @@ public://Logic
 
 
 
-inline bool CSpatialPartition2D::GetPrevCollided(CollisionID _ColID)
+inline bool CQuadTree::GetPrevCollided(CollisionID _ColID)
 {
 	const auto& iter = m_umapColliding.find(_ColID.FullID);
 	if (iter == m_umapColliding.end())
@@ -99,12 +100,12 @@ inline bool CSpatialPartition2D::GetPrevCollided(CollisionID _ColID)
 	return true;
 }
 
-inline void CSpatialPartition2D::AddCollisionInfo(CollisionID _ColID, const tCollisionInfo& _ColInfo)
+inline void CQuadTree::AddCollisionInfo(CollisionID _ColID, const tCollisionInfo& _ColInfo)
 {
 	m_umapColliding.insert(make_pair(_ColID.FullID, _ColInfo));
 }
 
-inline void CSpatialPartition2D::SetCollisionInfoChecked(CollisionID _ColID)
+inline void CQuadTree::SetCollisionInfoChecked(CollisionID _ColID)
 {
 	const auto& iter = m_umapColliding.find(_ColID.FullID);
 	if (iter == m_umapColliding.end())
@@ -113,7 +114,7 @@ inline void CSpatialPartition2D::SetCollisionInfoChecked(CollisionID _ColID)
 	iter->second.bCurrent = true;
 }
 
-inline void CSpatialPartition2D::RemoveCollisionInfo(CollisionID _ColID)
+inline void CQuadTree::RemoveCollisionInfo(CollisionID _ColID)
 {
 	const auto& iter = m_umapColliding.find(_ColID.FullID);
 
@@ -124,7 +125,7 @@ inline void CSpatialPartition2D::RemoveCollisionInfo(CollisionID _ColID)
 }
 
 
-inline void CSpatialPartition2D::SortAscending(UINT32& _uiLow, UINT32& _uiHigh)
+inline void CQuadTree::SortAscending(UINT32& _uiLow, UINT32& _uiHigh)
 {
 	if (_uiLow <= _uiHigh)
 		return;
@@ -134,13 +135,13 @@ inline void CSpatialPartition2D::SortAscending(UINT32& _uiLow, UINT32& _uiHigh)
 	_uiHigh = Temp;
 }
 
-inline bool CSpatialPartition2D::CheckLayerInteract(UINT32 _iLayer1, UINT32 _iLayer2)
+inline bool CQuadTree::CheckLayerInteract(UINT32 _iLayer1, UINT32 _iLayer2)
 {
 	return (m_flagLayerInteraction[_iLayer1] & (1 << _iLayer2));
 }
 
 
-inline void CSpatialPartition2D::AddLayerInteract(UINT32 _iLayer1, UINT32 _iLayer2)
+inline void CQuadTree::AddLayerInteract(UINT32 _iLayer1, UINT32 _iLayer2)
 {
 	//행렬의 형태이므로 대칭되는 형태로 비트플래그를 등록.
 	//상호작용의 경우 여러번 호출되는 함수가 아니기 때문에 오히려 여기서 두번 호출하는게 편할 듯.
@@ -149,12 +150,12 @@ inline void CSpatialPartition2D::AddLayerInteract(UINT32 _iLayer1, UINT32 _iLaye
 	m_flagLayerInteraction[_iLayer2] |= 1 << _iLayer1;
 }
 
-inline void CSpatialPartition2D::RemoveLayerInteract(UINT32 _iLayer1, UINT32 _iLayer2)
+inline void CQuadTree::RemoveLayerInteract(UINT32 _iLayer1, UINT32 _iLayer2)
 {
 	m_flagLayerInteraction[_iLayer1] &= ~(1 << _iLayer2);
 }
 
-inline void CSpatialPartition2D::RemoveLayerInteractAll(UINT32 _iLayer)
+inline void CQuadTree::RemoveLayerInteractAll(UINT32 _iLayer)
 {
 	m_flagLayerInteraction[_iLayer] = (UINT32)0;
 }

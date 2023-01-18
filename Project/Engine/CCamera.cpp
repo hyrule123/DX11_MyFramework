@@ -50,8 +50,8 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 {
 	m_ProjectionType = _Type;
 
-	const Vec2& Resolution = CDevice::GetInst()->GetRenderResolution();
-	m_AspectRatio = Resolution.x / Resolution.y;
+	m_CamResolution = CDevice::GetInst()->GetRenderResolution();
+	m_AspectRatio = m_CamResolution.x / m_CamResolution.y;
 
 	switch (m_ProjectionType)
 	{
@@ -61,7 +61,7 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 		//===========
 
 		//1. 투영 행렬 생성
-		m_matProj = XMMatrixOrthographicLH(Resolution.x, Resolution.y, 1.f, 10000.f);
+		m_matProj = XMMatrixOrthographicLH(m_CamResolution.x, m_CamResolution.y, 1.f, 10000.f);
 		break;
 	case ePROJ_TYPE::PERSPECTIVE:
 		//1-1. 원근 투영행렬
@@ -80,6 +80,20 @@ void CCamera::SetCamIndex(eCAMERA_INDEX _Idx)
 	m_CamIndex = _Idx;
 	CRenderMgr::GetInst()->RegisterCamera(this, _Idx);
 }
+
+
+
+void CCamera::Zoom2D(float _fScale)
+{
+	if (ePROJ_TYPE::ORTHOGRAPHY != m_ProjectionType)
+		return;
+
+	m_CamResolution *= _fScale;
+
+	//가로세로를 같은 비율로 확장/축소하므로 AspecRatio는 변하지 않음.
+	m_matProj = XMMatrixOrthographicLH(m_CamResolution.x, m_CamResolution.y, 1.f, 10000.f);
+}
+
 
 void CCamera::init()
 {

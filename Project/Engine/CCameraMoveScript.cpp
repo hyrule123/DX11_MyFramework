@@ -25,37 +25,47 @@ void CCameraMoveScript::Camera2DMove()
 	Vec3 CamPos = pTransform->GetRelativePos();
 	Vec3 CamRot = pTransform->GetRelativeRot();
 
+	float DT = DELTA_TIME;
 
 	if (KEY_PRESSED(KEY::W))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_UP);
 
-		CamPos += DELTA_TIME * m_CamSpeed * Dir;
+		CamPos += DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::S))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_UP);
 
-		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
+		CamPos -= DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::A))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
 
-		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
+		CamPos -= DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::D))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
 
-		CamPos += DELTA_TIME * m_CamSpeed * Dir;
+		CamPos += DT * m_CamSpeed * Dir;
+	}
+
+	if (KEY_PRESSED(KEY::C))
+	{
+		Camera()->Zoom2D(1.0f + 0.5f * DT);
+	}
+	else if (KEY_PRESSED(KEY::X))
+	{
+		Camera()->Zoom2D(1.0f - 0.5f * DT);
 	}
 
 
 	if (KEY_PRESSED(KEY::Z))
 	{
-		CamRot.x += DELTA_TIME * XM_PI;
-		CamRot.y += DELTA_TIME * XM_PI;
+		CamRot.x += DT * XM_PI;
+		CamRot.y += DT * XM_PI;
 	}
 
 	pTransform->SetRelativeRot(CamRot);

@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "CSpatialPartition2D.h"
+#include "CQuadTree.h"
 
-#include "CQuadTreeNode.h"
+#include "CQuadNode.h"
 
 #include "CCollider2D.h"
 
 
-CSpatialPartition2D::CSpatialPartition2D(float _fRootNodeSize, int _iCapacity)
+CQuadTree::CQuadTree(float _fRootNodeSize, int _iCapacity)
 	: m_fRootNodeSize(_fRootNodeSize)
 	, m_fReserveResize(-1.f)
 	, m_iCapacity(_iCapacity)
@@ -20,17 +20,17 @@ CSpatialPartition2D::CSpatialPartition2D(float _fRootNodeSize, int _iCapacity)
 	//각 노드에는 추상적인 '배율' 값만 넣어놓고, 여기에 실제 사이즈를 저장한 뒤 곱해서 사용하는 방식으로 계산.
 	tSquareInfo Info = { -1.f, -1.f, 2.f };
 
-	m_Root = new CQuadTreeNode(this, nullptr, Info, 0);
+	m_Root = new CQuadNode(this, nullptr, Info, 0);
 }
 
 
-CSpatialPartition2D::~CSpatialPartition2D()
+CQuadTree::~CQuadTree()
 {
 	m_Root->Destroy();
 	delete m_Root;
 }
 
-void CSpatialPartition2D::tick()
+void CQuadTree::tick()
 {
 	//unordered map의 bCurrent를 모두 false로 변경해 주고
 	for (auto& iter : m_umapColliding)
@@ -62,31 +62,29 @@ void CSpatialPartition2D::tick()
 
 	if (0.f < m_fReserveResize)
 	{
-		m_fRootNodeHalfSize = m_fReserveResize;
-		m_fRootNodeSize = m_fRootNodeHalfSize * 2.f;
+		m_fRootNodeSize = m_fReserveResize;
+		m_fRootNodeHalfSize = m_fRootNodeSize * 0.5f;
 		m_fReserveResize = -1.f;
 	}
 
 	m_Root->DebugRender();
 }
 
-void CSpatialPartition2D::AddCollider(CCollider2D* _pCol)
+void CQuadTree::AddCollider(CCollider2D* _pCol)
 {
 	tColliderPartInfo Part = {};
 	Part.pCol = _pCol;
 	Part.RectInfo = _pCol->GetSpatialPartitionInfo();
 
 	//사이즈를 확장해야하는지 검사
-	Vec2 RT = Part.RectInfo.LB + Part.RectInfo.Size;
-
 	float Biggest = std::fmaxf(fabsf(Part.RectInfo.LB.x),
 		std::fmaxf(fabsf(Part.RectInfo.LB.y),
-			std::fmaxf(fabsf(RT.x), fabsf(RT.y))));
-	if (Biggest > m_fRootNodeHalfSize)
+			std::fmaxf(fabsf(Part.RectInfo.RT.x), fabsf(Part.RectInfo.RT.y))));
+	if (Biggest > m_fRootNodeSize)
 		ReserveResize(Biggest);
 
 	Part.RectInfo.LB /= m_fRootNodeSize;
-	Part.RectInfo.Size /= m_fRootNodeSize;
+	Part.RectInfo.RT /= m_fRootNodeSize;
 
 	m_Root->Insert(Part);
 }

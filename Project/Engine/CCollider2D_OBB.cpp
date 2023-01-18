@@ -93,14 +93,17 @@ void CCollider2D_OBB::UpdateSpatialPartitionInfo()
 	//x축, y축 벡터를 계산한다.(크기 포함)
 	for (int i = 0; i < eAXIS2D_END; ++i)
 	{
-		//축 정사영을 통해 간이 충돌체 사이즈의 반 만큼을 구한다.
+		//축 정사영을 통해 간이 충돌체 변의 길이를 구한다.
 		vSideLength.x += fabsf(Vec2::Unit[eAXIS2D_X].Dot(m_tOBBInfo.m_vAxis[i]));
 		vSideLength.y += fabsf(Vec2::Unit[eAXIS2D_Y].Dot(m_tOBBInfo.m_vAxis[i]));
 	}
 	
+	
 	tRectInfo Info = {};
-	Info.LB = m_tOBBInfo.m_vMiddle - vSideLength;
-	Info.Size = vSideLength * 2.f;
+	//LB = 변의 길이의 반씩  빼줌
+	Info.LB = m_tOBBInfo.m_vMiddle - (vSideLength * 0.5f);
+
+	Info.RT = Info.LB + vSideLength;
 	SetSpatialPartitionInfo(Info);
 }
 

@@ -53,7 +53,7 @@ struct tSquareInfo
 struct tRectInfo
 {
 	Vec2 LB;
-	Vec2 Size;
+	Vec2 RT;
 };
 
 class CCollider2D;

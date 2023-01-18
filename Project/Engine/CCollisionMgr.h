@@ -6,8 +6,8 @@
 class CLayer;
 class CCollider2D;
 class CGameObject;
-class CSpatialPartition2D;
-class CSpatialPartition3D;
+class CQuadTree;
+class COcTree;
 
 class CCollisionMgr :
     public CSingleton<CCollisionMgr>
@@ -15,8 +15,8 @@ class CCollisionMgr :
 private:
 
     //2D 공간분할 충돌검사 매니저
-    CSpatialPartition2D* m_SpatialPartition2D;
-    CSpatialPartition3D* m_SpatialPartition3D;
+    CQuadTree* m_SpatialPartition2D;
+    COcTree* m_SpatialPartition3D;
 
 public:
     //void AddLayerInteract2D(UINT _iLowLayer, UINT _iHighLayer);
