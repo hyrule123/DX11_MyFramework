@@ -11,8 +11,6 @@ const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::eCOMPONENT_MESH_REN
 const eCOMPONENT_TYPE g_RenderComIdxEnd = eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER;
 
 
-
-
 //====================//
 //SimpleMath Constants//
 //====================//

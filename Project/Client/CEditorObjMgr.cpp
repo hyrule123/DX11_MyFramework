@@ -84,39 +84,39 @@ void CEditorObjMgr::tick()
 	//이 메소드의 호출 시점은 모든 게임의 메인 렌더링과정이 종료된 이후이다. 
 
 	//CRenderMgr로부터 이번 프레임에 그릴 디버그 쉐이프 목록을 받아온다.
-	CRenderMgr::GetInst()->UpdateDebugShapeRender(m_listDebugShapeInfo);
+	CRenderMgr::GetInst()->UpdateDebugShapeRender(m_vecDebugShapeInfo);
 
 	float DT = DELTA_TIME;
 
 	//여기선 단순히 시간만 뺴 준다. render()에서 그리고 나서 음수이면 제거함.
-	for (auto& iter : m_listDebugShapeInfo)
+	size_t size = m_vecDebugShapeInfo.size();
+	for (size_t i = 0; i < size; ++i)
 	{
-		iter.fLifeSpan -= DT;
+		m_vecDebugShapeInfo[i].fLifeSpan -= DT;
 	}
 }
 
 //받아온 오브젝트를 통해서 디버그 정보를 사각형으로 그리기
 void CEditorObjMgr::render()
 {
-	auto iter = m_listDebugShapeInfo.begin();
-	const auto& iterEnd = m_listDebugShapeInfo.end();
 
 	//메인 카메라의 View Projection  행렬을 가져온다.
 	const Matrix& matVP = CRenderMgr::GetInst()->GetCamera(eCAMIDX_MAIN)->GetViewProjMatrix();
 
-	while (iter != iterEnd)
+	size_t size = m_vecDebugShapeInfo.size();
+	for (size_t i = 0; i < size; ++i)
 	{
-		switch (iter->eShape)
+		switch (m_vecDebugShapeInfo[i].eShape)
 		{
 		case eSHAPE_RECT:
 		{
 			Ptr<CMaterial> pMtrl = m_arrDebugShape[eSHAPE_RECT]->MeshRender()->GetMaterial();
 			//월드행렬 전달.
 
-			Matrix matWVP = iter->matWorld * matVP;
+			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
 			matWVP = matWVP.Transpose();
 			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
-			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, iter->vColor);
+			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
 
 			//레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
 			m_arrDebugShape[eSHAPE_RECT]->render();
@@ -127,10 +127,10 @@ void CEditorObjMgr::render()
 		{
 			Ptr<CMaterial> pMtrl = m_arrDebugShape[eSHAPE_CIRCLE]->MeshRender()->GetMaterial();
 			//월드행렬 전달.
-			Matrix matWVP = iter->matWorld * matVP;
+			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
 			matWVP = matWVP.Transpose();
 			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
-			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, iter->vColor);
+			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
 
 			m_arrDebugShape[eSHAPE_CIRCLE]->render();
 			break;
@@ -144,16 +144,14 @@ void CEditorObjMgr::render()
 		default:
 			break;
 		}
-			
-			//시간이 다 됐을 경우 해당 iterator은 삭제
-		if (iter->fLifeSpan < 0.f)
-		{
-			iter = m_listDebugShapeInfo.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
 	}
 
+	//남은 시간이 음수가 된 디버그 쉐이프에 대해 삭제 처리를 진행
+	m_vecDebugShapeInfo.erase(
+		std::remove_if(m_vecDebugShapeInfo.begin(), m_vecDebugShapeInfo.end(),
+			[](const tDebugShapeInfo& _Info)->bool
+			{
+				return (_Info.fLifeSpan < 0.f);
+			})
+		, m_vecDebugShapeInfo.end());
 }

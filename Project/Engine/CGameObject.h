@@ -55,7 +55,7 @@ public:
     void AddChild(CGameObject* _Object);
 
     //Recursive
-    void AddAllHierarchyObjects(__in int _iLayerIdx, __out list<CGameObject*>& _listObj);
+    void AddAllHierarchyObjects(__in int _iLayerIdx, __out vector<CGameObject*>& _vecObj);
 
     //±‚≈∏
     bool                GetParentWorldMatrix(__out Matrix& _mat);

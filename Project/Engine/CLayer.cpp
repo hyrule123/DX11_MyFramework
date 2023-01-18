@@ -10,24 +10,26 @@ CLayer::CLayer(int _iLayerIdx)
 
 CLayer::~CLayer()
 {
-	Safe_Del_List(m_listObject);
+	Safe_Del_Vec(m_vecObject);
 }
 
 void CLayer::tick()
 {
-	for (auto& iter : m_listObject)
+	size_t size = m_vecObject.size();
+	for (size_t i = 0; i < size; ++i)
 	{
-		if(iter->IsMaster())
-			iter->tick();
+		if (true == m_vecObject[i]->IsMaster())
+			m_vecObject[i]->tick();
 	}
 }
 
 void CLayer::finaltick()
 {
-	for (auto& iter : m_listObject)
+	size_t size = m_vecObject.size();
+	for (size_t i = 0; i < size; ++i)
 	{
-		if(iter->IsMaster())
-			iter->finaltick();
+		if (true == m_vecObject[i]->IsMaster())
+			m_vecObject[i]->finaltick();
 	}
 }
 
@@ -37,23 +39,22 @@ void CLayer::AddGameObject(CGameObject* _Object)
 		return;
 
 	//자신의 오브젝트 리스트에 전체 계층구조를 추가한다.
-	_Object->AddAllHierarchyObjects(m_iLayerIdx, m_listObject);
+	_Object->AddAllHierarchyObjects(m_iLayerIdx, m_vecObject);
 }
 
 void CLayer::RemoveGameObject(CGameObject* _Object)
 {
-	auto iter = m_listObject.begin();
-	auto iterEnd = m_listObject.end();
+	auto iter = m_vecObject.begin();
+	auto iterEnd = m_vecObject.end();
 	
 	while (iter != iterEnd)
 	{
 		if (_Object == (*iter))
 		{
-			m_listObject.erase(iter);
+			m_vecObject.erase(iter);
 			return;
 		}
 		++iter;
 	}
-
 }
 

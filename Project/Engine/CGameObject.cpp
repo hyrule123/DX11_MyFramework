@@ -208,7 +208,7 @@ void CGameObject::RemoveChild(CGameObject* _Object)
 }
 
 
-void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, list<CGameObject*>& _listObj)
+void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _vecObj)
 {
 	//인덱스가 아직 지정되지 않았을 경우 -> 무조건 인덱스 지정을 한번 해줘야함
 	//레이어가 고정되지 않았을 경우 -> 부모 오브젝트의 레이어를 따라감
@@ -221,10 +221,9 @@ void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, list<CGameObject*>& _li
 			CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx)->RemoveGameObject(this);
 		}
 
-
 		//삭제하고 새로운 레이어에 등록
 		m_iLayerIdx = _iLayerIdx;
-		_listObj.push_back(this);
+		_vecObj.push_back(this);
 	}
 	
 	//위 조건의 반대는
@@ -234,7 +233,7 @@ void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, list<CGameObject*>& _li
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->AddAllHierarchyObjects(_iLayerIdx, _listObj);
+		m_vecChild[i]->AddAllHierarchyObjects(_iLayerIdx, _vecObj);
 	}
 }
 

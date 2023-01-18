@@ -7,7 +7,7 @@ class CLayer :
     public CEntity
 {
 private:
-    list<CGameObject*>    m_listObject;
+    vector<CGameObject*>    m_vecObject;
     const int             m_iLayerIdx;
 
 public:
@@ -20,7 +20,7 @@ public:
 
     //그냥 지워버리면 댕글링 포인터 되므로 사용에 주의할것!!!
     void RemoveGameObject(CGameObject* _Object);
-    const list<CGameObject*>& GetObjList() const { return m_listObject; }
+    const vector<CGameObject*>& GetObjList() const { return m_vecObject; }
 
 
 
