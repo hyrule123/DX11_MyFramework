@@ -18,6 +18,7 @@
 #define SINGLETON(type) private: type(); ~type(); friend class CSingleton<type>;
 #define TYPE_INDEX(Type) std::type_index(typeid(Type))
 
+#define FLT_MAX_NEG -FLT_MAX
 
 //새로운 컴포넌트를 만들어줄 경우
 //eCOMPONENT_TYPE에 컴포넌트 추가
@@ -46,7 +47,6 @@ enum eCOMPONENT_TYPE
 
 	eCOMPONENT_END
 };
-
 extern const eCOMPONENT_TYPE g_RenderComIdxStart;
 extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 

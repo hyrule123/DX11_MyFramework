@@ -47,3 +47,4 @@ void Safe_Del_List(list<T*>& _list)
 class CGameObject;
 void SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx);
 void DestroyObject(CGameObject* _pObject);
+void AddChild(CGameObject* _pParent, CGameObject* _pChild);

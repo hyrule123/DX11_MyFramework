@@ -16,31 +16,62 @@ CEventMgr::~CEventMgr()
 
 }
 
+void CEventMgr::CreateObject(const tEvent& _event)
+{
+	//lParam = CGameObject Pointer
+	//rParam = Layer Index
+	CGameObject* Obj = reinterpret_cast<CGameObject*>(_event.lParam);
+
+	CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(Obj, (int)_event.rParam);
+}
+
+void CEventMgr::DestroyObject(const tEvent& _event)
+{
+	CGameObject* _pObj = reinterpret_cast<CGameObject*>(_event.lParam);
+
+	//이미 삭제 대기 상태에 들어가 있는 경우 추가로 등록하지 않음.
+	//중복 삭제 방지(댕글링 포인터 위험)
+	if (true == _pObj->GetDestroyed())
+		return;
+
+	_pObj->DestroyForEventMgr();
+	m_vecReserveDestroy.push_back(_pObj);
+}
+
+void CEventMgr::AddChild(const tEvent& _event)
+{
+	CGameObject* pParent = reinterpret_cast<CGameObject*>(_event.lParam);
+	CGameObject* pChild = reinterpret_cast<CGameObject*>(_event.rParam);
+	
+	pParent->AddChild(pChild);
+}
+
 void CEventMgr::tick()
 {
-	while (false == m_queueEvent.empty())
+	//이벤트 큐가 진행되기 전에 이전 프레임에서 등록된 오브젝트를 제거
+	//bDestroy 상태인 게임오브젝트를 Level에서 제거
+	CLevelMgr::GetInst()->GetCurLevel()->RemoveDestroyed();
+	size_t size = m_vecReserveDestroy.size();
+	for (size_t i = 0; i < size; ++i)
 	{
-		const tEvent& event = m_queueEvent.front();
-		
-		switch (event.Type)
+		delete m_vecReserveDestroy[i];
+	}
+	m_vecReserveDestroy.clear();
+
+
+	size = m_vecEvent.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		switch (m_vecEvent[i].Type)
 		{
 		case eEVENT_TYPE::CREATE_OBJECT:
-		{
-			//wParam = CGameObject Pointer
-			//lParam = Layer Index
-			CGameObject* Obj = reinterpret_cast<CGameObject*>(event.wParam);
-
-			CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(Obj, (int)event.lParam);
-
+			CreateObject(m_vecEvent[i]);
 			break;
-		}
-
-
-
-			
 		case eEVENT_TYPE::DELETE_OBJECT:
+			DestroyObject(m_vecEvent[i]);
 			break;
 		case eEVENT_TYPE::ADD_CHILD:
+			AddChild(m_vecEvent[i]);
 			break;
 		case eEVENT_TYPE::DELETE_RESOURCE:
 			break;
@@ -49,13 +80,6 @@ void CEventMgr::tick()
 		default:
 			break;
 		}
-
-
-		m_queueEvent.pop();
 	}
-
-	
-
-
-
+	m_vecEvent.clear();
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include "CScript.h"
+
+
 class CTestObjScript :
     public CScript
 {
@@ -9,9 +11,11 @@ private:
     float m_TurningForceRad;
 
 public:
+    virtual void BeginCollision(CCollider* _pCol) override;
+
+public:
     virtual void init() override;
     virtual void tick() override;
-
 
     CLONE(CTestObjScript);
 public:

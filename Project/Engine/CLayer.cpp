@@ -58,3 +58,14 @@ void CLayer::RemoveGameObject(CGameObject* _Object)
 	}
 }
 
+void CLayer::RemoveDestroyed()
+{
+	//Destroy 상태의 오브젝트를 vector에서 제거
+	m_vecObject.erase(std::remove_if(m_vecObject.begin(), m_vecObject.end(),
+		[](CGameObject* _Obj)->bool
+		{
+			return _Obj->GetDestroyed();
+		}),
+		m_vecObject.end());
+}
+

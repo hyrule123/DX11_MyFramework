@@ -45,6 +45,14 @@ void CLevel::AddGameObject(CGameObject* _Object, int _iLayerIdx)
 	_Object->init();
 }
 
+void CLevel::RemoveDestroyed()
+{
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		m_arrLayer[i]->RemoveDestroyed();
+	}
+}
+
 void CLevel::SetLayerName(int _iLayer, const wstring& _sLayerName)
 {
 	assert(0 <= _iLayer && _iLayer < MAX_LAYER);

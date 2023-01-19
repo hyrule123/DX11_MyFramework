@@ -28,6 +28,9 @@ public:
     virtual void init() {}
     virtual void tick() {}
     virtual void finaltick() = 0;
+
+    virtual void cleanup() = 0;
+
     virtual CComponent* Clone() = 0;
 
 public:

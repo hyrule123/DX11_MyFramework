@@ -14,6 +14,8 @@
 //트랜스폼 상속
 #include "CTransform.h"
 
+//생명주기 계산용
+#include "CTimeMgr.h"
 
 
 CGameObject::CGameObject()
@@ -23,6 +25,8 @@ CGameObject::CGameObject()
 	, m_Parent()
 	, m_iLayerIdx(-1)
 	, m_bFixLayer()
+	, m_bDestroy()
+	, m_fLifeSpan(FLT_MAX_NEG)
 {
 }
 
@@ -31,6 +35,8 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_iLayerIdx(_other.m_iLayerIdx)
 	, m_bFixLayer(_other.m_bFixLayer)
 	, m_bInitialized(_other.m_bInitialized)
+	, m_bDestroy()
+	, m_fLifeSpan(FLT_MAX_NEG)
 {
 	//1. 컴포넌트 목록 복사
 	for (int i = 0; i < eCOMPONENT_END; ++i)
@@ -89,6 +95,11 @@ void CGameObject::init()
 
 void CGameObject::tick()
 {
+	//자신이 파괴 대기 상태일 경우 자신과 모든 자식들에 대해 tick을 처리하지 않음
+	if (true == m_bDestroy)
+		return;
+
+
 	for (UINT i = 0; i < eCOMPONENT_END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -104,6 +115,36 @@ void CGameObject::tick()
 
 void CGameObject::finaltick()
 {
+	//자신이 파괴 대기 상태일 경우 자신과 모든 자식들에 대해 tick을 처리하지 않음
+	if (true == m_bDestroy)
+	{
+		//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
+		for (UINT i = 0; i < eCOMPONENT_SCRIPT_HOLDER; ++i)
+		{
+			if (nullptr != m_arrCom[i])
+				m_arrCom[i]->cleanup();
+		}
+
+		size_t size = m_vecChild.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			m_vecChild[i]->cleanup();
+		}
+		
+		return;
+	}
+	else if (FLT_MAX_NEG != m_fLifeSpan)
+	{
+		m_fLifeSpan -= DELTA_TIME;
+		if (m_fLifeSpan < 0.f)
+		{
+			DestroyObject(this);
+			return;
+		}
+	}
+		
+
+	//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
 	for (UINT i = 0; i < eCOMPONENT_SCRIPT_HOLDER; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -119,10 +160,27 @@ void CGameObject::finaltick()
 
 void CGameObject::render()
 {
-	if (nullptr == m_RenderCom)
+	//삭제 대기 상태일 경우 렌더링을 하지 않음.
+	if (nullptr == m_RenderCom || true == m_bDestroy)
 		return;
 
 	m_RenderCom->render();
+}
+
+void CGameObject::cleanup()
+{
+	for (UINT i = 0; i < eCOMPONENT_END; ++i)
+	{
+		if (nullptr != m_arrCom[i])
+			m_arrCom[i]->cleanup();
+	}
+
+	//자식 컴포넌트들도 모두 cleanup
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChild[i]->cleanup();
+	}
 }
 
 void CGameObject::AddComponent(CComponent* _Component)
@@ -184,10 +242,10 @@ void CGameObject::AddScript(CScript* _Script)
 
 void CGameObject::AddChild(CGameObject* _Object)
 {
-	if (nullptr != (_Object->m_Parent))
-		_Object->m_Parent->RemoveChild(_Object);
+	if (nullptr != (_Object->GetParent()))
+		_Object->GetParent()->RemoveChild(_Object);
 
-	_Object->m_Parent = this;
+	_Object->SetParent(this);
 	m_vecChild.push_back(_Object);
 }
 

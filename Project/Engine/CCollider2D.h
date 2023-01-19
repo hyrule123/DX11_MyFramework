@@ -42,5 +42,6 @@ public:
     virtual void UpdateColliderInfo() = 0;
     virtual void UpdateSpatialPartitionInfo() = 0;
     virtual void DebugRender() = 0;
+    virtual void cleanup() override {};
 };
 

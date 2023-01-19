@@ -11,9 +11,6 @@
     <Filter Include="CEditorObjMgr">
       <UniqueIdentifier>{47d8c72e-673d-44e2-b75b-7b9b20614e0d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CEditorObjMgr\CGameObjectEx">
-      <UniqueIdentifier>{c6cdb7d5-411f-41c3-94ee-c775e7d05ce5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

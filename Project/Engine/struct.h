@@ -30,8 +30,8 @@ extern tTransform g_transform;
 struct tEvent
 {
 	eEVENT_TYPE Type;
-	DWORD_PTR	wParam;
 	DWORD_PTR	lParam;
+	DWORD_PTR	rParam;
 };
 
 struct tDebugShapeInfo

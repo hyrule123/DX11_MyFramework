@@ -23,6 +23,11 @@ CTestObjScript::~CTestObjScript()
 {
 }
 
+void CTestObjScript::BeginCollision(CCollider* _pCol)
+{
+	GetOwner()->SetLifeSpan(2.f);
+}
+
 void CTestObjScript::init()
 {
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정

@@ -14,6 +14,8 @@ public:
     virtual void finaltick() override;
     virtual void render() override;
 
+    virtual void cleanup() override {}
+
     CLONE(CMeshRender);
 public:
     CMeshRender();

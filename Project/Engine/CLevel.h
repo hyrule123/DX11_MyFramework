@@ -15,13 +15,19 @@ public:
     void finaltick();
 
 public:
-    void AddGameObject(CGameObject* _Object, int _iLayerIdx);
+    //Setter
     void SetLayerName(int _iLayer, const wstring& _sLayerName);
+
+    //Getter
     const wstring& GetLayerName(int _iLayer);
     int GetLayerIdxByName(const wstring& _sLayerName);
     CLayer* GetLayer(UINT _iLayer);
 
+    //Add
+    void AddGameObject(CGameObject* _Object, int _iLayerIdx);
 
+    //Remove
+    void RemoveDestroyed();
 
     CLONE(CLevel);
 public:
@@ -36,3 +42,4 @@ inline CLayer* CLevel::GetLayer(UINT _iLayer)
 
     return m_arrLayer[_iLayer];
 }
+

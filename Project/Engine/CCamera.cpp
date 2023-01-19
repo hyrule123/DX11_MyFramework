@@ -172,6 +172,11 @@ void CCamera::finaltick()
 	
 }
 
+void CCamera::cleanup()
+{
+	CRenderMgr::GetInst()->RemoveCamera(this);
+}
+
 
 void CCamera::SortObject()
 {
@@ -183,13 +188,13 @@ void CCamera::SortObject()
 			continue;
 
 		//카메라가 출력하고자 하는 레이어의 오브젝트 리스트를 받아와서
-		const vector<CGameObject*>& objList = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i)->GetObjList();
+		const vector<CGameObject*>& vecObj = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i)->GetvecObj();
 		
-		size_t size = objList.size();
+		size_t size = vecObj.size();
 		for (size_t i = 0; i < size; ++i)
 		{
 			//출력 담당 컴포넌트를 받아온다.
-			CRenderComponent* Com = objList[i]->GetRenderComponent();
+			CRenderComponent* Com = vecObj[i]->GetRenderComponent();
 
 			//컴포넌트가 없거나, 컴포넌트 내부의 출력용 클래스가 등록되어있지 않을 경우 continue
 			if (
@@ -206,7 +211,7 @@ void CCamera::SortObject()
 			assert((int)dom < (int)eSHADER_DOMAIN_END);
 
 			//그렇지 않을 경우 push back
-			m_arrvecShaderDomain[(int)dom].push_back(objList[i]);
+			m_arrvecShaderDomain[(int)dom].push_back(vecObj[i]);
 		}
 
 	}

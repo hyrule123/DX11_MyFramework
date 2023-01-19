@@ -21,6 +21,18 @@ void CRenderMgr::RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx)
     m_arrCam[_idx] = _pCam;
 }
 
+void CRenderMgr::RemoveCamera(CCamera* _pCam)
+{
+    for (int i = 0; i < eCAMIDX_END; ++i)
+    {
+        if (_pCam == m_arrCam[i])
+        {
+            m_arrCam[i] = nullptr;
+            return;
+        }
+    }
+}
+
 void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 {
     //렌더 매니저에 저장된 디버그 쉐이프 렌더링 목록을 복사해준뒤 자신의 목록을 비운다.

@@ -13,6 +13,7 @@ private:
 public:
     CLevel* GetCurLevel() const { return m_pCurLevel; }
 
+
 public:
     void init();
     void tick();

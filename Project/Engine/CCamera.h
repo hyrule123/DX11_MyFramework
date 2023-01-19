@@ -35,6 +35,7 @@ public:
 public:
     virtual void init() override;
     virtual void finaltick() override;
+    virtual void cleanup() override;
     void SortObject();
     void render();
 
