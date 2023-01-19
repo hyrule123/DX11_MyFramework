@@ -45,7 +45,7 @@ void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, tRectLBRT _AABBInfo)
 	{
 		for (int y = GridIndex[B]; y <= GridIndex[T]; ++y)
 		{
-			m_vec2DGrid[y * m_uiNum2DGridX + x].vecColliderInGrid[_pCol->GetLayerIndex()].push_back(_pCol);
+			m_vec2DGrid[y * m_uiNum2DGridX + x].vecColliderInGrid.push_back(_pCol);
 		}
 	}
 }
@@ -81,89 +81,79 @@ void CCollisionMgr::tick()
 		iter.second.bCurrent = false;
 	}
 
-
 	for (UINT i = 0; i < m_uiNum2DGridTotalIndex; ++i)
 	{
-		for (int j = 0; j < MAX_LAYER; ++j)
+		size_t lsize = m_vec2DGrid[i].vecColliderInGrid.size();
+		for (int l = 0; l < lsize; ++l)
 		{
-			for (int k = j; k < MAX_LAYER; ++k)
+			for (int m = l + 1; m < lsize; ++m)
 			{
-				if (false == (m_arrFlagLayerInteraction[j] & ((UINT32)1 << k)))
+
+				if (false == (m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColliderInGrid[l]->GetLayerIndex()]
+					&
+					(UINT32)1 << m_vec2DGrid[i].vecColliderInGrid[m]->GetLayerIndex())
+					)
 					continue;
 
-				size_t lsize = m_vec2DGrid[i].vecColliderInGrid[j].size();
-				for (int l = 0; l < lsize; ++l)
+				//충돌
+				if (true == m_vec2DGrid[i].vecColliderInGrid[l]->CheckCollision(m_vec2DGrid[i].vecColliderInGrid[m]))
 				{
-					size_t msize = m_vec2DGrid[i].vecColliderInGrid[k].size();
-					for (int m = 0; m < msize; ++m)
+					CollisionID ID = {};
+					ID.LowID = m_vec2DGrid[i].vecColliderInGrid[l]->GetID();
+					ID.HighID = m_vec2DGrid[i].vecColliderInGrid[m]->GetID();
+					if (ID.HighID > ID.LowID)
 					{
-						
-						if (m_vec2DGrid[i].vecColliderInGrid[j][l] == m_vec2DGrid[i].vecColliderInGrid[k][m])
-							continue;
-
-						//충돌
-						if (true == m_vec2DGrid[i].vecColliderInGrid[j][l]->CheckCollision(m_vec2DGrid[i].vecColliderInGrid[k][m]))
-						{
-							CollisionID ID = {};
-							ID.LowID = m_vec2DGrid[i].vecColliderInGrid[j][l]->GetID();
-							ID.HighID = m_vec2DGrid[i].vecColliderInGrid[k][m]->GetID();
-							if (ID.HighID > ID.LowID)
-							{
-								UINT32 Temp = ID.LowID;
-								ID.LowID = ID.HighID;
-								ID.HighID = Temp;
-							}
-
-							auto iter = m_umapCollisionID.find(ID.FullID);
-							if (iter == m_umapCollisionID.end())
-							{
-								m_vec2DGrid[i].vecColliderInGrid[j][l]->BeginCollision(m_vec2DGrid[i].vecColliderInGrid[k][m]);
-
-
-								tCollisionInfo Info = {};
-								Info.bCurrent = true;
-								Info.pColliderA = m_vec2DGrid[i].vecColliderInGrid[j][l];
-								Info.pColliderB = m_vec2DGrid[i].vecColliderInGrid[k][m];
-								m_umapCollisionID.insert(make_pair(ID.FullID, Info));
-							}
-							else
-							{
-								m_vec2DGrid[i].vecColliderInGrid[j][l]->OnCollision(m_vec2DGrid[i].vecColliderInGrid[k][m]);
-
-								iter->second.bCurrent = true;
-							}
-
-						}
-						//비충돌
-						else
-						{
-							CollisionID ID = {};
-							ID.LowID = m_vec2DGrid[i].vecColliderInGrid[j][l]->GetID();
-							ID.HighID = m_vec2DGrid[i].vecColliderInGrid[k][m]->GetID();
-							if (ID.HighID > ID.LowID)
-							{
-								UINT32 Temp = ID.LowID;
-								ID.LowID = ID.HighID;
-								ID.HighID = Temp;
-							}
-
-							auto iter = m_umapCollisionID.find(ID.FullID);
-							if (iter != m_umapCollisionID.end())
-							{
-								m_vec2DGrid[i].vecColliderInGrid[j][l]->EndCollision(m_vec2DGrid[i].vecColliderInGrid[k][m]);
-
-								m_umapCollisionID.erase(iter);
-							}
-
-						}
+						UINT32 Temp = ID.LowID;
+						ID.LowID = ID.HighID;
+						ID.HighID = Temp;
 					}
-				}
-					
-			}
 
-			//확인한 레이어들은 clear 처리
-			m_vec2DGrid[i].vecColliderInGrid[j].clear();
+					auto iter = m_umapCollisionID.find(ID.FullID);
+					if (iter == m_umapCollisionID.end())
+					{
+						m_vec2DGrid[i].vecColliderInGrid[l]->BeginCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
+
+
+						tCollisionInfo Info = {};
+						Info.bCurrent = true;
+						Info.pColliderA = m_vec2DGrid[i].vecColliderInGrid[l];
+						Info.pColliderB = m_vec2DGrid[i].vecColliderInGrid[m];
+						m_umapCollisionID.insert(make_pair(ID.FullID, Info));
+					}
+					else
+					{
+						m_vec2DGrid[i].vecColliderInGrid[l]->OnCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
+
+						iter->second.bCurrent = true;
+					}
+
+				}
+				//비충돌
+				else
+				{
+					CollisionID ID = {};
+					ID.LowID = m_vec2DGrid[i].vecColliderInGrid[l]->GetID();
+					ID.HighID = m_vec2DGrid[i].vecColliderInGrid[m]->GetID();
+					if (ID.HighID > ID.LowID)
+					{
+						UINT32 Temp = ID.LowID;
+						ID.LowID = ID.HighID;
+						ID.HighID = Temp;
+					}
+
+					auto iter = m_umapCollisionID.find(ID.FullID);
+					if (iter != m_umapCollisionID.end())
+					{
+						m_vec2DGrid[i].vecColliderInGrid[l]->EndCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
+
+						m_umapCollisionID.erase(iter);
+					}
+
+				}
+			}
 		}
-	} 
+
+		m_vec2DGrid[i].vecColliderInGrid.clear();
+	}
 }
 

@@ -9,7 +9,7 @@ class CGameObject;
 
 struct tGrid2D
 {
-    vector<CCollider2D*> vecColliderInGrid[MAX_LAYER];
+    vector<CCollider2D*> vecColliderInGrid;
 };
 
 union CollisionID
