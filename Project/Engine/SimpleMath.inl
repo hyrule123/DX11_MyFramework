@@ -1469,6 +1469,7 @@ inline Vector4& Vector4::operator*= (const Vector4& V)
     return *this;
 }
 
+
 inline Vector4& Vector4::operator*= (float S)
 {
     using namespace DirectX;
@@ -1581,6 +1582,8 @@ inline bool Vector4::InBounds(const Vector4& Bounds) const
     XMVECTOR v2 = XMLoadFloat4(&Bounds);
     return XMVector4InBounds(v1, v2);
 }
+
+
 
 inline float Vector4::Length() const
 {

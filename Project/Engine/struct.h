@@ -56,10 +56,4 @@ struct tRectInfo
 	Vec2 RT;
 };
 
-class CCollider2D;
-struct tColliderPartInfo
-{
-	CCollider2D* pCol;
-	tRectInfo    RectInfo;
-	bool		 bFinal;
-};
+typedef Vector4 tRectLBRT;

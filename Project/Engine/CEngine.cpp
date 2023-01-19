@@ -51,7 +51,7 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CLevelMgr::GetInst()->init();		
 	CRenderMgr::GetInst()->init();
 	CEventMgr::GetInst();
-	CCollisionMgr::GetInst()->init();
+	CCollisionMgr::GetInst();
 
 	return S_OK;
 }

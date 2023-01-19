@@ -45,7 +45,8 @@ void CCollider2D::finaltick()
 	UpdateSpatialPartitionInfo();
 	DebugRender();
 
-	CCollisionMgr::GetInst()->AddCollider2D(this);
+	CCollisionMgr::GetInst()->AddCollider2D(this, Vec4(m_SpatialPartitionInfo.LB.x, m_SpatialPartitionInfo.LB.y,
+		m_SpatialPartitionInfo.RT.x, m_SpatialPartitionInfo.RT.y));
 }
 
 

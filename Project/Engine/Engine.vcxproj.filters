@@ -145,21 +145,6 @@
     <ClInclude Include="CCollider2D_Rect.h">
       <Filter>Source\06. Component\1, 2. Collider\1. Collider2D</Filter>
     </ClInclude>
-    <ClInclude Include="CQuadTree.h">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CSpatialPartition.h">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="COcTree.h">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CQuadNode.h">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CSpatialPartitionNode.h">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -284,21 +269,6 @@
     </ClCompile>
     <ClCompile Include="CCollider2D_Rect.cpp">
       <Filter>Source\06. Component\1, 2. Collider\1. Collider2D</Filter>
-    </ClCompile>
-    <ClCompile Include="CQuadTree.cpp">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CSpatialPartition.cpp">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="COcTree.cpp">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CQuadNode.cpp">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CSpatialPartitionNode.cpp">
-      <Filter>Source\03. Manager\08. CollisionMgr</Filter>
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>Source\00. Header</Filter>
