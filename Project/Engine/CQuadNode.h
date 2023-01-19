@@ -35,6 +35,9 @@ private:
 
 	vector<tColliderPartInfo> m_vecCollPartInfo;
 
+	int m_iMaxCapacity;
+	int m_iMaxRecursiveLevel;
+
 	
 public:
 	//Getter/Setter
@@ -55,7 +58,7 @@ public:
 	bool CheckFit(const tColliderPartInfo& _Partition);
 
 	//부모에게 자신의 충돌체 리스트를 넘겨서 쭉 타고 올라간다.
-	void CheckCollisionParent(const vector<tColliderPartInfo>& _ChildvecpCollider);
+	void CheckCollisionParent(vector<tColliderPartInfo>& _ChildvecpCollider);
 
 private:
 	void Split();
@@ -75,4 +78,21 @@ inline void CQuadNode::Clear()
 
 		m_arrChild[i]->Clear();
 	}
+}
+
+inline bool CQuadNode::CheckFit(const tColliderPartInfo& _Partition)
+{
+	//AABB검사를 통과 못할 시 return
+	if (
+		m_SquareInfo.LB_X < _Partition.RectInfo.LB.x
+		&&
+		m_SquareInfo.LB_Y < _Partition.RectInfo.LB.y
+		&&
+		m_SquareInfo.LB_X + m_SquareInfo.Size > _Partition.RectInfo.RT.x
+		&&
+		m_SquareInfo.LB_Y + m_SquareInfo.Size > _Partition.RectInfo.RT.y
+		)
+		return true;
+
+	return false;
 }

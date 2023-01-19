@@ -131,20 +131,7 @@ void CQuadNode::Split()
 
 
 
-bool CQuadNode::CheckFit(const tColliderPartInfo& _Partition)
-{
-	//AABB검사를 통과 못할 시 return
-	if (m_SquareInfo.LB_X >= _Partition.RectInfo.LB.x)
-		return false;
-	if (m_SquareInfo.LB_Y >= _Partition.RectInfo.LB.y)
-		return false;
-	if (m_SquareInfo.LB_X + m_SquareInfo.Size <= _Partition.RectInfo.RT.x)
-		return false;
-	if (m_SquareInfo.LB_Y + m_SquareInfo.Size <= _Partition.RectInfo.RT.y)
-		return false;
 
-	return true;
-}
 
 
 
@@ -222,8 +209,8 @@ void CQuadNode::Destroy()
 void CQuadNode::DebugRender()
 {
 	//자신의 한 변의 길이 = 크기
-	float RootSideLen = m_pOwner->GetSquareSize();
-	float mySideLen = RootSideLen * m_SquareInfo.Size;
+	//float RootSideLen = m_pOwner->GetSquareSize();
+	float mySideLen = m_SquareInfo.Size;
 	Vec3 vSize(mySideLen, mySideLen, 1.f);
 	const Matrix& matScale = Matrix::CreateScale(vSize);
 	
@@ -232,7 +219,7 @@ void CQuadNode::DebugRender()
 	Vec3 vPos(m_SquareInfo.LB_X + SizeHalf, m_SquareInfo.LB_Y + SizeHalf, 0.f);
 
 	//시작점도 루트 노드의 한 변의 길이에 곱해서 위치를 알아낸다.
-	vPos *= RootSideLen;
+	//vPos *= RootSideLen;
 	const Matrix& matTrans = Matrix::CreateTranslation(vPos);
 
 
@@ -275,20 +262,21 @@ void CQuadNode::DebugRender()
 
 void CQuadNode::CheckCollision()
 {
+	//자식 노드가 있을 경우 자식노드의 CheckCollision을 먼저 호출
+	if (nullptr != m_arrChild[0])
+	{
+		//자식 노드들도 CheckCollidion 호출
+		for (int i = 0; i < eQuadrant_End; ++i)
+		{
+			m_arrChild[i]->CheckCollision();
+		}
+	}
+
 	//자신의 CheckCollisionParent를 호출. 자신부터 시작해서 루트 노드까지 타고 올라가면서 모든 충돌체와 충돌을 검사.
 	CheckCollisionParent(m_vecCollPartInfo);
-
-	//자식노드가 없을경우 return
-	if (nullptr == m_arrChild[0])
-		return;
-	//자식 노드들도 CheckCollidion 호출
-	for (int i = 0; i < eQuadrant_End; ++i)
-	{
-		m_arrChild[i]->CheckCollision();
-	}
 }
 
-void CQuadNode::CheckCollisionParent(const vector<tColliderPartInfo>& _ChildvecpCollider)
+void CQuadNode::CheckCollisionParent(vector<tColliderPartInfo>& _ChildvecpCollider)
 {
 	//자식 노드로부터 올라온 벡터와 자신의 벡터를 순회 돌면서 충돌검사를 시행
 	size_t sizeC = _ChildvecpCollider.size();
@@ -305,9 +293,12 @@ void CQuadNode::CheckCollisionParent(const vector<tColliderPartInfo>& _Childvecp
 		}
 	}
 
-	//더이상 부모 노드가 없을 경우 return
+	//더이상 부모 노드가 없을 경우 끝에 도달한 것이므로 해당 충돌체 벡터를 비우고 return
 	if (nullptr == m_pParent)
+	{
+		_ChildvecpCollider.clear();
 		return;
+	}
 
 	//쭉 타고 올라가면서 다른 부모의 리스트와 충돌 비교
 	m_pParent->CheckCollisionParent(_ChildvecpCollider);

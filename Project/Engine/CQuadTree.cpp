@@ -10,7 +10,7 @@ CQuadTree::CQuadTree(float _fRootNodeSize, int _iCapacity)
 	: m_fRootNodeSize(_fRootNodeSize)
 	, m_fReserveResize(-1.f)
 	, m_iCapacity(_iCapacity)
-	, m_iMaxRecursiveLevel(3)
+	, m_iMaxRecursiveLevel(10)
 	, m_flagLayerInteraction{}
 {
 	m_fRootNodeHalfSize = 0.5f * m_fRootNodeSize;
@@ -18,7 +18,7 @@ CQuadTree::CQuadTree(float _fRootNodeSize, int _iCapacity)
 	//루트노드를 생성. 값을 넣어주면 이후는 알아서 재귀적으로 반복됨.
 	//NDC 좌표계의 좌하단 좌표(-1, -1)에서 시작, NDC 좌표계의 화면 사이즈(2 * 2)와 일치시켜서 사용.
 	//각 노드에는 추상적인 '배율' 값만 넣어놓고, 여기에 실제 사이즈를 저장한 뒤 곱해서 사용하는 방식으로 계산.
-	tSquareInfo Info = { -1.f, -1.f, 2.f };
+	tSquareInfo Info = { -m_fRootNodeHalfSize, -m_fRootNodeHalfSize, m_fRootNodeSize };
 
 	m_Root = new CQuadNode(this, nullptr, Info, 0);
 }
@@ -58,7 +58,7 @@ void CQuadTree::tick()
 	}
 
 	//쿼드트리 내의 데이터를 모두 제거
-	m_Root->Clear();
+	//m_Root->Clear();
 
 	if (0.f < m_fReserveResize)
 	{
@@ -75,16 +75,6 @@ void CQuadTree::AddCollider(CCollider2D* _pCol)
 	tColliderPartInfo Part = {};
 	Part.pCol = _pCol;
 	Part.RectInfo = _pCol->GetSpatialPartitionInfo();
-
-	//사이즈를 확장해야하는지 검사
-	float Biggest = std::fmaxf(fabsf(Part.RectInfo.LB.x),
-		std::fmaxf(fabsf(Part.RectInfo.LB.y),
-			std::fmaxf(fabsf(Part.RectInfo.RT.x), fabsf(Part.RectInfo.RT.y))));
-	if (Biggest > m_fRootNodeSize)
-		ReserveResize(Biggest);
-
-	Part.RectInfo.LB /= m_fRootNodeSize;
-	Part.RectInfo.RT /= m_fRootNodeSize;
 
 	m_Root->Insert(Part);
 }
