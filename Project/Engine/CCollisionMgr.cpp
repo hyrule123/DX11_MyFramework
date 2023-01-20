@@ -23,6 +23,7 @@ CCollisionMgr::~CCollisionMgr()
 
 void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, tRectLBRT _AABBInfo)
 {
+	
 	enum LBRT
 	{
 		L,
@@ -98,9 +99,7 @@ void CCollisionMgr::tick()
 				//충돌
 				if (true == m_vec2DGrid[i].vecColliderInGrid[l]->CheckCollision(m_vec2DGrid[i].vecColliderInGrid[m]))
 				{
-					CollisionID ID = {};
-					ID.LowID = m_vec2DGrid[i].vecColliderInGrid[l]->GetID();
-					ID.HighID = m_vec2DGrid[i].vecColliderInGrid[m]->GetID();
+					CollisionID ID(m_vec2DGrid[i].vecColliderInGrid[l]->GetID(), m_vec2DGrid[i].vecColliderInGrid[m]->GetID());
 					if (ID.HighID > ID.LowID)
 					{
 						UINT32 Temp = ID.LowID;
@@ -123,7 +122,7 @@ void CCollisionMgr::tick()
 					else
 					{
 						m_vec2DGrid[i].vecColliderInGrid[l]->OnCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
-
+						
 						iter->second.bCurrent = true;
 					}
 
@@ -131,9 +130,7 @@ void CCollisionMgr::tick()
 				//비충돌
 				else
 				{
-					CollisionID ID = {};
-					ID.LowID = m_vec2DGrid[i].vecColliderInGrid[l]->GetID();
-					ID.HighID = m_vec2DGrid[i].vecColliderInGrid[m]->GetID();
+					CollisionID ID(m_vec2DGrid[i].vecColliderInGrid[l]->GetID(), m_vec2DGrid[i].vecColliderInGrid[m]->GetID());
 					if (ID.HighID > ID.LowID)
 					{
 						UINT32 Temp = ID.LowID;

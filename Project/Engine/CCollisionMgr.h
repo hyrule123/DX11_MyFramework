@@ -20,6 +20,11 @@ union CollisionID
         UINT32 HighID;
     };
     UINT64 FullID;
+
+    CollisionID(UINT32 _LowID, UINT32 _HighID)
+        : LowID(_LowID)
+        , HighID(_HighID)
+    {}
 };
 
 struct tCollisionInfo
