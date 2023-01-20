@@ -32,6 +32,12 @@ struct tCollisionInfo
     bool bCurrent;
     CCollider2D* pColliderA;
     CCollider2D* pColliderB;
+
+    tCollisionInfo(bool _bCurrent, CCollider2D* _pColliderA, CCollider2D* _pColliderB)
+        : bCurrent(_bCurrent)
+        , pColliderA(_pColliderA)
+        , pColliderB(_pColliderB)
+    {}
 };
 
 

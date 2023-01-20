@@ -242,9 +242,9 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetKey(L"TestShader");
 		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADERTYPE_PIXEL);
-		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
-		pShader->SetBlendState(eBLENDSTATE_ALPHABLEND);
-		pShader->SetShaderDomain(eSHADER_DOMAIN_TRANSPARENT);
+		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+		pShader->SetBlendState(eBLENDSTATE_DEFAULT);
+		pShader->SetShaderDomain(eSHADER_DOMAIN_OPAQUE);
 		AddRes(L"TestShader", pShader);
 	}
 

@@ -108,7 +108,7 @@ void CLevelMgr::init()
 	//SpawnGameObject(pTestObj2, Vec3(0.f, 100.f, 10.f), )
 	//m_pCurLevel->AddGameObject(pTestObj2, 1);
 
-	int square = 20;
+	int square = 10;
 	static float startxy = -(110 * square) * 0.5f;
 	for(int i = 0; i < square; ++i)
 	{

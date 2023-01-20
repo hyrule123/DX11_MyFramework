@@ -84,9 +84,9 @@ void CCollisionMgr::tick()
 
 	for (UINT i = 0; i < m_uiNum2DGridTotalIndex; ++i)
 	{
-		size_t lsize = m_vec2DGrid[i].vecColliderInGrid.size();
-		//충돌은 최소 2개가 있어야 진행 가능하므로 2사이즈가 2개 이하일 경우 리턴
-		if (lsize < 2)
+		size_t size = m_vec2DGrid[i].vecColliderInGrid.size();
+		//충돌은 최소 2개가 있어야 진행 가능하므로 2사이즈가 2개 이하일 경우 다음 벡터에 대해 충돌검사 진행
+		if (size < 2)
 			continue;
 
 		std::sort(m_vec2DGrid[i].vecColliderInGrid.begin(), m_vec2DGrid[i].vecColliderInGrid.end(),
@@ -96,9 +96,9 @@ void CCollisionMgr::tick()
 			}
 		);
 
-		for (int l = 0; l < lsize; ++l)
+		for (int l = 0; l < size; ++l)
 		{
-			for (int m = l + 1; m < lsize; ++m)
+			for (int m = l + 1; m < size; ++m)
 			{
 
 				if (false == (m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColliderInGrid[l]->GetLayerIndex()]
@@ -110,7 +110,6 @@ void CCollisionMgr::tick()
 				//위에서 ID순 오름차순으로 정렬했으므로 ID를 굳이 비교할 필요가 없다.
 				CollisionID ID(m_vec2DGrid[i].vecColliderInGrid[l]->GetID(), m_vec2DGrid[i].vecColliderInGrid[m]->GetID());
 
-
 				//충돌
 				if (true == m_vec2DGrid[i].vecColliderInGrid[l]->CheckCollision(m_vec2DGrid[i].vecColliderInGrid[m]))
 				{
@@ -121,16 +120,13 @@ void CCollisionMgr::tick()
 						m_vec2DGrid[i].vecColliderInGrid[l]->BeginCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
 
 
-						tCollisionInfo Info = {};
-						Info.bCurrent = true;
-						Info.pColliderA = m_vec2DGrid[i].vecColliderInGrid[l];
-						Info.pColliderB = m_vec2DGrid[i].vecColliderInGrid[m];
+						tCollisionInfo Info(true, m_vec2DGrid[i].vecColliderInGrid[l], m_vec2DGrid[i].vecColliderInGrid[m]);
 						m_umapCollisionID.insert(make_pair(ID.FullID, Info));
 					}
 					else
 					{
 						m_vec2DGrid[i].vecColliderInGrid[l]->OnCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
-						
+
 						iter->second.bCurrent = true;
 					}
 
@@ -138,7 +134,6 @@ void CCollisionMgr::tick()
 				//비충돌
 				else
 				{
-
 					auto iter = m_umapCollisionID.find(ID.FullID);
 					if (iter != m_umapCollisionID.end())
 					{
@@ -153,5 +148,19 @@ void CCollisionMgr::tick()
 
 		m_vec2DGrid[i].vecColliderInGrid.clear();
 	}
-}
 
+	//이번 타임에 충돌확인되지 않은 충돌체들에 대해서 충돌 제거 처리
+	auto iter = m_umapCollisionID.begin();
+	const auto& iterEnd = m_umapCollisionID.end();
+	while (iter != iterEnd)
+	{
+		if (false == iter->second.bCurrent)
+		{
+			iter->second.pColliderA->EndCollision(iter->second.pColliderB);
+			iter = m_umapCollisionID.erase(iter);
+		}
+		else
+			++iter;
+	}
+
+}
