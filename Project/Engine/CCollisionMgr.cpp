@@ -85,6 +85,17 @@ void CCollisionMgr::tick()
 	for (UINT i = 0; i < m_uiNum2DGridTotalIndex; ++i)
 	{
 		size_t lsize = m_vec2DGrid[i].vecColliderInGrid.size();
+		//충돌은 최소 2개가 있어야 진행 가능하므로 2사이즈가 2개 이하일 경우 리턴
+		if (lsize < 2)
+			continue;
+
+		std::sort(m_vec2DGrid[i].vecColliderInGrid.begin(), m_vec2DGrid[i].vecColliderInGrid.end(),
+			[](CCollider2D* _pColA, CCollider2D* _pColB)->bool
+			{
+				return _pColA->GetID() < _pColB->GetID();
+			}
+		);
+
 		for (int l = 0; l < lsize; ++l)
 		{
 			for (int m = l + 1; m < lsize; ++m)
@@ -96,16 +107,13 @@ void CCollisionMgr::tick()
 					)
 					continue;
 
+				//위에서 ID순 오름차순으로 정렬했으므로 ID를 굳이 비교할 필요가 없다.
+				CollisionID ID(m_vec2DGrid[i].vecColliderInGrid[l]->GetID(), m_vec2DGrid[i].vecColliderInGrid[m]->GetID());
+
+
 				//충돌
 				if (true == m_vec2DGrid[i].vecColliderInGrid[l]->CheckCollision(m_vec2DGrid[i].vecColliderInGrid[m]))
 				{
-					CollisionID ID(m_vec2DGrid[i].vecColliderInGrid[l]->GetID(), m_vec2DGrid[i].vecColliderInGrid[m]->GetID());
-					if (ID.HighID > ID.LowID)
-					{
-						UINT32 Temp = ID.LowID;
-						ID.LowID = ID.HighID;
-						ID.HighID = Temp;
-					}
 
 					auto iter = m_umapCollisionID.find(ID.FullID);
 					if (iter == m_umapCollisionID.end())
@@ -130,13 +138,6 @@ void CCollisionMgr::tick()
 				//비충돌
 				else
 				{
-					CollisionID ID(m_vec2DGrid[i].vecColliderInGrid[l]->GetID(), m_vec2DGrid[i].vecColliderInGrid[m]->GetID());
-					if (ID.HighID > ID.LowID)
-					{
-						UINT32 Temp = ID.LowID;
-						ID.LowID = ID.HighID;
-						ID.HighID = Temp;
-					}
 
 					auto iter = m_umapCollisionID.find(ID.FullID);
 					if (iter != m_umapCollisionID.end())
