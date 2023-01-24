@@ -23,6 +23,8 @@
 //충돌 레이어 등록 및 체크용
 #include "CCollisionMgr.h"
 
+
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {
@@ -59,6 +61,9 @@ void CLevelMgr::init()
 
 	pPlayer->MeshRender()->SetMesh(CircleMesh);
 	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
+
+	pPlayer->AddComponent(new CLight2D);
+	pPlayer->Light2D();
 
 	pPlayer->AddComponent(new CCollider2D_OBB);
 

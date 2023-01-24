@@ -7,7 +7,7 @@
 #include "CCollider2D_OBB.h"
 #include "CCollider2D_Rect.h"
 //#include "CCollider3D.h"
-//#include "Light2D.h"
+#include "CLight2D.h"
 #include "CCamera.h"
 //#include "CAnimator2D.h"
 //#include "CAnimator3D.h"

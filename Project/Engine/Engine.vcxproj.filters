@@ -145,6 +145,15 @@
     <ClInclude Include="CCollider2D_Rect.h">
       <Filter>Source\06. Component\1, 2. Collider\1. Collider2D</Filter>
     </ClInclude>
+    <ClInclude Include="CLight.h">
+      <Filter>Source\06. Component\5, 6. Light</Filter>
+    </ClInclude>
+    <ClInclude Include="CLight2D.h">
+      <Filter>Source\06. Component\5, 6. Light\5. Light2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CStructBuffer.h">
+      <Filter>Source\02. Device\StructBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -273,6 +282,15 @@
     <ClCompile Include="func.cpp">
       <Filter>Source\00. Header</Filter>
     </ClCompile>
+    <ClCompile Include="CLight.cpp">
+      <Filter>Source\06. Component\5, 6. Light</Filter>
+    </ClCompile>
+    <ClCompile Include="CLight2D.cpp">
+      <Filter>Source\06. Component\5, 6. Light\5. Light2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CStructBuffer.cpp">
+      <Filter>Source\02. Device\StructBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -398,6 +416,18 @@
     <Filter Include="Source\06. Component\1, 2. Collider\2. Collider3D">
       <UniqueIdentifier>{e483505c-f0c8-4d90-829b-992a0f6c408c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\08. ShaderCode\3. Std2D_Light">
+      <UniqueIdentifier>{9167c3c6-09eb-401a-b481-42529ffc669b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\5, 6. Light">
+      <UniqueIdentifier>{c6cd41ea-7444-48ef-beae-cf29939f9c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\5, 6. Light\5. Light2D">
+      <UniqueIdentifier>{a90e80c9-c59d-4642-9f27-9055695a07fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\02. Device\StructBuffer">
+      <UniqueIdentifier>{c20f09de-5075-430f-b628-e3a4decf08e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -410,11 +440,17 @@
     <None Include="Shader_test_0_header.hlsli">
       <Filter>Source\08. ShaderCode\1. Test</Filter>
     </None>
-    <None Include="Shader_Std2D_0_header.hlsli">
+    <None Include="Shader_std2D_0_header.hlsli">
       <Filter>Source\08. ShaderCode\2. Std2D</Filter>
     </None>
     <None Include="Shader_Debug_0_header.hlsli">
       <Filter>Source\08. ShaderCode\0. Debug</Filter>
+    </None>
+    <None Include="Shader_std2D_Light_0_header.hlsli">
+      <Filter>Source\08. ShaderCode\3. Std2D_Light</Filter>
+    </None>
+    <None Include="Shader_header_struct.hlsli">
+      <Filter>Source\08. ShaderCode</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -424,10 +460,10 @@
     <FxCompile Include="Shader_test_1_vertex.hlsl">
       <Filter>Source\08. ShaderCode\1. Test</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Std2D_2_pixel.hlsl">
+    <FxCompile Include="Shader_std2D_2_pixel.hlsl">
       <Filter>Source\08. ShaderCode\2. Std2D</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Std2D_1_vertex.hlsl">
+    <FxCompile Include="Shader_std2D_1_vertex.hlsl">
       <Filter>Source\08. ShaderCode\2. Std2D</Filter>
     </FxCompile>
     <FxCompile Include="Shader_Debug_1_vertex.hlsl">
@@ -435,6 +471,12 @@
     </FxCompile>
     <FxCompile Include="Shader_Debug_2_pixel.hlsl">
       <Filter>Source\08. ShaderCode\0. Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_std2D_Light_2_pixel.hlsl">
+      <Filter>Source\08. ShaderCode\3. Std2D_Light</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_std2D_Light_1_vertex.hlsl">
+      <Filter>Source\08. ShaderCode\3. Std2D_Light</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

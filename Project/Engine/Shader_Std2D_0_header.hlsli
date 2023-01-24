@@ -22,3 +22,5 @@ struct VS_OUT
     float2 vUV : TEXCOORD;
 };
 
+//SV_Position == Shader Variable Position. 버텍스 쉐이더와 래스터라이저를 거쳐 결정된 픽셀의 위치.
+

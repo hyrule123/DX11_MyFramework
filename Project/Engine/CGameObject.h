@@ -9,6 +9,7 @@ class CCamera;
 class CRenderComponent;
 class CScriptHolder;
 class CScript;
+class CLight2D;
 
 class CGameObject :
     public CEntity
@@ -49,6 +50,7 @@ public:
     CCamera* Camera() const { return (CCamera*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_CAMERA]; }
     CRenderComponent* GetRenderComponent() const { return m_RenderCom; }
     CScriptHolder* ScriptHolder() const { return (CScriptHolder*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER]; }
+    CLight2D* Light2D() const { return (CLight2D*)(m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_LIGHT2D]); }
 
     CGameObject* GetParent() const { return m_Parent; }
     int          GetLayer() const { return m_iLayerIdx; }

@@ -1,5 +1,5 @@
 
-#include "Shader_Std2d_0_header.hlsli"
+#include "Shader_std2d_0_header.hlsli"
 
 VS_OUT VS_std2D(VS_IN _in)
 {

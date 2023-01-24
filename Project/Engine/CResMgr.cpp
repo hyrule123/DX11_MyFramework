@@ -16,6 +16,9 @@
 #include "CompiledShaderHeader/Shader_std2D_1_vertex_Debug.h"
 #include "CompiledShaderHeader/Shader_std2D_2_pixel_Debug.h"
 
+#include "CompiledShaderHeader/Shader_std2D_Light_1_vertex_Debug.h"
+#include "CompiledShaderHeader/Shader_std2D_Light_2_pixel_Debug.h"
+
 #else
 
 #include "CompiledShaderHeader/Shader_Debug_1_vertex.h"
@@ -26,6 +29,9 @@
 
 #include "CompiledShaderHeader/Shader_std2D_1_vertex.h"
 #include "CompiledShaderHeader/Shader_std2D_2_pixel.h"
+
+#include "CompiledShaderHeader/Shader_std2D_Light_1_vertex.h"
+#include "CompiledShaderHeader/Shader_std2D_Light_2_pixel.h"
 
 #endif
 
@@ -261,6 +267,19 @@ void CResMgr::CreateDefaultGraphicsShader()
 	}
 
 
+	// ==================
+	// std2D_Light Shader
+	// ==================
+	// 광원을 처리할 수 있는 2D 쉐이더
+	{
+		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		pShader->SetKey(L"std2DLightShader");
+		pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADERTYPE_VERTEX);
+		pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADERTYPE_PIXEL);
+		pShader->SetShaderDomain(eSHADER_DOMAIN_OPAQUE);
+		AddRes(pShader->GetKey(), pShader);
+	}
+
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -288,6 +307,15 @@ void CResMgr::CreateDefaultMaterial()
 		pMtrl = new CMaterial;
 		pMtrl->SetKey(L"std2DMtrl");
 		pMtrl->SetShader(FindRes<CGraphicsShader>(L"std2DShader"));
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
+
+	// std2DLight Material
+	{
+		Ptr<CMaterial> pMtrl = nullptr;
+		pMtrl = new CMaterial;
+		pMtrl->SetKey(L"std2DLightMtrl");
+		pMtrl->SetShader(FindRes<CGraphicsShader>(L"std2DLightShader"));
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 }

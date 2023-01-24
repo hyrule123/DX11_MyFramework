@@ -57,3 +57,30 @@ struct tRectInfo
 };
 
 typedef Vector4 tRectLBRT;
+
+struct tLightColor
+{
+	Vec4 vDiffuse;
+	Vec4 vAmbient;
+};
+
+struct tLightInfo
+{
+	tLightColor LightColor;
+
+	Vec4 vLightWorldPos;
+
+	Vec4 vLightDir;	//직사광선 또는 스포트라이트의 방향
+
+	float fRadius;	//점광원 또는 스포트라이트의 거리
+	float fAngle;
+	UINT LightType;
+	int padding;
+};
+
+enum class eLIGHT_TYPE : UINT
+{
+	eLIGHT_DIRECTIONAL,	//직사광선
+	eLIGHT_POINT,		//점광원
+	eLIGHT_SPOTLIGHT	//스포트라이트
+};
