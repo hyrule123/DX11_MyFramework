@@ -42,6 +42,7 @@ public:
     void                SetParent(CGameObject* _pObj) { m_Parent = _pObj; }
     void                DestroyForEventMgr();
     void                SetLifeSpan(float _fLifeSpan);
+    void                SetChildTransformToUpdate();
 
     //Inline Getter
     ////Components
@@ -66,6 +67,7 @@ public:
 
     //Recursive
     void AddAllHierarchyObjects(__in int _iLayerIdx, __out vector<CGameObject*>& _vecObj);
+    void SetParentTransformUpdated();
 
     //±‚≈∏
     bool                GetParentWorldMatrix(__out Matrix& _mat);
@@ -113,3 +115,5 @@ inline void CGameObject::SetLifeSpan(float _fLifeSpan)
 
     m_fLifeSpan = _fLifeSpan;
 }
+
+

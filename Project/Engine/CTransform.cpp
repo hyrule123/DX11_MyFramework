@@ -14,7 +14,7 @@ CTransform::CTransform()
 	, m_vRelativeScale(1.f, 1.f, 1.f)
 	, m_bInheritScale(true)
 	, m_bInheritRot(true)
-	, m_vSize(100.f, 100.f, 1.f)
+	//Matrix와 Vector 변수는 자체 생성자를 통해 초기화 됨.
 {
 }
 
@@ -22,12 +22,36 @@ CTransform::~CTransform()
 {
 }
 
+
+
 void CTransform::finaltick()
 {
 	//여기선 고유 크기(Size)를 반영하지 않은 월드행렬을 만든다.
 	//게임오브젝트 상속 관계에서 고유 크기까지 상속을 받게 되면 기하급수적으로 크기가 커짐 
-	
-	
+	if (true == m_bNeedMyUpdate)
+	{
+		//자신의 트랜스폼 업데이트를 진행할 경우 - 두개 다 업데이트 해줘야함.
+		UpdateMyTransform();
+	}
+	//부모 트랜스폼'만' 갱신되었을 경우 : 자신은 갱신할 필요 없음.
+	if(true == m_bNeedParentUpdate)
+	{
+		UpdateParentMatrix();
+	}
+
+
+	//둘중에 하나라도 업데이트 되었을 경우 월드행렬을 새로 계산한다.
+	if (m_bNeedMyUpdate || m_bNeedParentUpdate)
+	{
+		m_matWorld = m_matRelative * m_matParent;
+
+		m_bNeedMyUpdate = false;
+		m_bNeedParentUpdate = false;
+	}
+}
+
+void CTransform::UpdateMyTransform()
+{
 	//크기행렬(CreateScale을 해주면 자동으로 동차좌표를 추가해서 행렬에 삽입해 준다.
 	const Matrix& matScale = Matrix::CreateScale(m_vRelativeScale);
 
@@ -44,16 +68,17 @@ void CTransform::finaltick()
 	//이동행렬
 	const Matrix& matTranslation = Matrix::CreateTranslation(m_vRelativePos);
 
-	//자신의 월드행렬 완성
-	m_matWorld = matScale * matRot * matTranslation;
+	//자신의 월드행렬 완성(상대값)
+	m_matRelative = matScale * matRot * matTranslation;
+}
 
-
-	//우선 단위행렬을 하나 만든 뒤
-	static Matrix matInherit;
+void CTransform::UpdateParentMatrix()
+{
+	m_matParent = Matrix::Identity;
 	//부모 오브젝트가 있을 경우 부모의 월드행렬을 받아온다. 
 	//성공 시 true가 반환되므로 이 때는 상속 과정을 시작하면 됨
 	bool bWorldDirInherit = false;
-	if (true == GetOwner()->GetParentWorldMatrix(matInherit))
+	if (true == GetOwner()->GetParentWorldMatrix(m_matParent))
 	{
 		if (true == m_bInheritRot)
 		{
@@ -63,16 +88,16 @@ void CTransform::finaltick()
 				for (int i = 0; i < 3; ++i)
 				{
 					//정규화해서 크기정보를 제거
-					matInherit.Right(matInherit.Right().Normalize());
-					matInherit.Up(matInherit.Up().Normalize());
-					matInherit.Forward(matInherit.Forward().Normalize());
-					
+					m_matParent.Right(m_matParent.Right().Normalize());
+					m_matParent.Up(m_matParent.Up().Normalize());
+					m_matParent.Forward(m_matParent.Forward().Normalize());
 
-					//Vec3 Scale(matInherit.Right().Length(), matInherit.Up().Length(), matInherit.Forward().Length());
+
+					//Vec3 Scale(m_matParent.Right().Length(), m_matParent.Up().Length(), m_matParent.Forward().Length());
 					//Scale = Vec3(1.f, 1.f, 1.f) / Scale;
-					//matInherit.m[0][i] *= Scale.x;
-					//matInherit.m[1][i] *= Scale.y;
-					//matInherit.m[2][i] *= Scale.z;
+					//m_matParent.m[0][i] *= Scale.x;
+					//m_matParent.m[1][i] *= Scale.y;
+					//m_matParent.m[2][i] *= Scale.z;
 				}
 			}
 			//else: 둘 다 상속 받는 경우에는 작업할 것이 없음. 그냥 빠져나가면 됨
@@ -85,35 +110,32 @@ void CTransform::finaltick()
 			if (true == m_bInheritScale)
 			{
 				//회전정보만 상속받는 경우: 크기정보만 추출
-				Vec3 Scale(matInherit.Right().Length(), matInherit.Up().Length(), matInherit.Forward().Length());
+				Vec3 Scale(m_matParent.Right().Length(), m_matParent.Up().Length(), m_matParent.Forward().Length());
 				//float(4) * 12 -> 회전 파트를 모두 0으로 밀어버리고 크기만 등록
-				memset(matInherit.m, 0, 48);
-				matInherit._11 = Scale.x;
-				matInherit._22 = Scale.y;
-				matInherit._33 = Scale.z;
+				memset(m_matParent.m, 0, 48);
+				m_matParent._11 = Scale.x;
+				m_matParent._22 = Scale.y;
+				m_matParent._33 = Scale.z;
 			}
 			//회전 미상속 + 크기 미상속 -> 전부 밀고 단위행렬로
 			else
 			{
-				memset(matInherit.m, 0, 48);
-				matInherit._11 = 1.f;
-				matInherit._22 = 1.f;
-				matInherit._33 = 1.f;
+				memset(m_matParent.m, 0, 48);
+				m_matParent._11 = 1.f;
+				m_matParent._22 = 1.f;
+				m_matParent._33 = 1.f;
 			}
 		}
-
-		//부모의 회전행렬을 뒤에 곱해준다.
-		m_matWorld *= matInherit;
 	}
 }
 
 void CTransform::UpdateData()
 {
 	//자신의 사이즈를 적용한 WVP 행렬을 만들어 상수버퍼로 업데이트 한다.
-	const Matrix& matSize = Matrix::CreateScale(m_vSize);
+	//const Matrix& matSize = Matrix::CreateScale(m_vSize);
 
 	//월드뷰투영행렬을 곱한 후 전치한다.(HLSL은 Column-Major Matrix, XMMATRIX에서는 Row-Major Matrix를 사용 중)
-	Matrix matWVP = (matSize * m_matWorld * g_transform.matViewProj).Transpose();
+	Matrix matWVP = (m_matSize * m_matWorld * g_transform.matViewProj).Transpose();
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
 	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TRANSFORM);

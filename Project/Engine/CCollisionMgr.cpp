@@ -8,6 +8,7 @@
 
 #include "CCollider2D.h"
 
+#include "CTimeMgr.h"
 
 CCollisionMgr::CCollisionMgr()
 {
@@ -77,11 +78,6 @@ void CCollisionMgr::Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridN
 
 void CCollisionMgr::tick()
 {
-	for (auto& iter : m_umapCollisionID)
-	{
-		iter.second.bCurrent = false;
-	}
-
 	for (UINT i = 0; i < m_uiNum2DGridTotalIndex; ++i)
 	{
 		size_t size = m_vec2DGrid[i].vecColliderInGrid.size();
@@ -120,14 +116,18 @@ void CCollisionMgr::tick()
 						m_vec2DGrid[i].vecColliderInGrid[l]->BeginCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
 
 
-						tCollisionInfo Info(true, m_vec2DGrid[i].vecColliderInGrid[l], m_vec2DGrid[i].vecColliderInGrid[m]);
+						//충돌 정보에 충돌을 체크한 시간과 충돌체 주소를 넣어서 map에 삽입한다.
+						tCollisionInfo Info = 
+						{ CTimeMgr::GetInst()->GetCurCount(), 
+							m_vec2DGrid[i].vecColliderInGrid[l], m_vec2DGrid[i].vecColliderInGrid[m]};
 						m_umapCollisionID.insert(make_pair(ID.FullID, Info));
 					}
 					else
 					{
 						m_vec2DGrid[i].vecColliderInGrid[l]->OnCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
 
-						iter->second.bCurrent = true;
+						//충돌 중이라면(map에 충돌 정보가 들어 있다면) 체크한 시간만 갱신한다.
+						iter->second.llCheckedCount = CTimeMgr::GetInst()->GetCurCount();
 					}
 
 				}
@@ -137,6 +137,7 @@ void CCollisionMgr::tick()
 					auto iter = m_umapCollisionID.find(ID.FullID);
 					if (iter != m_umapCollisionID.end())
 					{
+						//충돌이 끝났는데 ID가 남아있다면 충돌 끝 함수를 호출하고 충돌 정보를 제거한다.
 						m_vec2DGrid[i].vecColliderInGrid[l]->EndCollision(m_vec2DGrid[i].vecColliderInGrid[m]);
 
 						m_umapCollisionID.erase(iter);
@@ -146,15 +147,19 @@ void CCollisionMgr::tick()
 			}
 		}
 
+		//그리드 내부의 충돌체 정보를 비워준다.
 		m_vec2DGrid[i].vecColliderInGrid.clear();
 	}
 
 	//이번 타임에 충돌확인되지 않은 충돌체들에 대해서 충돌 제거 처리
+	//이번 틱의 시간값을 우선 받아온다.
+	LONGLONG CurTime = CTimeMgr::GetInst()->GetCurCount();
 	auto iter = m_umapCollisionID.begin();
 	const auto& iterEnd = m_umapCollisionID.end();
 	while (iter != iterEnd)
 	{
-		if (false == iter->second.bCurrent)
+		//기록된 시간이 이번 tick의 시간이 아닐 경우 충돌 해체 처리하고 제거한다.
+		if (CurTime != iter->second.llCheckedCount)
 		{
 			iter->second.pColliderA->EndCollision(iter->second.pColliderB);
 			iter = m_umapCollisionID.erase(iter);

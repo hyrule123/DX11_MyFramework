@@ -29,15 +29,9 @@ union CollisionID
 
 struct tCollisionInfo
 {
-    bool bCurrent;
+    LONGLONG llCheckedCount; //CTimeMgr에서 quadpart를 그대로 받아와서 체크한 시간을 기록한다.
     CCollider2D* pColliderA;
     CCollider2D* pColliderB;
-
-    tCollisionInfo(bool _bCurrent, CCollider2D* _pColliderA, CCollider2D* _pColliderB)
-        : bCurrent(_bCurrent)
-        , pColliderA(_pColliderA)
-        , pColliderB(_pColliderB)
-    {}
 };
 
 

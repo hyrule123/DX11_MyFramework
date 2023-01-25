@@ -21,5 +21,6 @@ public:
 
 public:
 	float GetDeltaTime() { return m_fDeltaTime; }
+	LONGLONG GetCurCount() { return m_llCurCount.QuadPart; }
 };
 

@@ -295,6 +295,18 @@ void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _
 	}
 }
 
+void CGameObject::SetParentTransformUpdated()
+{
+	if (nullptr != Transform())
+		Transform()->SetParentUpdate();
+
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChild[i]->SetParentTransformUpdated();
+	}
+}
+
 bool CGameObject::GetParentWorldMatrix(Matrix& _mat)
 {
 	//부모 오브젝트가 없거나 트랜스폼이 없을 경우 false 반환
@@ -306,3 +318,15 @@ bool CGameObject::GetParentWorldMatrix(Matrix& _mat)
 	return true;
 }
 
+
+void CGameObject::SetChildTransformToUpdate()
+{
+	if (nullptr != Transform())
+		Transform()->SetParentUpdate();
+
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChild[i]->SetParentTransformUpdated();
+	}
+}
