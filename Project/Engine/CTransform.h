@@ -69,7 +69,7 @@ public:
     ////Inline methods don't need to return the value by const reference
     Vec3 GetSize() const { return Vec3(m_matSize._11, m_matSize._22, m_matSize._33); }
     Vec3 GetRelativePos() const { return m_vRelativePos; }
-    Vec3 GetWorldPos() const { return Vec3(m_matWorld.m[3]); }
+    Vec3 GetWorldPos() const { return m_matWorld.Translation(); }
     Vec3 GetRelativeScale() const { return m_vRelativeScale; }
     Vec3 GetWorldScale() const;
     Vec3 GetRelativeRot() const { return m_vRelativeRot; }

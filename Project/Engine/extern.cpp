@@ -6,6 +6,8 @@
 //=============================
 
 tTransform g_transform = {};
+tGlobalValue g_GlobalVal = {};
+Matrix g_matViewProj;
 
 const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER;
 const eCOMPONENT_TYPE g_RenderComIdxEnd = eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER;

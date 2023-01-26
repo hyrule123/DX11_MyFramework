@@ -1,5 +1,7 @@
 #include "Shader_header_register.hlsli"
 
+#define COLOR_KEY g_vec4_3
+
 /*
 초록색 숫자는 '시맨틱'이라고 하며,
 같은 이름의 시맨틱은 다른 쉐이더로 넘어갈 때 같은 속성의 값이 들어온다.

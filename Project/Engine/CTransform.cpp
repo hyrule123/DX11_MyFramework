@@ -85,20 +85,20 @@ void CTransform::UpdateParentMatrix()
 			//회전 상속 + 크기 미상속 -> 크기정보 제거
 			if (false == m_bInheritScale)
 			{
-				for (int i = 0; i < 3; ++i)
-				{
-					//정규화해서 크기정보를 제거
-					m_matParent.Right(m_matParent.Right().Normalize());
-					m_matParent.Up(m_matParent.Up().Normalize());
-					m_matParent.Forward(m_matParent.Forward().Normalize());
 
+				//정규화해서 크기정보를 제거
+				m_matParent.Right(m_matParent.Right().Normalize());
+				m_matParent.Up(m_matParent.Up().Normalize());
+				m_matParent.Forward(m_matParent.Forward().Normalize());
 
-					//Vec3 Scale(m_matParent.Right().Length(), m_matParent.Up().Length(), m_matParent.Forward().Length());
-					//Scale = Vec3(1.f, 1.f, 1.f) / Scale;
-					//m_matParent.m[0][i] *= Scale.x;
-					//m_matParent.m[1][i] *= Scale.y;
-					//m_matParent.m[2][i] *= Scale.z;
-				}
+				//for (int i = 0; i < 3; ++i)
+				//{
+				//	Vec3 Scale(m_matParent.Right().Length(), m_matParent.Up().Length(), m_matParent.Forward().Length());
+				//	Scale = Vec3(1.f, 1.f, 1.f) / Scale;
+				//	m_matParent.m[0][i] *= Scale.x;
+				//	m_matParent.m[1][i] *= Scale.y;
+				//	m_matParent.m[2][i] *= Scale.z;
+				//}
 			}
 			//else: 둘 다 상속 받는 경우에는 작업할 것이 없음. 그냥 빠져나가면 됨
 
@@ -135,10 +135,12 @@ void CTransform::UpdateData()
 	//const Matrix& matSize = Matrix::CreateScale(m_vSize);
 
 	//월드뷰투영행렬을 곱한 후 전치한다.(HLSL은 Column-Major Matrix, XMMATRIX에서는 Row-Major Matrix를 사용 중)
-	Matrix matWVP = (m_matSize * m_matWorld * g_transform.matViewProj).Transpose();
+	g_transform.matWorld = m_matSize * m_matWorld;
+	g_transform.matWVP = (g_transform.matWorld * g_matViewProj).Transpose();
+	g_transform.matWorld = g_transform.matWorld.Transpose();
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
 	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TRANSFORM);
-	pTransformBuffer->SetData(&matWVP, sizeof(Matrix));
+	pTransformBuffer->SetData(&g_transform, sizeof(tTransform));
 	pTransformBuffer->UpdateData();
 }

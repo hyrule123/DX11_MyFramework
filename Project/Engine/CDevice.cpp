@@ -236,24 +236,28 @@ void CDevice::ClearTarget(float(&_color)[4])
 
 void CDevice::CreateConstBuffer()
 {
+    //Vertex Shader에만 상수버퍼를 전달 + Light 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
+    UINT8 CBufferTarget = eSHADER_PIPELINE_FLAG_VERTEX + eSHADER_PIPELINE_FLAG_PIXEL;
     m_arrConstBuffer[eCONST_BUFFER_TRANSFORM] = new CConstBuffer(eCONST_BUFFER_TRANSFORM);
-    m_arrConstBuffer[eCONST_BUFFER_TRANSFORM]->Create(sizeof(Matrix), 1);
-
-    //Vertex Shader에만 상수버퍼를 전달
-    UINT8 CBufferTarget = eSHADER_PIPELINE_FLAG_VERTEX;
+    m_arrConstBuffer[eCONST_BUFFER_TRANSFORM]->Create(sizeof(tTransform), 1);
     m_arrConstBuffer[eCONST_BUFFER_TRANSFORM]->SetPipelineTarget(CBufferTarget);
-
-    m_arrConstBuffer[eCONST_BUFFER_MATERIAL] = new CConstBuffer(eCONST_BUFFER_MATERIAL);
-    m_arrConstBuffer[eCONST_BUFFER_MATERIAL]->Create(sizeof(tMtrlConst), 1);
 
     //Vertex + Pixel Shader에만 상수버퍼를 전달
     CBufferTarget |= eSHADER_PIPELINE_FLAG_PIXEL;
+    m_arrConstBuffer[eCONST_BUFFER_MATERIAL] = new CConstBuffer(eCONST_BUFFER_MATERIAL);
+    m_arrConstBuffer[eCONST_BUFFER_MATERIAL]->Create(sizeof(tMtrlConst), 1);
     m_arrConstBuffer[eCONST_BUFFER_MATERIAL]->SetPipelineTarget(CBufferTarget);
 
-    CBufferTarget = eSHADER_PIPELINE_FLAG_VERTEX | eSHADER_PIPELINE_FLAG_PIXEL;
-    m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE] = new CConstBuffer(eCONST_BUFFER_DEBUGSHAPE);
-    m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->SetPipelineTarget(CBufferTarget);
-    m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->Create(sizeof(tDebugShapeInfo), 1);
+    //CBufferTarget = eSHADER_PIPELINE_FLAG_VERTEX | eSHADER_PIPELINE_FLAG_PIXEL;
+    //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE] = new CConstBuffer(eCONST_BUFFER_DEBUGSHAPE);
+    //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->SetPipelineTarget(CBufferTarget);
+    //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->Create(sizeof(tDebugShapeInfo), 1);
+
+    //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
+    CBufferTarget = eSHADER_PIPELINE_FLAG_ALL;
+    m_arrConstBuffer[eCONST_BUFFER_GLOBAL] = new CConstBuffer(eCONST_BUFFER_GLOBAL);
+    m_arrConstBuffer[eCONST_BUFFER_GLOBAL]->Create(sizeof(tGlobalValue), 1);
+    m_arrConstBuffer[eCONST_BUFFER_GLOBAL]->SetPipelineTarget(CBufferTarget);
 
 }
 
@@ -281,9 +285,6 @@ HRESULT CDevice::CreateRasterizeState()
     Desc.FillMode = D3D11_FILL_WIREFRAME;
     Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)eRASTERIZER_TYPE::WIRE_FRAME]);
 
-
-
-        
 
     return Result;
 }

@@ -3,6 +3,8 @@
 #define Debug_matWVP g_mat_0
 #define Debug_vecColor g_vec4_0
 
+//Debug 쉐이프 정보는 Material을 사용해서 출력 중.
+
 struct VS_IN
 {
     float3 vPos : POSITION; // semantic  

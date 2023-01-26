@@ -42,7 +42,7 @@ void CLevelMgr::init()
 	m_pCurLevel = new CLevel;
 
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh");
-	Ptr<CTexture> PlayerTex = CResMgr::GetInst()->FindRes<CTexture>(L"PlayerTex");
+	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>(L"Fighter");
 	Vec4 ColorKey(1.f, 1.f, 1.f, 1.f);
 
 	// 오브젝트 생성
@@ -56,28 +56,24 @@ void CLevelMgr::init()
 	pPlayer->AddScript(new CPlayerScript);
 
 	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"std2DMtrl");
-	PlayerMtrl->SetTexParam(eTEX_0, PlayerTex);
+	PlayerMtrl->SetTexParam(eTEX_0, Fighter);
 	PlayerMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 
 	pPlayer->MeshRender()->SetMesh(CircleMesh);
 	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
 
 	pPlayer->AddComponent(new CLight2D);
-	pPlayer->Light2D();
+	pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::eLIGHT_POINT);
 
 	pPlayer->AddComponent(new CCollider2D_OBB);
 
-
-	SpawnGameObject(pPlayer, Vec3(0.f, 0.f, 10.f), 1);
+	::SpawnGameObject(pPlayer, Vec3(0.f, 0.f, 10.f), 1);
 	//m_pCurLevel->AddGameObject(pPlayer, 1);
 
 	// Test Object 1
 	CGameObject* pTestObj1 = new CGameObject;
 	pTestObj1->SetName(L"Test Object");
 	pTestObj1->AddComponent(new CTransform);
-	//pTestObj1->Transform()->SetRelativePos(100.f, 0.f, 10.f);
-	//pTestObj1->Transform()->SetRotInheritance(false);
-	//pTestObj1->Transform()->SetScaleInheritance(false);
 	pTestObj1->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 	pTestObj1->AddComponent(new CMeshRender);
 	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
@@ -100,44 +96,51 @@ void CLevelMgr::init()
 	//pTestObj2->Transform()->SetRelativePos();
 	pTestObj2->Transform()->SetRotInheritance(false);
 	pTestObj2->Transform()->SetScaleInheritance(false);
-	pTestObj2->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	pTestObj2->Transform()->SetSize(Vec3(2048.f, 4096.f, 1.f));
 	pTestObj2->AddComponent(new CMeshRender);
 	pTestObj2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
-	pTestObj2->MeshRender()->SetMaterial(TestMtrl);
+
+	Ptr<CMaterial> pLightMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"std2DLightMtrl");
+
+	pLightMtrl->SetTexParam(eTEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"beheaded"));
+	pLightMtrl->SetScalarParam(COLOR_KEY, Vec4(0.f, 0.f, 0.f, 1.f));
+	pLightMtrl->SetTexParam(eTEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"beheaded_n"));
+
+	pTestObj2->MeshRender()->SetMaterial(pLightMtrl);
+
 	pTestObj2->AddScript(new CTestObjScript);
 	
-	::SpawnGameObject(pTestObj2, Vec3(0.f, 100.f, 10.f), 1);
-	::AddChild(pTestObj1, pTestObj2);
+	::SpawnGameObject(pTestObj2, Vec3(300.f, 300.f, 10.f), 1);
+	//::AddChild(pTestObj1, pTestObj2);
 	//pTestObj1->AddChild(pTestObj2);
 	//SpawnGameObject(pTestObj2, Vec3(0.f, 100.f, 10.f), )
 	//m_pCurLevel->AddGameObject(pTestObj2, 1);
 
-	int square = 10;
-	static float startxy = -(110 * square) * 0.5f;
-	for(int i = 0; i < square; ++i)
-	{
-		for (int j = 0; j < square; ++j)
-		{
-			
-			// Test Object 3
-			CGameObject* pTestObj3 = new CGameObject;
-			pTestObj3->SetName(L"Test Object");
-			pTestObj3->AddComponent(new CTransform);
-			//pTestObj3->Transform()->SetRelativePos(-5000.f + 110.f * i, -300.f + 110.f * j, 10.f);
-			pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
-			pTestObj3->AddComponent(new CMeshRender);
-			pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-			Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
-			TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
-			pTestObj3->MeshRender()->SetMaterial(TestMtrl);
-			pTestObj3->AddComponent(new CCollider2D_OBB);
+	//int square = 10;
+	//static float startxy = -(110 * square) * 0.5f;
+	//for(int i = 0; i < square; ++i)
+	//{
+	//	for (int j = 0; j < square; ++j)
+	//	{
+	//		
+	//		// Test Object 3
+	//		CGameObject* pTestObj3 = new CGameObject;
+	//		pTestObj3->SetName(L"Test Object");
+	//		pTestObj3->AddComponent(new CTransform);
+	//		//pTestObj3->Transform()->SetRelativePos(-5000.f + 110.f * i, -300.f + 110.f * j, 10.f);
+	//		pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	//		pTestObj3->AddComponent(new CMeshRender);
+	//		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//		Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
+	//		TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
+	//		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
+	//		pTestObj3->AddComponent(new CCollider2D_OBB);
 
-			SpawnGameObject(pTestObj3, Vec3(startxy + 110.f * i, startxy + 110.f * j, 10.f), 1);
-			//m_pCurLevel->AddGameObject(pTestObj3, 1);
-		}
+	//		SpawnGameObject(pTestObj3, Vec3(startxy + 110.f * i, startxy + 110.f * j, 10.f), 1);
+	//		//m_pCurLevel->AddGameObject(pTestObj3, 1);
+	//	}
 
-	}
+	//}
 
 
 	//// Test Object 3

@@ -22,10 +22,12 @@ struct tMtrlConst
 
 struct tTransform
 {
-	Matrix matViewProj;
+	Matrix matWorld;
+	Matrix matWVP;
 };
 
 extern tTransform g_transform;
+extern Matrix g_matViewProj;
 
 struct tEvent
 {
@@ -73,14 +75,22 @@ struct tLightInfo
 	Vec4 vLightDir;	//직사광선 또는 스포트라이트의 방향
 
 	float fRadius;	//점광원 또는 스포트라이트의 거리
-	float fAngle;
+	float fAngle;	//스포트라이트의 부채꼴 각도
 	UINT LightType;
 	int padding;
 };
 
-enum class eLIGHT_TYPE : UINT
+
+
+//RenderMgr에서 보낼 구조체 변수
+struct tGlobalValue
 {
-	eLIGHT_DIRECTIONAL,	//직사광선
-	eLIGHT_POINT,		//점광원
-	eLIGHT_SPOTLIGHT	//스포트라이트
+	Vec2  Resolution;
+	float DeltaTime;
+	float AccTime;	//프로그래밍 작동 시간
+
+	UINT  Light2DCount;
+	UINT  Light3DCount;
+	Vec2  Padding;
 };
+extern tGlobalValue g_GlobalVal;

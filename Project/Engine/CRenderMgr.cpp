@@ -5,6 +5,11 @@
 
 #include "CStructBuffer.h"
 
+//상수버퍼 업데이트용
+#include "CTimeMgr.h"
+#include "CDevice.h"
+#include "CConstBuffer.h"
+
 CRenderMgr::CRenderMgr()
     : m_arrCam{}
     , m_bDebugRenderUpdated()
@@ -77,6 +82,16 @@ void CRenderMgr::render()
 
 void CRenderMgr::UpdateData()
 {
+    //글로벌 정보를 tGlobalValue 상수버퍼로 업데이트
+    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_GLOBAL);
+    
+    g_GlobalVal.Light2DCount = (UINT)m_vecLight2DStruct.size();
+    g_GlobalVal.Light3DCount = 0u;
+
+    pConstBuffer->SetData((void*)(&g_GlobalVal), sizeof(tGlobalValue));
+    pConstBuffer->UpdateData();
+
+
     //자신의 구조화 버퍼 데이터를 업데이트 한후 데이터를 클리어
     m_pLight2DStructBuffer->SetData(static_cast<void*>(m_vecLight2DStruct.data()), (UINT)m_vecLight2DStruct.size());
     m_pLight2DStructBuffer->UpdateData();

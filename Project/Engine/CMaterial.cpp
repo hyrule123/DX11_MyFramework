@@ -94,5 +94,7 @@ void CMaterial::SetScalarParam(eSCALAR_PARAM _Param, void* _Src)
 
 void CMaterial::SetTexParam(eTEX_PARAM _Param, Ptr<CTexture> _Tex)
 {
+	assert(nullptr != _Tex);
+
 	m_arrTex[_Param] = _Tex;
 }

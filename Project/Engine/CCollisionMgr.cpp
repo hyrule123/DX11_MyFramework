@@ -47,6 +47,7 @@ void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, tRectLBRT _AABBInfo)
 	{
 		for (int y = GridIndex[B]; y <= GridIndex[T]; ++y)
 		{
+			int idx = y * m_uiNum2DGridX + x;
 			m_vec2DGrid[y * m_uiNum2DGridX + x].vecColliderInGrid.push_back(_pCol);
 		}
 	}
@@ -81,9 +82,13 @@ void CCollisionMgr::tick()
 	for (UINT i = 0; i < m_uiNum2DGridTotalIndex; ++i)
 	{
 		size_t size = m_vec2DGrid[i].vecColliderInGrid.size();
-		//충돌은 최소 2개가 있어야 진행 가능하므로 2사이즈가 2개 이하일 경우 다음 벡터에 대해 충돌검사 진행
+		//충돌은 최소 2개가 있어야 진행 가능하므로 2사이즈가 2개 이하일 경우 비워주고 다음 벡터에 대해 충돌검사 진행
 		if (size < 2)
+		{
+			m_vec2DGrid[i].vecColliderInGrid.clear();
 			continue;
+		}
+			
 
 		std::sort(m_vec2DGrid[i].vecColliderInGrid.begin(), m_vec2DGrid[i].vecColliderInGrid.end(),
 			[](CCollider2D* _pColA, CCollider2D* _pColB)->bool

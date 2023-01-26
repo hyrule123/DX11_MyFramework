@@ -322,6 +322,9 @@ void CResMgr::CreateDefaultMaterial()
 
 void CResMgr::LoadDefaultTexture()
 {
-	Ptr<CTexture> pFighterTex = Load<CTexture>(L"PlayerTex", L"texture\\Fighter.bmp");
+	Ptr<CTexture> pFighterTex = Load<CTexture>(L"Fighter", L"texture\\Fighter.bmp");
 	Ptr<CTexture> pHOSTex = Load<CTexture>(L"HOS", L"texture\\HOS.png");
+
+	Ptr<CTexture> pBeheaded = Load<CTexture>(L"beheaded", L"texture\\beheaded.png");
+	Ptr<CTexture> pBehdadedNormal = Load<CTexture>(L"beheaded_n", L"texture\\beheaded_n.png");
 }

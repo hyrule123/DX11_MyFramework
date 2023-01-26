@@ -390,8 +390,8 @@ OutputFile/[Bb]in/*
 OutputFile/[Bb]in_d/*
 
 # Include Content(Resources) Files, Exclude Only Shader Files(*.fx) - will be copied after build
-!OutputFile/[Bb]in/content/
-OutputFile/[Bb]in/content/shader/
+!OutputFile/[Bb]in*/content/
+OutputFile/[Bb]in*/content/shader/
 
 # Exclude Unity cpp File
 Unity_*.cpp

@@ -3,6 +3,7 @@
 
 cbuffer eCOMPONENT_TRANSFORM : register(b0)
 {
+    matrix g_matWorld;
     matrix g_matWVP;
 };
 
@@ -45,7 +46,17 @@ cbuffer eCONST_BUFFER_MATERIAL : register(b1)
     int g_btex_7;
 };
 
-#define COLOR_KEY g_vec4_3
+//게임의 각종 정보를 넘겨주기 위한 상수버퍼
+cbuffer tGlobalValue : register(b2)
+{
+    float2 g_Resolution;
+    float g_DeltaTime;
+    float g_AccTime;
+    
+    uint g_Light2DCount;
+    uint g_Light3DCount;
+    float2 g_Padding;
+};
 
 
 Texture2D g_tex_0 : register(t0);
@@ -58,7 +69,7 @@ Texture2D g_tex_6 : register(t6);
 Texture2D g_tex_7 : register(t7);
 
 
-StructuredBuffer<tLightInfo> g_Light2DBuffer : register(t8);
+StructuredBuffer<tLightInfo> g_Light2DSBuffer : register(t8);
 
 SamplerState g_sam_0 : register(s0);
 SamplerState g_sam_1 : register(s1);

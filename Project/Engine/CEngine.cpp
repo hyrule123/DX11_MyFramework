@@ -27,6 +27,7 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	// 메인 윈도우 핸들
 	m_hWnd = _hWnd;
 	m_vResolution = Vec2((float)_iWidth, (float)_iHeight);
+	g_GlobalVal.Resolution = m_vResolution;
 
 	// 해상도에 맞는 작업영역 크기 조정
 	RECT rt = { 0, 0, (int)_iWidth, (int)_iHeight};
