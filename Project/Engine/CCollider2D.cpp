@@ -16,6 +16,7 @@ CCollider2D::CCollider2D(eCOLLIDER_TYPE _eColType)
 
 CCollider2D::CCollider2D(const CCollider2D& _other)
 	:CCollider(_other)
+	, m_SpatialPartitionInfo(_other.m_SpatialPartitionInfo)
 {
 }
 
@@ -41,12 +42,12 @@ bool CCollider2D::CheckCollision(CCollider* _other)
 
 void CCollider2D::finaltick()
 {
-	UpdateColliderInfo();
-	UpdateSpatialPartitionInfo();
+	//아래의 두 메소드는 transform에서 하는 걸로 변경
+	//UpdateColliderInfo();
+	//UpdateSpatialPartitionInfo();
 	DebugRender();
 
-	CCollisionMgr::GetInst()->AddCollider2D(this, Vec4(m_SpatialPartitionInfo.LB.x, m_SpatialPartitionInfo.LB.y,
-		m_SpatialPartitionInfo.RT.x, m_SpatialPartitionInfo.RT.y));
+	CCollisionMgr::GetInst()->AddCollider2D(this, GetSpatialPartitionInfo());
 }
 
 

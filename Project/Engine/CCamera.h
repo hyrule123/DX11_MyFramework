@@ -9,8 +9,9 @@ private:
 
     Matrix m_matView;
 
-    Vec2   m_CamResolution;
     Matrix m_matProj;
+
+    float m_ZoomScale;
 
     int m_CamIndex;
 

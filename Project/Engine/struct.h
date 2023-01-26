@@ -47,15 +47,18 @@ struct tDebugShapeInfo
 
 struct tSquareInfo
 {
-	float LB_X;
-	float LB_Y;
+	Vec2 LB;
 	float Size;
 };
 
-struct tRectInfo
+union tRectInfo
 {
-	Vec2 LB;
-	Vec2 RT;
+	struct 
+	{
+		Vec2 LB;
+		Vec2 RT;
+	};
+	Vec4 LBRT;
 };
 
 typedef Vector4 tRectLBRT;

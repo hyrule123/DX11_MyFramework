@@ -21,7 +21,7 @@ private:
 
 public:
     tRectInfo       GetSpatialPartitionInfo()       const    { return m_SpatialPartitionInfo; }
-    void SetSpatialPartitionInfo(const tRectInfo& _RectInfo) { m_SpatialPartitionInfo = _RectInfo; }
+    void SetSpatialPartitionInfo(const tRectInfo& _SquareInfo) { m_SpatialPartitionInfo = _SquareInfo; }
 
 public://자신과 상대방의 충돌을 체크하는 메소드. 무조건 ID가 작은 메소드 쪽에서 호출함.
     virtual bool CheckCollision(CCollider* _other) override;
@@ -39,8 +39,9 @@ private:
 
 public:
     virtual void finaltick() final;
+
+    //자신의 충돌체 정보 + 간이 충돌체 정보를 업데이트 해줄 것
     virtual void UpdateColliderInfo() = 0;
-    virtual void UpdateSpatialPartitionInfo() = 0;
     virtual void DebugRender() = 0;
     virtual void cleanup() override {};
 };

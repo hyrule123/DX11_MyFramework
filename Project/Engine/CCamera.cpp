@@ -25,6 +25,7 @@ CCamera::CCamera():
 	, m_ProjectionType(ePROJ_TYPE::ORTHOGRAPHY)
 	, m_CamIndex(-1)
 	, m_LayerFlag(UINT32_MAX)
+	, m_ZoomScale(1.f)
 {
 	SetProjType(m_ProjectionType);
 }
@@ -38,6 +39,7 @@ CCamera::CCamera(const CCamera& _other)
 	, m_CamIndex(-1)
 	, m_arrvecShaderDomain{}
 	, m_LayerFlag(_other.m_LayerFlag)
+	, m_ZoomScale(_other.m_ZoomScale)
 {
 }
 
@@ -50,8 +52,7 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 {
 	m_ProjectionType = _Type;
 
-	m_CamResolution = CDevice::GetInst()->GetRenderResolution();
-	m_AspectRatio = m_CamResolution.x / m_CamResolution.y;
+	m_AspectRatio = g_GlobalVal.Resolution.x / g_GlobalVal.Resolution.y;
 
 	switch (m_ProjectionType)
 	{
@@ -61,7 +62,7 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 		//===========
 
 		//1. 투영 행렬 생성
-		m_matProj = XMMatrixOrthographicLH(m_CamResolution.x, m_CamResolution.y, 1.f, 10000.f);
+		m_matProj = XMMatrixOrthographicLH(g_GlobalVal.Resolution.x, g_GlobalVal.Resolution.y, 1.f, 10000.f);
 		break;
 	case ePROJ_TYPE::PERSPECTIVE:
 		//1-1. 원근 투영행렬
@@ -88,10 +89,10 @@ void CCamera::Zoom2D(float _fScale)
 	if (ePROJ_TYPE::ORTHOGRAPHY != m_ProjectionType)
 		return;
 
-	m_CamResolution *= _fScale;
+	m_ZoomScale *= _fScale;
 
 	//가로세로를 같은 비율로 확장/축소하므로 AspecRatio는 변하지 않음.
-	m_matProj = XMMatrixOrthographicLH(m_CamResolution.x, m_CamResolution.y, 1.f, 10000.f);
+	m_matProj = XMMatrixOrthographicLH(g_GlobalVal.Resolution.x * m_ZoomScale, g_GlobalVal.Resolution.y * m_ZoomScale, 1.f, 10000.f);
 }
 
 
@@ -203,6 +204,40 @@ void CCamera::SortObject()
 				false == Com->GetRenderReady()
 				)
 				continue;
+			
+			
+			//2D 직교 행렬을 사용중일 경우 2D 컬링 진행.
+			if (ePROJ_TYPE::ORTHOGRAPHY == m_ProjectionType)
+			{
+				const Vec3& WorldPos = vecObj[i]->Transform()->GetWorldPos();
+				float SideLen = vecObj[i]->Transform()->GetAABBSideLen();
+
+				//스크린상에서의  위치 구하기
+				const Vec3& ScreenPos = WorldPos - Transform()->GetWorldPos();
+
+				const Vec2& ResHalf = g_GlobalVal.Resolution * 0.5f;
+
+				
+				if (
+					//자신의 Left가 카메라의 Right보다 클 경우
+					(ScreenPos.x - SideLen) > ResHalf.x
+					||
+
+					//자신의 Right가 카메라의 Left보다 클 경우
+					(ScreenPos.x + SideLen) < -ResHalf.x
+					||
+
+					//자신의 Bottom이 카메라의 Top보다 클 경우
+					(ScreenPos.y - SideLen) > ResHalf.y
+					||
+
+					//자신의 Top이 카메라의 Bottom보다 작을 경우
+					(ScreenPos.y + SideLen) < -ResHalf.y
+					)
+					continue;
+			}
+
+			
 
 			//쉐이더 도메인을 받아와서
 			eSHADER_DOMAIN dom = Com->GetMaterial()->GetShader()->GetShaderDomain();

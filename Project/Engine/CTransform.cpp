@@ -9,11 +9,16 @@
 #include "CRenderMgr.h"
 #include "CMeshRender.h"
 
+//자신이 업데이트 되면 충돌체도 업데이트 해준다.
+#include "CCollider2D.h"
+
 CTransform::CTransform()
 	: CComponent(eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM)
 	, m_vRelativeScale(1.f, 1.f, 1.f)
 	, m_bInheritScale(true)
 	, m_bInheritRot(true)
+	, m_bNeedAABBUpdate(true)
+	, m_fAABBSideLenHalf()
 	//Matrix와 Vector 변수는 자체 생성자를 통해 초기화 됨.
 {
 }
@@ -26,6 +31,9 @@ CTransform::~CTransform()
 
 void CTransform::finaltick()
 {
+	//bool 값들은 tick()에서 false로 초기화 된다.
+
+
 	//여기선 고유 크기(Size)를 반영하지 않은 월드행렬을 만든다.
 	//게임오브젝트 상속 관계에서 고유 크기까지 상속을 받게 되면 기하급수적으로 크기가 커짐 
 	if (true == m_bNeedMyUpdate)
@@ -45,8 +53,29 @@ void CTransform::finaltick()
 	{
 		m_matWorld = m_matRelative * m_matParent;
 
+		//월드행렬 계산이 끝나고 크기 변경이 확인되었을 경우 AABB 충돌체 변의 길이도 다시 계산한다.
+		if (true == m_bNeedAABBUpdate)
+		{
+			CalcAABB();
+			m_bNeedAABBUpdate = false;
+		}
+
+		//월드행렬을 계산나고 나면 충돌체도 정보를 업데이트 시켜준다.
+		CCollider2D* pCol = GetOwner()->Collider2D();
+		if (nullptr != pCol)
+		{
+			pCol->UpdateColliderInfo();
+		}
+
 		m_bNeedMyUpdate = false;
 		m_bNeedParentUpdate = false;
+	}
+
+	//월드행렬 계산이 끝나고 크기 변경이 확인되었을 경우 AABB 충돌체 변의 길이도 다시 계산한다.
+	if (true == m_bNeedAABBUpdate)
+	{
+		CalcAABB();
+		m_bNeedAABBUpdate = false;
 	}
 }
 

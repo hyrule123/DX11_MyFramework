@@ -13,7 +13,7 @@
 CCollisionMgr::CCollisionMgr()
 {
 	AddLayerInteraction2D(1, 1);
-	Create2DGrid(Vec2(-10000.f, -10000.f), Vec2(20000.f, 20000.f), (UINT)40, (UINT)40);
+	Create2DGrid(Vec2(-10000.f, -10000.f), Vec2(20000.f, 20000.f), (UINT)10, (UINT)10);
 }
 
 CCollisionMgr::~CCollisionMgr()
@@ -22,21 +22,14 @@ CCollisionMgr::~CCollisionMgr()
 }
 
 
-void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, tRectLBRT _AABBInfo)
+void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, tRectInfo _AABBInfo)
 {
-	
-	enum LBRT
-	{
-		L,
-		B,
-		R,
-		T
-	};
+	enum LBRT{ L, B, R, T };
 
-	_AABBInfo -= m_v4_2DSpaceLB;
-	_AABBInfo *= m_v4_2DGridSizeInv;
+	_AABBInfo.LBRT -= m_v4_2DSpaceLB;
+	_AABBInfo.LBRT *= m_v4_2DGridSizeInv;
 
-	int GridIndex[4] = {(int)_AABBInfo.x, (int)_AABBInfo.y, (int)_AABBInfo.z, (int)_AABBInfo.w};
+	int GridIndex[4] = {(int)_AABBInfo.LBRT.x, (int)_AABBInfo.LBRT.y, (int)_AABBInfo.LBRT.z, (int)_AABBInfo.LBRT.w};
 	
 	GridIndex[L] = max(0, GridIndex[L]);
 	GridIndex[B] = max(0, GridIndex[B]);
@@ -109,7 +102,9 @@ void CCollisionMgr::tick()
 					continue;
 
 				//위에서 ID순 오름차순으로 정렬했으므로 ID를 굳이 비교할 필요가 없다.
-				CollisionID ID(m_vec2DGrid[i].vecColliderInGrid[l]->GetID(), m_vec2DGrid[i].vecColliderInGrid[m]->GetID());
+				CollisionID ID = {}; 
+				ID.LowID = m_vec2DGrid[i].vecColliderInGrid[l]->GetID();
+				ID.HighID = m_vec2DGrid[i].vecColliderInGrid[m]->GetID();
 
 				//충돌
 				if (true == m_vec2DGrid[i].vecColliderInGrid[l]->CheckCollision(m_vec2DGrid[i].vecColliderInGrid[m]))

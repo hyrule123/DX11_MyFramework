@@ -70,6 +70,7 @@ bool CCollider2D_OBB::CheckCollisionOBB2D(CCollider2D_OBB* _other)
 
 void CCollider2D_OBB::UpdateColliderInfo()
 {
+	//충돌체 정보를 업데이트 하고
 	CTransform* pTransform = GetOwner()->Transform();
 	assert(nullptr != pTransform);
 
@@ -85,25 +86,19 @@ void CCollider2D_OBB::UpdateColliderInfo()
 	
 	//중심점 = 월드 위치 + 오프셋 위치
 	m_tOBBInfo.m_vMiddle = WorldMat.Translation() + GetOffsetPos();
-}
 
-void CCollider2D_OBB::UpdateSpatialPartitionInfo()
-{
-	Vec2 vSideLength = {};
-	//x축, y축 벡터를 계산한다.(크기 포함)
-	for (int i = 0; i < eAXIS2D_END; ++i)
-	{
-		//축 정사영을 통해 간이 충돌체 변의 길이를 구한다.
-		vSideLength.x += fabsf(Vec2::Unit[eAXIS2D_X].Dot(m_tOBBInfo.m_vAxis[i]));
-		vSideLength.y += fabsf(Vec2::Unit[eAXIS2D_Y].Dot(m_tOBBInfo.m_vAxis[i]));
-	}
-	
-	
+
+	//간이 충돌체 정보도 업데이트 한다.
+	float SideLenHalf = pTransform->GetAABBSideLen();
+
 	tRectInfo Info = {};
-	//LB = 변의 길이의 반씩  빼줌
-	Info.LB = m_tOBBInfo.m_vMiddle - (vSideLength * 0.5f);
+	Info.LB.x = m_tOBBInfo.m_vMiddle.x - SideLenHalf;
+	Info.LB.y = m_tOBBInfo.m_vMiddle.y - SideLenHalf;
 
-	Info.RT = Info.LB + vSideLength;
+	float SideLen = SideLenHalf * 2.f;
+	Info.RT = Info.LB;
+	Info.RT += SideLen;
+
 	SetSpatialPartitionInfo(Info);
 }
 

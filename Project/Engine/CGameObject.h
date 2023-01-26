@@ -4,6 +4,7 @@
 
 class CComponent;
 class CTransform;
+class CCollider2D;
 class CMeshRender;
 class CCamera;
 class CRenderComponent;
@@ -47,6 +48,9 @@ public:
     //Inline Getter
     ////Components
     CTransform* Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM]; }
+
+    CCollider2D* Collider2D() const { return (CCollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_COLLIDER2D]; }
+
     CMeshRender* MeshRender() const { return (CMeshRender*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER]; }
     CCamera* Camera() const { return (CCamera*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_CAMERA]; }
     CRenderComponent* GetRenderComponent() const { return m_RenderCom; }

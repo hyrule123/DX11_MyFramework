@@ -123,7 +123,6 @@ void CLevelMgr::init()
 	{
 		for (int j = 0; j < square; ++j)
 		{
-			
 			// Test Object 3
 			CGameObject* pTestObj3 = new CGameObject;
 
@@ -138,7 +137,7 @@ void CLevelMgr::init()
 			pTestObj3->MeshRender()->SetMaterial(TestMtrl);
 			pTestObj3->AddComponent(new CCollider2D_OBB);
 
-			pTestObj3->AddScript(new CTestObjScript);
+			//pTestObj3->AddScript(new CTestObjScript);
 
 			SpawnGameObject(pTestObj3, Vec3(startxy + 110.f * i, startxy + 110.f * j, 10.f), 1);
 			//m_pCurLevel->AddGameObject(pTestObj3, 1);

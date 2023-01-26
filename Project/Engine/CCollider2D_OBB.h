@@ -32,7 +32,6 @@ public:
 
 public:
     virtual void UpdateColliderInfo() override;
-    virtual void UpdateSpatialPartitionInfo() override;
     virtual void DebugRender() override;
 };
 

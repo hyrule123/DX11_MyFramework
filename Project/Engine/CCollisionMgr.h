@@ -20,11 +20,6 @@ union CollisionID
         UINT32 HighID;
     };
     UINT64 FullID;
-
-    CollisionID(UINT32 _LowID, UINT32 _HighID)
-        : LowID(_LowID)
-        , HighID(_HighID)
-    {}
 };
 
 struct tCollisionInfo
@@ -64,7 +59,7 @@ public:
     //unordered_map<UINT64, bool>::iterator FindCollData(UINT32 _uID1, UINT32 _uID2);
     //void AddCollData2D(UINT32 _uID1, UINT32 _uID2, bool _bCollided);
 
-    void AddCollider2D(CCollider2D* _pCol, tRectLBRT _AABBInfo);
+    void AddCollider2D(CCollider2D* _pCol, tRectInfo _AABB);
     void AddCollider3D() {};
 
     void AddLayerInteraction2D(int _iLayer1, int _iLayer2);
