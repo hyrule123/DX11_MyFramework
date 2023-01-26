@@ -30,9 +30,11 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
             vNormal = (vNormal * 2.f) - 1.f;
             
             //현재 노멀맵은 DX 좌표축과 y축과 z축이 다르게 되어 있음.
-            float Temp = vNormal.y;
-            vNormal.y = vNormal.z;
-            vNormal.z = Temp;
+            //float Temp = vNormal.y;
+            vNormal.y = -vNormal.y;
+            //vNormal.z = -vNormal.z;
+            //vNormal.y = vNormal.z;
+            //vNormal.z = Temp;
 
             //노멀맵의 벡터 방향에 픽셀의 월드 행렬을 곱한 뒤 normalize 해준다.
             //이 때 공차좌표가 0이므로 결과값은 좌표값이 아닌 벡터값이 된다.
@@ -160,12 +162,11 @@ void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor 
             float2 LightToPixelDir = _vWorldPos.xy - g_Light2DSBuffer[i].vLightWorldPos.xy;
             
             float2 LightToPixelDirNorm = normalize(LightToPixelDir);
-            
-
+           
             
             //광원의 방향과 광원에서 픽셀까지의 방향벡터를 내적하고, 아크코사인을 통해서 각도 도출
             //이 때 나오는 아크코사인 값은 무조건 양수이다.(0 ~ PI) 부호가 없는 각도를 반환함.
-            float Angle = acos(dot(LightToPixelDir, g_Light2DSBuffer[i].vLightDir.xy));
+            float Angle = acos(dot(LightToPixelDirNorm, g_Light2DSBuffer[i].vLightDir.xy));
             
             //반경 90도 내일 경우에만 처리
             if(Angle < g_Light2DSBuffer[i].fAngle)

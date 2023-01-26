@@ -13,7 +13,7 @@ CLight2D::CLight2D()
 	m_LightInfo.LightColor.vDiffuse = Vec4(1.f, 1.f, 1.f, 1.f);
 	m_LightInfo.LightColor.vAmbient = Vec4(1.f, 1.f, 1.f, 1.f);
 	//m_LightInfo.vLightDir = Vec4::Unit[eAXIS3D_X];
-	m_LightInfo.fAngle = XM_PI / 3.f;	//30 degree
+	m_LightInfo.fAngle = XM_PI / 2.5f;	//30 degree
 	m_LightInfo.fRadius = 400.f;
 }
 
