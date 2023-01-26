@@ -119,18 +119,7 @@ void CGameObject::finaltick()
 	if (true == m_bDestroy)
 	{
 		//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
-		for (UINT i = 0; i < eCOMPONENT_SCRIPT_HOLDER; ++i)
-		{
-			if (nullptr != m_arrCom[i])
-				m_arrCom[i]->cleanup();
-		}
-
-		size_t size = m_vecChild.size();
-		for (size_t i = 0; i < size; ++i)
-		{
-			m_vecChild[i]->cleanup();
-		}
-		
+		cleanup();
 		return;
 	}
 	else if (FLT_MAX_NEG != m_fLifeSpan)
@@ -169,6 +158,7 @@ void CGameObject::render()
 
 void CGameObject::cleanup()
 {
+	//본인의 컴포넌트 정리
 	for (UINT i = 0; i < eCOMPONENT_END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -180,6 +170,15 @@ void CGameObject::cleanup()
 	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecChild[i]->cleanup();
+	}
+	
+	//만약 자신의 부모 오브젝트가 존재하고, 해당 오브젝트는 삭제 대기 상태가 아닐 경우
+	//※부모 오브젝트도 삭제 대기 상태일 경우에는 부모 오브젝트도 어차피 이번 프레임 마지막에 삭제가 될 것이므로
+	//굳이 자신의 주소를 정리해달라고 요청하지 않아도 된다.
+	if (nullptr != m_Parent && false == m_Parent->GetDestroyed())
+	{
+		m_Parent->RemoveChild(this);
+		m_Parent = nullptr;
 	}
 }
 
@@ -258,7 +257,6 @@ void CGameObject::RemoveChild(CGameObject* _Object)
 		if (_Object == (*iter))
 		{
 			m_vecChild.erase(iter);
-			_Object->m_Parent = nullptr;
 			return;
 		}
 		++iter;

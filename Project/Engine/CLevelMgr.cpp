@@ -78,6 +78,7 @@ void CLevelMgr::init()
 	pTestObj1->AddComponent(new CMeshRender);
 	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
+	TestMtrl->SetTexParam(eTEX_0, Fighter);
 	TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
 
@@ -116,31 +117,34 @@ void CLevelMgr::init()
 	//SpawnGameObject(pTestObj2, Vec3(0.f, 100.f, 10.f), )
 	//m_pCurLevel->AddGameObject(pTestObj2, 1);
 
-	//int square = 10;
-	//static float startxy = -(110 * square) * 0.5f;
-	//for(int i = 0; i < square; ++i)
-	//{
-	//	for (int j = 0; j < square; ++j)
-	//	{
-	//		
-	//		// Test Object 3
-	//		CGameObject* pTestObj3 = new CGameObject;
-	//		pTestObj3->SetName(L"Test Object");
-	//		pTestObj3->AddComponent(new CTransform);
-	//		//pTestObj3->Transform()->SetRelativePos(-5000.f + 110.f * i, -300.f + 110.f * j, 10.f);
-	//		pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
-	//		pTestObj3->AddComponent(new CMeshRender);
-	//		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//		Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
-	//		TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
-	//		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
-	//		pTestObj3->AddComponent(new CCollider2D_OBB);
+	int square = 10;
+	static float startxy = -(110 * square) * 0.5f;
+	for(int i = 0; i < square; ++i)
+	{
+		for (int j = 0; j < square; ++j)
+		{
+			
+			// Test Object 3
+			CGameObject* pTestObj3 = new CGameObject;
 
-	//		SpawnGameObject(pTestObj3, Vec3(startxy + 110.f * i, startxy + 110.f * j, 10.f), 1);
-	//		//m_pCurLevel->AddGameObject(pTestObj3, 1);
-	//	}
+			pTestObj3->SetName(L"Test Object");
+			pTestObj3->AddComponent(new CTransform);
+			//pTestObj3->Transform()->SetRelativePos(-5000.f + 110.f * i, -300.f + 110.f * j, 10.f);
+			pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+			pTestObj3->AddComponent(new CMeshRender);
+			pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+			Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
+			TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
+			pTestObj3->MeshRender()->SetMaterial(TestMtrl);
+			pTestObj3->AddComponent(new CCollider2D_OBB);
 
-	//}
+			pTestObj3->AddScript(new CTestObjScript);
+
+			SpawnGameObject(pTestObj3, Vec3(startxy + 110.f * i, startxy + 110.f * j, 10.f), 1);
+			//m_pCurLevel->AddGameObject(pTestObj3, 1);
+		}
+
+	}
 
 
 	//// Test Object 3

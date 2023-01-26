@@ -48,9 +48,12 @@ void CEventMgr::AddChild(const tEvent& _event)
 
 void CEventMgr::tick()
 {
-	//이벤트 큐가 진행되기 전에 이전 프레임에서 등록된 오브젝트를 제거
+	
 	//bDestroy 상태인 게임오브젝트를 Level에서 제거
 	CLevelMgr::GetInst()->GetCurLevel()->RemoveDestroyed();
+
+	//이벤트 큐가 진행되기 전에 이전 프레임에서 등록된 오브젝트를 제거
+	//이러면 지난 프레임에서 제거하도록 등록되었던 오브젝트들이 전부 지워지게 됨.
 	size_t size = m_vecReserveDestroy.size();
 	for (size_t i = 0; i < size; ++i)
 	{

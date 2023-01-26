@@ -64,6 +64,7 @@ public:
     void AddComponent(CComponent* _Component);
     void AddScript(CScript* _Script);
     void AddChild(CGameObject* _Object);
+    void RemoveChild(CGameObject* _Object);
 
     //Recursive
     void AddAllHierarchyObjects(__in int _iLayerIdx, __out vector<CGameObject*>& _vecObj);
@@ -72,8 +73,7 @@ public:
     //기타
     bool                GetParentWorldMatrix(__out Matrix& _mat);
 
-private:
-    void RemoveChild(CGameObject* _Object);
+    
 
 public:
     void init();
@@ -91,9 +91,6 @@ public:
     CGameObject();
     CGameObject(const CGameObject& _other);
     ~CGameObject();
-
-    //재귀 private 내부 호출을 위해 GameObject끼리는 friend 설정
-    friend class CGameObject;
 };
 
 inline void CGameObject::DestroyForEventMgr()
