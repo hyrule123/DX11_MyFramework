@@ -78,3 +78,45 @@ int CLevel::GetLayerIdxByName(const wstring& _sLayerName)
 	//이름으로 못찾았을 경우 -1을 리턴
 	return -1;
 }
+
+CGameObject* CLevel::FindObjectByName(const wstring& _Name)
+{
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		const vector<CGameObject*>& vecObj = m_arrLayer[i]->GetvecObj();
+
+		size_t size = vecObj.size();
+		for (size_t j = 0; j < size; ++j)
+		{
+			if (_Name == vecObj[j]->GetName())
+			{
+				if (true == vecObj[j]->GetDestroyed())
+					continue;
+				return vecObj[j];
+			}
+				
+		}
+	}
+
+
+	return nullptr;
+}
+
+void CLevel::FindObjectALLByName(const wstring& _Name, vector<CGameObject*>& _out)
+{
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		const vector<CGameObject*>& vecObj = m_arrLayer[i]->GetvecObj();
+
+		size_t size = vecObj.size();
+		for (size_t j = 0; j < size; ++j)
+		{
+			if (true == vecObj[j]->GetDestroyed())
+				continue;
+
+			if (_Name == vecObj[j]->GetName())
+				_out.push_back(vecObj[j]);
+		}
+	}
+}
+

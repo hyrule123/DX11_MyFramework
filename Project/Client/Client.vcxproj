@@ -143,8 +143,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAnimator2DUI.h" />
+    <ClInclude Include="CCameraUI.h" />
+    <ClInclude Include="CCollider2DUI.h" />
+    <ClInclude Include="CComponentUI.h" />
     <ClInclude Include="CEditorObjMgr.h" />
+    <ClInclude Include="CImGuiMgr.h" />
+    <ClInclude Include="CInspectorUI.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CLight2DUI.h" />
+    <ClInclude Include="CMeshRenderUI.h" />
+    <ClInclude Include="CScriptHolderUI.h" />
+    <ClInclude Include="CTilemapUI.h" />
+    <ClInclude Include="CTransformUI.h" />
+    <ClInclude Include="CUI.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
@@ -156,7 +168,19 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAnimator2DUI.cpp" />
+    <ClCompile Include="CCameraUI.cpp" />
+    <ClCompile Include="CCollider2DUI.cpp" />
+    <ClCompile Include="CComponentUI.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />
+    <ClCompile Include="CImGuiMgr.cpp" />
+    <ClCompile Include="CInspectorUI.cpp" />
+    <ClCompile Include="CLight2DUI.cpp" />
+    <ClCompile Include="CMeshRenderUI.cpp" />
+    <ClCompile Include="CScriptHolderUI.cpp" />
+    <ClCompile Include="CTilemapUI.cpp" />
+    <ClCompile Include="CTransformUI.cpp" />
+    <ClCompile Include="CUI.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>

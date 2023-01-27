@@ -47,6 +47,8 @@ public:
 
     //Inline Getter
     ////Components
+    CComponent* GetComponent(eCOMPONENT_TYPE _type) const { return (CComponent*)m_arrCom[_type]; }
+
     CTransform* Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM]; }
 
     CCollider2D* Collider2D() const { return (CCollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_COLLIDER2D]; }
@@ -75,7 +77,7 @@ public:
     void SetParentTransformUpdated();
 
     //±‚≈∏
-    bool                GetParentWorldMatrix(__out Matrix& _mat);
+    bool GetParentWorldMatrix(__out Matrix& _mat);
 
     
 

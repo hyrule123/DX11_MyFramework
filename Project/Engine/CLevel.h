@@ -22,6 +22,8 @@ public:
     const wstring& GetLayerName(int _iLayer);
     int GetLayerIdxByName(const wstring& _sLayerName);
     CLayer* GetLayer(UINT _iLayer);
+    CGameObject* FindObjectByName(const wstring& _Name);
+    void FindObjectALLByName(const wstring& _Name, __out vector<CGameObject*>& _out);
 
     //Add
     void AddGameObject(CGameObject* _Object, int _iLayerIdx);

@@ -28,6 +28,7 @@ void Safe_Del_Vec(vector<T*>& _vec)
 	_vec.clear();
 }
 
+
 template<typename T>
 void Safe_Del_List(list<T*>& _list)
 {
