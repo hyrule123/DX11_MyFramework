@@ -85,7 +85,7 @@ void CEngine::render()
 	// 렌더링 시작
 	CDevice::GetInst()->ClearTarget(m_ClearColor);
 
-	//렌더링. 렌더타겟 플립은 여기서 진행하지 않음.
+	//렌더링. 렌더타겟 플립은 여기서 진행하지 않음. EditorObjMgr의 렌더링 과정도 끝난 이후 진행
 	CRenderMgr::GetInst()->render();
 }
 
