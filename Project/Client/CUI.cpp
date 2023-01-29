@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CUI.h"
 
+#include "CWidget.h"
+#include "CUI.h"
+
 CUI::CUI(const string& _ID)
 	: m_strID(_ID)
 	, m_ParentUI(nullptr)
@@ -23,6 +26,32 @@ CUI::~CUI()
 
 
 
+void CUI::initRecursive()
+{
+	init();
+
+	size_t size = m_vecChildUI.size();
+	for (size_t i = 0; i < size; i++)
+	{
+		m_vecChildUI[i]->initRecursive();
+	}
+}
+
+
+void CUI::tickRecursive()
+{
+	tick();
+
+	size_t size = m_vecChildUI.size();
+	for (size_t i = 0; i < size; i++)
+	{
+		m_vecChildUI[i]->tickRecursive();
+	}
+}
+
+
+
+
 void CUI::finaltick()
 {
 	string strFullName = m_strName + m_strID;
@@ -36,8 +65,12 @@ void CUI::finaltick()
 			//가장 일반적인 Begin 함수를 이용해서 창을 생성한다.
 			ImGui::Begin(strFullName.c_str(), &m_Active);
 
+			
+
+			//자신의 구성 위젯들에 대한 렌더링 작업을 진행하고
 			render_update();
 
+			//자식 구성 요소들에 대한 업데이트도 진행한다.
 			LoopChildFinaltick();
 
 			//자신이 Parent UI 이므로 End()
@@ -74,4 +107,3 @@ void CUI::finaltick()
 		ImGui::EndChild();
 	}
 }
-

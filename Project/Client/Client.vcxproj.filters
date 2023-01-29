@@ -17,8 +17,8 @@
     <Filter Include="ImGui\99. ImGuiSource">
       <UniqueIdentifier>{d2e2d258-22e6-4ea4-bc91-2190af234a21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\01. Mgr">
-      <UniqueIdentifier>{2448cdda-ccc8-4b5a-8e42-ee8b29f4335e}</UniqueIdentifier>
+    <Filter Include="ImGui\01. Widgets">
+      <UniqueIdentifier>{4fb6420e-640e-4542-b104-3be94fabdc12}</UniqueIdentifier>
     </Filter>
     <Filter Include="ImGui\02. UIClass">
       <UniqueIdentifier>{211b2703-07f2-4bf3-ab41-0a427b87454d}</UniqueIdentifier>
@@ -71,6 +71,9 @@
     <Filter Include="ImGui\02. UIClass\01. InspectorUI\ComponentUI\00. TransformUI">
       <UniqueIdentifier>{6132ae5c-9c85-48df-a062-c729d34b4533}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\00. Mgr">
+      <UniqueIdentifier>{2448cdda-ccc8-4b5a-8e42-ee8b29f4335e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -91,23 +94,8 @@
     <ClInclude Include="pch.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="ImGui\imconfig.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_dx11.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_win32.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_internal.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="CImGuiMgr.h">
-      <Filter>ImGui\01. Mgr</Filter>
+      <Filter>ImGui\00. Mgr</Filter>
     </ClInclude>
     <ClInclude Include="CUI.h">
       <Filter>ImGui\02. UIClass</Filter>
@@ -142,6 +130,27 @@
     <ClInclude Include="CTilemapUI.h">
       <Filter>ImGui\02. UIClass\01. InspectorUI\ComponentUI\10. Tilemap UI</Filter>
     </ClInclude>
+    <ClInclude Include="CComboBox.h">
+      <Filter>ImGui\01. Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="CWidget.h">
+      <Filter>ImGui\01. Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -164,29 +173,8 @@
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_tables.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="CImGuiMgr.cpp">
-      <Filter>ImGui\01. Mgr</Filter>
+      <Filter>ImGui\00. Mgr</Filter>
     </ClCompile>
     <ClCompile Include="CUI.cpp">
       <Filter>ImGui\02. UIClass</Filter>
@@ -220,6 +208,33 @@
     </ClCompile>
     <ClCompile Include="CTilemapUI.cpp">
       <Filter>ImGui\02. UIClass\01. InspectorUI\ComponentUI\10. Tilemap UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CComboBox.cpp">
+      <Filter>ImGui\01. Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="CWidget.cpp">
+      <Filter>ImGui\01. Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>ImGui\99. ImGuiSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ImGui\99. ImGuiSource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

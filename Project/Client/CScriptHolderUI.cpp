@@ -2,9 +2,9 @@
 #include "CScriptHolderUI.h"
 
 CScriptHolderUI::CScriptHolderUI()
-	: CComponentUI("##CCollider2D", eCOMPONENT_COLLIDER2D)
+	: CComponentUI("##CScriptHolderUI", eCOMPONENT_COLLIDER2D)
 {
-	SetName("Collider2D");
+	SetName("ScriptHolderUI");
 }
 
 CScriptHolderUI::~CScriptHolderUI()

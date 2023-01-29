@@ -4,8 +4,12 @@
 #include <Engine/CDevice.h>
 #include <Engine/CKeyMgr.h>
 
+#include <Engine/CPathMgr.h>
+
+
 #include "CUI.h"
 #include "CInspectorUI.h"
+
 
 CImguiMgr::CImguiMgr()
 	: m_hWnd()
@@ -38,6 +42,12 @@ CUI* CImguiMgr::FindUI(const string& _UIName)
         return nullptr;
     
     return iter->second;
+}
+
+void CImguiMgr::CreateUI(CUI* _pUI)
+{
+    m_mapUI.insert(make_pair(_pUI->GetID(), _pUI));
+    _pUI->initRecursive();
 }
 
 void CImguiMgr::init(HWND _hWnd)
@@ -78,13 +88,21 @@ void CImguiMgr::init(HWND _hWnd)
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
+    wstring path = CPathMgr::GetInst()->GetContentPath();
+    path += L"font/NotoSansKR-Regular.otf";
+    string fontpath;
+    ::ConvertUnicodeToUTF8(path, fontpath);
+    
+    io.Fonts->AddFontFromFileTTF(fontpath.c_str(), 20.f, 0, io.Fonts->GetGlyphRangesKorean());
+
+
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(_hWnd);
     CDevice* pDevice = CDevice::GetInst();
     ImGui_ImplDX11_Init(pDevice->GetDevice(), pDevice->GetDeviceContext());
 
 
-    CreateUI();
+    CreateDefaultUI();
 }
 
 void CImguiMgr::progress()
@@ -95,11 +113,9 @@ void CImguiMgr::progress()
 	render();
 }
 
-void CImguiMgr::CreateUI()
+void CImguiMgr::CreateDefaultUI()
 {
-    CInspectorUI* pUI = new CInspectorUI;
-    m_mapUI.insert(make_pair(pUI->GetID(), pUI));
-
+    CreateUI(new CInspectorUI);
 }
 
 void CImguiMgr::begin()
@@ -114,7 +130,7 @@ void CImguiMgr::tick()
 {
     for (const auto& pair : m_mapUI)
     {
-        pair.second->tick();
+        pair.second->tickRecursive();
     }
 }
 

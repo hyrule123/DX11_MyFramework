@@ -131,6 +131,7 @@
       <MinUnityFiles>1</MinUnityFiles>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -162,6 +163,7 @@ call EngineCopy.bat</Command>
       <MinUnityFiles>1</MinUnityFiles>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>

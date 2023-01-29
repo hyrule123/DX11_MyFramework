@@ -2,9 +2,9 @@
 #include "CTilemapUI.h"
 
 CTilemapUI::CTilemapUI()
-	: CComponentUI("##CCollider2D", eCOMPONENT_COLLIDER2D)
+	: CComponentUI("##CTilemapUI", eCOMPONENT_COLLIDER2D)
 {
-	SetName("Collider2D");
+	SetName("TilemapUI");
 }
 
 CTilemapUI::~CTilemapUI()

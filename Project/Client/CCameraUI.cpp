@@ -2,9 +2,9 @@
 #include "CCameraUI.h"
 
 CCameraUI::CCameraUI()
-	: CComponentUI("##CCollider2D", eCOMPONENT_COLLIDER2D)
+	: CComponentUI("##CCameraUI", eCOMPONENT_COLLIDER2D)
 {
-	SetName("Collider2D");
+	SetName("CameraUI");
 }
 
 CCameraUI::~CCameraUI()

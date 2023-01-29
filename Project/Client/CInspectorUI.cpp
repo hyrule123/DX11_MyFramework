@@ -49,27 +49,31 @@ CInspectorUI::CInspectorUI()
 	m_arrComUI[eCOMPONENT_TILEMAP] = new CTilemapUI;
 	m_arrComUI[eCOMPONENT_TILEMAP]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[eCOMPONENT_TILEMAP]);
-
 }
 
 CInspectorUI::~CInspectorUI()
 {
+	//클래스 인스턴스 삭제는 Child UI를 순회 돌아주면서 삭제되므로 여기서 할 필요 없음.
+}
+
+void CInspectorUI::init()
+{
+	m_pTarget = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+
+	for (int i = 0; i < eCOMPONENT_END; ++i)
+	{
+		if (nullptr == m_arrComUI[i])
+			continue;
+
+		m_arrComUI[i]->SetTarget(m_pTarget);
+	}
 }
 
 void CInspectorUI::tick()
 {
 	if (nullptr == m_pTarget)
-	{
-		m_pTarget = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-
-		for (int i = 0; i < eCOMPONENT_END; ++i)
-		{
-			if (nullptr == m_arrComUI[i])
-				continue;
-
-			m_arrComUI[i]->SetTarget(m_pTarget);
-		}
-	}
+		init();
+	//여기서는 나중에 마우스 클릭을 받아서 클릭된 위치에 있는 오브젝트의 주소를 가져오는 코드를 구현
 }
 
 int CInspectorUI::render_update()

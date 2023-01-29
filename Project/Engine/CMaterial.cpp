@@ -5,7 +5,7 @@
 #include "CConstBuffer.h"
 
 CMaterial::CMaterial()
-	: CRes(eRES_TYPE::eCONST_BUFFER_MATERIAL)
+	: CRes(eRES_TYPE::MATERIAL)
 	, m_Const{}
 	, m_arrTex{}
 {	

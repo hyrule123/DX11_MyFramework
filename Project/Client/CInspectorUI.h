@@ -17,6 +17,7 @@ private:
     CComponentUI* m_arrComUI[eCOMPONENT_END];
 
 public:
+    void init() override;
     void tick() override;
     virtual int render_update() override;
 

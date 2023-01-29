@@ -117,6 +117,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,6 +135,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,6 +148,7 @@
     <ClInclude Include="CAnimator2DUI.h" />
     <ClInclude Include="CCameraUI.h" />
     <ClInclude Include="CCollider2DUI.h" />
+    <ClInclude Include="CComboBox.h" />
     <ClInclude Include="CComponentUI.h" />
     <ClInclude Include="CEditorObjMgr.h" />
     <ClInclude Include="CImGuiMgr.h" />
@@ -157,6 +160,7 @@
     <ClInclude Include="CTilemapUI.h" />
     <ClInclude Include="CTransformUI.h" />
     <ClInclude Include="CUI.h" />
+    <ClInclude Include="CWidget.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
@@ -171,6 +175,7 @@
     <ClCompile Include="CAnimator2DUI.cpp" />
     <ClCompile Include="CCameraUI.cpp" />
     <ClCompile Include="CCollider2DUI.cpp" />
+    <ClCompile Include="CComboBox.cpp" />
     <ClCompile Include="CComponentUI.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
@@ -181,6 +186,7 @@
     <ClCompile Include="CTilemapUI.cpp" />
     <ClCompile Include="CTransformUI.cpp" />
     <ClCompile Include="CUI.cpp" />
+    <ClCompile Include="CWidget.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>

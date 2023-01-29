@@ -54,7 +54,7 @@ extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 enum class eRES_TYPE
 {
 	MESHDATA,
-	eCONST_BUFFER_MATERIAL,
+	MATERIAL,
 	PREFAB,
 
 	MESH,			// วüลย

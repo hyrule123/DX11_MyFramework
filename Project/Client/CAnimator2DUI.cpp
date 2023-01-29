@@ -2,9 +2,9 @@
 #include "CAnimator2DUI.h"
 
 CAnimator2DUI::CAnimator2DUI()
-	: CComponentUI("##CCollider2D", eCOMPONENT_COLLIDER2D)
+	: CComponentUI("##CAnimator2DUI", eCOMPONENT_COLLIDER2D)
 {
-	SetName("Collider2D");
+	SetName("Animator2DUI");
 }
 
 CAnimator2DUI::~CAnimator2DUI()

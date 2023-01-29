@@ -2,6 +2,8 @@
 
 #include "ImGui/imgui.h"
 
+class CWidget;
+
 class CUI
 {
 private:
@@ -38,16 +40,27 @@ public:
 
 	const string& GetID() { return m_strID; }
 
+	CUI* GetParent() const { return m_ParentUI; }
 	void SetSize(float _width, float _height) { m_vSize = ImVec2(_width, _height); }
+	ImVec2 GetSize() const { return m_vSize; }
 
 	void AddChildUI(CUI* _UI);
 
+	CUI* FindChildUIByID(const string& _ID);
+	CUI* FindChildUIByName(const string& _Name);
+
 
 public:
+	//생성자에서 UI들이 전부 생성되어 등록되고 나면 init()에서 서로 간 관계(함수 포인터 등 콜백 함수)를 정의
+	void initRecursive();
+	virtual void init() {}
+
 	//위치 이동이나 내부 연결된 객체들의 값 조정 작업은 여기서 진행
+	void tickRecursive();
 	virtual void tick() {}
 	
-	//설정된 레이아웃 배치 작업은 여기서 진행.
+	//설정된 레이아웃 배치 작업은 여기서 진행. 아래의 render_update를 호출한다.
+	//finaltick()은 위젯에 따라서 아예 다른 방식으로 정의해야할 때도 있기 때문에 virtual 형태로 둔다.
 	virtual void finaltick();
 
 	//여기서 자세한 레이아웃을 구현. 반드시 작성해야 함.
@@ -62,6 +75,34 @@ inline void CUI::AddChildUI(CUI* _UI)
 	_UI->m_ParentUI = this;
 	m_vecChildUI.push_back(_UI);
 }
+
+
+
+inline CUI* CUI::FindChildUIByID(const string& _ID)
+{
+	size_t size = m_vecChildUI.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (_ID == m_vecChildUI[i]->GetID())
+			return m_vecChildUI[i];
+	}
+
+	return nullptr;
+}
+
+inline CUI* CUI::FindChildUIByName(const string& _Name)
+{
+	size_t size = m_vecChildUI.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (_Name == m_vecChildUI[i]->GetName())
+			return m_vecChildUI[i];
+	}
+
+	return nullptr;
+}
+
+
 
 inline void CUI::LoopChildFinaltick()
 {

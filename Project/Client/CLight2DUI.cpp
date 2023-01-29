@@ -2,9 +2,9 @@
 #include "CLight2DUI.h"
 
 CLight2DUI::CLight2DUI()
-	: CComponentUI("##CCollider2D", eCOMPONENT_COLLIDER2D)
+	: CComponentUI("##CLight2DUI", eCOMPONENT_COLLIDER2D)
 {
-	SetName("Collider2D");
+	SetName("Light2DUI");
 }
 
 CLight2DUI::~CLight2DUI()
