@@ -51,8 +51,8 @@ void CLevelMgr::init()
 {
 	m_pCurLevel = new CLevel;
 
-	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh");
-	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>(L"Fighter");
+	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
+	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
 	Vec4 ColorKey(1.f, 1.f, 1.f, 1.f);
 
 	// 오브젝트 생성
@@ -65,7 +65,7 @@ void CLevelMgr::init()
 	pPlayer->AddComponent(new CMeshRender);
 	pPlayer->AddScript(new CPlayerScript);
 
-	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"std2DMtrl");
+	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DMtrl");
 	PlayerMtrl->SetTexParam(eTEX_0, Fighter);
 	PlayerMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 
@@ -86,8 +86,8 @@ void CLevelMgr::init()
 	pTestObj1->AddComponent(new CTransform);
 	pTestObj1->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 	pTestObj1->AddComponent(new CMeshRender);
-	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
+	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
+	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
 	TestMtrl->SetTexParam(eTEX_0, Fighter);
 	TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
@@ -109,13 +109,13 @@ void CLevelMgr::init()
 	pTestObj2->Transform()->SetScaleInheritance(false);
 	pTestObj2->Transform()->SetSize(Vec3(2048.f, 4096.f, 1.f));
 	pTestObj2->AddComponent(new CMeshRender);
-	pTestObj2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pTestObj2->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
 
-	Ptr<CMaterial> pLightMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"std2DLightMtrl");
+	Ptr<CMaterial> pLightMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DLightMtrl");
 
-	pLightMtrl->SetTexParam(eTEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"beheaded"));
+	pLightMtrl->SetTexParam(eTEX_0, CResMgr::GetInst()->FindRes<CTexture>("beheaded"));
 	pLightMtrl->SetScalarParam(COLOR_KEY, Vec4(0.f, 0.f, 0.f, 1.f));
-	pLightMtrl->SetTexParam(eTEX_1, CResMgr::GetInst()->FindRes<CTexture>(L"beheaded_n"));
+	pLightMtrl->SetTexParam(eTEX_1, CResMgr::GetInst()->FindRes<CTexture>("beheaded_n"));
 
 	pTestObj2->MeshRender()->SetMaterial(pLightMtrl);
 
@@ -195,11 +195,11 @@ void CLevelMgr::init()
 		CGameObject* pPrefab = new CGameObject;
 
 		pPrefab->AddComponent(new CMeshRender);
-		Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
-		Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(L"HOS");
+		Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
+		Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>("HOS");
 
 		pMtrl->SetTexParam(eTEX_0, pTex);
-		Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh");
+		Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
 		pPrefab->MeshRender()->SetMaterial(pMtrl);
 		pPrefab->MeshRender()->SetMesh(pMesh);
 
@@ -210,7 +210,7 @@ void CLevelMgr::init()
 		Ptr<CPrefab> pResPrefab = new CPrefab;
 		pResPrefab->RegisterPrefab(pPrefab);
 
-		CResMgr::GetInst()->AddRes(L"Bullet", pResPrefab);
+		CResMgr::GetInst()->AddRes("Bullet", pResPrefab);
 	}
 }
 

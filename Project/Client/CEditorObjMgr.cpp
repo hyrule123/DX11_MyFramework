@@ -28,7 +28,7 @@ CEditorObjMgr::~CEditorObjMgr()
 
 void CEditorObjMgr::init()
 {
-	Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(L"DebugMtrl");
+	Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>("DebugMtrl");
 
 
 	for (int i = 0; i < eSHAPE_END; ++i)
@@ -41,7 +41,7 @@ void CEditorObjMgr::init()
 		{
 			CMeshRender* pMesh = new CMeshRender;
 			//월드행렬을 직접 받아서 쉐이더에 보낼 것이기 떄문에 Transform은 필요하지 않음.
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh_Debug");
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh_Debug");
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
 			m_arrDebugShape[i]->AddComponent(pMesh);
@@ -52,7 +52,7 @@ void CEditorObjMgr::init()
 		case eSHAPE_CIRCLE:
 		{
 			CMeshRender* pMesh = new CMeshRender;
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(L"CircleMesh_Debug");
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh_Debug");
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
 			m_arrDebugShape[i]->AddComponent(pMesh);

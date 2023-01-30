@@ -259,6 +259,11 @@ void CDevice::CreateConstBuffer()
     m_arrConstBuffer[eCONST_BUFFER_GLOBAL]->Create(sizeof(tGlobalValue), 1);
     m_arrConstBuffer[eCONST_BUFFER_GLOBAL]->SetPipelineTarget(CBufferTarget);
 
+    //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
+    CBufferTarget = eSHADER_PIPELINE_FLAG_ALL;
+    m_arrConstBuffer[eCONST_BUFFER_SBUFFERINFO] = new CConstBuffer(eCONST_BUFFER_SBUFFERINFO);
+    m_arrConstBuffer[eCONST_BUFFER_SBUFFERINFO]->Create(sizeof(tSBufferInfo), (UINT)eSBUFFER_SHARED_CBUFFER_IDX::END);
+    m_arrConstBuffer[eCONST_BUFFER_SBUFFERINFO]->SetPipelineTarget(CBufferTarget);
 }
 
 HRESULT CDevice::CreateRasterizeState()

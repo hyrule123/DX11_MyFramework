@@ -19,3 +19,27 @@ struct tLightInfo
     uint LightType;
     int padding;
 };
+
+struct tTile
+{
+    float2 vLeftTop;
+    float2 vSlice;
+};
+
+struct tSBufferInfo
+{
+    uint g_uSBufferCount;
+    float3 Padding;
+};
+
+
+//상수 버퍼 'SBUFFERINFO' 내부의 인덱스 번호를 지정하는 열거체
+//enum class eSBUFFER_SHARED_CBUFFER_IDX : UINT
+//{
+//	LIGHT2D,
+//	TILE,
+//	END
+//};
+#define eSBUFFER_SHARED_CBUFFER_LIGHT2D 0u
+#define eSBUFFER_SHARED_CBUFFER_TILE 1u
+#define eSBUFFER_SHARED_CBUFFER_END 2u

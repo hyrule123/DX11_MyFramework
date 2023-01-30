@@ -18,11 +18,11 @@ class CGameObject :
 private:
 
     //Components
-    CComponent* m_arrCom[eCOMPONENT_END];
-    CRenderComponent* m_RenderCom;
+    CComponent*             m_arrCom[eCOMPONENT_END];
+    CRenderComponent*       m_RenderCom;
 
     //Hierarchy
-    CGameObject* m_Parent;
+    CGameObject*            m_Parent;
     vector<CGameObject*>    m_vecChild;
 
     int                     m_iLayerIdx;

@@ -67,7 +67,7 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
 
 void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 {
-    for (uint i = 0; i < g_Light2DCount; ++i)
+    for (uint i = 0; i < g_SBufferInfo[eSBUFFER_SHARED_CBUFFER_LIGHT2D].g_uSBufferCount; ++i)
     {  
         if (eLIGHT_DIRECTIONAL == g_Light2DSBuffer[i].LightType)
         {
@@ -119,35 +119,33 @@ void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light)
 {
     //여기선 노말값까지 감안해줘야 함.    
-    
-    for (uint i = 0; i < g_Light2DCount; ++i)
+    for (uint i = 0; i < g_SBufferInfo[eSBUFFER_SHARED_CBUFFER_LIGHT2D].g_uSBufferCount; ++i)
     {
         if (eLIGHT_DIRECTIONAL == g_Light2DSBuffer[i].LightType)
         {
-            //램버트 코사인 법칙을 통한 빛의 강도(=코사인값)를 구한다.
+        //램버트 코사인 법칙을 통한 빛의 강도(=코사인값)를 구한다.
             float DiffusePow = saturate(dot(-g_Light2DSBuffer[i].vLightDir.xyz, _vNormalDir));
             
-            //직사광선의 경우 방향만 고려
+        //직사광선의 경우 방향만 고려
             _Light.vDiffuse.rgb += g_Light2DSBuffer[i].LightColor.vDiffuse.rgb * DiffusePow;
             _Light.vAmbient.rgb += g_Light2DSBuffer[i].LightColor.vAmbient.rgb;
-
         }
         else if (eLIGHT_POINT == g_Light2DSBuffer[i].LightType)
         {
-            //점광원일 때는 광원 위치로부터 빛이 원형으로 퍼져나간다고 가정한다. 태양을 점이라고 생각하면 될듯.
+        //점광원일 때는 광원 위치로부터 빛이 원형으로 퍼져나간다고 가정한다. 태양을 점이라고 생각하면 될듯.
             
-            //점광원은 빛이 원형으로 퍼져 나가므로 광원과 픽셀 사이의 방향벡터가 곧 빛의 방향 벡터이다.
+        //점광원은 빛이 원형으로 퍼져 나가므로 광원과 픽셀 사이의 방향벡터가 곧 빛의 방향 벡터이다.
             float3 LightToPixelVector = _vWorldPos - g_Light2DSBuffer[i].vLightWorldPos.xyz;
             
-            //우선 거리에 따른 빛의 강도를 계산한다.
+        //우선 거리에 따른 빛의 강도를 계산한다.
             float DistancePow = saturate(
-            1.f - (length(LightToPixelVector.xy) / g_Light2DSBuffer[i].fRadius));
+        1.f - (length(LightToPixelVector.xy) / g_Light2DSBuffer[i].fRadius));
             
-            //빛이 닿지 않는 픽셀 경우 continue
-            if(DistancePow <= 0.f)
+        //빛이 닿지 않는 픽셀 경우 continue
+            if (DistancePow <= 0.f)
                 continue;
             
-            //노말 벡터와 빛의 방향 벡터 사이의 코사인값을 구한다.
+        //노말 벡터와 빛의 방향 벡터 사이의 코사인값을 구한다.
             float DiffusePow = saturate(dot(-LightToPixelVector, _vNormalDir));
             
             _Light.vDiffuse.rgb += g_Light2DSBuffer[i].LightColor.vDiffuse.rgb * DiffusePow * DistancePow;
@@ -158,23 +156,23 @@ void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor 
             
             float DiffusePow = saturate(dot(-g_Light2DSBuffer[i].vLightDir.xyz, _vNormalDir));
             
-            //광원에서 픽셀까지의 벡터 구함
+        //광원에서 픽셀까지의 벡터 구함
             float2 LightToPixelDir = _vWorldPos.xy - g_Light2DSBuffer[i].vLightWorldPos.xy;
             
             float2 LightToPixelDirNorm = normalize(LightToPixelDir);
            
             
-            //광원의 방향과 광원에서 픽셀까지의 방향벡터를 내적하고, 아크코사인을 통해서 각도 도출
-            //이 때 나오는 아크코사인 값은 무조건 양수이다.(0 ~ PI) 부호가 없는 각도를 반환함.
+        //광원의 방향과 광원에서 픽셀까지의 방향벡터를 내적하고, 아크코사인을 통해서 각도 도출
+        //이 때 나오는 아크코사인 값은 무조건 양수이다.(0 ~ PI) 부호가 없는 각도를 반환함.
             float Angle = acos(dot(LightToPixelDirNorm, g_Light2DSBuffer[i].vLightDir.xy));
             
-            //반경 90도 내일 경우에만 처리
-            if(Angle < g_Light2DSBuffer[i].fAngle)
+        //반경 90도 내일 경우에만 처리
+            if (Angle < g_Light2DSBuffer[i].fAngle)
             {
-                //아까 구한 광원에서 픽셀까지의 벡터를 통해 거리 계산
+            //아까 구한 광원에서 픽셀까지의 벡터를 통해 거리 계산
                 float DistancePow = saturate(1.f - (length(LightToPixelDir) / g_Light2DSBuffer[i].fRadius));
                 
-                //saturate 할 필요 없음. Angle은 둘 다 무조건 양수임. 또한 위의 조건문 떄문에 Angle / Light.fAngle 값이 1을 넘어설 수 없음.
+            //saturate 할 필요 없음. Angle은 둘 다 무조건 양수임. 또한 위의 조건문 떄문에 Angle / Light.fAngle 값이 1을 넘어설 수 없음.
                 float AnglePow = 1.f - (Angle / g_Light2DSBuffer[i].fAngle);
 
                 _Light.vDiffuse.rgb += g_Light2DSBuffer[i].LightColor.vDiffuse.rgb * DiffusePow * DistancePow * AnglePow;

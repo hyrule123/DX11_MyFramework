@@ -101,7 +101,7 @@ void CPlayerScript::tick()
 
 void CPlayerScript::Shoot()
 {
-	CGameObject* Bullet = CResMgr::GetInst()->FindRes<CPrefab>(L"Bullet")->Instantiate();
+	CGameObject* Bullet = CResMgr::GetInst()->FindRes<CPrefab>("Bullet")->Instantiate();
 
 	const Vec3& vPos = GetOwner()->Transform()->GetWorldPos();
 	const Vec3& vDir = GetOwner()->Transform()->GetRelativeDir(eDIR_RIGHT);

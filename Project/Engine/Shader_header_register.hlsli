@@ -52,11 +52,15 @@ cbuffer tGlobalValue : register(b2)
     float2 g_Resolution;
     float g_DeltaTime;
     float g_AccTime;
-    
-    uint g_Light2DCount;
-    uint g_Light3DCount;
-    float2 g_Padding;
 };
+
+
+//하나의 구조화 버퍼가 공유하는 자원에 대한 정보를 저장
+//인덱스 번호 = 구조화 버퍼의 레지스터 번호
+cbuffer SBufferInfo : register(b3)
+{
+    tSBufferInfo g_SBufferInfo[eSBUFFER_SHARED_CBUFFER_END];
+}
 
 
 Texture2D g_tex_0 : register(t0);
@@ -68,8 +72,8 @@ Texture2D g_tex_5 : register(t5);
 Texture2D g_tex_6 : register(t6);
 Texture2D g_tex_7 : register(t7);
 
-
 StructuredBuffer<tLightInfo> g_Light2DSBuffer : register(t8);
+StructuredBuffer<tTile> g_TileSBuffer : register(t9);
 
 SamplerState g_sam_0 : register(s0);
 SamplerState g_sam_1 : register(s1);

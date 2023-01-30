@@ -2,6 +2,7 @@
 
 #include "CSingleton.h"
 
+
 class CCamera;
 class CLight2D;
 class CStructBuffer;

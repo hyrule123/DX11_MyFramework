@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CComboBox.h"
 
-const string CComboBox::s_voidStr = "";
+
 
 CComboBox::CComboBox()
 	: CWidget("##ComboBox", eWIDGET_TYPE::COMBO_BOX)

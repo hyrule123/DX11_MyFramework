@@ -21,7 +21,6 @@ public:
 	virtual ~CComboBox();
 
 private:
-	const static string s_voidStr;
 	vector<string> m_vecItem;
 	int m_iCurrentSelected;
 	ImGuiComboFlags m_ComboFlags;
@@ -65,7 +64,7 @@ inline const string& CComboBox::GetCurrentSelected() const
 	if (true == IsIndexValid())
 		return m_vecItem[m_iCurrentSelected];
 	else
-		return s_voidStr;
+		return g_voidStr;
 }
 
 inline void CComboBox::AddClickCallback(CUI* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type)

@@ -30,16 +30,8 @@ void CMaterial::UpdateData()
 	// Texture Update
 	for (UINT i = 0; i < eTEX_END; ++i)
 	{
-		if (nullptr == m_arrTex[i])
-		{
-			m_Const.arrbTex[i] = 0;
-		}
-
-		else
-		{
-			m_Const.arrbTex[i] = 1;
+		if (1 == m_Const.arrbTex[i])
 			m_arrTex[i]->UpdateData(i, eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL);
-		}
 	}
 
 	// Constant Update
@@ -97,4 +89,5 @@ void CMaterial::SetTexParam(eTEX_PARAM _Param, Ptr<CTexture> _Tex)
 	assert(nullptr != _Tex);
 
 	m_arrTex[_Param] = _Tex;
+	m_Const.arrbTex[_Param] = 1;
 }

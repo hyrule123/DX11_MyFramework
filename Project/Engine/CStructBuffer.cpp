@@ -1,14 +1,17 @@
 #include "pch.h"
 #include "CStructBuffer.h"
 
+#include "CConstBuffer.h"
+
 #include "CDevice.h"
 
 
-CStructBuffer::CStructBuffer()
-	: m_uiElementSize()
-	, m_uiElementCount()
-	, m_ePIPELINE_STAGE_flags()
-	, m_uiRegisterIdx()
+CStructBuffer::CStructBuffer(eSBUFFER_SHARED_CBUFFER_IDX _idx)
+	: m_eCBufferIdx(_idx)
+	, m_uElementSize()
+	, m_uElementCapacity()
+	, m_flagPipelineTarget()
+	, m_uRegisterIdx()
 	, m_BufferDesc{}
 {
 	//CPU에서 버퍼를 작성하고 GPU에서 버퍼를 읽어들일 경우 사용
@@ -28,7 +31,7 @@ CStructBuffer::~CStructBuffer()
 {
 }
 
-void CStructBuffer::Create(UINT _uiElementSize, UINT _uiElementCount)
+void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity)
 {
 	//상수버퍼와 마찬가지로 16바이트 단위로 정렬되어 있어야 함.
 	assert(0 == _uiElementSize % 16);
@@ -39,11 +42,11 @@ void CStructBuffer::Create(UINT _uiElementSize, UINT _uiElementCount)
 	m_TempDeleteSRV = m_SRV;
 	m_SRV = nullptr;
 
-	m_uiElementSize = _uiElementSize;
-	m_uiElementCount = _uiElementCount;
+	m_uElementSize = _uiElementSize;
+	m_uElementCapacity = _uElementCapacity;
 
-	m_BufferDesc.StructureByteStride = m_uiElementSize;
-	m_BufferDesc.ByteWidth = m_uiElementSize * m_uiElementCount;
+	m_BufferDesc.StructureByteStride = m_uElementSize;
+	m_BufferDesc.ByteWidth = m_uElementSize * m_uElementCapacity;
 
 	if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, nullptr, m_StructBuffer.GetAddressOf())))
 		assert(nullptr);
@@ -52,7 +55,7 @@ void CStructBuffer::Create(UINT _uiElementSize, UINT _uiElementCount)
 	//SRVDesc에 원소의 갯수를 지정해서 생성.
 	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
 	SRVDesc.ViewDimension = D3D_SRV_DIMENSION_BUFFEREX;
-	SRVDesc.BufferEx.NumElements = m_uiElementCount;
+	SRVDesc.BufferEx.NumElements = m_uElementCapacity;
 
 	if (FAILED(DEVICE->CreateShaderResourceView(m_StructBuffer.Get(), &SRVDesc, m_SRV.GetAddressOf())))
 		assert(nullptr);
@@ -67,41 +70,52 @@ void CStructBuffer::SetData(void* _pData, UINT _uiCount)
 		m_TempDeleteSRV = nullptr;
 
 	//생성 시 할당된 갯수보다 들어온 갯수가 더 클 경우 재할당하고, 거기에 데이터를 추가.
-	if (_uiCount > m_uiElementCount)
-		Create(m_uiElementSize, _uiCount * 2u);
+	if (_uiCount > m_uElementCapacity)
+		Create(m_uElementSize, _uiCount * 2u);
+
+	CDevice* pDevice = CDevice::GetInst();
 
 	D3D11_MAPPED_SUBRESOURCE Data = {};
-	CONTEXT->Map(m_StructBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &Data);
+	pDevice->GetDeviceContext()->Map(m_StructBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &Data);
 	
-	memcpy(Data.pData, _pData, (size_t)(m_uiElementSize * _uiCount));
+	memcpy(Data.pData, _pData, (size_t)(m_uElementSize * _uiCount));
 
-	CONTEXT->Unmap(m_StructBuffer.Get(), 0);
+	pDevice->GetDeviceContext()->Unmap(m_StructBuffer.Get(), 0);
+
+	//g_arrStructBufferInfo의 자신의 인덱스에 해당하는 위치에 이번에 업데이트된 구조체의 갯수를 삽입
+	g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount = _uiCount;
 }
 
 void CStructBuffer::UpdateData()
 {
-	if (eSHADER_PIPELINE_FLAG_VERTEX & m_ePIPELINE_STAGE_flags)
+	//구조체 정보를 담은 상수버퍼에 바인딩한 구조체 갯수를 넣어서 전달
+	CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_SBUFFERINFO);
+	pConstBuffer->SetData(g_arrStructBufferInfo);
+	pConstBuffer->SetPipelineTarget(m_flagPipelineTarget);
+	pConstBuffer->UpdateData();
+
+	if (eSHADER_PIPELINE_FLAG_VERTEX & m_flagPipelineTarget)
 	{
-		CONTEXT->VSSetShaderResources(m_uiRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->VSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_HULL & m_ePIPELINE_STAGE_flags)
+	if (eSHADER_PIPELINE_FLAG_HULL & m_flagPipelineTarget)
 	{
-		CONTEXT->HSSetShaderResources(m_uiRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->HSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_DOMAIN & m_ePIPELINE_STAGE_flags)
+	if (eSHADER_PIPELINE_FLAG_DOMAIN & m_flagPipelineTarget)
 	{
-		CONTEXT->DSSetShaderResources(m_uiRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->DSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_GEOMETRY & m_ePIPELINE_STAGE_flags)
+	if (eSHADER_PIPELINE_FLAG_GEOMETRY & m_flagPipelineTarget)
 	{
-		CONTEXT->GSSetShaderResources(m_uiRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->GSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_PIXEL & m_ePIPELINE_STAGE_flags)
+	if (eSHADER_PIPELINE_FLAG_PIXEL & m_flagPipelineTarget)
 	{
-		CONTEXT->PSSetShaderResources(m_uiRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->PSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
 	}
 }

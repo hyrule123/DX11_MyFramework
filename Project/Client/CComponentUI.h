@@ -28,7 +28,7 @@ public:
     eCOMPONENT_TYPE GetComponentType() { return m_Type; }
 
     //인자로 들어온 버퍼에 wstring 타입의 키값을 string 형태로 바꿔서 넣어주는 함수
-    bool GetResKey(Ptr<CRes> _Res, __out string& _out);
+    const string& GetResKey(Ptr<CRes> _Res);
 
 public:
     virtual void tick() override;

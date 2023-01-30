@@ -28,17 +28,13 @@ void CComponentUI::SetTarget(CGameObject* _pTarget)
 
 }
 
-bool CComponentUI::GetResKey(Ptr<CRes> _Res, __out string& _out)
+const string& CComponentUI::GetResKey(Ptr<CRes> _Res)
 {
-	_out.clear();
-
 	//Res 주소가 없다면 return
 	if (nullptr == _Res)
-		return false;
+		return g_voidStr;
 
-	const wstring& wstrKey = _Res->GetKey();
-
-	return ::ConvertUnicodeToMultibyte(wstrKey, _out);
+	return _Res->GetKey();
 }
 
 void CComponentUI::tick()

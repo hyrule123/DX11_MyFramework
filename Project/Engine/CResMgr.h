@@ -19,8 +19,9 @@
 class CResMgr :
     public CSingleton<CResMgr>
 {
+    
 private:
-    unordered_map<wstring, Ptr<CRes>> m_arrRes[(UINT)eRES_TYPE::END];
+    unordered_map<string, Ptr<CRes>> m_arrRes[(UINT)eRES_TYPE::END];
     unordered_map<std::type_index, eRES_TYPE> m_umapResClassTypeIndex;
 
 private:
@@ -35,15 +36,15 @@ public:
     eRES_TYPE GetResType();
 
     template<typename T>
-    Ptr<T> FindRes(const wstring& _strKey);
+    Ptr<T> FindRes(const string& _strKey);
 
     template<typename T>
-    void AddRes(const wstring& _strKey, Ptr<T>& _Res);
+    void AddRes(const string& _strKey, Ptr<T>& _Res);
 
     template<typename T>
-    Ptr<T> Load(const wstring& _strKey, const wstring& _strRelativePath);
+    Ptr<T> Load(const string& _strKey, const wstring& _strRelativePath);
 
-    const unordered_map<wstring, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
+    const unordered_map<string, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
 
 
 public:
@@ -60,7 +61,7 @@ inline eRES_TYPE CResMgr::GetResType()
 
 
 template<typename T>
-inline Ptr<T> CResMgr::FindRes(const wstring& _strKey)
+inline Ptr<T> CResMgr::FindRes(const string& _strKey)
 {
     eRES_TYPE type = CResMgr::GetInst()->GetResType<T>();
       
@@ -76,7 +77,7 @@ inline Ptr<T> CResMgr::FindRes(const wstring& _strKey)
 
 
 template<typename T>
-inline void CResMgr::AddRes(const wstring& _strKey, Ptr<T>& _Res)
+inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
 {
     // 중복키로 리소스 추가하려는 경우
     assert( ! FindRes<T>(_strKey).Get() );
@@ -88,7 +89,7 @@ inline void CResMgr::AddRes(const wstring& _strKey, Ptr<T>& _Res)
 
 
 template<typename T>
-inline Ptr<T> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
+inline Ptr<T> CResMgr::Load(const string& _strKey, const wstring& _strRelativePath)
 {
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     
@@ -114,7 +115,7 @@ inline Ptr<T> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativeP
     return (T*)pRes.Get();
 }
 
-inline const unordered_map<wstring, Ptr<CRes>>& CResMgr::GetResMap(eRES_TYPE _ResType)
+inline const unordered_map<string, Ptr<CRes>>& CResMgr::GetResMap(eRES_TYPE _ResType)
 {
     return m_arrRes[(UINT)_ResType];
 }

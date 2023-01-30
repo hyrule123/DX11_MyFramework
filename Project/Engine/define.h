@@ -20,6 +20,8 @@
 
 #define FLT_MAX_NEG -FLT_MAX
 
+extern const string g_voidStr;
+
 //새로운 컴포넌트를 만들어줄 경우
 //eCOMPONENT_TYPE에 컴포넌트 추가
 //components.h에 컴포넌트 뚫어주기
@@ -67,60 +69,7 @@ enum class eRES_TYPE
 	END,
 };
 
-enum eCONST_BUFFER_TYPE : UINT
-{
-	eCONST_BUFFER_TRANSFORM,	// b0
-	eCONST_BUFFER_MATERIAL,	// b1
-	eCONST_BUFFER_GLOBAL, //b2
 
-	eCONST_BUFFER_END,
-};
-
-
-enum eSCALAR_PARAM
-{
-	INT_0,
-	INT_1,
-	INT_2,
-	INT_3,
-
-	FLOAT_0,
-	FLOAT_1,
-	FLOAT_2,
-	FLOAT_3,
-
-	VEC2_0,
-	VEC2_1,
-	VEC2_2,
-	VEC2_3,
-
-	VEC4_0,
-	VEC4_1,
-	VEC4_2,
-	VEC4_3,
-
-	MAT_0,
-	MAT_1,
-	MAT_2,
-	MAT_3,	
-
-};
-#define COLOR_KEY VEC4_3
-
-
-enum eTEX_PARAM
-{
-	eTEX_0,
-	eTEX_1,
-	eTEX_2,
-	eTEX_3,
-	eTEX_4,
-	eTEX_5,
-	eTEX_6,
-	eTEX_7,
-
-	eTEX_END,
-};
 
 enum eSHADER_PIPELINE_STAGE_FLAG : UINT8
 {
@@ -254,9 +203,3 @@ enum eDIMENSION_TYPE : UINT
 	eDIMENSION_3D = 3u
 };
 
-enum class eLIGHT_TYPE : UINT
-{
-	eLIGHT_DIRECTIONAL,	//직사광선
-	eLIGHT_POINT,		//점광원
-	eLIGHT_SPOTLIGHT	//스포트라이트
-};

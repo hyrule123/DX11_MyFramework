@@ -8,11 +8,11 @@ private:
     const eRES_TYPE  m_Type;
     int             m_iRefCount;
 
-    wstring         m_strKey;
+    string         m_strKey;
     wstring         m_strRelativePath;
 
 private:
-    void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
+    void SetKey(const string& _strKey) { m_strKey = _strKey; }
     void SetRelativePath(const wstring& _strPath) { m_strRelativePath = _strPath; }
 
     void AddRef() { ++m_iRefCount; }
@@ -33,7 +33,7 @@ public:
     virtual CRes* Clone() { return nullptr; assert(nullptr); }
 
 public:
-    const wstring& GetKey() { return m_strKey; }
+    const string& GetKey() { return m_strKey; }
     const wstring& GetRelativePath() { return m_strRelativePath; }
 
 

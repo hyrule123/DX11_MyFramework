@@ -35,7 +35,7 @@ void CMeshRenderUI::UpdateMeshListCallback()
 		vector<string> tempVec;
 		for (const auto& iter : map)
 		{
-			tempVec.push_back(::ConvertUnicodeToMultibyte(iter.second.Get()->GetKey()));
+			tempVec.push_back(iter.second.Get()->GetKey());
 		}
 
 		m_pComboBoxMesh->SetItem(tempVec);
@@ -46,7 +46,7 @@ void CMeshRenderUI::UpdateMeshListCallback()
 //메쉬 콤보박스에서 특정 메쉬가 클릭되었을 때 호출될 함수
 void CMeshRenderUI::ChangeMeshCallback()
 {
-	const wstring& sel = ::ConvertMultibyteToUnicode(m_pComboBoxMesh->GetCurrentSelected());
+	const string& sel = m_pComboBoxMesh->GetCurrentSelected();
 	if (true == sel.empty())
 		return;
 
@@ -67,7 +67,7 @@ void CMeshRenderUI::UpdateMtrlListCallback()
 		vector<string> tempVec;
 		for (const auto& iter : map)
 		{
-			tempVec.push_back(::ConvertUnicodeToMultibyte(iter.second.Get()->GetKey()));
+			tempVec.push_back(iter.second.Get()->GetKey());
 		}
 
 		m_pComboBoxMtrl->SetItem(tempVec);
@@ -76,7 +76,7 @@ void CMeshRenderUI::UpdateMtrlListCallback()
 
 void CMeshRenderUI::ChangeMtrlCallback()
 {
-	const wstring& sel = ::ConvertMultibyteToUnicode(m_pComboBoxMtrl->GetCurrentSelected());
+	const string& sel = m_pComboBoxMtrl->GetCurrentSelected();
 	if (true == sel.empty())
 		return;
 
@@ -107,12 +107,12 @@ void CMeshRenderUI::init()
 	//타겟이 지정되어 있을경우 타겟의 메쉬와 재질의 이름을 기본 세팅해준다.
 	if (nullptr != GetTarget() && nullptr != GetTarget()->MeshRender())
 	{
-		const wstring& meshname = GetTarget()->MeshRender()->GetMesh()->GetKey();
-		m_pComboBoxMesh->SetCurrentSelected(::ConvertUnicodeToMultibyte(meshname));
+		const string& meshname = GetTarget()->MeshRender()->GetMesh()->GetKey();
+		m_pComboBoxMesh->SetCurrentSelected(meshname);
 
 
-		const wstring& mtrlname = GetTarget()->MeshRender()->GetMaterial()->GetKey();
-		m_pComboBoxMtrl->SetCurrentSelected(::ConvertUnicodeToMultibyte(mtrlname));
+		const string& mtrlname = GetTarget()->MeshRender()->GetMaterial()->GetKey();
+		m_pComboBoxMtrl->SetCurrentSelected(meshname);
 	}
 }
 
@@ -123,14 +123,14 @@ void CMeshRenderUI::tick()
 	{
 		if (-1 == m_pComboBoxMesh->GetCurrentIndex())
 		{
-			const wstring& meshname = GetTarget()->MeshRender()->GetMesh()->GetKey();
-			m_pComboBoxMesh->SetCurrentSelected(::ConvertUnicodeToMultibyte(meshname));
+			const string& meshname = GetTarget()->MeshRender()->GetMesh()->GetKey();
+			m_pComboBoxMesh->SetCurrentSelected(meshname);
 		}
 
 		if (-1 == m_pComboBoxMtrl->GetCurrentIndex())
 		{
-			const wstring& mtrlname = GetTarget()->MeshRender()->GetMaterial()->GetKey();
-			m_pComboBoxMtrl->SetCurrentSelected(::ConvertUnicodeToMultibyte(mtrlname));
+			const string& mtrlname = GetTarget()->MeshRender()->GetMaterial()->GetKey();
+			m_pComboBoxMtrl->SetCurrentSelected(mtrlname);
 		}
 	}
 
