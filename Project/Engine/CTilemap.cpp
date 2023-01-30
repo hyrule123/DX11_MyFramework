@@ -45,7 +45,6 @@ void CTilemap::render()
 
 	//·»´õ¸µ ÁøÇà
 	GetMesh()->render();
-
 }
 
 void CTilemap::UpdateData()

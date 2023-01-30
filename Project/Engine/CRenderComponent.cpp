@@ -14,11 +14,29 @@ CRenderComponent::CRenderComponent(eCOMPONENT_TYPE _type):
 CRenderComponent::CRenderComponent(const CRenderComponent& _other)
 	: CComponent(_other)
 	, m_pMesh(_other.m_pMesh)
+	, m_pSharedMtrl(_other.m_pSharedMtrl)
 {
-	//재질의 경우 개별로 필요한 상수 버퍼 구조체가 필요하므로 복사 생성자를 호출해주어야 한다.
-	m_pMtrl = _other.m_pMtrl.Get()->Clone();
 }
 
 CRenderComponent::~CRenderComponent()
 {
+}
+
+Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
+{
+	//원본 재질이 없을 경우 nullptr을 반환한다.
+	if (nullptr == m_pSharedMtrl)
+	{
+		m_pCurrentMtrl = nullptr;
+		return m_pCurrentMtrl;
+	}
+
+	//동적 재질 최초 요청시 clone해서 복사 후 돌려준다.
+	if (nullptr == m_pDynamicMtrl)
+	{
+		m_pDynamicMtrl = m_pSharedMtrl->Clone();
+	}
+
+	m_pCurrentMtrl = m_pDynamicMtrl;
+	return m_pCurrentMtrl;
 }
