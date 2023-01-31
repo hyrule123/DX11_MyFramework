@@ -69,8 +69,8 @@ inline Ptr<T> CResMgr::FindRes(const string& _strKey)
     if (iter == m_arrRes[(UINT)type].end())
         return nullptr;
 
-    if (type == eRES_TYPE::MATERIAL)
-        return (T*)iter->second.Get()->Clone();
+    //if (type == eRES_TYPE::MATERIAL)
+    //    return (T*)iter->second.Get()->Clone();
 
     return (T*)iter->second.Get();    
 }

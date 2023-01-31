@@ -160,6 +160,12 @@
     <ClInclude Include="HLSL_Values.h">
       <Filter>Source\00. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimator2D.h">
+      <Filter>Source\06. Component\03, 04. Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnim2D.h">
+      <Filter>Source\06. Component\03, 04. Animator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -299,6 +305,12 @@
     </ClCompile>
     <ClCompile Include="CTilemap.cpp">
       <Filter>Source\06. Component\08~Render Components\09. Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator2D.cpp">
+      <Filter>Source\06. Component\03, 04. Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnim2D.cpp">
+      <Filter>Source\06. Component\03, 04. Animator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +454,9 @@
     </Filter>
     <Filter Include="Source\06. Component\08~Render Components\09. Tilemap">
       <UniqueIdentifier>{c1e5f3db-b06e-4a03-aa94-25ebd41b9f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\06. Component\03, 04. Animator">
+      <UniqueIdentifier>{14f3f02f-10d1-4a2f-a84e-a495906b7dac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

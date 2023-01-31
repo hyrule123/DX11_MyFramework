@@ -307,6 +307,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShader((void*)g_PS_Tilemap, sizeof(g_PS_Tilemap), eSHADERTYPE_PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
 		pShader->SetBlendState(eBLENDSTATE_MASK);
+		pShader->SetShaderDomain(eSHADER_DOMAIN_MASK);
 		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
 	}
 }
@@ -351,7 +352,7 @@ void CResMgr::CreateDefaultMaterial()
 	// Tilemap Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey("TileMapMtrl");
+		pMtrl->SetKey("TilemapMtrl");
 		pMtrl->SetShader(FindRes<CGraphicsShader>("TilemapShader"));
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}

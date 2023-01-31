@@ -11,6 +11,7 @@ class CRenderComponent;
 class CScriptHolder;
 class CScript;
 class CLight2D;
+class CTilemap;
 
 class CGameObject :
     public CEntity
@@ -54,6 +55,8 @@ public:
     CCollider2D* Collider2D() const { return (CCollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_COLLIDER2D]; }
 
     CMeshRender* MeshRender() const { return (CMeshRender*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER]; }
+    CTilemap* Tilemap() const { return (CTilemap*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_TILEMAP]; }
+
     CCamera* Camera() const { return (CCamera*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_CAMERA]; }
     CRenderComponent* GetRenderComponent() const { return m_RenderCom; }
     CScriptHolder* ScriptHolder() const { return (CScriptHolder*)m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER]; }

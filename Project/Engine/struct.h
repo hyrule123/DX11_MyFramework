@@ -36,4 +36,11 @@ union tRectInfo
 	Vec4 LBRT;
 };
 
+struct tAnim2DFrm
+{
+	Vec2	LeftTopUV;
+	Vec2	SliceUV;
+	Vec2	Offset;
+	float	fDuration;
+};
 

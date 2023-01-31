@@ -43,6 +43,12 @@ void CTilemap::render()
 	//자신의 구조화버퍼 업데이트
 	UpdateData();
 
+	//타일맵의 재질에 변수를 대입한 후 바인딩
+	CMaterial* pMtrl = GetMaterial().Get();
+	pMtrl->SetScalarParam(INT_0, &m_iTileCountX);
+	pMtrl->SetScalarParam(INT_1, &m_iTileCountY);
+	pMtrl->UpdateData();
+
 	//렌더링 진행
 	GetMesh()->render();
 }

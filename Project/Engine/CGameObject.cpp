@@ -208,6 +208,9 @@ void CGameObject::AddComponent(CComponent* _Component)
 		//m_RenderCom에 하나 이상의 Render 컴포넌트가 들어가 있을 경우 에러 발생시킴.
 		assert(nullptr == m_RenderCom);
 		m_RenderCom = static_cast<CRenderComponent*>(_Component);
+
+		//일단 인스턴싱이 구현되어있지 않으므로 무조건 Dynamic Material을 기본 재질로 사용한다.
+		m_RenderCom->GetDynamicMaterial();
 		break;
 
 	case eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER:

@@ -3,6 +3,7 @@
 
 
 class CConstBuffer
+    : public CEntity
 {
 private:
     ComPtr<ID3D11Buffer>    m_CB;
