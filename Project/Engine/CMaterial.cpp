@@ -41,7 +41,7 @@ void CMaterial::UpdateData()
 }
 
 
-void CMaterial::SetScalarParam(eSCALAR_PARAM _Param, void* _Src)
+void CMaterial::SetScalarParam(eSCALAR_PARAM _Param, const void* _Src)
 {
 	switch (_Param)
 	{

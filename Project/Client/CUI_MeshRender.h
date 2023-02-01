@@ -1,17 +1,17 @@
 #pragma once
-#include "CComponentUI.h"
+#include "CUI_Component.h"
 
-class CComboBox;
-class CMeshRenderUI :
-    public CComponentUI
+class CUI_ComboBox;
+class CUI_MeshRender :
+    public CUI_Component
 {
 public:
-    CMeshRenderUI();
-    virtual ~CMeshRenderUI();
+    CUI_MeshRender();
+    virtual ~CUI_MeshRender();
 
 private:
-    CComboBox* m_pComboBoxMesh;
-    CComboBox* m_pComboBoxMtrl;
+    CUI_ComboBox* m_pComboBoxMesh;
+    CUI_ComboBox* m_pComboBoxMtrl;
 
 private:
     void UpdateMeshListCallback();

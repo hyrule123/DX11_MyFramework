@@ -14,8 +14,8 @@ private:
 public:
     CLevel* GetCurLevel() const { return m_pCurLevel; }
 
-    CGameObject* FindObjectByName(const wstring& _Name);
-    void FindObjectALLByName(const wstring& _Name, vector<CGameObject*>& _vecObj);
+    CGameObject* FindObjectByName(const string& _Name);
+    void FindObjectALLByName(const string& _Name, vector<CGameObject*>& _vecObj);
 
 
 public:

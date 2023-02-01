@@ -37,6 +37,7 @@ public:
     CTransform* Transform() { return m_pOwner->Transform(); }
     CMeshRender* MeshRender() { return m_pOwner->MeshRender(); }
     CCamera* Camera() { return m_pOwner->Camera(); }
+    CAnimator2D* Animator2D() { return m_pOwner->Animator2D(); }
 
 
 

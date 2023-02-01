@@ -1,8 +1,10 @@
+
 #include "pch.h"
 #include "CUI.h"
 
-#include "CWidget.h"
-#include "CUI.h"
+
+
+#include "CUI_Widget.h"
 
 CUI::CUI(const string& _ID)
 	: m_strID(_ID)

@@ -146,22 +146,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CAnimator2DUI.h" />
-    <ClInclude Include="CCameraUI.h" />
-    <ClInclude Include="CCollider2DUI.h" />
-    <ClInclude Include="CComboBox.h" />
-    <ClInclude Include="CComponentUI.h" />
+    <ClInclude Include="CUI_Animator2D.h" />
+    <ClInclude Include="CUI_Camera.h" />
+    <ClInclude Include="CUI_Collider2D.h" />
+    <ClInclude Include="CUI_ComboBox.h" />
+    <ClInclude Include="CUI_Component.h" />
     <ClInclude Include="CEditorObjMgr.h" />
     <ClInclude Include="CImGuiMgr.h" />
-    <ClInclude Include="CInspectorUI.h" />
+    <ClInclude Include="CUI_Inspector.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="CLight2DUI.h" />
-    <ClInclude Include="CMeshRenderUI.h" />
-    <ClInclude Include="CScriptHolderUI.h" />
-    <ClInclude Include="CTilemapUI.h" />
-    <ClInclude Include="CTransformUI.h" />
+    <ClInclude Include="CUI_Light2D.h" />
+    <ClInclude Include="CUI_MainMenubar.h" />
+    <ClInclude Include="CUI_Menubar.h" />
+    <ClInclude Include="CUI_Menu.h" />
+    <ClInclude Include="CUI_MenuItemGroup.h" />
+    <ClInclude Include="CUI_MeshRender.h" />
+    <ClInclude Include="CUI_ScriptHolder.h" />
+    <ClInclude Include="CUI_Tilemap.h" />
+    <ClInclude Include="CUI_Transform.h" />
     <ClInclude Include="CUI.h" />
-    <ClInclude Include="CWidget.h" />
+    <ClInclude Include="CUI_Widget.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
@@ -173,21 +177,27 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CAnimator2DUI.cpp" />
-    <ClCompile Include="CCameraUI.cpp" />
-    <ClCompile Include="CCollider2DUI.cpp" />
-    <ClCompile Include="CComboBox.cpp" />
-    <ClCompile Include="CComponentUI.cpp" />
+    <ClCompile Include="CUI_Animator2D.cpp" />
+    <ClCompile Include="CUI_Camera.cpp" />
+    <ClCompile Include="CUI_Collider2D.cpp" />
+    <ClCompile Include="CUI_ComboBox.cpp" />
+    <ClCompile Include="CUI_Component.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
-    <ClCompile Include="CInspectorUI.cpp" />
-    <ClCompile Include="CLight2DUI.cpp" />
-    <ClCompile Include="CMeshRenderUI.cpp" />
-    <ClCompile Include="CScriptHolderUI.cpp" />
-    <ClCompile Include="CTilemapUI.cpp" />
-    <ClCompile Include="CTransformUI.cpp" />
-    <ClCompile Include="CUI.cpp" />
-    <ClCompile Include="CWidget.cpp" />
+    <ClCompile Include="CUI_Inspector.cpp" />
+    <ClCompile Include="CUI_Light2D.cpp" />
+    <ClCompile Include="CUI_MainMenubar.cpp" />
+    <ClCompile Include="CUI_Menubar.cpp" />
+    <ClCompile Include="CUI_Menu.cpp" />
+    <ClCompile Include="CUI_MenuItemGroup.cpp" />
+    <ClCompile Include="CUI_MeshRender.cpp" />
+    <ClCompile Include="CUI_ScriptHolder.cpp" />
+    <ClCompile Include="CUI_Tilemap.cpp" />
+    <ClCompile Include="CUI_Transform.cpp" />
+    <ClCompile Include="CUI.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="CUI_Widget.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>

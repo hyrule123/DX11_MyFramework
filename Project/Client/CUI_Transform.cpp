@@ -1,23 +1,23 @@
 #include "pch.h"
-#include "CTransformUI.h"
+#include "CUI_Transform.h"
 
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
 
-CTransformUI::CTransformUI()
-    : CComponentUI("##Transform", eCOMPONENT_TRANSFORM)
+CUI_Transform::CUI_Transform()
+    : CUI_Component("##Transform", eCOMPONENT_TRANSFORM)
 {
     SetName("Transform");
 }
 
-CTransformUI::~CTransformUI()
+CUI_Transform::~CUI_Transform()
 {
 }
 
-int CTransformUI::render_update()
+int CUI_Transform::render_update()
 {
     //같은 이름의 부모함수의 업데이트가 실패할 경우 false를 리턴
-    if (FALSE == CComponentUI::render_update())
+    if (FALSE == CUI_Component::render_update())
         return FALSE;
 
     CTransform* pTransform = GetTarget()->Transform();

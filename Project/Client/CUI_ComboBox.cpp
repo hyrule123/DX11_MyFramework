@@ -1,28 +1,27 @@
 #include "pch.h"
-#include "CComboBox.h"
+#include "CUI_ComboBox.h"
 
 
-
-CComboBox::CComboBox()
-	: CWidget("##ComboBox", eWIDGET_TYPE::COMBO_BOX)
+CUI_ComboBox::CUI_ComboBox()
+	: CUI_Widget("##ComboBox", eWIDGET_TYPE::COMBO_BOX)
 	, m_iCurrentSelected(-1)
 	, m_ComboFlags()
 {
 }
 
-CComboBox::~CComboBox()
+CUI_ComboBox::~CUI_ComboBox()
 {
 }
 
 
-void CComboBox::tick()
+void CUI_ComboBox::tick()
 {
 	//인덱스가 유효하지 않은지 검사하고 유효하지 않을 시 -1로 변경
 	if (false == IsIndexValid())
 		m_iCurrentSelected = -1;
 }
 
-int CComboBox::render_update()
+int CUI_ComboBox::render_update()
 {
 	string Label;
 	if (true == GetLeftLabel())
@@ -52,8 +51,11 @@ int CComboBox::render_update()
 			}
 				
 
-			if (isSelected) {}
+			if (isSelected)
+			{
 				ImGui::SetItemDefaultFocus();
+			}
+				
 		}
 
 		ImGui::EndCombo();
@@ -62,7 +64,7 @@ int CComboBox::render_update()
 	return TRUE;
 }
 
-void CComboBox::SetCurrentSelected(const string& _SelectedName)
+void CUI_ComboBox::SetCurrentSelected(const string& _SelectedName)
 {
 	size_t size = m_vecItem.size();
 	for (size_t i = 0; i < size; i++)

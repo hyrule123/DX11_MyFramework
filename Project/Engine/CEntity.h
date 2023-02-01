@@ -6,12 +6,12 @@ private:
 	static UINT32 g_iNextID;
 
 private:
-	wstring		m_strName;
+	string		m_strName;
 	const UINT32  m_iID;
 
 public:
-	void SetName(const wstring& _strName) {  m_strName = _strName; }
-	const wstring& GetName() { return m_strName; }
+	void SetName(const string& _strName) {  m_strName = _strName; }
+	const string& GetName() { return m_strName; }
 	UINT32 GetID() { return m_iID; }
 
 public:

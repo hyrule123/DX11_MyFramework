@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "CWidget.h"
+#include "CUI_Widget.h"
 
-CWidget::CWidget(const string& _ID, eWIDGET_TYPE _Type)
+CUI_Widget::CUI_Widget(const string& _ID, eWIDGET_TYPE _Type)
 	: CUI(_ID)
 	, m_Type(_Type)
 	, m_bLeftLabel(true)
@@ -9,17 +9,17 @@ CWidget::CWidget(const string& _ID, eWIDGET_TYPE _Type)
 {
 }
 
-CWidget::~CWidget()
+CUI_Widget::~CUI_Widget()
 {
 }
 
-void CWidget::finaltick()
+void CUI_Widget::finaltick()
 {
 	//위젯은 반드시 부모 객체가 있어야 한다.
 	assert(nullptr != CUI::GetParent());
 
 	bool sizeset = (0.f != GetSize().x);
-	if (sizeset)
+	if (true == sizeset)
 		ImGui::PushItemWidth(GetSize().x);
 
 	if (true == m_bLeftLabel)

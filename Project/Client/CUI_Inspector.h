@@ -1,20 +1,20 @@
 #pragma once
 #include "CUI.h"
 
-class CComponentUI;
+class CUI_Component;
 
 //특정 게임오브젝트의 현재 상태를 확인하는 클래스.
 
-class CInspectorUI :
+class CUI_Inspector :
     public CUI
 {
 public:
-    CInspectorUI();
-    virtual ~CInspectorUI();
+    CUI_Inspector();
+    virtual ~CUI_Inspector();
 
 private:
     CGameObject* m_pTarget;
-    CComponentUI* m_arrComUI[eCOMPONENT_END];
+    CUI_Component* m_arrComUI[eCOMPONENT_END];
 
 public:
     void init() override;

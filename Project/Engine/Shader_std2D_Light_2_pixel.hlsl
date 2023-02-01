@@ -7,59 +7,88 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
 {
     float4 vOutColor = (float4)0.f;
     
-    if(1== g_btex_0)
+    //메인텍스처가 존재하지 않을경우는 무조건 마젠타 색상을 return;
+    if(0 == g_btex_0)
     {
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
-
-        //Alpha Check + Color Key Check
-        if (0.f == vOutColor.a || all(vOutColor.rgb == COLOR_KEY.rgb))
+        vOutColor = float4(1.f, 1.f, 0.f, 1.f);
+    }
+    
+    //애니메이션 사용중일경우
+    else if(0 != bAnimUse)
+    {
+        //애니메이션의 피벗을 지정(캔버스 사이즈의 LT로부터 스프라이트 이미)
+        float2 vUV = LeftTop + (CanvasSize * _in.vUV);
+        vUV -= ((CanvasSize - Slice) * 0.5f);
+        vUV -= Offset;
+    
+        //
+        if (
+        vUV.x > LeftTop.x
+        && vUV.x < LeftTop.x + Slice.x
+        && vUV.y > LeftTop.y
+        && vUV.y < LeftTop.y + Slice.y
+        )
         {
-            discard;
-        }
-        
-        
-        //노말맵이 있을 경우 빛 처리를 해준다.
-        //현재 월드에 배치되어있는 광원의 갯수는 tGlobal 상수버퍼에,
-        //실제 광원 데이터는 구조화 버퍼에 배치되어 있다.
-        float3 vNormal = (float3) 0.f;
-        if (1 == g_btex_1)
-        {
-            vNormal = g_tex_1.Sample(g_sam_0, _in.vUV).xyz;
-            
-            //노멀맵은 방향을 가지는 '벡터'(-1 ~ 1), 현재 쉐이더의 색상 설정은 R8G8B8A8 UNORM(0 ~ 1)
-            vNormal = (vNormal * 2.f) - 1.f;
-            
-            //현재 노멀맵은 DX 좌표축과 y축과 z축이 다르게 되어 있음.
-            //float Temp = vNormal.y;
-            vNormal.y = -vNormal.y;
-            //vNormal.z = -vNormal.z;
-            //vNormal.y = vNormal.z;
-            //vNormal.z = Temp;
-
-            //노멀맵의 벡터 방향에 픽셀의 월드 행렬을 곱한 뒤 normalize 해준다.
-            //이 때 공차좌표가 0이므로 결과값은 좌표값이 아닌 벡터값이 된다.
-            //결과값은 해당 픽셀의 회전 결과가 반영되어 실제로 바라보고 있는 방향이 된다.
-            vNormal = normalize(mul(float4(vNormal, 0.f), g_matWorld).xyz);
-            
-        }
-        
-
-        tLightColor LightColor = (tLightColor) 0.f;
-        //노말값이 영벡터라면, 즉 노말맵 텍스처가 없어서 0.f로 초기화된 상태 그대로라면
-        if (all(float3(0.f, 0.f, 0.f) == vNormal))
-        {
-            //자신의 노멀값을 고려하지 않은 광원 계산을 진행
-            CalcLight2D(_in.vWorldPos, LightColor);
+            vOutColor = g_tex_0.Sample(g_sam_0, vUV);
         }
         else
-        {     
-            //노멀값까지 합산된 광원 계산을 진행.
-            CalcLight2DNormal(_in.vWorldPos, vNormal, LightColor);
+        {
+            vOutColor = float4(1.f, 1.f, 0.f, 1.f);
         }
-            
-        //최종적으로 계산된 빛의 색상을 픽셀 색상에 곱해준다.
-        vOutColor.rgb *= (LightColor.vDiffuse.rgb + LightColor.vAmbient.rgb);
     }
+    else
+    {
+        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    }
+
+    //Alpha Check + Color Key Check
+    if (0.f == vOutColor.a || all(vOutColor.rgb == COLOR_KEY.rgb))
+    {
+        discard;
+    }
+        
+        
+    //노말맵이 있을 경우 빛 처리를 해준다.
+    //현재 월드에 배치되어있는 광원의 갯수는 tGlobal 상수버퍼에,
+    //실제 광원 데이터는 구조화 버퍼에 배치되어 있다.
+    float3 vNormal = (float3) 0.f;
+    if (1 == g_btex_1)
+    {
+        vNormal = g_tex_1.Sample(g_sam_0, _in.vUV).xyz;
+            
+        //노멀맵은 방향을 가지는 '벡터'(-1 ~ 1), 현재 쉐이더의 색상 설정은 R8G8B8A8 UNORM(0 ~ 1)
+        vNormal = (vNormal * 2.f) - 1.f;
+            
+        //현재 노멀맵은 DX 좌표축과 y축과 z축이 다르게 되어 있음.
+        //float Temp = vNormal.y;
+        vNormal.y = -vNormal.y;
+        //vNormal.z = -vNormal.z;
+        //vNormal.y = vNormal.z;
+        //vNormal.z = Temp;
+
+        //노멀맵의 벡터 방향에 픽셀의 월드 행렬을 곱한 뒤 normalize 해준다.
+        //이 때 공차좌표가 0이므로 결과값은 좌표값이 아닌 벡터값이 된다.
+        //결과값은 해당 픽셀의 회전 결과가 반영되어 실제로 바라보고 있는 방향이 된다.
+        vNormal = normalize(mul(float4(vNormal, 0.f), g_matWorld).xyz);
+            
+    }
+        
+
+    tLightColor LightColor = (tLightColor) 0.f;
+    //노말값이 영벡터라면, 즉 노말맵 텍스처가 없어서 0.f로 초기화된 상태 그대로라면
+    if (all(float3(0.f, 0.f, 0.f) == vNormal))
+    {
+        //자신의 노멀값을 고려하지 않은 광원 계산을 진행
+        CalcLight2D(_in.vWorldPos, LightColor);
+    }
+    else
+    {     
+        //노멀값까지 합산된 광원 계산을 진행.
+        CalcLight2DNormal(_in.vWorldPos, vNormal, LightColor);
+    }
+            
+    //최종적으로 계산된 빛의 색상을 픽셀 색상에 곱해준다.
+    vOutColor.rgb *= (LightColor.vDiffuse.rgb + LightColor.vAmbient.rgb);
 
 	
     return vOutColor;

@@ -10,17 +10,17 @@
 
 //Delegate(함수 포인터
 class CUI;
-class CInspectorUI;
+class CUI_Inspector;
 
 
 typedef void (CUI::* UI_DELEGATE_0)(void);
 typedef void (CUI::* UI_DELEGATE_1)(DWORD_PTR);
 typedef void (CUI::* UI_DELEGATE_2)(DWORD_PTR, DWORD_PTR);
 
-class CImguiMgr :
-    public CSingleton<CImguiMgr>
+class CImGuiMgr :
+    public CSingleton<CImGuiMgr>
 {
-    SINGLETON(CImguiMgr)
+    SINGLETON(CImGuiMgr)
 private:
     HWND                m_hWnd;
     map<string, CUI*>   m_mapUI;

@@ -49,4 +49,7 @@ inline void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl)
 {
     m_pSharedMtrl = _Mtrl;
     m_pCurrentMtrl = m_pSharedMtrl;
+
+    //아직 인스턴싱이 구현되지 않았으므로 모든 게임오브젝트는 고유한 재질을 사용한다.
+    GetDynamicMaterial();
 }

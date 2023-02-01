@@ -7,6 +7,7 @@ CTexture::CTexture()
 	: CRes(eRES_TYPE::TEXTURE)
 	, m_Desc{}
 	, m_Image{}
+	, m_iRecentCSNum(-1)
 {
 }
 
@@ -15,36 +16,56 @@ CTexture::~CTexture()
 }
 
 
-void CTexture::UpdateData(int _iRegisterNum, UINT8 _PipelineStage)
+void CTexture::UpdateData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE)
 {
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX & _PipelineStage)
+	//컴퓨트쉐이더와의 바인딩 해제
+	UnBind_CS();
+
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_HULL & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_HULL & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_DOMAIN & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_DOMAIN & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_GEOMETRY & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_GEOMETRY & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL & _PipelineStage)
+	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 }
 
-void CTexture::UpdateData()
+void CTexture::UpdateData_CS(int _iRegisterNum)
 {
+	//바인딩한 Compute Shader 버퍼 번호를 기억
+	m_iRecentCSNum = _iRegisterNum;
+
+	UINT i = -1;
+	CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, 1, m_UAV.GetAddressOf(), &i);
+}
+
+void CTexture::UnBind_CS()
+{
+	if (-1 == m_iRecentCSNum)
+		return;
+
+	ID3D11UnorderedAccessView* pUAV = nullptr;
+	UINT i = -1;
+	CONTEXT->CSSetUnorderedAccessViews(m_iRecentCSNum, 1, &pUAV, &i);
+
+	m_iRecentCSNum = -1;
 }
 
 
@@ -101,5 +122,76 @@ int CTexture::Load(const wstring& _strFilePath)
 
 int CTexture::Save(const wstring& _strRelativePath)
 {
+	return S_OK;
+}
+
+int CTexture::Create(UINT _uWidth, UINT _uHeight, DXGI_FORMAT _pixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage)
+{
+	m_Desc.Format = _pixelFormat;
+
+	m_Desc.Width = _uWidth;
+	m_Desc.Height = _uHeight;
+	m_Desc.ArraySize = 1;
+
+	m_Desc.BindFlags = _D3D11_BIND_FLAG;
+	m_Desc.Usage = _Usage;
+
+	//CPU의 읽기/쓰기 가능 여부를 설정
+	if (D3D11_USAGE::D3D11_USAGE_DYNAMIC == _Usage)
+		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	else if (D3D11_USAGE::D3D11_USAGE_STAGING == _Usage)
+		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+
+	//원본만 생성.(자세한 내용은 밉맵을 찾아볼 것)
+	m_Desc.MipLevels = 1;
+	m_Desc.SampleDesc.Count = 1;
+	m_Desc.SampleDesc.Quality = 0;
+
+	//텍스처를 생성
+	if (FAILED(DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf())))
+		return E_FAIL;
+
+	//바인드 플래그에 맞는 View를 생성해준다.
+	//DEPTH_STENCIL 뷰로 사용하는 텍스처의 경우 다른 뷰와 동시에 바인딩을 할 수 없으므로 참고할 것.
+	return CreateView();
+}
+
+int CTexture::Create(ComPtr<ID3D11Texture2D> _pTex2D)
+{
+	if (nullptr == _pTex2D.Get())
+		return E_FAIL;
+
+	m_Tex2D = _pTex2D;
+	m_Tex2D->GetDesc(&m_Desc);
+
+
+	return CreateView();
+}
+
+int CTexture::CreateView()
+{
+	if (0u == m_Desc.BindFlags)
+		return E_FAIL;
+
+	if (D3D11_BIND_DEPTH_STENCIL & m_Desc.BindFlags)
+	{
+		if (FAILED(DEVICE->CreateDepthStencilView(m_Tex2D.Get(), nullptr, m_DSV.GetAddressOf())))
+			return E_FAIL;
+	}
+	else
+	{
+		if (D3D11_BIND_SHADER_RESOURCE & m_Desc.BindFlags)
+		{
+			if (FAILED(DEVICE->CreateShaderResourceView(m_Tex2D.Get(), nullptr, m_SRV.GetAddressOf())))
+				return E_FAIL;
+		}
+
+		if (D3D11_BIND_UNORDERED_ACCESS & m_Desc.BindFlags)
+		{
+			if (FAILED(DEVICE->CreateUnorderedAccessView(m_Tex2D.Get(), nullptr, m_UAV.GetAddressOf())))
+				return E_FAIL;
+		}
+	}
+
 	return S_OK;
 }

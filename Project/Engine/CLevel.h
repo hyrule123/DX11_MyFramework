@@ -16,14 +16,14 @@ public:
 
 public:
     //Setter
-    void SetLayerName(int _iLayer, const wstring& _sLayerName);
+    void SetLayerName(int _iLayer, const string& _sLayerName);
 
     //Getter
-    const wstring& GetLayerName(int _iLayer);
-    int GetLayerIdxByName(const wstring& _sLayerName);
+    const string& GetLayerName(int _iLayer);
+    int GetLayerIdxByName(const string& _sLayerName);
     CLayer* GetLayer(UINT _iLayer);
-    CGameObject* FindObjectByName(const wstring& _Name);
-    void FindObjectALLByName(const wstring& _Name, __out vector<CGameObject*>& _out);
+    CGameObject* FindObjectByName(const string& _Name);
+    void FindObjectALLByName(const string& _Name, __out vector<CGameObject*>& _out);
 
     //Add
     void AddGameObject(CGameObject* _Object, int _iLayerIdx);

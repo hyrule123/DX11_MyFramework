@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CImguiMgr.h"
+#include "CImGuiMgr.h"
 
 #include <Engine/CDevice.h>
 #include <Engine/CKeyMgr.h>
@@ -8,10 +8,11 @@
 
 
 #include "CUI.h"
-#include "CInspectorUI.h"
+#include "CUI_Inspector.h"
+#include "CUI_MainMenubar.h"
 
 
-CImguiMgr::CImguiMgr()
+CImGuiMgr::CImGuiMgr()
 	: m_hWnd()
     , m_clear_color(0.45f, 0.55f, 0.60f, 1.00f)
     , m_bShowDemoWindow1(true)
@@ -20,7 +21,7 @@ CImguiMgr::CImguiMgr()
 
 }
 
-CImguiMgr::~CImguiMgr()
+CImGuiMgr::~CImGuiMgr()
 {
 	// ImGui Release
 	ImGui_ImplDX11_Shutdown();
@@ -30,11 +31,15 @@ CImguiMgr::~CImguiMgr()
 	for (const auto& iter : m_mapUI)
 	{
 		assert(nullptr != iter.second);
+
+        if (nullptr != iter.second->GetParent())
+            continue;
+
 		delete(iter.second);
 	}
 }
 
-CUI* CImguiMgr::FindUI(const string& _UIName)
+CUI* CImGuiMgr::FindUI(const string& _UIName)
 {
     const auto& iter = m_mapUI.find(_UIName);
 
@@ -44,13 +49,15 @@ CUI* CImguiMgr::FindUI(const string& _UIName)
     return iter->second;
 }
 
-void CImguiMgr::CreateUI(CUI* _pUI)
+void CImGuiMgr::CreateUI(CUI* _pUI)
 {
     m_mapUI.insert(make_pair(_pUI->GetID(), _pUI));
-    _pUI->initRecursive();
+
+    if(nullptr == _pUI->GetParent())
+        _pUI->initRecursive();
 }
 
-void CImguiMgr::init(HWND _hWnd)
+void CImGuiMgr::init(HWND _hWnd)
 {
     m_hWnd = _hWnd;
     //
@@ -105,7 +112,7 @@ void CImguiMgr::init(HWND _hWnd)
     CreateDefaultUI();
 }
 
-void CImguiMgr::progress()
+void CImGuiMgr::progress()
 {
 	begin();
 	tick();
@@ -113,12 +120,14 @@ void CImguiMgr::progress()
 	render();
 }
 
-void CImguiMgr::CreateDefaultUI()
+void CImGuiMgr::CreateDefaultUI()
 {
-    CreateUI(new CInspectorUI);
+    CreateUI(new CUI_Inspector);
+
+    CreateUI(new CUI_MainMenubar);
 }
 
-void CImguiMgr::begin()
+void CImGuiMgr::begin()
 {
     //렌더링하기 전 IMGUI도 업데이트 해 준다.
     ImGui_ImplDX11_NewFrame();
@@ -126,15 +135,18 @@ void CImguiMgr::begin()
     ImGui::NewFrame();
 }
 
-void CImguiMgr::tick()
+void CImGuiMgr::tick()
 {
     for (const auto& pair : m_mapUI)
     {
+        if (nullptr != pair.second->GetParent())
+            continue;
+
         pair.second->tickRecursive();
     }
 }
 
-void CImguiMgr::finaltick()
+void CImGuiMgr::finaltick()
 {
     //Demo UI
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
@@ -177,9 +189,11 @@ void CImguiMgr::finaltick()
 
     for (const auto& pair : m_mapUI)
     {
-        if (false == pair.second->IsActive())
+        //비활성화 상태 또는 최상위 UI가 아닐 경우 continue
+        if (false == pair.second->IsActive() || nullptr != pair.second->GetParent())
             continue;
-        pair.second->finaltick();
+            
+         pair.second->finaltick();
     }
 
     //엔터키를 누를 시 IMGUI 윈도우에 대한 포커스 해제
@@ -187,7 +201,9 @@ void CImguiMgr::finaltick()
         ImGui::SetWindowFocus(nullptr);
 }
 
-void CImguiMgr::render()
+
+//렌더링은 finaltick에서 쌓아놓은 레이아웃을 토대로 ImGui에서 일괄적으로 진행함.
+void CImGuiMgr::render()
 {
     // ImGui Rendering
     ImGui::Render();

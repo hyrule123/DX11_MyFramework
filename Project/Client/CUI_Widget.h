@@ -2,6 +2,8 @@
 
 #include "CUI.h"
 
+//IMGUI의 최소 구성 요소를 클래스화 한것.
+//반드시 부모 UI가 있어야 한다. 단독으로는 사용이 불가능.
 //콤보박스 같이 복잡한 구성으로 되어있는 위젯의 경우 별도로 이 클래스를 상속받아 구현한 뒤 사용
 
 enum class eWIDGET_TYPE : DWORD
@@ -9,14 +11,14 @@ enum class eWIDGET_TYPE : DWORD
 	COMBO_BOX
 };
 
-class CWidget
+class CUI_Widget
 	: public CUI
 {
 private:
-	CWidget() = delete;
+	CUI_Widget() = delete;
 public:
-	CWidget(const string& _Name, eWIDGET_TYPE _Type);
-	virtual ~CWidget();
+	CUI_Widget(const string& _Name, eWIDGET_TYPE _Type);
+	virtual ~CUI_Widget();
 
 private:
 	const eWIDGET_TYPE m_Type;

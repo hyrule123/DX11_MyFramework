@@ -1,5 +1,5 @@
 #pragma once
-#include "CWidget.h"
+#include "CUI_Widget.h"
 
 #include "CImGuiMgr.h"
 
@@ -13,12 +13,12 @@ enum class eCALLBACK_TYPE
 };
 
 
-class CComboBox 
-	: public CWidget
+class CUI_ComboBox 
+	: public CUI_Widget
 {
 public:
-	CComboBox();
-	virtual ~CComboBox();
+	CUI_ComboBox();
+	virtual ~CUI_ComboBox();
 
 private:
 	vector<string> m_vecItem;
@@ -59,7 +59,7 @@ public:
 
 };
 
-inline const string& CComboBox::GetCurrentSelected() const
+inline const string& CUI_ComboBox::GetCurrentSelected() const
 {
 	if (true == IsIndexValid())
 		return m_vecItem[m_iCurrentSelected];
@@ -67,22 +67,22 @@ inline const string& CComboBox::GetCurrentSelected() const
 		return g_voidStr;
 }
 
-inline void CComboBox::AddClickCallback(CUI* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type)
+inline void CUI_ComboBox::AddClickCallback(CUI* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type)
 {
 	m_vecCallback[(UINT)_Type].push_back(std::bind(_pCallbackfunc, _pInst));
 }
 
-inline void CComboBox::ClearClickCallback(eCALLBACK_TYPE _Type)
+inline void CUI_ComboBox::ClearClickCallback(eCALLBACK_TYPE _Type)
 {
 	m_vecCallback[(UINT)_Type].clear();
 }
 
-inline bool CComboBox::IsIndexValid() const
+inline bool CUI_ComboBox::IsIndexValid() const
 {
 	return ( 0 <= m_iCurrentSelected && m_iCurrentSelected < m_vecItem.size() );
 }
 
-inline void CComboBox::CallCallbackFunc(eCALLBACK_TYPE _Type)
+inline void CUI_ComboBox::CallCallbackFunc(eCALLBACK_TYPE _Type)
 {
 	size_t size = m_vecCallback[(UINT)_Type].size();
 	for (size_t i = 0; i < size; ++i)

@@ -6,7 +6,7 @@
 
 #include "CEditorObjMgr.h"
 
-#include "CImguiMgr.h"
+#include "CImGuiMgr.h"
 
 // 전역 변수:
 HINSTANCE   hInst;                                // 현재 인스턴스입니다.
@@ -43,7 +43,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     CEditorObjMgr::GetInst()->init();
 
-    CImguiMgr::GetInst()->init(g_hWnd);
+    CImGuiMgr::GetInst()->init(g_hWnd);
 
 
 
@@ -72,7 +72,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             CEngine::GetInst()->progress();
             CEditorObjMgr::GetInst()->progress();
 
-            CImguiMgr::GetInst()->progress();
+            CImGuiMgr::GetInst()->progress();
 
             // 렌더 종료
             CEngine::GetInst()->present();

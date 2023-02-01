@@ -1,21 +1,21 @@
 #include "pch.h"
-#include "CComponentUI.h"
+#include "CUI_Component.h"
 
 #include <Engine/CGameObject.h>
 #include <Engine/func.h>
 
-CComponentUI::CComponentUI(const string& _ID, eCOMPONENT_TYPE _Type)
+CUI_Component::CUI_Component(const string& _ID, eCOMPONENT_TYPE _Type)
 	: CUI(_ID)
 	, m_pTarget()
 	, m_Type(_Type)
 {
 }
 
-CComponentUI::~CComponentUI()
+CUI_Component::~CUI_Component()
 {
 }
 
-void CComponentUI::SetTarget(CGameObject* _pTarget)
+void CUI_Component::SetTarget(CGameObject* _pTarget)
 {
 	//타겟을 우선 대입
 	m_pTarget = _pTarget;
@@ -28,7 +28,7 @@ void CComponentUI::SetTarget(CGameObject* _pTarget)
 
 }
 
-const string& CComponentUI::GetResKey(Ptr<CRes> _Res)
+const string& CUI_Component::GetResKey(Ptr<CRes> _Res)
 {
 	//Res 주소가 없다면 return
 	if (nullptr == _Res)
@@ -37,13 +37,13 @@ const string& CComponentUI::GetResKey(Ptr<CRes> _Res)
 	return _Res->GetKey();
 }
 
-void CComponentUI::tick()
+void CUI_Component::tick()
 {
 	if (nullptr != m_pTarget && nullptr != m_pTarget->GetComponent(m_Type))
 		SetActive(true);
 }
 
-int CComponentUI::render_update()
+int CUI_Component::render_update()
 {
 	if (nullptr == m_pTarget || nullptr == m_pTarget->GetComponent(m_Type))
 		return FALSE;

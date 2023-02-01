@@ -18,7 +18,7 @@ private:
 
 public:
     //Inline Setter
-    void SetScalarParam(eSCALAR_PARAM _Param, void* _Src);
+    void SetScalarParam(eSCALAR_PARAM _Param, const void* _Src);
     void SetTexParam(eTEX_PARAM _Param, Ptr<CTexture> _Tex);
     void SetShader(Ptr<CGraphicsShader> _Shader) { m_pShader = _Shader; }
 

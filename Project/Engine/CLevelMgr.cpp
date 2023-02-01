@@ -40,12 +40,12 @@ CLevelMgr::~CLevelMgr()
 }
 
 
-CGameObject* CLevelMgr::FindObjectByName(const wstring& _Name)
+CGameObject* CLevelMgr::FindObjectByName(const string& _Name)
 {
 	return m_pCurLevel->FindObjectByName(_Name);
 }
 
-void CLevelMgr::FindObjectALLByName(const wstring& _Name, vector<CGameObject*>& _vecObj)
+void CLevelMgr::FindObjectALLByName(const string& _Name, vector<CGameObject*>& _vecObj)
 {
 	m_pCurLevel->FindObjectALLByName(_Name, _vecObj);
 }
@@ -55,28 +55,34 @@ void CLevelMgr::init()
 	m_pCurLevel = new CLevel;
 
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
+	Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");
 	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
 	Vec4 ColorKey(1.f, 1.f, 1.f, 1.f);
 
 	// 오브젝트 생성
 	CGameObject* pPlayer = new CGameObject;
-	pPlayer->SetName(L"Player");
+	pPlayer->SetName("Player");
 	pPlayer->AddComponent(new CTransform);
 	//pPlayer->Transform()->SetRelativePosZ(50.f);
-	pPlayer->Transform()->SetRelativeRot(0.f, 0.f, -XM_PI / 2.f);
-	pPlayer->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	//pPlayer->Transform()->SetRelativeRot(0.f, 0.f, -XM_PI / 2.f);
+	pPlayer->Transform()->SetSize(Vec3(300.f, 300.f, 1.f));
 	pPlayer->AddComponent(new CMeshRender);
 	pPlayer->AddScript(new CPlayerScript);
 
-	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DMtrl");
+	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DLightMtrl");
 	PlayerMtrl->SetTexParam(eTEX_0, Fighter);
 	PlayerMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 
-	pPlayer->MeshRender()->SetMesh(CircleMesh);
+	pPlayer->MeshRender()->SetMesh(RectMesh);
 	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
 
 	pPlayer->AddComponent(new CLight2D);
 	pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::eLIGHT_POINT);
+
+	pPlayer->AddComponent(new CAnimator2D);
+	Ptr<CTexture> pAnimAtlas = CResMgr::GetInst()->FindRes<CTexture>("LinkAtlas");
+	pPlayer->Animator2D()->CreateAnimation("WalkDown", pAnimAtlas, Vec2(0.f, 520.f), Vec2(120.f, 130.f), Vec2(300.f, 300.f), 10, 16);
+	pPlayer->Animator2D()->Play("WalkDown", true);
 
 	pPlayer->AddComponent(new CCollider2D_OBB);
 
@@ -198,7 +204,7 @@ void CLevelMgr::init()
 	{
 		// Camera
 		CGameObject* pObj = new CGameObject;
-		pObj->SetName(L"Camera");
+		pObj->SetName("Camera");
 		CCamera* Cam = new CCamera;
 		pObj->AddComponent(Cam);
 		CRenderMgr::GetInst()->RegisterCamera(Cam, eCAMIDX_MAIN);

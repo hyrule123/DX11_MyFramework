@@ -8,6 +8,8 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 
+#include "CAnimator2D.h"
+
 CMeshRender::CMeshRender()
 	: CRenderComponent(eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER)		
 {
@@ -36,10 +38,13 @@ void CMeshRender::render()
 	if(nullptr != pTransform)
 		pTransform->UpdateData();
 
+	CAnimator2D* pAnimator2D = Animator2D();
+	if (nullptr != pAnimator2D)
+		pAnimator2D->UpdateData();
+
 	// 재질에 UpdateData 요청 - 재질 상수버퍼가 바인딩됨.
 	pmtrl->UpdateData();
 
 	// 메쉬 그리기 명령
 	pmesh->render();
-	
 }
