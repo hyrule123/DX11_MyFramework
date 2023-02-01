@@ -1,5 +1,5 @@
 #pragma once
-#include "CUI.h"
+#include "CUI_BasicWindow.h"
 
 #include <Engine/CRes.h>
 #include <Engine/ptr.h>
@@ -7,7 +7,7 @@
 class CGameObject;
 
 class CUI_Component :
-    public CUI
+    public CUI_BasicWindow
 {
 private:
     CUI_Component() = delete;
@@ -32,8 +32,10 @@ public:
 
 public:
     virtual void tick() override;
-    virtual int render_update() override;
 
+    virtual bool beginUI() override;
+    virtual void render_update() override;
+    virtual void endUI() override;
 
 
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CUI.h"
+#include "CUI_BasicWindow.h"
 
 //IMGUI의 최소 구성 요소를 클래스화 한것.
 //반드시 부모 UI가 있어야 한다. 단독으로는 사용이 불가능.
@@ -12,7 +12,7 @@ enum class eWIDGET_TYPE : DWORD
 };
 
 class CUI_Widget
-	: public CUI
+	: public CUI_BasicWindow
 {
 private:
 	CUI_Widget() = delete;
@@ -26,6 +26,8 @@ private:
 	bool m_bLeftLabel;
 	float m_fLeftLabelWidth;
 
+	bool m_bSizeSet;
+
 
 public:
 	void SetLeftLabel(bool _b) { m_bLeftLabel = _b; }
@@ -35,7 +37,7 @@ public:
 	float GetLeftLabelWidth() const { return m_fLeftLabelWidth; }
 
 public:
-	virtual void finaltick() override;
-	virtual int render_update() = 0;
+	virtual bool beginUI() override;
+	virtual void endUI() override;
 };
 

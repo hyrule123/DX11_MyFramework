@@ -16,11 +16,10 @@
 #include <Engine/CLevelMgr.h>
 
 CUI_Inspector::CUI_Inspector()
-	: CUI("##Inspector")
+	: CUI_BasicWindow("Inspector")
 	, m_pTarget(nullptr)
 	, m_arrComUI{}
 {
-	SetName("Inspector");
 
 	m_arrComUI[eCOMPONENT_TRANSFORM] = new CUI_Transform;
 	m_arrComUI[eCOMPONENT_TRANSFORM]->SetSize(0.f, 150.f);
@@ -76,7 +75,3 @@ void CUI_Inspector::tick()
 	//여기서는 나중에 마우스 클릭을 받아서 클릭된 위치에 있는 오브젝트의 주소를 가져오는 코드를 구현
 }
 
-int CUI_Inspector::render_update()
-{
-	return TRUE;
-}

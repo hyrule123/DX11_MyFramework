@@ -11,9 +11,13 @@ public:
     virtual ~CUI_MainMenubar();
 
 public:
-    virtual int render_update() override;
+    virtual void init() override;
 
 private:
+    CUI_MenuItemGroup* m_MenuItemGroup;
 
+private:
+    void DemoUI();
+    void InspectorUI();
 };
 

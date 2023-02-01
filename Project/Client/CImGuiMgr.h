@@ -29,12 +29,14 @@ private:
     ImVec4 m_clear_color;
 
     bool m_bShowDemoWindow1;
-    bool m_bShowDemoWindow2;
+    //bool m_bShowDemoWindow2;
 
 public:
     CUI* FindUI(const string& _UIName);
     HWND GetHwnd() const { return m_hWnd; }
     void CreateUI(CUI* _pUI);
+
+    void ToggleDemoWindow() { m_bShowDemoWindow1 = !m_bShowDemoWindow1; }
 
 public:
     void init(HWND _hWnd);

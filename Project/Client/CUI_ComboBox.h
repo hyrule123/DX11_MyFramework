@@ -17,8 +17,16 @@ class CUI_ComboBox
 	: public CUI_Widget
 {
 public:
-	CUI_ComboBox();
+	CUI_ComboBox() = delete;
+	CUI_ComboBox(const string& _Name);
 	virtual ~CUI_ComboBox();
+
+public:
+	virtual void tick() override;
+
+	virtual bool beginUI() override;
+	virtual void render_update() override;
+	virtual void endUI() override;
 
 private:
 	vector<string> m_vecItem;
@@ -44,19 +52,12 @@ public://Setter/Getter
 	void SetCurrentSelected(const string& _SelectedName);
 	const string& GetCurrentSelected() const;
 
-	void AddClickCallback(CUI* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type);
+	void AddClickCallback(CUI_BasicWindow* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type);
 	void ClearClickCallback(eCALLBACK_TYPE _Type);
 
 private:
 	bool IsIndexValid() const;
 	void CallCallbackFunc(eCALLBACK_TYPE _Type);
-
-public:
-	virtual void tick() override;
-	virtual int render_update() override;
-
-
-
 };
 
 inline const string& CUI_ComboBox::GetCurrentSelected() const
@@ -67,7 +68,7 @@ inline const string& CUI_ComboBox::GetCurrentSelected() const
 		return g_voidStr;
 }
 
-inline void CUI_ComboBox::AddClickCallback(CUI* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type)
+inline void CUI_ComboBox::AddClickCallback(CUI_BasicWindow* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type)
 {
 	m_vecCallback[(UINT)_Type].push_back(std::bind(_pCallbackfunc, _pInst));
 }

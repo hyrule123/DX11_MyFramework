@@ -2,8 +2,8 @@
 #include "CUI_ComboBox.h"
 
 
-CUI_ComboBox::CUI_ComboBox()
-	: CUI_Widget("##ComboBox", eWIDGET_TYPE::COMBO_BOX)
+CUI_ComboBox::CUI_ComboBox(const string& _Name)
+	: CUI_Widget(_Name, eWIDGET_TYPE::COMBO_BOX)
 	, m_iCurrentSelected(-1)
 	, m_ComboFlags()
 {
@@ -13,7 +13,6 @@ CUI_ComboBox::~CUI_ComboBox()
 {
 }
 
-
 void CUI_ComboBox::tick()
 {
 	//인덱스가 유효하지 않은지 검사하고 유효하지 않을 시 -1로 변경
@@ -21,8 +20,10 @@ void CUI_ComboBox::tick()
 		m_iCurrentSelected = -1;
 }
 
-int CUI_ComboBox::render_update()
+bool CUI_ComboBox::beginUI()
 {
+	CUI_Widget::beginUI();
+
 	string Label;
 	if (true == GetLeftLabel())
 		Label += "##";
@@ -32,36 +33,41 @@ int CUI_ComboBox::render_update()
 	if (true == IsIndexValid())
 		Preview = m_vecItem[m_iCurrentSelected];
 
-	if (true == ImGui::BeginCombo(Label.c_str(), Preview.c_str(), m_ComboFlags))
+	return ImGui::BeginCombo(Label.c_str(), Preview.c_str(), m_ComboFlags);
+}
+
+
+void CUI_ComboBox::render_update()
+{
+
+	//콤보박스를 클릭했다면 BeginCombo에서 true가 반환되므로
+	CallCallbackFunc(eCALLBACK_TYPE::ONCLICK);
+
+
+	size_t size = m_vecItem.size();
+	for (int n = 0; n < size; ++n)
 	{
-		//콤보박스를 클릭했다면 BeginCombo에서 true가 반환되므로
-		CallCallbackFunc(eCALLBACK_TYPE::ONCLICK);
+		bool isSelected = (m_iCurrentSelected == n);
 
-
-		size_t size = m_vecItem.size();
-		for (int n = 0; n < size; ++n)
+		//여기는 콤보박스에서 특정 값이 선택(클릭)되었을 떄 진입한다.
+		if (true == ImGui::Selectable(m_vecItem[n].c_str(), isSelected))
 		{
-			bool isSelected = (m_iCurrentSelected == n);
-
-			//여기는 콤보박스에서 특정 값이 선택(클릭)되었을 떄 진입한다.
-			if (true == ImGui::Selectable(m_vecItem[n].c_str(), isSelected))
-			{
-				m_iCurrentSelected = n;
-				CallCallbackFunc(eCALLBACK_TYPE::ONSELECT);
-			}
-				
-
-			if (isSelected)
-			{
-				ImGui::SetItemDefaultFocus();
-			}
-				
+			m_iCurrentSelected = n;
+			CallCallbackFunc(eCALLBACK_TYPE::ONSELECT);
 		}
+				
 
-		ImGui::EndCombo();
+		if (isSelected)
+		{
+			ImGui::SetItemDefaultFocus();
+		}
+				
 	}
+}
 
-	return TRUE;
+void CUI_ComboBox::endUI()
+{
+	ImGui::EndCombo();
 }
 
 void CUI_ComboBox::SetCurrentSelected(const string& _SelectedName)

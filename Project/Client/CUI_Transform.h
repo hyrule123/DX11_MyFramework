@@ -10,6 +10,6 @@ public:
     virtual ~CUI_Transform();
 
 public:
-    virtual int render_update() override;
+    virtual void render_update() override;
 };
 

@@ -146,8 +146,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CUI.h" />
     <ClInclude Include="CUI_Animator2D.h" />
     <ClInclude Include="CUI_Camera.h" />
+    <ClInclude Include="CUI_Child.h" />
     <ClInclude Include="CUI_Collider2D.h" />
     <ClInclude Include="CUI_ComboBox.h" />
     <ClInclude Include="CUI_Component.h" />
@@ -161,10 +163,11 @@
     <ClInclude Include="CUI_Menu.h" />
     <ClInclude Include="CUI_MenuItemGroup.h" />
     <ClInclude Include="CUI_MeshRender.h" />
+    <ClInclude Include="CUI_PopupWIndow.h" />
     <ClInclude Include="CUI_ScriptHolder.h" />
     <ClInclude Include="CUI_Tilemap.h" />
     <ClInclude Include="CUI_Transform.h" />
-    <ClInclude Include="CUI.h" />
+    <ClInclude Include="CUI_BasicWIndow.h" />
     <ClInclude Include="CUI_Widget.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -177,8 +180,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUI_Animator2D.cpp" />
     <ClCompile Include="CUI_Camera.cpp" />
+    <ClCompile Include="CUI_Child.cpp" />
     <ClCompile Include="CUI_Collider2D.cpp" />
     <ClCompile Include="CUI_ComboBox.cpp" />
     <ClCompile Include="CUI_Component.cpp" />
@@ -191,10 +196,11 @@
     <ClCompile Include="CUI_Menu.cpp" />
     <ClCompile Include="CUI_MenuItemGroup.cpp" />
     <ClCompile Include="CUI_MeshRender.cpp" />
+    <ClCompile Include="CUI_PopupWIndow.cpp" />
     <ClCompile Include="CUI_ScriptHolder.cpp" />
     <ClCompile Include="CUI_Tilemap.cpp" />
     <ClCompile Include="CUI_Transform.cpp" />
-    <ClCompile Include="CUI.cpp">
+    <ClCompile Include="CUI_BasicWindow.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="CUI_Widget.cpp" />

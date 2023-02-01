@@ -8,6 +8,5 @@ public:
     virtual ~CUI_Animator2D();
 
 public:
-    virtual int render_update() override;
 };
 

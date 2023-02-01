@@ -10,5 +10,5 @@ public:
     virtual ~CUI_ScriptHolder();
 
 public:
-    virtual int render_update() override;
+    
 };

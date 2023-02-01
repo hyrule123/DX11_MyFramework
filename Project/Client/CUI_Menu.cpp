@@ -3,7 +3,7 @@
 #include "CUI_Menu.h"
 
 CUI_Menu::CUI_Menu(const string& _MenuName)
-	: CUI("##Menu")
+	: CUI_BasicWindow("Menu")
 	, m_bEnable(true)
 {
 	SetName(_MenuName);
@@ -13,13 +13,12 @@ CUI_Menu::~CUI_Menu()
 {
 }
 
-void CUI_Menu::finaltick()
+bool CUI_Menu::beginUI()
 {
-	if (ImGui::BeginMenu(GetName().data(), &m_bEnable))
-	{
-		render_update();
-		LoopChildFinaltick();
-		
-		ImGui::EndMenu();
-	}
+	return ImGui::BeginMenu(GetName().data(), &m_bEnable);
+}
+
+void CUI_Menu::endUI()
+{
+	ImGui::EndMenu();
 }

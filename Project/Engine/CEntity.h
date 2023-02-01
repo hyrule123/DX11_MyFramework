@@ -10,7 +10,7 @@ private:
 	const UINT32  m_iID;
 
 public:
-	void SetName(const string& _strName) {  m_strName = _strName; }
+	virtual void SetName(const string& _strName) {  m_strName = _strName; }
 	const string& GetName() { return m_strName; }
 	UINT32 GetID() { return m_iID; }
 

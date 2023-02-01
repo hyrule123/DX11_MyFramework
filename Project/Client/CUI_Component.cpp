@@ -5,7 +5,7 @@
 #include <Engine/func.h>
 
 CUI_Component::CUI_Component(const string& _ID, eCOMPONENT_TYPE _Type)
-	: CUI(_ID)
+	: CUI_BasicWindow(_ID)
 	, m_pTarget()
 	, m_Type(_Type)
 {
@@ -43,10 +43,11 @@ void CUI_Component::tick()
 		SetActive(true);
 }
 
-int CUI_Component::render_update()
+bool CUI_Component::beginUI()
 {
+	//타겟 게임오브젝트가 존재하기 않거나 자신의 담당 컴포넌트가 존재하지 않을 시 출력하지 않는다.
 	if (nullptr == m_pTarget || nullptr == m_pTarget->GetComponent(m_Type))
-		return FALSE;
+		return false;
 
 	ImGui::PushID(0);
 
@@ -54,9 +55,22 @@ int CUI_Component::render_update()
 	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
-	ImGui::Button(GetName().c_str());
+	ImGui::Button(GetstrID().c_str());
 	ImGui::PopStyleColor(3);
 	ImGui::PopID();
 
-	return TRUE;
+	CUI_BasicWindow::beginUI();
+
+	return true;
 }
+
+void CUI_Component::render_update()
+{
+
+}
+
+void CUI_Component::endUI()
+{
+	CUI_BasicWindow::endUI();
+}
+

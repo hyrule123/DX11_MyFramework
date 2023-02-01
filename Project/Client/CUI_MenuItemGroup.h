@@ -11,26 +11,25 @@ struct tMenuItem
     bool bEnable;
     std::function<void()> Callback;
 
-    tMenuItem() = delete;
-    tMenuItem(const string& _sLabel)
-        : Label(_sLabel)
-        , bCheckEnable(false)
-        , bChecked(false)
+    tMenuItem()
+        : bCheckEnable()
+        , bChecked()
         , bEnable(true)
         , Callback()
     {}
 };
 
 class CUI_MenuItemGroup :
-    public CUI
+    public CUI_BasicWindow
 {
 public:
     CUI_MenuItemGroup();
     virtual ~CUI_MenuItemGroup();
 
 public:
-    virtual void finaltick() override;
-    virtual int render_update() override;
+    virtual bool beginUI() override;
+    virtual void render_update() override;
+    virtual void endUI() override;
 
 private:
     vector<tMenuItem> m_vecItem;
@@ -39,6 +38,7 @@ public:
     void AddItem(const tMenuItem& _Item);
     bool SetCallback(const string& _sItemName, std::function<void()> _pCallbackFunc);
     bool SetEnable(const string& _sItemName, bool _bEnable);
+    bool SetItemSelected(const string& _sItemName, bool _bChecked);
     bool GetItemSelected(const string& _sItemName);
 
 private:

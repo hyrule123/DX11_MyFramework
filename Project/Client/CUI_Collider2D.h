@@ -8,6 +8,5 @@ public:
     virtual ~CUI_Collider2D();
 
 public:
-    virtual int render_update() override;
 };
 

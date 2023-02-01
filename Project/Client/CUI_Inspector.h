@@ -1,12 +1,12 @@
 #pragma once
-#include "CUI.h"
+#include "CUI_BasicWindow.h"
 
 class CUI_Component;
 
 //특정 게임오브젝트의 현재 상태를 확인하는 클래스.
 
 class CUI_Inspector :
-    public CUI
+    public CUI_BasicWindow
 {
 public:
     CUI_Inspector();
@@ -19,7 +19,6 @@ private:
 public:
     void init() override;
     void tick() override;
-    virtual int render_update() override;
 
 
 private:

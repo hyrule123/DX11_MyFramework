@@ -148,7 +148,7 @@
     <ClInclude Include="ImGui\imgui_internal.h">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClInclude>
-    <ClInclude Include="CUI.h">
+    <ClInclude Include="CUI_BasicWIndow.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Menu.h">
@@ -168,6 +168,15 @@
     </ClInclude>
     <ClInclude Include="CUI_MenuItemGroup.h">
       <Filter>ImGui\02. UI_Object\03. UI_MainMenubar</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>ImGui\01. UI_Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_PopupWIndow.h">
+      <Filter>ImGui\01. UI_Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_Child.h">
+      <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -245,7 +254,7 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClCompile>
-    <ClCompile Include="CUI.cpp">
+    <ClCompile Include="CUI_BasicWindow.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Menu.cpp">
@@ -265,6 +274,15 @@
     </ClCompile>
     <ClCompile Include="CUI_MenuItemGroup.cpp">
       <Filter>ImGui\02. UI_Object\03. UI_MainMenubar</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>ImGui\01. UI_Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_PopupWIndow.cpp">
+      <Filter>ImGui\01. UI_Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Child.cpp">
+      <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

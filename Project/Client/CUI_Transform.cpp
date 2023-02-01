@@ -5,21 +5,17 @@
 #include <Engine/CTransform.h>
 
 CUI_Transform::CUI_Transform()
-    : CUI_Component("##Transform", eCOMPONENT_TRANSFORM)
+    : CUI_Component("Transform", eCOMPONENT_TRANSFORM)
 {
-    SetName("Transform");
 }
 
 CUI_Transform::~CUI_Transform()
 {
 }
 
-int CUI_Transform::render_update()
-{
-    //같은 이름의 부모함수의 업데이트가 실패할 경우 false를 리턴
-    if (FALSE == CUI_Component::render_update())
-        return FALSE;
 
+void CUI_Transform::render_update()
+{
     CTransform* pTransform = GetTarget()->Transform();
     assert(nullptr != pTransform);
 
@@ -67,6 +63,4 @@ int CUI_Transform::render_update()
         vRot = (vRot / 180.f) * XM_PI;
         pTransform->SetRelativeRot(vRot);
     }
-
-    return TRUE;
 }

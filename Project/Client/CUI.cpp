@@ -1,18 +1,14 @@
-
 #include "pch.h"
 #include "CUI.h"
 
 
+#include "CImGuiMgr.h"
 
-#include "CUI_Widget.h"
-
-CUI::CUI(const string& _ID)
-	: m_strID(_ID)
-	, m_ParentUI(nullptr)
-	, m_Modal(false)
-	, m_Active(true)
+CUI::CUI(const string& _Name)
+	: m_Active(true)
+	, m_ParentUI()
 {
-
+	SetstrID(_Name);
 }
 
 CUI::~CUI()
@@ -28,18 +24,6 @@ CUI::~CUI()
 
 
 
-void CUI::initRecursive()
-{
-	init();
-
-	size_t size = m_vecChildUI.size();
-	for (size_t i = 0; i < size; i++)
-	{
-		m_vecChildUI[i]->initRecursive();
-	}
-}
-
-
 void CUI::tickRecursive()
 {
 	tick();
@@ -52,60 +36,55 @@ void CUI::tickRecursive()
 }
 
 
-
-
 void CUI::finaltick()
 {
-	string strFullName = m_strName + m_strID;
+	if (false == m_Active)
+		return;
 
-	//부모 UI 주소가 없을 경우, 즉 자신이 최상단 계층의 UI일 경우
-	if (nullptr == m_ParentUI)
+	if (true == beginUI())
 	{
-		//모달리스 창일 경우(이 UI가 열려 있어도 다른 UI 를 사용할 수 있을 경우)
-		if (false == m_Modal)
-		{
-			//가장 일반적인 Begin 함수를 이용해서 창을 생성한다.
-			ImGui::Begin(strFullName.c_str(), &m_Active);
-
-			
-
-			//자신의 구성 위젯들에 대한 렌더링 작업을 진행하고
-			render_update();
-
-			//자식 구성 요소들에 대한 업데이트도 진행한다.
-			LoopChildFinaltick();
-
-			//자신이 Parent UI 이므로 End()
-			ImGui::End();
-		}
-
-		//모달
-		else
-		{
-			ImGui::SetNextWindowPos(m_vPopupPos);
-			ImGui::SetNextWindowSize(m_vSize);
-
-			ImGui::OpenPopup(strFullName.c_str());
-			if (ImGui::BeginPopupModal(strFullName.c_str(), &m_Active))
-			{
-				render_update();
-
-				LoopChildFinaltick();
-			}
-
-			ImGui::EndPopup();
-		}
-	}
-
-	//자신이 자식 UI일 경우
-	else
-	{
-		ImGui::BeginChild(strFullName.c_str(), m_vSize);
-
 		render_update();
 
-		LoopChildFinaltick();
+		size_t size = m_vecChildUI.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			//자식 UI를 자신의 UI 위쪽에 렌더링한다.
+			m_vecChildUI[i]->finaltick();
+		}
 
-		ImGui::EndChild();
+		ImGui::Separator();
+
+		endUI();
 	}
+
+
 }
+
+
+
+void CUI::AddChildUI(CUI* _UI)
+{
+	_UI->m_ParentUI = this;
+	m_vecChildUI.push_back(_UI);
+
+	CImGuiMgr::GetInst()->CreateUI(_UI);
+}
+
+
+
+CUI* CUI::FindChildUIByName(const string& _Name)
+{
+	size_t size = m_vecChildUI.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		size_t pos = m_vecChildUI[i]->GetName().find(_Name);
+		if (pos != string::npos)
+			return m_vecChildUI[i];
+	}
+
+	return nullptr;
+}
+
+
+
+

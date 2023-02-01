@@ -8,18 +8,13 @@
 #include "CUI_ComboBox.h"
 
 CUI_MeshRender::CUI_MeshRender()
-	: CUI_Component("##CUI_MeshRender", eCOMPONENT_COLLIDER2D)
+	: CUI_Component("MeshRender", eCOMPONENT_COLLIDER2D)
 {
-	SetName("MeshRenderUI");
-
-
-	m_pComboBoxMesh = new CUI_ComboBox;
+	m_pComboBoxMesh = new CUI_ComboBox("MeshComboBox");
 	AddChildUI(m_pComboBoxMesh);
-	m_pComboBoxMesh->SetName("ComboBoxMesh");
 
-	m_pComboBoxMtrl = new CUI_ComboBox;
+	m_pComboBoxMtrl = new CUI_ComboBox("MtrlComboBox");
 	AddChildUI(m_pComboBoxMtrl);
-	m_pComboBoxMtrl->SetName("ComboBoxMtrl");
 }
 
 CUI_MeshRender::~CUI_MeshRender()
@@ -134,14 +129,4 @@ void CUI_MeshRender::tick()
 		}
 	}
 
-}
-
-int CUI_MeshRender::render_update()
-{
-	if (false == CUI_Component::render_update())
-		return FALSE;
-
-
-
-	return TRUE;
 }

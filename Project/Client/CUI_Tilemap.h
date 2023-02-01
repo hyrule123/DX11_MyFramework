@@ -8,5 +8,5 @@ public:
     virtual ~CUI_Tilemap();
 
 public:
-    virtual int render_update() override;
+
 };
