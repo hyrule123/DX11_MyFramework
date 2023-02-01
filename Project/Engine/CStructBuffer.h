@@ -2,16 +2,24 @@
 
 #include "CEntity.h"
 
+enum class eSTRUCT_BUFFER_TYPE
+{
+    READ_ONLY,  //SRV ONLY
+    READ_WRITE  //SRV + UAV(Compute Shader)
+};
+
 class CStructBuffer
     : public CEntity
 {
 public:
     CStructBuffer() = delete;
-    CStructBuffer(eSBUFFER_SHARED_CBUFFER_IDX _idx);
+    CStructBuffer(eSTRUCT_BUFFER_TYPE _Type, eSBUFFER_SHARED_CBUFFER_IDX _idx);
     virtual ~CStructBuffer();
-    CLONE_DISABLE(CStructBuffer);
+    CLONE_DISABLE(CStructBuffer)
 
 private:
+    const eSTRUCT_BUFFER_TYPE m_eSBufferType;
+
     //자신의 공유정보를 담고있는 상수버퍼 내부에서의 인덱스
     const eSBUFFER_SHARED_CBUFFER_IDX m_eCBufferIdx;
 
@@ -23,10 +31,18 @@ private:
 
     D3D11_BUFFER_DESC       m_BufferDesc;
     ComPtr<ID3D11Buffer>    m_StructBuffer;
+
     ComPtr<ID3D11ShaderResourceView> m_SRV;
+
+    //Compute Shader과도 통신을 해야 할때
+    ComPtr<ID3D11UnorderedAccessView> m_UAV;
+
+    ComPtr<ID3D11Buffer>    m_StagingBuffer;
+    
 
     ComPtr<ID3D11Buffer>                m_TempDeleteSB;
     ComPtr<ID3D11ShaderResourceView>    m_TempDeleteSRV;
+    ComPtr<ID3D11UnorderedAccessView>   m_TempDeleteUAV;
 
 
 public:
@@ -43,5 +59,9 @@ public:
     void Create(UINT _uiElementSize, UINT _uElementCapacity);
     void SetData(void* _pData, UINT _uiCount);
     void UpdateData();
+
+private:
+    void CreateSRV();
+    void CreateUAV();
 };
 

@@ -8,4 +8,4 @@ xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" "
 :: xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\*.fx" ".\OutputFile\bin\content\shader\"
 
 :: bin/content/ 폴더를 bin_d/content/ 폴더로 복사
-xcopy /d /s /y /i  /exclude:exclude_list.txt ".\OutputFile\bin\content\*" ".\OutputFile\bin_d\content\"
+xcopy /d /s /y /i  /exclude:exclude_list.txt ".\OutputFile\bin_d\content\*" ".\OutputFile\bin\content\"
