@@ -16,7 +16,7 @@ CTexture::~CTexture()
 }
 
 
-void CTexture::UpdateData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE)
+void CTexture::BindData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE)
 {
 	//컴퓨트쉐이더와의 바인딩 해제
 	UnBind_CS();
@@ -47,7 +47,7 @@ void CTexture::UpdateData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE)
 	}
 }
 
-void CTexture::UpdateData_CS(int _iRegisterNum)
+void CTexture::BindData_CS(int _iRegisterNum)
 {
 	//바인딩한 Compute Shader 버퍼 번호를 기억
 	m_iRecentCSNum = _iRegisterNum;

@@ -19,7 +19,7 @@ public:
     virtual int Save(const wstring& _strRelativePath) override { return 0; }
 
 private:
-    virtual void UpdateData() override {};
+    virtual void BindData() override {};
 
 public:
     CPrefab();

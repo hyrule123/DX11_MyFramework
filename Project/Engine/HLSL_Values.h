@@ -7,8 +7,6 @@
 //
 //
 //
-
-
 enum eCONST_BUFFER_TYPE : UINT
 {
 	eCONST_BUFFER_TRANSFORM,	// b0
@@ -20,11 +18,16 @@ enum eCONST_BUFFER_TYPE : UINT
 };
 
 //상수 버퍼 'SBUFFERINFO' 내부의 인덱스 번호를 지정하는 열거체
-enum eSBUFFER_SHARED_CBUFFER_IDX : UINT
+enum class eSBUFFER_SHARED_CBUFFER_IDX : UINT
 {
 	LIGHT2D,
 	TILE,
 	END
+};
+
+enum class eUAV_REGISTER_USAGE : UINT
+{
+	SETCOLOR
 };
 
 enum eSCALAR_PARAM

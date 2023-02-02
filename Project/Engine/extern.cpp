@@ -7,7 +7,7 @@
 
 tTransform g_transform = {};
 tGlobalValue g_GlobalVal = {};
-tSBufferInfo g_arrStructBufferInfo[eSBUFFER_SHARED_CBUFFER_IDX::END] = {};
+tSBufferInfo g_arrStructBufferInfo[(UINT)eSBUFFER_SHARED_CBUFFER_IDX::END] = {};
 Matrix g_matViewProj;
 
 const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER;

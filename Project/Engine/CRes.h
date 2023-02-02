@@ -19,7 +19,7 @@ private:
     void Release();
 
     // 리소스 바인딩
-    virtual void UpdateData() = 0;
+    virtual void BindData() = 0;
 
 private:
     // 파일로부터 로딩

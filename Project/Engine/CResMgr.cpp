@@ -22,6 +22,8 @@
 #include "CompiledShaderHeader/Shader_Tilemap_1_vertex_Debug.h"
 #include "CompiledShaderHeader/Shader_Tilemap_2_pixel_Debug.h"
 
+#include "CompiledShaderHeader/Shader_SetColor_compute_Debug.h"
+
 #else
 
 #include "CompiledShaderHeader/Shader_Debug_1_vertex.h"
@@ -39,9 +41,12 @@
 #include "CompiledShaderHeader/Shader_Tilemap_1_vertex.h"
 #include "CompiledShaderHeader/Shader_Tilemap_2_pixel.h"
 
+#include "CompiledShaderHeader/Shader_SetColor_compute.h"
+
 #endif
 
 
+#include "CSetColorShader.h"
 
 CResMgr::CResMgr()
 {
@@ -59,10 +64,10 @@ void CResMgr::init()
 
 	CreateDefaultMesh();
 	CreateDefaultGraphicsShader();
+	CreateDefaultComputeShader();
 	CreateDefaultMaterial();
 
 	LoadDefaultTexture();
-
 }
 
 void CResMgr::CreateResClassTypeIndex()
@@ -74,7 +79,7 @@ void CResMgr::CreateResClassTypeIndex()
 	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CSound)), eRES_TYPE::SOUND));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CPrefab)), eRES_TYPE::PREFAB));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CGraphicsShader)), eRES_TYPE::GRAPHICS_SHADER));
-	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CComputeShader)), eRES_TYPE::COMPUTE_SHADER));
+	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CComputeShader)), eRES_TYPE::COMPUTE_SHADER));
 }
 
 void CResMgr::CreateDefaultMesh()
@@ -310,6 +315,14 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(eSHADER_DOMAIN_MASK);
 		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
 	}
+}
+
+void CResMgr::CreateDefaultComputeShader()
+{
+	Ptr<CComputeShader> pShader = new CSetColorShader(32u, 32u, 1u);
+	pShader->SetKey("SetColorCS");
+	pShader->CreateShader((void*)g_CS_SetColor, sizeof(g_CS_SetColor));
+	AddRes(pShader->GetKey(), pShader);
 }
 
 void CResMgr::CreateDefaultMaterial()

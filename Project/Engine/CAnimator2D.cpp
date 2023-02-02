@@ -35,7 +35,7 @@ void CAnimator2D::finaltick()
     }
 }
 
-void CAnimator2D::UpdateData()
+void CAnimator2D::BindData()
 {
     CMaterial* pMtrl = MeshRender()->GetMaterial().Get();
 

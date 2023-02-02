@@ -26,7 +26,8 @@
 //타일맵
 #include "CTilemap.h"
 
-
+//컴퓨트쉐이더 테스트
+#include "CSetColorShader.h"
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
@@ -52,6 +53,21 @@ void CLevelMgr::FindObjectALLByName(const string& _Name, vector<CGameObject*>& _
 
 void CLevelMgr::init()
 {
+	Ptr<CTexture> pCreateTex = CResMgr::GetInst()->CreateTexture(
+		"SampleTexture"
+		, 1280, 768
+		, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM
+		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
+		, D3D11_USAGE_DEFAULT);
+
+	Ptr<CSetColorShader> pCS = CResMgr::GetInst()->FindRes<CComputeShader>("SetColorCS");
+	pCS->SetTargetTexture(pCreateTex);
+
+	pCS->SetColor(Vec3(1.f, 0.f, 0.f));
+
+	pCS->Execute();
+
+
 	m_pCurLevel = new CLevel;
 
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
@@ -168,22 +184,23 @@ void CLevelMgr::init()
 	//}
 
 
-	//// Test Object 3
-	//CGameObject* pTestObj3 = new CGameObject;
-	//pTestObj3->SetName(L"Test Object");
-	//pTestObj3->AddComponent(new CTransform);
-	//pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
-	//pTestObj3->AddComponent(new CMeshRender);
-	//pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
+	// Test Object 3
+	CGameObject* pTestObj3 = new CGameObject;
+	pTestObj3->SetName("Test Object");
+	pTestObj3->AddComponent(new CTransform);
+	pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	pTestObj3->AddComponent(new CMeshRender);
+	pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
+	Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
+	//TestMtrl3->SetTexParam(eTEX_0, pCreateTex);
 	//TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
-	//pTestObj3->MeshRender()->SetMaterial(TestMtrl);
-	//pTestObj3->AddComponent(new CCollider2D_OBB);
+	pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
+	pTestObj3->AddComponent(new CCollider2D_OBB);
 
 	//pTestObj3->AddScript(new CTestObjScript);
 
-	//SpawnGameObject(pTestObj3, Vec3(500.f, 500.f, 10.f), 1);
-	////m_pCurLevel->AddGameObject(pTestObj3, 1);
+	SpawnGameObject(pTestObj3, Vec3(100.f, 100.f, 10.f), 1);
+	//m_pCurLevel->AddGameObject(pTestObj3, 1);
 
 	{//Tilemap
 		CGameObject* pTilemap = new CGameObject;

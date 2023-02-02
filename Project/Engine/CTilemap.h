@@ -33,7 +33,7 @@ public:
     virtual void render() override;
     virtual void cleanup() override {};
 
-    void UpdateData();
+    void BindData();
 
 private:
     UINT                m_iTileCountX;  // 타일 가로

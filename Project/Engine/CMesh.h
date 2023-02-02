@@ -28,7 +28,7 @@ public:
 	void render();
 
 private:
-	virtual void UpdateData() override;
+	virtual void BindData() override;
 	
 
 public:
