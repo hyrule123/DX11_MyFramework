@@ -54,14 +54,14 @@ public:
 
 public:
     // _PipelineStage : eSHADER_PIPELINE_STAGE_FLAG
-    void UpdateData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE);
+    void BindData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE);
 
     //Bind Texture data to Compute Shader 
-    void UpdateData_CS(int _iRegisterNum);
+    void BindData_CS(int _iRegisterNum);
     void UnBind_CS();
 
-private://별도의 UpdateData()를 사용해서 바인딩한다.
-    virtual void UpdateData() override {};
+private://별도의 BindData()를 사용해서 바인딩한다.
+    virtual void BindData() override {};
 
 public:
     CTexture();

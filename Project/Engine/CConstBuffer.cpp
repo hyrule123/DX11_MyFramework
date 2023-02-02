@@ -38,7 +38,7 @@ void CConstBuffer::Create(UINT _iElementSize, UINT _iElementCount)
 	}
 }
 
-void CConstBuffer::SetData(void* _pSrc, UINT _iSize)
+void CConstBuffer::UpdateData(void* _pSrc, UINT _iSize)
 {
 	// 크기가 지정되지 않은 데이터는 상수버퍼 크기로 본다.
 	UINT size = _iSize;
@@ -59,7 +59,7 @@ void CConstBuffer::SetData(void* _pSrc, UINT _iSize)
 	}
 }
 
-void CConstBuffer::UpdateData()
+void CConstBuffer::BindData()
 {
 	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX)
 	{
@@ -81,5 +81,10 @@ void CConstBuffer::UpdateData()
 	{
 		CONTEXT->PSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
+}
+
+void CConstBuffer::BindData_CS()
+{
+	CONTEXT->CSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 }
 

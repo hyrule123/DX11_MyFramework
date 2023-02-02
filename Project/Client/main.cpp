@@ -8,6 +8,10 @@
 
 #include "CImGuiMgr.h"
 
+
+
+
+
 // 전역 변수:
 HINSTANCE   hInst;                                // 현재 인스턴스입니다.
 HWND        g_hWnd;

@@ -19,25 +19,25 @@ CMaterial::~CMaterial()
 }
 
 
-void CMaterial::UpdateData()
+void CMaterial::BindData()
 {
 	if (nullptr == m_pShader)
 		return;
 
-	m_pShader->UpdateData();
+	m_pShader->BindData();
 
 
 	// Texture Update
 	for (UINT i = 0; i < eTEX_END; ++i)
 	{
 		if (1 == m_Const.arrbTex[i])
-			m_arrTex[i]->UpdateData(i, eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL);
+			m_arrTex[i]->BindData(i, eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL);
 	}
 
 	// Constant Update
 	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::eCONST_BUFFER_MATERIAL);
-	pMtrlBuffer->SetData(&m_Const);
-	pMtrlBuffer->UpdateData();
+	pMtrlBuffer->UpdateData(&m_Const);
+	pMtrlBuffer->BindData();
 }
 
 

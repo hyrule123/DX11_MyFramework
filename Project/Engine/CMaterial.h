@@ -32,7 +32,7 @@ private:
 public:
     virtual int Save(const wstring& _strRelativePath) { return S_OK; }
 
-    virtual void UpdateData() override;
+    virtual void BindData() override;
 
 public:
     CMaterial();

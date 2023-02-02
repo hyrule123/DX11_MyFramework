@@ -158,7 +158,7 @@ void CTransform::UpdateParentMatrix()
 	}
 }
 
-void CTransform::UpdateData()
+void CTransform::BindData()
 {
 	//자신의 사이즈를 적용한 WVP 행렬을 만들어 상수버퍼로 업데이트 한다.
 	//const Matrix& matSize = Matrix::CreateScale(m_vSize);
@@ -170,6 +170,6 @@ void CTransform::UpdateData()
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
 	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TRANSFORM);
-	pTransformBuffer->SetData(&g_transform, sizeof(tTransform));
-	pTransformBuffer->UpdateData();
+	pTransformBuffer->UpdateData(&g_transform, sizeof(tTransform));
+	pTransformBuffer->BindData();
 }

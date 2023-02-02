@@ -16,7 +16,7 @@ CTilemap::CTilemap()
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>("TilemapMtrl"));
 
-	m_SBuffer = new CStructBuffer(eSBUFFER_SHARED_CBUFFER_IDX::TILE);
+	m_SBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSBUFFER_SHARED_CBUFFER_IDX::TILE);
 	m_SBuffer->Create(sizeof(tTile), m_iTileCountX * m_iTileCountY);
 	m_SBuffer->SetPipelineTarget(eSHADER_PIPELINE_FLAG_VERTEX + eSHADER_PIPELINE_FLAG_PIXEL);
 	m_SBuffer->SetRegisterIdx(9u);
@@ -37,26 +37,26 @@ void CTilemap::render()
 	if (nullptr == GetMesh() || nullptr == GetMaterial())
 		return;
 
-	//Transform에 UpdateData 요청
-	Transform()->UpdateData();
+	//Transform에 BindData 요청
+	Transform()->BindData();
 
 	//자신의 구조화버퍼 업데이트
-	UpdateData();
+	BindData();
 
 	//타일맵의 재질에 변수를 대입한 후 바인딩
 	CMaterial* pMtrl = GetMaterial().Get();
 	pMtrl->SetScalarParam(INT_0, &m_iTileCountX);
 	pMtrl->SetScalarParam(INT_1, &m_iTileCountY);
-	pMtrl->UpdateData();
+	pMtrl->BindData();
 
 	//렌더링 진행
 	GetMesh()->render();
 }
 
-void CTilemap::UpdateData()
+void CTilemap::BindData()
 {
-	m_SBuffer->SetData(m_vecTile.data(), (UINT)(sizeof(tTile) * m_vecTile.size()));
-	m_SBuffer->UpdateData();
+	m_SBuffer->UpdateData(m_vecTile.data(), (UINT)(sizeof(tTile) * m_vecTile.size()));
+	m_SBuffer->BindData();
 }
 
 void CTilemap::SetTileCount(UINT _iXCount, UINT _iYCount)

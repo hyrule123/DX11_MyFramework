@@ -1,12 +1,7 @@
 #pragma once
 #include "CShader.h"
 
-enum class eSHADER_LOADTYPE
-{
-    eSHADER_NOT_LOADED,
-    eSHADER_RUNTIME,    //런타임에 컴파일한 쉐이더
-    eSHADER_INCLUDE     //헤더를 포함시켜 컴파일한 쉐이더
-};
+
 
 enum eSHADERTYPE
 {
@@ -18,13 +13,7 @@ enum eSHADERTYPE
     eSHADERTYPE_END
 };
 
-struct tShaderLoadData
-{
-    eSHADER_LOADTYPE    LoadType;
-    ComPtr<ID3DBlob>    Blob;
-    void*               pByteCode;
-    size_t              ByteCodeSize;
-};
+
 
 class CGraphicsShader :
     public CShader
@@ -74,7 +63,7 @@ public://INITIALIZE, Setter
     eSHADER_DOMAIN GetShaderDomain() const { return m_ShaderDomain; }
 
 public:
-    virtual void UpdateData() override;
+    virtual void BindData() override;
     
 
 public:

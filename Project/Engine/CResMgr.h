@@ -10,6 +10,7 @@
 #include "CGraphicsShader.h"
 #include "CMaterial.h"
 #include "CPrefab.h"
+#include "CComputeShader.h"
 
 //새 Res 추가
 //1. define.h enum에 Res 타입 추가했는지 확인
@@ -28,6 +29,7 @@ private:
     void CreateResClassTypeIndex();
     void CreateDefaultMesh();
     void CreateDefaultGraphicsShader();
+    void CreateDefaultComputeShader();
     void CreateDefaultMaterial();
     void LoadDefaultTexture();
 
@@ -46,6 +48,8 @@ public:
 
     const unordered_map<string, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
 
+    Ptr<CTexture> CreateTexture(const string& _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
+    
 
 public:
     void init();
@@ -72,7 +76,7 @@ inline Ptr<T> CResMgr::FindRes(const string& _strKey)
     //if (type == eRES_TYPE::MATERIAL)
     //    return (T*)iter->second.Get()->Clone();
 
-    return (T*)iter->second.Get();    
+    return iter->second;    
 }
 
 
@@ -118,4 +122,21 @@ inline Ptr<T> CResMgr::Load(const string& _strKey, const wstring& _strRelativePa
 inline const unordered_map<string, Ptr<CRes>>& CResMgr::GetResMap(eRES_TYPE _ResType)
 {
     return m_arrRes[(UINT)_ResType];
+}
+
+inline Ptr<CTexture> CResMgr::CreateTexture(const string& _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage)
+{
+    Ptr<CTexture> pTex = FindRes<CTexture>(_strKey);
+
+    assert(nullptr == pTex);
+
+    pTex = new CTexture;
+    if (FAILED(pTex->Create(_uWidth, _uHeight, _PixelFormat, _D3D11_BIND_FLAG, _Usage)))
+    {
+        assert(nullptr);
+    }
+
+    AddRes<CTexture>(_strKey, pTex);
+
+    return pTex;
 }

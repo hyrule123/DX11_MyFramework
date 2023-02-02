@@ -52,7 +52,7 @@ void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 void CRenderMgr::init()
 {
     //광원정보는 픽셀에서만 필요, 8번 텍스처 레지스터에 바인딩 되어있음.
-    m_pLight2DStructBuffer = new CStructBuffer(eSBUFFER_SHARED_CBUFFER_IDX::LIGHT2D);
+    m_pLight2DStructBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSBUFFER_SHARED_CBUFFER_IDX::LIGHT2D);
     m_pLight2DStructBuffer->Create((UINT)sizeof(tLightInfo), 10);
     m_pLight2DStructBuffer->SetPipelineTarget(eSHADER_PIPELINE_FLAG_PIXEL);
     m_pLight2DStructBuffer->SetRegisterIdx(8u);
@@ -61,7 +61,7 @@ void CRenderMgr::init()
 
 void CRenderMgr::render()
 {
-    UpdateData();
+    BindData();
 
     for (int i = 0; i < eCAMIDX_END; ++i)
     {
@@ -80,15 +80,15 @@ void CRenderMgr::render()
     m_bDebugRenderUpdated = false;
 }
 
-void CRenderMgr::UpdateData()
+void CRenderMgr::BindData()
 {
     //글로벌 정보를 tGlobalValue 상수버퍼로 업데이트
     CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_GLOBAL);
-    pConstBuffer->SetData((void*)(&g_GlobalVal), sizeof(tGlobalValue));
-    pConstBuffer->UpdateData();
+    pConstBuffer->UpdateData((void*)(&g_GlobalVal), sizeof(tGlobalValue));
+    pConstBuffer->BindData();
 
     //자신의 구조화 버퍼 데이터를 업데이트 한후 데이터를 클리어
-    m_pLight2DStructBuffer->SetData(static_cast<void*>(m_vecLight2DStruct.data()), (UINT)m_vecLight2DStruct.size());
-    m_pLight2DStructBuffer->UpdateData();
+    m_pLight2DStructBuffer->UpdateData(static_cast<void*>(m_vecLight2DStruct.data()), (UINT)m_vecLight2DStruct.size());
+    m_pLight2DStructBuffer->BindData();
     m_vecLight2DStruct.clear();
 }

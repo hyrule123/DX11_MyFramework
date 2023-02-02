@@ -379,7 +379,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //	DEVICE->CreatePixelShader(g_test_VS, sizeof(g_test_PS), nullptr, m_PS.GetAddressOf());
 //}
 
-void CGraphicsShader::UpdateData()
+void CGraphicsShader::BindData()
 {
 	//Set Input Layout
 	CONTEXT->IASetInputLayout(m_Layout.Get());

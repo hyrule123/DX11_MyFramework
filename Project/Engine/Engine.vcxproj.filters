@@ -166,6 +166,12 @@
     <ClInclude Include="CAnim2D.h">
       <Filter>Source\06. Component\03, 04. Animator</Filter>
     </ClInclude>
+    <ClInclude Include="CComputeShader.h">
+      <Filter>Source\07. Resource\4. Shader\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CSetColorShader.h">
+      <Filter>Source\08. ShaderCode\98. Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -311,6 +317,12 @@
     </ClCompile>
     <ClCompile Include="CAnim2D.cpp">
       <Filter>Source\06. Component\03, 04. Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="CComputeShader.cpp">
+      <Filter>Source\07. Resource\4. Shader\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CSetColorShader.cpp">
+      <Filter>Source\08. ShaderCode\98. Compute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,6 +470,9 @@
     <Filter Include="Source\06. Component\03, 04. Animator">
       <UniqueIdentifier>{14f3f02f-10d1-4a2f-a84e-a495906b7dac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\08. ShaderCode\98. Compute">
+      <UniqueIdentifier>{dd6354e6-8ab6-48e6-8df7-500dbca44420}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -516,6 +531,9 @@
     </FxCompile>
     <FxCompile Include="Shader_Tilemap_1_vertex.hlsl">
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_SetColor_compute.hlsl">
+      <Filter>Source\08. ShaderCode\98. Compute</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

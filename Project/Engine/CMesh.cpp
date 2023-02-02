@@ -64,7 +64,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	}
 }
 
-void CMesh::UpdateData()
+void CMesh::BindData()
 {
 	UINT iStride = sizeof(Vtx);
 	UINT iOffset = 0;
@@ -75,7 +75,7 @@ void CMesh::UpdateData()
 
 void CMesh::render()
 {
-	UpdateData();
+	BindData();
 
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
 }
