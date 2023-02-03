@@ -8,9 +8,9 @@ RWStructuredBuffer<float4> g_TestSBUffer : register(u1);
 
 
 [numthreads(32, 32, 1)]
-void CS_SetColor(uint3 DTid : SV_DispatchThreadID, uint3 GTid : SV_GroupThreadID)
+void CS_SetColor(uint3 DTid : SV_DispatchThreadID)
 {
     //g_Output[DTid.xy] = float4(Color.xyz, 1.f);
     
-    g_Output[DTid.xy] = float4(g_TestSBUffer[GTid.x].rgba);
+    g_Output[DTid.xy] = float4(g_TestSBUffer[DTid.x].rgba);
 }

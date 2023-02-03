@@ -97,8 +97,8 @@ void CComputeShader::Execute()
 
 	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_MATERIAL);
 
-	pCBuffer->UpdateData(&m_SharedCBuffer, sizeof(tMtrlConst));
-	pCBuffer->BindData_CS();
+	pCBuffer->UploadData(&m_SharedCBuffer, sizeof(tMtrlConst));
+	pCBuffer->BindBuffer();
 
 	CONTEXT->CSSetShader(m_CS.Get(), nullptr, 0);
 	CONTEXT->Dispatch(m_arrGroup[X], m_arrGroup[Y], m_arrGroup[Z]);

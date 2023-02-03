@@ -78,6 +78,7 @@ enum eSHADER_PIPELINE_STAGE_FLAG : UINT8
 	eSHADER_PIPELINE_FLAG_DOMAIN =		1 << 2,
 	eSHADER_PIPELINE_FLAG_GEOMETRY =	1 << 3,
 	eSHADER_PIPELINE_FLAG_PIXEL =		1 << 4,
+	eSHADER_PIPELINE_FLAG_COMPUTE =		1 << 5,
 
 	eSHADER_PIPELINE_FLAG_ALL =			UINT8_MAX	
 };
@@ -203,3 +204,18 @@ enum eDIMENSION_TYPE : UINT
 	eDIMENSION_3D = 3u
 };
 
+enum class eSTRUCT_BUFFER_TYPE
+{
+	READ_ONLY,  //SRV ONLY
+	READ_WRITE  //SRV + UAV(Compute Shader)
+} typedef eSTRUCT_BUFFER_BIND_TYPE;
+
+//현재 바인딩되어 있는 뷰. 플래그로도 사용 가능
+enum class eCURRENT_BOUND_VIEW
+{
+	NONE = 0,
+	SRV = 1 << 0,
+	UAV = 1 << 1,
+	RTV = 1 << 2,
+	DSV = 1 << 3
+};

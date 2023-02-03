@@ -2,32 +2,29 @@
 
 #include "CEntity.h"
 
-enum class eSTRUCT_BUFFER_TYPE
-{
-    READ_ONLY,  //SRV ONLY
-    READ_WRITE  //SRV + UAV(Compute Shader)
-};
+
 
 class CStructBuffer
     : public CEntity
 {
 public:
     CStructBuffer() = delete;
-    CStructBuffer(eSTRUCT_BUFFER_TYPE _Type, eSBUFFER_SHARED_CBUFFER_IDX _idx, eUAV_REGISTER_USAGE _Usage);
+    CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT8 _eSHADER_PIPELINE_STAGE_FLAG, eSBUFFER_SHARED_CBUFFER_IDX _CBIdx, eSRV_REGISTER_IDX _SRVIdx, eUAV_REGISTER_IDX _UAVIdx);
     virtual ~CStructBuffer();
     CLONE_DISABLE(CStructBuffer)
 
 private:
-    const eSTRUCT_BUFFER_TYPE m_eSBufferType;
-
     //자신의 공유정보를 담고있는 상수버퍼 내부에서의 인덱스
-    const eSBUFFER_SHARED_CBUFFER_IDX m_eCBufferIdx;
+    eSTRUCT_BUFFER_TYPE         m_eSBufferType;
+    UINT8                       m_flagPipelineTarget;
+
+    eSBUFFER_SHARED_CBUFFER_IDX m_eCBufferIdx;
+    eSRV_REGISTER_IDX           m_eSRVIdx;
+    eUAV_REGISTER_IDX           m_eUAVIdx;
 
     UINT                    m_uElementSize;
     UINT                    m_uElementCapacity;
 
-    UINT8                   m_flagPipelineTarget;
-    UINT                    m_uRegisterIdx;
 
     D3D11_BUFFER_DESC       m_BufferDesc;
     ComPtr<ID3D11Buffer>    m_StructBuffer;
@@ -39,8 +36,7 @@ private:
 
     ComPtr<ID3D11Buffer>    m_StagingBuffer;
     
-
-    bool m_bUAVBind;
+    eCURRENT_BOUND_VIEW     m_eCurrentBoundView;
 
 
 public:
@@ -48,22 +44,32 @@ public:
     void SetPipelineTarget(UINT8 _eSHADER_PIPELINE_FLAG) { m_flagPipelineTarget = _eSHADER_PIPELINE_FLAG; }
     void AddPipelineTarget(eSHADER_PIPELINE_STAGE_FLAG _Stage) { m_flagPipelineTarget |= (UINT8)_Stage; }
 
-    void SetRegisterIdx(UINT _uiRegisterIdx) { m_uRegisterIdx = _uiRegisterIdx; }
-
     UINT GetCapacity() const { return m_uElementCapacity; }
 
 public:
     //처음 생성할 때 반드시 목표 파이프라인 타겟과 레지스터 번호를 설정해줄 것
-    void Create(UINT _uiElementSize, UINT _uElementCapacity, );
-    void UpdateData(void* _pData, UINT _uiCount);
-    void GetData(void* _pDest);
-    void BindData();
-    void BindData_CS(int TargetReg = -1);
+    void Create(UINT _uiElementSize, UINT _uElementCapacity, void* _pInitialData, UINT _uElemCount);
+
+    //데이터를 버퍼로 전송
+    void UploadData(void* _pData, UINT _uCount);
+    
+    //데이터를 받아옴
+    void GetData(void* _pDest, UINT _uDestCapacity);
+
+    //데이터를 특정 레지스터에 바인딩. SRV에 바인딩할것인지 UAV에 바인딩할것인지를 지정
+    void BindBufferSRV();
+
+    //Bind buffer with UAV Mode to Compute shader 
+    void BindBufferUAV();
 
 private:
-    void UpdateConstBuffer();
+    void BindConstBuffer();
 
+    void CreateStagingBuffer();
     void CreateSRV();
     void CreateUAV();
+
+    void UnBindSRV();
+    void UnBindUAV();
 };
 

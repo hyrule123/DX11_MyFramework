@@ -93,12 +93,12 @@ void CImGuiMgr::init(HWND _hWnd)
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
-    wstring path = CPathMgr::GetInst()->GetContentPath();
-    path += L"font/NotoSansKR-Regular.otf";
-    string fontpath;
-    ::ConvertUnicodeToUTF8(path, fontpath);
-    
-    io.Fonts->AddFontFromFileTTF(fontpath.c_str(), 20.f, 0, io.Fonts->GetGlyphRangesKorean());
+    //wstring path = CPathMgr::GetInst()->GetContentPath();
+    //path += L"font/NotoSansKR-Regular.otf";
+    //string fontpath;
+    //::ConvertUnicodeToUTF8(path, fontpath);
+    //
+    //io.Fonts->AddFontFromFileTTF(fontpath.c_str(), 20.f, 0, io.Fonts->GetGlyphRangesKorean());
 
 
     // Setup Platform/Renderer backends

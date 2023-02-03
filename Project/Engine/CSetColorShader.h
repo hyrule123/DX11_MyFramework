@@ -20,7 +20,7 @@ protected:
 private:
     Ptr<CTexture>   m_OutTex;
     CStructBuffer*   m_StructBufferTest;
-    Vec4            m_vecSBuffer[32];
+    Vec4            m_vecSBuffer[1280];
 
 public:
     void SetTargetTexture(Ptr<CTexture> _Tex) { m_OutTex = _Tex; }

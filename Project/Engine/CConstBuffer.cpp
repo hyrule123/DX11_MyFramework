@@ -38,7 +38,7 @@ void CConstBuffer::Create(UINT _iElementSize, UINT _iElementCount)
 	}
 }
 
-void CConstBuffer::UpdateData(void* _pSrc, UINT _iSize)
+void CConstBuffer::UploadData(void* _pSrc, UINT _iSize)
 {
 	// 크기가 지정되지 않은 데이터는 상수버퍼 크기로 본다.
 	UINT size = _iSize;
@@ -51,40 +51,43 @@ void CConstBuffer::UpdateData(void* _pSrc, UINT _iSize)
 	assert(!(size > m_iElementSize * m_iElementCount));
 
 	// SysMem -> GPU Mem
+
+	ID3D11DeviceContext* pContext = CONTEXT;
 	D3D11_MAPPED_SUBRESOURCE tSubRes = {};
-	if (!FAILED(CONTEXT->Map(m_CB.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tSubRes)))
+	if (SUCCEEDED(pContext->Map(m_CB.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tSubRes)))
 	{
 		memcpy(tSubRes.pData, _pSrc, size);
-		CONTEXT->Unmap(m_CB.Get(), 0);
+		pContext->Unmap(m_CB.Get(), 0);
 	}
 }
 
-void CConstBuffer::BindData()
+void CConstBuffer::BindBuffer()
 {
+	ID3D11DeviceContext* pContext = CONTEXT;
+
 	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX)
 	{
-		CONTEXT->VSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->VSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
 	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_HULL)
 	{
-		CONTEXT->HSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->HSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
 	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_DOMAIN)
 	{
-		CONTEXT->DSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->DSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
 	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_GEOMETRY)
 	{
-		CONTEXT->GSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->GSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
 	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL)
 	{
-		CONTEXT->PSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
-	}	
-}
-
-void CConstBuffer::BindData_CS()
-{
-	CONTEXT->CSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->PSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+	}
+	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_COMPUTE)
+	{
+		pContext->CSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+	}
 }
 

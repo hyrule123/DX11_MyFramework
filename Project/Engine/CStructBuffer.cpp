@@ -6,21 +6,22 @@
 #include "CDevice.h"
 
 
-CStructBuffer::CStructBuffer(eSTRUCT_BUFFER_TYPE _Type, eSBUFFER_SHARED_CBUFFER_IDX _idx, eUAV_REGISTER_USAGE _UAVUsage)
-	: m_eSBufferType(_Type)
-	, m_eCBufferIdx(_idx)
+CStructBuffer::CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT8 _eSHADER_PIPELINE_STAGE_FLAG, eSBUFFER_SHARED_CBUFFER_IDX _CBIdx, eSRV_REGISTER_IDX _SRVIdx, eUAV_REGISTER_IDX _UAVIdx)
+	: m_eSBufferType(_type)
+	, m_flagPipelineTarget(_eSHADER_PIPELINE_STAGE_FLAG)
+	, m_eCBufferIdx(_CBIdx)
+	, m_eSRVIdx(_SRVIdx)
+	, m_eUAVIdx(_UAVIdx)
 	, m_uElementSize()
 	, m_uElementCapacity()
-	, m_flagPipelineTarget()
-	, m_uRegisterIdx()
 	, m_BufferDesc{}
-	, m_bUAVBind()
+	, m_eCurrentBoundView()
 {
 	switch (m_eSBufferType)
 	{
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 
-		//CPU에서 구조화버퍼에 작성할 것이므로 AccessFlag를 write로 설정
+		//CPU에서 구조화버퍼로 작성할 수 있어야 하므로 AccessFlag를 write로 설정
 		m_BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 		//CPU에서 버퍼를 작성하고 GPU에서 버퍼를 읽어들일 경우 사용
@@ -32,8 +33,10 @@ CStructBuffer::CStructBuffer(eSTRUCT_BUFFER_TYPE _Type, eSBUFFER_SHARED_CBUFFER_
 		break;
 	case eSTRUCT_BUFFER_TYPE::READ_WRITE:
 
-		//CPU는 접근 불가, GPU의 읽기/쓰기는 가능
+		//CPU는 접근 불가, 
 		m_BufferDesc.CPUAccessFlags = 0;
+
+		//GPU의 읽기/쓰기는 가능
 		m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
 
 		//SRV, UAV 둘 다 바인딩되도록 설정
@@ -53,10 +56,25 @@ CStructBuffer::~CStructBuffer()
 
 }
 
-void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity)
+void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity, void* _pInitialData, UINT _uElemCount)
 {
 	//상수버퍼와 마찬가지로 16바이트 단위로 정렬되어 있어야 함.
 	assert(0 == _uiElementSize % 16);
+
+	assert(_uElementCapacity >= _uElemCount);
+
+	//재할당 하기 전 바인딩된 리소스가 있다면 unbind
+	switch (m_eCurrentBoundView)
+	{
+	case eCURRENT_BOUND_VIEW::SRV:
+		UnBindSRV();
+		break;
+	case eCURRENT_BOUND_VIEW::UAV:
+		UnBindUAV();
+		break;
+	default:
+		break;
+	}
 
 	//상수버퍼와는 다르게 버퍼 재할당이 가능함. 먼저 기존 버퍼의 할당을 해제한다.(ComPtr을 통해 관리가 이루어지므로 nullptr로 바꿔주면 됨.)
 	m_uElementSize = _uiElementSize;
@@ -70,10 +88,24 @@ void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity)
 	//일반적인 GPU에서 읽기만 가능한 구조화 버퍼
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 	{
-		//구조화버퍼 생성
-		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, nullptr, m_StructBuffer.ReleaseAndGetAddressOf())))
+		//초깃값 업로드 및 바인딩
+		D3D11_SUBRESOURCE_DATA* pData = nullptr;
+		D3D11_SUBRESOURCE_DATA Data = {};
+		if (nullptr != _pInitialData)
+		{
+			Data.pSysMem = _pInitialData;
+			Data.SysMemPitch = m_uElementSize * _uElemCount;
+			Data.SysMemSlicePitch = m_BufferDesc.StructureByteStride;
+			pData = &Data;
+			m_eCurrentBoundView = eCURRENT_BOUND_VIEW::SRV;
+		}
+		
+
+		//구조화버퍼 생성. ReleaseAndGetAddressOf() 함수를 통해서 기존 구조화 버퍼가 있다면 날려버리고 생성
+		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, pData, m_StructBuffer.ReleaseAndGetAddressOf())))
 			assert(nullptr);
 
+		//Read Only의 경우 바로 SRV 생성
 		CreateSRV();
 
 		break;
@@ -83,19 +115,23 @@ void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity)
 	//이 경우에는 CPU와 데이터 전송이 불가능하므로 데이터 전송용 Staging Buffer를 중간 단계로 사용해야 한다.
 	case eSTRUCT_BUFFER_TYPE::READ_WRITE:
 	{
+		//초깃값 지정
+		D3D11_SUBRESOURCE_DATA* pData = nullptr;
+		D3D11_SUBRESOURCE_DATA Data = {};
+		if (nullptr != _pInitialData)
+		{
+			Data.pSysMem = _pInitialData;
+			Data.SysMemPitch = m_uElementSize * _uElemCount;
+			Data.SysMemSlicePitch = m_BufferDesc.StructureByteStride;
+			pData = &Data;
+			m_eCurrentBoundView = eCURRENT_BOUND_VIEW::UAV;
+		}
+
 		//구조화버퍼 생성
-		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, nullptr, m_StructBuffer.ReleaseAndGetAddressOf())))
+		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, pData, m_StructBuffer.ReleaseAndGetAddressOf())))
 			assert(nullptr);
 
-		D3D11_BUFFER_DESC Desc = m_BufferDesc;
-		Desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-		Desc.Usage = D3D11_USAGE_STAGING;
-		Desc.BindFlags = 0;
-		Desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
-
-		if (FAILED(DEVICE->CreateBuffer(&Desc, nullptr, m_StagingBuffer.ReleaseAndGetAddressOf())))
-			assert(nullptr);
-
+		CreateStagingBuffer();
 		CreateSRV();
 		CreateUAV();
 
@@ -105,15 +141,21 @@ void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity)
 	}
 }
 
-void CStructBuffer::UpdateData(void* _pData, UINT _uiCount)
+void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 {
+	//g_arrStructBufferInfo의 자신의 인덱스에 해당하는 위치에 이번에 업데이트된 구조체의 갯수를 삽입
+	g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount = _uCount;
 
 	//생성 시 할당된 갯수보다 들어온 갯수가 더 클 경우 재할당하고, 거기에 데이터를 추가.
-	if (_uiCount > m_uElementCapacity)
-		Create(m_uElementSize, _uiCount * 2u);
+	//생성될 때 값을 지정할 수 있으므로 바로 return 해주면 될듯
+	if (_uCount > m_uElementCapacity)
+	{
+		Create(m_uElementSize, _uCount * 2u, _pData, _uCount);
+		return;
+	}
+		
 
 	CDevice* pDevice = CDevice::GetInst();
-
 	switch (m_eSBufferType)
 	{
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
@@ -122,7 +164,7 @@ void CStructBuffer::UpdateData(void* _pData, UINT _uiCount)
 		D3D11_MAPPED_SUBRESOURCE Data = {};
 		pDevice->GetDeviceContext()->Map(m_StructBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &Data);
 
-		memcpy(Data.pData, _pData, (size_t)(m_uElementSize * _uiCount));
+		memcpy(Data.pData, _pData, (size_t)(m_uElementSize * _uCount));
 
 		pDevice->GetDeviceContext()->Unmap(m_StructBuffer.Get(), 0);
 
@@ -131,12 +173,10 @@ void CStructBuffer::UpdateData(void* _pData, UINT _uiCount)
 
 	case eSTRUCT_BUFFER_TYPE::READ_WRITE:
 	{
-		//Read+Write일 경우 중간 버퍼로 복사한 후 GPU의 버퍼로 복사한다.
-
 		D3D11_MAPPED_SUBRESOURCE Data = {};
 		pDevice->GetDeviceContext()->Map(m_StagingBuffer.Get(), 0, D3D11_MAP_WRITE, 0, &Data);
 
-		memcpy(Data.pData, _pData, (size_t)(m_uElementSize * _uiCount));
+		memcpy(Data.pData, _pData, (size_t)(m_uElementSize * _uCount));
 
 		pDevice->GetDeviceContext()->Unmap(m_StagingBuffer.Get(), 0);
 
@@ -146,12 +186,9 @@ void CStructBuffer::UpdateData(void* _pData, UINT _uiCount)
 	}
 
 	}
-
-	//g_arrStructBufferInfo의 자신의 인덱스에 해당하는 위치에 이번에 업데이트된 구조체의 갯수를 삽입
-	g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount = _uiCount;
 }
 
-void CStructBuffer::GetData(void* _pDest)
+void CStructBuffer::GetData(void* _pDest, UINT _uDestCapacity)
 {
 	ComPtr<ID3D11DeviceContext> pContext = CONTEXT;
 
@@ -166,7 +203,8 @@ void CStructBuffer::GetData(void* _pDest)
 		pContext->Map(m_StructBuffer.Get(), 0, D3D11_MAP_READ, 0, &Data);
 
 		size_t bytesize = m_uElementSize * m_uElementCapacity;
-		memcpy_s(_pDest, bytesize, Data.pData, bytesize);
+
+		memcpy_s(_pDest, _uDestCapacity, Data.pData, bytesize);
 
 		pContext->Unmap(m_StructBuffer.Get(), 0);
 
@@ -185,7 +223,6 @@ void CStructBuffer::GetData(void* _pDest)
 		memcpy_s(_pDest, bytesize, Data.pData, bytesize);
 
 		pContext->Unmap(m_StagingBuffer.Get(), 0);
-
 		break;
 	}
 	
@@ -193,73 +230,90 @@ void CStructBuffer::GetData(void* _pDest)
 	}
 }
 
-void CStructBuffer::BindData()
+void CStructBuffer::BindBufferSRV()
 {
 	//UAV와 바인딩 되어있을 경우 바인딩을 해제
-	if (true == m_bUAVBind)
-	{
-		static const UINT Offset = -1;
+	if (eCURRENT_BOUND_VIEW::UAV == m_eCurrentBoundView)
+		UnBindUAV();
 
-		ComPtr<ID3D11UnorderedAccessView> pUAV = nullptr;
-		CONTEXT->CSSetUnorderedAccessViews(m_uRegisterIdx, 1, pUAV.GetAddressOf(), &Offset);
-		m_bUAVBind = false;
-	}
+	m_eCurrentBoundView = eCURRENT_BOUND_VIEW::SRV;
 
-	UpdateConstBuffer();
+	//상수버퍼 바인딩
+	BindConstBuffer();
 
 	if (eSHADER_PIPELINE_FLAG_VERTEX & m_flagPipelineTarget)
 	{
-		CONTEXT->VSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->VSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_FLAG_HULL & m_flagPipelineTarget)
 	{
-		CONTEXT->HSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->HSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_FLAG_DOMAIN & m_flagPipelineTarget)
 	{
-		CONTEXT->DSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->DSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_FLAG_GEOMETRY & m_flagPipelineTarget)
 	{
-		CONTEXT->GSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->GSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_FLAG_PIXEL & m_flagPipelineTarget)
 	{
-		CONTEXT->PSSetShaderResources(m_uRegisterIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->PSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
+	}
+
+	if (eSHADER_PIPELINE_FLAG_COMPUTE & m_flagPipelineTarget)
+	{
+		CONTEXT->CSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 }
 
-void CStructBuffer::BindData_CS(int TargetReg)
+void CStructBuffer::BindBufferUAV()
 {
-	int target = m_uRegisterIdx;
-	if (-1 != TargetReg)
-		target = TargetReg;
+	//읽기 쓰기 다 가능한 상태가 아닐경우 assert
+	assert(eSTRUCT_BUFFER_BIND_TYPE::READ_WRITE == m_eSBufferType);
 
-	UpdateConstBuffer();
+	if (eCURRENT_BOUND_VIEW::SRV == m_eCurrentBoundView)
+		UnBindSRV();
+	m_eCurrentBoundView = eCURRENT_BOUND_VIEW::UAV;
+
+	m_flagPipelineTarget |= eSHADER_PIPELINE_FLAG_COMPUTE;
+	BindConstBuffer();
 
 	static const UINT Offset = -1;
-	CONTEXT->CSSetUnorderedAccessViews(TargetReg, 1, m_UAV.GetAddressOf(), &Offset);
-
-	m_bUAVBind = true;
+	CONTEXT->CSSetUnorderedAccessViews((UINT)m_eUAVIdx, 1, m_UAV.GetAddressOf(), &Offset);
+	
 }
 
-void CStructBuffer::UpdateConstBuffer()
+void CStructBuffer::BindConstBuffer()
 {
 	//구조체 정보를 담은 상수버퍼에 바인딩한 구조체 갯수를 넣어서 전달
-	CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_SBUFFERINFO);
-	pConstBuffer->UpdateData(g_arrStructBufferInfo);
-	pConstBuffer->SetPipelineTarget(m_flagPipelineTarget);
-	pConstBuffer->BindData();
+	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_SBUFFERINFO);
+	pStructCBuffer->UploadData(g_arrStructBufferInfo);
+	pStructCBuffer->SetPipelineTarget(m_flagPipelineTarget);
+	pStructCBuffer->BindBuffer();
+}
+
+void CStructBuffer::CreateStagingBuffer()
+{
+	//CPU 통신용 스테이징 버퍼 생성
+	D3D11_BUFFER_DESC Desc = m_BufferDesc;
+	Desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	Desc.Usage = D3D11_USAGE_STAGING;
+	Desc.BindFlags = 0;
+	Desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+
+	if (FAILED(DEVICE->CreateBuffer(&Desc, nullptr, m_StagingBuffer.ReleaseAndGetAddressOf())))
+		assert(nullptr);
 }
 
 void CStructBuffer::CreateSRV()
 {
-	//GPU에서는 읽기 작업만 할 것이므로 SRV로 생성.
-	//SRVDesc에 원소의 갯수를 지정해서 생성.
+	//SRV 생성
 	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
 	SRVDesc.ViewDimension = D3D_SRV_DIMENSION_BUFFEREX;
 	SRVDesc.BufferEx.NumElements = m_uElementCapacity;
@@ -277,4 +331,49 @@ void CStructBuffer::CreateUAV()
 
 	if (FAILED(DEVICE->CreateUnorderedAccessView(m_StructBuffer.Get(), &UAVDesc, m_UAV.ReleaseAndGetAddressOf())))
 		assert(nullptr);
+}
+
+void CStructBuffer::UnBindSRV()
+{
+	ID3D11ShaderResourceView* pView = nullptr;
+
+	if (eSHADER_PIPELINE_FLAG_VERTEX & m_flagPipelineTarget)
+	{
+		CONTEXT->VSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+	}
+
+	if (eSHADER_PIPELINE_FLAG_HULL & m_flagPipelineTarget)
+	{
+		CONTEXT->HSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+	}
+
+	if (eSHADER_PIPELINE_FLAG_DOMAIN & m_flagPipelineTarget)
+	{
+		CONTEXT->DSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+	}
+
+	if (eSHADER_PIPELINE_FLAG_GEOMETRY & m_flagPipelineTarget)
+	{
+		CONTEXT->GSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+	}
+
+	if (eSHADER_PIPELINE_FLAG_PIXEL & m_flagPipelineTarget)
+	{
+		CONTEXT->PSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+	}
+
+	if (eSHADER_PIPELINE_FLAG_COMPUTE & m_flagPipelineTarget)
+	{
+		CONTEXT->CSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+	}
+
+	m_eCurrentBoundView = eCURRENT_BOUND_VIEW::NONE;
+}
+
+void CStructBuffer::UnBindUAV()
+{
+	static const UINT Offset = -1;
+	ID3D11UnorderedAccessView* pUAV = nullptr;
+	CONTEXT->CSSetUnorderedAccessViews((UINT)m_eUAVIdx, 1, &pUAV, &Offset);
+	m_eCurrentBoundView = eCURRENT_BOUND_VIEW::NONE;
 }

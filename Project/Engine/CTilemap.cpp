@@ -16,10 +16,9 @@ CTilemap::CTilemap()
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>("TilemapMtrl"));
 
-	m_SBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSBUFFER_SHARED_CBUFFER_IDX::TILE);
-	m_SBuffer->Create(sizeof(tTile), m_iTileCountX * m_iTileCountY);
-	m_SBuffer->SetPipelineTarget(eSHADER_PIPELINE_FLAG_VERTEX + eSHADER_PIPELINE_FLAG_PIXEL);
-	m_SBuffer->SetRegisterIdx(9u);
+	UINT8 Target = eSHADER_PIPELINE_FLAG_VERTEX | eSHADER_PIPELINE_FLAG_PIXEL;
+	m_SBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, Target, eSBUFFER_SHARED_CBUFFER_IDX::TILE, eSRV_REGISTER_IDX::TILE, eUAV_REGISTER_IDX::NONE);
+	m_SBuffer->Create(sizeof(tTile), m_iTileCountX * m_iTileCountY, nullptr, 0u);
 }
 
 CTilemap::~CTilemap()
@@ -38,7 +37,7 @@ void CTilemap::render()
 		return;
 
 	//Transform에 BindData 요청
-	Transform()->BindData();
+	Transform()->UpdateData();
 
 	//자신의 구조화버퍼 업데이트
 	BindData();
@@ -55,8 +54,8 @@ void CTilemap::render()
 
 void CTilemap::BindData()
 {
-	m_SBuffer->UpdateData(m_vecTile.data(), (UINT)(sizeof(tTile) * m_vecTile.size()));
-	m_SBuffer->BindData();
+	m_SBuffer->UploadData(m_vecTile.data(), (UINT)(sizeof(tTile) * m_vecTile.size()));
+	m_SBuffer->BindBufferSRV();
 }
 
 void CTilemap::SetTileCount(UINT _iXCount, UINT _iYCount)
@@ -70,7 +69,7 @@ void CTilemap::SetTileCount(UINT _iXCount, UINT _iYCount)
 
 	if (m_SBuffer->GetCapacity() < m_vecTile.size())
 	{
-		m_SBuffer->Create(sizeof(tTile), (UINT)m_vecTile.size());
+		m_SBuffer->Create(sizeof(tTile), (UINT)m_vecTile.size(), nullptr, 0u);
 	}
 
 	// 타일 세팅 테스트

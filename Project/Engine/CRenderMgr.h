@@ -43,6 +43,7 @@ public:
 	void render();
 
 private:
-	void BindData();
+	//Upload + Bind
+	void UpdateBuffer();
 };
 

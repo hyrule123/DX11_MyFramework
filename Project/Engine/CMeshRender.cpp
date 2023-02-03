@@ -36,11 +36,11 @@ void CMeshRender::render()
 	//카메라는 finaltick()에서 자신의 뷰 및 투영행렬을 등록했음.
 	CTransform* pTransform = Transform();
 	if(nullptr != pTransform)
-		pTransform->BindData();
+		pTransform->UpdateData();
 
 	CAnimator2D* pAnimator2D = Animator2D();
 	if (nullptr != pAnimator2D)
-		pAnimator2D->BindData();
+		pAnimator2D->UpdateData();
 
 	// 재질에 BindData 요청 - 재질 상수버퍼가 바인딩됨.
 	pmtrl->BindData();

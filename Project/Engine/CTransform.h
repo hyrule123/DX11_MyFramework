@@ -104,8 +104,7 @@ private:
 public:
     virtual void finaltick() override;    
     virtual void cleanup() override {};
-    void BindData();
-
+    void UpdateData();
 
     CLONE(CTransform);    
 public:

@@ -63,9 +63,10 @@ void CLevelMgr::init()
 	Ptr<CSetColorShader> pCS = CResMgr::GetInst()->FindRes<CComputeShader>("SetColorCS");
 	pCS->SetTargetTexture(pCreateTex);
 
-	pCS->SetColor(Vec3(1.f, 0.f, 0.f));
+	//pCS->SetColor(Vec3(1.f, 0.f, 0.f));
 
 	pCS->Execute();
+
 
 
 	m_pCurLevel = new CLevel;
@@ -192,7 +193,7 @@ void CLevelMgr::init()
 	pTestObj3->AddComponent(new CMeshRender);
 	pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
 	Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
-	//TestMtrl3->SetTexParam(eTEX_0, pCreateTex);
+	TestMtrl3->SetTexParam(eTEX_0, pCreateTex);
 	//TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
 	pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
 	pTestObj3->AddComponent(new CCollider2D_OBB);

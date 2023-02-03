@@ -19,7 +19,7 @@ public:
 
     virtual void cleanup() override {};
 
-    void BindData();
+    void UpdateData();
     
 
 private:

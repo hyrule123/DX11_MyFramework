@@ -22,13 +22,23 @@ enum class eSBUFFER_SHARED_CBUFFER_IDX : UINT
 {
 	LIGHT2D,
 	TILE,
+	TEST,
 	END
 };
 
-enum class eUAV_REGISTER_USAGE
+enum class eSRV_REGISTER_IDX
 {
 	NONE = -1,
-	SETCOLOR
+	LIGHT2D = 8,
+	TILE = 9,
+	TEST
+};
+
+enum class eUAV_REGISTER_IDX
+{
+	NONE = -1,
+	SETCOLOR_TEXTURE,
+	SETCOLOR_SBUFFER
 };
 
 enum eSCALAR_PARAM
