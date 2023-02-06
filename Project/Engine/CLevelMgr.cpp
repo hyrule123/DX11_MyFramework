@@ -29,6 +29,8 @@
 //컴퓨트쉐이더 테스트
 #include "CCS_SetColor.h"
 
+#include "CParticleSystem.h"
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {
@@ -66,8 +68,6 @@ void CLevelMgr::init()
 	//pCS->SetColor(Vec3(1.f, 0.f, 0.f));
 
 	pCS->Execute();
-
-
 
 	m_pCurLevel = new CLevel;
 
@@ -190,12 +190,16 @@ void CLevelMgr::init()
 	pTestObj3->SetName("Test Object");
 	pTestObj3->AddComponent(new CTransform);
 	pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
-	pTestObj3->AddComponent(new CMeshRender);
-	pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
-	Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
-	TestMtrl3->SetTexParam(eTEX_0, pCreateTex);
-	//TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
-	pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
+
+	//pTestObj3->AddComponent(new CMeshRender);
+	//pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
+	//Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
+	//TestMtrl3->SetTexParam(eTEX_0, pCreateTex);
+	//pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
+
+	pTestObj3->AddComponent(new CParticleSystem);
+
+
 	pTestObj3->AddComponent(new CCollider2D_OBB);
 
 	//pTestObj3->AddScript(new CTestObjScript);

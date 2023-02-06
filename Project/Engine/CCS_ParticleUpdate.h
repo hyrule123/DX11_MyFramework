@@ -13,8 +13,8 @@ class CCS_ParticleUpdate :
 {
 
 public:
-    CCS_ParticleUpdate() = delete;
-    CCS_ParticleUpdate(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
+    CCS_ParticleUpdate();
+    //CCS_ParticleUpdate(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
     virtual ~CCS_ParticleUpdate();
 
 public:
@@ -22,10 +22,10 @@ public:
     virtual void UnBindCS() override;
 
 private:
-    CStructBuffer* m_ParticleBuffer;
+    CStructBuffer* m_pParticleSBuffer;
 
 public:
-    void SetParticleBuffer(CStructBuffer* _pBuffer);
+    void SetData(void* _pData, UINT _uCount);
 
 
 };

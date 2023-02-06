@@ -119,7 +119,6 @@ public:
 	void operator=(Ptr<U>&& _other) noexcept
 	{
 		Ptr(static_cast<Ptr<U>&&>(_other)).Swap(*this);
-		return *this;
 	}
 
 

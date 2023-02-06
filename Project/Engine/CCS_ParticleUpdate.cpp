@@ -5,26 +5,30 @@
 
 #include "CDevice.h"
 
-CCS_ParticleUpdate::CCS_ParticleUpdate(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
-	: CComputeShader(_iGroupPerThreadX, _iGroupPerThreadY, _iGroupPerThreadZ)
+CCS_ParticleUpdate::CCS_ParticleUpdate()
+	: CComputeShader(128u, 1u, 1u)
+	, m_pParticleSBuffer()
 {
+	UINT8 flag = eSHADER_PIPELINE_STAGE::__ALL;
+	m_pParticleSBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, flag, eSBUFFER_SHARED_CBUFFER_IDX::PARTICLE, eSRV_REGISTER_IDX::PARTICLE, eUAV_REGISTER_IDX::PARTICLE_SBUFFER);
 }
 
 CCS_ParticleUpdate::~CCS_ParticleUpdate()
 {
+	delete m_pParticleSBuffer;
 }
 
 
 bool CCS_ParticleUpdate::BindDataCS()
 {
-	if (nullptr == m_ParticleBuffer)
+	if (nullptr == m_pParticleSBuffer)
 		return false;
 
 	//스레드 그룹 수 계산
-	CalcGroupNumber(m_ParticleBuffer->GetElemCount(), 1, 1);
+	CalcGroupNumber(m_pParticleSBuffer->GetElemCount(), 1, 1);
 
 	//데이터를 바인딩
-	m_ParticleBuffer->BindBufferUAV();
+	m_pParticleSBuffer->BindBufferUAV();
 
 	return true;
 }
@@ -32,14 +36,14 @@ bool CCS_ParticleUpdate::BindDataCS()
 void CCS_ParticleUpdate::UnBindCS()
 {
 	//계산 후 UAV 바인딩을 해제.
-	m_ParticleBuffer->UnBindUAV();
+	m_pParticleSBuffer->UnBindUAV();
 }
 
-void CCS_ParticleUpdate::SetParticleBuffer(CStructBuffer* _pBuffer)
+void CCS_ParticleUpdate::SetData(void* _pData, UINT _uCount)
 {
-	if (nullptr == _pBuffer)
+	if (nullptr == _pData)
 		return;
 
-	m_ParticleBuffer = _pBuffer;
-	m_ParticleBuffer->AddPipelineTarget(eSHADER_PIPELINE_STAGE::__COMPUTE);
+	m_pParticleSBuffer->UploadData(_pData, _uCount);
+	m_pParticleSBuffer->AddPipelineTarget(eSHADER_PIPELINE_STAGE::__COMPUTE);
 }

@@ -286,7 +286,7 @@ void CResMgr::CreateDefaultComputeShader()
 	AddRes(pShader->GetKey(), pShader);
 
 
-	pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
+	pShader = new CCS_ParticleUpdate;
 	pShader->SetKey("ParticleUpdate");
 	pShader->CreateShader((void*)g_CS_Particle, sizeof(g_CS_Particle));
 	
