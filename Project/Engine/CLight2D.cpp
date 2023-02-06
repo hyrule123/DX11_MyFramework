@@ -7,12 +7,12 @@
 #include "CRenderMgr.h"
 
 CLight2D::CLight2D()
-	: CLight(eCOMPONENT_LIGHT2D)
+	: CLight(eCOMPONENT_TYPE::LIGHT2D)
 	, m_LightInfo{}
 {
 	m_LightInfo.LightColor.vDiffuse = Vec4(1.f, 1.f, 1.f, 1.f);
 	m_LightInfo.LightColor.vAmbient = Vec4(1.f, 1.f, 1.f, 1.f);
-	//m_LightInfo.vLightDir = Vec4::Unit[eAXIS3D_X];
+	//m_LightInfo.vLightDir = Vec4::Unit[eAXIS3D::X];
 	m_LightInfo.fAngle = XM_PI / 2.5f;	//30 degree
 	m_LightInfo.fRadius = 400.f;
 }
@@ -29,7 +29,7 @@ void CLight2D::finaltick()
 	if((UINT)eLIGHT_TYPE::eLIGHT_DIRECTIONAL == m_LightInfo.LightType
 		||
 		(UINT)eLIGHT_TYPE::eLIGHT_SPOTLIGHT == m_LightInfo.LightType)
-		m_LightInfo.vLightDir = Transform()->GetRelativeDir(eDIR_RIGHT);
+		m_LightInfo.vLightDir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 	CRenderMgr::GetInst()->AddLight2DData(m_LightInfo);
 }

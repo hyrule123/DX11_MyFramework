@@ -25,13 +25,13 @@ CRenderMgr::~CRenderMgr()
 
 void CRenderMgr::RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx)
 {
-    assert(0 <= _idx && _idx < eCAMIDX_END);
-    m_arrCam[_idx] = _pCam;
+    assert(0 <= (int)_idx && (int)_idx < (int)eCAMERA_INDEX::END);
+    m_arrCam[(int)_idx] = _pCam;
 }
 
 void CRenderMgr::RemoveCamera(CCamera* _pCam)
 {
-    for (int i = 0; i < eCAMIDX_END; ++i)
+    for (int i = 0; i < (int)eCAMERA_INDEX::END; ++i)
     {
         if (_pCam == m_arrCam[i])
         {
@@ -61,7 +61,7 @@ void CRenderMgr::render()
 {
     UpdateBuffer();
 
-    for (int i = 0; i < eCAMIDX_END; ++i)
+    for (int i = 0; i < (int)eCAMERA_INDEX::END; ++i)
     {
         if (nullptr == m_arrCam[i])
             continue;
@@ -81,7 +81,7 @@ void CRenderMgr::render()
 void CRenderMgr::UpdateBuffer()
 {
     //글로벌 정보를 tGlobalValue 상수버퍼로 업데이트
-    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_GLOBAL);
+    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::GLOBAL);
     pConstBuffer->UploadData((void*)(&g_GlobalVal), sizeof(tGlobalValue));
     pConstBuffer->BindBuffer();
 

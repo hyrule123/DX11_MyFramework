@@ -27,29 +27,29 @@ extern const string g_voidStr;
 //새로운 컴포넌트를 만들어줄 경우
 //eCOMPONENT_TYPE에 컴포넌트 추가
 //components.h에 컴포넌트 뚫어주기
-enum eCOMPONENT_TYPE
+enum class eCOMPONENT_TYPE
 {
 	// update
-	eCOMPONENT_TRANSFORM,		// 위치, 크기, 회전
-	eCOMPONENT_COLLIDER2D,		// 2차원 충돌
-	eCOMPONENT_COLLIDER3D,		// 3차원 충돌
-	eCOMPONENT_ANIMATOR2D,		// Sprite Animation
-	eCOMPONENT_ANIMATOR3D,		// Bone Sknning Animation
-	eCOMPONENT_LIGHT2D,			// 2차원 광원
-	eCOMPONENT_LIGHT3D,			// 3차원 광원
-	eCOMPONENT_CAMERA,			// Camera
+	TRANSFORM,		// 위치, 크기, 회전
+	COLLIDER2D,		// 2차원 충돌
+	COLLIDER3D,		// 3차원 충돌
+	ANIMATOR2D,		// Sprite Animation
+	ANIMATOR3D,		// Bone Sknning Animation
+	LIGHT2D,			// 2차원 광원
+	LIGHT3D,			// 3차원 광원
+	CAMERA,			// Camera
 
 	// render
-	eCOMPONENT_MESH_RENDER,		// 기본적인 렌더링
-	eCOMPONENT_PARTICLE_SYSTEM, // 입자 렌더링
-	eCOMPONENT_TILEMAP,		// 2차원 타일
-	eCOMPONENT_LANDSCAPE,		// 3차원 지형
-	eCOMPONENT_DECAL,			// 내부 렌더링
+	MESH_RENDER,		// 기본적인 렌더링
+	PARTICLE_SYSTEM, // 입자 렌더링
+	TILEMAP,		// 2차원 타일
+	LANDSCAPE,		// 3차원 지형
+	DECAL,			// 내부 렌더링
 
 	// custom
-	eCOMPONENT_SCRIPT_HOLDER,			
+	SCRIPT_HOLDER,			
 
-	eCOMPONENT_END
+	END
 };
 extern const eCOMPONENT_TYPE g_RenderComIdxStart;
 extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
@@ -89,40 +89,46 @@ namespace eSHADER_PIPELINE_STAGE
 	};
 }
 
-
-enum eAXIS2D_TYPE
+enum class eAXIS2D : UINT
 {
-	eAXIS2D_X,
-	eAXIS2D_Y,
-	eAXIS2D_END
+	X,
+	Y,
+	END
 };
 
 
-enum eAXIS3D_TYPE
+enum class eAXIS3D : UINT
 {
-    eAXIS3D_X,
-    eAXIS3D_Y,
-    eAXIS3D_Z,
-    eAXIS3D_END
+	X,
+	Y,
+	Z,
+	END
 };
 
-enum eAXIS4D_TYPE
+
+
+
+enum class eAXIS4D : UINT
 {
-	eAXIS4D_X,
-	eAXIS4D_Y,
-	eAXIS4D_Z,
-	eAXIS4D_W,
-	eAXIS4D_END
+	X,
+	Y,
+	Z,
+	W,
+	END
 };
+
+
 
 //직관적인 방향
-enum eDIR_TYPE
+enum class eDIR_TYPE
 {
-	eDIR_RIGHT,
-	eDIR_UP,
-	eDIR_FRONT,
-	eDIR_END
+	RIGHT,
+	UP,
+	FRONT,
+	END
 };
+
+
 
 enum class ePROJ_TYPE
 {
@@ -139,45 +145,45 @@ enum class eRASTERIZER_TYPE
 	END
 };
 
-enum eDEPTHSTENCIL_TYPE
+enum class eDEPTHSTENCIL_TYPE
 {
-	eDEPTHSTENCIL_TYPE_LESS,
-	eDEPTHSTENCIL_TYPE_LESS_EQUAL,
-	eDEPTHSTENCIL_TYPE_GREATER,
-	eDEPTHSTENCIL_TYPE_GREATER_EQUAL,
-	eDEPTHSTENCIL_TYPE_NO_WRITE,			//깊이버퍼에 깊이를 기록하지 않음.
-	eDEPTHSTENCIL_TYPE_NO_TEST_NO_WRITE,	//깊이 테스트랄 거지치 않고 무조건 픽셀에 색상을 입력. 깊이 버퍼에도 기록하지 않음.
-	eDEPTHSTENCIL_TYPE_END
+	LESS,
+	LESS_EQUAL,
+	GREATER,
+	GREATER_EQUAL,
+	NO_WRITE,			//깊이버퍼에 깊이를 기록하지 않음.
+	NO_TEST_NO_WRITE,	//깊이 테스트랄 거지치 않고 무조건 픽셀에 색상을 입력. 깊이 버퍼에도 기록하지 않음.
+	END
 };
 
-enum eBLENDSTATE_TYPE
+enum class eBLENDSTATE_TYPE
 {
-	eBLENDSTATE_DEFAULT,
-	eBLENDSTATE_MASK,
-	eBLENDSTATE_ALPHABLEND,
-	eBLENDSTATE_ONEONE,	//1:1로 섞는 방식 - 컬러키가 검은색인 이미지에 대한 처리
-	eBLENDSTATE_END
+	DEFAULT,
+	MASK,
+	ALPHA_BLEND,
+	ONE_ONE,	//1:1로 섞는 방식 - 컬러키가 검은색인 이미지에 대한 처리
+	END
 };
 
-enum eSHADER_DOMAIN
+enum class eSHADER_DOMAIN
 {
-	eSHADER_DOMAIN_OPAQUE,
-	eSHADER_DOMAIN_MASK,
-	eSHADER_DOMAIN_TRANSPARENT,
-	eSHADER_DOMAIN_POSTPROCESS,
-	eSHADER_DOMAIN_UI,
-	eSHADER_DOMAIN_END,
-	eSHADER_DOMAIN_UNDEFINED
+	_UNDEFINED = -1,
+	_OPAQUE,
+	_MASK,
+	_TRANSPARENT,
+	_POST_PROCESS,
+	_UI,
+	_END
 };
 
-enum eCAMERA_INDEX
+enum class eCAMERA_INDEX : UINT
 {
-	eCAMIDX_MAIN,
-	eCAMIDX_SUB1,
-	eCAMIDX_SUB2,
-	eCAMIDX_SUB3,
-	eCAMIDX_SUB4,
-	eCAMIDX_END
+	MAIN,
+	SUB1,
+	SUB2,
+	SUB3,
+	SUB4,
+	END
 };
 
 enum class eEVENT_TYPE
@@ -189,13 +195,13 @@ enum class eEVENT_TYPE
 	LEVEL_CHANGE
 };
 
-enum eSHAPE_TYPE
+enum class eSHAPE_TYPE
 {
-	eSHAPE_RECT,
-	eSHAPE_CIRCLE,
-	eSHAPE_CUBE,
-	eSHAPE_SPHERE,
-	eSHAPE_END,
+	RECT,
+	CIRCLE,
+	CUBE,
+	SPHERE,
+	END,
 };
 
 enum class eCOLLIDER_TYPE
@@ -218,11 +224,14 @@ enum class eSTRUCT_BUFFER_TYPE
 } typedef eSTRUCT_BUFFER_BIND_TYPE;
 
 //현재 바인딩되어 있는 뷰. 플래그로도 사용 가능
-enum class eCURRENT_BOUND_VIEW
+namespace eCURRENT_BOUND_VIEW
 {
-	NONE = 0,
-	SRV = 1 << 0,
-	UAV = 1 << 1,
-	RTV = 1 << 2,
-	DSV = 1 << 3
-};
+	enum eCURRENT_BOUND_VIEW
+	{
+		NONE = 0,
+		SRV = 1 << 0,
+		UAV = 1 << 1,
+		RTV = 1 << 2,
+		DSV = 1 << 3
+	};
+}

@@ -10,8 +10,8 @@ tGlobalValue g_GlobalVal = {};
 tSBufferInfo g_arrStructBufferInfo[(UINT)eSBUFFER_SHARED_CBUFFER_IDX::END] = {};
 Matrix g_matViewProj;
 
-const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER;
-const eCOMPONENT_TYPE g_RenderComIdxEnd = eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER;
+const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::MESH_RENDER;
+const eCOMPONENT_TYPE g_RenderComIdxEnd = eCOMPONENT_TYPE::SCRIPT_HOLDER;
 
 const string g_voidStr = "";
 

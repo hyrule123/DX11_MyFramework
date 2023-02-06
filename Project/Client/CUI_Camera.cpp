@@ -2,7 +2,7 @@
 #include "CUI_Camera.h"
 
 CUI_Camera::CUI_Camera()
-	: CUI_Component("Camera", eCOMPONENT_COLLIDER2D)
+	: CUI_Component("Camera", eCOMPONENT_TYPE::COLLIDER2D)
 {
 	SetName("CameraUI");
 }

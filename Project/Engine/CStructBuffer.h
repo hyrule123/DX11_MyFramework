@@ -38,7 +38,7 @@ private:
 
     ComPtr<ID3D11Buffer>    m_StagingBuffer;
     
-    eCURRENT_BOUND_VIEW     m_eCurrentBoundView;
+    eCURRENT_BOUND_VIEW::eCURRENT_BOUND_VIEW     m_eCurrentBoundView;
 
 
 public:

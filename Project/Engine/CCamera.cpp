@@ -20,7 +20,7 @@
 #include "CRenderMgr.h"
 
 CCamera::CCamera():
-	CComponent(eCOMPONENT_TYPE::eCOMPONENT_CAMERA)
+	CComponent(eCOMPONENT_TYPE::CAMERA)
 	, m_AspectRatio()
 	, m_ProjectionType(ePROJ_TYPE::ORTHOGRAPHY)
 	, m_CamIndex(-1)
@@ -76,9 +76,9 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 
 void CCamera::SetCamIndex(eCAMERA_INDEX _Idx)
 {
-	assert(_Idx <= eCAMIDX_END);
+	assert(_Idx <= eCAMERA_INDEX::END);
 
-	m_CamIndex = _Idx;
+	m_CamIndex = (int)_Idx;
 	CRenderMgr::GetInst()->RegisterCamera(this, _Idx);
 }
 
@@ -243,7 +243,7 @@ void CCamera::SortObject()
 			eSHADER_DOMAIN dom = Com->GetMaterial()->GetShader()->GetShaderDomain();
 
 			//만약 쉐이더 도메인이 등록되어있지 않을 경우 assert 처리
-			assert((int)dom < (int)eSHADER_DOMAIN_END);
+			assert((int)dom < (int)eSHADER_DOMAIN::_END);
 
 			//그렇지 않을 경우 push back
 			m_arrvecShaderDomain[(int)dom].push_back(vecObj[i]);
@@ -257,7 +257,7 @@ void CCamera::render()
 	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
 	g_matViewProj = m_matView * m_matProj;
 
-	for (int i = 0; i < eSHADER_DOMAIN_END; ++i)
+	for (int i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
 	{
 		size_t size = m_arrvecShaderDomain[i].size();
 		for (size_t j = 0; j < size; ++j)

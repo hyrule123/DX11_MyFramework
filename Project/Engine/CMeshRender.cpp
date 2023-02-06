@@ -11,7 +11,7 @@
 #include "CAnimator2D.h"
 
 CMeshRender::CMeshRender()
-	: CRenderComponent(eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER)		
+	: CRenderComponent(eCOMPONENT_TYPE::MESH_RENDER)		
 {
 }
 

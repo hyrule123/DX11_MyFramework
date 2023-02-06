@@ -13,7 +13,7 @@
 #include "CCollider2D.h"
 
 CTransform::CTransform()
-	: CComponent(eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM)
+	: CComponent(eCOMPONENT_TYPE::TRANSFORM)
 	, m_vRelativeScale(1.f, 1.f, 1.f)
 	, m_bInheritScale(true)
 	, m_bInheritRot(true)
@@ -90,9 +90,9 @@ void CTransform::UpdateMyTransform()
 	//방금 구한 회전행렬으로 직관적 방향을 계산한다.
 	//회전행렬을 따로 변수에 저장하지 않으므로 지역변수에 계산해놓은 시점에서 직관적 방향도 구해놓는다.
 	//방법 1 - 행렬곱과 래핑함수를 사용
-	m_vRelativeDir[eDIR_TYPE::eDIR_FRONT] = matRot.Forward();
-	m_vRelativeDir[eDIR_TYPE::eDIR_RIGHT] = matRot.Right();
-	m_vRelativeDir[eDIR_TYPE::eDIR_UP] = matRot.Up();
+	m_vRelativeDir[(UINT)eDIR_TYPE::FRONT] = matRot.Forward();
+	m_vRelativeDir[(UINT)eDIR_TYPE::RIGHT] = matRot.Right();
+	m_vRelativeDir[(UINT)eDIR_TYPE::UP] = matRot.Up();
 
 	//이동행렬
 	const Matrix& matTranslation = Matrix::CreateTranslation(m_vRelativePos);
@@ -169,7 +169,7 @@ void CTransform::UpdateData()
 	g_transform.matWorld = g_transform.matWorld.Transpose();
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
-	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TRANSFORM);
+	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::TRANSFORM);
 	pTransformBuffer->UploadData(&g_transform, sizeof(tTransform));
 	pTransformBuffer->BindBuffer();
 }

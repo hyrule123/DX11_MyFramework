@@ -5,13 +5,13 @@
 //b
 //
 //
-cbuffer eCOMPONENT_TRANSFORM : register(b0)
+cbuffer eCOMPONENT_TYPE::TRANSFORM : register(b0)
 {
     matrix g_matWorld;
     matrix g_matWVP;
 };
 
-cbuffer eCONST_BUFFER_MATERIAL : register(b1)
+cbuffer eCONST_BUFFER_TYPE::MATERIAL : register(b1)
 {
     int g_int_0;
     int g_int_1;

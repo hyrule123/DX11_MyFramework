@@ -8,7 +8,7 @@
 CCS_SetColor::CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
 	: CComputeShader(_iGroupPerThreadX, _iGroupPerThreadY, _iGroupPerThreadZ)
 {
-	UINT8 Target = __ALL;
+	UINT8 Target = eSHADER_PIPELINE_STAGE::__ALL;
 	m_StructBufferTest = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eSBUFFER_SHARED_CBUFFER_IDX::TEST, eSRV_REGISTER_IDX::TEST, eUAV_REGISTER_IDX::SETCOLOR_SBUFFER);
 
 	for (int i = 0; i < 1280; ++i)
@@ -40,7 +40,9 @@ bool CCS_SetColor::BindDataCS()
 	m_StructBufferTest->BindBufferUAV();
 
 	// 그룹 개수 계산
-	CalcGroupNumber(m_OutTex->GetWidth(), m_OutTex->GetHeight(), 1);
+	CalcGroupNumber((UINT)m_OutTex->GetWidth(), (UINT)m_OutTex->GetHeight(), 1u);
+
+	return true;
 }
 
 void CCS_SetColor::UnBindCS()

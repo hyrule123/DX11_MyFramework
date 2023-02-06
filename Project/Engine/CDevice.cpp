@@ -238,15 +238,15 @@ void CDevice::CreateConstBuffer()
 {
     //Vertex Shader에만 상수버퍼를 전달 + Light 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
     UINT8 CBufferTarget = eSHADER_PIPELINE_STAGE::__VERTEX + eSHADER_PIPELINE_STAGE::__PIXEL;
-    m_arrConstBuffer[eCONST_BUFFER_TRANSFORM] = new CConstBuffer(eCONST_BUFFER_TRANSFORM);
-    m_arrConstBuffer[eCONST_BUFFER_TRANSFORM]->Create(sizeof(tTransform), 1);
-    m_arrConstBuffer[eCONST_BUFFER_TRANSFORM]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::TRANSFORM] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::TRANSFORM);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::TRANSFORM]->Create(sizeof(tTransform), 1);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::TRANSFORM]->SetPipelineTarget(CBufferTarget);
 
     //Vertex + Pixel Shader에만 상수버퍼를 전달
     CBufferTarget |= eSHADER_PIPELINE_STAGE::__PIXEL;
-    m_arrConstBuffer[eCONST_BUFFER_MATERIAL] = new CConstBuffer(eCONST_BUFFER_MATERIAL);
-    m_arrConstBuffer[eCONST_BUFFER_MATERIAL]->Create(sizeof(tMtrlConst), 1);
-    m_arrConstBuffer[eCONST_BUFFER_MATERIAL]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::MATERIAL);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL]->Create(sizeof(tMtrlConst), 1);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL]->SetPipelineTarget(CBufferTarget);
 
     //CBufferTarget = eSHADER_PIPELINE_STAGE::__VERTEX | eSHADER_PIPELINE_STAGE::__PIXEL;
     //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE] = new CConstBuffer(eCONST_BUFFER_DEBUGSHAPE);
@@ -254,16 +254,16 @@ void CDevice::CreateConstBuffer()
     //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->Create(sizeof(tDebugShapeInfo), 1);
 
     //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
-    CBufferTarget = __ALL;
-    m_arrConstBuffer[eCONST_BUFFER_GLOBAL] = new CConstBuffer(eCONST_BUFFER_GLOBAL);
-    m_arrConstBuffer[eCONST_BUFFER_GLOBAL]->Create(sizeof(tGlobalValue), 1);
-    m_arrConstBuffer[eCONST_BUFFER_GLOBAL]->SetPipelineTarget(CBufferTarget);
+    CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::GLOBAL] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::GLOBAL);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::GLOBAL]->Create(sizeof(tGlobalValue), 1);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::GLOBAL]->SetPipelineTarget(CBufferTarget);
 
     //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
-    CBufferTarget = __ALL;
-    m_arrConstBuffer[eCONST_BUFFER_SBUFFERINFO] = new CConstBuffer(eCONST_BUFFER_SBUFFERINFO);
-    m_arrConstBuffer[eCONST_BUFFER_SBUFFERINFO]->Create(sizeof(tSBufferInfo), (UINT)eSBUFFER_SHARED_CBUFFER_IDX::END);
-    m_arrConstBuffer[eCONST_BUFFER_SBUFFERINFO]->SetPipelineTarget(CBufferTarget);
+    CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO]->Create(sizeof(tSBufferInfo), (UINT)eSBUFFER_SHARED_CBUFFER_IDX::END);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO]->SetPipelineTarget(CBufferTarget);
 }
 
 HRESULT CDevice::CreateRasterizeState()
@@ -298,48 +298,48 @@ HRESULT CDevice::CreateDepthStencilState()
 {
     HRESULT Result = S_OK;
 
-    for (int i = 0; i < eDEPTHSTENCIL_TYPE_END; ++i)
+    for (UINT i = 0; i < (UINT)eDEPTHSTENCIL_TYPE::END; ++i)
     {
         D3D11_DEPTH_STENCIL_DESC Desc = {};
 
-        switch (i)
+        switch ((eDEPTHSTENCIL_TYPE)i)
         {
-        case eDEPTHSTENCIL_TYPE_LESS:
+        case eDEPTHSTENCIL_TYPE::LESS:
 
             //이건 기본값이므로 nullptr을 준다.
             m_arrDSState[i] = nullptr;
             continue;
             break;
 
-        case eDEPTHSTENCIL_TYPE_LESS_EQUAL:
+        case eDEPTHSTENCIL_TYPE::LESS_EQUAL:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case eDEPTHSTENCIL_TYPE_GREATER:
+        case eDEPTHSTENCIL_TYPE::GREATER:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_GREATER;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case eDEPTHSTENCIL_TYPE_GREATER_EQUAL:
+        case eDEPTHSTENCIL_TYPE::GREATER_EQUAL:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_GREATER_EQUAL;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case eDEPTHSTENCIL_TYPE_NO_WRITE:
+        case eDEPTHSTENCIL_TYPE::NO_WRITE:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_LESS;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
             Desc.StencilEnable = false;
             break;
 
-        case eDEPTHSTENCIL_TYPE_NO_TEST_NO_WRITE:
+        case eDEPTHSTENCIL_TYPE::NO_TEST_NO_WRITE:
             Desc.DepthEnable = false;
             Desc.DepthFunc = D3D11_COMPARISON_NEVER;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
@@ -361,18 +361,18 @@ HRESULT CDevice::CreateBlendState()
 {
     HRESULT Result = S_OK;
 
-    for (int i = 0; i < eBLENDSTATE_END; ++i)
+    for (int i = 0; i < (UINT)eBLENDSTATE_TYPE::END; ++i)
     {
         D3D11_BLEND_DESC Desc = {};
 
-        switch (i)
+        switch ((eBLENDSTATE_TYPE)i)
         {
-        case eBLENDSTATE_DEFAULT:
+        case eBLENDSTATE_TYPE::DEFAULT:
             m_arrBSState[i] = nullptr;
             continue;
             break;
 
-        case eBLENDSTATE_MASK:
+        case eBLENDSTATE_TYPE::MASK:
             //Alpha-To-Coverage 기능을 활성화한다.
             //Alpha-To-Coverage 기능은 
             Desc.AlphaToCoverageEnable = true;
@@ -398,7 +398,7 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
             break;
 
-        case eBLENDSTATE_ALPHABLEND:
+        case eBLENDSTATE_TYPE::ALPHA_BLEND:
             Desc.AlphaToCoverageEnable = false;
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;
@@ -425,7 +425,7 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
             break;
-        case eBLENDSTATE_ONEONE: 
+        case eBLENDSTATE_TYPE::ONE_ONE: 
             Desc.AlphaToCoverageEnable = true;
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;

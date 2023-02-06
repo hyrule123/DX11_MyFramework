@@ -208,8 +208,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADERTYPE_PIXEL);
 		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
-		pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE_NO_TEST_NO_WRITE);
-		pShader->SetShaderDomain(eSHADER_DOMAIN_OPAQUE);
+		pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_TEST_NO_WRITE);
+		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
 	}
 
@@ -222,8 +222,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADERTYPE_PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		pShader->SetBlendState(eBLENDSTATE_DEFAULT);
-		pShader->SetShaderDomain(eSHADER_DOMAIN_OPAQUE);
+		pShader->SetBlendState(eBLENDSTATE_TYPE::DEFAULT);
+		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 		AddRes("TestShader", pShader);
 	}
 
@@ -235,7 +235,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetKey("std2DShader");
 		pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADERTYPE_PIXEL);
-		pShader->SetShaderDomain(eSHADER_DOMAIN_OPAQUE);
+		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 		AddRes(pShader->GetKey(), pShader);
 	}
 
@@ -249,7 +249,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetKey("std2DLightShader");
 		pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADERTYPE_PIXEL);
-		pShader->SetShaderDomain(eSHADER_DOMAIN_OPAQUE);
+		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 		AddRes(pShader->GetKey(), pShader);
 	}
 
@@ -272,8 +272,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShader((void*)g_VS_Tilemap, sizeof(g_VS_Tilemap), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_Tilemap, sizeof(g_PS_Tilemap), eSHADERTYPE_PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		pShader->SetBlendState(eBLENDSTATE_MASK);
-		pShader->SetShaderDomain(eSHADER_DOMAIN_MASK);
+		pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
+		pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
 		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
 	}
 }
@@ -285,7 +285,8 @@ void CResMgr::CreateDefaultComputeShader()
 	pShader->CreateShader((void*)g_CS_SetColor, sizeof(g_CS_SetColor));
 	AddRes(pShader->GetKey(), pShader);
 
-	Ptr<CComputeShader> pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
+
+	pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
 	pShader->SetKey("ParticleUpdate");
 	pShader->CreateShader((void*)g_CS_Particle, sizeof(g_CS_Particle));
 	

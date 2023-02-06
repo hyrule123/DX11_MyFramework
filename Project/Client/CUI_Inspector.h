@@ -14,7 +14,7 @@ public:
 
 private:
     CGameObject* m_pTarget;
-    CUI_Component* m_arrComUI[eCOMPONENT_END];
+    CUI_Component* m_arrComUI[(UINT)eCOMPONENT_TYPE::END];
 
 public:
     void init() override;

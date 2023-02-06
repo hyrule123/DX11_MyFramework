@@ -8,7 +8,7 @@
 #include "CTransform.h"
 
 CTilemap::CTilemap()
-	: CRenderComponent(eCOMPONENT_TYPE::eCOMPONENT_TILEMAP)
+	: CRenderComponent(eCOMPONENT_TYPE::TILEMAP)
 	, m_iTileCountX(1)
 	, m_iTileCountY(1)
 	, m_SBuffer()

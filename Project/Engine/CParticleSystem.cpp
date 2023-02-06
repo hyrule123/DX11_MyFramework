@@ -4,7 +4,7 @@
 #include "CResMgr.h"
 
 CParticleSystem::CParticleSystem()
-	: CRenderComponent(eCOMPONENT_PARTICLE_SYSTEM)
+	: CRenderComponent(eCOMPONENT_TYPE::PARTICLE_SYSTEM)
 {
 
 }
@@ -15,7 +15,7 @@ CParticleSystem::~CParticleSystem()
 
 void CParticleSystem::init()
 {
-	m_pParticleCS = CResMgr::GetInst()->FindRes<CComputeShader>()
+	//m_pParticleCS = CResMgr::GetInst()->FindRes<CComputeShader>()
 }
 
 void CParticleSystem::finaltick()

@@ -156,7 +156,7 @@ void CComputeShader::Execute()
 		return;
 
 	//컴퓨트쉐이더 관련 공유 데이터를 상수버퍼를 통해서 전달
-	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_MATERIAL);
+	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::MATERIAL);
 	pCBuffer->UploadData(&m_SharedCBuffer, sizeof(tMtrlConst));
 	pCBuffer->BindBuffer();
 

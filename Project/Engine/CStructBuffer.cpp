@@ -266,7 +266,7 @@ void CStructBuffer::BindBufferSRV()
 		CONTEXT->PSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (__COMPUTE & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_flagPipelineTarget)
 	{
 		CONTEXT->CSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
@@ -281,7 +281,7 @@ void CStructBuffer::BindBufferUAV()
 		UnBindSRV();
 	m_eCurrentBoundView = eCURRENT_BOUND_VIEW::UAV;
 
-	m_flagPipelineTarget |= __COMPUTE;
+	m_flagPipelineTarget |= eSHADER_PIPELINE_STAGE::__COMPUTE;
 	BindConstBuffer();
 
 	static const UINT Offset = -1;
@@ -291,9 +291,12 @@ void CStructBuffer::BindBufferUAV()
 
 void CStructBuffer::BindConstBuffer()
 {
+	if (eSBUFFER_SHARED_CBUFFER_IDX::END == m_eCBufferIdx)
+		return;
+
 	//구조체 정보를 담은 상수버퍼에 바인딩한 구조체 갯수를 넣어서 전달
 	//상수버퍼의 주소는 한번 실행되면 변하지 않으므로 static, const 형태로 선언.
-	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_SBUFFERINFO);
+	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO);
 	pStructCBuffer->UploadData(g_arrStructBufferInfo);
 	pStructCBuffer->SetPipelineTarget(m_flagPipelineTarget);
 	pStructCBuffer->BindBuffer();
@@ -363,7 +366,7 @@ void CStructBuffer::UnBindSRV()
 		CONTEXT->PSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
 	}
 
-	if (__COMPUTE & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_flagPipelineTarget)
 	{
 		CONTEXT->CSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
 	}

@@ -9,7 +9,7 @@
 #include "CCollider2D_OBB.h"
 
 CCollider2D::CCollider2D(eCOLLIDER_TYPE _eColType)
-	: CCollider(eCOMPONENT_COLLIDER2D, _eColType)
+	: CCollider(eCOMPONENT_TYPE::COLLIDER2D, _eColType)
 	, m_SpatialPartitionInfo{}
 {
 }

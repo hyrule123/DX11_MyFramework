@@ -5,7 +5,6 @@
 #include "components.h"
 
 
-
 //레이어 옮길 때 사용
 #include "CLevelMgr.h"
 #include "CLevel.h"
@@ -39,7 +38,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_fLifeSpan(FLT_MAX_NEG)
 {
 	//1. 컴포넌트 목록 복사
-	for (int i = 0; i < eCOMPONENT_END; ++i)
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != _other.m_arrCom[i])
 		{
@@ -47,7 +46,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 			m_arrCom[i]->SetOwner(this);
 
 			//1-1. 렌더링 컴포넌트 일 경우 m_RenderCom에 복사
-			if (g_RenderComIdxStart <= i && i < g_RenderComIdxEnd)
+			if ((UINT)g_RenderComIdxStart <= i && i < (UINT)g_RenderComIdxEnd)
 			{
 				assert(nullptr == m_RenderCom);
 				m_RenderCom = static_cast<CRenderComponent*>(m_arrCom[i]);
@@ -79,7 +78,7 @@ void CGameObject::init()
 {
 	m_bInitialized = true;
 
-	for (UINT i = 0; i < eCOMPONENT_END; ++i)
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->init();
@@ -100,7 +99,7 @@ void CGameObject::tick()
 		return;
 
 
-	for (UINT i = 0; i < eCOMPONENT_END; ++i)
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->tick();
@@ -134,7 +133,7 @@ void CGameObject::finaltick()
 		
 
 	//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
-	for (UINT i = 0; i < eCOMPONENT_SCRIPT_HOLDER; ++i)
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->finaltick();
@@ -159,7 +158,7 @@ void CGameObject::render()
 void CGameObject::cleanup()
 {
 	//본인의 컴포넌트 정리
-	for (UINT i = 0; i < eCOMPONENT_END; ++i)
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->cleanup();
@@ -189,28 +188,28 @@ void CGameObject::AddComponent(CComponent* _Component)
 
 	switch ((eCOMPONENT_TYPE)ComType)
 	{
-	case eCOMPONENT_TYPE::eCOMPONENT_TRANSFORM:
-	case eCOMPONENT_TYPE::eCOMPONENT_COLLIDER2D:
-	case eCOMPONENT_TYPE::eCOMPONENT_COLLIDER3D:
-	case eCOMPONENT_TYPE::eCOMPONENT_ANIMATOR2D:
-	case eCOMPONENT_TYPE::eCOMPONENT_ANIMATOR3D:
-	case eCOMPONENT_TYPE::eCOMPONENT_LIGHT2D:
-	case eCOMPONENT_TYPE::eCOMPONENT_LIGHT3D:
-	case eCOMPONENT_TYPE::eCOMPONENT_CAMERA:
+	case eCOMPONENT_TYPE::TRANSFORM:
+	case eCOMPONENT_TYPE::COLLIDER2D:
+	case eCOMPONENT_TYPE::COLLIDER3D:
+	case eCOMPONENT_TYPE::ANIMATOR2D:
+	case eCOMPONENT_TYPE::ANIMATOR3D:
+	case eCOMPONENT_TYPE::LIGHT2D:
+	case eCOMPONENT_TYPE::LIGHT3D:
+	case eCOMPONENT_TYPE::CAMERA:
 		break;
 
 	//Render Components
-	case eCOMPONENT_TYPE::eCOMPONENT_MESH_RENDER:
-	case eCOMPONENT_TYPE::eCOMPONENT_PARTICLE_SYSTEM:
-	case eCOMPONENT_TYPE::eCOMPONENT_TILEMAP:
-	case eCOMPONENT_TYPE::eCOMPONENT_LANDSCAPE:
-	case eCOMPONENT_TYPE::eCOMPONENT_DECAL:
+	case eCOMPONENT_TYPE::MESH_RENDER:
+	case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
+	case eCOMPONENT_TYPE::TILEMAP:
+	case eCOMPONENT_TYPE::LANDSCAPE:
+	case eCOMPONENT_TYPE::DECAL:
 		//m_RenderCom에 하나 이상의 Render 컴포넌트가 들어가 있을 경우 에러 발생시킴.
 		assert(nullptr == m_RenderCom);
 		m_RenderCom = static_cast<CRenderComponent*>(_Component);
 		break;
 
-	case eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER:
+	case eCOMPONENT_TYPE::SCRIPT_HOLDER:
 		break;
 	default:
 		break;
@@ -230,7 +229,8 @@ void CGameObject::AddScript(CScript* _Script)
 	if (nullptr == _Script)
 		return;
 
-	CScriptHolder* pScriptHolder = static_cast<CScriptHolder*>(m_arrCom[(UINT)eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER]);
+	CScriptHolder* pScriptHolder = static_cast<CScriptHolder*>(m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER]);
+
 	if (nullptr == pScriptHolder)
 	{
 		pScriptHolder = new CScriptHolder;

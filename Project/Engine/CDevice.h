@@ -27,7 +27,7 @@ private:
 
 
 	//Constant Buffer
-	CConstBuffer* m_arrConstBuffer[eCONST_BUFFER_END];
+	CConstBuffer* m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::END];
 
 
 	//Depth Stencil View
@@ -43,10 +43,10 @@ private:
 
 	//Output Merger
 	////Depth Stencil State
-	ComPtr<ID3D11DepthStencilState>	m_arrDSState[eDEPTHSTENCIL_TYPE_END];
+	ComPtr<ID3D11DepthStencilState>	m_arrDSState[(UINT)eDEPTHSTENCIL_TYPE::END];
 
 	////Blend State
-	ComPtr<ID3D11BlendState>		m_arrBSState[eBLENDSTATE_END];
+	ComPtr<ID3D11BlendState>		m_arrBSState[(UINT)eBLENDSTATE_TYPE::END];
 
 
 

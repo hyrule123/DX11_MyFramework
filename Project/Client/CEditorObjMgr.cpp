@@ -19,7 +19,7 @@ CEditorObjMgr::CEditorObjMgr()
 }
 CEditorObjMgr::~CEditorObjMgr()
 {
-	for (int i = 0; i < eSHAPE_END; ++i)
+	for (int i = 0; i < (int)eSHAPE_TYPE::END; ++i)
 	{
 		SAFE_DELETE(m_arrDebugShape[i])
 	}
@@ -31,13 +31,13 @@ void CEditorObjMgr::init()
 	Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>("DebugMtrl");
 
 
-	for (int i = 0; i < eSHAPE_END; ++i)
+	for (int i = 0; i < (int)eSHAPE_TYPE::END; ++i)
 	{
 		m_arrDebugShape[i] = new CGameObject;
 
 		switch ((eSHAPE_TYPE)i)
 		{
-		case eSHAPE_RECT:
+		case eSHAPE_TYPE::RECT:
 		{
 			CMeshRender* pMesh = new CMeshRender;
 			//월드행렬을 직접 받아서 쉐이더에 보낼 것이기 떄문에 Transform은 필요하지 않음.
@@ -49,7 +49,7 @@ void CEditorObjMgr::init()
 			 break;
 		}
 
-		case eSHAPE_CIRCLE:
+		case eSHAPE_TYPE::CIRCLE:
 		{
 			CMeshRender* pMesh = new CMeshRender;
 			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh_Debug");
@@ -58,11 +58,11 @@ void CEditorObjMgr::init()
 			m_arrDebugShape[i]->AddComponent(pMesh);
 			break;
 		}
-		case eSHAPE_CUBE:
+		case eSHAPE_TYPE::CUBE:
 		{
 			break;
 		}
-		case eSHAPE_SPHERE:
+		case eSHAPE_TYPE::SPHERE:
 		{
 			break;
 		}
@@ -101,16 +101,16 @@ void CEditorObjMgr::render()
 {
 
 	//메인 카메라의 View Projection  행렬을 가져온다.
-	const Matrix& matVP = CRenderMgr::GetInst()->GetCamera(eCAMIDX_MAIN)->GetViewProjMatrix();
+	const Matrix& matVP = CRenderMgr::GetInst()->GetCamera(eCAMERA_INDEX::MAIN)->GetViewProjMatrix();
 
 	size_t size = m_vecDebugShapeInfo.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		switch (m_vecDebugShapeInfo[i].eShape)
 		{
-		case eSHAPE_RECT:
+		case eSHAPE_TYPE::RECT:
 		{
-			Ptr<CMaterial> pMtrl = m_arrDebugShape[eSHAPE_RECT]->MeshRender()->GetMaterial();
+			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->MeshRender()->GetMaterial();
 			//월드행렬 전달.
 
 			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
@@ -119,27 +119,27 @@ void CEditorObjMgr::render()
 			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
 
 			//레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
-			m_arrDebugShape[eSHAPE_RECT]->render();
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->render();
 
 			break;
 		}
-		case eSHAPE_CIRCLE:
+		case eSHAPE_TYPE::CIRCLE:
 		{
-			Ptr<CMaterial> pMtrl = m_arrDebugShape[eSHAPE_CIRCLE]->MeshRender()->GetMaterial();
+			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->MeshRender()->GetMaterial();
 			//월드행렬 전달.
 			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
 			matWVP = matWVP.Transpose();
 			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
 			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
 
-			m_arrDebugShape[eSHAPE_CIRCLE]->render();
+			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->render();
 			break;
 		}
-		case eSHAPE_CUBE:
+		case eSHAPE_TYPE::CUBE:
 			break;
-		case eSHAPE_SPHERE:
+		case eSHAPE_TYPE::SPHERE:
 			break;
-		case eSHAPE_END:
+		case eSHAPE_TYPE::END:
 			break;
 		default:
 			break;

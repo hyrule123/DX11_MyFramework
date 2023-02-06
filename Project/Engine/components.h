@@ -17,3 +17,5 @@
 #include "CTileMap.h"
 //#include "CDecal.h"
 //#include "CLandscape.h"
+#include "CScriptHolder.h"
+#include "CScript.h"

@@ -1,7 +1,8 @@
 #pragma once
 #include "CComponent.h"
 
-class CScript;
+#include "CScript.h"
+
 class CTransform;
 class CCamera;
 class CMeshRender;

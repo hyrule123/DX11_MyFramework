@@ -25,6 +25,8 @@ bool CCS_ParticleUpdate::BindDataCS()
 
 	//데이터를 바인딩
 	m_ParticleBuffer->BindBufferUAV();
+
+	return true;
 }
 
 void CCS_ParticleUpdate::UnBindCS()
@@ -39,5 +41,5 @@ void CCS_ParticleUpdate::SetParticleBuffer(CStructBuffer* _pBuffer)
 		return;
 
 	m_ParticleBuffer = _pBuffer;
-	m_ParticleBuffer->AddPipelineTarget(__COMPUTE);
+	m_ParticleBuffer->AddPipelineTarget(eSHADER_PIPELINE_STAGE::__COMPUTE);
 }

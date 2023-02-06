@@ -14,10 +14,10 @@ private:
 
     //앞, 위, 오른쪽으로 나타내는 직관적인 방향 정보
     //eDIR_TYPE 열거체를 사용.
-    Vec3    m_vRelativeDir[eDIR_TYPE::eDIR_END];
+    Vec3    m_vRelativeDir[(UINT)eDIR_TYPE::END];
 
     //월드 방향(모든 회전정보 누적)
-    Vec3    m_vWorldDir[eDIR_TYPE::eDIR_END];
+    Vec3    m_vWorldDir[(UINT)eDIR_TYPE::END];
 
     //부모로부터 상속받지 않은 상대적 행렬
     Matrix  m_matRelative;
@@ -87,10 +87,10 @@ public:
     Vec3 GetRelativeRot() const { return m_vRelativeRot; }
 
     Matrix GetWorldRotMat() const;
-    Vec3 GetWorldRot(eAXIS3D_TYPE _eAxis) const;
+    Vec3 GetWorldRot(eAXIS3D _eAxis) const;
 
-    Vec3 GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(int)_eDir]; }
-    Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorld.m[(int)_eDir]).Normalize(); }
+    Vec3 GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(UINT)_eDir]; }
+    Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorld.m[(UINT)_eDir]).Normalize(); }
     Matrix GetWorldMat() const { return m_matWorld; }
 
     float GetAABBSideLen() const { return m_fAABBSideLenHalf; }
@@ -150,7 +150,7 @@ inline Matrix CTransform::GetWorldRotMat() const
     return Matrix(m_matWorld.Right().Normalize(), m_matWorld.Up().Normalize(), m_matWorld.Front().Normalize());
 }
 
-inline Vec3 CTransform::GetWorldRot(eAXIS3D_TYPE _eAxis) const
+inline Vec3 CTransform::GetWorldRot(eAXIS3D _eAxis) const
 {
-    return m_matWorld.Axis(_eAxis).Normalize();
+    return m_matWorld.Axis((UINT)_eAxis).Normalize();
 }

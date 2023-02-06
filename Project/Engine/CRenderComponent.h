@@ -7,9 +7,9 @@
 
 
 #include "ptr.h"
-class CMesh;
-class CMaterial;
 
+#include "CMesh.h"
+#include "CMaterial.h"
 
 class CRenderComponent :
     public CComponent

@@ -52,7 +52,7 @@ void CPlayerScript::tick()
 	//회전한 방향으로 전진
 	if (KEY_PRESSED(KEY::UP))
 	{
-		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
+		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 		vCurPos += DELTA_TIME * m_MoveSpeed * Dir;
 
 		//vCurPos.x += DELTA_TIME * m_MoveSpeed * cosf(vCurRot.z);
@@ -61,7 +61,7 @@ void CPlayerScript::tick()
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
-		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
+		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 		vCurPos -= DELTA_TIME * m_MoveSpeed * Dir;
 
 		//vCurPos.x -= DELTA_TIME * m_MoveSpeed * cosf(vCurRot.z);
@@ -104,7 +104,7 @@ void CPlayerScript::Shoot()
 	CGameObject* Bullet = CResMgr::GetInst()->FindRes<CPrefab>("Bullet")->Instantiate();
 
 	const Vec3& vPos = GetOwner()->Transform()->GetWorldPos();
-	const Vec3& vDir = GetOwner()->Transform()->GetRelativeDir(eDIR_RIGHT);
+	const Vec3& vDir = GetOwner()->Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 	Bullet->ScriptHolder()->GetScript<CBulletScript>()->SetDefaultVal(vPos, vDir);
 

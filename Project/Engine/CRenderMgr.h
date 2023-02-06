@@ -12,7 +12,7 @@ class CRenderMgr : public CSingleton<CRenderMgr>
 	SINGLETON(CRenderMgr)
 
 private:
-	CCamera* m_arrCam[eCAMIDX_END];
+	CCamera* m_arrCam[(UINT)eCAMERA_INDEX::END];
 
 	vector<tDebugShapeInfo> m_vecDebugShapeRender;
 	//클라이언트 프로젝트에서 위 디버그 렌더링 정보를 받아갔는지 확인하는 변수
@@ -26,7 +26,7 @@ private:
 
 public:
 	//inline getter
-	CCamera* GetCamera(eCAMERA_INDEX _iCamIdx) { return m_arrCam[_iCamIdx]; }
+	CCamera* GetCamera(eCAMERA_INDEX _iCamIdx) { return m_arrCam[(int)_iCamIdx]; }
 
 	void RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx);
 	void RemoveCamera(CCamera* _pCam);

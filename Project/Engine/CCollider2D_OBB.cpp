@@ -79,7 +79,7 @@ void CCollider2D_OBB::UpdateColliderInfo()
 
 	const Vec3& Size = pTransform->GetSize();
 	
-	for (int i = 0; i < eAXIS2D_END; ++i)
+	for (int i = 0; i < (UINT)eAXIS2D::END; ++i)
 	{
 		m_tOBBInfo.m_vAxis[i] = Vec3::TransformNormal(Vec3::Unit[i], WorldMat) * Size[i];
 	}
@@ -116,7 +116,7 @@ void CCollider2D_OBB::DebugRender()
 	const Matrix& matOffset = Matrix::CreateTranslation(GetOffsetPos());
 
 	tDebugShapeInfo Info = {};
-	Info.eShape = eSHAPE_RECT;
+	Info.eShape = eSHAPE_TYPE::RECT;
 	Info.matWorld = matScale * matOffset * matSize * matWorld;
 
 	//충돌 중인 물체가 있을 경우 빨강, 아닐 경우 초록

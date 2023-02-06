@@ -7,7 +7,7 @@
 #include "CMaterial.h"
 
 CAnimator2D::CAnimator2D()
-    : CComponent(eCOMPONENT_ANIMATOR2D)
+    : CComponent(eCOMPONENT_TYPE::ANIMATOR2D)
     , m_pCurAnim()
     , m_bRepeat()
 {

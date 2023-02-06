@@ -5,6 +5,39 @@
 
 #include "CCollider.h"
 
+CScriptHolder::CScriptHolder()
+	: CComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
+{
+}
+
+
+
+CScriptHolder::CScriptHolder(const CScriptHolder& _other)
+	: CComponent(_other)
+{
+	size_t size = _other.m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecScript.push_back(_other.m_vecScript[i]->Clone());
+
+		//복사 생성자에는 아직 소유자 포인터 정보가 입력되지 않았으므로 
+		//SetOwner에서 처리해줘야 한다.
+	}
+}
+
+
+
+CScriptHolder::~CScriptHolder()
+{
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (nullptr != m_vecScript[i])
+			delete m_vecScript[i];
+	}
+}
+
+
 bool CScriptHolder::AddScript(CScript* _pScript)
 {
 	if (nullptr == _pScript)
@@ -58,37 +91,7 @@ void CScriptHolder::tick()
 	}
 }
 
-CScriptHolder::CScriptHolder()
-	: CComponent(eCOMPONENT_TYPE::eCOMPONENT_SCRIPT_HOLDER)
-{
-}
 
-
-
-CScriptHolder::CScriptHolder(const CScriptHolder& _other)
-	: CComponent(_other)
-{
-	size_t size = _other.m_vecScript.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		m_vecScript.push_back(_other.m_vecScript[i]->Clone());
-
-		//복사 생성자에는 아직 소유자 포인터 정보가 입력되지 않았으므로 
-		//SetOwner에서 처리해줘야 한다.
-	}
-}
-
-
-
-CScriptHolder::~CScriptHolder()
-{
-	size_t size = m_vecScript.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		if (nullptr != m_vecScript[i])
-			delete m_vecScript[i];
-	}
-}
 
 void CScriptHolder::BeginColiision(CCollider* _Other)
 {

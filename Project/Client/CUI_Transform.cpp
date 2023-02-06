@@ -5,7 +5,7 @@
 #include <Engine/CTransform.h>
 
 CUI_Transform::CUI_Transform()
-    : CUI_Component("Transform", eCOMPONENT_TRANSFORM)
+    : CUI_Component("Transform", eCOMPONENT_TYPE::TRANSFORM)
 {
 }
 

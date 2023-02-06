@@ -29,25 +29,25 @@ void CCameraMoveScript::Camera2DMove()
 
 	if (KEY_PRESSED(KEY::W))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_UP);
+		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::UP);
 
 		CamPos += DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::S))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_UP);
+		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::UP);
 
 		CamPos -= DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::A))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
+		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos -= DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::D))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
+		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos += DT * m_CamSpeed * Dir;
 	}
@@ -81,25 +81,25 @@ void CCameraMoveScript::Camera3DMove()
 
 	if (KEY_PRESSED(KEY::W))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_FRONT);
+		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::FRONT);
 
 		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::S))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_FRONT);
+		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::FRONT);
 
 		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::A))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
+		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(KEY::D))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::eDIR_RIGHT);
+		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}

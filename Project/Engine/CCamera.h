@@ -15,7 +15,7 @@ private:
 
     int m_CamIndex;
 
-    vector<CGameObject*>    m_arrvecShaderDomain[eSHADER_DOMAIN_END];
+    vector<CGameObject*>    m_arrvecShaderDomain[(UINT)eSHADER_DOMAIN::_END];
     UINT32 m_LayerFlag;
 
 public:

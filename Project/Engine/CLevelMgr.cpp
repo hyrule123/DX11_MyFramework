@@ -225,7 +225,7 @@ void CLevelMgr::init()
 		pObj->SetName("Camera");
 		CCamera* Cam = new CCamera;
 		pObj->AddComponent(Cam);
-		CRenderMgr::GetInst()->RegisterCamera(Cam, eCAMIDX_MAIN);
+		CRenderMgr::GetInst()->RegisterCamera(Cam, eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		pObj->AddComponent(new CTransform);
 		pObj->AddScript(new CCameraMoveScript);

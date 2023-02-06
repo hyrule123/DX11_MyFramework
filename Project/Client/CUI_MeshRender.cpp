@@ -8,7 +8,7 @@
 #include "CUI_ComboBox.h"
 
 CUI_MeshRender::CUI_MeshRender()
-	: CUI_Component("MeshRender", eCOMPONENT_COLLIDER2D)
+	: CUI_Component("MeshRender", eCOMPONENT_TYPE::COLLIDER2D)
 {
 	m_pComboBoxMesh = new CUI_ComboBox("MeshComboBox");
 	AddChildUI(m_pComboBoxMesh);

@@ -35,7 +35,7 @@ void CMaterial::BindData()
 	}
 
 	// Constant Update
-	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::eCONST_BUFFER_MATERIAL);
+	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::MATERIAL);
 	pMtrlBuffer->UploadData(&m_Const);
 	pMtrlBuffer->BindBuffer();
 }
