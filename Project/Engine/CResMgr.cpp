@@ -4,49 +4,10 @@
 #include "CPathMgr.h"
 
 
-//Shader Header
-#ifdef _DEBUG
+#include "shaders.h"
 
-#include "CompiledShaderHeader/Shader_Debug_1_vertex_Debug.h"
-#include "CompiledShaderHeader/Shader_Debug_2_pixel_Debug.h"
-
-#include "CompiledShaderHeader/Shader_test_1_vertex_Debug.h"
-#include "CompiledShaderHeader/Shader_test_2_pixel_Debug.h"
-
-#include "CompiledShaderHeader/Shader_std2D_1_vertex_Debug.h"
-#include "CompiledShaderHeader/Shader_std2D_2_pixel_Debug.h"
-
-#include "CompiledShaderHeader/Shader_std2D_Light_1_vertex_Debug.h"
-#include "CompiledShaderHeader/Shader_std2D_Light_2_pixel_Debug.h"
-
-#include "CompiledShaderHeader/Shader_Tilemap_1_vertex_Debug.h"
-#include "CompiledShaderHeader/Shader_Tilemap_2_pixel_Debug.h"
-
-#include "CompiledShaderHeader/Shader_SetColor_compute_Debug.h"
-
-#else
-
-#include "CompiledShaderHeader/Shader_Debug_1_vertex.h"
-#include "CompiledShaderHeader/Shader_Debug_2_pixel.h"
-
-#include "CompiledShaderHeader/Shader_test_1_vertex.h"
-#include "CompiledShaderHeader/Shader_test_2_pixel.h"
-
-#include "CompiledShaderHeader/Shader_std2D_1_vertex.h"
-#include "CompiledShaderHeader/Shader_std2D_2_pixel.h"
-
-#include "CompiledShaderHeader/Shader_std2D_Light_1_vertex.h"
-#include "CompiledShaderHeader/Shader_std2D_Light_2_pixel.h"
-
-#include "CompiledShaderHeader/Shader_Tilemap_1_vertex.h"
-#include "CompiledShaderHeader/Shader_Tilemap_2_pixel.h"
-
-#include "CompiledShaderHeader/Shader_SetColor_compute.h"
-
-#endif
-
-
-#include "CSetColorShader.h"
+#include "CCS_SetColor.h"
+#include "CCS_ParticleUpdate.h"
 
 CResMgr::CResMgr()
 {
@@ -319,9 +280,15 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 void CResMgr::CreateDefaultComputeShader()
 {
-	Ptr<CComputeShader> pShader = new CSetColorShader(32u, 32u, 1u);
+	Ptr<CComputeShader> pShader = new CCS_SetColor(32u, 32u, 1u);
 	pShader->SetKey("SetColorCS");
 	pShader->CreateShader((void*)g_CS_SetColor, sizeof(g_CS_SetColor));
+	AddRes(pShader->GetKey(), pShader);
+
+	Ptr<CComputeShader> pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
+	pShader->SetKey("ParticleUpdate");
+	pShader->CreateShader((void*)g_CS_Particle, sizeof(g_CS_Particle));
+	
 	AddRes(pShader->GetKey(), pShader);
 }
 
@@ -373,12 +340,14 @@ void CResMgr::CreateDefaultMaterial()
 
 void CResMgr::LoadDefaultTexture()
 {
-	Load<CTexture>("Fighter", L"texture\\Fighter.bmp");
-	Load<CTexture>("HOS", L"texture\\HOS.png");
+	Load<CTexture>("Fighter", L"texture/Fighter.bmp");
+	Load<CTexture>("HOS", L"texture/HOS.png");
 
-	Load<CTexture>("beheaded", L"texture\\beheaded.png");
-	Load<CTexture>("beheaded_n", L"texture\\beheaded_n.png");
+	Load<CTexture>("beheaded", L"texture/beheaded.png");
+	Load<CTexture>("beheaded_n", L"texture/beheaded_n.png");
 
 	Load<CTexture>("TileAtlas", L"texture/TILE.bmp");
 	Load<CTexture>("LinkAtlas", L"texture/link.png");
 }
+
+

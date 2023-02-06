@@ -61,31 +61,32 @@ void CConstBuffer::UploadData(void* _pSrc, UINT _iSize)
 	}
 }
 
-void CConstBuffer::BindBuffer()
+void CConstBuffer::BindBuffer(eSHADER_PIPELINE_STAGE::FLAG _Stage)
 {
-	ID3D11DeviceContext* pContext = CONTEXT;
+	UINT8 Flag = eSHADER_PIPELINE_STAGE::__NONE == _Stage ? m_ePIPELINE_STAGE_flags : _Stage;
 
-	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX)
+	ID3D11DeviceContext* pContext = CONTEXT;
+	if (Flag & eSHADER_PIPELINE_STAGE::__VERTEX)
 	{
 		pContext->VSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_HULL)
+	if (Flag & eSHADER_PIPELINE_STAGE::__HULL)
 	{
 		pContext->HSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_DOMAIN)
+	if (Flag & eSHADER_PIPELINE_STAGE::__DOMAIN)
 	{
 		pContext->DSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_GEOMETRY)
+	if (Flag & eSHADER_PIPELINE_STAGE::__GEOMETRY)
 	{
 		pContext->GSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL)
+	if (Flag & eSHADER_PIPELINE_STAGE::__PIXEL)
 	{
 		pContext->PSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}
-	if (m_ePIPELINE_STAGE_flags & eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_COMPUTE)
+	if (Flag & eSHADER_PIPELINE_STAGE::__COMPUTE)
 	{
 		pContext->CSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}

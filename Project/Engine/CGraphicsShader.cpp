@@ -115,27 +115,27 @@ void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCod
 
 		CreateInputLayout();
 
-		AddPipeLineStage(eSHADER_PIPELINE_FLAG_VERTEX);
+		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
 		break;
 
 	case eSHADERTYPE_HULL:
-		AddPipeLineStage(eSHADER_PIPELINE_FLAG_HULL);
+		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__HULL);
 		break;
 
 	case eSHADERTYPE_DOMAIN:
-		AddPipeLineStage(eSHADER_PIPELINE_FLAG_DOMAIN);
+		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__DOMAIN);
 
 		break;
 
 	case eSHADERTYPE_GEOMETRY:
-		AddPipeLineStage(eSHADER_PIPELINE_FLAG_GEOMETRY);
+		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__GEOMETRY);
 		break;
 
 	case eSHADERTYPE_PIXEL:
 		result = DEVICE->CreatePixelShader(_pShaderByteCode, _ShaderByteCodeSize, nullptr, m_PS.GetAddressOf());
 
 
-		AddPipeLineStage(eSHADER_PIPELINE_FLAG_PIXEL);
+		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__PIXEL);
 		break;
 	default:
 		break;
@@ -156,33 +156,33 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 
 	char ShaderNameVersion[32] = {};
 	//밑의 switch 문에서 _ShaderType가 잘못되어 있을 경우가 걸러지므로 ALL로 설정
-	eSHADER_PIPELINE_STAGE_FLAG Stage = eSHADER_PIPELINE_FLAG_ALL;
+	eSHADER_PIPELINE_STAGE::FLAG Stage = eSHADER_PIPELINE_STAGE::__ALL;
 	//2. 쉐이더 타입에 따른 다른 파라미터용 변수를 할당
 	switch (_ShaderType)
 	{
 	case eSHADERTYPE_VERTEX:
 		strcpy_s(ShaderNameVersion, 32u, "vs_5_0");
-		Stage = eSHADER_PIPELINE_FLAG_VERTEX;
+		Stage = eSHADER_PIPELINE_STAGE::__VERTEX;
 		break;
 
 	case eSHADERTYPE_HULL:
 		strcpy_s(ShaderNameVersion, 32u, "hs_5_0");
-		Stage = eSHADER_PIPELINE_FLAG_HULL;
+		Stage = eSHADER_PIPELINE_STAGE::__HULL;
 		break;
 
 	case eSHADERTYPE_DOMAIN:
 		strcpy_s(ShaderNameVersion, 32u, "ds_5_0");
-		Stage = eSHADER_PIPELINE_FLAG_DOMAIN;
+		Stage = eSHADER_PIPELINE_STAGE::__DOMAIN;
 		break;
 
 	case eSHADERTYPE_GEOMETRY:
 		strcpy_s(ShaderNameVersion, 32u, "gs_5_0");
-		Stage = eSHADER_PIPELINE_FLAG_GEOMETRY;
+		Stage = eSHADER_PIPELINE_STAGE::__GEOMETRY;
 		break;
 
 	case eSHADERTYPE_PIXEL:
 		strcpy_s(ShaderNameVersion, 32u, "ps_5_0");
-		Stage = eSHADER_PIPELINE_FLAG_PIXEL;
+		Stage = eSHADER_PIPELINE_STAGE::__PIXEL;
 		break;
 
 	default:
@@ -302,7 +302,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //		, nullptr, m_VS.GetAddressOf());
 //
 //	m_ShaderLoadType[eShaderType]
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
 //}
 //
 //void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string& _strFuncName)
@@ -324,7 +324,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //	DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
 //		, nullptr, m_PS.GetAddressOf());
 //
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__PIXEL);
 //}
 
 //void CGraphicsShader::CreateVertexShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize)
@@ -370,7 +370,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //		assert(nullptr);
 //	}
 //
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
 //
 //}
 //
@@ -393,27 +393,27 @@ void CGraphicsShader::BindData()
 	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType), 0, UINT_MAX);
 
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_VERTEX & m_ePIPELINE_STAGE_Flag)
+	if (eSHADER_PIPELINE_STAGE::__VERTEX & m_ePIPELINE_STAGE_Flag)
 	{
 		CONTEXT->VSSetShader(m_VS.Get(), nullptr, 0);
 	}
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_HULL & m_ePIPELINE_STAGE_Flag)
+	if (eSHADER_PIPELINE_STAGE::__HULL & m_ePIPELINE_STAGE_Flag)
 	{
 		CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
 	}
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_DOMAIN & m_ePIPELINE_STAGE_Flag)
+	if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_ePIPELINE_STAGE_Flag)
 	{
 		CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
 	}
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_GEOMETRY & m_ePIPELINE_STAGE_Flag)
+	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_ePIPELINE_STAGE_Flag)
 	{
 		CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
 	}
 
-	if (eSHADER_PIPELINE_STAGE_FLAG::eSHADER_PIPELINE_FLAG_PIXEL & m_ePIPELINE_STAGE_Flag)
+	if (eSHADER_PIPELINE_STAGE::__PIXEL & m_ePIPELINE_STAGE_Flag)
 	{
 		CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
 	}

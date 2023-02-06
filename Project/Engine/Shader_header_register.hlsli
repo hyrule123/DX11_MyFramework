@@ -1,6 +1,10 @@
 #include "Shader_header_struct.hlsli"
 
-
+//
+//
+//b
+//
+//
 cbuffer eCOMPONENT_TRANSFORM : register(b0)
 {
     matrix g_matWorld;
@@ -63,6 +67,14 @@ cbuffer SBufferInfo : register(b3)
 }
 
 
+
+
+
+//
+//
+//t
+//
+//
 Texture2D g_tex_0 : register(t0);
 Texture2D g_tex_1 : register(t1);
 Texture2D g_tex_2 : register(t2);
@@ -74,7 +86,17 @@ Texture2D g_tex_7 : register(t7);
 
 StructuredBuffer<tLightInfo> g_Light2DSBuffer : register(t8);
 StructuredBuffer<tTile> g_TileSBuffer : register(t9);
-StructuredBuffer<float4> g_TestBuffer : register(t10);
+
+//t10: Shader_SetColor 사용 중
+
+
+
+//
+//
+//u
+//
+//
+//u0: Shader_SetColor 사용 중
 
 SamplerState g_sam_0 : register(s0);
 SamplerState g_sam_1 : register(s1);

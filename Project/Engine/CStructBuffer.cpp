@@ -12,7 +12,7 @@ CStructBuffer::CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT8 _eSHADER_PIPELINE_
 	, m_eCBufferIdx(_CBIdx)
 	, m_eSRVIdx(_SRVIdx)
 	, m_eUAVIdx(_UAVIdx)
-	, m_uElementSize()
+	, m_uElementStride()
 	, m_uElementCapacity()
 	, m_BufferDesc{}
 	, m_eCurrentBoundView()
@@ -77,11 +77,11 @@ void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity, void* _p
 	}
 
 	//상수버퍼와는 다르게 버퍼 재할당이 가능함. 먼저 기존 버퍼의 할당을 해제한다.(ComPtr을 통해 관리가 이루어지므로 nullptr로 바꿔주면 됨.)
-	m_uElementSize = _uiElementSize;
+	m_uElementStride = _uiElementSize;
 	m_uElementCapacity = _uElementCapacity;
 
-	m_BufferDesc.StructureByteStride = m_uElementSize;
-	m_BufferDesc.ByteWidth = m_uElementSize * m_uElementCapacity;
+	m_BufferDesc.StructureByteStride = m_uElementStride;
+	m_BufferDesc.ByteWidth = m_uElementStride * m_uElementCapacity;
 
 	switch (m_eSBufferType)
 	{
@@ -94,7 +94,7 @@ void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity, void* _p
 		if (nullptr != _pInitialData)
 		{
 			Data.pSysMem = _pInitialData;
-			Data.SysMemPitch = m_uElementSize * _uElemCount;
+			Data.SysMemPitch = m_uElementStride * _uElemCount;
 			Data.SysMemSlicePitch = m_BufferDesc.StructureByteStride;
 			pData = &Data;
 			m_eCurrentBoundView = eCURRENT_BOUND_VIEW::SRV;
@@ -121,7 +121,7 @@ void CStructBuffer::Create(UINT _uiElementSize, UINT _uElementCapacity, void* _p
 		if (nullptr != _pInitialData)
 		{
 			Data.pSysMem = _pInitialData;
-			Data.SysMemPitch = m_uElementSize * _uElemCount;
+			Data.SysMemPitch = m_uElementStride * _uElemCount;
 			Data.SysMemSlicePitch = m_BufferDesc.StructureByteStride;
 			pData = &Data;
 			m_eCurrentBoundView = eCURRENT_BOUND_VIEW::UAV;
@@ -150,10 +150,10 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 	//생성될 때 값을 지정할 수 있으므로 바로 return 해주면 될듯
 	if (_uCount > m_uElementCapacity)
 	{
-		Create(m_uElementSize, _uCount * 2u, _pData, _uCount);
+		Create(m_uElementStride, g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount, _pData, _uCount);
 		return;
 	}
-		
+
 
 	CDevice* pDevice = CDevice::GetInst();
 	switch (m_eSBufferType)
@@ -164,7 +164,7 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 		D3D11_MAPPED_SUBRESOURCE Data = {};
 		pDevice->GetDeviceContext()->Map(m_StructBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &Data);
 
-		memcpy(Data.pData, _pData, (size_t)(m_uElementSize * _uCount));
+		memcpy(Data.pData, _pData, (size_t)(m_uElementStride * _uCount));
 
 		pDevice->GetDeviceContext()->Unmap(m_StructBuffer.Get(), 0);
 
@@ -176,7 +176,7 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 		D3D11_MAPPED_SUBRESOURCE Data = {};
 		pDevice->GetDeviceContext()->Map(m_StagingBuffer.Get(), 0, D3D11_MAP_WRITE, 0, &Data);
 
-		memcpy(Data.pData, _pData, (size_t)(m_uElementSize * _uCount));
+		memcpy(Data.pData, _pData, (size_t)(m_uElementStride * _uCount));
 
 		pDevice->GetDeviceContext()->Unmap(m_StagingBuffer.Get(), 0);
 
@@ -202,7 +202,7 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestCapacity)
 
 		pContext->Map(m_StructBuffer.Get(), 0, D3D11_MAP_READ, 0, &Data);
 
-		size_t bytesize = m_uElementSize * m_uElementCapacity;
+		size_t bytesize = m_uElementStride * m_uElementCapacity;
 
 		memcpy_s(_pDest, _uDestCapacity, Data.pData, bytesize);
 
@@ -219,7 +219,7 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestCapacity)
 		D3D11_MAPPED_SUBRESOURCE Data = {};
 		pContext->Map(m_StagingBuffer.Get(), 0, D3D11_MAP_READ, 0, &Data);
 
-		size_t bytesize = m_uElementSize * m_uElementCapacity;
+		size_t bytesize = m_uElementStride * m_uElementCapacity;
 		memcpy_s(_pDest, bytesize, Data.pData, bytesize);
 
 		pContext->Unmap(m_StagingBuffer.Get(), 0);
@@ -241,32 +241,32 @@ void CStructBuffer::BindBufferSRV()
 	//상수버퍼 바인딩
 	BindConstBuffer();
 
-	if (eSHADER_PIPELINE_FLAG_VERTEX & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__VERTEX & m_flagPipelineTarget)
 	{
 		CONTEXT->VSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_HULL & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__HULL & m_flagPipelineTarget)
 	{
 		CONTEXT->HSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_DOMAIN & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_flagPipelineTarget)
 	{
 		CONTEXT->DSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_GEOMETRY & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_flagPipelineTarget)
 	{
 		CONTEXT->GSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_PIXEL & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__PIXEL & m_flagPipelineTarget)
 	{
 		CONTEXT->PSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_FLAG_COMPUTE & m_flagPipelineTarget)
+	if (__COMPUTE & m_flagPipelineTarget)
 	{
 		CONTEXT->CSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
 	}
@@ -281,7 +281,7 @@ void CStructBuffer::BindBufferUAV()
 		UnBindSRV();
 	m_eCurrentBoundView = eCURRENT_BOUND_VIEW::UAV;
 
-	m_flagPipelineTarget |= eSHADER_PIPELINE_FLAG_COMPUTE;
+	m_flagPipelineTarget |= __COMPUTE;
 	BindConstBuffer();
 
 	static const UINT Offset = -1;
@@ -292,6 +292,7 @@ void CStructBuffer::BindBufferUAV()
 void CStructBuffer::BindConstBuffer()
 {
 	//구조체 정보를 담은 상수버퍼에 바인딩한 구조체 갯수를 넣어서 전달
+	//상수버퍼의 주소는 한번 실행되면 변하지 않으므로 static, const 형태로 선언.
 	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_SBUFFERINFO);
 	pStructCBuffer->UploadData(g_arrStructBufferInfo);
 	pStructCBuffer->SetPipelineTarget(m_flagPipelineTarget);
@@ -337,32 +338,32 @@ void CStructBuffer::UnBindSRV()
 {
 	ID3D11ShaderResourceView* pView = nullptr;
 
-	if (eSHADER_PIPELINE_FLAG_VERTEX & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__VERTEX & m_flagPipelineTarget)
 	{
 		CONTEXT->VSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
 	}
 
-	if (eSHADER_PIPELINE_FLAG_HULL & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__HULL & m_flagPipelineTarget)
 	{
 		CONTEXT->HSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
 	}
 
-	if (eSHADER_PIPELINE_FLAG_DOMAIN & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_flagPipelineTarget)
 	{
 		CONTEXT->DSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
 	}
 
-	if (eSHADER_PIPELINE_FLAG_GEOMETRY & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_flagPipelineTarget)
 	{
 		CONTEXT->GSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
 	}
 
-	if (eSHADER_PIPELINE_FLAG_PIXEL & m_flagPipelineTarget)
+	if (eSHADER_PIPELINE_STAGE::__PIXEL & m_flagPipelineTarget)
 	{
 		CONTEXT->PSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
 	}
 
-	if (eSHADER_PIPELINE_FLAG_COMPUTE & m_flagPipelineTarget)
+	if (__COMPUTE & m_flagPipelineTarget)
 	{
 		CONTEXT->CSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
 	}

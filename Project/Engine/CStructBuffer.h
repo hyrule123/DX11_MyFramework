@@ -22,8 +22,10 @@ private:
     eSRV_REGISTER_IDX           m_eSRVIdx;
     eUAV_REGISTER_IDX           m_eUAVIdx;
 
-    UINT                    m_uElementSize;
-    UINT                    m_uElementCapacity;
+   
+    UINT                    m_uElementStride;   //구조체 하나 당 바이트 갯수
+    //카운트는 글로벌 변수에 있음. g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount;
+    UINT                    m_uElementCapacity; //현재 확보되어있는 구조체의 갯수
 
 
     D3D11_BUFFER_DESC       m_BufferDesc;
@@ -40,11 +42,14 @@ private:
 
 
 public:
-    //Setter Adder
+    //Setter Getter Adder
     void SetPipelineTarget(UINT8 _eSHADER_PIPELINE_FLAG) { m_flagPipelineTarget = _eSHADER_PIPELINE_FLAG; }
-    void AddPipelineTarget(eSHADER_PIPELINE_STAGE_FLAG _Stage) { m_flagPipelineTarget |= (UINT8)_Stage; }
+    void AddPipelineTarget(eSHADER_PIPELINE_STAGE::FLAG _Stage) { m_flagPipelineTarget |= (UINT8)_Stage; }
 
     UINT GetCapacity() const { return m_uElementCapacity; }
+
+    //글로벌 변수에 있는거 리턴해주면 될듯
+    UINT GetElemCount() const { return g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount; }
 
 public:
     //처음 생성할 때 반드시 목표 파이프라인 타겟과 레지스터 번호를 설정해줄 것
@@ -58,9 +63,11 @@ public:
 
     //데이터를 특정 레지스터에 바인딩. SRV에 바인딩할것인지 UAV에 바인딩할것인지를 지정
     void BindBufferSRV();
+    void UnBindSRV();
 
     //Bind buffer with UAV Mode to Compute shader 
     void BindBufferUAV();
+    void UnBindUAV();
 
 private:
     void BindConstBuffer();
@@ -68,8 +75,5 @@ private:
     void CreateStagingBuffer();
     void CreateSRV();
     void CreateUAV();
-
-    void UnBindSRV();
-    void UnBindUAV();
 };
 

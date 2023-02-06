@@ -1,14 +1,14 @@
 #include "pch.h"
-#include "CSetColorShader.h"
+#include "CCS_SetColor.h"
 
 #include "CTexture.h"
 
 #include "CStructBuffer.h"
 
-CSetColorShader::CSetColorShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
+CCS_SetColor::CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
 	: CComputeShader(_iGroupPerThreadX, _iGroupPerThreadY, _iGroupPerThreadZ)
 {
-	UINT8 Target = eSHADER_PIPELINE_FLAG_ALL;
+	UINT8 Target = __ALL;
 	m_StructBufferTest = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eSBUFFER_SHARED_CBUFFER_IDX::TEST, eSRV_REGISTER_IDX::TEST, eUAV_REGISTER_IDX::SETCOLOR_SBUFFER);
 
 	for (int i = 0; i < 1280; ++i)
@@ -27,12 +27,12 @@ CSetColorShader::CSetColorShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY,
 	m_StructBufferTest->BindBufferSRV();
 }
 
-CSetColorShader::~CSetColorShader()
+CCS_SetColor::~CCS_SetColor()
 {
 	delete m_StructBufferTest;
 }
 
-void CSetColorShader::BindData()
+bool CCS_SetColor::BindDataCS()
 {
 	m_OutTex->BindData_CS(0);
 
@@ -40,12 +40,10 @@ void CSetColorShader::BindData()
 	m_StructBufferTest->BindBufferUAV();
 
 	// 그룹 개수 계산
-	m_arrGroup[X] = (UINT)(m_OutTex->GetWidth() / m_arrThreadsPerGroup[X]);
-	m_arrGroup[Y] = (UINT)(m_OutTex->GetHeight() / m_arrThreadsPerGroup[Y]);
-	m_arrGroup[Z] = 1;
+	CalcGroupNumber(m_OutTex->GetWidth(), m_OutTex->GetHeight(), 1);
 }
 
-void CSetColorShader::UnBind()
+void CCS_SetColor::UnBindCS()
 {
 	m_OutTex->UnBind_CS();
 }

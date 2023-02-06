@@ -27,7 +27,7 @@
 #include "CTilemap.h"
 
 //컴퓨트쉐이더 테스트
-#include "CSetColorShader.h"
+#include "CCS_SetColor.h"
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
@@ -60,7 +60,7 @@ void CLevelMgr::init()
 		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
 		, D3D11_USAGE_DEFAULT);
 
-	Ptr<CSetColorShader> pCS = CResMgr::GetInst()->FindRes<CComputeShader>("SetColorCS");
+	Ptr<CCS_SetColor> pCS = CResMgr::GetInst()->FindRes<CComputeShader>("SetColorCS");
 	pCS->SetTargetTexture(pCreateTex);
 
 	//pCS->SetColor(Vec3(1.f, 0.f, 0.f));

@@ -12,7 +12,6 @@
 
 CComputeShader::CComputeShader()
 	: CShader(eRES_TYPE::COMPUTE_SHADER)
-	, m_ShaderData{}
 	, m_arrGroup{}
 	, m_arrThreadsPerGroup{}
 	, m_SharedCBuffer{}
@@ -21,11 +20,12 @@ CComputeShader::CComputeShader()
 
 CComputeShader::CComputeShader(UINT _uThreadsX, UINT _uThreadsY, UINT _uThreadsZ)
 	: CShader(eRES_TYPE::COMPUTE_SHADER)
-	, m_ShaderData{}
 	, m_arrGroup{}
 	, m_arrThreadsPerGroup{ _uThreadsX, _uThreadsY, _uThreadsZ }
 	, m_SharedCBuffer{}
 {
+	//이 스레드 수는 분모로 사용되어야 하므로 스레드값이 0이 들어오면 에러 발생
+	assert(0u != _uThreadsX && 0u != _uThreadsY && 0u != _uThreadsZ);
 }
 
 CComputeShader::~CComputeShader()
@@ -91,17 +91,79 @@ void CComputeShader::CreateShader(const wstring& _strFileName, const string& _st
 }
 
 
+#define TotalCountX eSCALAR_PARAM::INT_0
+#define TotalCountY eSCALAR_PARAM::INT_1
+#define TotalCountZ eSCALAR_PARAM::INT_2
+
+void CComputeShader::CalcGroupNumber(UINT _TotalCountX, UINT _TotalCountY, UINT _TotalCountZ)
+{
+	m_arrGroup[X] = (UINT)(_TotalCountX / m_arrThreadsPerGroup[X]) + 1u;
+	m_arrGroup[Y] = (UINT)(_TotalCountY / m_arrThreadsPerGroup[Y]) + 1u;
+	m_arrGroup[Z] = (UINT)(_TotalCountZ / m_arrThreadsPerGroup[Z]) + 1u;
+	
+
+	//쓰레드가 쓰레드 갯수와 맞아떨어지지 않을 수도 있다.
+	//이럴 떄를 대비해서 상수버퍼로 TotalCount 변수를 전달하여 컴퓨트쉐이더 함수 내부에서 예외처리를 할 수 있도록 해준다.
+	SetScalarParam(TotalCountX, &_TotalCountX);
+	SetScalarParam(TotalCountY, &_TotalCountY);
+	SetScalarParam(TotalCountZ, &_TotalCountZ);
+}
+
+void CComputeShader::SetScalarParam(eSCALAR_PARAM _Param, const void* _Src)
+{
+	switch (_Param)
+	{
+	case INT_0:
+	case INT_1:
+	case INT_2:
+	case INT_3:
+		m_SharedCBuffer.arrInt[_Param] = *((int*)_Src);
+		break;
+	case FLOAT_0:
+	case FLOAT_1:
+	case FLOAT_2:
+	case FLOAT_3:
+		m_SharedCBuffer.arrFloat[_Param - FLOAT_0] = *((float*)_Src);
+		break;
+
+	case VEC2_0:
+	case VEC2_1:
+	case VEC2_2:
+	case VEC2_3:
+		m_SharedCBuffer.arrV2[_Param - VEC2_0] = *((Vec2*)_Src);
+		break;
+
+	case VEC4_0:
+	case VEC4_1:
+	case VEC4_2:
+	case VEC4_3:
+		m_SharedCBuffer.arrV4[_Param - VEC4_0] = *((Vec4*)_Src);
+		break;
+
+	case MAT_0:
+	case MAT_1:
+	case MAT_2:
+	case MAT_3:
+		m_SharedCBuffer.arrMat[_Param - MAT_0] = *((Matrix*)_Src);
+		break;
+
+	}
+}
+
 void CComputeShader::Execute()
 {
-	BindData();
+	if (false == BindDataCS())
+		return;
 
+	//컴퓨트쉐이더 관련 공유 데이터를 상수버퍼를 통해서 전달
 	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_MATERIAL);
-
 	pCBuffer->UploadData(&m_SharedCBuffer, sizeof(tMtrlConst));
 	pCBuffer->BindBuffer();
 
+	//처리해줄 쉐이더를 지정하고 계산 진행.
 	CONTEXT->CSSetShader(m_CS.Get(), nullptr, 0);
 	CONTEXT->Dispatch(m_arrGroup[X], m_arrGroup[Y], m_arrGroup[Z]);
 	
-	UnBind();
+	//처리가 완료되었으면 재정의된 UnBind를 통해 데이터 바인딩을 해제.
+	UnBindCS();
 }

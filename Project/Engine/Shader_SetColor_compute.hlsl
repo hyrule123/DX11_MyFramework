@@ -3,6 +3,7 @@
 RWTexture2D<float4> g_Output : register(u0);
 
 RWStructuredBuffer<float4> g_TestSBUffer : register(u1);
+StructuredBuffer<float4> g_TestBuffer : register(t10);
 
 #define Color g_vec4_0
 

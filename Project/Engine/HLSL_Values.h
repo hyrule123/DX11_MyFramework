@@ -41,6 +41,7 @@ enum class eUAV_REGISTER_IDX
 	SETCOLOR_SBUFFER
 };
 
+
 enum eSCALAR_PARAM
 {
 	INT_0,
@@ -70,6 +71,10 @@ enum eSCALAR_PARAM
 
 };
 #define COLOR_KEY VEC4_3
+
+#define CS_TotalCountX eSCALAR_PARAM::INT_0
+#define CS_TotalCountY eSCALAR_PARAM::INT_1
+#define CS_TotalCountZ eSCALAR_PARAM::INT_2
 
 
 enum eTEX_PARAM

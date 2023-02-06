@@ -6,16 +6,16 @@
 class CTexture;
 class CStructBuffer;
 
-class CSetColorShader :
+class CCS_SetColor :
     public CComputeShader
 {
 public:
-    CSetColorShader(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
-    virtual ~CSetColorShader();
+    CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
+    virtual ~CCS_SetColor();
 
 protected:
-    virtual void BindData() override;
-    virtual void UnBind() override;
+    virtual bool BindDataCS() override;
+    virtual void UnBindCS() override;
 
 private:
     Ptr<CTexture>   m_OutTex;
@@ -24,6 +24,6 @@ private:
 
 public:
     void SetTargetTexture(Ptr<CTexture> _Tex) { m_OutTex = _Tex; }
-    void SetColor(const Vec3& _RGB) { GetSharedCBuffer().arrV4[0] = _RGB; }
+    void SetColor(const Vec3& _RGB) { SetScalarParam(VEC4_0, &_RGB); }
 };
 

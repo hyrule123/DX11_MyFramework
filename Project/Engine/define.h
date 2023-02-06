@@ -20,6 +20,8 @@
 
 #define FLT_MAX_NEG -FLT_MAX
 
+#define BITMASK(n) (1 << n)
+
 extern const string g_voidStr;
 
 //새로운 컴포넌트를 만들어줄 경우
@@ -71,17 +73,22 @@ enum class eRES_TYPE
 
 
 
-enum eSHADER_PIPELINE_STAGE_FLAG : UINT8
+namespace eSHADER_PIPELINE_STAGE
 {
-	eSHADER_PIPELINE_FLAG_VERTEX =		1 << 0,
-	eSHADER_PIPELINE_FLAG_HULL =		1 << 1,
-	eSHADER_PIPELINE_FLAG_DOMAIN =		1 << 2,
-	eSHADER_PIPELINE_FLAG_GEOMETRY =	1 << 3,
-	eSHADER_PIPELINE_FLAG_PIXEL =		1 << 4,
-	eSHADER_PIPELINE_FLAG_COMPUTE =		1 << 5,
+	enum FLAG : UINT8
+	{
+		__NONE = 0,
+		__VERTEX = BITMASK(0),
+		__HULL = BITMASK(1),
+		__DOMAIN = BITMASK(2),
+		__GEOMETRY = BITMASK(3),
+		__PIXEL = BITMASK(4),
+		__COMPUTE = BITMASK(5),
 
-	eSHADER_PIPELINE_FLAG_ALL =			UINT8_MAX	
-};
+		__ALL  = UINT8_MAX
+	};
+}
+
 
 enum eAXIS2D_TYPE
 {
