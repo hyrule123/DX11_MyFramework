@@ -29,17 +29,28 @@ struct tTile
 struct tSBufferInfo
 {
     uint g_uSBufferCount;
-    float3 Padding;
+    int iData0;
+    int iData1;
+    int iData2;
 };
 
+struct tRWParticleBuffer
+{
+    int SpawnCount; // 스폰 시킬 파티클 개수
+    float3 padding;
+};
 
-//상수 버퍼 'SBUFFERINFO' 내부의 인덱스 번호를 지정하는 열거체
-//enum class eSBUFFER_SHARED_CBUFFER_IDX : UINT
-//{
-//	LIGHT2D,
-//	TILE,
-//	END
-//};
-#define eSBUFFER_SHARED_CBUFFER_LIGHT2D 0u
-#define eSBUFFER_SHARED_CBUFFER_TILE 1u
-#define eSBUFFER_SHARED_CBUFFER_END 2u
+// Particle
+struct tParticle
+{
+    float4 vWorldPos; // 파티클 위치
+    float4 vWorldScale; // 파티클 크기
+    float4 vColor; // 파티클 색상
+    float4 vVelocity; // 파티클 현재 속도
+    float4 vForce; // 파티클에 주어진 힘
+
+    float Age; // 생존 시간
+    float NomalizedAge; // 수명대비 생존시간을 0~1로 정규화 한 값
+    float LifeTime; // 수명
+    float Mass; // 질량
+};

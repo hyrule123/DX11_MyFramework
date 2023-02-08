@@ -22,6 +22,11 @@
 
 #include "CompiledShaderHeader/Shader_Particle_compute_Debug.h"
 
+#include "CompiledShaderHeader/Shader_Particle_1_vertex_Debug.h"
+#include "CompiledShaderHeader/Shader_Particle_2_geometry_Debug.h"
+#include "CompiledShaderHeader/Shader_Particle_3_pixel_Debug.h"
+
+
 #else
 
 #include "CompiledShaderHeader/Shader_Debug_1_vertex.h"
@@ -42,5 +47,9 @@
 #include "CompiledShaderHeader/Shader_SetColor_compute.h"
 
 #include "CompiledShaderHeader/Shader_Particle_compute.h"
+
+#include "CompiledShaderHeader/Shader_Particle_1_vertex.h"
+#include "CompiledShaderHeader/Shader_Particle_2_geometry.h"
+#include "CompiledShaderHeader/Shader_Particle_3_pixel.h"
 
 #endif

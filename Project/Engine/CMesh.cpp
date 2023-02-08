@@ -79,3 +79,10 @@ void CMesh::render()
 
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
 }
+
+void CMesh::renderInstanced(UINT _uInstanceCount)
+{
+	BindData();
+
+	CONTEXT->DrawIndexedInstanced(m_IdxCount, _uInstanceCount, 0, 0, 0);
+}

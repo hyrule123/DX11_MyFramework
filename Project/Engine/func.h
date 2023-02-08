@@ -1,8 +1,11 @@
 #pragma once
 
 
-#define SAFE_DELETE(Ptr) if(Ptr) { delete Ptr; Ptr = nullptr; }
-#define SAFE_DELETE_ARRAY(Ptr) if(Ptr) { delete[] Ptr; }
+#define SAFE_DELETE(ptr) if(nullptr != ptr) { delete ptr; ptr = nullptr; }
+#define SAFE_DELETE_ARRAY(ptr) if(nullptr != ptr) { delete[] ptr; }
+
+#define DESTRUCTOR_DELETE(ptr) if(nullptr != ptr) { delete ptr; }
+#define DESTRUCTOR_DELETE_ARRAY(ptr) if(nullptr != ptr) { delete[] ptr; }
 
 template<typename T, UINT Size>
 void Safe_Del_Array(T* (&arr)[Size])

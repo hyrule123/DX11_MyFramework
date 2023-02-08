@@ -8,7 +8,6 @@
 CGraphicsShader::CGraphicsShader()
 	: CShader(eRES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
-	, m_ePIPELINE_STAGE_Flag()
 	, m_RSType(eRASTERIZER_TYPE::CULL_BACK)
 	, m_DSType(eDEPTHSTENCIL_TYPE::LESS)
 	, m_BSType(eBLENDSTATE_TYPE::DEFAULT)
@@ -114,28 +113,27 @@ void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCod
 		);
 
 		CreateInputLayout();
-
-		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
 		break;
 
 	case eSHADERTYPE_HULL:
-		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__HULL);
 		break;
 
 	case eSHADERTYPE_DOMAIN:
-		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__DOMAIN);
+
 
 		break;
 
 	case eSHADERTYPE_GEOMETRY:
-		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__GEOMETRY);
+		result = DEVICE->CreateGeometryShader(
+			_pShaderByteCode, _ShaderByteCodeSize,
+			nullptr,
+			m_GS.GetAddressOf()
+		);
+
 		break;
 
 	case eSHADERTYPE_PIXEL:
 		result = DEVICE->CreatePixelShader(_pShaderByteCode, _ShaderByteCodeSize, nullptr, m_PS.GetAddressOf());
-
-
-		AddPipeLineStage(eSHADER_PIPELINE_STAGE::__PIXEL);
 		break;
 	default:
 		break;
@@ -155,34 +153,27 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 
 
 	char ShaderNameVersion[32] = {};
-	//밑의 switch 문에서 _ShaderType가 잘못되어 있을 경우가 걸러지므로 ALL로 설정
-	eSHADER_PIPELINE_STAGE::FLAG Stage = eSHADER_PIPELINE_STAGE::__ALL;
 	//2. 쉐이더 타입에 따른 다른 파라미터용 변수를 할당
 	switch (_ShaderType)
 	{
 	case eSHADERTYPE_VERTEX:
 		strcpy_s(ShaderNameVersion, 32u, "vs_5_0");
-		Stage = eSHADER_PIPELINE_STAGE::__VERTEX;
 		break;
 
 	case eSHADERTYPE_HULL:
 		strcpy_s(ShaderNameVersion, 32u, "hs_5_0");
-		Stage = eSHADER_PIPELINE_STAGE::__HULL;
 		break;
 
 	case eSHADERTYPE_DOMAIN:
 		strcpy_s(ShaderNameVersion, 32u, "ds_5_0");
-		Stage = eSHADER_PIPELINE_STAGE::__DOMAIN;
 		break;
 
 	case eSHADERTYPE_GEOMETRY:
 		strcpy_s(ShaderNameVersion, 32u, "gs_5_0");
-		Stage = eSHADER_PIPELINE_STAGE::__GEOMETRY;
 		break;
 
 	case eSHADERTYPE_PIXEL:
 		strcpy_s(ShaderNameVersion, 32u, "ps_5_0");
-		Stage = eSHADER_PIPELINE_STAGE::__PIXEL;
 		break;
 
 	default:
@@ -278,9 +269,6 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		assert(eSHADERTYPE::eSHADERTYPE_END == 0);
 		break;
 	}
-	
-	//모든 과정이 성공했으면 파이프라인 스테이지에 등록
-	AddPipeLineStage(Stage);
 }
 
 //void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const string& _strFuncName)
@@ -302,7 +290,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //		, nullptr, m_VS.GetAddressOf());
 //
 //	m_ShaderLoadType[eShaderType]
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::__VERTEX);
 //}
 //
 //void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string& _strFuncName)
@@ -324,7 +312,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //	DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
 //		, nullptr, m_PS.GetAddressOf());
 //
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__PIXEL);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::__PIXEL);
 //}
 
 //void CGraphicsShader::CreateVertexShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize)
@@ -370,7 +358,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //		assert(nullptr);
 //	}
 //
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::__VERTEX);
 //
 //}
 //
@@ -381,42 +369,28 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 
 void CGraphicsShader::BindData()
 {
+	ID3D11DeviceContext* pContext = CONTEXT;
+
 	//Set Input Layout
-	CONTEXT->IASetInputLayout(m_Layout.Get());
-	CONTEXT->IASetPrimitiveTopology(m_eTopology);
+	pContext->IASetInputLayout(m_Layout.Get());
+	pContext->IASetPrimitiveTopology(m_eTopology);
+
+
+	pContext->VSSetShader(m_VS.Get(), nullptr, 0);
+	pContext->HSSetShader(m_HS.Get(), nullptr, 0);
+	pContext->DSSetShader(m_DS.Get(), nullptr, 0);
+	pContext->GSSetShader(m_GS.Get(), nullptr, 0);
+	pContext->PSSetShader(m_PS.Get(), nullptr, 0);
+
 
 	//Set Rasterizer
-	CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType));
+	pContext->RSSetState(CDevice::GetInst()->GetRSState(m_RSType));
 
 	//Set Output Merger(Depth Stencil, Blend)
-	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType), 0);
-	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType), 0, UINT_MAX);
-
-
-	if (eSHADER_PIPELINE_STAGE::__VERTEX & m_ePIPELINE_STAGE_Flag)
-	{
-		CONTEXT->VSSetShader(m_VS.Get(), nullptr, 0);
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__HULL & m_ePIPELINE_STAGE_Flag)
-	{
-		CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_ePIPELINE_STAGE_Flag)
-	{
-		CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_ePIPELINE_STAGE_Flag)
-	{
-		CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__PIXEL & m_ePIPELINE_STAGE_Flag)
-	{
-		CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
-	}
+	pContext->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType), 0);
+	pContext->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType), Vec4(0.f, 0.f, 0.f, 0.f), UINT_MAX);
 }
+
+
 
 

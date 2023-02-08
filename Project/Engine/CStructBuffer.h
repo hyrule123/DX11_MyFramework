@@ -9,14 +9,14 @@ class CStructBuffer
 {
 public:
     CStructBuffer() = delete;
-    CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT8 _eSHADER_PIPELINE_STAGE_FLAG, eSBUFFER_SHARED_CBUFFER_IDX _CBIdx, eSRV_REGISTER_IDX _SRVIdx, eUAV_REGISTER_IDX _UAVIdx);
+    CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT8 _eSHADER_PIPELINE_STAGE_FLAG_SRV, eSBUFFER_SHARED_CBUFFER_IDX _CBIdx, eSRV_REGISTER_IDX _SRVIdx, eUAV_REGISTER_IDX _UAVIdx);
     virtual ~CStructBuffer();
     CLONE_DISABLE(CStructBuffer)
 
 private:
     //자신의 공유정보를 담고있는 상수버퍼 내부에서의 인덱스
     eSTRUCT_BUFFER_TYPE         m_eSBufferType;
-    UINT8                       m_flagPipelineTarget;
+    UINT8                       m_flagPipelineTargetSRV;
 
     eSBUFFER_SHARED_CBUFFER_IDX m_eCBufferIdx;
     eSRV_REGISTER_IDX           m_eSRVIdx;
@@ -24,7 +24,7 @@ private:
 
    
     UINT                    m_uElementStride;   //구조체 하나 당 바이트 갯수
-    //카운트는 글로벌 변수에 있음. g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount;
+    UINT                    m_uElementCount;    //현재 등록한 구조체의 갯수
     UINT                    m_uElementCapacity; //현재 확보되어있는 구조체의 갯수
 
 
@@ -43,17 +43,17 @@ private:
 
 public:
     //Setter Getter Adder
-    void SetPipelineTarget(UINT8 _eSHADER_PIPELINE_FLAG) { m_flagPipelineTarget = _eSHADER_PIPELINE_FLAG; }
-    void AddPipelineTarget(eSHADER_PIPELINE_STAGE::FLAG _Stage) { m_flagPipelineTarget |= (UINT8)_Stage; }
+    void SetPipelineTarget(UINT8 _eSHADER_PIPELINE_FLAG) { m_flagPipelineTargetSRV = _eSHADER_PIPELINE_FLAG; }
+    void AddPipelineTarget(eSHADER_PIPELINE_STAGE_FLAG::FLAG _Stage) { m_flagPipelineTargetSRV |= (UINT8)_Stage; }
 
     UINT GetCapacity() const { return m_uElementCapacity; }
 
     //글로벌 변수에 있는거 리턴해주면 될듯
-    UINT GetElemCount() const { return g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount; }
+    UINT GetElemCount() const { return m_uElementCount; }
 
 public:
     //처음 생성할 때 반드시 목표 파이프라인 타겟과 레지스터 번호를 설정해줄 것
-    void Create(UINT _uiElementSize, UINT _uElementCapacity, void* _pInitialData, UINT _uElemCount);
+    void Create(UINT _uiElementStride, UINT _uElementCapacity, void* _pInitialData, UINT _uElemCount);
 
     //데이터를 버퍼로 전송
     void UploadData(void* _pData, UINT _uCount);
@@ -70,7 +70,7 @@ public:
     void UnBindUAV();
 
 private:
-    void BindConstBuffer();
+    void BindConstBuffer(UINT8 _eSHADER_PIPELINE_FLAG);
 
     void CreateStagingBuffer();
     void CreateSRV();

@@ -31,7 +31,7 @@ void CMaterial::BindData()
 	for (UINT i = 0; i < eTEX_END; ++i)
 	{
 		if (1 == m_Const.arrbTex[i])
-			m_arrTex[i]->BindData(i, eSHADER_PIPELINE_STAGE::__PIXEL);
+			m_arrTex[i]->BindData(i, eSHADER_PIPELINE_STAGE_FLAG::__PIXEL);
 	}
 
 	// Constant Update

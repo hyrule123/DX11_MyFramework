@@ -8,10 +8,10 @@
 CCS_SetColor::CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
 	: CComputeShader(_iGroupPerThreadX, _iGroupPerThreadY, _iGroupPerThreadZ)
 {
-	UINT8 Target = eSHADER_PIPELINE_STAGE::__ALL;
-	m_StructBufferTest = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eSBUFFER_SHARED_CBUFFER_IDX::TEST, eSRV_REGISTER_IDX::TEST, eUAV_REGISTER_IDX::SETCOLOR_SBUFFER);
+	UINT8 Target = eSHADER_PIPELINE_STAGE_FLAG::__ALL;
+	m_StructBufferTest = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eSBUFFER_SHARED_CBUFFER_IDX::SETCOLOR, eSRV_REGISTER_IDX::SETCOLOR, eUAV_REGISTER_IDX::SETCOLOR_SBUFFER);
 
-	for (int i = 0; i < 1280; ++i)
+	for (int i = 0; i < 1280u; ++i)
 	{
 		float c = (float)i / 1280.f;
 		m_vecSBuffer[i] = Vec4(c, c, c, 1.f);
@@ -20,7 +20,7 @@ CCS_SetColor::CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT 
 	//UAV 바인딩
 	m_StructBufferTest->Create((UINT)sizeof(Vec4), 1280u, m_vecSBuffer, 1280u);
 
-	//데이터 다시 받기
+	//데이터 다시 받기(테스트)
 	m_StructBufferTest->GetData(m_vecSBuffer, (UINT)sizeof(m_vecSBuffer));
 
 	//SRV에 바인딩5
@@ -36,7 +36,7 @@ bool CCS_SetColor::BindDataCS()
 {
 	m_OutTex->BindData_CS(0);
 
-	//m_StructBufferTest->UploadData((void*)m_vecSBuffer, (UINT)sizeof(Vec4) * 32u);
+	m_StructBufferTest->UploadData((void*)m_vecSBuffer, 1280u);
 	m_StructBufferTest->BindBufferUAV();
 
 	// 그룹 개수 계산

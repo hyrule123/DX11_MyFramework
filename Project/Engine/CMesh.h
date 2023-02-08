@@ -26,6 +26,7 @@ public:
 
 
 	void render();
+	void renderInstanced(UINT _uInstanceCount);
 
 private:
 	virtual void BindData() override;

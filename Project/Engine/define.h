@@ -73,7 +73,7 @@ enum class eRES_TYPE
 
 
 
-namespace eSHADER_PIPELINE_STAGE
+namespace eSHADER_PIPELINE_STAGE_FLAG
 {
 	enum FLAG : UINT8
 	{

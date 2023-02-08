@@ -97,9 +97,9 @@ void CComputeShader::CreateShader(const wstring& _strFileName, const string& _st
 
 void CComputeShader::CalcGroupNumber(UINT _TotalCountX, UINT _TotalCountY, UINT _TotalCountZ)
 {
-	m_arrGroup[X] = (UINT)(_TotalCountX / m_arrThreadsPerGroup[X]) + 1u;
-	m_arrGroup[Y] = (UINT)(_TotalCountY / m_arrThreadsPerGroup[Y]) + 1u;
-	m_arrGroup[Z] = (UINT)(_TotalCountZ / m_arrThreadsPerGroup[Z]) + 1u;
+	m_arrGroup[X] = (UINT)ceilf((float)_TotalCountX / (float)m_arrThreadsPerGroup[X]);
+	m_arrGroup[Y] = (UINT)ceilf((float)_TotalCountY / (float)m_arrThreadsPerGroup[Y]);
+	m_arrGroup[Z] = (UINT)ceilf((float)_TotalCountZ / (float)m_arrThreadsPerGroup[Z]);
 	
 
 	//쓰레드가 쓰레드 갯수와 맞아떨어지지 않을 수도 있다.

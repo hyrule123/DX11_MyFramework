@@ -62,11 +62,9 @@ void CLevelMgr::init()
 		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS
 		, D3D11_USAGE_DEFAULT);
 
-	Ptr<CCS_SetColor> pCS = CResMgr::GetInst()->FindRes<CComputeShader>("SetColorCS");
+	Ptr<CCS_SetColor> pCS = CResMgr::GetInst()->FindRes<CComputeShader>("CSSetColor");
 	pCS->SetTargetTexture(pCreateTex);
-
-	//pCS->SetColor(Vec3(1.f, 0.f, 0.f));
-
+	pCS->SetColor(Vec3(1.f, 0.f, 0.f));
 	pCS->Execute();
 
 	m_pCurLevel = new CLevel;
@@ -191,13 +189,13 @@ void CLevelMgr::init()
 	pTestObj3->AddComponent(new CTransform);
 	pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 
-	//pTestObj3->AddComponent(new CMeshRender);
-	//pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
-	//Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
-	//TestMtrl3->SetTexParam(eTEX_0, pCreateTex);
-	//pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
+	pTestObj3->AddComponent(new CMeshRender);
+	pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
+	Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
+	TestMtrl3->SetTexParam(eTEX_0, pCreateTex);
+	pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
 
-	pTestObj3->AddComponent(new CParticleSystem);
+	//pTestObj3->AddComponent(new CParticleSystem);
 
 
 	pTestObj3->AddComponent(new CCollider2D_OBB);
@@ -206,6 +204,29 @@ void CLevelMgr::init()
 
 	SpawnGameObject(pTestObj3, Vec3(100.f, 100.f, 10.f), 1);
 	//m_pCurLevel->AddGameObject(pTestObj3, 1);
+
+
+
+
+	// Test Object 4
+	pTestObj3 = new CGameObject;
+	pTestObj3->SetName("Test Object");
+	pTestObj3->AddComponent(new CTransform);
+	pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+
+	CParticleSystem* pParticle = new CParticleSystem;
+	pParticle->CreateParticle();
+	pTestObj3->AddComponent(pParticle);
+
+
+	pTestObj3->AddComponent(new CCollider2D_OBB);
+
+	//pTestObj3->AddScript(new CTestObjScript);
+
+	SpawnGameObject(pTestObj3, Vec3(-100.f, -100.f, 10.f), 1);
+	//m_pCurLevel->AddGameObject(pTestObj3, 1);
+
+
 
 	{//Tilemap
 		CGameObject* pTilemap = new CGameObject;

@@ -114,7 +114,6 @@ void CEditorObjMgr::render()
 			//월드행렬 전달.
 
 			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
-			matWVP = matWVP.Transpose();
 			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
 			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
 
@@ -128,7 +127,6 @@ void CEditorObjMgr::render()
 			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->MeshRender()->GetMaterial();
 			//월드행렬 전달.
 			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
-			matWVP = matWVP.Transpose();
 			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
 			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
 

@@ -5,9 +5,12 @@
 
 
 #include "shaders.h"
+#include "strKeys.h"
 
 #include "CCS_SetColor.h"
 #include "CCS_ParticleUpdate.h"
+
+
 
 CResMgr::CResMgr()
 {
@@ -48,9 +51,24 @@ void CResMgr::CreateDefaultMesh()
 	vector<Vtx> vecVtx;
 	vector<UINT> vecIdx;
 	Vtx v;
-
-
 	Ptr<CMesh> pMesh = nullptr;
+
+
+	// ==============
+	// PointMesh 생성
+	// ==============
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vUV = Vec2(0.f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	
+	UINT idx = 0;
+
+	pMesh = new CMesh;
+	pMesh->Create(&v, 1, &idx, 1);
+	AddRes(RESOURCE::MESH::POINT, pMesh);
+	pMesh = nullptr;
+
+
 	// =============
 	// RectMesh 생성
 	// =============	
@@ -87,7 +105,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes("RectMesh", pMesh);
+	AddRes(RESOURCE::MESH::RECT, pMesh);
 	pMesh = nullptr;
 
 	//Debug Rect Mesh
@@ -99,7 +117,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(0);
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes("RectMesh_Debug", pMesh);
+	AddRes(RESOURCE::MESH::RECT_DEBUG, pMesh);
 	//============================
 
 
@@ -175,7 +193,7 @@ void CResMgr::CreateDefaultMesh()
 	//만든 정점버퍼와 인덱스버퍼를 메쉬에 삽입한다.
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes("CircleMesh", pMesh);
+	AddRes(RESOURCE::MESH::CIRCLE, pMesh);
 	pMesh = nullptr;
 
 
@@ -188,7 +206,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(1);
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes("CircleMesh_Debug", pMesh);
+	AddRes(RESOURCE::MESH::CIRCLE_DEBUG, pMesh);
 }
 
 void CResMgr::CreateDefaultGraphicsShader()
@@ -203,7 +221,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 
-		pShader->SetKey("DebugShader");
+		pShader->SetKey(RESOURCE::SHADER::DEBUG);
 		pShader->CreateShader((void*)g_VS_Debug, sizeof(g_VS_Debug), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADERTYPE_PIXEL);
 		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
@@ -218,13 +236,13 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// =========== 
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey("TestShader");
+		pShader->SetKey(RESOURCE::SHADER::TEST);
 		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADERTYPE_PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
 		pShader->SetBlendState(eBLENDSTATE_TYPE::DEFAULT);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-		AddRes("TestShader", pShader);
+		AddRes(pShader->GetKey(), pShader);
 	}
 
 	// ============
@@ -232,7 +250,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey("std2DShader");
+		pShader->SetKey(RESOURCE::SHADER::STD2D);
 		pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADERTYPE_PIXEL);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
@@ -246,7 +264,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// 광원을 처리할 수 있는 2D 쉐이더
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey("std2DLightShader");
+		pShader->SetKey(RESOURCE::SHADER::STD2D_LIGHT);
 		pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADERTYPE_PIXEL);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
@@ -268,7 +286,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	//===============================
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey("TilemapShader");
+		pShader->SetKey(RESOURCE::SHADER::TILEMAP);
 		pShader->CreateShader((void*)g_VS_Tilemap, sizeof(g_VS_Tilemap), eSHADERTYPE_VERTEX);
 		pShader->CreateShader((void*)g_PS_Tilemap, sizeof(g_PS_Tilemap), eSHADERTYPE_PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
@@ -276,30 +294,64 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
 		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
 	}
+
+
+	// ============================
+	// ParticleRender
+	// 
+	// RS_TYPE : CULL_NONE
+	// DS_TYPE : NO_WRITE
+	// BS_TYPE : ALPHA_BLEND
+
+	// Parameter
+	// g_int_0 : Particle Index
+	// 
+	// Domain : TRANSPARENT
+	// ============================
+	{
+		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		pShader->SetKey(RESOURCE::SHADER::PARTICLE_RENDER);
+	
+		pShader->CreateShader((void*)g_VS_Particle, sizeof(g_VS_Particle), eSHADERTYPE_VERTEX);
+		pShader->CreateShader((void*)g_GS_Particle, sizeof(g_GS_Particle), eSHADERTYPE_GEOMETRY);
+		pShader->CreateShader((void*)g_PS_Particle, sizeof(g_PS_Particle), eSHADERTYPE_PIXEL);
+
+		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+		pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_WRITE);
+		pShader->SetBlendState(eBLENDSTATE_TYPE::ALPHA_BLEND);
+		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+		pShader->SetShaderDomain(eSHADER_DOMAIN::_TRANSPARENT); //알파 블렌딩을 사용하므로
+
+
+		AddRes(pShader->GetKey(), pShader);
+	}
 }
+
 
 void CResMgr::CreateDefaultComputeShader()
 {
 	Ptr<CComputeShader> pShader = new CCS_SetColor(32u, 32u, 1u);
-	pShader->SetKey("SetColorCS");
 	pShader->CreateShader((void*)g_CS_SetColor, sizeof(g_CS_SetColor));
+	pShader->SetKey(RESOURCE::SHADER::COMPUTE::SET_COLOR);
 	AddRes(pShader->GetKey(), pShader);
-
+	pShader = nullptr;
 
 	pShader = new CCS_ParticleUpdate;
-	pShader->SetKey("ParticleUpdate");
 	pShader->CreateShader((void*)g_CS_Particle, sizeof(g_CS_Particle));
-	
+	pShader->SetKey(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE);
 	AddRes(pShader->GetKey(), pShader);
+	pShader = nullptr;
 }
+
 
 void CResMgr::CreateDefaultMaterial()
 {
 	//Debug Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey("DebugMtrl");
-		pMtrl->SetShader(FindRes<CGraphicsShader>("DebugShader"));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::DEBUG));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::DEBUG);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
@@ -307,8 +359,9 @@ void CResMgr::CreateDefaultMaterial()
 	{
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial;
-		pMtrl->SetKey("TestMtrl");
-		pMtrl->SetShader(FindRes<CGraphicsShader>("TestShader"));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TEST));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::TEST);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
@@ -316,8 +369,9 @@ void CResMgr::CreateDefaultMaterial()
 	{
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial;
-		pMtrl->SetKey("std2DMtrl");
-		pMtrl->SetShader(FindRes<CGraphicsShader>("std2DShader"));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
@@ -325,30 +379,40 @@ void CResMgr::CreateDefaultMaterial()
 	{
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial;
-		pMtrl->SetKey("std2DLightMtrl");
-		pMtrl->SetShader(FindRes<CGraphicsShader>("std2DLightShader"));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D_LIGHT));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D_LIGHT);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
 	// Tilemap Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey("TilemapMtrl");
-		pMtrl->SetShader(FindRes<CGraphicsShader>("TilemapShader"));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TILEMAP));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::TILEMAP);
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
+
+	//Particle Material
+	{
+		Ptr<CMaterial> pMtrl = new CMaterial;
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::PARTICLE_RENDER));
+		pMtrl->SetKey(RESOURCE::MATERIAL::PARTICLE_RENDER);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 }
 
 void CResMgr::LoadDefaultTexture()
 {
-	Load<CTexture>("Fighter", L"texture/Fighter.bmp");
-	Load<CTexture>("HOS", L"texture/HOS.png");
+	Load<CTexture>(RESOURCE::TEXTURE::FIGHTER, L"texture/Fighter.bmp");
+	Load<CTexture>(RESOURCE::TEXTURE::HOS, L"texture/HOS.png");
 
-	Load<CTexture>("beheaded", L"texture/beheaded.png");
-	Load<CTexture>("beheaded_n", L"texture/beheaded_n.png");
+	Load<CTexture>(RESOURCE::TEXTURE::BEHEADED_ATLAS, L"texture/beheaded.png");
+	Load<CTexture>(RESOURCE::TEXTURE::BEHEADED_ATLAS_NORMAL, L"texture/beheaded_n.png");
 
-	Load<CTexture>("TileAtlas", L"texture/TILE.bmp");
-	Load<CTexture>("LinkAtlas", L"texture/link.png");
+	Load<CTexture>(RESOURCE::TEXTURE::TILE_ATLAS, L"texture/TILE.bmp");
+	Load<CTexture>(RESOURCE::TEXTURE::LINK_ATLAS, L"texture/link.png");
 }
 
 

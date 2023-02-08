@@ -2,33 +2,44 @@
 #include "CCS_ParticleUpdate.h"
 
 #include "CStructBuffer.h"
+#include "CConstBuffer.h"
 
 #include "CDevice.h"
 
 CCS_ParticleUpdate::CCS_ParticleUpdate()
 	: CComputeShader(128u, 1u, 1u)
-	, m_pParticleSBuffer()
+	, m_pSBuffer_Transform()
+	, m_pSBuffer_SharedRW()
+	, m_pCBuffer_ModuleData()
 {
-	UINT8 flag = eSHADER_PIPELINE_STAGE::__ALL;
-	m_pParticleSBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, flag, eSBUFFER_SHARED_CBUFFER_IDX::PARTICLE, eSRV_REGISTER_IDX::PARTICLE, eUAV_REGISTER_IDX::PARTICLE_SBUFFER);
 }
 
 CCS_ParticleUpdate::~CCS_ParticleUpdate()
 {
-	delete m_pParticleSBuffer;
 }
 
 
 bool CCS_ParticleUpdate::BindDataCS()
 {
-	if (nullptr == m_pParticleSBuffer)
+	//세 버퍼중 하나라도 등록되어있지 않으면 return false해서 excute 과정을 중단
+	if (
+		nullptr == m_pSBuffer_Transform
+		||
+		nullptr == m_pSBuffer_SharedRW
+		||
+		nullptr == m_pCBuffer_ModuleData
+		)
 		return false;
 
-	//스레드 그룹 수 계산
-	CalcGroupNumber(m_pParticleSBuffer->GetElemCount(), 1, 1);
+	//스레드 그룹 수 계산. 파티클은 무조건 배열 형태이므로 x축으로 스레드를 배열한다.
+	CalcGroupNumber(m_pSBuffer_Transform->GetElemCount(), 1u, 1u);
 
-	//데이터를 바인딩
-	m_pParticleSBuffer->BindBufferUAV();
+	//데이터를 컴퓨트쉐이더에 일괄적으로 전달
+	m_pSBuffer_Transform->BindBufferUAV();
+
+	m_pSBuffer_SharedRW->BindBufferUAV();
+
+	m_pCBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE);
 
 	return true;
 }
@@ -36,14 +47,14 @@ bool CCS_ParticleUpdate::BindDataCS()
 void CCS_ParticleUpdate::UnBindCS()
 {
 	//계산 후 UAV 바인딩을 해제.
-	m_pParticleSBuffer->UnBindUAV();
+	m_pSBuffer_Transform->UnBindUAV();
+	m_pSBuffer_SharedRW->UnBindUAV();
+
+	//에러 방지를 위해 nullptr로 변경
+	m_pSBuffer_Transform = nullptr;
+	m_pSBuffer_SharedRW = nullptr;
+	m_pCBuffer_ModuleData = nullptr;
 }
 
-void CCS_ParticleUpdate::SetData(void* _pData, UINT _uCount)
-{
-	if (nullptr == _pData)
-		return;
 
-	m_pParticleSBuffer->UploadData(_pData, _uCount);
-	m_pParticleSBuffer->AddPipelineTarget(eSHADER_PIPELINE_STAGE::__COMPUTE);
-}
+

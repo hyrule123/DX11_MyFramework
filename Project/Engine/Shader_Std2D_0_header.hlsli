@@ -1,6 +1,5 @@
 #include "Shader_header_register.hlsli"
 
-#define COLOR_KEY g_vec4_3
 
 /*
 초록색 숫자는 '시맨틱'이라고 하며,

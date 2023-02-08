@@ -21,27 +21,27 @@ void CTexture::BindData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE)
 	//컴퓨트쉐이더와의 바인딩 해제
 	UnBind_CS();
 
-	if (eSHADER_PIPELINE_STAGE::__VERTEX & _eSHADER_PIPELINE_STAGE)
+	if (eSHADER_PIPELINE_STAGE_FLAG::__VERTEX & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__HULL & _eSHADER_PIPELINE_STAGE)
+	if (eSHADER_PIPELINE_STAGE_FLAG::__HULL & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__DOMAIN & _eSHADER_PIPELINE_STAGE)
+	if (eSHADER_PIPELINE_STAGE_FLAG::__DOMAIN & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & _eSHADER_PIPELINE_STAGE)
+	if (eSHADER_PIPELINE_STAGE_FLAG::__GEOMETRY & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__PIXEL & _eSHADER_PIPELINE_STAGE)
+	if (eSHADER_PIPELINE_STAGE_FLAG::__PIXEL & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}

@@ -13,6 +13,7 @@ enum class  eCONST_BUFFER_TYPE : UINT
 	MATERIAL,	// b1
 	GLOBAL, //b2
 	SBUFFER_SHAREDINFO, //b3
+	PARTICLE_MODULEDATA,
 
 	END,
 };
@@ -34,8 +35,7 @@ enum class eSRV_REGISTER_IDX
 	LIGHT2D = 8,
 	TILE = 9,
 	SETCOLOR = 10,
-	PARTICLE = 11,
-	TEST
+	PARTICLE_INFO = 11,
 };
 
 enum class eUAV_REGISTER_IDX
@@ -43,7 +43,8 @@ enum class eUAV_REGISTER_IDX
 	NONE = -1,
 	SETCOLOR_TEXTURE,
 	SETCOLOR_SBUFFER,
-	PARTICLE_SBUFFER
+	PARTICLE_SBUFFER,
+	PARTICLE_SBUFFER_SHARED
 };
 
 
@@ -104,7 +105,14 @@ enum class eLIGHT_TYPE : UINT
 };
 
 
+enum class PARTICLE_MODULE
+{
+	PARTICLE_SPAWN,
+	COLOR_CHANGE,
+	SCALE_CHANGE,
 
+	END
+};
 
 
 
@@ -116,7 +124,9 @@ enum class eLIGHT_TYPE : UINT
 struct tSBufferInfo
 {
 	UINT32 uSBufferCount;
-	Vec3 Padding;
+	INT32  iData0;
+	INT32  iData1;
+	INT32  iData2;
 };
 extern tSBufferInfo g_arrStructBufferInfo[(UINT)eSBUFFER_SHARED_CBUFFER_IDX::END];
 
@@ -134,9 +144,10 @@ struct tMtrlConst
 struct tTransform
 {
 	Matrix matWorld;
+	Matrix matView;
+	Matrix matProj;
 	Matrix matWVP;
 };
-
 extern tTransform g_transform;
 extern Matrix g_matViewProj;
 
@@ -183,4 +194,59 @@ struct tDebugShapeInfo
 	Vec2		bytepadding;
 	Matrix		matWorld;
 	Vec4		vColor;
+};
+
+
+struct tRWParticleBuffer
+{
+	int		SpawnCount;			// 스폰 시킬 파티클 개수
+	Vec3	padding;
+};
+
+
+struct tParticle
+{
+	Vec4	vWorldPos;		// 파티클 위치
+	Vec4	vWorldScale;	// 파티클 크기
+	Vec4	vColor;			// 파티클 색상
+	Vec4	vVelocity;		// 파티클 현재 속도
+	Vec4	vForce;			// 파티클에 주어진 힘
+
+	float   Age;			// 생존 시간
+	float   NomalizedAge;	// 수명대비 생존시간을 0~1로 정규화 한 값
+	float	LifeTime;		// 수명
+	float	Mass;			// 질량
+};
+
+
+
+struct tParticleModule
+{
+	// 스폰 모듈
+	Vec4    vSpawnColor;
+
+	Vec4	vSpawnScale;
+
+	Vec3	vBoxShapeScale;
+	float	fSphereShapeRadius;
+
+	int		SpawnShapeType;		// Sphere , Box
+	int		SpawnRate;			// 초당 생성 개수
+	const Vec2	Padding;
+
+	// Color Change 모듈
+	Vec4	vStartColor;		// 초기 색상
+	Vec4	vEndColor;			// 최종 색상
+
+	// Scale Change 모듈
+	Vec4	vStartScale;		// 초기 크기
+	Vec4	vEndScale;			// 최종 크기	
+
+	// 버퍼 최대크기
+	int		iMaxParticleCount;
+
+	// Module Check(현재 int 3개짜리 배열)
+	int		bModule_ParticleSpawn;
+	int		bModule_ColorChange;
+	int		bModule_ScaleChange;
 };

@@ -31,7 +31,6 @@ private:
     ComPtr<ID3D11InputLayout>	    m_Layout;
     D3D11_PRIMITIVE_TOPOLOGY        m_eTopology;
 
-    UINT8                           m_ePIPELINE_STAGE_Flag;
 
     //Rasterizer
     eRASTERIZER_TYPE                m_RSType;       //Rasterizer Type
@@ -52,8 +51,6 @@ public://INITIALIZE, Setter
     void CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADERTYPE _ShaderType);
     void CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADERTYPE _ShaderType);
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
-    void AddPipeLineStage(UINT8 _eSHADER_PIPELINE_STAGE) { m_ePIPELINE_STAGE_Flag |= _eSHADER_PIPELINE_STAGE; }
-    void SetPipeLineStage(UINT8 _eSHADER_PIPELINE_STAGE) { m_ePIPELINE_STAGE_Flag = _eSHADER_PIPELINE_STAGE; }
     void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_RSType = _eRS_TYPE; }
     void SetDepthStencilState(eDEPTHSTENCIL_TYPE _eDS_TYPE) { m_DSType = _eDS_TYPE; }
     void SetBlendState(eBLENDSTATE_TYPE _eBS_TYPE) { m_BSType = _eBS_TYPE; }

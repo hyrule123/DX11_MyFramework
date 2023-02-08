@@ -132,8 +132,6 @@ void CCamera::finaltick()
 	-a -b -c 1
 	*/
 
-	//자신도 화면에 나오게 하기 위해서 z축으로 약간 거리를 더 이동
-	vCamPos.z -= 10.f;
 	m_matView = Matrix::CreateTranslation(-vCamPos);
 
 
@@ -148,7 +146,6 @@ void CCamera::finaltick()
 	//const XMVECTOR& vecQut = XMQuaternionRotationRollPitchYawFromVector(vecRot);
 	//Matrix tempmat = Matrix::CreateFromQuaternion(vecQut);
 	//m_matView *= tempmat.Transpose();
-
 	const Matrix& matRot = Transform()->GetWorldRotMat();
 	m_matView *= matRot.Transpose();
 
@@ -255,7 +252,10 @@ void CCamera::SortObject()
 void CCamera::render()
 {
 	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
+	g_transform.matView = m_matView;
+	g_transform.matProj = m_matProj;
 	g_matViewProj = m_matView * m_matProj;
+	
 
 	for (int i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
 	{

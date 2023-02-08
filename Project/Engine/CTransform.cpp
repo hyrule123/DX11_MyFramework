@@ -165,8 +165,8 @@ void CTransform::UpdateData()
 
 	//월드뷰투영행렬을 곱한 후 전치한다.(HLSL은 Column-Major Matrix, XMMATRIX에서는 Row-Major Matrix를 사용 중)
 	g_transform.matWorld = m_matSize * m_matWorld;
-	g_transform.matWVP = (g_transform.matWorld * g_matViewProj).Transpose();
-	g_transform.matWorld = g_transform.matWorld.Transpose();
+	g_transform.matWVP = g_transform.matWorld * g_matViewProj;
+
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
 	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::TRANSFORM);

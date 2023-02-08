@@ -178,10 +178,10 @@
     <ClInclude Include="CCS_ParticleUpdate.h">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </ClInclude>
-    <ClInclude Include="GameRes.h">
+    <ClInclude Include="shaders.h">
       <Filter>Source\00. Header</Filter>
     </ClInclude>
-    <ClInclude Include="shaders.h">
+    <ClInclude Include="strKeys.h">
       <Filter>Source\00. Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -530,6 +530,9 @@
     <None Include="Shader_Tilemap_0_header.hlsli">
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </None>
+    <None Include="Shader_Particle_0_header.hlsli">
+      <Filter>Source\08. ShaderCode\05. Particle</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader_test_2_pixel.hlsl">
@@ -567,6 +570,15 @@
     </FxCompile>
     <FxCompile Include="Shader_Particle_compute.hlsl">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_Particle_1_vertex.hlsl">
+      <Filter>Source\08. ShaderCode\05. Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_Particle_2_geometry.hlsl">
+      <Filter>Source\08. ShaderCode\05. Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_Particle_3_pixel.hlsl">
+      <Filter>Source\08. ShaderCode\05. Particle</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

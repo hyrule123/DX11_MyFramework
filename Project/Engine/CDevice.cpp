@@ -237,34 +237,43 @@ void CDevice::ClearTarget(float(&_color)[4])
 void CDevice::CreateConstBuffer()
 {
     //Vertex Shader에만 상수버퍼를 전달 + Light 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
-    UINT8 CBufferTarget = eSHADER_PIPELINE_STAGE::__VERTEX + eSHADER_PIPELINE_STAGE::__PIXEL;
+    UINT8 CBufferTarget = eSHADER_PIPELINE_STAGE_FLAG::__ALL;
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::TRANSFORM] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::TRANSFORM);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::TRANSFORM]->Create(sizeof(tTransform), 1);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::TRANSFORM]->SetPipelineTarget(CBufferTarget);
 
     //Vertex + Pixel Shader에만 상수버퍼를 전달
-    CBufferTarget |= eSHADER_PIPELINE_STAGE::__PIXEL;
+    CBufferTarget |= eSHADER_PIPELINE_STAGE_FLAG::__PIXEL;
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::MATERIAL);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL]->Create(sizeof(tMtrlConst), 1);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL]->SetPipelineTarget(CBufferTarget);
 
-    //CBufferTarget = eSHADER_PIPELINE_STAGE::__VERTEX | eSHADER_PIPELINE_STAGE::__PIXEL;
+    //CBufferTarget = eSHADER_PIPELINE_STAGE_FLAG::__VERTEX | eSHADER_PIPELINE_STAGE_FLAG::__PIXEL;
     //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE] = new CConstBuffer(eCONST_BUFFER_DEBUGSHAPE);
     //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->SetPipelineTarget(CBufferTarget);
     //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->Create(sizeof(tDebugShapeInfo), 1);
 
     //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
-    CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
+    CBufferTarget = eSHADER_PIPELINE_STAGE_FLAG::__ALL;
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::GLOBAL] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::GLOBAL);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::GLOBAL]->Create(sizeof(tGlobalValue), 1);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::GLOBAL]->SetPipelineTarget(CBufferTarget);
 
     //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
-    CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
+    CBufferTarget = eSHADER_PIPELINE_STAGE_FLAG::__ALL;
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO]->Create(sizeof(tSBufferInfo), (UINT)eSBUFFER_SHARED_CBUFFER_IDX::END);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO]->SetPipelineTarget(CBufferTarget);
+
+    
+    //파티클 모듈 데이터를 전달할 상수 버퍼
+    CBufferTarget = eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE;
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::PARTICLE_MODULEDATA] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::PARTICLE_MODULEDATA);
+
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::PARTICLE_MODULEDATA]->Create(sizeof(tParticleModule), 1);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::PARTICLE_MODULEDATA]->SetPipelineTarget(CBufferTarget);
 }
+
 
 HRESULT CDevice::CreateRasterizeState()
 {

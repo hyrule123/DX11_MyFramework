@@ -44,7 +44,7 @@ void CConstBuffer::UploadData(void* _pSrc, UINT _iSize)
 	UINT size = _iSize;
 	if (0 == _iSize)
 	{
-		size = m_iElementSize* m_iElementCount;
+		size = m_iElementSize * m_iElementCount;
 	}
 
 	// 상수버퍼 크기보다 더 큰 데이터가 입력으로 들어온 경우
@@ -61,32 +61,35 @@ void CConstBuffer::UploadData(void* _pSrc, UINT _iSize)
 	}
 }
 
-void CConstBuffer::BindBuffer(eSHADER_PIPELINE_STAGE::FLAG _Stage)
+void CConstBuffer::BindBuffer(UINT8 _eSHADER_PIPELINE_FLAG)
 {
-	UINT8 Flag = eSHADER_PIPELINE_STAGE::__NONE == _Stage ? m_ePIPELINE_STAGE_flags : _Stage;
+	//인자로 NONE이 아닌 플래그값이 들어왔을 경우 해당 플래그값을 타겟으로 바인딩한다.
+	if (eSHADER_PIPELINE_STAGE_FLAG::__NONE == _eSHADER_PIPELINE_FLAG)
+		_eSHADER_PIPELINE_FLAG = m_ePIPELINE_STAGE_flags;
+
 
 	ID3D11DeviceContext* pContext = CONTEXT;
-	if (Flag & eSHADER_PIPELINE_STAGE::__VERTEX)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__VERTEX)
 	{
 		pContext->VSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (Flag & eSHADER_PIPELINE_STAGE::__HULL)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__HULL)
 	{
 		pContext->HSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (Flag & eSHADER_PIPELINE_STAGE::__DOMAIN)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__DOMAIN)
 	{
 		pContext->DSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (Flag & eSHADER_PIPELINE_STAGE::__GEOMETRY)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__GEOMETRY)
 	{
 		pContext->GSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (Flag & eSHADER_PIPELINE_STAGE::__PIXEL)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__PIXEL)
 	{
 		pContext->PSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}
-	if (Flag & eSHADER_PIPELINE_STAGE::__COMPUTE)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE)
 	{
 		pContext->CSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}
