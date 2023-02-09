@@ -20,6 +20,7 @@ CUI_Inspector::CUI_Inspector()
 	, m_pTarget(nullptr)
 	, m_arrComUI{}
 {
+	
 
 	m_arrComUI[(UINT)eCOMPONENT_TYPE::TRANSFORM] = new CUI_Transform;
 	m_arrComUI[(UINT)eCOMPONENT_TYPE::TRANSFORM]->SetSize(0.f, 150.f);
@@ -57,6 +58,7 @@ CUI_Inspector::~CUI_Inspector()
 
 void CUI_Inspector::init()
 {
+
 	m_pTarget = CLevelMgr::GetInst()->FindObjectByName("Player");
 
 	for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
@@ -73,5 +75,18 @@ void CUI_Inspector::tick()
 	if (nullptr == m_pTarget)
 		init();
 	//여기서는 나중에 마우스 클릭을 받아서 클릭된 위치에 있는 오브젝트의 주소를 가져오는 코드를 구현
+}
+
+void CUI_Inspector::Save(YAML::Node& _Save)
+{
+	_Save[GetName()]["IsActive"] = GetActive();
+}
+
+void CUI_Inspector::Load(YAML::Node& _Load)
+{
+	if (_Load[GetName()])
+	{
+		SetActive(_Load[GetName()]["IsActive"].as<bool>());
+	}
 }
 

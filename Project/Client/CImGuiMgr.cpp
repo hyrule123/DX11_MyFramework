@@ -11,13 +11,16 @@
 #include "CUI_Inspector.h"
 #include "CUI_MainMenubar.h"
 
+#include <fstream>
+
+
 
 CImGuiMgr::CImGuiMgr()
 	: m_hWnd()
     , m_clear_color(0.45f, 0.55f, 0.60f, 1.00f)
     , m_bShowDemoWindow1(true)
+    , m_SavedUIData()
 {
-
 }
 
 CImGuiMgr::~CImGuiMgr()
@@ -34,8 +37,19 @@ CImGuiMgr::~CImGuiMgr()
         if (nullptr != iter.second->GetParent())
             continue;
 
+        iter.second->SaveRecursive(m_SavedUIData);
+
 		delete(iter.second);
 	}
+
+    
+
+    std::ofstream fout(m_SaveFilePath);
+    if (true == fout.is_open())
+    {
+        fout << m_SavedUIData;
+        fout.close();
+    }
 }
 
 CUI* CImGuiMgr::FindUI(const string& _UIName)
@@ -51,8 +65,8 @@ CUI* CImGuiMgr::FindUI(const string& _UIName)
 void CImGuiMgr::CreateUI(CUI* _pUI)
 {
     m_mapUI.insert(make_pair(_pUI->GetName(), _pUI));
-
     _pUI->init();
+    _pUI->LoadRecursive(m_SavedUIData);
 }
 
 void CImGuiMgr::init(HWND _hWnd)
@@ -106,6 +120,18 @@ void CImGuiMgr::init(HWND _hWnd)
     CDevice* pDevice = CDevice::GetInst();
     ImGui_ImplDX11_Init(pDevice->GetDevice(), pDevice->GetDeviceContext());
 
+    m_SaveFilePath = CPathMgr::GetInst()->GetContentPath();
+
+    m_SaveFilePath += L"SavedSettings/ImGuiSave.yaml";
+
+    //std::ifstream loadfile(m_SaveFilePath);
+    //if (true == loadfile.is_open())
+    //{
+    //    m_SavedUIData = YAML::Load(loadfile);
+    //    loadfile.close();
+    //}
+    string strpath = ::ConvertUnicodeToMultibyte(m_SaveFilePath);
+    m_SavedUIData = YAML::LoadFile(strpath);
 
     CreateDefaultUI();
 }

@@ -50,3 +50,14 @@ typedef Vector4 Vec4;
 #include "HLSL_Values.h"
 
 #include "CSingleton.h"
+
+#ifdef _DEBUG
+#pragma comment(lib, "UtilLib/UtilLib_d.lib")
+
+#else
+#pragma comment(lib, "UtilLib/UtilLib.lib")
+
+#endif
+
+
+#include <UtilLib/yaml-cpp/yaml.h>

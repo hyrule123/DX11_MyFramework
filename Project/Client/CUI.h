@@ -2,6 +2,8 @@
 
 #include <Engine/CEntity.h>
 
+#include <UtilLib/yaml-cpp/yaml.h>
+
 #include "ImGui/imgui.h"
 
 
@@ -36,6 +38,10 @@ public:
 	//재정의해서 각자 UI에 맞는 end함수를 호출
 	virtual void endUI() = 0;
 
+	void SaveRecursive(YAML::Node& _Node);
+	void LoadRecursive(YAML::Node& _Node);
+
+
 
 private:
 	string			m_strID;
@@ -58,6 +64,10 @@ public:
 	CUI* GetParent() const { return m_ParentUI; }
 	void AddChildUI(CUI* _UI);
 	CUI* FindChildUIByName(const string& _Name);
+
+private:
+	virtual void Save(YAML::Node& _Node) {};
+	virtual void Load(YAML::Node& _Node) {};
 };
 
 inline void CUI::SetstrID(const string& _Name)

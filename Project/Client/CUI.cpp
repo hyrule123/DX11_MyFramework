@@ -60,6 +60,28 @@ void CUI::finaltick()
 
 }
 
+void CUI::SaveRecursive(YAML::Node& _Node)
+{
+	Save(_Node);
+
+	size_t size = m_vecChildUI.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChildUI[i]->SaveRecursive(_Node);
+	}
+}
+
+void CUI::LoadRecursive(YAML::Node& _Node)
+{
+	Load(_Node);
+
+	size_t size = m_vecChildUI.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChildUI[i]->LoadRecursive(_Node);
+	}
+}
+
 
 
 void CUI::AddChildUI(CUI* _UI)
@@ -84,7 +106,6 @@ CUI* CUI::FindChildUIByName(const string& _Name)
 
 	return nullptr;
 }
-
 
 
 

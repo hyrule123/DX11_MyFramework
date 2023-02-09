@@ -29,7 +29,10 @@ private:
     ImVec4 m_clear_color;
 
     bool m_bShowDemoWindow1;
-    //bool m_bShowDemoWindow2;
+    //bool m_bShowDemoWindow
+
+    wstring m_SaveFilePath;
+    YAML::Node m_SavedUIData;
 
 public:
     CUI* FindUI(const string& _UIName);

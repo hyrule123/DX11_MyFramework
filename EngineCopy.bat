@@ -9,3 +9,7 @@ xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" "
 
 :: bin/content/ 폴더를 bin_d/content/ 폴더로 복사
 xcopy /d /s /y /i  /exclude:exclude_list.txt ".\OutputFile\bin_d\content\*" ".\OutputFile\bin\content\"
+
+:: mkdir
+if not exist .\OutputFile\bin_d\content\SavedSettings ( mkdir .\OutputFile\bin_d\content\SavedSettings )
+if not exist .\OutputFile\bin\content\SavedSettings ( mkdir .\OutputFile\bin\content\SavedSettings )
