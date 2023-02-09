@@ -25,7 +25,8 @@ private:
 
     //컴퓨트쉐이더와 바인딩했을 경우 해당 컴퓨트쉐이더 ID를 저장. 
     //나중에 UnBind할 때 사용됨.
-    int                                m_iRecentCSNum;      
+    int                                m_iRecentCSNum;
+
                                 
 
 public:

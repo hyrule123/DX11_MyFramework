@@ -9,67 +9,33 @@
 #include <Engine/CResMgr.h>
 #include <Engine/CMeshRender.h>
 #include <Engine/CCamera.h>
+#include <Engine/CTransform.h>
+#include <Engine/CCameraMoveScript.h>
 
 #define DEBUG_MAT_WVP MAT_0
 #define DEBUG_VEC4_COLOR VEC4_0
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}
+	, m_pEditorCam()
 {
 }
 CEditorObjMgr::~CEditorObjMgr()
 {
 	for (int i = 0; i < (int)eSHAPE_TYPE::END; ++i)
 	{
-		SAFE_DELETE(m_arrDebugShape[i])
+		DESTRUCTOR_DELETE(m_arrDebugShape[i]);
 	}
+
+	DESTRUCTOR_DELETE(m_pEditorCam);
 }
 
 
 void CEditorObjMgr::init()
 {
-	Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>("DebugMtrl");
+	CreateDebugShape();
 
-
-	for (int i = 0; i < (int)eSHAPE_TYPE::END; ++i)
-	{
-		m_arrDebugShape[i] = new CGameObject;
-
-		switch ((eSHAPE_TYPE)i)
-		{
-		case eSHAPE_TYPE::RECT:
-		{
-			CMeshRender* pMesh = new CMeshRender;
-			//월드행렬을 직접 받아서 쉐이더에 보낼 것이기 떄문에 Transform은 필요하지 않음.
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh_Debug");
-			pMesh->SetMesh(pDebugMesh);
-			pMesh->SetMaterial(pDebugMtrl);
-			m_arrDebugShape[i]->AddComponent(pMesh);
-
-			 break;
-		}
-
-		case eSHAPE_TYPE::CIRCLE:
-		{
-			CMeshRender* pMesh = new CMeshRender;
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh_Debug");
-			pMesh->SetMesh(pDebugMesh);
-			pMesh->SetMaterial(pDebugMtrl);
-			m_arrDebugShape[i]->AddComponent(pMesh);
-			break;
-		}
-		case eSHAPE_TYPE::CUBE:
-		{
-			break;
-		}
-		case eSHAPE_TYPE::SPHERE:
-		{
-			break;
-		}
-		default:
-			break;
-		}
-	}
+	CreateEditorCamera();
 }
 
 void CEditorObjMgr::progress()
@@ -82,6 +48,8 @@ void CEditorObjMgr::progress()
 void CEditorObjMgr::tick()
 {
 	//이 메소드의 호출 시점은 모든 게임의 메인 렌더링과정이 종료된 이후이다. 
+	
+
 
 	//CRenderMgr로부터 이번 프레임에 그릴 디버그 쉐이프 목록을 받아온다.
 	CRenderMgr::GetInst()->UpdateDebugShapeRender(m_vecDebugShapeInfo);
@@ -94,6 +62,9 @@ void CEditorObjMgr::tick()
 	{
 		m_vecDebugShapeInfo[i].fLifeSpan -= DT;
 	}
+
+	m_pEditorCam->tick();
+	m_pEditorCam->finaltick();
 }
 
 //받아온 오브젝트를 통해서 디버그 정보를 사각형으로 그리기
@@ -101,7 +72,7 @@ void CEditorObjMgr::render()
 {
 
 	//메인 카메라의 View Projection  행렬을 가져온다.
-	const Matrix& matVP = CRenderMgr::GetInst()->GetCamera(eCAMERA_INDEX::MAIN)->GetViewProjMatrix();
+	const Matrix& matVP = CRenderMgr::GetInst()->GetCurCamera()->GetViewProjMatrix();
 
 	size_t size = m_vecDebugShapeInfo.size();
 	for (size_t i = 0; i < size; ++i)
@@ -152,4 +123,67 @@ void CEditorObjMgr::render()
 				return (_Info.fLifeSpan < 0.f);
 			})
 		, m_vecDebugShapeInfo.end());
+}
+
+void CEditorObjMgr::CreateDebugShape()
+{
+	Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>("DebugMtrl");
+
+
+	for (int i = 0; i < (int)eSHAPE_TYPE::END; ++i)
+	{
+		m_arrDebugShape[i] = new CGameObject;
+
+		switch ((eSHAPE_TYPE)i)
+		{
+		case eSHAPE_TYPE::RECT:
+		{
+			CMeshRender* pMesh = new CMeshRender;
+			//월드행렬을 직접 받아서 쉐이더에 보낼 것이기 떄문에 Transform은 필요하지 않음.
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh_Debug");
+			pMesh->SetMesh(pDebugMesh);
+			pMesh->SetMaterial(pDebugMtrl);
+			m_arrDebugShape[i]->AddComponent(pMesh);
+
+			break;
+		}
+
+		case eSHAPE_TYPE::CIRCLE:
+		{
+			CMeshRender* pMesh = new CMeshRender;
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh_Debug");
+			pMesh->SetMesh(pDebugMesh);
+			pMesh->SetMaterial(pDebugMtrl);
+			m_arrDebugShape[i]->AddComponent(pMesh);
+			break;
+		}
+		case eSHAPE_TYPE::CUBE:
+		{
+			break;
+		}
+		case eSHAPE_TYPE::SPHERE:
+		{
+			break;
+		}
+		default:
+			break;
+		}
+	}
+}
+
+void CEditorObjMgr::CreateEditorCamera()
+{
+	m_pEditorCam = new CGameObject;
+
+	CCamera* pCam = new CCamera;
+	m_pEditorCam->AddComponent(pCam);
+	pCam->SetLayerFlag(UINT32_MAX);
+
+	CTransform* pTransform = new CTransform;
+	m_pEditorCam->AddComponent(pTransform);
+	pTransform->SetRelativePos(Vec3(0.f, 0.f, -100.f));
+
+	m_pEditorCam->AddScript(new CCameraMoveScript);
+
+	CRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
 }

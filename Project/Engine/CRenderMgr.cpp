@@ -10,10 +10,14 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
+#include "CKeyMgr.h"
+
 CRenderMgr::CRenderMgr()
     : m_arrCam{}
     , m_bDebugRenderUpdated()
     , m_pLight2DStructBuffer()
+    , m_pEditorCam()
+    , m_bEditorCamMode()
 {
 }
 
@@ -21,6 +25,8 @@ CRenderMgr::~CRenderMgr()
 {
     delete m_pLight2DStructBuffer;
 }
+
+
 
 
 void CRenderMgr::RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx)
@@ -49,6 +55,9 @@ void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
     m_bDebugRenderUpdated = true;
 }
 
+
+
+
 void CRenderMgr::init()
 {
     //광원정보는 픽셀에서만 필요, 8번 텍스처 레지스터에 바인딩 되어있음.
@@ -56,20 +65,25 @@ void CRenderMgr::init()
     m_pLight2DStructBuffer->Create((UINT)sizeof(tLightInfo), 10, nullptr, 0u);
 }
 
+void CRenderMgr::tick()
+{
+    if (KEY_PRESSED(KEY::LCTRL) && KEY_TAP(KEY::E))
+    {
+        m_bEditorCamMode = !m_bEditorCamMode;
+    }
+}
+
 
 void CRenderMgr::render()
 {
     UpdateBuffer();
 
-    for (int i = 0; i < (int)eCAMERA_INDEX::END; ++i)
-    {
-        if (nullptr == m_arrCam[i])
-            continue;
 
-        //카메라에서 오브젝트를 도메인에 따라서 분류한다.
-        m_arrCam[i]->SortObject();
-        m_arrCam[i]->render();
-    }
+    if (true == m_bEditorCamMode)
+        render_editor();
+    else
+        render_play();
+
 
     //클라이언트 쪽에서 디버그렌더링 정보를 받아가지 않았을 경우 데이터 폐기
     if (false == m_bDebugRenderUpdated)
@@ -89,4 +103,25 @@ void CRenderMgr::UpdateBuffer()
     m_pLight2DStructBuffer->UploadData(static_cast<void*>(m_vecLight2DStruct.data()), (UINT)m_vecLight2DStruct.size());
     m_pLight2DStructBuffer->BindBufferSRV();
     m_vecLight2DStruct.clear();
+}
+
+void CRenderMgr::render_editor()
+{
+    assert(nullptr != m_pEditorCam);
+
+    m_pEditorCam->SortObject();
+    m_pEditorCam->render();
+}
+
+void CRenderMgr::render_play()
+{
+    for (int i = 0; i < (int)eCAMERA_INDEX::END; ++i)
+    {
+        if (nullptr == m_arrCam[i])
+            continue;
+
+        //카메라에서 오브젝트를 도메인에 따라서 분류한다.
+        m_arrCam[i]->SortObject();
+        m_arrCam[i]->render();
+    }
 }

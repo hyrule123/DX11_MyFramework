@@ -73,6 +73,7 @@ void CEngine::tick()
 	CKeyMgr::GetInst()->tick();	
 	CLevelMgr::GetInst()->tick();
 	CCollisionMgr::GetInst()->tick();
+	CRenderMgr::GetInst()->tick();
 }
 
 void CEngine::render()

@@ -23,8 +23,8 @@ public:
     void SetProjType(ePROJ_TYPE _Type);
     void SetCamIndex(eCAMERA_INDEX _Idx);
     void SetLayerFlag(UINT32 _iLayerFlag);
-    void AddLayerFlag(UINT _iLayerNum);
-    void OffLayerFlag(UINT _iLayerNum);
+    void AddLayerFlag(UINT32 _iLayerNum);
+    void OffLayerFlag(UINT32 _iLayerNum);
 
     //Getter
     ePROJ_TYPE GetProjType() const { return m_ProjectionType; }

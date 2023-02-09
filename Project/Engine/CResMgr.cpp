@@ -59,7 +59,7 @@ void CResMgr::CreateDefaultMesh()
 	// ==============
 	v.vPos = Vec3(0.f, 0.f, 0.f);
 	v.vUV = Vec2(0.f, 0.f);
-	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	//v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
 	
 	UINT idx = 0;
 
@@ -76,22 +76,22 @@ void CResMgr::CreateDefaultMesh()
 	// |  \  |
 	// 3 --- 2
 	v.vPos = Vec3(-0.5f, 0.5f, 0.0f);
-	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	//v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 	v.vUV = Vec2(0.f, 0.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(0.5f, 0.5f, 0.0f);
-	v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	//v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
 	v.vUV = Vec2(1.f, 0.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(0.5f, -0.5f, 0.0f);
-	v.vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	//v.vColor = Vec4(0.f, 0.f, 1.f, 1.f);
 	v.vUV = Vec2(1.f, 1.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(-0.5f, -0.5f, 0.0f);
-	v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
+	//v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
 	v.vUV = Vec2(0.f, 1.f);
 	vecVtx.push_back(v);
 
@@ -137,7 +137,7 @@ void CResMgr::CreateDefaultMesh()
 
 	//먼저 원의 중심점을 정점버퍼에 먼저 추가(중심점 (0.5f, 0.5f)에 반지름이 0.5f인 원을 추가할 예정)
 	v.vPos = Vec3(0.f, 0.f, 0.f);
-	v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
+	//v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
 	v.vUV = Vec2(0.5f, 0.5f);
 	vecVtx.push_back(v);
 

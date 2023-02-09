@@ -235,3 +235,11 @@ namespace eCURRENT_BOUND_VIEW
 		DSV = 1 << 3
 	};
 }
+
+
+enum class eLEVEL_STATE
+{
+	PLAY,
+	PAUSE,
+	STOP
+};

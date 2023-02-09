@@ -129,6 +129,9 @@ void CParticleSystem::CreateParticle()
 	m_ParticleModuleData.vSpawnColor = Vec4(1.f, 0.f, 0.f, 1.f);
 	m_ParticleModuleData.iMaxParticleCount = 100;
 	m_ParticleModuleData.SpawnRate = 10;
+	m_ParticleModuleData.bModule_ColorChange = 1;
+	m_ParticleModuleData.bModule_ParticleSpawn = 1;
+	m_ParticleModuleData.bModule_ScaleChange = 1;
 
 
 	//공유 데이터 구조화 버퍼 생성

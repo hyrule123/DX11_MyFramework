@@ -5,8 +5,12 @@
 
 #include "CGameObject.h"
 
+//에디터 모드/게임모드 카메라 전환용
+#include "CRenderMgr.h"
+
 CLevel::CLevel()
 	: m_arrLayer{}
+	, m_CurState()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
@@ -118,6 +122,20 @@ void CLevel::FindObjectALLByName(const string& _Name, vector<CGameObject*>& _out
 			if (_Name == vecObj[j]->GetName())
 				_out.push_back(vecObj[j]);
 		}
+	}
+}
+
+void CLevel::SetState(eLEVEL_STATE _eState)
+{
+	m_CurState = _eState;
+
+	if (eLEVEL_STATE::PLAY == m_CurState)
+	{
+		CRenderMgr::GetInst()->ChangeRenderCam(true);
+	}
+	else
+	{
+		CRenderMgr::GetInst()->ChangeRenderCam(false);
 	}
 }
 

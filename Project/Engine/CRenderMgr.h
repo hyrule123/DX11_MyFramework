@@ -11,6 +11,11 @@ class CRenderMgr : public CSingleton<CRenderMgr>
 {
 	SINGLETON(CRenderMgr)
 
+public:
+	void init();
+	void tick();
+	void render();
+
 private:
 	CCamera* m_arrCam[(UINT)eCAMERA_INDEX::END];
 
@@ -22,28 +27,52 @@ private:
 	//빛 관련 구조화 버퍼 변수
 	vector<tLightInfo>		m_vecLight2DStruct;
 	CStructBuffer* m_pLight2DStructBuffer;
+
+	//에디터용 카메라 주소
+	CCamera* m_pEditorCam;
+	bool m_bEditorCamMode;
 	
 
 public:
 	//inline getter
 	CCamera* GetCamera(eCAMERA_INDEX _iCamIdx) { return m_arrCam[(int)_iCamIdx]; }
+	CCamera* GetCurCamera();
 
 	void RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx);
 	void RemoveCamera(CCamera* _pCam);
-	void AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeInfo) { m_vecDebugShapeRender.push_back(_tDebugShapeInfo); }
+	void AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeInfo);
 
 	//CEditorObjMgr에서 사용. 해당 객체의 리스트를 레퍼런스 인자로 전달하면 리스트에 정보를 추가해준 뒤 엔진 내부의 리스트를 전부 제거
 	void UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef);
 
 	void AddLight2DData(const tLightInfo& _tLightInfo) { m_vecLight2DStruct.push_back(_tLightInfo); }
 
-
-public:
-	void init();
-	void render();
+	void ChangeRenderCam(bool _bEditorCam) { m_bEditorCamMode = _bEditorCam; }
+	void SetEditorCam(CCamera* _pCamera) { m_pEditorCam = _pCamera; }
 
 private:
 	//Upload + Bind
 	void UpdateBuffer();
+
+	void render_editor();
+	void render_play();
 };
 
+
+inline void CRenderMgr::AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeInfo)
+{
+	//플레이 모드일때는 디버그 쉐이프를 렌더링하지 않음.
+	if (false == m_bEditorCamMode)
+		return;
+
+	m_vecDebugShapeRender.push_back(_tDebugShapeInfo);
+}
+
+inline CCamera* CRenderMgr::GetCurCamera()
+{
+	if (m_bEditorCamMode)
+		return m_pEditorCam;
+
+
+	return m_arrCam[(int)eCAMERA_INDEX::MAIN];
+}

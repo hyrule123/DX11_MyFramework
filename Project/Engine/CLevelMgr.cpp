@@ -253,7 +253,7 @@ void CLevelMgr::init()
 		CRenderMgr::GetInst()->RegisterCamera(Cam, eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		pObj->AddComponent(new CTransform);
-		pObj->AddScript(new CCameraMoveScript);
+		//pObj->AddScript(new CCameraMoveScript);
 
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), 1);
 		//m_pCurLevel->AddGameObject(pObj, 1);

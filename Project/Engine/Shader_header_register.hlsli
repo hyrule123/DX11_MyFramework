@@ -133,6 +133,7 @@ Texture2D g_tex_5 : register(t5);
 Texture2D g_tex_6 : register(t6);
 Texture2D g_tex_7 : register(t7);
 
+
 //enum eSRV_REGISTER_IDX
 //{
 //    NONE = -1,

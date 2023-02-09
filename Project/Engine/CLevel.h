@@ -9,21 +9,23 @@ class CLevel :
 {
 private:
     CLayer*     m_arrLayer[MAX_LAYER];
+    eLEVEL_STATE m_CurState;
 
 public:
     void tick();
     void finaltick();
 
 public:
-    //Setter
     void SetLayerName(int _iLayer, const string& _sLayerName);
-
-    //Getter
     const string& GetLayerName(int _iLayer);
+
     int GetLayerIdxByName(const string& _sLayerName);
     CLayer* GetLayer(UINT _iLayer);
+
     CGameObject* FindObjectByName(const string& _Name);
     void FindObjectALLByName(const string& _Name, __out vector<CGameObject*>& _out);
+
+    void SetState(eLEVEL_STATE _eState);
 
     //Add
     void AddGameObject(CGameObject* _Object, int _iLayerIdx);

@@ -23,7 +23,7 @@ CGraphicsShader::~CGraphicsShader()
 void CGraphicsShader::CreateInputLayout()
 {
 	// InputLayout 생성
-	D3D11_INPUT_ELEMENT_DESC LayoutDesc[3] = {};
+	D3D11_INPUT_ELEMENT_DESC LayoutDesc[2] = {};
 
 	LayoutDesc[0].SemanticName = "POSITION";
 	LayoutDesc[0].SemanticIndex = 0;
@@ -32,27 +32,28 @@ void CGraphicsShader::CreateInputLayout()
 	LayoutDesc[0].InputSlot = 0;
 	LayoutDesc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	LayoutDesc[0].InstanceDataStepRate = 0;
+	
 
-	LayoutDesc[1].SemanticName = "COLOR";
+	//LayoutDesc[1].SemanticName = "COLOR";
+	//LayoutDesc[1].SemanticIndex = 0;
+
+	////이전 시멘틱에서 얼마나 떨어졌는지 여부를 저장. 0번 인덱스는 R32B32G32(4+4+4 = 12) 이므로 오프셋을 12로 잡아준다.
+	//LayoutDesc[1].AlignedByteOffset = 12;					
+	//LayoutDesc[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//LayoutDesc[1].InputSlot = 0;
+	//LayoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	//LayoutDesc[1].InstanceDataStepRate = 0;
+
+	LayoutDesc[1].SemanticName = "TEXCOORD";
 	LayoutDesc[1].SemanticIndex = 0;
 
-	//이전 시멘틱에서 얼마나 떨어졌는지 여부를 저장. 0번 인덱스는 R32B32G32(4+4+4 = 12) 이므로 오프셋을 12로 잡아준다.
-	LayoutDesc[1].AlignedByteOffset = 12;					
-	LayoutDesc[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//0번 인덱스1: 12 , 1번 인덱스 : R32B32G32A32(4 * 4 = 16) -> 12 + 16 = 28
+	LayoutDesc[1].AlignedByteOffset = 12;
+	LayoutDesc[1].Format = DXGI_FORMAT_R32G32_FLOAT;
 	LayoutDesc[1].InputSlot = 0;
 	LayoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	LayoutDesc[1].InstanceDataStepRate = 0;
-
-	LayoutDesc[2].SemanticName = "TEXCOORD";
-	LayoutDesc[2].SemanticIndex = 0;
-
-	//0번 인덱스 : 12 , 1번 인덱스 : R32B32G32A32(4 * 4 = 16) -> 12 + 16 = 28
-	LayoutDesc[2].AlignedByteOffset = 28;
-	LayoutDesc[2].Format = DXGI_FORMAT_R32G32_FLOAT;
-	LayoutDesc[2].InputSlot = 0;
-	LayoutDesc[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	LayoutDesc[2].InstanceDataStepRate = 0;
-
+	
 
 	//blob 형태로 로드했을 경우와 헤더 형태로 로드했을 경우에 따라 다른 파일을 참조해서 로드한다.
 	switch (m_ShaderData[eSHADERTYPE_VERTEX].LoadType)
@@ -63,7 +64,7 @@ void CGraphicsShader::CreateInputLayout()
 		break;	
 
 	case eSHADER_LOADTYPE::eSHADER_RUNTIME:
-		if (FAILED(DEVICE->CreateInputLayout(LayoutDesc, 3,
+		if (FAILED(DEVICE->CreateInputLayout(LayoutDesc, 2,
 			m_ShaderData[eSHADERTYPE_VERTEX].Blob->GetBufferPointer(),
 			m_ShaderData[eSHADERTYPE_VERTEX].Blob->GetBufferSize(),
 			m_Layout.GetAddressOf())))
@@ -76,7 +77,7 @@ void CGraphicsShader::CreateInputLayout()
 
 	case eSHADER_LOADTYPE::eSHADER_INCLUDE:
 		if (FAILED(DEVICE->CreateInputLayout(
-			LayoutDesc, 3,
+			LayoutDesc, 2,
 			m_ShaderData[eSHADERTYPE_VERTEX].pByteCode,
 			m_ShaderData[eSHADERTYPE_VERTEX].ByteCodeSize,
 			m_Layout.GetAddressOf())))
@@ -189,7 +190,6 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
 			, "Vertex Shader Compile Failed!!", MB_OK);
 	}
-
 
 	//4. 다시 switch문으로 각 쉐이더별 함수를 호출
 	switch (_ShaderType)

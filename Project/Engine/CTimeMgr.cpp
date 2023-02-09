@@ -38,9 +38,11 @@ void CTimeMgr::tick()
 	// tick 간격 시간
 	m_fDeltaTime = (float)(m_llCurCount.QuadPart - m_llPrevCount.QuadPart) / (float)m_llFrequency.QuadPart;
 
+
+
 	// 누적 시간
 	m_fTime += m_fDeltaTime;
-	g_GlobalVal.AccTime = m_fTime;
+	g_GlobalVal.AccTime += m_fDeltaTime;
 	g_GlobalVal.DeltaTime = m_fDeltaTime;
 
 	// 함수 호출 횟수
