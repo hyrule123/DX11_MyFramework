@@ -19,96 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="yaml-cpp\include\anchor.h" />
-    <ClInclude Include="yaml-cpp\include\binary.h" />
-    <ClInclude Include="yaml-cpp\include\depthguard.h" />
-    <ClInclude Include="yaml-cpp\include\dll.h" />
-    <ClInclude Include="yaml-cpp\include\emitfromevents.h" />
-    <ClInclude Include="yaml-cpp\include\emitter.h" />
-    <ClInclude Include="yaml-cpp\include\emitterdef.h" />
-    <ClInclude Include="yaml-cpp\include\emittermanip.h" />
-    <ClInclude Include="yaml-cpp\include\emitterstyle.h" />
-    <ClInclude Include="yaml-cpp\include\eventhandler.h" />
-    <ClInclude Include="yaml-cpp\include\exceptions.h" />
-    <ClInclude Include="yaml-cpp\include\mark.h" />
-    <ClInclude Include="yaml-cpp\include\node\convert.h" />
-    <ClInclude Include="yaml-cpp\include\node\detail\impl.h" />
-    <ClInclude Include="yaml-cpp\include\node\detail\iterator.h" />
-    <ClInclude Include="yaml-cpp\include\node\detail\iterator_fwd.h" />
-    <ClInclude Include="yaml-cpp\include\node\detail\memory.h" />
-    <ClInclude Include="yaml-cpp\include\node\detail\node.h" />
-    <ClInclude Include="yaml-cpp\include\node\detail\node_data.h" />
-    <ClInclude Include="yaml-cpp\include\node\detail\node_iterator.h" />
-    <ClInclude Include="yaml-cpp\include\node\detail\node_ref.h" />
-    <ClInclude Include="yaml-cpp\include\node\emit.h" />
-    <ClInclude Include="yaml-cpp\include\node\impl.h" />
-    <ClInclude Include="yaml-cpp\include\node\iterator.h" />
-    <ClInclude Include="yaml-cpp\include\node\node.h" />
-    <ClInclude Include="yaml-cpp\include\node\parse.h" />
-    <ClInclude Include="yaml-cpp\include\node\ptr.h" />
-    <ClInclude Include="yaml-cpp\include\node\type.h" />
-    <ClInclude Include="yaml-cpp\include\noexcept.h" />
-    <ClInclude Include="yaml-cpp\include\null.h" />
-    <ClInclude Include="yaml-cpp\include\ostream_wrapper.h" />
-    <ClInclude Include="yaml-cpp\include\parser.h" />
-    <ClInclude Include="yaml-cpp\include\stlemitter.h" />
-    <ClInclude Include="yaml-cpp\include\traits.h" />
-    <ClInclude Include="yaml-cpp\include\yaml.h" />
-    <ClInclude Include="yaml-cpp\src\collectionstack.h" />
-    <ClInclude Include="yaml-cpp\src\directives.h" />
-    <ClInclude Include="yaml-cpp\src\emitterstate.h" />
-    <ClInclude Include="yaml-cpp\src\emitterutils.h" />
-    <ClInclude Include="yaml-cpp\src\exp.h" />
-    <ClInclude Include="yaml-cpp\src\indentation.h" />
-    <ClInclude Include="yaml-cpp\src\nodebuilder.h" />
-    <ClInclude Include="yaml-cpp\src\nodeevents.h" />
-    <ClInclude Include="yaml-cpp\src\ptr_vector.h" />
-    <ClInclude Include="yaml-cpp\src\regeximpl.h" />
-    <ClInclude Include="yaml-cpp\src\regex_yaml.h" />
-    <ClInclude Include="yaml-cpp\src\scanner.h" />
-    <ClInclude Include="yaml-cpp\src\scanscalar.h" />
-    <ClInclude Include="yaml-cpp\src\scantag.h" />
-    <ClInclude Include="yaml-cpp\src\setting.h" />
-    <ClInclude Include="yaml-cpp\src\singledocparser.h" />
-    <ClInclude Include="yaml-cpp\src\stream.h" />
-    <ClInclude Include="yaml-cpp\src\streamcharsource.h" />
-    <ClInclude Include="yaml-cpp\src\stringsource.h" />
-    <ClInclude Include="yaml-cpp\src\tag.h" />
-    <ClInclude Include="yaml-cpp\src\token.h" />
+    <ClInclude Include="json-cpp\json-forwards.h" />
+    <ClInclude Include="json-cpp\json.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="yaml-cpp\src\binary.cpp" />
-    <ClCompile Include="yaml-cpp\src\convert.cpp" />
-    <ClCompile Include="yaml-cpp\src\depthguard.cpp" />
-    <ClCompile Include="yaml-cpp\src\directives.cpp" />
-    <ClCompile Include="yaml-cpp\src\emit.cpp" />
-    <ClCompile Include="yaml-cpp\src\emitfromevents.cpp" />
-    <ClCompile Include="yaml-cpp\src\emitter.cpp" />
-    <ClCompile Include="yaml-cpp\src\emitterstate.cpp" />
-    <ClCompile Include="yaml-cpp\src\emitterutils.cpp" />
-    <ClCompile Include="yaml-cpp\src\exceptions.cpp" />
-    <ClCompile Include="yaml-cpp\src\exp.cpp" />
-    <ClCompile Include="yaml-cpp\src\memory.cpp" />
-    <ClCompile Include="yaml-cpp\src\node.cpp" />
-    <ClCompile Include="yaml-cpp\src\nodebuilder.cpp" />
-    <ClCompile Include="yaml-cpp\src\nodeevents.cpp" />
-    <ClCompile Include="yaml-cpp\src\node_data.cpp" />
-    <ClCompile Include="yaml-cpp\src\null.cpp" />
-    <ClCompile Include="yaml-cpp\src\ostream_wrapper.cpp" />
-    <ClCompile Include="yaml-cpp\src\parse.cpp" />
-    <ClCompile Include="yaml-cpp\src\parser.cpp" />
-    <ClCompile Include="yaml-cpp\src\regex_yaml.cpp" />
-    <ClCompile Include="yaml-cpp\src\scanner.cpp" />
-    <ClCompile Include="yaml-cpp\src\scanscalar.cpp" />
-    <ClCompile Include="yaml-cpp\src\scantag.cpp" />
-    <ClCompile Include="yaml-cpp\src\scantoken.cpp" />
-    <ClCompile Include="yaml-cpp\src\simplekey.cpp" />
-    <ClCompile Include="yaml-cpp\src\singledocparser.cpp" />
-    <ClCompile Include="yaml-cpp\src\stream.cpp" />
-    <ClCompile Include="yaml-cpp\src\tag.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="yaml-cpp\src\contrib\yaml-cpp.natvis" />
+    <ClCompile Include="json-cpp\jsoncpp.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -166,7 +81,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)External\Library\UtilLib\</OutDir>
-    <TargetName>$(ProjectName)_d</TargetName>
+    <TargetName>$(ProjectName)_Debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)External\Library\UtilLib\</OutDir>

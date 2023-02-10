@@ -60,7 +60,7 @@ void CUI::finaltick()
 
 }
 
-void CUI::SaveRecursive(YAML::Node& _Node)
+void CUI::SaveRecursive(Json::Value& _Node)
 {
 	Save(_Node);
 
@@ -71,7 +71,7 @@ void CUI::SaveRecursive(YAML::Node& _Node)
 	}
 }
 
-void CUI::LoadRecursive(YAML::Node& _Node)
+void CUI::LoadRecursive(Json::Value& _Node)
 {
 	Load(_Node);
 

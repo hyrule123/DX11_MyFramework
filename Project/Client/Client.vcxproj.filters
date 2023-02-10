@@ -178,6 +178,7 @@
     <ClInclude Include="CUI_Child.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
+    <ClInclude Include="JsonCPP.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

@@ -7,7 +7,7 @@
 #include <Engine\CEngine.h>
 
 #ifdef _DEBUG
-#pragma comment(lib, "Engine//Engine_d")
+#pragma comment(lib, "Engine/Engine_Debug")
 #else
-#pragma comment(lib, "Engine//Engine")
+#pragma comment(lib, "Engine/Engine")
 #endif

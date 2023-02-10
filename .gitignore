@@ -379,19 +379,16 @@ FodyWeavers.xsd
 *.[bB][aA][kK]
 
 #Include External Libraries
-!External/*
-!DirectXTex*
 
 # Except External/*/Engine Folder : Used to gather header files - automatically generated at build time
-External/*/Engine/
-External/*/UtilLib/
+External/
 
 # Exclude *.pdb, *.exe file from OutputFile Bin Folder
 OutputFile/[Bb]in/*
-OutputFile/[Bb]in_d/*
+OutputFile/[Bb]in_Debug/*
 
 # Include Content(Resources) Files, Exclude Only Shader Files(*.fx) - will be copied after build
-!OutputFile/[Bb]in_d/content/
+!OutputFile/[Bb]in_Debug/content/
 # OutputFile/[Bb]in*/content/shader/
 
 # Exclude Unity cpp File
@@ -399,3 +396,4 @@ Unity_*.cpp
 
 # Exclude Compiled Shader Header Path
 CompiledShaderHeader/
+*.inc

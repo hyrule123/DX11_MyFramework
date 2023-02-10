@@ -22,7 +22,7 @@ public:
 
 
 private:
-    virtual void Save(YAML::Node& _Save) override;
-    virtual void Load(YAML::Node& _Load) override;
+    virtual void Save(Json::Value& _Save) override;
+    virtual void Load(Json::Value& _Load) override;
 
 };

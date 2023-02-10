@@ -7,9 +7,9 @@ xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" "
 :: *.fx 파일 복사(쉐이더 컴파일 코드) - 헤더 파일 사용하므로 복사 X
 :: xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\*.fx" ".\OutputFile\bin\content\shader\"
 
-:: bin/content/ 폴더를 bin_d/content/ 폴더로 복사
-xcopy /d /s /y /i  /exclude:exclude_list.txt ".\OutputFile\bin_d\content\*" ".\OutputFile\bin\content\"
+:: bin_d/content/ 폴더를 bin/content/ 폴더로 복사
+xcopy /d /s /y /i  /exclude:exclude_list.txt ".\OutputFile\bin_Debug\content\*" ".\OutputFile\bin\content\"
 
-:: mkdir
-if not exist .\OutputFile\bin_d\content\SavedSettings ( mkdir .\OutputFile\bin_d\content\SavedSettings )
+:: 파일 저장용 디렉토리가 없을 경우 새로 생성
+if not exist .\OutputFile\bin_Debug\content\SavedSettings ( mkdir .\OutputFile\bin_Debug\content\SavedSettings )
 if not exist .\OutputFile\bin\content\SavedSettings ( mkdir .\OutputFile\bin\content\SavedSettings )

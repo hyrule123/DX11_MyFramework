@@ -15,6 +15,8 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CLevelMgr.h>
 
+#include "JsonCPP.h"
+
 CUI_Inspector::CUI_Inspector()
 	: CUI_BasicWindow("Inspector")
 	, m_pTarget(nullptr)
@@ -77,12 +79,12 @@ void CUI_Inspector::tick()
 	//여기서는 나중에 마우스 클릭을 받아서 클릭된 위치에 있는 오브젝트의 주소를 가져오는 코드를 구현
 }
 
-void CUI_Inspector::Save(YAML::Node& _Save)
+void CUI_Inspector::Save(Json::Value& _Save)
 {
 	_Save[GetName()]["IsActive"] = GetActive();
 }
 
-void CUI_Inspector::Load(YAML::Node& _Load)
+void CUI_Inspector::Load(Json::Value& _Load)
 {
 	if (_Load[GetName()])
 	{

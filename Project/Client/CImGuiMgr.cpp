@@ -13,6 +13,7 @@
 
 #include <fstream>
 
+#include "JsonCPP.h"
 
 
 CImGuiMgr::CImGuiMgr()
@@ -122,7 +123,7 @@ void CImGuiMgr::init(HWND _hWnd)
 
     m_SaveFilePath = CPathMgr::GetInst()->GetContentPath();
 
-    m_SaveFilePath += L"SavedSettings/ImGuiSave.yaml";
+    m_SaveFilePath += L"SavedSettings/ImGuiSave.json";
 
     //std::ifstream loadfile(m_SaveFilePath);
     //if (true == loadfile.is_open())
@@ -131,7 +132,7 @@ void CImGuiMgr::init(HWND _hWnd)
     //    loadfile.close();
     //}
     string strpath = ::ConvertUnicodeToMultibyte(m_SaveFilePath);
-    m_SavedUIData = YAML::LoadFile(strpath);
+    //m_SavedUIData = YAML::LoadFile(strpath);
 
     CreateDefaultUI();
 }

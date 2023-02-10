@@ -4,7 +4,7 @@
 #include <DirectXTex\DirectXTex.h>
 
 #ifdef _DEBUG
-#pragma comment(lib, "DirectXTex//DirectXTex_debug")
+#pragma comment(lib, "DirectXTex//DirectXTex_Debug")
 #else 
 #pragma comment(lib, "DirectXTex//DirectXTex")
 #endif

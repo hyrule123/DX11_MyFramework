@@ -7,6 +7,7 @@
 #include "ImGui/imgui_impl_dx11.h"
 
 
+#include <UtilLib/json.h>
 
 //Delegate(함수 포인터
 class CUI;
@@ -32,7 +33,7 @@ private:
     //bool m_bShowDemoWindow
 
     wstring m_SaveFilePath;
-    YAML::Node m_SavedUIData;
+    Json::Value m_SavedUIData;
 
 public:
     CUI* FindUI(const string& _UIName);
