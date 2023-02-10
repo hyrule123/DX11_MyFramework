@@ -25,7 +25,10 @@ private:
 
     //컴퓨트쉐이더와 바인딩했을 경우 해당 컴퓨트쉐이더 ID를 저장. 
     //나중에 UnBind할 때 사용됨.
+   
+    int                                m_iRecentGSNum;
     int                                m_iRecentCSNum;
+    UINT8                              m_uRecentGSTarget;
 
                                 
 
@@ -56,6 +59,7 @@ public:
 public:
     // _PipelineStage : eSHADER_PIPELINE_STAGE_FLAG::FLAG
     void BindData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE);
+    void UnBind();
 
     //Bind Texture data to Compute Shader 
     void BindData_CS(int _iRegisterNum);

@@ -7,7 +7,10 @@ CTexture::CTexture()
 	: CRes(eRES_TYPE::TEXTURE)
 	, m_Desc{}
 	, m_Image{}
+	, m_iRecentGSNum(-1)
 	, m_iRecentCSNum(-1)
+	, m_uRecentGSTarget()
+
 {
 }
 
@@ -20,6 +23,9 @@ void CTexture::BindData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE)
 {
 	//컴퓨트쉐이더와의 바인딩 해제
 	UnBind_CS();
+
+	m_iRecentGSNum = _iRegisterNum;
+	m_uRecentGSTarget = _eSHADER_PIPELINE_STAGE;
 
 	if (eSHADER_PIPELINE_STAGE_FLAG::__VERTEX & _eSHADER_PIPELINE_STAGE)
 	{
@@ -45,10 +51,58 @@ void CTexture::BindData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
+
+	if (eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE & _eSHADER_PIPELINE_STAGE)
+	{
+		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+	}
+}
+
+void CTexture::UnBind()
+{
+	if (-1 == m_iRecentGSNum)
+		return;
+
+	ID3D11ShaderResourceView* pSrv = nullptr;
+	
+	if (eSHADER_PIPELINE_STAGE_FLAG::__VERTEX & m_uRecentGSTarget)
+	{
+		CONTEXT->VSSetShaderResources(m_iRecentGSNum, 1, &pSrv);
+	}
+
+	if (eSHADER_PIPELINE_STAGE_FLAG::__HULL & m_uRecentGSTarget)
+	{
+		CONTEXT->HSSetShaderResources(m_iRecentGSNum, 1, &pSrv);
+	}
+
+	if (eSHADER_PIPELINE_STAGE_FLAG::__DOMAIN & m_uRecentGSTarget)
+	{
+		CONTEXT->DSSetShaderResources(m_iRecentGSNum, 1, &pSrv);
+	}
+
+	if (eSHADER_PIPELINE_STAGE_FLAG::__GEOMETRY & m_uRecentGSTarget)
+	{
+		CONTEXT->GSSetShaderResources(m_iRecentGSNum, 1, &pSrv);
+	}
+
+	if (eSHADER_PIPELINE_STAGE_FLAG::__PIXEL & m_uRecentGSTarget)
+	{
+		CONTEXT->PSSetShaderResources(m_iRecentGSNum, 1, &pSrv);
+	}
+
+	if (eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE & m_uRecentGSTarget)
+	{
+		CONTEXT->CSSetShaderResources(m_iRecentGSNum, 1, &pSrv);
+	}
+
+	m_iRecentGSNum = -1;
+	m_uRecentGSTarget = (UINT8)0u;
 }
 
 void CTexture::BindData_CS(int _iRegisterNum)
 {
+	UnBind();
+	
 	//바인딩한 Compute Shader 버퍼 번호를 기억
 	m_iRecentCSNum = _iRegisterNum;
 

@@ -3,11 +3,17 @@
 //
 //
 //
-//값이 바뀔 경우 HLSL 쪽에서도 변경시켜주어야 하는 값들
+//HLSL로 전달해주는데 사용해야 하는 열거체 및 구조체 모음
+//여기서 값을 변경할 경우 반드시 쉐이더쪽의 값도 수정할 것
 //
 //
 //
-enum class  eCONST_BUFFER_TYPE : UINT
+typedef Vector2 float2;
+typedef Vector3 float3;
+typedef Vector4 float4;
+
+
+enum class  eCONST_BUFFER_TYPE
 {
 	TRANSFORM,	// b0
 	MATERIAL,	// b1
@@ -19,7 +25,7 @@ enum class  eCONST_BUFFER_TYPE : UINT
 };
 
 //상수 버퍼 'SBUFFERINFO' 내부의 인덱스 번호를 지정하는 열거체
-enum class eSBUFFER_SHARED_CBUFFER_IDX : int
+enum class eSBUFFER_SHARED_CBUFFER_IDX
 {
 	NONE = -1,
 	LIGHT2D,
@@ -32,10 +38,11 @@ enum class eSBUFFER_SHARED_CBUFFER_IDX : int
 enum class eSRV_REGISTER_IDX
 {
 	NONE = -1,
-	LIGHT2D = 8,
-	TILE = 9,
-	SETCOLOR = 10,
-	PARTICLE_INFO = 11,
+	LIGHT2D = 12,
+	TILE = 13,
+	SETCOLOR = 14,
+	PARTICLE_INFO = 15,
+	NOISE_TEXTURE = 16
 };
 
 enum class eUAV_REGISTER_IDX
@@ -82,7 +89,6 @@ enum eSCALAR_PARAM
 #define CS_TotalCountY eSCALAR_PARAM::INT_1
 #define CS_TotalCountZ eSCALAR_PARAM::INT_2
 
-
 enum eTEX_PARAM
 {
 	eTEX_0,
@@ -97,7 +103,7 @@ enum eTEX_PARAM
 	eTEX_END,
 };
 
-enum class eLIGHT_TYPE : UINT
+enum class eLIGHT_TYPE
 {
 	eLIGHT_DIRECTIONAL,	//직사광선
 	eLIGHT_POINT,		//점광원
@@ -133,12 +139,12 @@ extern tSBufferInfo g_arrStructBufferInfo[(UINT)eSBUFFER_SHARED_CBUFFER_IDX::END
 
 struct tMtrlConst
 {
-	int arrInt[4];
+	INT32 arrInt[4];
 	float arrFloat[4];
-	Vec2 arrV2[4];
-	Vec4 arrV4[4];
+	float2 arrV2[4];
+	float4 arrV4[4];
 	Matrix arrMat[4];
-	int arrbTex[eTEX_PARAM::eTEX_END];
+	INT32 arrbTex[eTEX_PARAM::eTEX_END];
 };
 
 struct tTransform
@@ -153,35 +159,35 @@ extern Matrix g_matViewProj;
 
 struct tLightColor
 {
-	Vec4 vDiffuse;
-	Vec4 vAmbient;
+	float4 vDiffuse;
+	float4 vAmbient;
 };
 
 struct tLightInfo
 {
 	tLightColor LightColor;
 
-	Vec4 vLightWorldPos;
+	float4 vLightWorldPos;
 
-	Vec4 vLightDir;	//직사광선 또는 스포트라이트의 방향
+	float4 vLightDir;	//직사광선 또는 스포트라이트의 방향
 
 	float fRadius;	//점광원 또는 스포트라이트의 거리
 	float fAngle;	//스포트라이트의 부채꼴 각도
 	UINT LightType;
-	int padding;
+	INT32 padding;
 };
 
 // TileMap
 struct tTile
 {
-	Vec2 vLeftTop;
-	Vec2 vSlice;
+	float2 vLeftTop;
+	float2 vSlice;
 };
 
 //RenderMgr에서 보낼 구조체 변수
 struct tGlobalValue
 {
-	Vec2  Resolution;
+	float2  Resolution;
 	float DeltaTime;
 	float AccTime;	//프로그래밍 작동 시간
 };
@@ -191,31 +197,35 @@ struct tDebugShapeInfo
 {
 	eSHAPE_TYPE	eShape;
 	float		fLifeSpan;
-	Vec2		bytepadding;
+	float2		bytepadding;
 	Matrix		matWorld;
-	Vec4		vColor;
+	float4		vColor;
 };
 
 
 struct tRWParticleBuffer
 {
-	int		SpawnCount;			// 스폰 시킬 파티클 개수
-	Vec3	padding;
+	INT32		SpawnCount;			// 스폰 시킬 파티클 개수
+	float3	padding;
 };
 
 
 struct tParticle
 {
-	Vec4	vWorldPos;		// 파티클 위치
-	Vec4	vWorldScale;	// 파티클 크기
-	Vec4	vColor;			// 파티클 색상
-	Vec4	vVelocity;		// 파티클 현재 속도
-	Vec4	vForce;			// 파티클에 주어진 힘
+	float4  vLocalPos;
+	float4  vWorldPos; // 파티클 위치
+	float4  vWorldScale; // 파티클 크기
+	float4  vColor; // 파티클 색상
+	float4  vVelocity; // 파티클 현재 속도
+	float4  vForce; // 파티클에 주어진 힘
 
-	float   Age;			// 생존 시간
-	float   NomalizedAge;	// 수명대비 생존시간을 0~1로 정규화 한 값
-	float	LifeTime;		// 수명
-	float	Mass;			// 질량
+	float   Age; // 생존 시간
+	float   NomalizedAge; // 수명대비 생존시간을 0~1로 정규화 한 값
+	float   LifeTime; // 수명
+	float   Mass; // 질량
+
+	int     Active;
+	float3  Padding;
 };
 
 
@@ -223,30 +233,29 @@ struct tParticle
 struct tParticleModule
 {
 	// 스폰 모듈
-	Vec4    vSpawnColor;
-
-	Vec4	vSpawnScale;
-
-	Vec3	vBoxShapeScale;
-	float	fSphereShapeRadius;
-
-	int		SpawnShapeType;		// Sphere , Box
-	int		SpawnRate;			// 초당 생성 개수
-	const Vec2	Padding;
+	float4  vSpawnColor;
+	float4  vSpawnScale;
+	float3  vBoxShapeScale;
+	float   fSphereShapeRadius;
+	INT32     eSpawnShapeType; // Sphere , Box
+	INT32     iSpawnRate;
+	INT32     bFollowing;          // 0 World, 1 Local
+	INT32     Padding0;
 
 	// Color Change 모듈
-	Vec4	vStartColor;		// 초기 색상
-	Vec4	vEndColor;			// 최종 색상
+	float4  vStartColor; // 초기 색상
+	float4  vEndColor; // 최종 색상
 
 	// Scale Change 모듈
-	Vec4	vStartScale;		// 초기 크기
-	Vec4	vEndScale;			// 최종 크기	
+	float4  vStartScale; // 초기 크기
+	float4  vEndScale; // 최종 크기	
 
-	// 버퍼 최대크기
-	int		iMaxParticleCount;
+	// Module Check
+	INT32     bSpawn;
+	INT32     bColorChange;
+	INT32     bScaleChange;
+	INT32     Padding1;
 
-	// Module Check(현재 int 3개짜리 배열)
-	int		bModule_ParticleSpawn;
-	int		bModule_ColorChange;
-	int		bModule_ScaleChange;
+	INT32     iMaxParticleCount;
+	float3    Padding2;
 };

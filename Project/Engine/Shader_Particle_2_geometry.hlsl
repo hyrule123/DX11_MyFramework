@@ -10,8 +10,8 @@ void GS_Particle(
     uint id = _in[0].iInstID;
 	
 	//GS 단계에서 해당 파티클의 렌더링 여부를 판단 후 렌더링되지 않을 파티클이면 return 해준다.
-    //if (g_ParticleInfo[id].Age < 0.f)
-    //    return;
+    if (0 == g_ParticleInfo[id].bActive)
+        return;
 	
 	//정점을 뷰 공간상으로 이동
     float3 vParticleViewPos = mul(float4(g_ParticleInfo[id].vWorldPos.xyz, 1.f), g_matView).xyz;

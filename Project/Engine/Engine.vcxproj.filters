@@ -533,6 +533,9 @@
     <None Include="Shader_Particle_0_header.hlsli">
       <Filter>Source\08. ShaderCode\05. Particle</Filter>
     </None>
+    <None Include="Shader_Func.hlsli">
+      <Filter>Source\08. ShaderCode</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader_test_2_pixel.hlsl">

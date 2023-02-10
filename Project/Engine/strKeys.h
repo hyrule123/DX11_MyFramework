@@ -49,5 +49,6 @@ namespace RESOURCE
 		inline constexpr const char* BEHEADED_ATLAS_NORMAL = "beheaded_n";
 		inline constexpr const char* TILE_ATLAS = "TileAtlas";
 		inline constexpr const char* LINK_ATLAS = "LinkAtlas";
+		inline constexpr const char* NOISE_TEXTURE_0 = "NoiseTexture";
 	}
 }

@@ -20,7 +20,7 @@
 
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(eCOMPONENT_TYPE::PARTICLE_SYSTEM)
-	, m_ParticleModuleData{}
+	, m_tParticleModuleData{}
 	, m_AccTime()
 	, m_bIsCreated()
 {
@@ -33,6 +33,9 @@ CParticleSystem::CParticleSystem()
 
 	//컴퓨트쉐이더 전용
 	m_pSBuffer_SharedRW = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE_FLAG::__NONE, eSBUFFER_SHARED_CBUFFER_IDX::NONE, eSRV_REGISTER_IDX::NONE, eUAV_REGISTER_IDX::PARTICLE_SBUFFER_SHARED);
+
+
+	m_tParticleModuleData.Padding0 = 1;
 }
 
 CParticleSystem::~CParticleSystem()
@@ -55,11 +58,12 @@ void CParticleSystem::finaltick()
 
 	//모듈데이터 전송
 	static CConstBuffer* const s_CBuffer_ModuleData = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::PARTICLE_MODULEDATA);
-	s_CBuffer_ModuleData->UploadData(&m_ParticleModuleData);
+	s_CBuffer_ModuleData->UploadData(&m_tParticleModuleData);
+	s_CBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE_FLAG::__ALL);
 
 
 	//몇개 스폰할지 정보를 SharedRW 버퍼에 담아서 전송
-	float fSpawnCountPerTime = 1.f / (float)m_ParticleModuleData.SpawnRate;
+	float fSpawnCountPerTime = 1.f / (float)m_tParticleModuleData.iSpawnRate;
 	m_AccTime += DELTA_TIME;
 
 	if (fSpawnCountPerTime < m_AccTime)
@@ -94,7 +98,7 @@ void CParticleSystem::render()
 
 	m_pSBuffer_ParticleInfo->BindBufferSRV();
 
-	GetMesh()->renderInstanced(m_ParticleModuleData.iMaxParticleCount);
+	GetMesh()->renderInstanced(m_tParticleModuleData.iMaxParticleCount);
 }
 
 
@@ -126,12 +130,13 @@ void CParticleSystem::CreateParticle()
 
 
 	//모듈 데이터도 하드코딩(매 finaltick마다 업데이트)
-	m_ParticleModuleData.vSpawnColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	m_ParticleModuleData.iMaxParticleCount = 100;
-	m_ParticleModuleData.SpawnRate = 10;
-	m_ParticleModuleData.bModule_ColorChange = 1;
-	m_ParticleModuleData.bModule_ParticleSpawn = 1;
-	m_ParticleModuleData.bModule_ScaleChange = 1;
+	m_tParticleModuleData.vSpawnColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	m_tParticleModuleData.iMaxParticleCount = 100;
+	m_tParticleModuleData.iSpawnRate = 10;
+	m_tParticleModuleData.bColorChange = 1;
+	m_tParticleModuleData.bSpawn = 1;
+	m_tParticleModuleData.bScaleChange = 1;
+	m_tParticleModuleData.bFollowing = 1;
 
 
 	//공유 데이터 구조화 버퍼 생성

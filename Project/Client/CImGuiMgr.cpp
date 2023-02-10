@@ -26,31 +26,41 @@ CImGuiMgr::CImGuiMgr()
 
 CImGuiMgr::~CImGuiMgr()
 {
-	// ImGui Release
-	ImGui_ImplDX11_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
+    wstring origPath = CPathMgr::GetInst()->GetContentPath();
+    origPath += L"SavedSettings/";
+    wstring Path = origPath + L"imgui.ini";
+    string utfpath = ::ConvertUnicodeToUTF8(Path);
+    ImGui::SaveIniSettingsToDisk(utfpath.c_str());
 
-	for (const auto& iter : m_mapUI)
-	{
-		assert(nullptr != iter.second);
+
+    for (const auto& iter : m_mapUI)
+    {
+        assert(nullptr != iter.second);
 
         if (nullptr != iter.second->GetParent())
             continue;
 
         iter.second->SaveRecursive(m_SavedUIData);
 
-		delete(iter.second);
-	}
+        delete(iter.second);
+    }
 
-    
-
-    std::ofstream fout(m_SaveFilePath);
+    Path.clear();
+    Path = origPath + L"ImGuiSave.json";
+    std::ofstream fout(Path);
     if (true == fout.is_open())
     {
         fout << m_SavedUIData;
         fout.close();
     }
+
+
+	// ImGui Release
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+
+
 }
 
 CUI* CImGuiMgr::FindUI(const string& _UIName)
@@ -108,6 +118,28 @@ void CImGuiMgr::init(HWND _hWnd)
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
+
+    //설정 파일들 로드
+    wstring origPath = CPathMgr::GetInst()->GetContentPath();
+    origPath += L"SavedSettings/";
+    wstring path = origPath + L"imgui.ini";
+    string utfpath = ::ConvertUnicodeToUTF8(path);
+    io.IniFilename = NULL;
+
+    ImGui::LoadIniSettingsFromDisk(utfpath.c_str());
+
+    path.clear();
+    path = origPath + L"ImGuiSave.json";
+
+    std::ifstream loadfile(path);
+    if (true == loadfile.is_open())
+    {
+        loadfile >> m_SavedUIData;
+        loadfile.close();
+    }
+
+    
+
     //wstring path = CPathMgr::GetInst()->GetContentPath();
     //path += L"font/NotoSansKR-Regular.otf";
     //string fontpath;
@@ -121,18 +153,8 @@ void CImGuiMgr::init(HWND _hWnd)
     CDevice* pDevice = CDevice::GetInst();
     ImGui_ImplDX11_Init(pDevice->GetDevice(), pDevice->GetDeviceContext());
 
-    m_SaveFilePath = CPathMgr::GetInst()->GetContentPath();
 
-    m_SaveFilePath += L"SavedSettings/ImGuiSave.json";
 
-    //std::ifstream loadfile(m_SaveFilePath);
-    //if (true == loadfile.is_open())
-    //{
-    //    m_SavedUIData = YAML::Load(loadfile);
-    //    loadfile.close();
-    //}
-    string strpath = ::ConvertUnicodeToMultibyte(m_SaveFilePath);
-    //m_SavedUIData = YAML::LoadFile(strpath);
 
     CreateDefaultUI();
 }

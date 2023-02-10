@@ -413,6 +413,11 @@ void CResMgr::LoadDefaultTexture()
 
 	Load<CTexture>(RESOURCE::TEXTURE::TILE_ATLAS, L"texture/TILE.bmp");
 	Load<CTexture>(RESOURCE::TEXTURE::LINK_ATLAS, L"texture/link.png");
+
+
+	//미리 텍스처 바인딩
+	Ptr<CTexture> pTexNoise = Load<CTexture>(RESOURCE::TEXTURE::NOISE_TEXTURE_0, L"texture/noise/noise_01.png");
+	pTexNoise->BindData((int)eSRV_REGISTER_IDX::NOISE_TEXTURE, eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE);
 }
 
 

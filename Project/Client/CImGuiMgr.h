@@ -32,7 +32,6 @@ private:
     bool m_bShowDemoWindow1;
     //bool m_bShowDemoWindow
 
-    wstring m_SaveFilePath;
     Json::Value m_SavedUIData;
 
 public:
