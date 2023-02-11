@@ -61,35 +61,35 @@ void CConstBuffer::UploadData(void* _pSrc, UINT _iSize)
 	}
 }
 
-void CConstBuffer::BindBuffer(UINT8 _eSHADER_PIPELINE_FLAG)
+void CConstBuffer::BindBuffer(UINT _eSHADER_PIPELINE_FLAG)
 {
 	//인자로 NONE이 아닌 플래그값이 들어왔을 경우 해당 플래그값을 타겟으로 바인딩한다.
-	if (eSHADER_PIPELINE_STAGE_FLAG::__NONE == _eSHADER_PIPELINE_FLAG)
+	if (eSHADER_PIPELINE_STAGE::__NONE == _eSHADER_PIPELINE_FLAG)
 		_eSHADER_PIPELINE_FLAG = m_ePIPELINE_STAGE_flags;
 
 
 	ID3D11DeviceContext* pContext = CONTEXT;
-	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__VERTEX)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE::__VERTEX)
 	{
 		pContext->VSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__HULL)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE::__HULL)
 	{
 		pContext->HSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__DOMAIN)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE::__DOMAIN)
 	{
 		pContext->DSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__GEOMETRY)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE::__GEOMETRY)
 	{
 		pContext->GSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__PIXEL)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE::__PIXEL)
 	{
 		pContext->PSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}
-	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE)
+	if (_eSHADER_PIPELINE_FLAG & eSHADER_PIPELINE_STAGE::__COMPUTE)
 	{
 		pContext->CSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
 	}

@@ -73,9 +73,9 @@ enum class eRES_TYPE
 
 
 
-namespace eSHADER_PIPELINE_STAGE_FLAG
+namespace eSHADER_PIPELINE_STAGE
 {
-	enum FLAG : UINT8
+	enum FLAG : UINT
 	{
 		__NONE = 0,
 		__VERTEX = BITMASK(0),
@@ -224,17 +224,15 @@ enum class eSTRUCT_BUFFER_TYPE
 } typedef eSTRUCT_BUFFER_BIND_TYPE;
 
 //현재 바인딩되어 있는 뷰. 플래그로도 사용 가능
-namespace eCURRENT_BOUND_VIEW
+enum class eCURRENT_BOUND_VIEW
 {
-	enum eCURRENT_BOUND_VIEW
-	{
-		NONE = 0,
-		SRV = 1 << 0,
-		UAV = 1 << 1,
-		RTV = 1 << 2,
-		DSV = 1 << 3
-	};
-}
+	NONE,
+	SRV,
+	UAV,
+	RTV, 
+	DSV,
+};
+
 
 
 enum class eLEVEL_STATE

@@ -9,14 +9,14 @@ class CStructBuffer
 {
 public:
     CStructBuffer() = delete;
-    CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT8 _eSHADER_PIPELINE_STAGE_FLAG_SRV, eSBUFFER_SHARED_CBUFFER_IDX _CBIdx, eSRV_REGISTER_IDX _SRVIdx, eUAV_REGISTER_IDX _UAVIdx);
+    CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT _eSHADER_PIPELINE_STAGE_FLAG_SRV, eSBUFFER_SHARED_CBUFFER_IDX _CBIdx, eSRV_REGISTER_IDX _SRVIdx, eUAV_REGISTER_IDX _UAVIdx);
     virtual ~CStructBuffer();
     CLONE_DISABLE(CStructBuffer)
 
 private:
     //자신의 공유정보를 담고있는 상수버퍼 내부에서의 인덱스
     eSTRUCT_BUFFER_TYPE         m_eSBufferType;
-    UINT8                       m_flagPipelineTargetSRV;
+    UINT                        m_flagPipelineTargetSRV;
 
     eSBUFFER_SHARED_CBUFFER_IDX m_eCBufferIdx;
     eSRV_REGISTER_IDX           m_eSRVIdx;
@@ -38,13 +38,13 @@ private:
 
     ComPtr<ID3D11Buffer>    m_StagingBuffer;
     
-    eCURRENT_BOUND_VIEW::eCURRENT_BOUND_VIEW     m_eCurrentBoundView;
+    eCURRENT_BOUND_VIEW     m_eCurBoundView;
 
 
 public:
     //Setter Getter Adder
-    void SetPipelineTarget(UINT8 _eSHADER_PIPELINE_FLAG) { m_flagPipelineTargetSRV = _eSHADER_PIPELINE_FLAG; }
-    void AddPipelineTarget(eSHADER_PIPELINE_STAGE_FLAG::FLAG _Stage) { m_flagPipelineTargetSRV |= (UINT8)_Stage; }
+    void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_flagPipelineTargetSRV = _eSHADER_PIPELINE_FLAG; }
+    void AddPipelineTarget(eSHADER_PIPELINE_STAGE::FLAG _Stage) { m_flagPipelineTargetSRV |= (UINT)_Stage; }
 
     UINT GetCapacity() const { return m_uElementCapacity; }
 
@@ -70,7 +70,7 @@ public:
     void UnBindUAV();
 
 private:
-    void BindConstBuffer(UINT8 _eSHADER_PIPELINE_FLAG);
+    void BindConstBuffer(UINT _eSHADER_PIPELINE_FLAG);
 
     void CreateStagingBuffer();
     void CreateSRV();

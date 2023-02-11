@@ -1,8 +1,8 @@
 #pragma once
 #include "CRenderComponent.h"
 
-class CComputeShader;
 class CStructBuffer;
+class CCS_ParticleUpdate_Root;
 
 class CParticleSystem :
     public CRenderComponent
@@ -22,11 +22,11 @@ private:
     //1. 데이터 관련 변수
     ////tParticele 데이터를 전달할 구조화 버퍼
     ////각 파티클별 정보가 전달될 버퍼
-    CStructBuffer* m_pSBuffer_ParticleInfo;
+    CStructBuffer* m_pSBufferRW_ParticleTransform;
 
     ////추가적으로 쓰기 가능한 공유 파티클 버퍼. 
     ////tRWParticleBuffer 전달용
-    CStructBuffer* m_pSBuffer_SharedRW;
+    CStructBuffer* m_pSBufferRW_Shared;
 
 
     //Create 함수를 호출해서 구조화 버퍼를 만들었는지 여부를 저장할 변수
@@ -42,7 +42,7 @@ private:
 
 
     //2.파티클 처리용 컴퓨트쉐이더 주소
-    Ptr<CComputeShader> m_pCSParticle;
+    Ptr<CCS_ParticleUpdate_Root> m_pCSParticle;
 
 
     //3.렌더링용 그래픽쉐이더 주소 - 이건 부모 클래스에 정의되어있음.

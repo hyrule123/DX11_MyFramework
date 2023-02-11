@@ -90,7 +90,6 @@ Texture2D g_Tex_Noise : register(t16);
 
 
 
-
 //
 //
 //u
@@ -107,10 +106,14 @@ Texture2D g_Tex_Noise : register(t16);
 //	PARTICLE_SBUFFER_SHARED
 //};
 
-RWTexture2D<float4> g_TexRW_Output : register(u0);
-RWStructuredBuffer<float4> g_SBufferRW_Test : register(u1);
-RWStructuredBuffer<tParticleTransform> g_SBufferRW_Particle : register(u2);
-RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u3);
+//u0
+////g_TexRW_Output
+////g_SBufferRW_Particle
+
+//u1
+////g_SBufferRW_Test
+////g_SBufferRW_Particle_Shared
+
 
 
 

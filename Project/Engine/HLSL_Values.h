@@ -15,13 +15,14 @@ typedef int BOOL;
 typedef Matrix MATRIX;
 
 
+//Constant buffer -> b Register
 enum class  eCONST_BUFFER_TYPE
 {
 	TRANSFORM,	// b0
 	MATERIAL,	// b1
 	GLOBAL, //b2
 	SBUFFER_SHAREDINFO, //b3
-	PARTICLE_MODULEDATA,
+	PARTICLE_MODULEDATA, //b4
 
 	END,
 };
@@ -37,6 +38,7 @@ enum class eSBUFFER_SHARED_CBUFFER_IDX
 	END
 };
 
+//SRV -> t Register
 enum class eSRV_REGISTER_IDX
 {
 	NONE = -1,
@@ -47,13 +49,16 @@ enum class eSRV_REGISTER_IDX
 	NOISE_TEXTURE = 16
 };
 
+//UAV -> u Register
 enum class eUAV_REGISTER_IDX
 {
 	NONE = -1,
-	SETCOLOR_TEXTURE,
-	SETCOLOR_SBUFFER,
-	PARTICLE_SBUFFER,
-	PARTICLE_SBUFFER_SHARED
+	SETCOLOR_TEXTURE = 0,
+	SETCOLOR_SBUFFER = 1,
+	PARTICLE_SBUFFER = 0,
+	PARTICLE_SBUFFER_SHARED = 1,
+
+	END = 8	//u 레지스터는 0 ~ 7번까지만 존재.
 };
 
 

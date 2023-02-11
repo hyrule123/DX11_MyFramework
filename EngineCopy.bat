@@ -1,5 +1,8 @@
 :: *.h 파일 복사(라이브러리 참조용)
-xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\*.h" ".\External\Include\Engine\"
+xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\*.h" ".\External\Include\Engine\"
+
+:: 헤더 파일 읽기 전용으로 변경
+attrib +r ".\External\Include\Engine\*.h"
 
 :: *.inl 파일 복사(inline 파일)
 xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" ".\External\Include\Engine\"

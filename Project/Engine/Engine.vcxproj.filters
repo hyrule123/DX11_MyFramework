@@ -175,7 +175,7 @@
     <ClInclude Include="CCS_SetColor.h">
       <Filter>Source\08. ShaderCode\98. Compute\01. SetColor</Filter>
     </ClInclude>
-    <ClInclude Include="CCS_ParticleUpdate.h">
+    <ClInclude Include="CCS_ParticleUpdate_Basic.h">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </ClInclude>
     <ClInclude Include="shaders.h">
@@ -183,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="strKeys.h">
       <Filter>Source\00. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CCS_ParticleUpdate_Root.h">
+      <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -339,7 +342,10 @@
     <ClCompile Include="CCS_SetColor.cpp">
       <Filter>Source\08. ShaderCode\98. Compute\01. SetColor</Filter>
     </ClCompile>
-    <ClCompile Include="CCS_ParticleUpdate.cpp">
+    <ClCompile Include="CCS_ParticleUpdate_Basic.cpp">
+      <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
+    </ClCompile>
+    <ClCompile Include="CCS_ParticleUpdate_Root.cpp">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </ClCompile>
   </ItemGroup>

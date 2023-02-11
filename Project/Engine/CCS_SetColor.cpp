@@ -8,7 +8,7 @@
 CCS_SetColor::CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
 	: CComputeShader(_iGroupPerThreadX, _iGroupPerThreadY, _iGroupPerThreadZ)
 {
-	UINT8 Target = eSHADER_PIPELINE_STAGE_FLAG::__ALL;
+	UINT Target = eSHADER_PIPELINE_STAGE::__ALL;
 	m_StructBufferTest = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eSBUFFER_SHARED_CBUFFER_IDX::SETCOLOR, eSRV_REGISTER_IDX::SETCOLOR, eUAV_REGISTER_IDX::SETCOLOR_SBUFFER);
 
 	for (int i = 0; i < 1280u; ++i)
@@ -34,7 +34,7 @@ CCS_SetColor::~CCS_SetColor()
 
 bool CCS_SetColor::BindDataCS()
 {
-	m_OutTex->BindData_CS(0);
+	m_OutTex->BindData_UAV((int)eUAV_REGISTER_IDX::SETCOLOR_TEXTURE);
 
 	m_StructBufferTest->UploadData((void*)m_vecSBuffer, 1280u);
 	m_StructBufferTest->BindBufferUAV();
@@ -47,5 +47,5 @@ bool CCS_SetColor::BindDataCS()
 
 void CCS_SetColor::UnBindCS()
 {
-	m_OutTex->UnBind_CS();
+	m_OutTex->UnBind();
 }

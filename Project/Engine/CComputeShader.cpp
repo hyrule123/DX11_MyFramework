@@ -12,16 +12,24 @@
 
 CComputeShader::CComputeShader()
 	: CShader(eRES_TYPE::COMPUTE_SHADER)
-	, m_arrGroup{}
-	, m_arrThreadsPerGroup{}
+	, m_uNumGroupX()
+	, m_uNumGroupY()
+	, m_uNumGroupZ()
+	, m_uNumThreadsPerGroupX()
+	, m_uNumThreadsPerGroupY()
+	, m_uNumThreadsPerGroupZ()
 	, m_SharedCBuffer{}
 {
 }
 
 CComputeShader::CComputeShader(UINT _uThreadsX, UINT _uThreadsY, UINT _uThreadsZ)
 	: CShader(eRES_TYPE::COMPUTE_SHADER)
-	, m_arrGroup{}
-	, m_arrThreadsPerGroup{ _uThreadsX, _uThreadsY, _uThreadsZ }
+	, m_uNumThreadsPerGroupX(_uThreadsX)
+	, m_uNumThreadsPerGroupY(_uThreadsY)
+	, m_uNumThreadsPerGroupZ(_uThreadsZ)
+	, m_uNumGroupX()
+	, m_uNumGroupY()
+	, m_uNumGroupZ()
 	, m_SharedCBuffer{}
 {
 	//이 스레드 수는 분모로 사용되어야 하므로 스레드값이 0이 들어오면 에러 발생
@@ -91,22 +99,22 @@ void CComputeShader::CreateShader(const wstring& _strFileName, const string& _st
 }
 
 
-#define CS_TOTAL_ELEM_X eMTRLDATA_PARAM_SCALAR::INT_0
-#define CS_TOTAL_ELEM_Y eMTRLDATA_PARAM_SCALAR::INT_1
-#define CS_TOTAL_ELEM_Z eMTRLDATA_PARAM_SCALAR::INT_2
+#define CS_ELEM_COUNT_X eMTRLDATA_PARAM_SCALAR::INT_0
+#define CS_ELEM_COUNT_Y eMTRLDATA_PARAM_SCALAR::INT_1
+#define CS_ELEM_COUNT_Z eMTRLDATA_PARAM_SCALAR::INT_2
 
-void CComputeShader::CalcGroupNumber(UINT _TotalCountX, UINT _TotalCountY, UINT _TotalCountZ)
+void CComputeShader::CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _ElemCountZ)
 {
-	m_arrGroup[X] = (UINT)ceilf((float)_TotalCountX / (float)m_arrThreadsPerGroup[X]);
-	m_arrGroup[Y] = (UINT)ceilf((float)_TotalCountY / (float)m_arrThreadsPerGroup[Y]);
-	m_arrGroup[Z] = (UINT)ceilf((float)_TotalCountZ / (float)m_arrThreadsPerGroup[Z]);
+	m_uNumGroupX = (UINT)ceilf((float)_ElemCountX / (float)m_uNumThreadsPerGroupX);
+	m_uNumGroupY = (UINT)ceilf((float)_ElemCountY / (float)m_uNumThreadsPerGroupY);
+	m_uNumGroupZ = (UINT)ceilf((float)_ElemCountZ / (float)m_uNumThreadsPerGroupZ);
 	
 
 	//쓰레드가 쓰레드 갯수와 맞아떨어지지 않을 수도 있다.
 	//이럴 떄를 대비해서 상수버퍼로 TotalCount 변수를 전달하여 컴퓨트쉐이더 함수 내부에서 예외처리를 할 수 있도록 해준다.
-	SetScalarParam(CS_TOTAL_ELEM_X, &_TotalCountX);
-	SetScalarParam(CS_TOTAL_ELEM_Y, &_TotalCountY);
-	SetScalarParam(CS_TOTAL_ELEM_Z, &_TotalCountZ);
+	SetScalarParam(CS_ELEM_COUNT_X, &_ElemCountX);
+	SetScalarParam(CS_ELEM_COUNT_Y, &_ElemCountY);
+	SetScalarParam(CS_ELEM_COUNT_Z, &_ElemCountZ);
 }
 
 void CComputeShader::SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)
@@ -163,7 +171,7 @@ void CComputeShader::Execute()
 
 	//처리해줄 쉐이더를 지정하고 계산 진행.
 	CONTEXT->CSSetShader(m_CS.Get(), nullptr, 0);
-	CONTEXT->Dispatch(m_arrGroup[X], m_arrGroup[Y], m_arrGroup[Z]);
+	CONTEXT->Dispatch(m_uNumGroupX, m_uNumGroupY, m_uNumGroupZ);
 	
 	//처리가 완료되었으면 재정의된 UnBind를 통해 데이터 바인딩을 해제.
 	UnBindCS();

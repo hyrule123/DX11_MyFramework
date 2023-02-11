@@ -43,19 +43,18 @@
 //    int bModule_ScaleChange;
 //}
 
-////RWStructuredBuffer<tParticleTransform> g_SBufferRW_Particle : register(u2);
-////RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u3);
+RWStructuredBuffer<tParticleTransform> g_SBufferRW_Particle : register(u0);
+RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u1);
 
 #define ePARTICLE_MODULE_PARTICLE_SPAWN 0
 #define	ePARTICLE_MODULE_COLOR_CHANGE 1
 #define	ePARTICLE_MODULE_SCALE_CHANGE 2
 
 //컴퓨트쉐이더가 들고있는 개별 Mtrl 구조체에 들어있는값 참조
-#define ObjectPos           g_CBuffer_MtrlData.vec4_0
+#define OWNER_OBJ_POS g_CBuffer_MtrlData.vec4_0
 
 //컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
 #define NoiseTexResolution  g_CBuffer_MtrlData.vec2_0
-
 
 #define SpawnCount          g_SBufferRW_Particle_Shared[0].iSpawnCount
 #define ParticleMaxCount    g_CBuffer_ParticleModule.iMaxParticleCount
@@ -70,7 +69,6 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
     // 스레드 ID 가 파티클버퍼 최대 수를 넘긴경우 or 스레드 담당 파티클이 비활성화 상태인 경우
     if (ParticleMaxCount <= (int) _ID.x)
         return;
-        
            
     if (SpawnModule)
     {
@@ -106,7 +104,7 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
                         g_SBufferRW_Particle[_ID.x].vLocalPos.xyz = float3(g_CBuffer_ParticleModule.vBoxShapeScale.x * vOut1.r - g_CBuffer_ParticleModule.vBoxShapeScale.x * 0.5f
                                                       , g_CBuffer_ParticleModule.vBoxShapeScale.y * vOut2.r - g_CBuffer_ParticleModule.vBoxShapeScale.y * 0.5f
                                                       , g_CBuffer_ParticleModule.vBoxShapeScale.z * vOut3.r - g_CBuffer_ParticleModule.vBoxShapeScale.z * 0.5f);
-                        g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = g_SBufferRW_Particle[_ID.x].vLocalPos.xyz + ObjectPos.xyz;
+                        g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = g_SBufferRW_Particle[_ID.x].vLocalPos.xyz + OWNER_OBJ_POS.xyz;
                         
                         
                         // 스폰 크기 범위내에서 랜덤 크기로 지정 (Min, Max 가 일치하면 고정크기)
@@ -194,7 +192,7 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
         else if (g_CBuffer_ParticleModule.bFollowing == 1)
         {
             g_SBufferRW_Particle[_ID.x].vLocalPos += g_SBufferRW_Particle[_ID.x].vVelocity * g_CBuffer_GlobalData.fDeltaTime;
-            g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = g_SBufferRW_Particle[_ID.x].vLocalPos.xyz + ObjectPos.xyz;
+            g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = g_SBufferRW_Particle[_ID.x].vLocalPos.xyz + OWNER_OBJ_POS.xyz;
         }
         
         

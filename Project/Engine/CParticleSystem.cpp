@@ -9,7 +9,7 @@
 
 #include "CTransform.h"
 
-#include "CCS_ParticleUpdate.h"
+#include "CCS_ParticleUpdate_Basic.h"
 
 #include "CTimeMgr.h"
 
@@ -28,17 +28,17 @@ CParticleSystem::CParticleSystem()
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::PARTICLE_RENDER));
 
 
-	UINT8 ShaderTarget = eSHADER_PIPELINE_STAGE_FLAG::__GEOMETRY | eSHADER_PIPELINE_STAGE_FLAG::__PIXEL;
-	m_pSBuffer_ParticleInfo = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, ShaderTarget, eSBUFFER_SHARED_CBUFFER_IDX::PARTICLE, eSRV_REGISTER_IDX::PARTICLE_INFO, eUAV_REGISTER_IDX::PARTICLE_SBUFFER);
+	UINT ShaderTarget = eSHADER_PIPELINE_STAGE::__GEOMETRY | eSHADER_PIPELINE_STAGE::__PIXEL;
+	m_pSBufferRW_ParticleTransform = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, ShaderTarget, eSBUFFER_SHARED_CBUFFER_IDX::PARTICLE, eSRV_REGISTER_IDX::PARTICLE_INFO, eUAV_REGISTER_IDX::PARTICLE_SBUFFER);
 
 	//컴퓨트쉐이더 전용
-	m_pSBuffer_SharedRW = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE_FLAG::__NONE, eSBUFFER_SHARED_CBUFFER_IDX::NONE, eSRV_REGISTER_IDX::NONE, eUAV_REGISTER_IDX::PARTICLE_SBUFFER_SHARED);
+	m_pSBufferRW_Shared = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__NONE, eSBUFFER_SHARED_CBUFFER_IDX::NONE, eSRV_REGISTER_IDX::NONE, eUAV_REGISTER_IDX::PARTICLE_SBUFFER_SHARED);
 }
 
 CParticleSystem::~CParticleSystem()
 {
-	DESTRUCTOR_DELETE(m_pSBuffer_ParticleInfo);
-	DESTRUCTOR_DELETE(m_pSBuffer_SharedRW);
+	DESTRUCTOR_DELETE(m_pSBufferRW_ParticleTransform);
+	DESTRUCTOR_DELETE(m_pSBufferRW_Shared);
 }
 
 void CParticleSystem::init()
@@ -56,7 +56,7 @@ void CParticleSystem::finaltick()
 	//모듈데이터 전송
 	static CConstBuffer* const s_CBuffer_ModuleData = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::PARTICLE_MODULEDATA);
 	s_CBuffer_ModuleData->UploadData(&m_tModuleData);
-	s_CBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE_FLAG::__ALL);
+	s_CBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE::__ALL);
 
 
 	//몇개 스폰할지 정보를 SharedRW 버퍼에 담아서 전송
@@ -71,11 +71,11 @@ void CParticleSystem::finaltick()
 
 		tRWParticleBuffer rwbuffer = { (int)fData, };
 
-		m_pSBuffer_SharedRW->UploadData(&rwbuffer, 1u);
+		m_pSBufferRW_Shared->UploadData(&rwbuffer, 1u);
 	}
 
 
-	static_cast<CCS_ParticleUpdate*>(m_pCSParticle.Get())->SetBuffers(m_pSBuffer_ParticleInfo, m_pSBuffer_SharedRW, s_CBuffer_ModuleData);
+	m_pCSParticle->SetBuffers(this, m_pSBufferRW_ParticleTransform, m_pSBufferRW_Shared, s_CBuffer_ModuleData);
 
 	//파티클 위치정보를 계산시킴.
 	m_pCSParticle->Execute();
@@ -90,7 +90,7 @@ void CParticleSystem::render()
 
 	GetMaterial()->BindData();
 
-	m_pSBuffer_ParticleInfo->BindBufferSRV();
+	m_pSBufferRW_ParticleTransform->BindBufferSRV();
 
 	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
 }
@@ -102,6 +102,12 @@ void CParticleSystem::CreateParticle()
 
 	//일단 하나밖에 없으므로 컴퓨트쉐이더는 고정(나중에 해제)
 	SetParticleCS(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE);
+
+	m_tModuleData.iMaxParticleCount = 100;
+
+	//파티클을 처리할 버퍼 생성
+	m_pSBufferRW_ParticleTransform->Create(sizeof(tParticleTransform), 100u, nullptr, 0u);
+
 
 	m_tModuleData.iSpawnRate = 20;
 
@@ -135,11 +141,12 @@ void CParticleSystem::CreateParticle()
 	m_tModuleData.fStartDrag = 200.f;
 	m_tModuleData.fEndDrag = 0.f;
 
+	//노이즈 텍스처 지정
 
 
 	//공유 데이터 구조화 버퍼 생성
 	tRWParticleBuffer rwbuffer = { (int)0,};
-	m_pSBuffer_SharedRW->Create((UINT)sizeof(tRWParticleBuffer), 1, &rwbuffer, 1u);
+	m_pSBufferRW_Shared->Create((UINT)sizeof(tRWParticleBuffer), 1, &rwbuffer, 1u);
 
 }
 

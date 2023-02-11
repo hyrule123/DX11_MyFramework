@@ -290,7 +290,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //		, nullptr, m_VS.GetAddressOf());
 //
 //	m_ShaderLoadType[eShaderType]
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::__VERTEX);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
 //}
 //
 //void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string& _strFuncName)
@@ -312,7 +312,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //	DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
 //		, nullptr, m_PS.GetAddressOf());
 //
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::__PIXEL);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__PIXEL);
 //}
 
 //void CGraphicsShader::CreateVertexShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize)
@@ -358,7 +358,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //		assert(nullptr);
 //	}
 //
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE_FLAG::__VERTEX);
+//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
 //
 //}
 //

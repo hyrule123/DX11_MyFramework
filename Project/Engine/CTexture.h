@@ -12,23 +12,30 @@
 class CTexture :
     public CRes
 {
+public:
+    CTexture();
+    ~CTexture();
+
 private:
     ComPtr<ID3D11Texture2D>             m_Tex2D;    
-    ComPtr<ID3D11ShaderResourceView>    m_SRV;
+
     ComPtr<ID3D11RenderTargetView>      m_RTV;
-    ComPtr<ID3D11DepthStencilView>      m_DSV;
+    ComPtr<ID3D11ShaderResourceView>    m_SRV;
     ComPtr<ID3D11UnorderedAccessView>   m_UAV;
+
+    //DSV는 다른 뷰들과 중복해서 바인딩할 수 없음.
+    //DSV로 사용하고자 할 때는 무조건 Dsv 용도로만 사용해야 함. 
+    ComPtr<ID3D11DepthStencilView>      m_DSV;
 
     D3D11_TEXTURE2D_DESC                m_Desc;
 
     ScratchImage                        m_Image;
 
-    //컴퓨트쉐이더와 바인딩했을 경우 해당 컴퓨트쉐이더 ID를 저장. 
+    //컴퓨트쉐이더와 바인딩했을 경우 해당 컴퓨트쉐이더 레지스터 번호를 저장. 
     //나중에 UnBind할 때 사용됨.
-   
-    int                                m_iRecentGSNum;
-    int                                m_iRecentCSNum;
-    UINT8                              m_uRecentGSTarget;
+    eCURRENT_BOUND_VIEW           m_eCurBoundView;
+    UINT                          m_flagCurBoundPipeline;
+    int                           m_iCurBoundRegister;
 
                                 
 
@@ -57,20 +64,19 @@ public:
     int CreateView();
 
 public:
-    // _PipelineStage : eSHADER_PIPELINE_STAGE_FLAG::FLAG
-    void BindData(int _iRegisterNum, UINT8 _eSHADER_PIPELINE_STAGE);
-    void UnBind();
+    // _PipelineStage : eSHADER_PIPELINE_STAGE::FLAG
+    void BindData_SRV(int _iRegisterNum, UINT _eSHADER_PIPELINE_STAGE);
 
     //Bind Texture data to Compute Shader 
-    void BindData_CS(int _iRegisterNum);
-    void UnBind_CS();
+    void BindData_UAV(int _iRegisterNum);
+
+    void UnBind();
 
 private://별도의 BindData()를 사용해서 바인딩한다.
     virtual void BindData() override {};
+    
 
-public:
-    CTexture();
-    ~CTexture();
+
 };
 
 inline Vec2 CTexture::GetSize()

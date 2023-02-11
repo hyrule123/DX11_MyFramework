@@ -32,16 +32,20 @@ private:
     tMtrlData                  m_SharedCBuffer;
 
     //그룹당 쓰레드 갯수. 생성자에서 초기화
-    UINT                        m_arrThreadsPerGroup[NumAxis];
+    UINT                        m_uNumThreadsPerGroupX;
+    UINT                        m_uNumThreadsPerGroupY;
+    UINT                        m_uNumThreadsPerGroupZ;
 
     //그룹 갯수.  쓰레드 갯수를 통해서 계산
-    UINT                        m_arrGroup[NumAxis];
+    UINT                        m_uNumGroupX;
+    UINT                        m_uNumGroupY;
+    UINT                        m_uNumGroupZ;
     
 public:
     void CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize);
     void CreateShader(const wstring& _strFileName, const string& _strFuncName);
 
-    void CalcGroupNumber(UINT _TotalCountX, UINT _TotalCountY, UINT _TotalCountZ);
+    void CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _ElemCountZ);
 
     void SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
 

@@ -16,7 +16,7 @@ CTilemap::CTilemap()
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>("TilemapMtrl"));
 
-	UINT8 Target = eSHADER_PIPELINE_STAGE_FLAG::__VERTEX | eSHADER_PIPELINE_STAGE_FLAG::__PIXEL;
+	UINT Target = eSHADER_PIPELINE_STAGE::__VERTEX | eSHADER_PIPELINE_STAGE::__PIXEL;
 	m_SBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, Target, eSBUFFER_SHARED_CBUFFER_IDX::TILE, eSRV_REGISTER_IDX::TILE, eUAV_REGISTER_IDX::NONE);
 	m_SBuffer->Create(sizeof(tTile), m_iTileCountX * m_iTileCountY, nullptr, 0u);
 }

@@ -8,7 +8,7 @@
 #include "strKeys.h"
 
 #include "CCS_SetColor.h"
-#include "CCS_ParticleUpdate.h"
+#include "CCS_ParticleUpdate_Basic.h"
 
 
 
@@ -336,7 +336,7 @@ void CResMgr::CreateDefaultComputeShader()
 	AddRes(pShader->GetKey(), pShader);
 	pShader = nullptr;
 
-	pShader = new CCS_ParticleUpdate;
+	pShader = new CCS_ParticleUpdate_Basic;
 	pShader->CreateShader((void*)g_CS_Particle, sizeof(g_CS_Particle));
 	pShader->SetKey(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE);
 	AddRes(pShader->GetKey(), pShader);
