@@ -1,8 +1,6 @@
 #ifndef SHADER_HEADER_REGISTER
 #define SHADER_HEADER_REGISTER
 
-#define COLOR_KEY float4(0.f, 0.f, 0.f, 0.f)
-
 #include "Shader_Header_Struct.hlsli"
 
 #ifdef __cplusplus
