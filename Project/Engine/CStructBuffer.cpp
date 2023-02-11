@@ -336,7 +336,7 @@ void CStructBuffer::BindConstBuffer(UINT _eSHADER_PIPELINE_FLAG)
 
 	//구조체 정보를 담은 상수버퍼에 바인딩한 구조체 갯수를 넣어서 전달
 	//상수버퍼의 주소는 한번 실행되면 변하지 않으므로 static, const 형태로 선언.
-	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO);
+	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::SBUFFER_SHARED_DATA);
 	pStructCBuffer->UploadData(g_arrStructBufferInfo);
 	pStructCBuffer->BindBuffer(_eSHADER_PIPELINE_FLAG);
 }

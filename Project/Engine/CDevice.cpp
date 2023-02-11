@@ -261,9 +261,9 @@ void CDevice::CreateConstBuffer()
 
     //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
-    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO);
-    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO]->Create(sizeof(tSBufferInfo), (UINT)eSBUFFER_SHARED_CBUFFER_IDX::END);
-    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHAREDINFO]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHARED_DATA] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::SBUFFER_SHARED_DATA);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHARED_DATA]->Create(sizeof(tSBufferInfo), (UINT)eSBUFFER_SHARED_CBUFFER_IDX::END);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::SBUFFER_SHARED_DATA]->SetPipelineTarget(CBufferTarget);
 
     
     //파티클 모듈 데이터를 전달할 상수 버퍼

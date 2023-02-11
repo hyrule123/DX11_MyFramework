@@ -29,8 +29,8 @@
 
 #else
 
-#include "CompiledShaderHeader/Shader_Debug_1_vertex.h"
-#include "CompiledShaderHeader/Shader_Debug_2_pixel.h"
+#include "CompiledShaderHeader/Shader_Debug_1_Vertex.h"
+#include "CompiledShaderHeader/Shader_Debug_1_Pixel.h"
 
 #include "CompiledShaderHeader/Shader_test_1_vertex.h"
 #include "CompiledShaderHeader/Shader_test_2_pixel.h"

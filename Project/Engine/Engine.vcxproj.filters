@@ -157,9 +157,6 @@
     <ClInclude Include="CTilemap.h">
       <Filter>Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="HLSL_Values.h">
-      <Filter>Source\00. Header</Filter>
-    </ClInclude>
     <ClInclude Include="CAnimator2D.h">
       <Filter>Source\06. Component\03, 04. Animator</Filter>
     </ClInclude>
@@ -186,6 +183,12 @@
     </ClInclude>
     <ClInclude Include="CCS_ParticleUpdate_Root.h">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader_Header_Register.hlsli">
+      <Filter>Source\08. ShaderCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader_Header_Struct.hlsli">
+      <Filter>Source\08. ShaderCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -515,28 +518,22 @@
       <Filter>Source\09. Module\SimpleMath</Filter>
     </None>
     <None Include="cpp.hint" />
-    <None Include="Shader_header_register.hlsli">
-      <Filter>Source\08. ShaderCode</Filter>
-    </None>
-    <None Include="Shader_test_0_header.hlsli">
+    <None Include="Shader_Test_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\01. Test</Filter>
     </None>
-    <None Include="Shader_std2D_0_header.hlsli">
+    <None Include="Shader_STD2D_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\02. Std2D</Filter>
     </None>
-    <None Include="Shader_Debug_0_header.hlsli">
+    <None Include="Shader_Debug_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\99. Debug</Filter>
     </None>
-    <None Include="Shader_std2D_Light_0_header.hlsli">
+    <None Include="Shader_STD2D_Light_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\03. Std2D_Light</Filter>
     </None>
-    <None Include="Shader_header_struct.hlsli">
-      <Filter>Source\08. ShaderCode</Filter>
-    </None>
-    <None Include="Shader_Tilemap_0_header.hlsli">
+    <None Include="Shader_Tilemap_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </None>
-    <None Include="Shader_Particle_0_header.hlsli">
+    <None Include="Shader_Particle_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\05. Particle</Filter>
     </None>
     <None Include="Shader_Func.hlsli">
@@ -544,49 +541,49 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader_test_2_pixel.hlsl">
+    <FxCompile Include="Shader_Test_2_Pixel.hlsl">
       <Filter>Source\08. ShaderCode\01. Test</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_test_1_vertex.hlsl">
+    <FxCompile Include="Shader_Test_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\01. Test</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_std2D_2_pixel.hlsl">
+    <FxCompile Include="Shader_STD2D_2_Pixel.hlsl">
       <Filter>Source\08. ShaderCode\02. Std2D</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_std2D_1_vertex.hlsl">
+    <FxCompile Include="Shader_STD2D_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\02. Std2D</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Debug_1_vertex.hlsl">
+    <FxCompile Include="Shader_Debug_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\99. Debug</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Debug_2_pixel.hlsl">
+    <FxCompile Include="Shader_Debug_2_Pixel.hlsl">
       <Filter>Source\08. ShaderCode\99. Debug</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_std2D_Light_2_pixel.hlsl">
+    <FxCompile Include="Shader_STD2D_Light_2_Pixel.hlsl">
       <Filter>Source\08. ShaderCode\03. Std2D_Light</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_std2D_Light_1_vertex.hlsl">
+    <FxCompile Include="Shader_STD2D_Light_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\03. Std2D_Light</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Tilemap_2_pixel.hlsl">
+    <FxCompile Include="Shader_Tilemap_2_Pixel.hlsl">
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Tilemap_1_vertex.hlsl">
+    <FxCompile Include="Shader_Tilemap_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_SetColor_compute.hlsl">
+    <FxCompile Include="Shader_SetColor_Compute.hlsl">
       <Filter>Source\08. ShaderCode\98. Compute\01. SetColor</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Particle_compute.hlsl">
+    <FxCompile Include="Shader_Particle_Compute.hlsl">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Particle_1_vertex.hlsl">
+    <FxCompile Include="Shader_Particle_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\05. Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Particle_2_geometry.hlsl">
+    <FxCompile Include="Shader_Particle_2_Geometry.hlsl">
       <Filter>Source\08. ShaderCode\05. Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Particle_3_pixel.hlsl">
+    <FxCompile Include="Shader_Particle_3_Pixel.hlsl">
       <Filter>Source\08. ShaderCode\05. Particle</Filter>
     </FxCompile>
   </ItemGroup>
