@@ -8,7 +8,7 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
     float4 vOutColor = (float4) 0.f;
     
     //메인텍스처가 존재하지 않을경우는 무조건 마젠타 색상을 return;
-    if (0 == g_btex_0)
+    if (0 == g_CBuffer_MtrlData.btex_0)
     {
         vOutColor = float4(1.f, 1.f, 0.f, 1.f);
     }
@@ -29,7 +29,7 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
         && vUV.y < LeftTop.y + Slice.y
         )
         {
-            vOutColor = g_tex_0.Sample(g_sam_0, vUV);
+            vOutColor = g_tex_0.Sample(g_Sampler_0, vUV);
         }
         else
         {
@@ -38,7 +38,7 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
     }
     else
     {
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        vOutColor = g_tex_0.Sample(g_Sampler_0, _in.vUV);
     }
 	
     //Alpha Check + Color Key Check

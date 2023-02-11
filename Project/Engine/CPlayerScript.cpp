@@ -83,13 +83,13 @@ void CPlayerScript::tick()
 	if (KEY_TAP(KEY::_1))
 	{
 		int a = 0;
-		MeshRender()->GetMaterial()->SetScalarParam(INT_0, &a);
+		MeshRender()->GetMaterial()->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
 	}
 
 	else if (KEY_TAP(KEY::_2))
 	{
 		int a = 1;
-		MeshRender()->GetMaterial()->SetScalarParam(INT_0, &a);
+		MeshRender()->GetMaterial()->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
 	}
 
 	if (KEY_TAP(KEY::SPACE))

@@ -13,57 +13,18 @@
 //
 cbuffer CBuffer_Transform : register(b0)
 {
-    row_major matrix g_matWorld;
-    row_major matrix g_matView;
-    row_major matrix g_matProj;
-    row_major matrix g_matWVP;
+    tTransform g_CBuffer_Transform;
 };
 
 cbuffer CBuffer_Material : register(b1)
 {
-    int g_int_0;
-    int g_int_1;
-    int g_int_2;
-    int g_int_3;
-    
-    float g_float_0;
-    float g_float_1;
-    float g_float_2;
-    float g_float_3;
-    
-    float2 g_vec2_0;
-    float2 g_vec2_1;
-    float2 g_vec2_2;
-    float2 g_vec2_3;
-
-    float4 g_vec4_0;
-    float4 g_vec4_1;
-    float4 g_vec4_2;
-    float4 g_vec4_3;
-
-    row_major matrix g_mat_0;
-    row_major matrix g_mat_1;
-    row_major matrix g_mat_2;
-    row_major matrix g_mat_3;
-    
-    
-    //텍스처의 유무를 판단하기위한 변수
-    int g_btex_0;
-    int g_btex_1;
-    int g_btex_2;
-    int g_btex_3;
-    int g_btex_4;
-    int g_btex_5;
-    int g_btex_6;
-    int g_btex_7;
+    tMtrlData g_CBuffer_MtrlData;
 };
 
 //게임의 각종 정보를 넘겨주기 위한 상수버퍼
 cbuffer CBuffer_Global : register(b2)
 {
-    float2 g_Resolution;
-    float g_DeltaTime;
-    float g_AccTime;
+    tGlobalData g_CBuffer_GlobalData;
 };
 
 
@@ -93,32 +54,7 @@ cbuffer CBuffer_SBuffer_SharedInfo : register(b3)
 
 cbuffer CBuffer_ParticleModule : register(b4)
 {
-   	// 스폰 모듈
-    float4 g_vSpawnColor;
-    float4 g_vSpawnScale;
-    float3 g_vBoxShapeScale;
-    float  g_fSphereShapeRadius;
-	INT32  g_eSpawnShapeType; // Sphere , Box
-	INT32  g_iSpawnRate;
-	INT32  g_bFollowing; // 0 World, 1 Local
-	INT32  Padding0;
-
-	// Color Change 모듈
-    float4 g_vStartColor; // 초기 색상
-    float4 g_vEndColor; // 최종 색상
-
-	// Scale Change 모듈
-    float4 g_vStartScale; // 초기 크기
-    float4 g_vEndScale; // 최종 크기	
-
-	// Module Check
-	INT32  g_bSpawn;
-	INT32  g_bColorChange;
-	INT32  g_bScaleChange;
-	INT32  Padding1;
-
-	INT32  g_iMaxParticleCount;
-    float3 Padding2;
+    tParticleModule g_CBuffer_ParticleModule;
 }
 
 
@@ -146,10 +82,10 @@ Texture2DArray g_arrtex_1 : register(t11);
 
 
 
-StructuredBuffer<tLightInfo> g_Light2DSBuffer : register(t12);
-StructuredBuffer<tTile> g_TileSBuffer : register(t13);
-StructuredBuffer<float4> g_TestBuffer : register(t14);
-StructuredBuffer<tParticle> g_ParticleInfo : register(t15);
+StructuredBuffer<tLightInfo> g_SBuffer_Light2D : register(t12);
+StructuredBuffer<tTile> g_SBuffer_Tile : register(t13);
+StructuredBuffer<float4> g_SBuffer_Test : register(t14);
+StructuredBuffer<tParticleTransform> g_SBuffer_ParticleTransform : register(t15);
 Texture2D g_Tex_Noise : register(t16);
 
 
@@ -173,21 +109,21 @@ Texture2D g_Tex_Noise : register(t16);
 
 RWTexture2D<float4> g_TexRW_Output : register(u0);
 RWStructuredBuffer<float4> g_SBufferRW_Test : register(u1);
-RWStructuredBuffer<tParticle> g_SBufferRW_Particle : register(u2);
+RWStructuredBuffer<tParticleTransform> g_SBufferRW_Particle : register(u2);
 RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u3);
 
 
 
 
-SamplerState g_sam_0 : register(s0);
-SamplerState g_sam_1 : register(s1);
+SamplerState g_Sampler_0 : register(s0);
+SamplerState g_Sampler_1 : register(s1);
 
 
-#define COLOR_KEY g_vec4_3
+#define COLOR_KEY g_CBuffer_MtrlData.vec4_3
 
-#define CS_TotalCountX g_int_0
-#define CS_TotalCountY g_int_1
-#define CS_TotalCountZ g_int_2
+#define CS_TOTAL_ELEMCOUNT_X g_CBuffer_MtrlData.int_0
+#define CS_TOTAL_ELEMCOUNT_Y g_CBuffer_MtrlData.int_1
+#define CS_TOTAL_ELEMCOUNT_Z g_CBuffer_MtrlData.int_2
 
 
 #endif

@@ -11,6 +11,8 @@
 typedef Vector2 float2;
 typedef Vector3 float3;
 typedef Vector4 float4;
+typedef int BOOL;
+typedef Matrix MATRIX;
 
 
 enum class  eCONST_BUFFER_TYPE
@@ -55,7 +57,7 @@ enum class eUAV_REGISTER_IDX
 };
 
 
-enum eSCALAR_PARAM
+enum class eMTRLDATA_PARAM_SCALAR
 {
 	INT_0,
 	INT_1,
@@ -81,26 +83,29 @@ enum eSCALAR_PARAM
 	MAT_1,
 	MAT_2,
 	MAT_3,
-
 };
-#define COLOR_KEY VEC4_3
 
-#define CS_TotalCountX eSCALAR_PARAM::INT_0
-#define CS_TotalCountY eSCALAR_PARAM::INT_1
-#define CS_TotalCountZ eSCALAR_PARAM::INT_2
 
-enum eTEX_PARAM
+
+
+#define COLOR_KEY eMTRLDATA_PARAM_SCALAR::VEC4_3
+
+#define CS_TOTAL_ELEMCOUNT_X eMTRLDATA_PARAM_SCALAR::INT_0
+#define CS_TOTAL_ELEMCOUNT_Y eMTRLDATA_PARAM_SCALAR::INT_1
+#define CS_TOTAL_ELEMCOUNT_Z eMTRLDATA_PARAM_SCALAR::INT_2
+
+enum class  eMTRLDATA_PARAM_TEX
 {
-	eTEX_0,
-	eTEX_1,
-	eTEX_2,
-	eTEX_3,
-	eTEX_4,
-	eTEX_5,
-	eTEX_6,
-	eTEX_7,
+	_0,
+	_1,
+	_2,
+	_3,
+	_4,
+	_5,
+	_6,
+	_7,
 
-	eTEX_END,
+	_END,
 };
 
 enum class eLIGHT_TYPE
@@ -137,25 +142,25 @@ struct tSBufferInfo
 extern tSBufferInfo g_arrStructBufferInfo[(UINT)eSBUFFER_SHARED_CBUFFER_IDX::END];
 
 
-struct tMtrlConst
+struct tMtrlData
 {
 	INT32 arrInt[4];
 	float arrFloat[4];
 	float2 arrV2[4];
 	float4 arrV4[4];
-	Matrix arrMat[4];
-	INT32 arrbTex[eTEX_PARAM::eTEX_END];
+	MATRIX arrMat[4];
+	INT32 arrbTex[(int)eMTRLDATA_PARAM_TEX::_END];
 };
 
 struct tTransform
 {
-	Matrix matWorld;
-	Matrix matView;
-	Matrix matProj;
-	Matrix matWVP;
+	MATRIX matWorld;
+	MATRIX matView;
+	MATRIX matProj;
+	MATRIX matWVP;
 };
 extern tTransform g_transform;
-extern Matrix g_matViewProj;
+extern MATRIX g_matViewProj;
 
 struct tLightColor
 {
@@ -198,7 +203,7 @@ struct tDebugShapeInfo
 	eSHAPE_TYPE	eShape;
 	float		fLifeSpan;
 	float2		bytepadding;
-	Matrix		matWorld;
+	MATRIX		matWorld;
 	float4		vColor;
 };
 
@@ -210,7 +215,7 @@ struct tRWParticleBuffer
 };
 
 
-struct tParticle
+struct tParticleTransform
 {
 	float4  vLocalPos;
 	float4  vWorldPos; // 파티클 위치
@@ -219,13 +224,14 @@ struct tParticle
 	float4  vVelocity; // 파티클 현재 속도
 	float4  vForce; // 파티클에 주어진 힘
 
-	float   Age; // 생존 시간
-	float   NomalizedAge; // 수명대비 생존시간을 0~1로 정규화 한 값
-	float   LifeTime; // 수명
-	float   Mass; // 질량
+	float   fAge; // 생존 시간
+	float   fNormalizedAge; // 수명대비 생존시간을 0~1로 정규화 한 값
+	float   fLifeTime; // 수명
+	float   fMass; // 질량
+	float   fScaleFactor; // 추가 크기 배율
 
-	int     Active;
-	float3  Padding;
+	BOOL     bActive;
+	float2  pad;
 };
 
 
@@ -233,29 +239,48 @@ struct tParticle
 struct tParticleModule
 {
 	// 스폰 모듈
-	float4  vSpawnColor;
-	float4  vSpawnScale;
-	float3  vBoxShapeScale;
-	float   fSphereShapeRadius;
-	INT32     eSpawnShapeType; // Sphere , Box
-	INT32     iSpawnRate;
-	INT32     bFollowing;          // 0 World, 1 Local
-	INT32     Padding0;
+	float4 vSpawnColor;
+	float4 vSpawnScaleMin;
+	float4 vSpawnScaleMax;
+	float3 vBoxShapeScale;
+	float  fSphereShapeRadius;
+	int eSpawnShapeType; // Sphere , Box
+	int iSpawnRate;
+	int bFollowing;
+	float fMinLifeTime;
+	float fMaxLifeTime;
+	float3 spawnpad;
 
 	// Color Change 모듈
-	float4  vStartColor; // 초기 색상
-	float4  vEndColor; // 최종 색상
+	float4 vStartColor; // 초기 색상
+	float4 vEndColor; // 최종 색상
 
 	// Scale Change 모듈
-	float4  vStartScale; // 초기 크기
-	float4  vEndScale; // 최종 크기	
+	float fStartScale; // 초기 크기
+	float fEndScale; // 최종 크기	
+
+	int iMaxParticleCount;
+	int ipad;
+
+	// Add Velocity 모듈
+	float4 vVelocityDir;
+	int eAddVelocityType; // 0 : From Center, 1 : Fixed Direction	
+	float fOffsetAngle;
+	float fSpeed;
+	int addvpad;
+
+	// bDrag 모듈
+	float fStartDrag;
+	float fEndDrag;
+	float2 dragpad;
+
 
 	// Module Check
-	INT32     bSpawn;
-	INT32     bColorChange;
-	INT32     bScaleChange;
-	INT32     Padding1;
+	BOOL bSpawn;
+	BOOL bColorChange;
+	BOOL bScaleChange;
+	BOOL bAddVelocity;
 
-	INT32     iMaxParticleCount;
-	float3    Padding2;
+	BOOL bDrag;
+	float3 modulepad;
 };

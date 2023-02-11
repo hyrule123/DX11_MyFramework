@@ -11,20 +11,20 @@ class CMaterial :
 private:
     Ptr<CGraphicsShader>    m_pShader;
 
-    tMtrlConst              m_Const;
+    tMtrlData              m_Const;
 
-    Ptr<CTexture>           m_arrTex[eTEX_END];
+    Ptr<CTexture>           m_arrTex[(int)eMTRLDATA_PARAM_TEX::_END];
 
 
 public:
     //Inline Setter
-    void SetScalarParam(eSCALAR_PARAM _Param, const void* _Src);
-    void SetTexParam(eTEX_PARAM _Param, Ptr<CTexture> _Tex);
+    void SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
+    void SetTexParam(eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex);
     void SetShader(Ptr<CGraphicsShader> _Shader) { m_pShader = _Shader; }
 
     //Inline Getter
     Ptr<CGraphicsShader> GetShader() const { return m_pShader; }
-    Ptr<CTexture> GetTexture(eTEX_PARAM _texIdx = eTEX_0) const;
+    Ptr<CTexture> GetTexture(eMTRLDATA_PARAM_TEX _texIdx = eMTRLDATA_PARAM_TEX::_0) const;
 
 
 private:
@@ -41,8 +41,8 @@ public:
     CLONE(CMaterial)
 };
 
-inline Ptr<CTexture> CMaterial::GetTexture(eTEX_PARAM _texIdx) const
+inline Ptr<CTexture> CMaterial::GetTexture(eMTRLDATA_PARAM_TEX _texIdx) const
 {
-    assert(0 <= _texIdx && _texIdx < eTEX_END);
-    return m_arrTex[_texIdx];
+    assert(_texIdx < eMTRLDATA_PARAM_TEX::_END);
+    return m_arrTex[(int)_texIdx];
 }

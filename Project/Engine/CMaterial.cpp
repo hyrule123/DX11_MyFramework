@@ -28,7 +28,7 @@ void CMaterial::BindData()
 
 
 	// Texture Update
-	for (UINT i = 0; i < eTEX_END; ++i)
+	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{
 		if (1 == m_Const.arrbTex[i])
 			m_arrTex[i]->BindData(i, eSHADER_PIPELINE_STAGE_FLAG::__PIXEL);
@@ -41,42 +41,42 @@ void CMaterial::BindData()
 }
 
 
-void CMaterial::SetScalarParam(eSCALAR_PARAM _Param, const void* _Src)
+void CMaterial::SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)
 {
 	switch (_Param)
 	{
-	case INT_0:
-	case INT_1:
-	case INT_2:
-	case INT_3:		
-		m_Const.arrInt[_Param] = *((int*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::INT_0:
+	case eMTRLDATA_PARAM_SCALAR::INT_1:
+	case eMTRLDATA_PARAM_SCALAR::INT_2:
+	case eMTRLDATA_PARAM_SCALAR::INT_3:
+		m_Const.arrInt[(int)_Param] = *((int*)_Src);
 		break;
-	case FLOAT_0:
-	case FLOAT_1:
-	case FLOAT_2:
-	case FLOAT_3:
-		m_Const.arrFloat[_Param - FLOAT_0] = *((float*)_Src);
-		break;
-
-	case VEC2_0:
-	case VEC2_1:
-	case VEC2_2:
-	case VEC2_3:
-		m_Const.arrV2[_Param - VEC2_0] = *((Vec2*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_0:
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_1:
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_2:
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_3:
+		m_Const.arrFloat[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::FLOAT_0] = *((float*)_Src);
 		break;
 
-	case VEC4_0:
-	case VEC4_1:
-	case VEC4_2:
-	case VEC4_3:
-		m_Const.arrV4[_Param - VEC4_0] = *((Vec4*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::VEC2_0:
+	case eMTRLDATA_PARAM_SCALAR::VEC2_1:
+	case eMTRLDATA_PARAM_SCALAR::VEC2_2:
+	case eMTRLDATA_PARAM_SCALAR::VEC2_3:
+		m_Const.arrV2[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::VEC2_0] = *((Vec2*)_Src);
 		break;
 
-	case MAT_0:
-	case MAT_1:
-	case MAT_2:
-	case MAT_3:
-		m_Const.arrMat[_Param - MAT_0] = *((Matrix*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::VEC4_0:
+	case eMTRLDATA_PARAM_SCALAR::VEC4_1:
+	case eMTRLDATA_PARAM_SCALAR::VEC4_2:
+	case eMTRLDATA_PARAM_SCALAR::VEC4_3:
+		m_Const.arrV4[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::VEC4_0] = *((Vec4*)_Src);
+		break;
+
+	case eMTRLDATA_PARAM_SCALAR::MAT_0:
+	case eMTRLDATA_PARAM_SCALAR::MAT_1:
+	case eMTRLDATA_PARAM_SCALAR::MAT_2:
+	case eMTRLDATA_PARAM_SCALAR::MAT_3:
+		m_Const.arrMat[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::MAT_0] = *((Matrix*)_Src);
 		break;	
 
 
@@ -84,10 +84,10 @@ void CMaterial::SetScalarParam(eSCALAR_PARAM _Param, const void* _Src)
 }
 
 
-void CMaterial::SetTexParam(eTEX_PARAM _Param, Ptr<CTexture> _Tex)
+void CMaterial::SetTexParam(eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex)
 {
 	assert(nullptr != _Tex);
 
-	m_arrTex[_Param] = _Tex;
-	m_Const.arrbTex[_Param] = 1;
+	m_arrTex[(int)_Param] = _Tex;
+	m_Const.arrbTex[(int)_Param] = 1;
 }

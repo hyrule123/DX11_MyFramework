@@ -29,7 +29,7 @@ private:
     ComPtr<ID3D11ComputeShader> m_CS;
 
     //공유 데이터를 전달하기위한 상수버퍼용 구조체
-    tMtrlConst                  m_SharedCBuffer;
+    tMtrlData                  m_SharedCBuffer;
 
     //그룹당 쓰레드 갯수. 생성자에서 초기화
     UINT                        m_arrThreadsPerGroup[NumAxis];
@@ -43,7 +43,7 @@ public:
 
     void CalcGroupNumber(UINT _TotalCountX, UINT _TotalCountY, UINT _TotalCountZ);
 
-    void SetScalarParam(eSCALAR_PARAM _Param, const void* _Src);
+    void SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
 
     //컴퓨터쉐이더 연산 시행
     void Execute();

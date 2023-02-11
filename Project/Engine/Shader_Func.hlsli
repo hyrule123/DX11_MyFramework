@@ -50,10 +50,10 @@ void GaussianSample(in Texture2D _Tex_Noise, float2 _vResolution, float _Normali
 {
     float2 vUV = float2(_NormalizedThreadID, 0.5f);
     
-    vUV.x += g_AccTime * 0.5f;
+    vUV.x += g_CBuffer_GlobalData.fAccTime * 0.5f;
     
     // sin 그래프로 텍스쳐의 샘플링 위치 UV 를 계산
-    vUV.y -= (sin((_NormalizedThreadID - (g_AccTime /*그래프 우측 이동 속도*/)) * 2.f * 3.1415926535f * 10.f /*반복주기*/) / 2.f);
+    vUV.y -= (sin((_NormalizedThreadID - (g_CBuffer_GlobalData.fAccTime /*그래프 우측 이동 속도*/)) * 2.f * 3.1415926535f * 10.f /*반복주기*/) / 2.f);
     
     if (1.f < vUV.x)
         vUV.x = frac(vUV.x);
@@ -79,5 +79,6 @@ void GaussianSample(in Texture2D _Tex_Noise, float2 _vResolution, float _Normali
     
     _vOut = vOut;
 }
+
 
 #endif

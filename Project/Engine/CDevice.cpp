@@ -245,7 +245,7 @@ void CDevice::CreateConstBuffer()
     //Vertex + Pixel Shader에만 상수버퍼를 전달
     CBufferTarget |= eSHADER_PIPELINE_STAGE_FLAG::__PIXEL;
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL] = new CConstBuffer((UINT)eCONST_BUFFER_TYPE::MATERIAL);
-    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL]->Create(sizeof(tMtrlConst), 1);
+    m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL]->Create(sizeof(tMtrlData), 1);
     m_arrConstBuffer[(UINT)eCONST_BUFFER_TYPE::MATERIAL]->SetPipelineTarget(CBufferTarget);
 
     //CBufferTarget = eSHADER_PIPELINE_STAGE_FLAG::__VERTEX | eSHADER_PIPELINE_STAGE_FLAG::__PIXEL;

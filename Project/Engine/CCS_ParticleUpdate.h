@@ -8,8 +8,11 @@
 //파티클시스템은 어차피 1차원 배열 형태이고 x축으로 많아봐야 1024개 스레드를 다 사용할 리도 없으므로
 //x축 기준으로 연산을 해준다.
 
+#define ObjectPos           g_CBuffer_Transform.vec4_0
+
 class CStructBuffer;
 class CConstBuffer;
+class CTexture;
 
 class CCS_ParticleUpdate :
     public CComputeShader
@@ -29,14 +32,16 @@ private:
     CStructBuffer* m_pSBuffer_SharedRW;
     CConstBuffer* m_pCBuffer_ModuleData;
 
+    Ptr<CTexture> m_Tex_Noise;
     
 
 public:
     //SetBuffers 후 Excute 해주면 연산을 시작함.
     void SetBuffers(CStructBuffer* _pSBuffer_Transform, CStructBuffer* _pSBuffer_SharedRW, CConstBuffer* _pCBuffer_ModuleData);
 
+    void SetNoiseTexture(Ptr<CTexture> _pTex) { m_Tex_Noise = _pTex; }
 
-
+    void SetParticleOwnerPos(const Vec3& _vPos) { SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC4_0, Vec4(_vPos, 1.f)); }
 };
 
 inline void CCS_ParticleUpdate::SetBuffers(CStructBuffer* _pSBuffer_Transform, CStructBuffer* _pSBuffer_SharedRW, CConstBuffer* _pCBuffer_ModuleData)
@@ -45,3 +50,4 @@ inline void CCS_ParticleUpdate::SetBuffers(CStructBuffer* _pSBuffer_Transform, C
     m_pSBuffer_SharedRW = _pSBuffer_SharedRW;
     m_pCBuffer_ModuleData = _pCBuffer_ModuleData;
 }
+

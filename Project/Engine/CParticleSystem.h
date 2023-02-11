@@ -35,7 +35,7 @@ private:
 
     ////이외에도 추가적으로 파티클 모듈을 전달할 상수버퍼가 있음.
     ////이건 메소드 내부에서 static 변수로 사용할 예정
-    tParticleModule m_tParticleModuleData;
+    tParticleModule m_tModuleData;
     float m_AccTime;
     
 

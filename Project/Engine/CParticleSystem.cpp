@@ -20,7 +20,7 @@
 
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(eCOMPONENT_TYPE::PARTICLE_SYSTEM)
-	, m_tParticleModuleData{}
+	, m_tModuleData{}
 	, m_AccTime()
 	, m_bIsCreated()
 {
@@ -33,9 +33,6 @@ CParticleSystem::CParticleSystem()
 
 	//컴퓨트쉐이더 전용
 	m_pSBuffer_SharedRW = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE_FLAG::__NONE, eSBUFFER_SHARED_CBUFFER_IDX::NONE, eSRV_REGISTER_IDX::NONE, eUAV_REGISTER_IDX::PARTICLE_SBUFFER_SHARED);
-
-
-	m_tParticleModuleData.Padding0 = 1;
 }
 
 CParticleSystem::~CParticleSystem()
@@ -58,12 +55,12 @@ void CParticleSystem::finaltick()
 
 	//모듈데이터 전송
 	static CConstBuffer* const s_CBuffer_ModuleData = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::PARTICLE_MODULEDATA);
-	s_CBuffer_ModuleData->UploadData(&m_tParticleModuleData);
+	s_CBuffer_ModuleData->UploadData(&m_tModuleData);
 	s_CBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE_FLAG::__ALL);
 
 
 	//몇개 스폰할지 정보를 SharedRW 버퍼에 담아서 전송
-	float fSpawnCountPerTime = 1.f / (float)m_tParticleModuleData.iSpawnRate;
+	float fSpawnCountPerTime = 1.f / (float)m_tModuleData.iSpawnRate;
 	m_AccTime += DELTA_TIME;
 
 	if (fSpawnCountPerTime < m_AccTime)
@@ -82,9 +79,6 @@ void CParticleSystem::finaltick()
 
 	//파티클 위치정보를 계산시킴.
 	m_pCSParticle->Execute();
-
-	tParticle arrParticle[100] = { };
-	m_pSBuffer_ParticleInfo->GetData(arrParticle, 100u);
 }
 
 void CParticleSystem::render()
@@ -98,7 +92,7 @@ void CParticleSystem::render()
 
 	m_pSBuffer_ParticleInfo->BindBufferSRV();
 
-	GetMesh()->renderInstanced(m_tParticleModuleData.iMaxParticleCount);
+	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
 }
 
 
@@ -109,34 +103,38 @@ void CParticleSystem::CreateParticle()
 	//일단 하나밖에 없으므로 컴퓨트쉐이더는 고정(나중에 해제)
 	SetParticleCS(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE);
 
+	m_tModuleData.iSpawnRate = 20;
 
-	// 파티클 버퍼 초기 데이터도 우선 고정적으로 생성
-	tParticle arrParticle[100] = { };
-	float fAngle = XM_2PI / 100.f;
-	float fRadius = 20.f;
-	float fSpeed = 100.f;
+	m_tModuleData.vSpawnColor = Vec3(0.4f, 1.f, 0.4f);
 
-	for (UINT i = 0; i < 100; ++i)
-	{
-		arrParticle[i].vWorldPos = Vec3(fRadius * cosf(fAngle * (float)i), fRadius * sinf(fAngle * (float)i), 0.f);
-		arrParticle[i].vVelocity = arrParticle[i].vWorldPos;
-		arrParticle[i].vVelocity.z = 0.f;
-		arrParticle[i].vVelocity.Normalize();
-		arrParticle[i].vVelocity *= fSpeed;
-		arrParticle[i].vWorldScale = Vec3(10.f, 10.f, 1.f);
-		arrParticle[i].Age = -1.f;
-	}
-	m_pSBuffer_ParticleInfo->Create((UINT)sizeof(tParticle), 100u, arrParticle, 100u);
+	m_tModuleData.vSpawnScaleMin = Vec3(15.f, 15.f, 1.f);
+	m_tModuleData.vSpawnScaleMax = Vec3(50.f, 50.f, 1.f);
 
+	m_tModuleData.eSpawnShapeType = 0;
+	m_tModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);
+	m_tModuleData.bFollowing = 0; // 시뮬레이션 좌표계
 
-	//모듈 데이터도 하드코딩(매 finaltick마다 업데이트)
-	m_tParticleModuleData.vSpawnColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	m_tParticleModuleData.iMaxParticleCount = 100;
-	m_tParticleModuleData.iSpawnRate = 10;
-	m_tParticleModuleData.bColorChange = 1;
-	m_tParticleModuleData.bSpawn = 1;
-	m_tParticleModuleData.bScaleChange = 1;
-	m_tParticleModuleData.bFollowing = 1;
+	m_tModuleData.fMinLifeTime = 1.f;
+	m_tModuleData.fMaxLifeTime = 3.f;
+
+	m_tModuleData.bScaleChange = true;
+	m_tModuleData.fStartScale = 2.f;
+	m_tModuleData.fEndScale = 0.1f;
+
+	m_tModuleData.bColorChange = true;
+	m_tModuleData.vStartColor = Vec3(0.2f, 0.3f, 1.0f);
+	m_tModuleData.vEndColor = Vec3(0.4f, 1.f, 0.4f);
+
+	m_tModuleData.bAddVelocity = true;
+	m_tModuleData.eAddVelocityType = 0; // From Center
+	m_tModuleData.fSpeed = 150.f;
+	m_tModuleData.vVelocityDir;
+	m_tModuleData.fOffsetAngle;
+
+	m_tModuleData.bDrag;
+	m_tModuleData.fStartDrag = 200.f;
+	m_tModuleData.fEndDrag = 0.f;
+
 
 
 	//공유 데이터 구조화 버퍼 생성

@@ -34,14 +34,14 @@ struct VS_OUT
 // DepthStencilState    : Less
 //
 // Parameter
-// g_int_0              : AnimUse
-// g_vec2_0             : AnimAtlas LeftTop
-// g_vec2_1             : AnimAtlas Slice
+// g_CBuffer_MtrlData.int_0              : AnimUse
+// g_CBuffer_MtrlData.vec2_0             : AnimAtlas LeftTop
+// g_CBuffer_MtrlData.vec2_1             : AnimAtlas Slice
 //
 // g_tex_0              : Output Texture
 // ============================
-#define bAnimUse        g_int_0
-#define LeftTop         g_vec2_0
-#define Slice           g_vec2_1
-#define Offset          g_vec2_2
-#define CanvasSize        g_vec2_3
+#define bAnimUse        g_CBuffer_MtrlData.int_0
+#define LeftTop         g_CBuffer_MtrlData.vec2_0
+#define Slice           g_CBuffer_MtrlData.vec2_1
+#define Offset          g_CBuffer_MtrlData.vec2_2
+#define CanvasSize        g_CBuffer_MtrlData.vec2_3

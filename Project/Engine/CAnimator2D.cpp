@@ -43,13 +43,13 @@ void CAnimator2D::UpdateData()
     Vec2 vBackSize = m_pCurAnim->GetBackSize();
 
     int iAnimUse = 1;
-    pMtrl->SetScalarParam(INT_0, &iAnimUse);
-    pMtrl->SetScalarParam(VEC2_0, &frm.LeftTopUV);
-    pMtrl->SetScalarParam(VEC2_1, &frm.SliceUV);
-    pMtrl->SetScalarParam(VEC2_2, &frm.Offset);
-    pMtrl->SetScalarParam(VEC2_3, &vBackSize);
+    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &iAnimUse);
+    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC2_0, &frm.LeftTopUV);
+    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC2_1, &frm.SliceUV);
+    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC2_2, &frm.Offset);
+    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC2_3, &vBackSize);
 
-    pMtrl->SetTexParam(eTEX_0, m_pCurAnim->GetAtlasTex());
+    pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_pCurAnim->GetAtlasTex());
 }
 
 void CAnimator2D::Play(const string& _strName, bool _bRepeat)

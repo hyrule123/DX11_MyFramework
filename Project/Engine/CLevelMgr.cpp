@@ -85,8 +85,8 @@ void CLevelMgr::init()
 	pPlayer->AddScript(new CPlayerScript);
 
 	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DLightMtrl");
-	PlayerMtrl->SetTexParam(eTEX_0, Fighter);
-	PlayerMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
+	PlayerMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
+	PlayerMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)COLOR_KEY, ColorKey);
 
 	pPlayer->MeshRender()->SetMesh(RectMesh);
 	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
@@ -113,7 +113,7 @@ void CLevelMgr::init()
 	//pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
 	//Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
 	//TestMtrl->SetTexParam(eTEX_0, Fighter);
-	//TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
+	//TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)COLOR_KEY, ColorKey);
 	//pTestObj1->MeshRender()->SetMaterial(TestMtrl);
 
 	//::SpawnGameObject(pTestObj1, Vec3(100.f, 0.f, 10.f), 1);
@@ -170,7 +170,7 @@ void CLevelMgr::init()
 	//		pTestObj3->AddComponent(new CMeshRender);
 	//		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	//		Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
-	//		TestMtrl->SetScalarParam((eSCALAR_PARAM)COLOR_KEY, ColorKey);
+	//		TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)COLOR_KEY, ColorKey);
 	//		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
 	//		pTestObj3->AddComponent(new CCollider2D_OBB);
 
@@ -192,7 +192,7 @@ void CLevelMgr::init()
 	pTestObj3->AddComponent(new CMeshRender);
 	pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
 	Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
-	TestMtrl3->SetTexParam(eTEX_0, pCreateTex);
+	TestMtrl3->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pCreateTex);
 	pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
 
 	//pTestObj3->AddComponent(new CParticleSystem);
@@ -236,7 +236,7 @@ void CLevelMgr::init()
 
 		pTilemap->Transform()->SetSize(Vec3(500.f, 500.f, 1.f));
 
-		pTilemap->Tilemap()->GetMaterial()->SetTexParam(eTEX_0, CResMgr::GetInst()->FindRes<CTexture>("TileAtlas"));
+		pTilemap->Tilemap()->GetMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>("TileAtlas"));
 		pTilemap->Tilemap()->SetSliceSize(Vec2(0.125f, 0.166f));
 		pTilemap->Tilemap()->SetTileCount(8, 8);
 
@@ -266,7 +266,7 @@ void CLevelMgr::init()
 		Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
 		Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>("HOS");
 
-		pMtrl->SetTexParam(eTEX_0, pTex);
+		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTex);
 		Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
 		pPrefab->MeshRender()->SetMaterial(pMtrl);
 		pPrefab->MeshRender()->SetMesh(pMesh);

@@ -9,8 +9,8 @@
 // BS_TYPE : MASK
 
 // Parameter
-// g_int_0 : Tile X Count
-// g_int_1 : Tile Y Count
+// g_CBuffer_MtrlData.int_0 : Tile X Count
+// g_CBuffer_MtrlData.int_1 : Tile Y Count
 // g_tex_0 : Tile Atlas Texture
 //===============================
 

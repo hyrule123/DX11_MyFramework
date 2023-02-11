@@ -7,16 +7,16 @@ void GS_Particle(
 	inout TriangleStream<GS_OUT> _outstream
 )
 {
-    uint id = _in[0].iInstID;
+    uint id = _in[0].uInstID;
 	
 	//GS 단계에서 해당 파티클의 렌더링 여부를 판단 후 렌더링되지 않을 파티클이면 return 해준다.
-    if (0 == g_ParticleInfo[id].bActive)
+    if (0 == g_SBuffer_ParticleTransform[id].bActive)
         return;
 	
 	//정점을 뷰 공간상으로 이동
-    float3 vParticleViewPos = mul(float4(g_ParticleInfo[id].vWorldPos.xyz, 1.f), g_matView).xyz;
+    float3 vParticleViewPos = mul(float4(g_SBuffer_ParticleTransform[id].vWorldPos.xyz, 1.f), g_CBuffer_Transform.matView).xyz;
 	
-    float2 vParticleScale = mul(g_ParticleInfo[id].vWorldScale.xy, 0.5f);
+    float2 vParticleScale = mul(g_SBuffer_ParticleTransform[id].vWorldScale.xy, 0.5f);
 	
 
 	
@@ -36,7 +36,8 @@ void GS_Particle(
     
     for (int i = 0; i < 4; ++i)
     {
-        output[i].vSV_Pos = mul(output[i].vSV_Pos, g_matProj);
+        output[i].vSV_Pos = mul(output[i].vSV_Pos, g_CBuffer_Transform.matProj);
+        output[i].uInstID = _in[0].uInstID;
     }
     output[0].vUV = float2(0.f, 0.f);
     output[1].vUV = float2(1.f, 0.f);

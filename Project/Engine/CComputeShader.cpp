@@ -91,9 +91,9 @@ void CComputeShader::CreateShader(const wstring& _strFileName, const string& _st
 }
 
 
-#define TotalCountX eSCALAR_PARAM::INT_0
-#define TotalCountY eSCALAR_PARAM::INT_1
-#define TotalCountZ eSCALAR_PARAM::INT_2
+#define CS_TOTAL_ELEM_X eMTRLDATA_PARAM_SCALAR::INT_0
+#define CS_TOTAL_ELEM_Y eMTRLDATA_PARAM_SCALAR::INT_1
+#define CS_TOTAL_ELEM_Z eMTRLDATA_PARAM_SCALAR::INT_2
 
 void CComputeShader::CalcGroupNumber(UINT _TotalCountX, UINT _TotalCountY, UINT _TotalCountZ)
 {
@@ -104,47 +104,48 @@ void CComputeShader::CalcGroupNumber(UINT _TotalCountX, UINT _TotalCountY, UINT 
 
 	//쓰레드가 쓰레드 갯수와 맞아떨어지지 않을 수도 있다.
 	//이럴 떄를 대비해서 상수버퍼로 TotalCount 변수를 전달하여 컴퓨트쉐이더 함수 내부에서 예외처리를 할 수 있도록 해준다.
-	SetScalarParam(TotalCountX, &_TotalCountX);
-	SetScalarParam(TotalCountY, &_TotalCountY);
-	SetScalarParam(TotalCountZ, &_TotalCountZ);
+	SetScalarParam(CS_TOTAL_ELEM_X, &_TotalCountX);
+	SetScalarParam(CS_TOTAL_ELEM_Y, &_TotalCountY);
+	SetScalarParam(CS_TOTAL_ELEM_Z, &_TotalCountZ);
 }
 
-void CComputeShader::SetScalarParam(eSCALAR_PARAM _Param, const void* _Src)
+void CComputeShader::SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)
 {
+	int param = (int)_Param;
 	switch (_Param)
 	{
-	case INT_0:
-	case INT_1:
-	case INT_2:
-	case INT_3:
-		m_SharedCBuffer.arrInt[_Param] = *((int*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::INT_0:
+	case eMTRLDATA_PARAM_SCALAR::INT_1:
+	case eMTRLDATA_PARAM_SCALAR::INT_2:
+	case eMTRLDATA_PARAM_SCALAR::INT_3:
+		m_SharedCBuffer.arrInt[(int)_Param] = *((int*)_Src);
 		break;
-	case FLOAT_0:
-	case FLOAT_1:
-	case FLOAT_2:
-	case FLOAT_3:
-		m_SharedCBuffer.arrFloat[_Param - FLOAT_0] = *((float*)_Src);
-		break;
-
-	case VEC2_0:
-	case VEC2_1:
-	case VEC2_2:
-	case VEC2_3:
-		m_SharedCBuffer.arrV2[_Param - VEC2_0] = *((Vec2*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_0:
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_1:
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_2:
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_3:
+		m_SharedCBuffer.arrFloat[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::FLOAT_0] = *((float*)_Src);
 		break;
 
-	case VEC4_0:
-	case VEC4_1:
-	case VEC4_2:
-	case VEC4_3:
-		m_SharedCBuffer.arrV4[_Param - VEC4_0] = *((Vec4*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::VEC2_0:
+	case eMTRLDATA_PARAM_SCALAR::VEC2_1:
+	case eMTRLDATA_PARAM_SCALAR::VEC2_2:
+	case eMTRLDATA_PARAM_SCALAR::VEC2_3:
+		m_SharedCBuffer.arrV2[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::VEC2_0] = *((Vec2*)_Src);
 		break;
 
-	case MAT_0:
-	case MAT_1:
-	case MAT_2:
-	case MAT_3:
-		m_SharedCBuffer.arrMat[_Param - MAT_0] = *((Matrix*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::VEC4_0:
+	case eMTRLDATA_PARAM_SCALAR::VEC4_1:
+	case eMTRLDATA_PARAM_SCALAR::VEC4_2:
+	case eMTRLDATA_PARAM_SCALAR::VEC4_3:
+		m_SharedCBuffer.arrV4[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::VEC4_0] = *((Vec4*)_Src);
+		break;
+
+	case eMTRLDATA_PARAM_SCALAR::MAT_0:
+	case eMTRLDATA_PARAM_SCALAR::MAT_1:
+	case eMTRLDATA_PARAM_SCALAR::MAT_2:
+	case eMTRLDATA_PARAM_SCALAR::MAT_3:
+		m_SharedCBuffer.arrMat[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::MAT_0] = *((Matrix*)_Src);
 		break;
 
 	}
@@ -157,7 +158,7 @@ void CComputeShader::Execute()
 
 	//컴퓨트쉐이더 관련 공유 데이터를 상수버퍼를 통해서 전달
 	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::MATERIAL);
-	pCBuffer->UploadData(&m_SharedCBuffer, sizeof(tMtrlConst));
+	pCBuffer->UploadData(&m_SharedCBuffer, sizeof(tMtrlData));
 	pCBuffer->BindBuffer();
 
 	//처리해줄 쉐이더를 지정하고 계산 진행.

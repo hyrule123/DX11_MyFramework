@@ -2,7 +2,7 @@
 
 
 
-#define Color g_vec4_0
+#define Color g_CBuffer_Transform.vec4_0
 
 
 [numthreads(32, 32, 1)]

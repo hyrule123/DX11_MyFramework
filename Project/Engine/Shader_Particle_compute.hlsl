@@ -22,7 +22,7 @@
 //    float3 vBoxShapeScale;
 //    float fSphereShapeRadius;
 
-//    int SpawnShapeType; // Sphere , Box
+//    int eSpawnShapeType; // Sphere , Box
 //    int SpawnRate; // 초당 생성 개수
 //    float2 Padding;
 
@@ -43,25 +43,24 @@
 //    int bModule_ScaleChange;
 //}
 
-////RWStructuredBuffer<tParticle> g_SBufferRW_Particle : register(u2);
+////RWStructuredBuffer<tParticleTransform> g_SBufferRW_Particle : register(u2);
 ////RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u3);
 
 #define ePARTICLE_MODULE_PARTICLE_SPAWN 0
 #define	ePARTICLE_MODULE_COLOR_CHANGE 1
 #define	ePARTICLE_MODULE_SCALE_CHANGE 2
 
-
 //컴퓨트쉐이더가 들고있는 개별 Mtrl 구조체에 들어있는값 참조
-#define ObjectPos           g_vec4_0
+#define ObjectPos           g_CBuffer_MtrlData.vec4_0
 
 //컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
-#define NoiseTexResolution  g_vec2_0
+#define NoiseTexResolution  g_CBuffer_MtrlData.vec2_0
 
 
 #define SpawnCount          g_SBufferRW_Particle_Shared[0].iSpawnCount
-#define ParticleMaxCount    g_iMaxParticleCount
+#define ParticleMaxCount    g_CBuffer_ParticleModule.iMaxParticleCount
 
-#define SpawnModule         g_bSpawn
+#define SpawnModule         g_CBuffer_ParticleModule.bSpawn
 #define ColorChangeModule   g_bModule_ColorChange
 #define ScaleChangeModule   g_bModule_ScaleChange
 
@@ -69,16 +68,14 @@
 void CS_Particle(uint3 _ID : SV_DispatchThreadID )
 {
     // 스레드 ID 가 파티클버퍼 최대 수를 넘긴경우 or 스레드 담당 파티클이 비활성화 상태인 경우
-    if ((uint) ParticleMaxCount <= _ID.x)
+    if (ParticleMaxCount <= (int) _ID.x)
         return;
         
-    tParticle particle = g_SBufferRW_Particle[_ID.x];
-
            
     if (SpawnModule)
     {
         // 파티클이 비활성화 상태인 경우
-        if (particle.bActive == 0)
+        if (g_SBufferRW_Particle[_ID.x].bActive == 0)
         {
             // SpawnCount 를 확인
             // 만약 SpawnCount 가 0 이상이라면, 파티클을 활성화시킴      
@@ -90,7 +87,7 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
             
                 if (orgvalue == outvalue)
                 {
-                    particle.bActive = 1;
+                    g_SBufferRW_Particle[_ID.x].bActive = 1;
                     
                     // 랜덤 결과를 받을 변수
                     float3 vOut1 = (float3) 0.f;
@@ -104,30 +101,55 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
                     GaussianSample(g_Tex_Noise, NoiseTexResolution, fNormalizeThreadID + 0.2f, vOut3);
                     
                     // Box 스폰
-                    if (g_eSpawnShapeType == 0)
+                    if (g_CBuffer_ParticleModule.eSpawnShapeType == 0)
                     {
-                        particle.vLocalPos.xyz = float3(g_vBoxShapeScale.x * vOut1.r - g_vBoxShapeScale.x * 0.5f
-                                                      , g_vBoxShapeScale.y * vOut2.r - g_vBoxShapeScale.y * 0.5f
-                                                      , g_vBoxShapeScale.z * vOut3.r - g_vBoxShapeScale.z * 0.5f);
-                        particle.vWorldPos.xyz = particle.vLocalPos.xyz + ObjectPos.xyz;
+                        g_SBufferRW_Particle[_ID.x].vLocalPos.xyz = float3(g_CBuffer_ParticleModule.vBoxShapeScale.x * vOut1.r - g_CBuffer_ParticleModule.vBoxShapeScale.x * 0.5f
+                                                      , g_CBuffer_ParticleModule.vBoxShapeScale.y * vOut2.r - g_CBuffer_ParticleModule.vBoxShapeScale.y * 0.5f
+                                                      , g_CBuffer_ParticleModule.vBoxShapeScale.z * vOut3.r - g_CBuffer_ParticleModule.vBoxShapeScale.z * 0.5f);
+                        g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = g_SBufferRW_Particle[_ID.x].vLocalPos.xyz + ObjectPos.xyz;
                         
-                        particle.vWorldScale.xyz = float3(10.f, 10.f, 1.f);
+                        
+                        // 스폰 크기 범위내에서 랜덤 크기로 지정 (Min, Max 가 일치하면 고정크기)
+                        float4 vSpawnScale = g_CBuffer_ParticleModule.vSpawnScaleMin + (g_CBuffer_ParticleModule.vSpawnScaleMax - g_CBuffer_ParticleModule.vSpawnScaleMin) * vOut3.x;
+                        g_SBufferRW_Particle[_ID.x].vWorldScale.xyz = vSpawnScale.xyz;
+                    }
+                    
+                    // bAddVelocity 모듈
+                    if (g_CBuffer_ParticleModule.bAddVelocity)
+                    {
+                        // From Center
+                        if (g_CBuffer_ParticleModule.eAddVelocityType == 0)
+                        {
+                            float3 vVelocity = normalize(g_SBufferRW_Particle[_ID.x].vLocalPos.xyz);
+                            g_SBufferRW_Particle[_ID.x].vVelocity.xyz = vVelocity * g_CBuffer_ParticleModule.fSpeed;
+                        }
+                        
+                        // To Center
+                        else if (g_CBuffer_ParticleModule.eAddVelocityType == 1)
+                        {
+                               
+                        }
+                        
+                        // Fixed Direction
+                        else
+                        {
+                            
+                        }
                     }
                     
                     // Sphere 스폰
-                    else if (g_eSpawnShapeType == 1)
+                    else if (g_CBuffer_ParticleModule.eSpawnShapeType == 1)
                     {
-                        
+                        float fRadius = 500.f; //vOut1.r * 200.f;
+                        float fAngle = vOut2.r * 6.2831852f;
+                        //g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = float3(fRadius * cos(fAngle), fRadius * sin(fAngle), 100.f);
                     }
                     
                     
-                    float fRadius = 500.f; //vOut1.r * 200.f;
-                    float fAngle = vOut2.r * 2 * 3.1415926535f;
-                    //particle.vWorldPos.xyz = float3(fRadius * cos(fAngle), fRadius * sin(fAngle), 100.f);                    
-                   
-                   
-                    particle.fAge = 0.f;
-                    particle.fLifeTime = 10.f;
+                    g_SBufferRW_Particle[_ID.x].vColor = g_CBuffer_ParticleModule.vSpawnColor;
+                                      
+                    g_SBufferRW_Particle[_ID.x].fAge = 0.f;
+                    g_SBufferRW_Particle[_ID.x].fLifeTime = g_CBuffer_ParticleModule.fMinLifeTime + (g_CBuffer_ParticleModule.fMaxLifeTime - g_CBuffer_ParticleModule.fMinLifeTime) * vOut2.r;
                     break;
                 }
             }
@@ -136,33 +158,61 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
            
     
     // 파티클이 활성화인 경우
-    if (particle.bActive)
+    if (g_SBufferRW_Particle[_ID.x].bActive)
     {
-        // 속도에 따른 파티클위치 이동
-        if (g_bFollowing == 0)
-        {
-            particle.vWorldPos += particle.vVelocity * g_DeltaTime;
-        }
-        else if (g_bFollowing == 1)
-        {
-            particle.vLocalPos += particle.vVelocity * g_DeltaTime;
-            particle.vWorldPos.xyz = particle.vLocalPos.xyz + ObjectPos.xyz;
-        }
-        
-        
-        
-        // 파티클의 Age 에 시간을 누적시킴
-        particle.fAge += g_DeltaTime;
+        // 파티클의 fAge 에 시간을 누적시킴
+        g_SBufferRW_Particle[_ID.x].fAge += g_CBuffer_GlobalData.fDeltaTime;
+        g_SBufferRW_Particle[_ID.x].fNormalizedAge = saturate(g_SBufferRW_Particle[_ID.x].fAge / g_SBufferRW_Particle[_ID.x].fLifeTime);
         
         // 파티클의 수명이 끝나면, 다시 비활성화 상태로 되돌림
-        if (particle.fLifeTime <= particle.fAge)
+        if (g_SBufferRW_Particle[_ID.x].fLifeTime <= g_SBufferRW_Particle[_ID.x].fAge)
         {
-            particle.bActive = 0.f;
+            g_SBufferRW_Particle[_ID.x].bActive = 0.f;
         }
-    }
-    
-    // 변경점 적용
-    g_SBufferRW_Particle[_ID.x] = particle;
-    
         
+        
+        // 속도 제한(bDrag) 모듈
+        if (g_CBuffer_ParticleModule.bDrag)
+        {
+            // 파티클의 현재 속력
+            float fSpeed = length(g_SBufferRW_Particle[_ID.x].vVelocity);
+            float fDrag = g_CBuffer_ParticleModule.fStartDrag + (g_CBuffer_ParticleModule.fEndDrag - g_CBuffer_ParticleModule.fStartDrag) * g_SBufferRW_Particle[_ID.x].fNormalizedAge;
+            
+            if (fDrag < fSpeed)
+            {
+                g_SBufferRW_Particle[_ID.x].vVelocity = normalize(g_SBufferRW_Particle[_ID.x].vVelocity) * fDrag;
+            }
+        }
+        
+        
+        
+        // 속도에 따른 파티클위치 이동
+        if (g_CBuffer_ParticleModule.bFollowing == 0)
+        {
+            g_SBufferRW_Particle[_ID.x].vWorldPos += g_SBufferRW_Particle[_ID.x].vVelocity * g_CBuffer_GlobalData.fDeltaTime;
+        }
+        else if (g_CBuffer_ParticleModule.bFollowing == 1)
+        {
+            g_SBufferRW_Particle[_ID.x].vLocalPos += g_SBufferRW_Particle[_ID.x].vVelocity * g_CBuffer_GlobalData.fDeltaTime;
+            g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = g_SBufferRW_Particle[_ID.x].vLocalPos.xyz + ObjectPos.xyz;
+        }
+        
+        
+        // 크기 변화 모듈이 활성화 되어있으면
+        if (g_CBuffer_ParticleModule.bScaleChange)
+            g_SBufferRW_Particle[_ID.x].fScaleFactor = g_CBuffer_ParticleModule.fStartScale + g_SBufferRW_Particle[_ID.x].fNormalizedAge * (g_CBuffer_ParticleModule.fEndScale - g_CBuffer_ParticleModule.fStartScale);
+        else
+            g_SBufferRW_Particle[_ID.x].fScaleFactor = 1.f;
+        
+        
+        // 색상 변화모듈이 활성화 되어있으면
+        if (g_CBuffer_ParticleModule.bColorChange)
+        {
+            g_SBufferRW_Particle[_ID.x].vColor = g_CBuffer_ParticleModule.vStartColor + g_SBufferRW_Particle[_ID.x].fNormalizedAge * (g_CBuffer_ParticleModule.vEndColor - g_CBuffer_ParticleModule.vStartColor);
+        }
+        
+    }
+
+    
+    
 }

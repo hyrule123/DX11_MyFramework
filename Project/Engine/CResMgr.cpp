@@ -280,8 +280,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// BS_TYPE : MASK
 
 	// Parameter
-	// g_int_0 : Tile X Count
-	// g_int_1 : Tile Y Count
+	// g_CBuffer_MtrlData.int_0 : Tile X Count
+	// g_CBuffer_MtrlData.int_1 : Tile Y Count
 	// g_tex_0 : Tile Atlas Texture
 	//===============================
 	{
@@ -304,7 +304,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// BS_TYPE : ALPHA_BLEND
 
 	// Parameter
-	// g_int_0 : Particle Index
+	// g_CBuffer_MtrlData.int_0 : Particle Index
 	// 
 	// Domain : TRANSPARENT
 	// ============================
@@ -416,8 +416,7 @@ void CResMgr::LoadDefaultTexture()
 
 
 	//미리 텍스처 바인딩
-	Ptr<CTexture> pTexNoise = Load<CTexture>(RESOURCE::TEXTURE::NOISE_TEXTURE_0, L"texture/noise/noise_01.png");
-	pTexNoise->BindData((int)eSRV_REGISTER_IDX::NOISE_TEXTURE, eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE);
+	Load<CTexture>(RESOURCE::TEXTURE::NOISE_TEXTURE_0, L"texture/noise/noise_01.png");
 }
 
 

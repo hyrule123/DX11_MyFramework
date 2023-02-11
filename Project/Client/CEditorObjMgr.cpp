@@ -12,8 +12,8 @@
 #include <Engine/CTransform.h>
 #include <Engine/CCameraMoveScript.h>
 
-#define DEBUG_MAT_WVP MAT_0
-#define DEBUG_VEC4_COLOR VEC4_0
+#define DEBUG_MAT_WVP eMTRLDATA_PARAM_SCALAR::MAT_0
+#define DEBUG_VEC4_COLOR eMTRLDATA_PARAM_SCALAR::VEC4_0
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}

@@ -4,7 +4,7 @@
 struct VS_INOUT
 {
     float3 vPos : POSITION;
-    uint iInstID : SV_InstanceID;
+    uint uInstID : SV_InstanceID;
 };
 
 //Geometry Shader 의 사용 목적
@@ -14,4 +14,5 @@ struct GS_OUT
 {
     float4 vSV_Pos : SV_Position;
     float2 vUV : TEXCOORD;
+    uint uInstID : SV_InstanceID;
 };

@@ -6,6 +6,8 @@
 
 #include "CDevice.h"
 
+#include "CTexture.h"
+
 CCS_ParticleUpdate::CCS_ParticleUpdate()
 	: CComputeShader(128u, 1u, 1u)
 	, m_pSBuffer_Transform()
@@ -28,6 +30,8 @@ bool CCS_ParticleUpdate::BindDataCS()
 		nullptr == m_pSBuffer_SharedRW
 		||
 		nullptr == m_pCBuffer_ModuleData
+		||
+		nullptr == m_Tex_Noise
 		)
 		return false;
 
@@ -40,6 +44,8 @@ bool CCS_ParticleUpdate::BindDataCS()
 	m_pSBuffer_SharedRW->BindBufferUAV();
 
 	m_pCBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE_FLAG::__COMPUTE);
+
+	m_Tex_Noise->BindData_CS((int)eSRV_REGISTER_IDX::NOISE_TEXTURE);
 
 	return true;
 }
