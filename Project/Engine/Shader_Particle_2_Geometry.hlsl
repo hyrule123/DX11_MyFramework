@@ -22,16 +22,13 @@ void GS_Particle(
 	float CosRot = cos(g_SBuffer_ParticleTransform[id].vWorldRotation.z);
 	float SinRot = sin(g_SBuffer_ParticleTransform[id].vWorldRotation.z);
 	
-	float CosX = CosRot * vParticleScale.x;
-	float CosY = CosRot * vParticleScale.y;
-	float SinX = SinRot * vParticleScale.x;
-	float SinY = SinRot * vParticleScale.y;
+	row_major float2x2 matRot = { CosRot, -SinRot, SinRot, CosRot };
     
-	float2 vtx0 = float2(-CosX - SinY, -SinX + CosY);
-	float2 vtx1 = float2(CosX + SinY, -SinX + CosY);
-	float2 vtx2 = float2(CosX + SinY, +SinX - CosY);
-	float2 vtx3 = float2(-CosX - SinY, +SinX - CosY);
-  
+	float2 LT = mul(float2(-vParticleScale.x, vParticleScale.y), matRot);
+	float2 RT = mul(vParticleScale, matRot);
+	float2 RB = mul(float2(vParticleScale.x, -vParticleScale.y), matRot);
+	float2 LB = mul(-vParticleScale, matRot);
+    
 	
 	//새로운 정점을 생성(중앙인 point정점 위치를 기준으로 사각형을 만든다.
 	//뷰 공간에서 생성한 사각형이기 떄문에 무조건 이 사각형은 카메라를 향하게 된다.
@@ -41,25 +38,19 @@ void GS_Particle(
 	//새로 만든 정점으로 위치를 계산한다.
     GS_OUT output[4] = { (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f };
     output[0].vSV_Pos = float4(
-    vParticleViewPos.x + vtx0.x,
-    vParticleViewPos.y + vtx0.y,
-    //(vParticleViewPos.x - vParticleScale.x),
-    //(vParticleViewPos.y + vParticleScale.y),
+    vParticleViewPos.xy + LT,
     vParticleViewPos.z, 1.f);
     
     output[1].vSV_Pos = float4(
-    vParticleViewPos.x + vtx1.x,
-    vParticleViewPos.y + vtx1.y, 
+    vParticleViewPos.xy + RT,
     vParticleViewPos.z, 1.f);
     
     output[2].vSV_Pos = float4(
-    vParticleViewPos.x + vtx2.x,
-    vParticleViewPos.y + vtx2.y, 
+    vParticleViewPos.xy + RB,
     vParticleViewPos.z, 1.f);
     
     output[3].vSV_Pos = float4(
-    vParticleViewPos.x +vtx3.x,
-    vParticleViewPos.y +vtx3.y, 
+    vParticleViewPos.xy + LB,
     vParticleViewPos.z, 1.f);
     
     
