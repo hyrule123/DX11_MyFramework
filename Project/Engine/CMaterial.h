@@ -8,10 +8,16 @@
 class CMaterial :
     public CRes
 {
+public:
+    CMaterial();
+    ~CMaterial();
+
+    CLONE(CMaterial)
+
 private:
     Ptr<CGraphicsShader>    m_pShader;
 
-    tMtrlData              m_Const;
+    tMtrlData               m_MtrlData;
 
     Ptr<CTexture>           m_arrTex[(int)eMTRLDATA_PARAM_TEX::_END];
 
@@ -31,18 +37,34 @@ private:
     virtual int Load(const wstring& _strFilePath) { return S_OK; }
 public:
     virtual int Save(const wstring& _strRelativePath) { return S_OK; }
-
     virtual void BindData() override;
 
-public:
-    CMaterial();
-    ~CMaterial();
+private:
+    bool IsTexture(eMTRLDATA_PARAM_TEX _Idx);
 
-    CLONE(CMaterial)
 };
 
 inline Ptr<CTexture> CMaterial::GetTexture(eMTRLDATA_PARAM_TEX _texIdx) const
 {
     assert(_texIdx < eMTRLDATA_PARAM_TEX::_END);
     return m_arrTex[(int)_texIdx];
+}
+
+inline bool CMaterial::IsTexture(eMTRLDATA_PARAM_TEX _Idx)
+{
+    switch (_Idx)
+    {
+    case eMTRLDATA_PARAM_TEX::_0: return (bool)m_MtrlData.bTEX_0;
+    case eMTRLDATA_PARAM_TEX::_1: return (bool)m_MtrlData.bTEX_1;
+    case eMTRLDATA_PARAM_TEX::_2: return (bool)m_MtrlData.bTEX_2;
+    case eMTRLDATA_PARAM_TEX::_3: return (bool)m_MtrlData.bTEX_3;
+    case eMTRLDATA_PARAM_TEX::_4: return (bool)m_MtrlData.bTEX_4;
+    case eMTRLDATA_PARAM_TEX::_5: return (bool)m_MtrlData.bTEX_5;
+    case eMTRLDATA_PARAM_TEX::_6: return (bool)m_MtrlData.bTEX_6;
+    case eMTRLDATA_PARAM_TEX::_7: return (bool)m_MtrlData.bTEX_7;
+    case eMTRLDATA_PARAM_TEX::_END: break;
+    default: break;
+    }
+
+    return false;
 }

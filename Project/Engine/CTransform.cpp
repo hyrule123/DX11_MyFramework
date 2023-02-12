@@ -164,12 +164,12 @@ void CTransform::UpdateData()
 	//const Matrix& matSize = Matrix::CreateScale(m_vSize);
 
 	//월드뷰투영행렬을 곱한 후 전치한다.(HLSL은 Column-Major Matrix, XMMATRIX에서는 Row-Major Matrix를 사용 중)
-	g_transform.matWorld = m_matSize * m_matWorld;
-	g_transform.matWVP = g_transform.matWorld * g_matViewProj;
+	g_Transform.matWorld = m_matSize * m_matWorld;
+	g_Transform.matWVP = g_Transform.matWorld * g_matViewProj;
 
 
 	//위의 행렬을 상수버퍼에 전달 및 바인딩
-	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::TRANSFORM);
-	pTransformBuffer->UploadData(&g_transform, sizeof(tTransform));
+	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_TRANSFORM);
+	pTransformBuffer->UploadData(&g_Transform, sizeof(tTransform));
 	pTransformBuffer->BindBuffer();
 }

@@ -57,7 +57,7 @@ bool CCS_ParticleUpdate_Basic::BindDataCS()
 
 	m_pCBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE::__COMPUTE);
 
-	m_Tex_Noise->BindData_SRV((int)eSRV_REGISTER_IDX::NOISE_TEXTURE, eSHADER_PIPELINE_STAGE::__COMPUTE);
+	m_Tex_Noise->BindData_SRV(e_t_TEXUTRE_NOISE, eSHADER_PIPELINE_STAGE::__COMPUTE);
 
 	return true;
 }
@@ -74,6 +74,4 @@ void CCS_ParticleUpdate_Basic::UnBindCS()
 	m_pSBufferRW_Shared = nullptr;
 	m_pCBuffer_ModuleData = nullptr;
 }
-
-
 

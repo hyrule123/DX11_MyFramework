@@ -92,7 +92,7 @@ void CLevelMgr::init()
 	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
 
 	pPlayer->AddComponent(new CLight2D);
-	pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::eLIGHT_POINT);
+	pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
 
 	pPlayer->AddComponent(new CAnimator2D);
 	Ptr<CTexture> pAnimAtlas = CResMgr::GetInst()->FindRes<CTexture>("LinkAtlas");

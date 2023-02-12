@@ -9,7 +9,7 @@ class CStructBuffer
 {
 public:
     CStructBuffer() = delete;
-    CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT _eSHADER_PIPELINE_STAGE_FLAG_SRV, eSBUFFER_SHARED_CBUFFER_IDX _CBIdx, eSRV_REGISTER_IDX _SRVIdx, eUAV_REGISTER_IDX _UAVIdx);
+    CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT _eSHADER_PIPELINE_STAGE_FLAG_SRV, eCBUFFER_SBUFFER_SHAREDATA_IDX _CBIdx, int _SRVIdx, int _UAVIdx);
     virtual ~CStructBuffer();
     CLONE_DISABLE(CStructBuffer)
 
@@ -18,18 +18,18 @@ private:
     eSTRUCT_BUFFER_TYPE         m_eSBufferType;
     UINT                        m_flagPipelineTargetSRV;
 
-    eSBUFFER_SHARED_CBUFFER_IDX m_eCBufferIdx;
-    eSRV_REGISTER_IDX           m_eSRVIdx;
-    eUAV_REGISTER_IDX           m_eUAVIdx;
+    eCBUFFER_SBUFFER_SHAREDATA_IDX m_eCBufferIdx;
+    int                         m_e_t_SRVIdx;
+    int                         m_e_u_UAVIdx;
 
    
-    UINT                    m_uElementStride;   //구조체 하나 당 바이트 갯수
-    UINT                    m_uElementCount;    //현재 등록한 구조체의 갯수
-    UINT                    m_uElementCapacity; //현재 확보되어있는 구조체의 갯수
+    UINT                        m_uElementStride;   //구조체 하나 당 바이트 갯수
+    UINT                        m_uElementCount;    //현재 등록한 구조체의 갯수
+    UINT                        m_uElementCapacity; //현재 확보되어있는 구조체의 갯수
 
 
-    D3D11_BUFFER_DESC       m_BufferDesc;
-    ComPtr<ID3D11Buffer>    m_StructBuffer;
+    D3D11_BUFFER_DESC           m_BufferDesc;
+    ComPtr<ID3D11Buffer>        m_StructBuffer;
 
     ComPtr<ID3D11ShaderResourceView> m_SRV;
 

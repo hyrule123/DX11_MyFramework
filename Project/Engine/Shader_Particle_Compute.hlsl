@@ -1,4 +1,4 @@
-#include "Shader_header_register.hlsli"
+#include "Shader_Header_Register.hlsli"
 #include "Shader_Func.hlsli"
 
 //=================
@@ -51,10 +51,10 @@ RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u1)
 #define	ePARTICLE_MODULE_SCALE_CHANGE 2
 
 //컴퓨트쉐이더가 들고있는 개별 Mtrl 구조체에 들어있는값 참조
-#define OWNER_OBJ_POS g_CBuffer_MtrlData.vec4_0
+
 
 //컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
-#define NoiseTexResolution  g_CBuffer_MtrlData.vec2_0
+#define NoiseTexResolution  g_CBuffer_MtrlData.VEC2_0
 
 #define SpawnCount          g_SBufferRW_Particle_Shared[0].iSpawnCount
 #define ParticleMaxCount    g_CBuffer_ParticleModule.iMaxParticleCount

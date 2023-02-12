@@ -9,7 +9,6 @@
 //x축 기준으로 연산을 해준다.
 
 //컴퓨트쉐이더에서 INT0, INT1, INT2는 현재 사용 중
-#define OWNER_OBJ_POS eMTRLDATA_PARAM_SCALAR::VEC4_0
 
 class CTexture;
 

@@ -77,7 +77,7 @@ void CEditorObjMgr::render()
 	size_t size = m_vecDebugShapeInfo.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		switch (m_vecDebugShapeInfo[i].eShape)
+		switch ((eSHAPE_TYPE)m_vecDebugShapeInfo[i].eShapeType)
 		{
 		case eSHAPE_TYPE::RECT:
 		{

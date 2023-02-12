@@ -116,7 +116,7 @@ void CCollider2D_OBB::DebugRender()
 	const Matrix& matOffset = Matrix::CreateTranslation(GetOffsetPos());
 
 	tDebugShapeInfo Info = {};
-	Info.eShape = eSHAPE_TYPE::RECT;
+	Info.eShapeType = (int)eSHAPE_TYPE::RECT;
 	Info.matWorld = matScale * matOffset * matSize * matWorld;
 
 	//충돌 중인 물체가 있을 경우 빨강, 아닐 경우 초록

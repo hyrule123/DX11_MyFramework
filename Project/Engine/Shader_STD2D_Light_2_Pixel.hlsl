@@ -8,7 +8,7 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
     float4 vOutColor = (float4)0.f;
     
     //메인텍스처가 존재하지 않을경우는 무조건 마젠타 색상을 return;
-    if(0 == g_CBuffer_MtrlData.btex_0)
+    if(0 == g_CBuffer_MtrlData.bTEX_0)
     {
         vOutColor = float4(1.f, 1.f, 0.f, 1.f);
     }
@@ -52,7 +52,7 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
     //현재 월드에 배치되어있는 광원의 갯수는 tGlobal 상수버퍼에,
     //실제 광원 데이터는 구조화 버퍼에 배치되어 있다.
     float3 vNormal = (float3) 0.f;
-    if (1 == g_CBuffer_MtrlData.btex_1)
+    if (1 == g_CBuffer_MtrlData.bTEX_1)
     {
         vNormal = g_tex_1.Sample(g_Sampler_0, _in.vUV).xyz;
             
@@ -96,14 +96,14 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
 
 void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 {
-    for (uint i = 0; i < g_SBufferInfo[eSBUFFER_SHARED_CBUFFER_LIGHT2D].g_uSBufferCount; ++i)
+	for (uint i = 0; i < g_SBufferInfo[eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D].uSBufferCount; ++i)
     {  
-        if (eLIGHT_DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
+        if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
         {
             _Light.vAmbient.rgb += g_SBuffer_Light2D[i].LightColor.vAmbient.rgb;
             _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb;
         }
-        else if (eLIGHT_POINT == g_SBuffer_Light2D[i].LightType)
+        else if (eLIGHT_TYPE::POINT == g_SBuffer_Light2D[i].LightType)
         {
             //픽셀과 광원 사이의 길이를 계산하고, 그걸 점광원의 범위(fRadius)로 나눠준다.
             float DistancePow = distance(_vWorldPos.xy, g_SBuffer_Light2D[i].vLightWorldPos.xy) / g_SBuffer_Light2D[i].fRadius;
@@ -117,7 +117,7 @@ void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
             //점광원의 경우 환경광(Ambient)은 없다고 가정한다.
             _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb * DistancePow;
         }
-        else if (eLIGHT_SPOTLIGHT == g_SBuffer_Light2D[i].LightType)
+        else if (eLIGHT_TYPE::SPOTLIGHT == g_SBuffer_Light2D[i].LightType)
         {
             //스포트라이트의 경우에는 추가적으로 빛의 방향과 부채꼴의 각도가 존재한다. 이 값은 내적과 acos를 통해서 구할 수 있다.
             //픽셀의 위치와 광원의 위치를 뺀 후 정규화 하여 광원으로부터 픽셀까지의 방향 벡터를 구한다.
@@ -148,9 +148,9 @@ void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light)
 {
     //여기선 노말값까지 감안해줘야 함.    
-    for (uint i = 0; i < g_SBufferInfo[eSBUFFER_SHARED_CBUFFER_LIGHT2D].g_uSBufferCount; ++i)
+    for (uint i = 0; i < g_SBufferInfo[eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D].uSBufferCount; ++i)
     {
-        if (eLIGHT_DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
+        if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
         {
         //램버트 코사인 법칙을 통한 빛의 강도(=코사인값)를 구한다.
             float DiffusePow = saturate(dot(-g_SBuffer_Light2D[i].vLightDir.xyz, _vNormalDir));
@@ -159,7 +159,7 @@ void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor 
             _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb * DiffusePow;
             _Light.vAmbient.rgb += g_SBuffer_Light2D[i].LightColor.vAmbient.rgb;
         }
-        else if (eLIGHT_POINT == g_SBuffer_Light2D[i].LightType)
+        else if (eLIGHT_TYPE::POINT == g_SBuffer_Light2D[i].LightType)
         {
         //점광원일 때는 광원 위치로부터 빛이 원형으로 퍼져나간다고 가정한다. 태양을 점이라고 생각하면 될듯.
             
@@ -180,7 +180,7 @@ void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor 
             _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb * DiffusePow * DistancePow;
 
         }
-        else if (eLIGHT_SPOTLIGHT == g_SBuffer_Light2D[i].LightType)
+        else if (eLIGHT_TYPE::SPOTLIGHT == g_SBuffer_Light2D[i].LightType)
         {
             
             float DiffusePow = saturate(dot(-g_SBuffer_Light2D[i].vLightDir.xyz, _vNormalDir));

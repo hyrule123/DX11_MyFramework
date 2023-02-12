@@ -5,9 +5,9 @@
 //전역변수 선언 및 초기화 하는곳
 //=============================
 
-tTransform g_transform = {};
+tTransform g_Transform = {};
 tGlobalValue g_GlobalVal = {};
-tSBufferInfo g_arrStructBufferInfo[(UINT)eSBUFFER_SHARED_CBUFFER_IDX::END] = {};
+tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::END] = {};
 Matrix g_matViewProj;
 
 const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::MESH_RENDER;

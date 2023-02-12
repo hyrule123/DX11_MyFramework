@@ -6,12 +6,12 @@
 #include "CDevice.h"
 
 
-CStructBuffer::CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT _eSHADER_PIPELINE_STAGE_FLAG_SRV, eSBUFFER_SHARED_CBUFFER_IDX _CBIdx, eSRV_REGISTER_IDX _SRVIdx, eUAV_REGISTER_IDX _UAVIdx)
+CStructBuffer::CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT _eSHADER_PIPELINE_STAGE_FLAG_SRV, eCBUFFER_SBUFFER_SHAREDATA_IDX _CBIdx, int _SRVIdx, int _UAVIdx)
 	: m_eSBufferType(_type)
 	, m_flagPipelineTargetSRV(_eSHADER_PIPELINE_STAGE_FLAG_SRV)
 	, m_eCBufferIdx(_CBIdx)
-	, m_eSRVIdx(_SRVIdx)
-	, m_eUAVIdx(_UAVIdx)
+	, m_e_t_SRVIdx(_SRVIdx)
+	, m_e_u_UAVIdx(_UAVIdx)
 	, m_uElementStride()
 	, m_uElementCount()
 	, m_uElementCapacity()
@@ -84,8 +84,8 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 	m_uElementStride = _uElemStride;
 
 	m_uElementCount = _uElemCount;
-	if (eSBUFFER_SHARED_CBUFFER_IDX::NONE != m_eCBufferIdx)
-		g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount = _uElemCount;
+	if (eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE != m_eCBufferIdx)
+		g_arrSBufferShareData[(UINT)m_eCBufferIdx].uSBufferCount = _uElemCount;
 
 	m_uElementCapacity = _uElemCapacity;
 
@@ -154,10 +154,10 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 {
 	m_uElementCount = _uCount;
-	//g_arrStructBufferInfo의 자신의 인덱스에 해당하는 위치에 이번에 업데이트된 구조체의 갯수를 삽입
+	//g_arrSBufferShareData의 자신의 인덱스에 해당하는 위치에 이번에 업데이트된 구조체의 갯수를 삽입
 	//상수 버퍼의 바인딩은 BindData()를 하는 시점에 해준다.
-	if(eSBUFFER_SHARED_CBUFFER_IDX::NONE != m_eCBufferIdx)
-		g_arrStructBufferInfo[(UINT)m_eCBufferIdx].uSBufferCount = _uCount;
+	if(eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE != m_eCBufferIdx)
+		g_arrSBufferShareData[(UINT)m_eCBufferIdx].uSBufferCount = _uCount;
 
 
 
@@ -282,32 +282,32 @@ void CStructBuffer::BindBufferSRV()
 
 	if (eSHADER_PIPELINE_STAGE::__VERTEX & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->VSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->VSSetShaderResources(m_e_t_SRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__HULL & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->HSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->HSSetShaderResources(m_e_t_SRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->DSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->DSSetShaderResources(m_e_t_SRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->GSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->GSSetShaderResources(m_e_t_SRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__PIXEL & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->PSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->PSSetShaderResources(m_e_t_SRVIdx, 1, m_SRV.GetAddressOf());
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->CSSetShaderResources((UINT)m_eSRVIdx, 1, m_SRV.GetAddressOf());
+		CONTEXT->CSSetShaderResources(m_e_t_SRVIdx, 1, m_SRV.GetAddressOf());
 	}
 }
 
@@ -324,20 +324,20 @@ void CStructBuffer::BindBufferUAV()
 	BindConstBuffer(eSHADER_PIPELINE_STAGE::__COMPUTE);
 
 	static const UINT Offset = -1;
-	CONTEXT->CSSetUnorderedAccessViews((UINT)m_eUAVIdx, 1, m_UAV.GetAddressOf(), &Offset);
+	CONTEXT->CSSetUnorderedAccessViews(m_e_u_UAVIdx, 1, m_UAV.GetAddressOf(), &Offset);
 	
 }
 
 void CStructBuffer::BindConstBuffer(UINT _eSHADER_PIPELINE_FLAG)
 {
 	//상수버퍼 바인딩 설정을 하지 않았을 경우 return
-	if (eSBUFFER_SHARED_CBUFFER_IDX::NONE == m_eCBufferIdx)
+	if (eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE == m_eCBufferIdx)
 		return;
 
 	//구조체 정보를 담은 상수버퍼에 바인딩한 구조체 갯수를 넣어서 전달
 	//상수버퍼의 주소는 한번 실행되면 변하지 않으므로 static, const 형태로 선언.
-	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::SBUFFER_SHARED_DATA);
-	pStructCBuffer->UploadData(g_arrStructBufferInfo);
+	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_SBUFFER_SHAREDATA);
+	pStructCBuffer->UploadData(g_arrSBufferShareData);
 	pStructCBuffer->BindBuffer(_eSHADER_PIPELINE_FLAG);
 }
 
@@ -384,32 +384,32 @@ void CStructBuffer::UnBindSRV()
 
 	if (eSHADER_PIPELINE_STAGE::__VERTEX & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->VSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+		CONTEXT->VSSetShaderResources(m_e_t_SRVIdx, 1, &pView);
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__HULL & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->HSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+		CONTEXT->HSSetShaderResources(m_e_t_SRVIdx, 1, &pView);
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->DSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+		CONTEXT->DSSetShaderResources(m_e_t_SRVIdx, 1, &pView);
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->GSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+		CONTEXT->GSSetShaderResources(m_e_t_SRVIdx, 1, &pView);
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__PIXEL & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->PSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+		CONTEXT->PSSetShaderResources(m_e_t_SRVIdx, 1, &pView);
 	}
 
 	if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_flagPipelineTargetSRV)
 	{
-		CONTEXT->CSSetShaderResources((UINT)m_eSRVIdx, 1, &pView);
+		CONTEXT->CSSetShaderResources(m_e_t_SRVIdx, 1, &pView);
 	}
 
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::NONE;
@@ -419,6 +419,6 @@ void CStructBuffer::UnBindUAV()
 {
 	static const UINT Offset = -1;
 	ID3D11UnorderedAccessView* pUAV = nullptr;
-	CONTEXT->CSSetUnorderedAccessViews((UINT)m_eUAVIdx, 1, &pUAV, &Offset);
+	CONTEXT->CSSetUnorderedAccessViews(m_e_u_UAVIdx, 1, &pUAV, &Offset);
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::NONE;
 }

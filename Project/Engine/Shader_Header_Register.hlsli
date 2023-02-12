@@ -4,13 +4,9 @@
 #include "Shader_Header_Struct.hlsli"
 
 #ifdef __cplusplus
-
 #define REGISTER_IDX(RegisterType, Idx) Idx
-	
 #else
-
 #define REGISTER_IDX(RegisterType, Idx) RegisterType##Idx
-
 #endif
 
 //==========================================
@@ -28,20 +24,21 @@
 	
 //eCBUFFER_IDX_SBUFFER_SHAREDATA Inner Index
 //상수 버퍼 'SBUFFERINFO' 내부의 인덱스 번호를 지정하는 열거체
-//define으로 하면 IDE 힌트가 나오지 않으므로 편의를 위해서 구조체에 저장
-static const struct ENUM_eCBUFFER_SBUFFER_SHAREDATA_IDX
-{
-    int NONE;
-    int LIGHT2D;
-    int TILE;
-    int SETCOLOR;
-    int PARTICLE;
-    int END;
-} eCBUFFER_SBUFFER_SHAREDATA_IDX = { -1, 0, 1, 2, 3, 4 };
+ENUM_START(eCBUFFER_SBUFFER_SHAREDATA_IDX, int)
+	ENUM_MEMBER(NONE, int, -1)
+	ENUM_MEMBER(LIGHT2D, int, 0)
+	ENUM_MEMBER(TILE, int, 1)
+	ENUM_MEMBER(SETCOLOR, int, 2)
+	ENUM_MEMBER(PARTICLE, int, 3)
+	ENUM_MEMBER(END, int, 4)
+ENUM_END
 
 
 #ifdef __cplusplus
 	
+
+//아래의 CBuffer_SBUFFER_SHARED_DATA에 전달되는 상수버퍼
+extern tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::END];
 
 #else
 
@@ -56,15 +53,16 @@ cbuffer CBuffer_Material : register(e_b_CBUFFER_MATERIAL)
 	tMtrlData g_CBuffer_MtrlData;
 };
 
+
 	//게임의 각종 정보를 넘겨주기 위한 상수버퍼
 cbuffer CBuffer_Global : register(e_b_CBUFFER_GLOBAL)
 {
-	tGlobalData g_CBuffer_GlobalData;
+	tGlobalValue g_CBuffer_GlobalData;
 };
 	 
 cbuffer CBuffer_SBUFFER_SHARED_DATA : register(e_b_CBUFFER_SBUFFER_SHAREDATA)
 {
-    tSBufferInfo g_SBufferInfo[eCBUFFER_SBUFFER_SHAREDATA_IDX.END];
+	tSBufferInfo g_SBufferInfo[eCBUFFER_SBUFFER_SHAREDATA_IDX::END];
 }
 
 
@@ -104,7 +102,7 @@ cbuffer CBuffer_ParticleModule : register(e_b_CBUFFER_PARTICLE_MODULEDATA)
 
 #define e_t_SBUFFER_LIGHT2D				REGISTER_IDX(t, 12)
 #define e_t_SBUFFER_TILE				REGISTER_IDX(t, 13)
-#define e_t_SBUFFER_TEST				REGISTER_IDX(t, 14)
+#define e_t_SBUFFER_SETCOLOR			REGISTER_IDX(t, 14)
 #define e_t_SBUFFER_PARTICLE_TRANSFORM	REGISTER_IDX(t, 15)
 
 #define e_t_TEXUTRE_NOISE				REGISTER_IDX(t, 16)
@@ -135,7 +133,7 @@ Texture2DArray g_arrtex_1 : register(e_t_TEXTURE_ARRAY_1);
 
 StructuredBuffer<tLightInfo> g_SBuffer_Light2D : register(e_t_SBUFFER_LIGHT2D);
 StructuredBuffer<tTile> g_SBuffer_Tile : register(e_t_SBUFFER_TILE);
-StructuredBuffer<float4> g_SBuffer_Test : register(e_t_SBUFFER_TEST);
+StructuredBuffer<float4> g_SBuffer_SetColor : register(e_t_SBUFFER_SETCOLOR);
 StructuredBuffer<tParticleTransform> g_SBuffer_ParticleTransform : register(e_t_SBUFFER_PARTICLE_TRANSFORM);
 Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
 
@@ -150,10 +148,10 @@ Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
 
 
 //u 레지스터는 DX11 기준 0 ~ 7번까지만 존재하므로 참고
-#define e_u_SETCOLOR_TEXTURE			REGISTER_IDX(u, 0)
-#define e_u_SETCOLOR_SBUFFER			REGISTER_IDX(u, 1)
-#define e_u_PARTICLE_SBUFFER			REGISTER_IDX(u, 0)
-#define e_u_PARTICLE_SBUFFER_SHAREDATA	REGISTER_IDX(u, 1)
+#define e_u_SETCOLOR_TEXTURERW			REGISTER_IDX(u, 0)
+#define e_u_SETCOLOR_SBUFFERRW			REGISTER_IDX(u, 1)
+#define e_u_PARTICLE_SBUFFERRW			REGISTER_IDX(u, 0)
+#define e_u_PARTICLE_SBUFFERRW_SHAREDATA	REGISTER_IDX(u, 1)
 
 	#ifdef __cplusplus
 
@@ -186,8 +184,8 @@ Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
 
 #else
 
-SamplerState g_Sampler_0 : register(s0);
-SamplerState g_Sampler_1 : register(s1);
+SamplerState g_Sampler_0 : register(e_s_SAMPLER_ANISOTROPIC);
+SamplerState g_Sampler_1 : register(e_s_SAMPLER_POINT);
 
 #endif
 

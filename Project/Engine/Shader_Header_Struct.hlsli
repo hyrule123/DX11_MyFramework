@@ -1,6 +1,10 @@
 #ifndef SHADER_HEADER_STRUCT
 #define SHADER_HEADER_STRUCT
 
+
+
+
+
 //Header for global values or struct
 
 #ifdef __cplusplus
@@ -11,6 +15,11 @@ typedef Vector4     float4;
 typedef int         BOOL;
 typedef Matrix      MATRIX;
 
+//C++ : enum class 형태로 선언함.
+#define ENUM_START(_Name, _Type) enum class _Name : _Type {
+#define ENUM_MEMBER(_Name, _Type, _Val) _Name = _Val,
+#define ENUM_END };
+
 #else
 
 #define INT32 int
@@ -18,112 +27,102 @@ typedef Matrix      MATRIX;
 #define BOOL int
 #define MATRIX row_major matrix
 
+//HLSL : namespace 형태로 선언함.
+#define ENUM_START(_Name, _Type) namespace _Name {
+#define ENUM_MEMBER(_Name, _Type, _Val) static const _Type _Name = _Val;
+#define ENUM_END };
 #endif
-
-
-
-//enum
-//class eLIGHT_TYPE
-//{
-//	eLIGHT_DIRECTIONAL,	//직사광선
-//	eLIGHT_POINT,		//점광원
-//	eLIGHT_SPOTLIGHT	//스포트라이트
-//};
-
-
-//enum
-//class PARTICLE_MODULE
-//{
-//	PARTICLE_SPAWN,
-//	COLOR_CHANGE,
-//	SCALE_CHANGE,
-
-//	END
-//};
 
 
 struct tMtrlData
 {
-    int     int_0;
-    int     int_1;
-    int     int_2;
-    int     int_3;
+    int     INT_0;
+    int     INT_1;
+    int     INT_2;
+    int     INT_3;
     
-    float   float_0;
-    float   float_1;
-    float   float_2;
-    float   float_3;
+    float   FLOAT_0;
+    float   FLOAT_1;
+    float   FLOAT_2;
+    float   FLOAT_3;
     
-    float2  vec2_0;
-    float2  vec2_1;
-    float2  vec2_2;
-    float2  vec2_3;
+    float2  VEC2_0;
+    float2  VEC2_1;
+    float2  VEC2_2;
+    float2  VEC2_3;
 
-    float4  vec4_0;
-    float4  vec4_1;
-    float4  vec4_2;
-    float4  vec4_3;
+    float4  VEC4_0;
+    float4  VEC4_1;
+    float4  VEC4_2;
+    float4  VEC4_3;
 
-    MATRIX  mat_0;
-    MATRIX  mat_1;
-    MATRIX  mat_2;
-    MATRIX  mat_3;
+    MATRIX  MAT_0;
+    MATRIX  MAT_1;
+    MATRIX  MAT_2;
+    MATRIX  MAT_3;
     
     
     //텍스처의 유무를 판단하기위한 변수
-    BOOL btex_0;
-    BOOL btex_1;
-    BOOL btex_2;
-    BOOL btex_3;
-    BOOL btex_4;
-    BOOL btex_5;
-    BOOL btex_6;
-    BOOL btex_7;
+    BOOL bTEX_0;
+    BOOL bTEX_1;
+    BOOL bTEX_2;
+    BOOL bTEX_3;
+    BOOL bTEX_4;
+    BOOL bTEX_5;
+    BOOL bTEX_6;
+    BOOL bTEX_7;
 };
 
 
+//==============================
+//		재질 값 예약 현황
+//==============================
 //C++ : enum으로 전환, 
 //HLSL : 일반 타입명으로 전환
 #ifdef __cplusplus
-#define MTRL_PARAM_SCALAR(Type) eMTRLDATA_PARAM_SCALAR::##Type
+#define MTRL_PARAM_SCALAR(_Type) eMTRLDATA_PARAM_SCALAR::##_Type
 #else
-#define MTRL_PARAM_SCALAR(Type) Type
+#define MTRL_PARAM_SCALAR(_Type) g_CBuffer_MtrlData.##_Type
 #endif
 
-#define COLOR_KEY               MTRL_PARAM_SCALAR(vec4_3)
-#define CS_TOTAL_ELEMCOUNT_X    MTRL_PARAM_SCALAR(int_0)
-#define CS_TOTAL_ELEMCOUNT_Y    MTRL_PARAM_SCALAR(int_1)
-#define CS_TOTAL_ELEMCOUNT_Z    MTRL_PARAM_SCALAR(int_3)
+//C++, HLSL 공용으로 사용
+#define COLOR_KEY               MTRL_PARAM_SCALAR(VEC4_3)
+#define CS_TOTAL_ELEMCOUNT_X    MTRL_PARAM_SCALAR(INT_0)
+#define CS_TOTAL_ELEMCOUNT_Y    MTRL_PARAM_SCALAR(INT_1)
+#define CS_TOTAL_ELEMCOUNT_Z    MTRL_PARAM_SCALAR(INT_2)
+
+
+//CCS_ParticleUpdate
+#define OWNER_OBJ_POS MTRL_PARAM_SCALAR(VEC4_0)
+//============================================================================
 
 
 #ifdef __cplusplus
 
-//재질에서 전달하는 위 구조체를 인덱스 번호를 통해 접근하기 위한 열거체
+//재질에서 전달하는 위 구조체를 인덱스 번호를 통해 접근하기 위한 열거체(C++에서만 사용함.)
 enum class eMTRLDATA_PARAM_SCALAR
 {
-    int_0, int_1, int_2, int_3,
+    INT_0, INT_1, INT_2, INT_3,
 
-    float_0, float_1, float_2, float_3,
+    FLOAT_0, FLOAT_1, FLOAT_2, FLOAT_3,
 
-    vec2_0, vec2_1, vec2_2, vec2_3,
+    VEC2_0, VEC2_1, VEC2_2, VEC2_3,
 
-    vec4_0, vec4_1, vec4_2, vec4_3,
+    VEC4_0, VEC4_1, VEC4_2, VEC4_3,
 
-    mat_0, mat_1, mat_2, mat_3,
+    MAT_0, MAT_1, MAT_2, MAT_3,
 };
 
 //C++ 재질에서 예약해놓은 버퍼 번호
 enum class eMTRLDATA_PARAM_TEX
 {
-	_0, _1, _2, _3, _4, _5, _6, _7
+	_0, _1, _2, _3, _4, _5, _6, _7, _END
 };
 
 #else
 
 
 #endif
-
-
 
 
 struct tTransform
@@ -134,12 +133,26 @@ struct tTransform
     MATRIX matWVP;
 };
 
-struct tGlobalData
+#ifdef __cplusplus
+extern tTransform g_Transform;
+extern MATRIX       g_matViewProj;
+#endif
+
+
+
+struct tGlobalValue
 {
     float2 vResolution;
     float fDeltaTime;
     float fAccTime;
 };
+#ifdef __cplusplus
+extern tGlobalValue g_GlobalVal;
+#endif
+
+
+
+
 
 struct tLightColor
 {
@@ -157,9 +170,17 @@ struct tLightInfo
 
     float fRadius; //점광원 또는 스포트라이트의 거리
     float fAngle;
-    UINT32 LightType;
+    INT32 LightType;   //아래 ENUM값이 들어있음.
     INT32 padding;
 };
+
+ENUM_START(eLIGHT_TYPE, int)
+ENUM_MEMBER(DIRECTIONAL, int, 0)
+ENUM_MEMBER(POINT, int, 1)
+ENUM_MEMBER(SPOTLIGHT, int, 2)
+ENUM_END
+
+
 
 struct tTile
 {
@@ -167,13 +188,29 @@ struct tTile
     float2 vSlice;
 };
 
+
+struct tDebugShapeInfo
+{
+	int eShapeType;
+	float fLifeSpan;
+	float2 bytepadding;
+	MATRIX matWorld;
+	float4 vColor;
+};
+
+
+
 struct tSBufferInfo
 {
-    UINT32 g_uSBufferCount;
+    UINT32 uSBufferCount;
     INT32 iData0;
     INT32 iData1;
     INT32 iData2;
 };
+
+
+
+
 
 struct tRWParticleBuffer
 {
@@ -255,11 +292,6 @@ struct tParticleModule
     int bDrag;
     float3 modulepad;
 };
-
-
-
-
-
 
 
 

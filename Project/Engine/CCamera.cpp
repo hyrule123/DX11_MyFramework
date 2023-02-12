@@ -52,7 +52,7 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 {
 	m_ProjectionType = _Type;
 
-	m_AspectRatio = g_GlobalVal.Resolution.x / g_GlobalVal.Resolution.y;
+	m_AspectRatio = g_GlobalVal.vResolution.x / g_GlobalVal.vResolution.y;
 
 	switch (m_ProjectionType)
 	{
@@ -62,7 +62,7 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 		//===========
 
 		//1. 투영 행렬 생성
-		m_matProj = XMMatrixOrthographicLH(g_GlobalVal.Resolution.x, g_GlobalVal.Resolution.y, 1.f, 10000.f);
+		m_matProj = XMMatrixOrthographicLH(g_GlobalVal.vResolution.x, g_GlobalVal.vResolution.y, 1.f, 10000.f);
 		break;
 	case ePROJ_TYPE::PERSPECTIVE:
 		//1-1. 원근 투영행렬
@@ -71,7 +71,7 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 	}
 
 	//2. 업데이트 - 카메라 별로 렌더링이 진행되므로 굳이 업데이트 할 필요가 없음.
-	//g_transform.MatProj = m_matProj;
+	//g_Transform.MatProj = m_matProj;
 }
 
 void CCamera::SetCamIndex(eCAMERA_INDEX _Idx)
@@ -92,7 +92,7 @@ void CCamera::Zoom2D(float _fScale)
 	m_ZoomScale *= _fScale;
 
 	//가로세로를 같은 비율로 확장/축소하므로 AspecRatio는 변하지 않음.
-	m_matProj = XMMatrixOrthographicLH(g_GlobalVal.Resolution.x * m_ZoomScale, g_GlobalVal.Resolution.y * m_ZoomScale, 1.f, 10000.f);
+	m_matProj = XMMatrixOrthographicLH(g_GlobalVal.vResolution.x * m_ZoomScale, g_GlobalVal.vResolution.y * m_ZoomScale, 1.f, 10000.f);
 }
 
 
@@ -150,7 +150,7 @@ void CCamera::finaltick()
 	m_matView *= matRot.Transpose();
 
 	//3. transform 상수버퍼 구조체에 업데이트 -> 안함. 나중에 render때 일괄적으로 view 행렬과 proj 행렬을 곱할 예정.
-	//g_transform.matViewProj = m_matView;
+	//g_Transform.matViewProj = m_matView;
 
 
 	////===========
@@ -166,7 +166,7 @@ void CCamera::finaltick()
 	//m_matProj = XMMatrixPerspectiveFovLH(0.5f * XM_PI, m_AspectRatio, 1.f, 10000.f);
 	//
 	////2. 업데이트
-	//g_transform.MatProj = m_matProj;
+	//g_Transform.MatProj = m_matProj;
 	
 }
 
@@ -212,7 +212,7 @@ void CCamera::SortObject()
 				//스크린상에서의  위치 구하기
 				const Vec3& ScreenPos = WorldPos - Transform()->GetWorldPos();
 
-				const Vec2& ResHalf = g_GlobalVal.Resolution * 0.5f;
+				const Vec2& ResHalf = g_GlobalVal.vResolution * 0.5f;
 
 				
 				if (
@@ -252,8 +252,8 @@ void CCamera::SortObject()
 void CCamera::render()
 {
 	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
-	g_transform.matView = m_matView;
-	g_transform.matProj = m_matProj;
+	g_Transform.matView = m_matView;
+	g_Transform.matProj = m_matProj;
 	g_matViewProj = m_matView * m_matProj;
 	
 

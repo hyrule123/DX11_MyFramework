@@ -1,8 +1,12 @@
 :: *.h 파일 복사(라이브러리 참조용)
 xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\*.h" ".\External\Include\Engine\"
 
-:: 헤더 파일 읽기 전용으로 변경
-attrib +r ".\External\Include\Engine\*.h"
+:: C++와 공유하는 HLSL 헤더파일 복사
+xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\Shader_Header_Register.hlsli" ".\External\Include\Engine\"
+xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\Shader_Header_Struct.hlsli" ".\External\Include\Engine\"
+
+:: 참조용 파일 읽기 전용으로 변경
+attrib +r ".\External\Include\Engine\*"
 
 :: *.inl 파일 복사(inline 파일)
 xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" ".\External\Include\Engine\"

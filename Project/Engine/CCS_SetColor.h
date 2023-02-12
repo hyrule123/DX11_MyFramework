@@ -3,6 +3,8 @@
 
 #include "ptr.h"
 
+
+
 class CTexture;
 class CStructBuffer;
 
@@ -26,4 +28,3 @@ public:
     void SetTargetTexture(Ptr<CTexture> _Tex) { m_OutTex = _Tex; }
     void SetColor(const Vec3& _RGB) { SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC4_0, &_RGB); }
 };
-

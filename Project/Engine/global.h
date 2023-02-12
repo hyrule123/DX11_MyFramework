@@ -50,7 +50,7 @@ typedef Vector4 Vec4;
 #include "define.h"
 #include "struct.h"
 #include "func.h"
-#include "Shader_Header_Struct.hlsli"
+#include "Shader_Header_Register.hlsli"
 
 #include "CSingleton.h"
 

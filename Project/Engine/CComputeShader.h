@@ -29,7 +29,7 @@ private:
     ComPtr<ID3D11ComputeShader> m_CS;
 
     //공유 데이터를 전달하기위한 상수버퍼용 구조체
-    tMtrlData                  m_SharedCBuffer;
+    tMtrlData                  m_CBuffer_CSShared;
 
     //그룹당 쓰레드 갯수. 생성자에서 초기화
     UINT                        m_uNumThreadsPerGroupX;

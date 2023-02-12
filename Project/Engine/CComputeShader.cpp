@@ -18,7 +18,7 @@ CComputeShader::CComputeShader()
 	, m_uNumThreadsPerGroupX()
 	, m_uNumThreadsPerGroupY()
 	, m_uNumThreadsPerGroupZ()
-	, m_SharedCBuffer{}
+	, m_CBuffer_CSShared{}
 {
 }
 
@@ -30,7 +30,7 @@ CComputeShader::CComputeShader(UINT _uThreadsX, UINT _uThreadsY, UINT _uThreadsZ
 	, m_uNumGroupX()
 	, m_uNumGroupY()
 	, m_uNumGroupZ()
-	, m_SharedCBuffer{}
+	, m_CBuffer_CSShared{}
 {
 	//이 스레드 수는 분모로 사용되어야 하므로 스레드값이 0이 들어오면 에러 발생
 	assert(0u != _uThreadsX && 0u != _uThreadsY && 0u != _uThreadsZ);
@@ -119,41 +119,53 @@ void CComputeShader::CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _E
 
 void CComputeShader::SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)
 {
-	int param = (int)_Param;
 	switch (_Param)
 	{
-	case eMTRLDATA_PARAM_SCALAR::INT_0:
-	case eMTRLDATA_PARAM_SCALAR::INT_1:
-	case eMTRLDATA_PARAM_SCALAR::INT_2:
-	case eMTRLDATA_PARAM_SCALAR::INT_3:
-		m_SharedCBuffer.arrInt[(int)_Param] = *((int*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::INT_0: m_CBuffer_CSShared.INT_0 = *((int*)_Src);
 		break;
-	case eMTRLDATA_PARAM_SCALAR::FLOAT_0:
-	case eMTRLDATA_PARAM_SCALAR::FLOAT_1:
-	case eMTRLDATA_PARAM_SCALAR::FLOAT_2:
-	case eMTRLDATA_PARAM_SCALAR::FLOAT_3:
-		m_SharedCBuffer.arrFloat[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::FLOAT_0] = *((float*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::INT_1: m_CBuffer_CSShared.INT_1 = *((int*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::INT_2: m_CBuffer_CSShared.INT_2 = *((int*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::INT_3: m_CBuffer_CSShared.INT_3 = *((int*)_Src);
 		break;
 
-	case eMTRLDATA_PARAM_SCALAR::VEC2_0:
-	case eMTRLDATA_PARAM_SCALAR::VEC2_1:
-	case eMTRLDATA_PARAM_SCALAR::VEC2_2:
-	case eMTRLDATA_PARAM_SCALAR::VEC2_3:
-		m_SharedCBuffer.arrV2[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::VEC2_0] = *((Vec2*)_Src);
+
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_0: m_CBuffer_CSShared.FLOAT_0 = *((float*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_1: m_CBuffer_CSShared.FLOAT_1 = *((float*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_2: m_CBuffer_CSShared.FLOAT_2 = *((float*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_3: m_CBuffer_CSShared.FLOAT_3 = *((float*)_Src);
 		break;
 
-	case eMTRLDATA_PARAM_SCALAR::VEC4_0:
-	case eMTRLDATA_PARAM_SCALAR::VEC4_1:
-	case eMTRLDATA_PARAM_SCALAR::VEC4_2:
-	case eMTRLDATA_PARAM_SCALAR::VEC4_3:
-		m_SharedCBuffer.arrV4[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::VEC4_0] = *((Vec4*)_Src);
+
+	case eMTRLDATA_PARAM_SCALAR::VEC2_0: m_CBuffer_CSShared.VEC2_0 = *((Vec2*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC2_1: m_CBuffer_CSShared.VEC2_1 = *((Vec2*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC2_2: m_CBuffer_CSShared.VEC2_2 = *((Vec2*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC2_3: m_CBuffer_CSShared.VEC2_3 = *((Vec2*)_Src);
 		break;
 
-	case eMTRLDATA_PARAM_SCALAR::MAT_0:
-	case eMTRLDATA_PARAM_SCALAR::MAT_1:
-	case eMTRLDATA_PARAM_SCALAR::MAT_2:
-	case eMTRLDATA_PARAM_SCALAR::MAT_3:
-		m_SharedCBuffer.arrMat[(int)_Param - (int)eMTRLDATA_PARAM_SCALAR::MAT_0] = *((Matrix*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::VEC4_0: m_CBuffer_CSShared.VEC4_0 = *((Vec4*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC4_1: m_CBuffer_CSShared.VEC4_1 = *((Vec4*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC4_2: m_CBuffer_CSShared.VEC4_2 = *((Vec4*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC4_3: m_CBuffer_CSShared.VEC4_3 = *((Vec4*)_Src);
+		break;
+
+	case eMTRLDATA_PARAM_SCALAR::MAT_0: m_CBuffer_CSShared.MAT_0 = *((Matrix*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::MAT_1: m_CBuffer_CSShared.MAT_1 = *((Matrix*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::MAT_2: m_CBuffer_CSShared.MAT_2 = *((Matrix*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::MAT_3: m_CBuffer_CSShared.MAT_3 = *((Matrix*)_Src);
 		break;
 
 	}
@@ -165,8 +177,8 @@ void CComputeShader::Execute()
 		return;
 
 	//컴퓨트쉐이더 관련 공유 데이터를 상수버퍼를 통해서 전달
-	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(eCONST_BUFFER_TYPE::MATERIAL);
-	pCBuffer->UploadData(&m_SharedCBuffer, sizeof(tMtrlData));
+	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MATERIAL);
+	pCBuffer->UploadData(&m_CBuffer_CSShared, sizeof(tMtrlData));
 	pCBuffer->BindBuffer();
 
 	//처리해줄 쉐이더를 지정하고 계산 진행.
