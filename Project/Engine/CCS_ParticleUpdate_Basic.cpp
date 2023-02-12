@@ -29,8 +29,11 @@ bool CCS_ParticleUpdate_Basic::BindDataCS()
 	if (nullptr == m_Tex_Noise)
 	{
 		m_Tex_Noise = CResMgr::GetInst()->FindRes<CTexture>(RESOURCE::TEXTURE::NOISE_TEXTURE_0);
+		
 
 		assert(nullptr != m_Tex_Noise);
+		const Vec2& TexSize = m_Tex_Noise->GetSize();
+		SetScalarParam(TEXTURE_NOISE_RESOLUTION, &TexSize);
 	}
 
 
@@ -48,7 +51,7 @@ bool CCS_ParticleUpdate_Basic::BindDataCS()
 	SetParticleOwnerPos(m_pBufferOwner->Transform()->GetWorldPos());
 
 	//스레드 그룹 수 계산. 파티클은 무조건 배열 형태이므로 x축으로 스레드를 배열한다.
-	CalcGroupNumber(m_pSBuffer_Transform->GetElemCount(), 1u, 1u);
+	CalcGroupNumber(m_pSBuffer_Transform->GetCapacity(), 1u, 1u);
 
 	//데이터를 컴퓨트쉐이더에 일괄적으로 전달
 	m_pSBuffer_Transform->BindBufferUAV();

@@ -19,7 +19,7 @@
 CImGuiMgr::CImGuiMgr()
 	: m_hWnd()
     , m_clear_color(0.45f, 0.55f, 0.60f, 1.00f)
-    , m_bShowDemoWindow1(true)
+    , m_bShowDemoWindow1()
     , m_SavedUIData()
 {
 }

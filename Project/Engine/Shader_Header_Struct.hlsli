@@ -91,6 +91,9 @@ struct tMtrlData
 #define CS_TOTAL_ELEMCOUNT_Y    MTRL_PARAM_SCALAR(INT_1)
 #define CS_TOTAL_ELEMCOUNT_Z    MTRL_PARAM_SCALAR(INT_2)
 
+//컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
+#define TEXTURE_NOISE_RESOLUTION      MTRL_PARAM_SCALAR(VEC2_0)
+
 
 //CCS_ParticleUpdate
 #define OWNER_OBJ_POS MTRL_PARAM_SCALAR(VEC4_0)
@@ -277,19 +280,19 @@ struct tParticleModule
     float fSpeed;
     int addvpad;
 
-	// bDrag 모듈
+	// bModule_Drag 모듈
     float fStartDrag;
     float fEndDrag;
     float2 dragpad;
 
 
 	// Module Check
-    int bSpawn;
-    int bColorChange;
-    int bScaleChange;
-    int bAddVelocity;
+    int bModule_Spawn;
+    int bModule_ColorChange;
+    int bModule_ScaleChange;
+    int bModule_AddVelocity;
 
-    int bDrag;
+    int bModule_Drag;
     float3 modulepad;
 };
 

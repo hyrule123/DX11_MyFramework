@@ -53,13 +53,10 @@ RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u1)
 //컴퓨트쉐이더가 들고있는 개별 Mtrl 구조체에 들어있는값 참조
 
 
-//컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
-#define NoiseTexResolution  g_CBuffer_MtrlData.VEC2_0
 
-#define SpawnCount          g_SBufferRW_Particle_Shared[0].iSpawnCount
-#define ParticleMaxCount    g_CBuffer_ParticleModule.iMaxParticleCount
 
-#define SpawnModule         g_CBuffer_ParticleModule.bSpawn
+
+#define SpawnModule         g_CBuffer_ParticleModule.bModule_Spawn
 #define ColorChangeModule   g_bModule_ColorChange
 #define ScaleChangeModule   g_bModule_ScaleChange
 
@@ -67,21 +64,21 @@ RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u1)
 void CS_Particle(uint3 _ID : SV_DispatchThreadID )
 {
     // 스레드 ID 가 파티클버퍼 최대 수를 넘긴경우 or 스레드 담당 파티클이 비활성화 상태인 경우
-    if (ParticleMaxCount <= (int) _ID.x)
+    if (g_CBuffer_ParticleModule.iMaxParticleCount <= (int) _ID.x)
         return;
            
-    if (SpawnModule)
+    if (g_CBuffer_ParticleModule.bModule_Spawn)
     {
         // 파티클이 비활성화 상태인 경우
         if (g_SBufferRW_Particle[_ID.x].bActive == 0)
         {
             // SpawnCount 를 확인
             // 만약 SpawnCount 가 0 이상이라면, 파티클을 활성화시킴      
-            while (0 < SpawnCount)
+            while (0 < g_SBufferRW_Particle_Shared[0].iSpawnCount)
             {
-                int orgvalue = SpawnCount;
+				int orgvalue = g_SBufferRW_Particle_Shared[0].iSpawnCount;
                 int outvalue = 0;
-                InterlockedCompareExchange(SpawnCount, orgvalue, SpawnCount - 1, outvalue);
+				InterlockedCompareExchange(g_SBufferRW_Particle_Shared[0].iSpawnCount, orgvalue, g_SBufferRW_Particle_Shared[0].iSpawnCount - 1, outvalue);
             
                 if (orgvalue == outvalue)
                 {
@@ -93,10 +90,10 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
                     float3 vOut3 = (float3) 0.f;
                     
                     // 전체 유효 스레드의 아이디를 0 ~ 1 로 정규화
-                    float fNormalizeThreadID = (float) _ID.x / (float) ParticleMaxCount;
-                    GaussianSample(g_Tex_Noise, NoiseTexResolution, fNormalizeThreadID, vOut1);
-                    GaussianSample(g_Tex_Noise, NoiseTexResolution, fNormalizeThreadID + 0.1f, vOut2);
-                    GaussianSample(g_Tex_Noise, NoiseTexResolution, fNormalizeThreadID + 0.2f, vOut3);
+					float fNormalizeThreadID = (float) _ID.x / (float) g_CBuffer_ParticleModule.iMaxParticleCount;
+					GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID, vOut1);
+					GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.1f, vOut2);
+					GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.2f, vOut3);
                     
                     // Box 스폰
                     if (g_CBuffer_ParticleModule.eSpawnShapeType == 0)
@@ -112,8 +109,8 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
                         g_SBufferRW_Particle[_ID.x].vWorldScale.xyz = vSpawnScale.xyz;
                     }
                     
-                    // bAddVelocity 모듈
-                    if (g_CBuffer_ParticleModule.bAddVelocity)
+                    // bModule_AddVelocity 모듈
+                    if (g_CBuffer_ParticleModule.bModule_AddVelocity)
                     {
                         // From Center
                         if (g_CBuffer_ParticleModule.eAddVelocityType == 0)
@@ -156,7 +153,7 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
            
     
     // 파티클이 활성화인 경우
-    if (g_SBufferRW_Particle[_ID.x].bActive)
+    if (1 == g_SBufferRW_Particle[_ID.x].bActive)
     {
         // 파티클의 fAge 에 시간을 누적시킴
         g_SBufferRW_Particle[_ID.x].fAge += g_CBuffer_GlobalData.fDeltaTime;
@@ -165,12 +162,12 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
         // 파티클의 수명이 끝나면, 다시 비활성화 상태로 되돌림
         if (g_SBufferRW_Particle[_ID.x].fLifeTime <= g_SBufferRW_Particle[_ID.x].fAge)
         {
-            g_SBufferRW_Particle[_ID.x].bActive = 0.f;
+            g_SBufferRW_Particle[_ID.x].bActive = 0;
         }
         
         
-        // 속도 제한(bDrag) 모듈
-        if (g_CBuffer_ParticleModule.bDrag)
+        // 속도 제한(bModule_Drag) 모듈
+        if (g_CBuffer_ParticleModule.bModule_Drag)
         {
             // 파티클의 현재 속력
             float fSpeed = length(g_SBufferRW_Particle[_ID.x].vVelocity);
@@ -197,14 +194,14 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
         
         
         // 크기 변화 모듈이 활성화 되어있으면
-        if (g_CBuffer_ParticleModule.bScaleChange)
+        if (g_CBuffer_ParticleModule.bModule_ScaleChange)
             g_SBufferRW_Particle[_ID.x].fScaleFactor = g_CBuffer_ParticleModule.fStartScale + g_SBufferRW_Particle[_ID.x].fNormalizedAge * (g_CBuffer_ParticleModule.fEndScale - g_CBuffer_ParticleModule.fStartScale);
         else
             g_SBufferRW_Particle[_ID.x].fScaleFactor = 1.f;
         
         
         // 색상 변화모듈이 활성화 되어있으면
-        if (g_CBuffer_ParticleModule.bColorChange)
+        if (g_CBuffer_ParticleModule.bModule_ColorChange)
         {
             g_SBufferRW_Particle[_ID.x].vColor = g_CBuffer_ParticleModule.vStartColor + g_SBufferRW_Particle[_ID.x].fNormalizedAge * (g_CBuffer_ParticleModule.vEndColor - g_CBuffer_ParticleModule.vStartColor);
         }

@@ -74,7 +74,6 @@ void CParticleSystem::finaltick()
 		m_pSBufferRW_Shared->UploadData(&rwbuffer, 1u);
 	}
 
-
 	m_pCSParticle->SetBuffers(this, m_pSBufferRW_ParticleTransform, m_pSBufferRW_Shared, s_CBuffer_ModuleData);
 
 	//파티클 위치정보를 계산시킴.
@@ -108,8 +107,9 @@ void CParticleSystem::CreateParticle()
 	//파티클을 처리할 버퍼 생성
 	m_pSBufferRW_ParticleTransform->Create(sizeof(tParticleTransform), 100u, nullptr, 0u);
 
+	m_tModuleData.bModule_Spawn = TRUE;
 
-	m_tModuleData.iSpawnRate = 20;
+	m_tModuleData.iSpawnRate = 10;
 
 	m_tModuleData.vSpawnColor = Vec3(0.4f, 1.f, 0.4f);
 
@@ -123,21 +123,21 @@ void CParticleSystem::CreateParticle()
 	m_tModuleData.fMinLifeTime = 1.f;
 	m_tModuleData.fMaxLifeTime = 3.f;
 
-	m_tModuleData.bScaleChange = true;
+	m_tModuleData.bModule_ScaleChange = true;
 	m_tModuleData.fStartScale = 2.f;
 	m_tModuleData.fEndScale = 0.1f;
 
-	m_tModuleData.bColorChange = true;
+	m_tModuleData.bModule_ColorChange = true;
 	m_tModuleData.vStartColor = Vec3(0.2f, 0.3f, 1.0f);
 	m_tModuleData.vEndColor = Vec3(0.4f, 1.f, 0.4f);
 
-	m_tModuleData.bAddVelocity = true;
+	m_tModuleData.bModule_AddVelocity = true;
 	m_tModuleData.eAddVelocityType = 0; // From Center
 	m_tModuleData.fSpeed = 150.f;
 	m_tModuleData.vVelocityDir;
 	m_tModuleData.fOffsetAngle;
 
-	m_tModuleData.bDrag;
+	m_tModuleData.bModule_Drag = true;
 	m_tModuleData.fStartDrag = 200.f;
 	m_tModuleData.fEndDrag = 0.f;
 
@@ -145,7 +145,7 @@ void CParticleSystem::CreateParticle()
 
 
 	//공유 데이터 구조화 버퍼 생성
-	tRWParticleBuffer rwbuffer = { (int)0,};
+	tRWParticleBuffer rwbuffer = { (int)0, };
 	m_pSBufferRW_Shared->Create((UINT)sizeof(tRWParticleBuffer), 1, &rwbuffer, 1u);
 
 }
