@@ -10,15 +10,28 @@ void GS_Particle(
     uint id = _in[0].uInstID;
 	
 	//GS 단계에서 해당 파티클의 렌더링 여부를 판단 후 렌더링되지 않을 파티클이면 return 해준다.
-    //if (0 == g_SBuffer_ParticleTransform[id].bActive)
-    //    return;
+	if (0 == g_SBuffer_ParticleTransform[id].bActive)
+		return;
 	
 	//정점을 뷰 공간상으로 이동
     float3 vParticleViewPos = mul(float4(g_SBuffer_ParticleTransform[id].vWorldPos.xyz, 1.f), g_CBuffer_Transform.matView).xyz;
+    
 	
     float2 vParticleScale = mul(g_SBuffer_ParticleTransform[id].vWorldScale.xy, 0.5f);
+    
+	float CosRot = cos(g_SBuffer_ParticleTransform[id].vWorldRotation.z);
+	float SinRot = sin(g_SBuffer_ParticleTransform[id].vWorldRotation.z);
 	
-
+	float CosX = CosRot * vParticleScale.x;
+	float CosY = CosRot * vParticleScale.y;
+	float SinX = SinRot * vParticleScale.x;
+	float SinY = SinRot * vParticleScale.y;
+    
+	float2 vtx0 = float2(-CosX - SinY, -SinX + CosY);
+	float2 vtx1 = float2(CosX + SinY, -SinX + CosY);
+	float2 vtx2 = float2(CosX + SinY, +SinX - CosY);
+	float2 vtx3 = float2(-CosX - SinY, +SinX - CosY);
+  
 	
 	//새로운 정점을 생성(중앙인 point정점 위치를 기준으로 사각형을 만든다.
 	//뷰 공간에서 생성한 사각형이기 떄문에 무조건 이 사각형은 카메라를 향하게 된다.
@@ -27,10 +40,27 @@ void GS_Particle(
 	// 3   2
 	//새로 만든 정점으로 위치를 계산한다.
     GS_OUT output[4] = { (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f };
-    output[0].vSV_Pos = float4((vParticleViewPos.x - vParticleScale.x), (vParticleViewPos.y + vParticleScale.y), vParticleViewPos.z, 1.f);
-    output[1].vSV_Pos = float4((vParticleViewPos.x + vParticleScale.x), (vParticleViewPos.y + vParticleScale.y), vParticleViewPos.z, 1.f);
-    output[2].vSV_Pos = float4((vParticleViewPos.x + vParticleScale.x), (vParticleViewPos.y - vParticleScale.y), vParticleViewPos.z, 1.f);
-    output[3].vSV_Pos = float4((vParticleViewPos.x - vParticleScale.x), (vParticleViewPos.y - vParticleScale.y), vParticleViewPos.z, 1.f);
+    output[0].vSV_Pos = float4(
+    vParticleViewPos.x + vtx0.x,
+    vParticleViewPos.y + vtx0.y,
+    //(vParticleViewPos.x - vParticleScale.x),
+    //(vParticleViewPos.y + vParticleScale.y),
+    vParticleViewPos.z, 1.f);
+    
+    output[1].vSV_Pos = float4(
+    vParticleViewPos.x + vtx1.x,
+    vParticleViewPos.y + vtx1.y, 
+    vParticleViewPos.z, 1.f);
+    
+    output[2].vSV_Pos = float4(
+    vParticleViewPos.x + vtx2.x,
+    vParticleViewPos.y + vtx2.y, 
+    vParticleViewPos.z, 1.f);
+    
+    output[3].vSV_Pos = float4(
+    vParticleViewPos.x +vtx3.x,
+    vParticleViewPos.y +vtx3.y, 
+    vParticleViewPos.z, 1.f);
     
     
     

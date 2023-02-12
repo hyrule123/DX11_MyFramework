@@ -123,23 +123,28 @@ void CParticleSystem::CreateParticle()
 	m_tModuleData.fMinLifeTime = 1.f;
 	m_tModuleData.fMaxLifeTime = 3.f;
 
-	m_tModuleData.bModule_ScaleChange = true;
+	m_tModuleData.bModule_ScaleChange = TRUE;
 	m_tModuleData.fStartScale = 2.f;
 	m_tModuleData.fEndScale = 0.1f;
 
-	m_tModuleData.bModule_ColorChange = true;
+	m_tModuleData.bModule_ColorChange = TRUE;
 	m_tModuleData.vStartColor = Vec3(0.2f, 0.3f, 1.0f);
 	m_tModuleData.vEndColor = Vec3(0.4f, 1.f, 0.4f);
 
-	m_tModuleData.bModule_AddVelocity = true;
+	m_tModuleData.bModule_AddVelocity = TRUE;
 	m_tModuleData.eAddVelocityType = 0; // From Center
 	m_tModuleData.fSpeed = 150.f;
 	m_tModuleData.vVelocityDir;
 	m_tModuleData.fOffsetAngle;
 
-	m_tModuleData.bModule_Drag = true;
+	m_tModuleData.bModule_Drag = TRUE;
 	m_tModuleData.fStartDrag = 200.f;
 	m_tModuleData.fEndDrag = 0.f;
+
+	m_tModuleData.bModule_Rotation = TRUE;
+	m_tModuleData.vRotRadPerSec = Vec3(0.f, 0.f, 0.5f);
+	m_tModuleData.vRotRandomRange = Vec3(0.f, 0.f, 0.3f);
+
 
 	//노이즈 텍스처 지정
 

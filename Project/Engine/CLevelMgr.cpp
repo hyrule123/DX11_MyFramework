@@ -31,6 +31,8 @@
 
 #include "CParticleSystem.h"
 
+#include "strKeys.h"
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {
@@ -215,6 +217,9 @@ void CLevelMgr::init()
 	pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 
 	CParticleSystem* pParticle = new CParticleSystem;
+
+	Ptr<CTexture> pHOSTEX = CResMgr::GetInst()->FindRes<CTexture>(RESOURCE::TEXTURE::HOS);
+	pParticle->GetMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pHOSTEX);
 	pParticle->CreateParticle();
 	pTestObj3->AddComponent(pParticle);
 

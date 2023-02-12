@@ -27,10 +27,14 @@ typedef Matrix      MATRIX;
 #define BOOL int
 #define MATRIX row_major matrix
 
+#define TRUE 1
+#define FALSE 0
+
 //HLSL : namespace 형태로 선언함.
 #define ENUM_START(_Name, _Type) namespace _Name {
 #define ENUM_MEMBER(_Name, _Type, _Val) static const _Type _Name = _Val;
 #define ENUM_END };
+
 #endif
 
 
@@ -231,6 +235,7 @@ struct tParticleTransform
     float4 vLocalPos;
     float4 vWorldPos; // 파티클 위치
     float4 vWorldScale; // 파티클 크기
+	float4 vWorldRotation;
     float4 vColor; // 파티클 색상
     float4 vVelocity; // 파티클 현재 속도
     float4 vForce; // 파티클에 주어진 힘
@@ -249,51 +254,67 @@ struct tParticleTransform
 
 struct tParticleModule
 {
-	// 스폰 모듈
+	//Module Switch + Basic Info
+    BOOL bModule_Spawn;
+    BOOL bModule_ColorChange;
+	BOOL bModule_ScaleChange;
+    BOOL bModule_Rotation;
+	BOOL bModule_AddVelocity;
+    
+	BOOL bModule_Drag;
+	int iMaxParticleCount;
+	float modulepad;
+    
+    
+    //Spawn Module Part
+	int eSpawnShapeType; // Sphere , Box
+	int iSpawnRate;
+	int bFollowing;
+	float SpawnPadding1;
+    
     float4 vSpawnColor;
     float4 vSpawnScaleMin;
     float4 vSpawnScaleMax;
+    
     float3 vBoxShapeScale;
     float  fSphereShapeRadius;
-    int eSpawnShapeType; // Sphere , Box
-    int iSpawnRate;
-    int bFollowing;
+    
     float fMinLifeTime;
     float fMaxLifeTime;
-    float3 spawnpad;
+	float2 SpawnPadding2;
 
-	// Color Change 모듈
+    
+	//Color Change Module Part
     float4 vStartColor; // 초기 색상
     float4 vEndColor; // 최종 색상
 
-	// Scale Change 모듈
+    
+	// Scale Change Module Part
     float fStartScale; // 초기 크기
     float fEndScale; // 최종 크기	
+	float2 ScaleChangePadding;
+    
+    
+    //Rotation Module Part
+	float3 vRotRadPerSec;
+	float RotModulePadding1;
+	float3 vRotRandomRange;     //이 범위 사이에서 회전속도 랜덤
+	float RotModulePadding2;
 
-    int iMaxParticleCount;
-    int ipad;
-
-	// Add Velocity 모듈
+    
+	// Add Velocity Module Part
     float4 vVelocityDir;
+    
     int eAddVelocityType; // 0 : From Center, 1 : Fixed Direction	
     float fOffsetAngle;
     float fSpeed;
-    int addvpad;
+    int AddVelocityPadding;
 
-	// bModule_Drag 모듈
+    
+	// Drag Module Part : 진행될수록 속도가 감소하는 효과
     float fStartDrag;
     float fEndDrag;
     float2 dragpad;
-
-
-	// Module Check
-    int bModule_Spawn;
-    int bModule_ColorChange;
-    int bModule_ScaleChange;
-    int bModule_AddVelocity;
-
-    int bModule_Drag;
-    float3 modulepad;
 };
 
 

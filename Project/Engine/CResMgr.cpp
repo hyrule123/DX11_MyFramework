@@ -415,7 +415,7 @@ void CResMgr::LoadDefaultTexture()
 	Load<CTexture>(RESOURCE::TEXTURE::LINK_ATLAS, L"texture/link.png");
 
 
-	//미리 텍스처 바인딩
+	//노이즈텍스처
 	Load<CTexture>(RESOURCE::TEXTURE::NOISE_TEXTURE_0, L"texture/noise/noise_01.png");
 }
 

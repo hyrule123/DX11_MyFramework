@@ -503,14 +503,14 @@
     <Filter Include="Source\08. ShaderCode\98. Compute\02. ParticleUpdate">
       <UniqueIdentifier>{76b389c5-9c46-4a88-a68c-87eede4a8a15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\08. ShaderCode\05. Particle">
-      <UniqueIdentifier>{cbb3eb6e-fc29-483b-8c2b-3bb7072086d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\06. Component\08~Render Components\10. Tilemap">
       <UniqueIdentifier>{c1e5f3db-b06e-4a03-aa94-25ebd41b9f31}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\06. Component\08~Render Components\09. ParticleSystem">
       <UniqueIdentifier>{5fc8ce1a-d12b-4ab5-9dc3-ad056529894e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\08. ShaderCode\05. Particle_Render">
+      <UniqueIdentifier>{cbb3eb6e-fc29-483b-8c2b-3bb7072086d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -534,7 +534,7 @@
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </None>
     <None Include="Shader_Particle_0_Header.hlsli">
-      <Filter>Source\08. ShaderCode\05. Particle</Filter>
+      <Filter>Source\08. ShaderCode\05. Particle_Render</Filter>
     </None>
     <None Include="Shader_Func.hlsli">
       <Filter>Source\08. ShaderCode</Filter>
@@ -578,13 +578,13 @@
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </FxCompile>
     <FxCompile Include="Shader_Particle_1_Vertex.hlsl">
-      <Filter>Source\08. ShaderCode\05. Particle</Filter>
+      <Filter>Source\08. ShaderCode\05. Particle_Render</Filter>
     </FxCompile>
     <FxCompile Include="Shader_Particle_2_Geometry.hlsl">
-      <Filter>Source\08. ShaderCode\05. Particle</Filter>
+      <Filter>Source\08. ShaderCode\05. Particle_Render</Filter>
     </FxCompile>
     <FxCompile Include="Shader_Particle_3_Pixel.hlsl">
-      <Filter>Source\08. ShaderCode\05. Particle</Filter>
+      <Filter>Source\08. ShaderCode\05. Particle_Render</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
