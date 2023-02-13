@@ -182,6 +182,9 @@
     <ClInclude Include="CUI_ParticleSystem.h">
       <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
     </ClInclude>
+    <ClInclude Include="CUI_Image.h">
+      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -290,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="CUI_ParticleSystem.cpp">
       <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Image.cpp">
+      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

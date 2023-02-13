@@ -8,7 +8,8 @@
 
 enum class eWIDGET_TYPE : DWORD
 {
-	COMBO_BOX
+	COMBO_BOX,
+	IMAGE
 };
 
 class CUI_Widget

@@ -4,6 +4,7 @@
 class CCollider2D_Rect;
 class CCollider2D_Circle;
 class CCollider2D_OBB;
+class CCollider2D_Point;
 
 class CCollider2D :
     public CCollider
@@ -30,6 +31,7 @@ private:
     virtual bool CheckCollisionRect(CCollider2D_Rect* _other) = 0;
     virtual bool CheckCollisionCircle(CCollider2D_Circle* _other) = 0;
     virtual bool CheckCollisionOBB2D(CCollider2D_OBB* _other) = 0;
+    virtual bool CheckCollisionPoint(CCollider2D_Point* _other) = 0;
 
 
 //public://충돌 시 호출할 함수

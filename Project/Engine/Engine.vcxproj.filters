@@ -190,6 +190,15 @@
     <ClInclude Include="Shader_Header_Struct.hlsli">
       <Filter>Source\08. ShaderCode</Filter>
     </ClInclude>
+    <ClInclude Include="CCollider3D_Ray.h">
+      <Filter>Source\06. Component\01, 02. Collider\2. Collider3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider3D.h">
+      <Filter>Source\06. Component\01, 02. Collider\2. Collider3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider2D_Point.h">
+      <Filter>Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -350,6 +359,15 @@
     </ClCompile>
     <ClCompile Include="CCS_ParticleUpdate_Root.cpp">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider3D_Ray.cpp">
+      <Filter>Source\06. Component\01, 02. Collider\2. Collider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider3D.cpp">
+      <Filter>Source\06. Component\01, 02. Collider\2. Collider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider2D_Point.cpp">
+      <Filter>Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

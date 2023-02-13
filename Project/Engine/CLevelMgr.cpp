@@ -212,7 +212,7 @@ void CLevelMgr::init()
 
 	// Test Object 4
 	pTestObj3 = new CGameObject;
-	pTestObj3->SetName("Test Object");
+	pTestObj3->SetName("ParticleObj");
 	pTestObj3->AddComponent(new CTransform);
 	pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 

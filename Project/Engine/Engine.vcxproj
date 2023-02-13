@@ -192,6 +192,8 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CCollider2D_Circle.h" />
     <ClInclude Include="CCollider2D_OBB.h" />
     <ClInclude Include="CCollider2D_Rect.h" />
+    <ClInclude Include="CCollider3D.h" />
+    <ClInclude Include="CCollider3D_Ray.h" />
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CComputeShader.h" />
@@ -212,6 +214,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CMeshRender.h" />
+    <ClInclude Include="CCollider2D_Point.h" />
     <ClInclude Include="components.h" />
     <ClInclude Include="CParticleSystem.h" />
     <ClInclude Include="CCS_ParticleUpdate_Basic.h" />
@@ -255,6 +258,8 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CCollider2D_Circle.cpp" />
     <ClCompile Include="CCollider2D_OBB.cpp" />
     <ClCompile Include="CCollider2D_Rect.cpp" />
+    <ClCompile Include="CCollider3D.cpp" />
+    <ClCompile Include="CCollider3D_Ray.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CComputeShader.cpp" />
@@ -278,6 +283,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CMeshRender.cpp" />
+    <ClCompile Include="CCollider2D_Point.cpp" />
     <ClCompile Include="CParticleSystem.cpp" />
     <ClCompile Include="CCS_ParticleUpdate_Basic.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
