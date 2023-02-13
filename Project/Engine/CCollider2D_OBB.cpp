@@ -35,12 +35,13 @@ bool CCollider2D_OBB::CheckCollisionOBB2D(CCollider2D_OBB* _other)
 {
 	const tOBB2D& otherInfo = _other->GetOBBInfo();
 
-	size_t size = sizeof(Vec2) * 2;
+	//Vec2의 사이즈 * 2를 받아온다.
+	static const size_t vec2_2size = sizeof(Vec2) * 2;
 
 	//각 축의 정보를 순회하기 편하도록 가져온다.
 	Vec2 arrVec[4] = {};
-	memcpy_s(&arrVec[0], size, &m_tOBBInfo, size);
-	memcpy_s(&arrVec[2], size, &otherInfo, size);
+	memcpy_s(&arrVec[0], vec2_2size, &m_tOBBInfo, vec2_2size);
+	memcpy_s(&arrVec[2], vec2_2size, &otherInfo, vec2_2size);
 
 	Vec2 VecMiddle = m_tOBBInfo.m_vMiddle - otherInfo.m_vMiddle;
 	
@@ -66,6 +67,14 @@ bool CCollider2D_OBB::CheckCollisionOBB2D(CCollider2D_OBB* _other)
 	}
 
 	return true;
+}
+
+bool CCollider2D_OBB::CheckCollisionPoint(CCollider2D_Point* _other)
+{
+
+
+
+	return false;
 }
 
 void CCollider2D_OBB::UpdateColliderInfo()

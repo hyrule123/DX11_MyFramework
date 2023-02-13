@@ -208,7 +208,10 @@ enum class eCOLLIDER_TYPE
 {
 	_2D_RECT,
 	_2D_CIRCLE,
-	_2D_OBB
+	_2D_OBB,
+	_2D_POINT,
+
+	_3D_LINE
 };
 
 enum eDIMENSION_TYPE : UINT
