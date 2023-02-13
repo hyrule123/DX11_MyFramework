@@ -2,7 +2,7 @@
 
 float4 PS_Debug(VS_OUT _in) : SV_TARGET
 {
-    float4 vColor = Debug_vecColor;
+	float4 vColor = SHADER_DEBUG_vecColor;
 	
 	return vColor;
 }

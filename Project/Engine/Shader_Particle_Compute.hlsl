@@ -1,8 +1,10 @@
-#include "Shader_Header_Register.hlsli"
+#include "Shader_Particle_0_Header.hlsli"
+
 #include "Shader_Func.hlsli"
 
+
 RWStructuredBuffer<tParticleTransform> g_SBufferRW_Particle : register(u0);
-RWStructuredBuffer<tRWParticleBuffer> g_SBufferRW_Particle_Shared : register(u1);
+RWStructuredBuffer<tParticleShareData> g_SBufferRW_Particle_Shared : register(u1);
 
 #define ePARTICLE_MODULE_PARTICLE_SPAWN 0
 #define	ePARTICLE_MODULE_COLOR_CHANGE 1

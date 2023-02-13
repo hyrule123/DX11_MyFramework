@@ -179,6 +179,9 @@
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
     <ClInclude Include="JsonCPP.h" />
+    <ClInclude Include="CUI_ParticleSystem.h">
+      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -284,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="CUI_Child.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_ParticleSystem.cpp">
+      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

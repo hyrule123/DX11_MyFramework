@@ -4,9 +4,9 @@
 #include "Shader_Header_Struct.hlsli"
 
 #ifdef __cplusplus
-#define REGISTER_IDX(RegisterType, Idx) Idx
+#define REGISTER_IDX(_RegisterType, _Idx) _Idx
 #else
-#define REGISTER_IDX(RegisterType, Idx) RegisterType##Idx
+#define REGISTER_IDX(_RegisterType, _Idx) _RegisterType##_Idx
 #endif
 
 //==========================================
@@ -131,11 +131,10 @@ Texture2DArray g_arrtex_0 : register(e_t_TEXTURE_ARRAY_0);
 Texture2DArray g_arrtex_1 : register(e_t_TEXTURE_ARRAY_1);
 
 
-StructuredBuffer<tLightInfo> g_SBuffer_Light2D : register(e_t_SBUFFER_LIGHT2D);
-StructuredBuffer<tTile> g_SBuffer_Tile : register(e_t_SBUFFER_TILE);
 StructuredBuffer<float4> g_SBuffer_SetColor : register(e_t_SBUFFER_SETCOLOR);
-StructuredBuffer<tParticleTransform> g_SBuffer_ParticleTransform : register(e_t_SBUFFER_PARTICLE_TRANSFORM);
+
 Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
+
 
 
 	#endif
@@ -171,6 +170,7 @@ Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
 	#endif
 
 
+
 //==================================
 //			SAMPLER
 //==================================
@@ -198,7 +198,6 @@ SamplerState g_Sampler_1 : register(e_s_SAMPLER_POINT);
 //				ETC
 //==================================
 #ifdef __cplusplus
-
 
 
 #else

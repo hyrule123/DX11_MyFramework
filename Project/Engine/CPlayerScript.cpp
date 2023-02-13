@@ -30,7 +30,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::init()
 {
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
-	MeshRender()->GetMaterial()->SetScalarParam(COLOR_KEY, &m_ColorKey);
+	RenderCom()->GetMaterial()->SetScalarParam(COLOR_KEY, &m_ColorKey);
 }
 
 void CPlayerScript::tick()

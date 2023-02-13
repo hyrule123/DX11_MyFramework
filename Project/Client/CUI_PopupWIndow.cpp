@@ -7,6 +7,8 @@ CUI_PopupWindow::CUI_PopupWindow()
 	, m_vPopupPos()
 	, m_bModal()
 {
+	ImGuiWindowFlags flag = ImGuiWindowFlags_::ImGuiWindowFlags_NoSavedSettings;
+	AddImGuiWindowFlags(flag);
 }
 
 CUI_PopupWindow::~CUI_PopupWindow()
@@ -62,11 +64,11 @@ bool CUI_PopupWindow::beginUI()
 	ImGui::SetNextWindowPos(m_vPopupPos);
 	ImGui::SetNextWindowSize(GetSize());
 
-	ImGui::OpenPopup(GetstrID().data(), m_PopupFlags);
+	ImGui::OpenPopup(GetName().data(), m_PopupFlags);
 
 if (true == m_bModal)
 {
-	return ImGui::BeginPopupModal(GetstrID().data(), GetActivePtr(), GetWindowFlag());
+	return ImGui::BeginPopupModal(GetName().data(), GetActivePtr(), GetImGuiWindowFlag());
 }
 
 	return true;

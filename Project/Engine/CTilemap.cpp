@@ -7,6 +7,8 @@
 
 #include "CTransform.h"
 
+
+
 CTilemap::CTilemap()
 	: CRenderComponent(eCOMPONENT_TYPE::TILEMAP)
 	, m_iTileCountX(1)

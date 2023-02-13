@@ -14,19 +14,19 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
     }
     
     //애니메이션 사용중일경우
-    else if(0 != bAnimUse)
+    else if(TRUE == SHADER_STD2DMTRL_bAnimUse)
     {
         //애니메이션의 피벗을 지정(캔버스 사이즈의 LT로부터 스프라이트 이미)
-        float2 vUV = LeftTop + (CanvasSize * _in.vUV);
-        vUV -= ((CanvasSize - Slice) * 0.5f);
-        vUV -= Offset;
+		float2 vUV = SHADER_STD2DMTRL_vLT + (SHADER_STD2DMTRL_vCanvasSize * _in.vUV);
+		vUV -= ((SHADER_STD2DMTRL_vCanvasSize - SHADER_STD2DMTRL_vSlice) * 0.5f);
+		vUV -= SHADER_STD2DMTRL_vOffset;
     
         //
         if (
-        vUV.x > LeftTop.x
-        && vUV.x < LeftTop.x + Slice.x
-        && vUV.y > LeftTop.y
-        && vUV.y < LeftTop.y + Slice.y
+        vUV.x > SHADER_STD2DMTRL_vLT.x
+        && vUV.x < SHADER_STD2DMTRL_vLT.x + SHADER_STD2DMTRL_vSlice.x
+        && vUV.y > SHADER_STD2DMTRL_vLT.y
+        && vUV.y < SHADER_STD2DMTRL_vLT.y + SHADER_STD2DMTRL_vSlice.y
         )
         {
             vOutColor = g_tex_0.Sample(g_Sampler_0, vUV);

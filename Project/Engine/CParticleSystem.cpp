@@ -69,7 +69,7 @@ void CParticleSystem::finaltick()
 
 		m_AccTime = fSpawnCountPerTime * (fData - floor(fData));
 
-		tRWParticleBuffer rwbuffer = { (int)fData, };
+		tParticleShareData rwbuffer = { (int)fData, };
 
 		m_pSBufferRW_Shared->UploadData(&rwbuffer, 1u);
 	}
@@ -113,8 +113,8 @@ void CParticleSystem::CreateParticle()
 
 	m_tModuleData.vSpawnColor = Vec3(0.4f, 1.f, 0.4f);
 
-	m_tModuleData.vSpawnScaleMin = Vec3(15.f, 15.f, 1.f);
-	m_tModuleData.vSpawnScaleMax = Vec3(50.f, 50.f, 1.f);
+	m_tModuleData.vSpawnScaleMin = Vec3(50.f, 50.f, 1.f);
+	m_tModuleData.vSpawnScaleMax = Vec3(100.f, 100.f, 1.f);
 
 	m_tModuleData.eSpawnShapeType = 0;
 	m_tModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);
@@ -142,7 +142,7 @@ void CParticleSystem::CreateParticle()
 	m_tModuleData.fEndDrag = 0.f;
 
 	m_tModuleData.bModule_Rotation = TRUE;
-	m_tModuleData.vRotRadPerSec = Vec3(0.f, 0.f, 0.5f);
+	m_tModuleData.vRotRadPerSec = Vec3(0.f, 0.f, 10.f);
 	m_tModuleData.vRotRandomRange = Vec3(0.f, 0.f, 0.3f);
 
 
@@ -150,8 +150,8 @@ void CParticleSystem::CreateParticle()
 
 
 	//공유 데이터 구조화 버퍼 생성
-	tRWParticleBuffer rwbuffer = { (int)0, };
-	m_pSBufferRW_Shared->Create((UINT)sizeof(tRWParticleBuffer), 1, &rwbuffer, 1u);
+	tParticleShareData rwbuffer = { (int)0, };
+	m_pSBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &rwbuffer, 1u);
 
 }
 

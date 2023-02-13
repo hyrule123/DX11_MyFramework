@@ -7,8 +7,8 @@
 CUI::CUI(const string& _Name)
 	: m_Active(true)
 	, m_ParentUI()
+	, m_strName(_Name)
 {
-	SetstrID(_Name);
 }
 
 CUI::~CUI()
@@ -84,12 +84,18 @@ void CUI::LoadRecursive(Json::Value& _Node)
 
 
 
+void CUI::MakeUniqueName()
+{
+	m_strName += "##";
+	m_strName += std::to_string(GetID());
+}
+
 void CUI::AddChildUI(CUI* _UI)
 {
 	_UI->m_ParentUI = this;
 	m_vecChildUI.push_back(_UI);
 
-	CImGuiMgr::GetInst()->CreateUI(_UI);
+	CImGuiMgr::GetInst()->AddUI(_UI);
 }
 
 

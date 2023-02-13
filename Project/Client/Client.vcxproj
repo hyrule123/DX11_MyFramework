@@ -163,6 +163,7 @@
     <ClInclude Include="CUI_Menu.h" />
     <ClInclude Include="CUI_MenuItemGroup.h" />
     <ClInclude Include="CUI_MeshRender.h" />
+    <ClInclude Include="CUI_ParticleSystem.h" />
     <ClInclude Include="CUI_PopupWIndow.h" />
     <ClInclude Include="CUI_ScriptHolder.h" />
     <ClInclude Include="CUI_Tilemap.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="CUI_Menu.cpp" />
     <ClCompile Include="CUI_MenuItemGroup.cpp" />
     <ClCompile Include="CUI_MeshRender.cpp" />
+    <ClCompile Include="CUI_ParticleSystem.cpp" />
     <ClCompile Include="CUI_PopupWIndow.cpp" />
     <ClCompile Include="CUI_ScriptHolder.cpp" />
     <ClCompile Include="CUI_Tilemap.cpp" />

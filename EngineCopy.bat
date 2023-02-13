@@ -2,8 +2,7 @@
 xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\*.h" ".\External\Include\Engine\"
 
 :: C++와 공유하는 HLSL 헤더파일 복사
-xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\Shader_Header_Register.hlsli" ".\External\Include\Engine\"
-xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\Shader_Header_Struct.hlsli" ".\External\Include\Engine\"
+xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\*.hlsli" ".\External\Include\Engine\"
 
 :: 참조용 파일 읽기 전용으로 변경
 attrib +r ".\External\Include\Engine\*"

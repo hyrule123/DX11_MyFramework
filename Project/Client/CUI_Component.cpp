@@ -4,8 +4,8 @@
 #include <Engine/CGameObject.h>
 #include <Engine/func.h>
 
-CUI_Component::CUI_Component(const string& _ID, eCOMPONENT_TYPE _Type)
-	: CUI_BasicWindow(_ID)
+CUI_Component::CUI_Component(const string& _strName, eCOMPONENT_TYPE _Type)
+	: CUI_BasicWindow(_strName)
 	, m_pTarget()
 	, m_Type(_Type)
 {
@@ -55,7 +55,7 @@ bool CUI_Component::beginUI()
 	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
-	ImGui::Button(GetstrID().c_str());
+	ImGui::Button(GetName().c_str());
 	ImGui::PopStyleColor(3);
 	ImGui::PopID();
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "CRenderComponent.h"
 
+#include "Shader_Particle_0_Header.hlsli"
+
 class CStructBuffer;
 class CCS_ParticleUpdate_Root;
 
@@ -25,7 +27,7 @@ private:
     CStructBuffer* m_pSBufferRW_ParticleTransform;
 
     ////추가적으로 쓰기 가능한 공유 파티클 버퍼. 
-    ////tRWParticleBuffer 전달용
+    ////tParticleShareData 전달용
     CStructBuffer* m_pSBufferRW_Shared;
 
 

@@ -226,6 +226,8 @@ void CLevelMgr::init()
 
 	pTestObj3->AddComponent(new CCollider2D_OBB);
 
+	pTestObj3->AddScript(new CPlayerScript);
+
 	//pTestObj3->AddScript(new CTestObjScript);
 
 	SpawnGameObject(pTestObj3, Vec3(-100.f, -100.f, 10.f), 1);

@@ -4,14 +4,6 @@
 
 class CUI_Widget;
 
-//UI_Interface 필터의 항목들은 말그대로 순수가상함수로 인터페이스를 구상하는 데에만 사용함.
-
-//1. 생성자 : UI의 동적할당 진행
-//2. Init : UI간 연결 진행
-//3. tick : UI에서 처리해야 하는 각종 작업 진행. 창이 떠있지 않아도 작동해야할 작업들은 여기서
-//4. finaltick : 인터페이스 구상용. beginOOO ~ endOOO 등의 레이아웃 인터페이스 구상(UI_Interface 필터)
-//5. render_update : 실제로 인스턴스로 생성될 클래스에서 재정의. UI의 구체적인 레이아웃 설정.
-
 class CUI_BasicWindow
 	: public CUI
 {
@@ -49,8 +41,9 @@ private:
 	ImVec2			m_vSize;		// UI 크기
 
 public:
-	void SetWindowFlags(ImGuiWindowFlags _uWindowFlag) { m_WindowFlag = _uWindowFlag; }
-	ImGuiWindowFlags GetWindowFlag() const { return m_WindowFlag; }
+	void SetImGuiWindowFlags(ImGuiWindowFlags _uWindowFlag) { m_WindowFlag = _uWindowFlag; }
+	void AddImGuiWindowFlags(ImGuiWindowFlags _uWindowFlag) { m_WindowFlag |= _uWindowFlag; }
+	ImGuiWindowFlags GetImGuiWindowFlag() const { return m_WindowFlag; }
 
 	void SetBorder(bool _b) { m_bBorder = _b; }
 

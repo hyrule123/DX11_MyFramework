@@ -1,12 +1,12 @@
 #ifndef SHADER_HEADER_STRUCT
 #define SHADER_HEADER_STRUCT
 
+//상수버퍼 또는
+//두 개 이상의 쉐이더에서 참조하는 구조체들.
+//하나의 쉐이더에서 고유하게 쓰이는 구조체의 경우 해당 쉐이더의 헤더파일에서 선언할것.
 
 
-
-
-//Header for global values or struct
-
+//Data Type 관련
 #ifdef __cplusplus
 
 typedef Vector2     float2;
@@ -15,10 +15,7 @@ typedef Vector4     float4;
 typedef int         BOOL;
 typedef Matrix      MATRIX;
 
-//C++ : enum class 형태로 선언함.
-#define ENUM_START(_Name, _Type) enum class _Name : _Type {
-#define ENUM_MEMBER(_Name, _Type, _Val) _Name = _Val,
-#define ENUM_END };
+#define SEMANTIC(_Type)
 
 #else
 
@@ -29,6 +26,22 @@ typedef Matrix      MATRIX;
 
 #define TRUE 1
 #define FALSE 0
+
+#define SEMANTIC(_Type)  : _Type
+
+#endif
+
+
+
+//ENUM 관련
+#ifdef __cplusplus
+
+//C++ : enum class 형태로 선언함.
+#define ENUM_START(_Name, _Type) enum class _Name : _Type {
+#define ENUM_MEMBER(_Name, _Type, _Val) _Name = _Val,
+#define ENUM_END };
+
+#else
 
 //HLSL : namespace 형태로 선언함.
 #define ENUM_START(_Name, _Type) namespace _Name {
@@ -84,23 +97,23 @@ struct tMtrlData
 //C++ : enum으로 전환, 
 //HLSL : 일반 타입명으로 전환
 #ifdef __cplusplus
-#define MTRL_PARAM_SCALAR(_Type) eMTRLDATA_PARAM_SCALAR::##_Type
+#define MTRLDATA_PARAM_SCALAR(_Type) eMTRLDATA_PARAM_SCALAR::##_Type
 #else
-#define MTRL_PARAM_SCALAR(_Type) g_CBuffer_MtrlData.##_Type
+#define MTRLDATA_PARAM_SCALAR(_Type) g_CBuffer_MtrlData.##_Type
 #endif
 
 //C++, HLSL 공용으로 사용
-#define COLOR_KEY               MTRL_PARAM_SCALAR(VEC4_3)
-#define CS_TOTAL_ELEMCOUNT_X    MTRL_PARAM_SCALAR(INT_0)
-#define CS_TOTAL_ELEMCOUNT_Y    MTRL_PARAM_SCALAR(INT_1)
-#define CS_TOTAL_ELEMCOUNT_Z    MTRL_PARAM_SCALAR(INT_2)
+#define COLOR_KEY               MTRLDATA_PARAM_SCALAR(VEC4_3)
+#define CS_TOTAL_ELEMCOUNT_X    MTRLDATA_PARAM_SCALAR(INT_0)
+#define CS_TOTAL_ELEMCOUNT_Y    MTRLDATA_PARAM_SCALAR(INT_1)
+#define CS_TOTAL_ELEMCOUNT_Z    MTRLDATA_PARAM_SCALAR(INT_2)
 
 //컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
-#define TEXTURE_NOISE_RESOLUTION      MTRL_PARAM_SCALAR(VEC2_0)
+#define TEXTURE_NOISE_RESOLUTION      MTRLDATA_PARAM_SCALAR(VEC2_0)
 
 
 //CCS_ParticleUpdate
-#define OWNER_OBJ_POS MTRL_PARAM_SCALAR(VEC4_0)
+#define OWNER_OBJ_POS MTRLDATA_PARAM_SCALAR(VEC4_0)
 //============================================================================
 
 
@@ -159,43 +172,6 @@ extern tGlobalValue g_GlobalVal;
 
 
 
-
-
-struct tLightColor
-{
-    float4 vDiffuse;
-    float4 vAmbient;
-};
-
-struct tLightInfo
-{
-    tLightColor LightColor;
-
-    float4 vLightWorldPos;
-
-    float4 vLightDir; //스포트라이트의 방향
-
-    float fRadius; //점광원 또는 스포트라이트의 거리
-    float fAngle;
-    INT32 LightType;   //아래 ENUM값이 들어있음.
-    INT32 padding;
-};
-
-ENUM_START(eLIGHT_TYPE, int)
-ENUM_MEMBER(DIRECTIONAL, int, 0)
-ENUM_MEMBER(POINT, int, 1)
-ENUM_MEMBER(SPOTLIGHT, int, 2)
-ENUM_END
-
-
-
-struct tTile
-{
-    float2 vLeftTop;
-    float2 vSlice;
-};
-
-
 struct tDebugShapeInfo
 {
 	int eShapeType;
@@ -205,8 +181,7 @@ struct tDebugShapeInfo
 	float4 vColor;
 };
 
-
-
+//카운트를 세야 하는 SBuffer에서 공용으로 사용
 struct tSBufferInfo
 {
     UINT32 uSBufferCount;
@@ -216,42 +191,7 @@ struct tSBufferInfo
 };
 
 
-
-
-
-struct tRWParticleBuffer
-{
-    INT32 iSpawnCount; // 스폰 시킬 파티클 개수
-    float3 padding;
-};
-
-
-
-
-
-// Particle
-struct tParticleTransform
-{
-    float4 vLocalPos;
-    float4 vWorldPos; // 파티클 위치
-    float4 vWorldScale; // 파티클 크기
-	float4 vWorldRotation;
-    float4 vColor; // 파티클 색상
-    float4 vVelocity; // 파티클 현재 속도
-    float4 vForce; // 파티클에 주어진 힘
-
-    float fAge; // 생존 시간
-    float fNormalizedAge; // 수명대비 생존시간을 0~1로 정규화 한 값
-    float fLifeTime; // 수명
-    float fMass; // 질량
-    float fScaleFactor; // 추가 크기 배율
-
-    int bActive;
-    float2 pad;
-};
-
-
-
+//CBuffer에서 사용하므로 공용 struct 헤더에 선언
 struct tParticleModule
 {
 	//Module Switch + Basic Info

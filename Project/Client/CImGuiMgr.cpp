@@ -8,12 +8,14 @@
 
 
 #include "CUI.h"
+#include "CUI_BasicWIndow.h"
 #include "CUI_Inspector.h"
 #include "CUI_MainMenubar.h"
 
 #include <fstream>
 
 #include "JsonCPP.h"
+
 
 
 CImGuiMgr::CImGuiMgr()
@@ -73,8 +75,29 @@ CUI* CImGuiMgr::FindUI(const string& _UIName)
     return iter->second;
 }
 
-void CImGuiMgr::CreateUI(CUI* _pUI)
+void CImGuiMgr::AddUI(CUI* _pUI)
 {
+    assert(nullptr != _pUI);
+
+    //같은 이름의 UI가 이미 존재하는지 확인.
+    //존재할 경우 이름에 ID를 붙여 고유한 ID 생성
+    CUI* pUI = FindUI(_pUI->GetName());
+    if (nullptr != pUI)
+    {
+        _pUI->MakeUniqueName();
+
+        //고유 이름을 만든 경우에는 저장의 의미가 없어짐
+        //만약 고유 이름을 만들었는데 해당 창이 윈도우 속성을 가지고 있을경우 정보를 저장하지 않도록 설정한다.
+        //웬만하면 중복된 창이 만들어질 가능성이 있는 창들을 애초에 저장을 안하도록 설정하는게 좋음
+        CUI_BasicWindow* pWnd = dynamic_cast<CUI_BasicWindow*>(_pUI);
+        if (nullptr != pWnd)
+        {
+            pWnd->AddImGuiWindowFlags(ImGuiWindowFlags_::ImGuiWindowFlags_NoSavedSettings);
+        }
+        
+    }
+
+
     m_mapUI.insert(make_pair(_pUI->GetName(), _pUI));
     _pUI->init();
     _pUI->LoadRecursive(m_SavedUIData);
@@ -169,9 +192,8 @@ void CImGuiMgr::progress()
 
 void CImGuiMgr::CreateDefaultUI()
 {
-    CreateUI(new CUI_Inspector);
-
-    CreateUI(new CUI_MainMenubar);
+    AddUI(new CUI_Inspector);
+    AddUI(new CUI_MainMenubar);
 }
 
 void CImGuiMgr::begin()

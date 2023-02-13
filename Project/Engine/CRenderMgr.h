@@ -2,6 +2,7 @@
 
 #include "CSingleton.h"
 
+#include "Shader_STD2D_Light_0_Header.hlsli"
 
 class CCamera;
 class CLight2D;

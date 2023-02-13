@@ -37,7 +37,7 @@ private:
 public:
     CUI* FindUI(const string& _UIName);
     HWND GetHwnd() const { return m_hWnd; }
-    void CreateUI(CUI* _pUI);
+    void AddUI(CUI* _pUI);
 
     void ToggleDemoWindow() { m_bShowDemoWindow1 = !m_bShowDemoWindow1; }
 

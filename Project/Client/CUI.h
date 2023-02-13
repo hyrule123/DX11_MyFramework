@@ -6,8 +6,12 @@
 
 #include <UtilLib/json-forwards.h>
 
-class CUI :
-    public CEntity
+
+//여러 개의 창이 생성될 가능성이 있는 UI의 경우
+//IMGUI.ini에 저장하지 않도록 설정하고, 저장해야 할 경우 json 파일을 통해서 설정값을 저장할것
+
+class CUI
+	: public CEntity
 {
 public:
 	CUI() = delete;
@@ -43,7 +47,7 @@ public:
 
 
 private:
-	string			m_strID;
+	string			m_strName;
 	bool			m_Active;		// UI 활성화 체크
 
 	CUI*			m_ParentUI;		// 부모 UI
@@ -57,8 +61,10 @@ public:
 	bool ToggleActive() { m_Active = !m_Active; return m_Active; }
 
 	//자신의 숫자 ID넘버를 뒤에 더해서 고유 ID 생성(ID는 창에 뜨지 않음)
-	void SetstrID(const string& _Name); 
-	const string& GetstrID() const { return m_strID; }
+	void SetName(const string& _Name) { m_strName = _Name; }
+	const string& GetName() const { return m_strName; }
+	void AddName(const string& _Name) { m_strName += _Name; }
+	void MakeUniqueName();
 
 	CUI* GetParent() const { return m_ParentUI; }
 	void AddChildUI(CUI* _UI);
@@ -68,11 +74,3 @@ private:
 	virtual void Save(Json::Value& _Node) {};
 	virtual void Load(Json::Value& _Node) {};
 };
-
-inline void CUI::SetstrID(const string& _Name)
-{
-	CEntity::SetName(_Name); 
-	m_strID = _Name;
-	m_strID += "##";
-	m_strID += std::to_string(GetID());
-}

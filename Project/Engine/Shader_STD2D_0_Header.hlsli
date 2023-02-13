@@ -40,8 +40,8 @@ struct VS_OUT
 //
 // g_tex_0              : Output Texture
 // ============================
-#define bAnimUse            g_CBuffer_MtrlData.INT_0
-#define LeftTop             g_CBuffer_MtrlData.VEC2_0
-#define Slice               g_CBuffer_MtrlData.VEC2_1
-#define Offset              g_CBuffer_MtrlData.VEC2_2
-#define CanvasSize          g_CBuffer_MtrlData.VEC2_3
+#define SHADER_STD2D_bAnimUse            g_CBuffer_MtrlData.INT_0
+#define SHADER_STD2D_vLT                 g_CBuffer_MtrlData.VEC2_0
+#define SHADER_STD2D_vSlice               g_CBuffer_MtrlData.VEC2_1
+#define SHADER_STD2D_vOffset              g_CBuffer_MtrlData.VEC2_2
+#define SHADER_STD2D_vCanvasSize          g_CBuffer_MtrlData.VEC2_3

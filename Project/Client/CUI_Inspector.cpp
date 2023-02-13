@@ -10,6 +10,7 @@
 #include "CUI_Camera.h"
 #include "CUI_MeshRender.h"
 #include "CUI_ScriptHolder.h"
+#include "CUI_ParticleSystem.h"
 
 //Search Target
 #include <Engine/CGameObject.h>
@@ -31,6 +32,10 @@ CUI_Inspector::CUI_Inspector()
 	m_arrComUI[(UINT)eCOMPONENT_TYPE::MESH_RENDER] = new CUI_MeshRender;
 	m_arrComUI[(UINT)eCOMPONENT_TYPE::MESH_RENDER]->SetSize(0.f, 150.f);
 	AddChildUI(m_arrComUI[(UINT)eCOMPONENT_TYPE::MESH_RENDER]);
+
+	m_arrComUI[(UINT)eCOMPONENT_TYPE::PARTICLE_SYSTEM] = new CUI_ParticleSystem;
+	m_arrComUI[(UINT)eCOMPONENT_TYPE::PARTICLE_SYSTEM]->SetSize(0.f, 150.f);
+	AddChildUI(m_arrComUI[(UINT)eCOMPONENT_TYPE::PARTICLE_SYSTEM]);
 
 	m_arrComUI[(UINT)eCOMPONENT_TYPE::CAMERA] = new CUI_Camera;
 	m_arrComUI[(UINT)eCOMPONENT_TYPE::CAMERA]->SetSize(0.f, 150.f);
