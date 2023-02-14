@@ -20,8 +20,6 @@ private:
 
 public:
 
-public://자신과 상대방의 충돌을 체크하는 메소드. 무조건 ID가 작은 메소드 쪽에서 호출함.
-    virtual bool CheckCollision(CCollider* _other) override;
 
 private:
 

@@ -21,17 +21,6 @@ CCollider3D::~CCollider3D()
 {
 }
 
-bool CCollider3D::CheckCollision(CCollider* _other)
-{
-	switch (GetColliderType())
-	{
-
-	}
-
-
-	return false;
-}
-
 void CCollider3D::finaltick()
 {
 	//아래의 두 메소드는 transform에서 하는 걸로 변경

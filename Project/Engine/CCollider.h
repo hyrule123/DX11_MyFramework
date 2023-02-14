@@ -42,7 +42,6 @@ public:
 
 
 public:
-    virtual bool CheckCollision(CCollider* _other) = 0;
     void BeginCollision(CCollider* _other);
     void OnCollision(CCollider* _other);
     void EndCollision(CCollider* _other);

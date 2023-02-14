@@ -2,10 +2,16 @@
 #include "CSingleton.h"
 
 
-
 class CLayer;
-class CCollider2D;
 class CGameObject;
+class CCollider2D;
+class CCollider2D_Rect;
+class CCollider2D_Circle;
+class CCollider2D_OBB;
+class CCollider2D_Point;
+
+
+
 
 struct tGrid2D
 {
@@ -29,11 +35,22 @@ struct tCollisionInfo
     CCollider2D* pColliderB;
 };
 
+struct tColmapHashFunc
+{
+    UINT64 operator()(const UINT64& _ukey) const
+    {
+        return static_cast<UINT64>(_ukey);
+    }
+};
+
 
 class CCollisionMgr :
     public CSingleton<CCollisionMgr>
 {
+    SINGLETON(CCollisionMgr)
+
 private:
+    //우선 논리적으로만 충돌정보를 저장. 나중에 필요해지면 따로 만들것.
     vector<tGrid2D> m_vec2DGrid;
     UINT            m_uiNum2DGridX;
     UINT            m_uiNum2DGridY;
@@ -50,21 +67,14 @@ private:
 
     UINT32          m_arrFlagLayerInteraction[MAX_LAYER];
 
-    //Value로 저장된 bool 값 = 
-    unordered_map<UINT64, tCollisionInfo>   m_umapCollisionID;
+    
+    unordered_map<UINT64, tCollisionInfo, tColmapHashFunc>   m_umapCollisionID;
 
 public:
-    //void AddLayerInteract2D(UINT _iLowLayer, UINT _iHighLayer);
-    //bool GetLayerInteract2D(UINT _iLowLayer, UINT _iHighLayer);
-    //unordered_map<UINT64, bool>::iterator FindCollData(UINT32 _uID1, UINT32 _uID2);
-    //void AddCollData2D(UINT32 _uID1, UINT32 _uID2, bool _bCollided);
-
-    void AddCollider2D(CCollider2D* _pCol, tRectInfo _AABB);
+    void AddCollider2D(CCollider2D* _pCol);
     void AddCollider3D() {};
 
     void AddLayerInteraction2D(int _iLayer1, int _iLayer2);
-
-
 
 public:
     //CollisionMgr의 호출 시점: CLevelMgr::tick()이 호출되는 시점. -> 가져다 써도 문제 없음.
@@ -73,9 +83,19 @@ public:
     //충돌 검사 시행
     void tick();
 
-private:
 
-    SINGLETON(CCollisionMgr)
+private://충돌 검사 함수
+    //충돌체 타입을 분류해서 아래의 함수들을 호출한다.
+    bool CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2);
+
+
+    bool CheckCollision2D_Rect_Rect(CCollider2D_Rect* _pColRect_1, CCollider2D_Rect* _pColRect_2);
+    bool CheckCollision2D_Circle_Circle(CCollider2D_Circle* _pColCircle_1, CCollider2D_Circle* _pColCircle_2);
+    bool CheckCollision2D_OBB2D_OBB2D(CCollider2D_OBB* _pColOBB2D_1, CCollider2D_OBB* _pColOBB2D_2);
+    bool CheckCollision2D_OBB2D_Point(CCollider2D_OBB* _pColOBB2D, CCollider2D_Point* _pColPoint);
+
+    
+
 };
 
 
@@ -84,4 +104,5 @@ inline void CCollisionMgr::AddLayerInteraction2D(int _iLayer1, int _iLayer2)
     m_arrFlagLayerInteraction[_iLayer1] |= 1 << _iLayer2;
     m_arrFlagLayerInteraction[_iLayer2] |= 1 << _iLayer1;
 }
+
 

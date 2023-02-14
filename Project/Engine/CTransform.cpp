@@ -60,7 +60,7 @@ void CTransform::finaltick()
 			m_bNeedAABBUpdate = false;
 		}
 
-		//월드행렬을 계산나고 나면 충돌체도 정보를 업데이트 시켜준다.
+		//월드행렬을 계산나고 나면 충돌체도 정보 갱신을 시켜준다.
 		CCollider2D* pCol = GetOwner()->Collider2D();
 		if (nullptr != pCol)
 		{
@@ -114,7 +114,6 @@ void CTransform::UpdateParentMatrix()
 			//회전 상속 + 크기 미상속 -> 크기정보 제거
 			if (false == m_bInheritScale)
 			{
-
 				//정규화해서 크기정보를 제거
 				m_matParent.Right(m_matParent.Right().Normalize());
 				m_matParent.Up(m_matParent.Up().Normalize());

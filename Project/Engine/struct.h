@@ -25,15 +25,37 @@ struct tSquareInfo
 	float Size;
 };
 
-union tRectInfo
+struct tRectInfo
 {
-	struct 
+	union tRect
 	{
-		Vec2 LB;
-		Vec2 RT;
+		union
+		{
+			struct
+			{
+				float Left;
+				float Bottom;
+			};
+
+			Vec2 vLB;
+		};
+
+		union
+		{
+			struct
+			{
+
+				float Right;
+				float Top;
+			};
+
+			Vec2 vRT;
+		};
+
+		Vec4 LBRT;
 	};
-	Vec4 LBRT;
 };
+
 
 struct tAnim2DFrm
 {
@@ -41,5 +63,11 @@ struct tAnim2DFrm
 	Vec2	SliceUV;
 	Vec2	Offset;
 	float	fDuration;
+};
+
+struct tOBB2D
+{
+	Vec2 m_vAxis[2];
+	Vec2 m_vMiddle;
 };
 

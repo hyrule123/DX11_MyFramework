@@ -50,6 +50,7 @@ public:
 
 	void ChangeRenderCam(bool _bEditorCam) { m_bEditorCamMode = _bEditorCam; }
 	void SetEditorCam(CCamera* _pCamera) { m_pEditorCam = _pCamera; }
+	bool IsEditorCamMode() const { return m_bEditorCamMode; }
 
 private:
 	//Upload + Bind

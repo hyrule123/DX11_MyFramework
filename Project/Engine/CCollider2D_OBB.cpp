@@ -21,65 +21,11 @@ CCollider2D_OBB::~CCollider2D_OBB()
 {
 }
 
-bool CCollider2D_OBB::CheckCollisionRect(CCollider2D_Rect* _other)
-{
-	return false;
-}
 
-bool CCollider2D_OBB::CheckCollisionCircle(CCollider2D_Circle* _other)
-{
-	return false;
-}
-
-bool CCollider2D_OBB::CheckCollisionOBB2D(CCollider2D_OBB* _other)
-{
-	const tOBB2D& otherInfo = _other->GetOBBInfo();
-
-	//Vec2의 사이즈 * 2를 받아온다.
-	static const size_t vec2_2size = sizeof(Vec2) * 2;
-
-	//각 축의 정보를 순회하기 편하도록 가져온다.
-	Vec2 arrVec[4] = {};
-	memcpy_s(&arrVec[0], vec2_2size, &m_tOBBInfo, vec2_2size);
-	memcpy_s(&arrVec[2], vec2_2size, &otherInfo, vec2_2size);
-
-	Vec2 VecMiddle = m_tOBBInfo.m_vMiddle - otherInfo.m_vMiddle;
-	
-
-	for (int i = 0; i < 4; ++i)
-	{
-		Vec2 norm = arrVec[i];
-		norm.Normalize();
-
-		float fProjSum = 0.f;
-		for (int j = 0; j < 4; ++j)
-		{
-			fProjSum += fabsf(norm.Dot(arrVec[j]));
-		}
-		
-		//한 변의 길이(vSize)가 곱해졌으므로 0.5를 곱해줘야 실제 축의 길이가 됨
-		fProjSum *= 0.5f;
-
-		float fCenterProj = fabsf(norm.Dot(VecMiddle));
-
-		if (fProjSum < fCenterProj)
-			return false;
-	}
-
-	return true;
-}
-
-bool CCollider2D_OBB::CheckCollisionPoint(CCollider2D_Point* _other)
-{
-
-
-
-	return false;
-}
-
+//이 함수는 CTransform에서 값이 변했을 경우에만 호출된다.
 void CCollider2D_OBB::UpdateColliderInfo()
 {
-	//충돌체 정보를 업데이트 하고
+	//충돌체 주소를 가져온다.
 	CTransform* pTransform = GetOwner()->Transform();
 	assert(nullptr != pTransform);
 

@@ -8,6 +8,8 @@
 #include "CCollider2D_Circle.h"
 #include "CCollider2D_OBB.h"
 
+#include "CRenderMgr.h"
+
 CCollider2D::CCollider2D(eCOLLIDER_TYPE _eColType)
 	: CCollider(eCOMPONENT_TYPE::COLLIDER2D, _eColType)
 	, m_SpatialPartitionInfo{}
@@ -24,30 +26,40 @@ CCollider2D::~CCollider2D()
 {
 }
 
-bool CCollider2D::CheckCollision(CCollider* _other)
-{
-	switch (GetColliderType())
-	{
-	case eCOLLIDER_TYPE::_2D_RECT:
-		return CheckCollisionRect(static_cast<CCollider2D_Rect*>(_other));
-	case eCOLLIDER_TYPE::_2D_CIRCLE:
-		return CheckCollisionCircle(static_cast<CCollider2D_Circle*>(_other));
-	case eCOLLIDER_TYPE::_2D_OBB:
-		return CheckCollisionOBB2D(static_cast<CCollider2D_OBB*>(_other));
-	}
-
-
-	return false;
-}
-
 void CCollider2D::finaltick()
 {
+
+
+
+
 	//아래의 두 메소드는 transform에서 하는 걸로 변경
 	//UpdateColliderInfo();
 	//UpdateSpatialPartitionInfo();
-	DebugRender();
 
-	CCollisionMgr::GetInst()->AddCollider2D(this, GetSpatialPartitionInfo());
+	//에디터 카메라 모드일떄만 디버그
+	if(true == CRenderMgr::GetInst()->IsEditorCamMode())
+		DebugRender();
+
+	if()
+		CCollisionMgr::GetInst()->AddCollider2D(this, GetSpatialPartitionInfo());
+}
+
+void CCollider2D::UpdateCollider()
+{
+
+
+	//간이 충돌체 정보도 업데이트 한다.
+	float SideLenHalf = pTransform->GetAABBSideLen();
+
+	tRectInfo Info = {};
+	Info.LB.x = m_tOBBInfo.m_vMiddle.x - SideLenHalf;
+	Info.LB.y = m_tOBBInfo.m_vMiddle.y - SideLenHalf;
+
+	float SideLen = SideLenHalf * 2.f;
+	Info.RT = Info.LB;
+	Info.RT += SideLen;
+
+	SetSpatialPartitionInfo(Info);
 }
 
 
