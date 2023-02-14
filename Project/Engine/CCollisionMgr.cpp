@@ -15,6 +15,10 @@
 #include "CCollider2D_Point.h"
 
 CCollisionMgr::CCollisionMgr()
+	: m_iNum2DGridX()
+	, m_iNum2DGridY()
+	, m_iNum2DGridTotalIndex()
+	, m_arrFlagLayerInteraction{}
 {
 	AddLayerInteraction2D(1, 1);
 	Create2DGrid(Vec2(-10000.f, -10000.f), Vec2(20000.f, 20000.f), (UINT)10, (UINT)10);
@@ -26,92 +30,52 @@ CCollisionMgr::~CCollisionMgr()
 }
 
 
-void CCollisionMgr::AddCollider2D(CCollider2D* _pCol)
+void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, const vector<Vec2>& _vecPoint)
 {
-	enum LBRT{ L, B, R, T };
+	size_t size = _vecPoint.size();
+	vector<UINT> vecIdx;
 
-	//AABB 사각형 정보를 받아온다.
-	tRectInfo AABBInfo = _pCol->GetSpatialPartitionInfo();
-
-	//그리드 기준의 좌표계로 변환한다.
-	AABBInfo.LBRT -= m_v4_2DSpaceLB;
-
-	//그리드 한 칸의 사이즈로 상하좌우 인덱스값을 구한다.
-	AABBInfo.LBRT *= m_v4_2DGridSizeInv;
-
-	int GridIndex[4] = {(int)AABBInfo.LBRT.x, (int)AABBInfo.LBRT.y, (int)AABBInfo.LBRT.z, (int)AABBInfo.LBRT.w};
-
-	//에러 방지용 minmax 확인
-	GridIndex[L] = max(0, GridIndex[L]);
-	GridIndex[B] = max(0, GridIndex[B]);
-	GridIndex[R] = min((int)m_uiNum2DGridX, GridIndex[R]);
-	GridIndex[T] = min((int)m_uiNum2DGridY, GridIndex[T]);
-
-
-	//1차원 인덱스를 계산한다. 추가는 나중에 진행
-	vector<UINT> vecCurGridIdx;
-	for (int x = GridIndex[L]; x <= GridIndex[R]; ++x)
-	{
-		for (int y = GridIndex[B]; y <= GridIndex[T]; ++y)
-		{
-			vecCurGridIdx.push_back((UINT)(y* m_uiNum2DGridX + x));
-		}
-	}
-
-	//이전 그리드 인덱스 목록을 받아온다.
-	vector<UINT>& vecPrevGridIdx = _pCol->GetvecGridIdx();
-
-	vector<UINT> vecAddDelete;
-
-	//트랜스폼 변했을때만 여기서 새로 계산
-	//아니면 그냥 가지고 있던 인덱스 번호로 등록
-
-	//새로 들어간 그리드에 추가
-	auto iter = std::set_difference(
-		vecCurGridIdx.begin(), vecCurGridIdx.end(), 
-		vecPrevGridIdx.begin(), vecPrevGridIdx.end(),
-		vecAddDelete.begin());
-	vecAddDelete.resize(iter - vecAddDelete.begin());
-	size_t size = vecAddDelete.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vec2DGrid[vecAddDelete[i]].vecColliderInGrid.push_back(_pCol);
-	}
-	
+		//그리드 기준의 좌표계로 변환한다.
+		Vec2 Point = _vecPoint[i] - m_v2DSpaceLB;
 
-	iter = std::set_difference(
-		vecPrevGridIdx.begin(), vecPrevGridIdx.end(),
-		vecCurGridIdx.begin(), vecCurGridIdx.end(),
-		vecAddDelete.begin()
-	);
-	size_t size = vecAddDelete.size();
+		//점 한 칸의 인덱스가 계산됨.
+		Point *= m_v2DGridSizeInv;
+
+		//인덱스의 범위를 그리드 범위 안으로 한정
+		int IdxX = std::clamp((int)Point.x, 0, m_iNum2DGridX);
+		int IdxY = std::clamp((int)Point.y, 0, m_iNum2DGridY);
+		UINT Idx = (UINT)(IdxX * IdxY);
+
+		m_vec2DGrid[Idx].vecColl.push_back(_pCol);
+
+		vecIdx.push_back(Idx);
+	}
+
+	//구한 인덱스 정보를 넘겨준다.
+	//트랜스폼 정보가 변경되기 전까지는 더이상 새로 새로 간이 충돌체 정보를 계산할 필요가 없다.
+	_pCol->SetvecGridIdx(vecIdx);
+}
+
+void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, const vector<UINT>& _vecIdx)
+{
+	//그냥 순회 돌아주면서 그리드에 충돌검사해야될 충돌체 정점을 집어넣는다.
+	size_t size = _vecIdx.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vec2DGrid[vecAddDelete[i]].vecColliderInGrid.erase
-		(
-			std::remove_if
-			(
-				m_vec2DGrid[vecAddDelete[i]].vecColliderInGrid.begin(), m_vec2DGrid[vecAddDelete[i]].vecColliderInGrid.end(),
-				[=](CCollider2D* Col)->bool
-				{
-					return (Col == _pCol);
-				}
-			),
-			m_vec2DGrid[vecAddDelete[i]].vecColliderInGrid.end()
-					);
+		m_vec2DGrid[_vecIdx[i]].vecColl.push_back(_pCol);
 	}
-
 }
 
 
 
 void CCollisionMgr::Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridNumX, UINT _uiGridNumY)
 {
-	m_uiNum2DGridX = _uiGridNumX;
-	m_uiNum2DGridY = _uiGridNumY;
+	m_iNum2DGridX = _uiGridNumX;
+	m_iNum2DGridY = _uiGridNumY;
 
 	m_v2DSpaceLB = _vWorldLB;
-	m_v4_2DSpaceLB = Vec4(_vWorldLB.x, _vWorldLB.y, _vWorldLB.x, _vWorldLB.y);
 	
 	m_v2DSpaceSize = _vWorldSize;
 
@@ -119,29 +83,30 @@ void CCollisionMgr::Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridN
 	float GridSizeY = _vWorldSize.y / _uiGridNumY;
 	m_v2DGridSize = Vec2(GridSizeX, GridSizeY);
 
-	//나눗셈은 곱셈보다 느리므로, 게산 최적화를 위해 나눗셈 값을 미리 구해 놓는다.
-	GridSizeX = 1.f / GridSizeX;
-	GridSizeY = 1.f / GridSizeY;
-	m_v4_2DGridSizeInv = Vec4(GridSizeX, GridSizeY, GridSizeX, GridSizeY);
 
-	m_uiNum2DGridTotalIndex = m_uiNum2DGridX * m_uiNum2DGridY;
-	//m_vec2DGrid.resize(m_uiNum2DGridTotalIndex);
+	//나눗셈은 곱셈보다 느리므로, 게산 최적화를 위해 나눗셈 값을 미리 구해 놓는다.
+	m_v2DGridSizeInv.x = 1.f / GridSizeX;
+	m_v2DGridSizeInv.y = 1.f / GridSizeY;
+
+
+	m_iNum2DGridTotalIndex = m_iNum2DGridX * m_iNum2DGridY;
+	m_vec2DGrid.resize(m_iNum2DGridTotalIndex);
 }
 
 void CCollisionMgr::tick()
 {
-	for (UINT i = 0; i < m_uiNum2DGridTotalIndex; ++i)
+	for (int i = 0; i < m_iNum2DGridTotalIndex; ++i)
 	{
-		size_t size = m_vec2DGrid[i].vecColliderInGrid.size();
+		size_t size = m_vec2DGrid[i].vecColl.size();
 		//충돌은 최소 2개가 있어야 진행 가능하므로 2사이즈가 2개 이하일 경우 비워주고 다음 벡터에 대해 충돌검사 진행
 		if (size < 2)
 		{
-			m_vec2DGrid[i].vecColliderInGrid.clear();
+			m_vec2DGrid[i].vecColl.clear();
 			continue;
 		}
 			
 		//그리드 내부를 ID 순서대로 정렬한다.
-		std::sort(m_vec2DGrid[i].vecColliderInGrid.begin(), m_vec2DGrid[i].vecColliderInGrid.end(),
+		std::sort(m_vec2DGrid[i].vecColl.begin(), m_vec2DGrid[i].vecColl.end(),
 			[](CCollider2D* _pColA, CCollider2D* _pColB)->bool
 			{
 				return _pColA->GetID() < _pColB->GetID();
@@ -153,19 +118,19 @@ void CCollisionMgr::tick()
 			for (int m = l + 1; m < size; ++m)
 			{
 				//두 레이어가 충돌하도록 설정되어 있는지 여부를 검사한다. 충돌하지 않는 레이어일 경우 충돌 검사 X
-				if (false == (m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColliderInGrid[l]->GetLayerIndex()]
+				if (false == (m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColl[l]->GetLayerIndex()]
 					&
-					(UINT32)1 << m_vec2DGrid[i].vecColliderInGrid[m]->GetLayerIndex())
+					(UINT32)1 << m_vec2DGrid[i].vecColl[m]->GetLayerIndex())
 					)
 					continue;
 
 				//위에서 ID순 오름차순으로 정렬했으므로 ID를 굳이 비교할 필요가 없다.
 				CollisionID ID = {}; 
-				ID.LowID = m_vec2DGrid[i].vecColliderInGrid[l]->GetID();
-				ID.HighID = m_vec2DGrid[i].vecColliderInGrid[m]->GetID();
+				ID.LowID = m_vec2DGrid[i].vecColl[l]->GetID();
+				ID.HighID = m_vec2DGrid[i].vecColl[m]->GetID();
 
-				CCollider2D* pColA = m_vec2DGrid[i].vecColliderInGrid[l];
-				CCollider2D* pColB = m_vec2DGrid[i].vecColliderInGrid[m];
+				CCollider2D* pColA = m_vec2DGrid[i].vecColl[l];
+				CCollider2D* pColB = m_vec2DGrid[i].vecColl[m];
 
 				//충돌
 				if (true == CheckCollision2D(pColA, pColB))
@@ -209,7 +174,7 @@ void CCollisionMgr::tick()
 		}
 
 		//그리드 내부의 충돌체 정보를 비워준다.
-		m_vec2DGrid[i].vecColliderInGrid.clear();
+		m_vec2DGrid[i].vecColl.clear();
 	}
 
 	//이번 타임에 충돌확인되지 않은 충돌체들에 대해서 충돌 제거 처리

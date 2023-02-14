@@ -1,6 +1,11 @@
 #pragma once
 #include "CSingleton.h"
 
+//**********************************************
+// 충돌체가 그리드 하나 크기보다 커질 경우 에러 나므로 주의할 것
+// 최대 4그리드까지만 점슈할 수 있도록 구현해 놓았음
+//**********************************************
+
 
 class CLayer;
 class CGameObject;
@@ -10,12 +15,11 @@ class CCollider2D_Circle;
 class CCollider2D_OBB;
 class CCollider2D_Point;
 
-
-
+class CCollider3D;
 
 struct tGrid2D
 {
-    vector<CCollider2D*> vecColliderInGrid;
+    vector<CCollider2D*> vecColl;
 };
 
 union CollisionID
@@ -52,16 +56,16 @@ class CCollisionMgr :
 private:
     //우선 논리적으로만 충돌정보를 저장. 나중에 필요해지면 따로 만들것.
     vector<tGrid2D> m_vec2DGrid;
-    UINT            m_uiNum2DGridX;
-    UINT            m_uiNum2DGridY;
-    UINT            m_uiNum2DGridTotalIndex;
+    int            m_iNum2DGridX;
+    int            m_iNum2DGridY;
+    int            m_iNum2DGridTotalIndex;
 
     Vec2            m_v2DSpaceLB;
-    Vec4            m_v4_2DSpaceLB;
     Vec2            m_v2DSpaceSize;
 
     Vec2            m_v2DGridSize;
-    Vec4            m_v4_2DGridSizeInv;
+
+    Vec2            m_v2DGridSizeInv;//곱셈최적화용 변수
     //참고 - Vec4는 편의를 위해 사용 중.
     //2DGridSizeInv의 경우 나눗셈을 미리 해두어서 곱셈을 하기 위한 용도의 변수임.
 
@@ -71,9 +75,14 @@ private:
     unordered_map<UINT64, tCollisionInfo, tColmapHashFunc>   m_umapCollisionID;
 
 public:
-    void AddCollider2D(CCollider2D* _pCol);
-    void AddCollider3D() {};
+    //공간분할을 위한 자신의 간이 충돌체 꼭지점 정보를 전달한다.
+    //Rect는 4개, Point는 1개 등 다를 수 있기 때문에 정점 위치를 vector에 담아서 전달하는 방식으로 구현
+    //
+    void AddCollider2D(CCollider2D* _pCol, const vector<Vec2>& _vecPoint);
 
+    //이건 트랜스폼에서 추가 연산이 없었을 경우(자신의 간이정점 위치에 변함이 없을 경우) 호출
+    void AddCollider2D(CCollider2D* _pCol, const vector<UINT>& _vecIdx);
+    void AddCollider3D(CCollider3D* _pCol) {};
     void AddLayerInteraction2D(int _iLayer1, int _iLayer2);
 
 public:

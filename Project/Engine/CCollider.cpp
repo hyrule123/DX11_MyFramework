@@ -8,6 +8,8 @@ CCollider::CCollider(eCOMPONENT_TYPE _ComType, eCOLLIDER_TYPE _ColType)
 	: CComponent(_ComType)
 	, m_eColType(_ColType)
 	, m_vOffsetScale(Vec3::One)
+	, m_bNeedAABBUpdate(true)
+	, m_bNeedColliderUpdate(true)
 {
 }
 

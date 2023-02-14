@@ -7,13 +7,13 @@
 #include "CRenderMgr.h"
 
 CCollider2D_OBB::CCollider2D_OBB()
-	: CCollider2D(eCOLLIDER_TYPE::_2D_OBB)
+	: CCollider2D_Rect(eCOLLIDER_TYPE::_2D_OBB)
 	, m_tOBBInfo{}
 {
 }
 
-CCollider2D_OBB::CCollider2D_OBB(const CCollider2D& _other)
-	: CCollider2D(_other)
+CCollider2D_OBB::CCollider2D_OBB(const CCollider2D_OBB& _other)
+	: CCollider2D_Rect(_other)
 {
 }
 
@@ -23,8 +23,11 @@ CCollider2D_OBB::~CCollider2D_OBB()
 
 
 //이 함수는 CTransform에서 값이 변했을 경우에만 호출된다.
-void CCollider2D_OBB::UpdateColliderInfo()
+void CCollider2D_OBB::UpdateCollider()
 {
+	//자신의 부모 충돌체를 간이 충돌체로 사용한다.
+	CCollider2D_Rect::UpdateCollider();
+
 	//충돌체 주소를 가져온다.
 	CTransform* pTransform = GetOwner()->Transform();
 	assert(nullptr != pTransform);
@@ -41,21 +44,8 @@ void CCollider2D_OBB::UpdateColliderInfo()
 	
 	//중심점 = 월드 위치 + 오프셋 위치
 	m_tOBBInfo.m_vMiddle = WorldMat.Translation() + GetOffsetPos();
-
-
-	//간이 충돌체 정보도 업데이트 한다.
-	float SideLenHalf = pTransform->GetAABBSideLen();
-
-	tRectInfo Info = {};
-	Info.LB.x = m_tOBBInfo.m_vMiddle.x - SideLenHalf;
-	Info.LB.y = m_tOBBInfo.m_vMiddle.y - SideLenHalf;
-
-	float SideLen = SideLenHalf * 2.f;
-	Info.RT = Info.LB;
-	Info.RT += SideLen;
-
-	SetSpatialPartitionInfo(Info);
 }
+
 
 void CCollider2D_OBB::DebugRender()
 {

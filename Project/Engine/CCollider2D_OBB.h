@@ -7,7 +7,7 @@ class CCollider2D_OBB :
 {
 public:
     CCollider2D_OBB();
-    CCollider2D_OBB(const CCollider2D& _other);
+    CCollider2D_OBB(const CCollider2D_OBB& _other);
     virtual ~CCollider2D_OBB();
     CLONE(CCollider2D_OBB)
 
@@ -18,7 +18,7 @@ public:
     tOBB2D GetColliderInfo() const { return m_tOBBInfo; }
 
 public:
-    virtual void UpdateColliderInfo() override;
+    virtual void UpdateCollider() override;
     virtual void DebugRender() override;
 };
 

@@ -11,13 +11,15 @@ public:
     CLONE(CCollider2D_Rect)
 
 private:
-    tOBB2D m_tOBBInfo;
+    tRectInfo m_tRectInfo;
 
 public:
-    tOBB2D GetColliderInfo() const { return m_tOBBInfo; }
+     const tRectInfo& GetColliderInfo() const { return m_tRectInfo; }
 
 public:
-    virtual void UpdateColliderInfo() override;
+    virtual void UpdateCollider() override;
+    virtual void UpdateAABBinfo() override;
+    virtual void UpdateSpatialPartitionInfo(vector<Vec2>& _vecSpatialPartitonVtx) override;
     virtual void DebugRender() override;
 
 

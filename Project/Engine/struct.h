@@ -25,35 +25,16 @@ struct tSquareInfo
 	float Size;
 };
 
-struct tRectInfo
+union tRectInfo
 {
-	union tRect
-	{
-		union
-		{
-			struct
-			{
-				float Left;
-				float Bottom;
-			};
-
-			Vec2 vLB;
-		};
-
-		union
-		{
-			struct
-			{
-
-				float Right;
-				float Top;
-			};
-
-			Vec2 vRT;
-		};
-
-		Vec4 LBRT;
+	struct {
+		float fLeft;
+		float fBottom;
+		float fRight;
+		float fTop;
 	};
+
+	Vec4 LBRT;
 };
 
 

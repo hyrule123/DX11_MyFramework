@@ -11,6 +11,7 @@
 
 //자신이 업데이트 되면 충돌체도 업데이트 해준다.
 #include "CCollider2D.h"
+#include "CCollider3D.h"
 
 CTransform::CTransform()
 	: CComponent(eCOMPONENT_TYPE::TRANSFORM)
@@ -53,28 +54,32 @@ void CTransform::finaltick()
 	{
 		m_matWorld = m_matRelative * m_matParent;
 
-		//월드행렬 계산이 끝나고 크기 변경이 확인되었을 경우 AABB 충돌체 변의 길이도 다시 계산한다.
-		if (true == m_bNeedAABBUpdate)
-		{
-			CalcAABB();
-			m_bNeedAABBUpdate = false;
-		}
-
-		//월드행렬을 계산나고 나면 충돌체도 정보 갱신을 시켜준다.
-		CCollider2D* pCol = GetOwner()->Collider2D();
+		//충돌체가 존재할 경우 충돌체에게 업데이트가 필요하다고 알린다.(2D, 3D 모두)
+		CCollider* pCol = Collider2D();
 		if (nullptr != pCol)
-		{
-			pCol->UpdateColliderInfo();
-		}
+			pCol->SetNeedCollUpdate(true);
+
+		pCol = Collider3D();
+		if (nullptr != pCol)
+			pCol->SetNeedCollUpdate(true);
+
+		
+		//간이 충돌체는 회전하지 않으므로
+		//월드행렬이 다시 계산되었다고 간이충돌체 정보까지 업데이트 되어야하는 것은 아님
+
+
 
 		m_bNeedMyUpdate = false;
 		m_bNeedParentUpdate = false;
+
 	}
 
-	//월드행렬 계산이 끝나고 크기 변경이 확인되었을 경우 AABB 충돌체 변의 길이도 다시 계산한다.
+	//월드행렬 계산이 끝나고 크기 변경이 확인되었을 경우 AABB 충돌체 변의 길이도 
+	//"""다시""" 계산한다.
 	if (true == m_bNeedAABBUpdate)
 	{
 		CalcAABB();
+
 		m_bNeedAABBUpdate = false;
 	}
 }

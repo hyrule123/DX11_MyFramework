@@ -10,15 +10,17 @@
 
 #include "CRenderMgr.h"
 
+#include "CTransform.h"
+
 CCollider2D::CCollider2D(eCOLLIDER_TYPE _eColType)
 	: CCollider(eCOMPONENT_TYPE::COLLIDER2D, _eColType)
-	, m_SpatialPartitionInfo{}
+	, m_vecGridIdxInfo{}
 {
 }
 
 CCollider2D::CCollider2D(const CCollider2D& _other)
 	:CCollider(_other)
-	, m_SpatialPartitionInfo(_other.m_SpatialPartitionInfo)
+	, m_vecGridIdxInfo(_other.m_vecGridIdxInfo)
 {
 }
 
@@ -28,6 +30,35 @@ CCollider2D::~CCollider2D()
 
 void CCollider2D::finaltick()
 {
+	//트랜스폼의 월드행렬이 변경되어 자신의 충돌체 업데이트도 필요한 경우
+	if (true == GetNeedCollUpdate())
+	{
+		//자신의 중심 위치를 구한다.
+		const Vec3& WorldPos = Transform()->GetWorldPos();
+		const Vec3& OffsetPos = GetOffsetPos();
+		m_vCenterPos.x = WorldPos.x + OffsetPos.x;
+		m_vCenterPos.y = WorldPos.y + OffsetPos.y;
+
+		//위치도 이동했을 수 있으므로 꼭짓점 정보도 갱신한다.
+		m_vecSpatialPartitionVtx.clear();
+		UpdateSpatialPartitionInfo(m_vecSpatialPartitionVtx);
+		CCollisionMgr::GetInst()->AddCollider2D(this, m_vecSpatialPartitionVtx);
+
+		//충돌체 업데이트 함수를 호출한다.
+		UpdateCollider();
+	}
+
+	//간이 충돌체 업데이트가 필요할 경우
+	if (true == GetNeedAABBUpdate())
+	{
+		UpdateAABBInfo();
+
+		SetNeedAABBUpdate(false);
+	}
+	else
+	{
+		CCollisionMgr::GetInst()->AddCollider2D(this, m_vecGridIdxInfo);
+	}
 
 
 
@@ -39,27 +70,6 @@ void CCollider2D::finaltick()
 	//에디터 카메라 모드일떄만 디버그
 	if(true == CRenderMgr::GetInst()->IsEditorCamMode())
 		DebugRender();
-
-	if()
-		CCollisionMgr::GetInst()->AddCollider2D(this, GetSpatialPartitionInfo());
-}
-
-void CCollider2D::UpdateCollider()
-{
-
-
-	//간이 충돌체 정보도 업데이트 한다.
-	float SideLenHalf = pTransform->GetAABBSideLen();
-
-	tRectInfo Info = {};
-	Info.LB.x = m_tOBBInfo.m_vMiddle.x - SideLenHalf;
-	Info.LB.y = m_tOBBInfo.m_vMiddle.y - SideLenHalf;
-
-	float SideLen = SideLenHalf * 2.f;
-	Info.RT = Info.LB;
-	Info.RT += SideLen;
-
-	SetSpatialPartitionInfo(Info);
 }
 
 

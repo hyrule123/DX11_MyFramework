@@ -11,7 +11,11 @@ CCollider2D_Point::~CCollider2D_Point()
 }
 
 
-void CCollider2D_Point::UpdateColliderInfo()
+void CCollider2D_Point::UpdateCollider()
+{
+}
+
+void CCollider2D_Point::UpdateSpatialPartitionInfo(vector<Vec2>& _vecSpatialPartitonVtx)
 {
 }
 

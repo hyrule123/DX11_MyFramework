@@ -13,6 +13,7 @@ class CScript;
 class CLight2D;
 class CTilemap;
 class CAnimator2D;
+class CCollider3D;
 
 class CGameObject :
     public CEntity
@@ -54,6 +55,7 @@ public:
     CTransform* Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
 
     CCollider2D* Collider2D() const { return (CCollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER2D]; }
+    CCollider3D* Collider3D() const { return (CCollider3D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER3D]; }
 
     CAnimator2D* Animator2D() const { return (CAnimator2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::ANIMATOR2D]; }
 

@@ -7,6 +7,9 @@ class CTransform;
 class CMeshRender;
 class CCamera;
 
+
+class CCollider3D;
+
 class CComponent :
     public CEntity
 {
@@ -38,6 +41,8 @@ public:
     CMeshRender* MeshRender() { return m_pOwner->MeshRender(); }
     CCamera* Camera() { return m_pOwner->Camera(); }
     CAnimator2D* Animator2D() { return m_pOwner->Animator2D(); }
+    CCollider2D* Collider2D() { return m_pOwner->Collider2D(); }
+    CCollider3D* Collider3D() { return m_pOwner->Collider3D(); }
 
 
 
