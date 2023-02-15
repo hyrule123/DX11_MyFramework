@@ -4,22 +4,19 @@
 #include "CTransform.h"
 
 CCollider2D_Rect::CCollider2D_Rect()
-	: CCollider2D(eCOLLIDER_TYPE::_2D_RECT)
+	: CCollider2D(eCOLLIDER_TYPE_2D::RECT)
 	, m_tRectInfo{}
+	, m_RectSideInfo{}
 {
 }
 
-CCollider2D_Rect::CCollider2D_Rect(eCOLLIDER_TYPE _Type)
+CCollider2D_Rect::CCollider2D_Rect(eCOLLIDER_TYPE_2D _Type)
 	: CCollider2D(_Type)
 	, m_tRectInfo{}
+	, m_RectSideInfo{}
 {
 }
 
-CCollider2D_Rect::CCollider2D_Rect(const CCollider2D_Rect& _other)
-	: CCollider2D(_other)
-	, m_tRectInfo(_other.m_tRectInfo)
-{
-}
 
 CCollider2D_Rect::~CCollider2D_Rect()
 {
@@ -27,33 +24,14 @@ CCollider2D_Rect::~CCollider2D_Rect()
 
 void CCollider2D_Rect::UpdateCollider()
 {
-	CTransform* pTransform = GetOwner()->Transform();
-	assert(nullptr != pTransform);
+	CTransform* pTransform = Transform();
+	if (nullptr == pTransform)
+		return;
 
-	//간이 충돌체 정보도 업데이트 한다.
-	float SideLenHalf = pTransform->GetAABBSideLen();
+	//회전이 적용되지 않는 충돌체이므로 크기와 사이즈만 받아 온다.
+	
 
-	Vec2 vCenter = GetCenterPos();
-
-	m_tRectInfo.fLeft = vCenter.x - SideLenHalf;
-	m_tRectInfo.fBottom = vCenter.y - SideLenHalf;
-
-	float SideLen = SideLenHalf * 2.f;
-	m_tRectInfo.fRight = m_tRectInfo.fLeft + SideLen;
-	m_tRectInfo.fTop = m_tRectInfo.fBottom + SideLen;
-}
-
-void CCollider2D_Rect::UpdateAABBinfo()
-{
-
-}
-
-void CCollider2D_Rect::UpdateSpatialPartitionInfo(vector<Vec2>& _vecSpatialPartitonVtx)
-{
-	_vecSpatialPartitonVtx.push_back(Vec2(m_tRectInfo.fLeft, m_tRectInfo.fTop));
-	_vecSpatialPartitonVtx.push_back(Vec2(m_tRectInfo.fRight, m_tRectInfo.fTop));
-	_vecSpatialPartitonVtx.push_back(Vec2(m_tRectInfo.fRight, m_tRectInfo.fBottom));
-	_vecSpatialPartitonVtx.push_back(Vec2(m_tRectInfo.fLeft, m_tRectInfo.fBottom));
+	
 }
 
 void CCollider2D_Rect::DebugRender()

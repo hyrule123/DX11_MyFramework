@@ -7,8 +7,9 @@
 CUI::CUI(const string& _Name)
 	: m_Active(true)
 	, m_ParentUI()
-	, m_strName(_Name)
+	, m_strID(_Name)
 {
+	SetName(_Name);
 }
 
 CUI::~CUI()
@@ -84,10 +85,20 @@ void CUI::LoadRecursive(Json::Value& _Node)
 
 
 
-void CUI::MakeUniqueName()
+void CUI::MakeUniqueID()
 {
-	m_strName += "##";
-	m_strName += std::to_string(GetID());
+	m_strID += "##";
+	m_strID += std::to_string(GetID());
+}
+
+void CUI::MakeUniqueID(const string& _strUniqueName)
+{
+	if (true == _strUniqueName.empty())
+		return;
+
+	string Name = _strUniqueName;
+	Name += "##";
+	Name += GetStrID();
 }
 
 void CUI::AddChildUI(CUI* _UI)
@@ -105,7 +116,7 @@ CUI* CUI::FindChildUIByName(const string& _Name)
 	size_t size = m_vecChildUI.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		size_t pos = m_vecChildUI[i]->GetName().find(_Name);
+		size_t pos = m_vecChildUI[i]->GetStrID().find(_Name);
 		if (pos != string::npos)
 			return m_vecChildUI[i];
 	}

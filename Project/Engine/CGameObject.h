@@ -77,7 +77,7 @@ public:
     //Add
     void AddComponent(CComponent* _Component);
     void AddScript(CScript* _Script);
-    void AddChild(CGameObject* _Object);
+    void AddChildObj(CGameObject* _Object);
     void RemoveChild(CGameObject* _Object);
 
     //Recursive

@@ -16,6 +16,7 @@
 //생명주기 계산용
 #include "CTimeMgr.h"
 
+#include "CTransform.h"
 
 CGameObject::CGameObject()
 	: m_arrCom{}
@@ -58,7 +59,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	size_t size = _other.m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		AddChild(_other.m_vecChild[i]->Clone());
+		AddChildObj(_other.m_vecChild[i]->Clone());
 	}
 
 }
@@ -144,6 +145,10 @@ void CGameObject::finaltick()
 	{
 		m_vecChild[i]->finaltick();
 	}
+
+	//자녀 포함 모든 컴포넌트가 업데이트 되면 업데이트 상황 초기화
+	if (nullptr != m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])
+		static_cast<CTransform*>(m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])->ClearUpdateState();
 }
 
 void CGameObject::render()
@@ -239,7 +244,7 @@ void CGameObject::AddScript(CScript* _Script)
 	pScriptHolder->AddScript(_Script);
 }
 
-void CGameObject::AddChild(CGameObject* _Object)
+void CGameObject::AddChildObj(CGameObject* _Object)
 {
 	if (nullptr != (_Object->GetParent()))
 		_Object->GetParent()->RemoveChild(_Object);

@@ -20,7 +20,7 @@ public:
 	CLONE_DISABLE(CUI)
 
 public:
-	//위치 이동이나 내부 s연결된 객체들의 값 조정 작업은 여기서 진행
+	//위치 이동이나 내부 연결된 객체들의 값 조정 작업은 여기서 진행
 	void tickRecursive();
 	void finaltick();
 
@@ -47,7 +47,7 @@ public:
 
 
 private:
-	string			m_strName;
+	string			m_strID;		//고유 ID. 중복되지 않음.
 	bool			m_Active;		// UI 활성화 체크
 
 	CUI*			m_ParentUI;		// 부모 UI
@@ -61,10 +61,11 @@ public:
 	bool ToggleActive() { m_Active = !m_Active; return m_Active; }
 
 	//자신의 숫자 ID넘버를 뒤에 더해서 고유 ID 생성(ID는 창에 뜨지 않음)
-	void SetName(const string& _Name) { m_strName = _Name; }
-	const string& GetName() const { return m_strName; }
-	void AddName(const string& _Name) { m_strName += _Name; }
-	void MakeUniqueName();
+	void SetStrID(const string& _strID) { m_strID = _strID; }
+	const string& GetStrID() const { return m_strID; }
+	void AddStrID(const string& _strID) { m_strID += _strID; }
+	void MakeUniqueID();
+	void MakeUniqueID(const string& _strUniqueName);
 
 	CUI* GetParent() const { return m_ParentUI; }
 	void AddChildUI(CUI* _UI);

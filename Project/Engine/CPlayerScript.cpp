@@ -38,15 +38,19 @@ void CPlayerScript::tick()
 	Vec3 vCurPos = Transform()->GetRelativePos();
 	Vector3 vCurRot = Transform()->GetRelativeRot();
 
+	bool RotUpdated = false;
+	bool PosUpdated = false;
 	//회전 먼저 적용하고
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		vCurRot.z += DELTA_TIME * m_TurningForceRad;
+		RotUpdated = true;
 	}
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
 		vCurRot.z -= DELTA_TIME * m_TurningForceRad;
+		RotUpdated = true;
 	}
 
 	//회전한 방향으로 전진
@@ -55,6 +59,7 @@ void CPlayerScript::tick()
 		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 		vCurPos += DELTA_TIME * m_MoveSpeed * Dir;
 
+		PosUpdated = true;
 		//vCurPos.x += DELTA_TIME * m_MoveSpeed * cosf(vCurRot.z);
 		//vCurPos.y += DELTA_TIME * m_MoveSpeed * sinf(vCurRot.z);
 	}
@@ -64,12 +69,15 @@ void CPlayerScript::tick()
 		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 		vCurPos -= DELTA_TIME * m_MoveSpeed * Dir;
 
+		PosUpdated = true;
 		//vCurPos.x -= DELTA_TIME * m_MoveSpeed * cosf(vCurRot.z);
 		//vCurPos.y -= DELTA_TIME * m_MoveSpeed * sinf(vCurRot.z);
 	}
 
-	Transform()->SetRelativePos(vCurPos);
-	Transform()->SetRelativeRot(vCurRot);
+	if(true == PosUpdated)
+		Transform()->SetRelativePos(vCurPos);
+	if(true == RotUpdated)
+		Transform()->SetRelativeRot(vCurRot);
 
 
 	if (KEY_PRESSED(KEY::Q))

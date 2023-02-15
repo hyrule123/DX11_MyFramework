@@ -38,12 +38,12 @@ void CEventMgr::DestroyObject(const tEvent& _event)
 	m_vecReserveDestroy.push_back(_pObj);
 }
 
-void CEventMgr::AddChild(const tEvent& _event)
+void CEventMgr::AddChildObj(const tEvent& _event)
 {
 	CGameObject* pParent = reinterpret_cast<CGameObject*>(_event.lParam);
 	CGameObject* pChild = reinterpret_cast<CGameObject*>(_event.rParam);
 	
-	pParent->AddChild(pChild);
+	pParent->AddChildObj(pChild);
 }
 
 void CEventMgr::tick()
@@ -74,7 +74,7 @@ void CEventMgr::tick()
 			DestroyObject(m_vecEvent[i]);
 			break;
 		case eEVENT_TYPE::ADD_CHILD:
-			AddChild(m_vecEvent[i]);
+			AddChildObj(m_vecEvent[i]);
 			break;
 		case eEVENT_TYPE::DELETE_RESOURCE:
 			break;

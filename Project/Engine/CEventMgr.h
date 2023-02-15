@@ -20,7 +20,7 @@ public:
 private:
     void CreateObject(const tEvent& _event);
     void DestroyObject(const tEvent& _event);
-    void AddChild(const tEvent& _event);
+    void AddChildObj(const tEvent& _event);
 
 public:
     void tick();

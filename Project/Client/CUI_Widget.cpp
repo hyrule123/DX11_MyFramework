@@ -32,11 +32,15 @@ bool CUI_Widget::beginUI()
 
 	if (true == m_bLeftLabel)
 	{
-		ImGui::Text(GetName().data());
+		ImGui::Text(GetStrID().data());
 		ImGui::SameLine(m_fLeftLabelWidth);
 	}
 
 	return true;
+}
+
+void CUI_Widget::render_update()
+{
 }
 
 void CUI_Widget::endUI()

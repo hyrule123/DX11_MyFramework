@@ -15,7 +15,7 @@ private:
 
 public:
     virtual void UpdateCollider() override;
-    virtual void UpdateSpatialPartitionInfo(vector<Vec2>& _vecSpatialPartitonVtx) override;
+    virtual void UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos) override;
     virtual void DebugRender() override;
 
 };

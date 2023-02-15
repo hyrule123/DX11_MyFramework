@@ -11,15 +11,15 @@ class CCollider3D :
 private:
     CCollider3D() = delete;
 public:
-    CCollider3D(eCOLLIDER_TYPE _eColType);
-    CCollider3D(const CCollider3D& _other);
+    CCollider3D(eCOLLIDER_TYPE_3D _eColType);
     virtual ~CCollider3D();
 
 private:
     //공간분할 때 사용할 사각형 정보
+    eCOLLIDER_TYPE_3D m_eColType;
 
 public:
-
+    eCOLLIDER_TYPE_3D  GetColliderType()   const { return m_eColType; }
 
 private:
 

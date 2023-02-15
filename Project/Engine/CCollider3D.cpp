@@ -7,15 +7,13 @@
 #include "CCollider2D_Circle.h"
 #include "CCollider2D_OBB.h"
 
-CCollider3D::CCollider3D(eCOLLIDER_TYPE _eColType)
-	: CCollider(eCOMPONENT_TYPE::COLLIDER3D, _eColType)
+
+CCollider3D::CCollider3D(eCOLLIDER_TYPE_3D _eColType)
+	: CCollider(eCOMPONENT_TYPE::COLLIDER3D)
+	, m_eColType(_eColType)
 {
 }
 
-CCollider3D::CCollider3D(const CCollider3D& _other)
-	:CCollider(_other)
-{
-}
 
 CCollider3D::~CCollider3D()
 {

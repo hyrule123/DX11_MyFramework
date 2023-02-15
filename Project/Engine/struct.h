@@ -17,17 +17,18 @@ struct tEvent
 	DWORD_PTR	rParam;
 };
 
-
-
 struct tSquareInfo
 {
 	Vec2 LB;
 	float Size;
 };
 
-union tRectInfo
+//좌표를 저장하는게 아니라
+//각 변의 길이를 저장한다.
+union RectLength
 {
-	struct {
+	struct
+	{
 		float fLeft;
 		float fBottom;
 		float fRight;
@@ -36,6 +37,14 @@ union tRectInfo
 
 	Vec4 LBRT;
 };
+
+struct tRectInfo
+{
+	Vec2 vLBPos;
+	Vec2 vRTPos;
+	Vec2 vCenterPos;
+};
+
 
 
 struct tAnim2DFrm
@@ -48,7 +57,9 @@ struct tAnim2DFrm
 
 struct tOBB2D
 {
+	//방향
 	Vec2 m_vAxis[2];
-	Vec2 m_vMiddle;
+
+	Vec2 m_vCenterPos;
 };
 

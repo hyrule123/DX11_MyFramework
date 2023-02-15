@@ -7,13 +7,13 @@
 #include "CRenderMgr.h"
 
 CCollider2D_OBB::CCollider2D_OBB()
-	: CCollider2D_Rect(eCOLLIDER_TYPE::_2D_OBB)
+	: CCollider2D(eCOLLIDER_TYPE_2D::OBB)
 	, m_tOBBInfo{}
 {
 }
 
 CCollider2D_OBB::CCollider2D_OBB(const CCollider2D_OBB& _other)
-	: CCollider2D_Rect(_other)
+	: CCollider2D(_other)
 {
 }
 
@@ -25,25 +25,23 @@ CCollider2D_OBB::~CCollider2D_OBB()
 //이 함수는 CTransform에서 값이 변했을 경우에만 호출된다.
 void CCollider2D_OBB::UpdateCollider()
 {
-	//자신의 부모 충돌체를 간이 충돌체로 사용한다.
-	CCollider2D_Rect::UpdateCollider();
-
 	//충돌체 주소를 가져온다.
 	CTransform* pTransform = GetOwner()->Transform();
 	assert(nullptr != pTransform);
 
+
 	//자신의 OBB 정보를 계산한다.
 	const Matrix& WorldMat = pTransform->GetWorldMat();
-
 	const Vec3& Size = pTransform->GetSize();
-	
-	for (int i = 0; i < (UINT)eAXIS2D::END; ++i)
+
+	for (int i = 0; i < (int)eAXIS2D::END; ++i)
 	{
 		m_tOBBInfo.m_vAxis[i] = Vec3::TransformNormal(Vec3::Unit[i], WorldMat) * Size[i];
 	}
-	
+
 	//중심점 = 월드 위치 + 오프셋 위치
-	m_tOBBInfo.m_vMiddle = WorldMat.Translation() + GetOffsetPos();
+	m_tOBBInfo.m_vCenterPos = GetCenterPos();
+
 }
 
 

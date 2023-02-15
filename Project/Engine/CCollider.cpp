@@ -4,12 +4,9 @@
 #include "CScriptHolder.h"
 #include "CScript.h"
 
-CCollider::CCollider(eCOMPONENT_TYPE _ComType, eCOLLIDER_TYPE _ColType)
+CCollider::CCollider(eCOMPONENT_TYPE _ComType)
 	: CComponent(_ComType)
-	, m_eColType(_ColType)
 	, m_vOffsetScale(Vec3::One)
-	, m_bNeedAABBUpdate(true)
-	, m_bNeedColliderUpdate(true)
 {
 }
 

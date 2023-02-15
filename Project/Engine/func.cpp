@@ -26,7 +26,7 @@ void DestroyObject(CGameObject* _pObject)
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
-void AddChild(CGameObject* _pParent, CGameObject* _pChild)
+void AddChildObj(CGameObject* _pParent, CGameObject* _pChild)
 {
 	tEvent evn = {};
 	evn.Type = eEVENT_TYPE::ADD_CHILD;

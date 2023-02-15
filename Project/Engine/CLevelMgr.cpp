@@ -119,7 +119,7 @@ void CLevelMgr::init()
 	//pTestObj1->MeshRender()->SetMaterial(TestMtrl);
 
 	//::SpawnGameObject(pTestObj1, Vec3(100.f, 0.f, 10.f), 1);
-	//::AddChild(pPlayer, pTestObj1);
+	//::AddChildObj(pPlayer, pTestObj1);
 
 
 	//SpawnGameObject(pPlayer, Vec3(100.f, 0.f, 10.f), 1);
@@ -151,8 +151,8 @@ void CLevelMgr::init()
 
 
 
-	//::AddChild(pTestObj1, pTestObj2);
-	//pTestObj1->AddChild(pTestObj2);
+	//::AddChildObj(pTestObj1, pTestObj2);
+	//pTestObj1->AddChildObj(pTestObj2);
 	//SpawnGameObject(pTestObj2, Vec3(0.f, 100.f, 10.f), )
 	//m_pCurLevel->AddGameObject(pTestObj2, 1);
 

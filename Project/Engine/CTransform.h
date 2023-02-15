@@ -40,13 +40,8 @@ private:
     //자신이 아니라 부모님의 행렬이 업데이트되었을 경우 - 자신의 월드행렬은 업데이트할 필요가 없다.
     bool    m_bNeedParentUpdate;
 
-    //Size 또는 Scale이 변경되었을 경우 이 값을 활성화 시키고 finaltick에서 계산한다.
-    bool    m_bNeedAABBUpdate;
-
-    //이 길이는 트랜스폼을 정사각형(또는 정육면체)라고 가정했을 때 한 모서리까지의 길이이다.
-    //이 길이를 간이 충돌체 한 변의 반의 길이로 사용하면, 
-    //어떤 도형이던 간에 안에 들어오는 형태의 정사각형 또는 정육면체를 만들 수 있다.(간이 충돌체로 적합)
-    float   m_fAABBSideLenHalf;
+    //Size는 자신에게만 적용되는 고유값이므로 재귀형으로 전달할 필요 없음.
+    bool    m_bSizeUpdated;
 
 public:
     //inline Setter
@@ -57,7 +52,7 @@ public:
     void SetRelativePos(const Vec3& _vPos) { m_vRelativePos = _vPos; SetMyUpdate(); }
     void SetRelativePos(float _x, float _y, float _z) { m_vRelativePos = Vec3(_x, _y, _z); SetMyUpdate(); }
 
-    void SetRelativeScale(const Vec3& _vScale) { m_vRelativeScale = _vScale; SetMyUpdate(); m_bNeedAABBUpdate = true; }
+    void SetRelativeScale(const Vec3& _vScale) { m_vRelativeScale = _vScale; SetMyUpdate(); m_bSizeUpdated = true; }
     void SetRelativeScale(float _x, float _y, float _z);
 
     void SetRelativeRot(const Vec3& _vRot) { m_vRelativeRot = _vRot; SetMyUpdate(); }
@@ -74,8 +69,15 @@ public:
     void SetMyUpdate();
     void SetParentUpdate() { m_bNeedParentUpdate = true; }
 
+
+    //이 길이는 트랜스폼을 정사각형(또는 정육면체)라고 가정했을 때 한 모서리까지의 길이이다.
+    //이 길이를 간이 충돌체 한 변의 반의 길이로 사용하면, 
+    //어떤 도형이던 간에 안에 들어오는 형태의 정사각형 또는 정육면체를 만들 수 있다.(간이 충돌체로 적합)
     //사이즈 또는 스케일값이 변했을 경우 간이 충돌체 정보를 새로 생성.
-    void CalcAABB();
+    float GetAABBSideLen() const;
+
+    bool GetTransformUpdated() const { return (m_bNeedMyUpdate || m_bNeedParentUpdate); }
+    bool GetSizeUpdated() const { return m_bSizeUpdated; }
 
     //inline Getter
     ////Inline methods don't need to return the value by const reference
@@ -93,7 +95,12 @@ public:
     Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorld.m[(UINT)_eDir]).Normalize(); }
     Matrix GetWorldMat() const { return m_matWorld; }
 
-    float GetAABBSideLen() const { return m_fAABBSideLenHalf; }
+
+
+
+    //호출 시점: CGameObject에서 finaltick() 순회 끝난 이후
+    //갱신 여부를 전부 끔
+    void ClearUpdateState();
 
 private:
     void UpdateMyTransform();
@@ -117,13 +124,14 @@ public:
 inline void CTransform::SetSize(const Vec3& _vSize)
 {
     m_matSize._11 = _vSize.x; m_matSize._22 = _vSize.y; m_matSize._33 = _vSize.z;
-    m_bNeedAABBUpdate = true;
+    m_bSizeUpdated = true;
 }
 
 inline void CTransform::SetRelativeScale(float _x, float _y, float _z)
 {
-    m_vRelativeScale = Vec3(_x, _y, _z); SetMyUpdate(); 
-    m_bNeedAABBUpdate = true;
+    m_vRelativeScale = Vec3(_x, _y, _z); 
+    SetMyUpdate(); 
+    m_bSizeUpdated = true;
 }
 
 inline void CTransform::SetMyUpdate()
@@ -134,10 +142,10 @@ inline void CTransform::SetMyUpdate()
     m_bNeedMyUpdate = true; 
     GetOwner()->SetChildTransformToUpdate();
 }
-
-inline void CTransform::CalcAABB()
+ 
+inline float CTransform::GetAABBSideLen() const
 {
-    m_fAABBSideLenHalf = (Vec3(m_matSize._11, m_matSize._22, m_matSize._33) * GetWorldScale()).Length();
+    return (Vec3(m_matSize._11, m_matSize._22, m_matSize._33) * GetWorldScale()).Length();
 }
 
 inline Vec3 CTransform::GetWorldScale() const
@@ -153,4 +161,11 @@ inline Matrix CTransform::GetWorldRotMat() const
 inline Vec3 CTransform::GetWorldRot(eAXIS3D _eAxis) const
 {
     return m_matWorld.Axis((UINT)_eAxis).Normalize();
+}
+
+inline void CTransform::ClearUpdateState()
+{
+    m_bNeedMyUpdate = false;
+    m_bNeedParentUpdate = false;
+    m_bSizeUpdated = false;
 }

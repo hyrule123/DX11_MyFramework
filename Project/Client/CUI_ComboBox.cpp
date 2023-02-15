@@ -27,7 +27,7 @@ bool CUI_ComboBox::beginUI()
 	string Label;
 	if (true == GetLeftLabel())
 		Label += "##";
-	Label += GetName();
+	Label += GetStrID();
 
 	string Preview;
 	if (true == IsIndexValid())

@@ -9,7 +9,8 @@
 enum class eWIDGET_TYPE : DWORD
 {
 	COMBO_BOX,
-	IMAGE
+	IMAGE,
+	TREE
 };
 
 class CUI_Widget
@@ -39,6 +40,10 @@ public:
 
 public:
 	virtual bool beginUI() override;
+
+	virtual void render_update() override;
+
+
 	virtual void endUI() override;
 };
 

@@ -2,7 +2,7 @@
 #include "CCollider3D_Ray.h"
 
 CCollider3D_Ray::CCollider3D_Ray()
-	: CCollider3D(eCOLLIDER_TYPE::_3D_LINE)
+	: CCollider3D(eCOLLIDER_TYPE_3D::LINE)
 {
 }
 

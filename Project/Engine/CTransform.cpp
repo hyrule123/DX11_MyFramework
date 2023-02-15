@@ -18,8 +18,7 @@ CTransform::CTransform()
 	, m_vRelativeScale(1.f, 1.f, 1.f)
 	, m_bInheritScale(true)
 	, m_bInheritRot(true)
-	, m_bNeedAABBUpdate(true)
-	, m_fAABBSideLenHalf()
+	, m_bSizeUpdated(true)
 	//Matrix와 Vector 변수는 자체 생성자를 통해 초기화 됨.
 {
 }
@@ -43,46 +42,19 @@ void CTransform::finaltick()
 		UpdateMyTransform();
 	}
 	//부모 트랜스폼'만' 갱신되었을 경우 : 자신은 갱신할 필요 없음.
-	if(true == m_bNeedParentUpdate)
+	if (true == m_bNeedParentUpdate)
 	{
 		UpdateParentMatrix();
 	}
-
 
 	//둘중에 하나라도 업데이트 되었을 경우 월드행렬을 새로 계산한다.
 	if (m_bNeedMyUpdate || m_bNeedParentUpdate)
 	{
 		m_matWorld = m_matRelative * m_matParent;
-
-		//충돌체가 존재할 경우 충돌체에게 업데이트가 필요하다고 알린다.(2D, 3D 모두)
-		CCollider* pCol = Collider2D();
-		if (nullptr != pCol)
-			pCol->SetNeedCollUpdate(true);
-
-		pCol = Collider3D();
-		if (nullptr != pCol)
-			pCol->SetNeedCollUpdate(true);
-
-		
-		//간이 충돌체는 회전하지 않으므로
-		//월드행렬이 다시 계산되었다고 간이충돌체 정보까지 업데이트 되어야하는 것은 아님
-
-
-
-		m_bNeedMyUpdate = false;
-		m_bNeedParentUpdate = false;
-
-	}
-
-	//월드행렬 계산이 끝나고 크기 변경이 확인되었을 경우 AABB 충돌체 변의 길이도 
-	//"""다시""" 계산한다.
-	if (true == m_bNeedAABBUpdate)
-	{
-		CalcAABB();
-
-		m_bNeedAABBUpdate = false;
 	}
 }
+
+
 
 void CTransform::UpdateMyTransform()
 {
@@ -167,7 +139,7 @@ void CTransform::UpdateData()
 	//자신의 사이즈를 적용한 WVP 행렬을 만들어 상수버퍼로 업데이트 한다.
 	//const Matrix& matSize = Matrix::CreateScale(m_vSize);
 
-	//월드뷰투영행렬을 곱한 후 전치한다.(HLSL은 Column-Major Matrix, XMMATRIX에서는 Row-Major Matrix를 사용 중)
+	//월드뷰투영행렬을 곱한다.
 	g_Transform.matWorld = m_matSize * m_matWorld;
 	g_Transform.matWVP = g_Transform.matWorld * g_matViewProj;
 

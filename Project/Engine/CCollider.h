@@ -7,11 +7,11 @@ class CCollider :
 private:
     CCollider() = delete;
 public:
-    CCollider(eCOMPONENT_TYPE _ComType, eCOLLIDER_TYPE _ColType);
+    CCollider(eCOMPONENT_TYPE _ComType);
     virtual ~CCollider();
 
 private:
-    eCOLLIDER_TYPE      m_eColType;
+
     Matrix              m_matCollider;      // Collider 의 월드행렬
 
     Vec3                m_vOffsetPos;
@@ -19,20 +19,18 @@ private:
     bool                m_bFixSize;         // 고정 사이즈를 사용
     int                 m_iCollisionCount;  // 현재 충돌중인 충돌체의 갯수를 저장
 
-    bool                m_bNeedAABBUpdate;
-    bool                m_bNeedCollUpdate;
+    bool                m_bNeedPosUpdate;
+    bool                m_bNeedRotUpdate;
+    bool                m_bNeedScaleSizeUpdate;
+
+
 
 
 public:
     //inline Getter
-    eCOLLIDER_TYPE  GetColliderType()   const { return m_eColType; }
+    
     Vec3            GetOffsetPos()      const { return m_vOffsetPos; }
     Vec3            GetOffsetScale()    const { return m_vOffsetScale; }
-    bool            GetNeedAABBUpdate()     const { return m_bNeedAABBUpdate; }
-    void            SetNeedAABBUpdate(bool _bNeedAABBUpdate) { m_bNeedAABBUpdate = _bNeedAABBUpdate; }
-
-    bool            GetNeedCollUpdate()     const { return m_bNeedCollUpdate; }
-    void            SetNeedCollUpdate(bool _bNeedCollUpdate) { m_bNeedCollUpdate = _bNeedCollUpdate; }
 
     void            AddCollisionCount() { ++m_iCollisionCount; }
     void            SubCollisionCount() { --m_iCollisionCount; }

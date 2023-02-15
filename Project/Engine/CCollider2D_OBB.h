@@ -1,9 +1,9 @@
 #pragma once
-#include "CCollider2D_Rect.h"
+#include "CCollider2D.h"
 
 
 class CCollider2D_OBB :
-    public CCollider2D_Rect
+    public CCollider2D
 {
 public:
     CCollider2D_OBB();

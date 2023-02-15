@@ -204,14 +204,19 @@ enum class eSHAPE_TYPE
 	END,
 };
 
-enum class eCOLLIDER_TYPE
+enum class eCOLLIDER_TYPE_2D
 {
-	_2D_RECT,
-	_2D_CIRCLE,
-	_2D_OBB,
-	_2D_POINT,
+	RECT,
+	CIRCLE,
+	OBB,
+	
+	POINT,
+	END
+};
 
-	_3D_LINE
+enum class eCOLLIDER_TYPE_3D
+{
+	LINE
 };
 
 enum eDIMENSION_TYPE : UINT

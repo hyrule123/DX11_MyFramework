@@ -16,7 +16,7 @@
 
 #include "JsonCPP.h"
 
-
+#include "CUI_Contents.h"
 
 CImGuiMgr::CImGuiMgr()
 	: m_hWnd()
@@ -67,12 +67,21 @@ CImGuiMgr::~CImGuiMgr()
 
 CUI* CImGuiMgr::FindUI(const string& _UIName)
 {
-    const auto& iter = m_mapUI.find(_UIName);
+    auto iter = m_mapUI.find(_UIName);
+    const auto& iterEnd = m_mapUI.end();
 
-    if (iter == m_mapUI.end())
-        return nullptr;
-    
-    return iter->second;
+    if (iter != iterEnd)
+        return iter->second;
+        
+    //키값으로 못찾았을 시 중복될 수도 있는 일반 이름으로 다시 한번 탐색
+    for (iter = m_mapUI.begin(); iter != iterEnd; ++iter)
+    {
+        if (_UIName == iter->second->GetName())
+            return iter->second;
+    }
+
+    //여기서도 못찾았으면 없는것임
+    return nullptr;
 }
 
 void CImGuiMgr::AddUI(CUI* _pUI)
@@ -81,10 +90,11 @@ void CImGuiMgr::AddUI(CUI* _pUI)
 
     //같은 이름의 UI가 이미 존재하는지 확인.
     //존재할 경우 이름에 ID를 붙여 고유한 ID 생성
-    CUI* pUI = FindUI(_pUI->GetName());
-    if (nullptr != pUI)
+    const auto& iter = m_mapUI.find(_pUI->GetStrID());
+
+    if (iter != m_mapUI.end())
     {
-        _pUI->MakeUniqueName();
+        _pUI->MakeUniqueID();
 
         //고유 이름을 만든 경우에는 저장의 의미가 없어짐
         //만약 고유 이름을 만들었는데 해당 창이 윈도우 속성을 가지고 있을경우 정보를 저장하지 않도록 설정한다.
@@ -94,11 +104,10 @@ void CImGuiMgr::AddUI(CUI* _pUI)
         {
             pWnd->AddImGuiWindowFlags(ImGuiWindowFlags_::ImGuiWindowFlags_NoSavedSettings);
         }
-        
     }
 
 
-    m_mapUI.insert(make_pair(_pUI->GetName(), _pUI));
+    m_mapUI.insert(make_pair(_pUI->GetStrID(), _pUI));
     _pUI->init();
     _pUI->LoadRecursive(m_SavedUIData);
 }
@@ -194,6 +203,7 @@ void CImGuiMgr::CreateDefaultUI()
 {
     AddUI(new CUI_Inspector);
     AddUI(new CUI_MainMenubar);
+    AddUI(new CUI_Contents);
 }
 
 void CImGuiMgr::begin()

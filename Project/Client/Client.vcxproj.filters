@@ -80,6 +80,9 @@
     <Filter Include="ImGui\02. UI_Object\03. UI_MainMenubar">
       <UniqueIdentifier>{2649f3b0-5ab0-492e-b694-9570f3ba98ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\04. UI_Contents">
+      <UniqueIdentifier>{c000136c-b1ea-48af-b9fb-cd54fb83957a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -184,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="CUI_Image.h">
       <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_Tree.h">
+      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_Contents.h">
+      <Filter>ImGui\04. UI_Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +305,12 @@
     </ClCompile>
     <ClCompile Include="CUI_Image.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Tree.cpp">
+      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Contents.cpp">
+      <Filter>ImGui\04. UI_Contents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

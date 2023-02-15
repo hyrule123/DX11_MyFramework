@@ -20,6 +20,11 @@ CCollisionMgr::CCollisionMgr()
 	, m_iNum2DGridTotalIndex()
 	, m_arrFlagLayerInteraction{}
 {
+	RegisterCollisionFunc();
+
+
+
+
 	AddLayerInteraction2D(1, 1);
 	Create2DGrid(Vec2(-10000.f, -10000.f), Vec2(20000.f, 20000.f), (UINT)10, (UINT)10);
 }
@@ -29,34 +34,36 @@ CCollisionMgr::~CCollisionMgr()
 
 }
 
-
-void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, const vector<Vec2>& _vecPoint)
+void CCollisionMgr::CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx)
 {
-	size_t size = _vecPoint.size();
-	vector<UINT> vecIdx;
+	_vecIdx.clear();
 
-	for (size_t i = 0; i < size; ++i)
+	//그리드 기준의 좌표계로 변환한다.
+	_vLBRTPos -= m_v4SpaceLBPos;
+	//그리드 한 칸의 사이즈로 나눠 주면 점 한 칸의 인덱스 위치를 계산할 수 있음.
+	_vLBRTPos *= m_v4GridSizeInv;
+
+	//인덱스의 범위를 그리드 범위 안으로 한정
+	enum { BeginX, BeginY, EndX, EndY };
+	int iBeginXYEndXY[4] = {};
+	iBeginXYEndXY[BeginX] = std::clamp((int)_vLBRTPos.x, 0, m_iNum2DGridX);
+	iBeginXYEndXY[BeginY] = std::clamp((int)_vLBRTPos.y, 0, m_iNum2DGridY);
+	iBeginXYEndXY[EndX] = std::clamp((int)_vLBRTPos.z, 0, m_iNum2DGridX);
+	iBeginXYEndXY[EndY] = std::clamp((int)_vLBRTPos.z, 0, m_iNum2DGridY);
+
+	for (int x = iBeginXYEndXY[BeginX]; x <= iBeginXYEndXY[EndX]; ++x)
 	{
-		//그리드 기준의 좌표계로 변환한다.
-		Vec2 Point = _vecPoint[i] - m_v2DSpaceLB;
+		for (int y = iBeginXYEndXY[BeginY]; y <= iBeginXYEndXY[EndY]; ++y)
+		{
+			UINT Idx = (UINT)(y * m_iNum2DGridX + x);
 
-		//점 한 칸의 인덱스가 계산됨.
-		Point *= m_v2DGridSizeInv;
+			m_vec2DGrid[Idx].vecColl.push_back(_pCol);
 
-		//인덱스의 범위를 그리드 범위 안으로 한정
-		int IdxX = std::clamp((int)Point.x, 0, m_iNum2DGridX);
-		int IdxY = std::clamp((int)Point.y, 0, m_iNum2DGridY);
-		UINT Idx = (UINT)(IdxX * IdxY);
-
-		m_vec2DGrid[Idx].vecColl.push_back(_pCol);
-
-		vecIdx.push_back(Idx);
+			_vecIdx.push_back(Idx);
+		}
 	}
-
-	//구한 인덱스 정보를 넘겨준다.
-	//트랜스폼 정보가 변경되기 전까지는 더이상 새로 새로 간이 충돌체 정보를 계산할 필요가 없다.
-	_pCol->SetvecGridIdx(vecIdx);
 }
+
 
 void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, const vector<UINT>& _vecIdx)
 {
@@ -75,18 +82,20 @@ void CCollisionMgr::Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridN
 	m_iNum2DGridX = _uiGridNumX;
 	m_iNum2DGridY = _uiGridNumY;
 
-	m_v2DSpaceLB = _vWorldLB;
+	m_vSpaceLBPos = _vWorldLB;
+	m_v4SpaceLBPos = Vec4(m_vSpaceLBPos.x, m_vSpaceLBPos.y, m_vSpaceLBPos.x, m_vSpaceLBPos.y);
 	
-	m_v2DSpaceSize = _vWorldSize;
+	m_vSpaceSize = _vWorldSize;
 
 	float GridSizeX = _vWorldSize.x / _uiGridNumX;
 	float GridSizeY = _vWorldSize.y / _uiGridNumY;
-	m_v2DGridSize = Vec2(GridSizeX, GridSizeY);
+	m_vGridSize = Vec2(GridSizeX, GridSizeY);
 
 
 	//나눗셈은 곱셈보다 느리므로, 게산 최적화를 위해 나눗셈 값을 미리 구해 놓는다.
-	m_v2DGridSizeInv.x = 1.f / GridSizeX;
-	m_v2DGridSizeInv.y = 1.f / GridSizeY;
+	m_vGridSizeInv.x = 1.f / GridSizeX;
+	m_vGridSizeInv.y = 1.f / GridSizeY;
+	m_v4GridSizeInv = Vec4(m_vGridSizeInv.x, m_vGridSizeInv.y, m_vGridSizeInv.x, m_vGridSizeInv.y);
 
 
 	m_iNum2DGridTotalIndex = m_iNum2DGridX * m_iNum2DGridY;
@@ -198,23 +207,48 @@ void CCollisionMgr::tick()
 
 bool CCollisionMgr::CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2)
 {
-	return false;
+	return m_arrFuncCheckCollision2D[(int)_pCol_1->GetColliderType()][(int)_pCol_2->GetColliderType()](_pCol_1, _pCol_2);
 }
 
-bool CCollisionMgr::CheckCollision2D_Rect_Rect(CCollider2D_Rect* _pColRect_1, CCollider2D_Rect* _pColRect_2)
+bool CCollisionMgr::CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollider2D* _pColRect_2)
 {
 	return false;
 }
 
-bool CCollisionMgr::CheckCollision2D_Circle_Circle(CCollider2D_Circle* _pColCircle_1, CCollider2D_Circle* _pColCircle_2)
+bool CCollisionMgr::CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollider2D* _pColCircle)
 {
 	return false;
 }
 
-bool CCollisionMgr::CheckCollision2D_OBB2D_OBB2D(CCollider2D_OBB* _pColOBB2D_1, CCollider2D_OBB* _pColOBB2D_2)
+bool CCollisionMgr::CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2D* _pColOBB)
 {
-	const tOBB2D& OBB_1 = _pColOBB2D_1->GetColliderInfo();
-	const tOBB2D& OBB_2 = _pColOBB2D_2->GetColliderInfo();
+	return false;
+}
+
+bool CCollisionMgr::CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint)
+{
+	return false;
+}
+
+bool CCollisionMgr::CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, CCollider2D* _pColCircle_2)
+{
+	return false;
+}
+
+bool CCollisionMgr::CheckCollision2D_Circle_OBB(CCollider2D* _pColCircle, CCollider2D* _pColOBB)
+{
+	return false;
+}
+
+bool CCollisionMgr::CheckCollision2D_Circle_Point(CCollider2D* _pColCircle, CCollider2D* _pColPoint)
+{
+	return false;
+}
+
+bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollider2D* _pColOBB2D_2)
+{
+	const tOBB2D& OBB_1 = static_cast<CCollider2D_OBB*>(_pColOBB2D_1)->GetColliderInfo();
+	const tOBB2D& OBB_2 = static_cast<CCollider2D_OBB*>(_pColOBB2D_2)->GetColliderInfo();
 
 	//Vec2의 사이즈 * 2를 계산한다. 최적화를 위해 처음 계산한 값을 계속 사용.
 	static const size_t vec2_2size = sizeof(Vec2) * 2;
@@ -225,7 +259,7 @@ bool CCollisionMgr::CheckCollision2D_OBB2D_OBB2D(CCollider2D_OBB* _pColOBB2D_1, 
 	memcpy_s(&arrVec[2], vec2_2size, &OBB_2, vec2_2size);
 
 
-	Vec2 VecMiddle = OBB_1.m_vMiddle - OBB_2.m_vMiddle;
+	Vec2 VecMiddle = OBB_1.m_vCenterPos - OBB_2.m_vCenterPos;
 	for (int i = 0; i < 4; ++i)
 	{
 		Vec2 norm = arrVec[i];
@@ -254,7 +288,59 @@ bool CCollisionMgr::CheckCollision2D_OBB2D_OBB2D(CCollider2D_OBB* _pColOBB2D_1, 
 	return true;
 }
 
-bool CCollisionMgr::CheckCollision2D_OBB2D_Point(CCollider2D_OBB* _pColOBB2D, CCollider2D_Point* _pColPoint)
+bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollider2D* _pColPoint)
 {
 	return false;
+}
+
+
+bool CCollisionMgr::CheckCollision2D_Point_Point(CCollider2D* _pColPoint_1, CCollider2D* _pColPoint_2)
+{
+	return false;
+}
+
+void CCollisionMgr::RegisterCollisionFunc()
+{
+	//인덱스와 함수가 순서가 불일치할 경우 std::placeholders를 역순으로 배치할것
+
+	//RECTANGLE
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::RECT]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Rect, this, std::placeholders::_1, std::placeholders::_2);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::CIRCLE]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Circle, this, std::placeholders::_1, std::placeholders::_2);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::OBB]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_OBB, this, std::placeholders::_1, std::placeholders::_2);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::POINT]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Point, this, std::placeholders::_1, std::placeholders::_2);
+
+	//CIRCLE
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::CIRCLE][(int)eCOLLIDER_TYPE_2D::RECT]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Circle, this, std::placeholders::_2, std::placeholders::_1);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::CIRCLE][(int)eCOLLIDER_TYPE_2D::CIRCLE]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Circle, this, std::placeholders::_1, std::placeholders::_2);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::CIRCLE][(int)eCOLLIDER_TYPE_2D::OBB]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_OBB, this, std::placeholders::_1, std::placeholders::_2);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::CIRCLE][(int)eCOLLIDER_TYPE_2D::POINT]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Point, this, std::placeholders::_1, std::placeholders::_2);
+
+	//OBB
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::OBB][(int)eCOLLIDER_TYPE_2D::RECT]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_OBB, this, std::placeholders::_2, std::placeholders::_1);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::OBB][(int)eCOLLIDER_TYPE_2D::CIRCLE]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_OBB, this, std::placeholders::_2, std::placeholders::_1);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::OBB][(int)eCOLLIDER_TYPE_2D::OBB]
+		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_OBB, this, std::placeholders::_1, std::placeholders::_2);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::OBB][(int)eCOLLIDER_TYPE_2D::POINT]
+		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_Point, this, std::placeholders::_1, std::placeholders::_2);
+
+
+	//POINT
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::POINT][(int)eCOLLIDER_TYPE_2D::RECT]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Point, this, std::placeholders::_2, std::placeholders::_1);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::POINT][(int)eCOLLIDER_TYPE_2D::CIRCLE]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Point, this, std::placeholders::_2, std::placeholders::_1);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::POINT][(int)eCOLLIDER_TYPE_2D::OBB]
+		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_Point, this, std::placeholders::_2, std::placeholders::_1);
+	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::POINT][(int)eCOLLIDER_TYPE_2D::POINT]
+		= std::bind(&CCollisionMgr::CheckCollision2D_Point_Point, this, std::placeholders::_1, std::placeholders::_2);
 }

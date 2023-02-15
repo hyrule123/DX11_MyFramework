@@ -64,11 +64,11 @@ bool CUI_PopupWindow::beginUI()
 	ImGui::SetNextWindowPos(m_vPopupPos);
 	ImGui::SetNextWindowSize(GetSize());
 
-	ImGui::OpenPopup(GetName().data(), m_PopupFlags);
+	ImGui::OpenPopup(GetStrID().data(), m_PopupFlags);
 
 if (true == m_bModal)
 {
-	return ImGui::BeginPopupModal(GetName().data(), GetActivePtr(), GetImGuiWindowFlag());
+	return ImGui::BeginPopupModal(GetStrID().data(), GetActivePtr(), GetImGuiWindowFlag());
 }
 
 	return true;

@@ -146,14 +146,14 @@ void CUI_Inspector::tick()
 
 void CUI_Inspector::Save(Json::Value& _Save)
 {
-	_Save[GetName()]["IsActive"] = GetActive();
+	_Save[GetStrID()]["IsActive"] = GetActive();
 }
 
 void CUI_Inspector::Load(Json::Value& _Load)
 {
-	if (_Load[GetName()])
+	if (_Load[GetStrID()])
 	{
-		SetActive(_Load[GetName()]["IsActive"].as<bool>());
+		SetActive(_Load[GetStrID()]["IsActive"].as<bool>());
 	}
 }
 

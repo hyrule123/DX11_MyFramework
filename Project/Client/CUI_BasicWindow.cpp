@@ -25,12 +25,17 @@ bool CUI_BasicWindow::beginUI()
 	//최상단 UI(창 본체 - Begin)
 	if (nullptr == GetParent())
 	{
-		return ImGui::Begin(GetName().c_str(), GetActivePtr(), m_WindowFlag);
+		if (false == ImGui::Begin(GetStrID().c_str(), GetActivePtr(), m_WindowFlag))
+		{
+			ImGui::End();
+			return false;
+		}	
+		else
+			return true;
 	}
 
 	//부모가 있는 자식 UI일 경우 - BeginChild
-	ImGui::BeginChild(GetName().c_str(), m_vSize, m_bBorder, m_WindowFlag);
-	return true;
+	return ImGui::BeginChild(GetStrID().c_str(), m_vSize, m_bBorder, m_WindowFlag);
 }
 
 void CUI_BasicWindow::endUI()

@@ -60,25 +60,29 @@ private:
     int            m_iNum2DGridY;
     int            m_iNum2DGridTotalIndex;
 
-    Vec2            m_v2DSpaceLB;
-    Vec2            m_v2DSpaceSize;
+    Vec2            m_vSpaceLBPos;
+    Vec4            m_v4SpaceLBPos;
 
-    Vec2            m_v2DGridSize;
+    Vec2            m_vSpaceSize;
 
-    Vec2            m_v2DGridSizeInv;//곱셈최적화용 변수
+    Vec2            m_vGridSize;
+
+    Vec2            m_vGridSizeInv;//곱셈최적화용 변수
+    Vec4            m_v4GridSizeInv;
+
     //참고 - Vec4는 편의를 위해 사용 중.
     //2DGridSizeInv의 경우 나눗셈을 미리 해두어서 곱셈을 하기 위한 용도의 변수임.
-
     UINT32          m_arrFlagLayerInteraction[MAX_LAYER];
 
     
     unordered_map<UINT64, tCollisionInfo, tColmapHashFunc>   m_umapCollisionID;
 
+    std::function<bool(CCollider2D*, CCollider2D*)> m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::END][(int)eCOLLIDER_TYPE_2D::END];
 public:
     //공간분할을 위한 자신의 간이 충돌체 꼭지점 정보를 전달한다.
     //Rect는 4개, Point는 1개 등 다를 수 있기 때문에 정점 위치를 vector에 담아서 전달하는 방식으로 구현
     //
-    void AddCollider2D(CCollider2D* _pCol, const vector<Vec2>& _vecPoint);
+    void CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx);
 
     //이건 트랜스폼에서 추가 연산이 없었을 경우(자신의 간이정점 위치에 변함이 없을 경우) 호출
     void AddCollider2D(CCollider2D* _pCol, const vector<UINT>& _vecIdx);
@@ -94,17 +98,31 @@ public:
 
 
 private://충돌 검사 함수
+
+    //충돌함수를 함수포인터에 등록해주는 함수
+    void RegisterCollisionFunc();
+
+
     //충돌체 타입을 분류해서 아래의 함수들을 호출한다.
     bool CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2);
 
+    bool CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollider2D* _pColRect_2);
+    bool CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollider2D* _pColCircle);
+    bool CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2D* _pColOBB);
+    bool CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint);
 
-    bool CheckCollision2D_Rect_Rect(CCollider2D_Rect* _pColRect_1, CCollider2D_Rect* _pColRect_2);
-    bool CheckCollision2D_Circle_Circle(CCollider2D_Circle* _pColCircle_1, CCollider2D_Circle* _pColCircle_2);
-    bool CheckCollision2D_OBB2D_OBB2D(CCollider2D_OBB* _pColOBB2D_1, CCollider2D_OBB* _pColOBB2D_2);
-    bool CheckCollision2D_OBB2D_Point(CCollider2D_OBB* _pColOBB2D, CCollider2D_Point* _pColPoint);
+   
+    bool CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, CCollider2D* _pColCircle_2);
+    bool CheckCollision2D_Circle_OBB(CCollider2D* _pColCircle, CCollider2D* _pColOBB);
+    bool CheckCollision2D_Circle_Point(CCollider2D* _pColCircle, CCollider2D* _pColPoint);
 
+
+    bool CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollider2D* _pColOBB2D_2);
+    bool CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollider2D* _pColPoint);
+
+    bool CheckCollision2D_Point_Point(CCollider2D* _pColPoint_1, CCollider2D* _pColPoint_2);
     
-
+    
 };
 
 
