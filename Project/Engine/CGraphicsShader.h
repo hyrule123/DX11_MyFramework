@@ -1,26 +1,28 @@
 #pragma once
 #include "CShader.h"
 
-
-
-enum eSHADERTYPE
+enum class eSHADER_TYPE
 {
-    eSHADERTYPE_VERTEX,
-    eSHADERTYPE_HULL,
-    eSHADERTYPE_DOMAIN,
-    eSHADERTYPE_GEOMETRY,
-    eSHADERTYPE_PIXEL,
-    eSHADERTYPE_END
+    __VERTEX,
+    __HULL,
+    __DOMAIN,
+    __GEOMETRY,
+    __PIXEL,
+    END
 };
-
 
 
 class CGraphicsShader :
     public CShader
 {
+public:
+    CGraphicsShader();
+    virtual ~CGraphicsShader();
+
 private:
+
     //지정된 각 쉐이더별로 어떤 방식으로 로드했는지를 저장.
-    tShaderLoadData                 m_ShaderData[eSHADERTYPE_END];
+    tShaderLoadData                 m_ShaderData[(int)eSHADER_TYPE::END];
 
     ComPtr<ID3D11VertexShader>      m_VS;
     ComPtr<ID3D11HullShader>        m_HS;
@@ -47,9 +49,9 @@ private:
 
 
 public://INITIALIZE, Setter
-    void CreateInputLayout();
-    void CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADERTYPE _ShaderType);
-    void CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADERTYPE _ShaderType);
+    void CreateDefaultInputLayout();
+    void CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType);
+    void CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType);
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
     void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_RSType = _eRS_TYPE; }
     void SetDepthStencilState(eDEPTHSTENCIL_TYPE _eDS_TYPE) { m_DSType = _eDS_TYPE; }
@@ -61,10 +63,5 @@ public://INITIALIZE, Setter
 
 public:
     virtual void BindData() override;
-    
-
-public:
-    CGraphicsShader();
-    ~CGraphicsShader();
 };
 

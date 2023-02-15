@@ -222,8 +222,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 
 		pShader->SetKey(RESOURCE::SHADER::DEBUG);
-		pShader->CreateShader((void*)g_VS_Debug, sizeof(g_VS_Debug), eSHADERTYPE_VERTEX);
-		pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADERTYPE_PIXEL);
+		pShader->CreateShader((void*)g_VS_Debug, sizeof(g_VS_Debug), eSHADER_TYPE::__VERTEX);
+		pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADER_TYPE::__PIXEL);
 		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
 		pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_TEST_NO_WRITE);
@@ -237,8 +237,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 		pShader->SetKey(RESOURCE::SHADER::TEST);
-		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADERTYPE_VERTEX);
-		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADERTYPE_PIXEL);
+		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADER_TYPE::__VERTEX);
+		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADER_TYPE::__PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
 		pShader->SetBlendState(eBLENDSTATE_TYPE::DEFAULT);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
@@ -251,8 +251,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 		pShader->SetKey(RESOURCE::SHADER::STD2D);
-		pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADERTYPE_VERTEX);
-		pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADERTYPE_PIXEL);
+		pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADER_TYPE::__VERTEX);
+		pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADER_TYPE::__PIXEL);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 		AddRes(pShader->GetKey(), pShader);
 	}
@@ -265,8 +265,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 		pShader->SetKey(RESOURCE::SHADER::STD2D_LIGHT);
-		pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADERTYPE_VERTEX);
-		pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADERTYPE_PIXEL);
+		pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADER_TYPE::__VERTEX);
+		pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADER_TYPE::__PIXEL);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 		AddRes(pShader->GetKey(), pShader);
 	}
@@ -287,8 +287,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 		pShader->SetKey(RESOURCE::SHADER::TILEMAP);
-		pShader->CreateShader((void*)g_VS_Tilemap, sizeof(g_VS_Tilemap), eSHADERTYPE_VERTEX);
-		pShader->CreateShader((void*)g_PS_Tilemap, sizeof(g_PS_Tilemap), eSHADERTYPE_PIXEL);
+		pShader->CreateShader((void*)g_VS_Tilemap, sizeof(g_VS_Tilemap), eSHADER_TYPE::__VERTEX);
+		pShader->CreateShader((void*)g_PS_Tilemap, sizeof(g_PS_Tilemap), eSHADER_TYPE::__PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
 		pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
@@ -312,9 +312,9 @@ void CResMgr::CreateDefaultGraphicsShader()
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 		pShader->SetKey(RESOURCE::SHADER::PARTICLE_RENDER);
 	
-		pShader->CreateShader((void*)g_VS_Particle, sizeof(g_VS_Particle), eSHADERTYPE_VERTEX);
-		pShader->CreateShader((void*)g_GS_Particle, sizeof(g_GS_Particle), eSHADERTYPE_GEOMETRY);
-		pShader->CreateShader((void*)g_PS_Particle, sizeof(g_PS_Particle), eSHADERTYPE_PIXEL);
+		pShader->CreateShader((void*)g_VS_Particle, sizeof(g_VS_Particle), eSHADER_TYPE::__VERTEX);
+		pShader->CreateShader((void*)g_GS_Particle, sizeof(g_GS_Particle), eSHADER_TYPE::__GEOMETRY);
+		pShader->CreateShader((void*)g_PS_Particle, sizeof(g_PS_Particle), eSHADER_TYPE::__PIXEL);
 
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
 		pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_WRITE);

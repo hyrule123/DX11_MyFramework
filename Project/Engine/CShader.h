@@ -19,6 +19,10 @@ struct tShaderLoadData
 class CShader :
     public CRes
 {
+public:
+    CShader(eRES_TYPE _eType);
+    virtual ~CShader();
+
 protected:
     ComPtr<ID3DBlob>    m_ErrBlob;
 
@@ -27,8 +31,6 @@ public:
 private:
     virtual int Load(const wstring& _strFilePath) { return S_OK; }
 
-public:
-    CShader(eRES_TYPE _eType);
-    virtual ~CShader();
+
 };
 

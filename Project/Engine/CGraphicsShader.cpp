@@ -20,7 +20,7 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
-void CGraphicsShader::CreateInputLayout()
+void CGraphicsShader::CreateDefaultInputLayout()
 {
 	// InputLayout 생성
 	D3D11_INPUT_ELEMENT_DESC LayoutDesc[2] = {};
@@ -56,17 +56,17 @@ void CGraphicsShader::CreateInputLayout()
 	
 
 	//blob 형태로 로드했을 경우와 헤더 형태로 로드했을 경우에 따라 다른 파일을 참조해서 로드한다.
-	switch (m_ShaderData[eSHADERTYPE_VERTEX].LoadType)
+	switch (m_ShaderData[(int)eSHADER_TYPE::__VERTEX].LoadType)
 	{
 	case eSHADER_LOADTYPE::eSHADER_NOT_LOADED:
 		//Vertrx Shader가 로드되어있지 않을 경우 assert
-		assert((bool)m_ShaderData[eSHADERTYPE_VERTEX].LoadType);
+		assert((bool)m_ShaderData[(int)eSHADER_TYPE::__VERTEX].LoadType);
 		break;	
 
 	case eSHADER_LOADTYPE::eSHADER_RUNTIME:
 		if (FAILED(DEVICE->CreateInputLayout(LayoutDesc, 2,
-			m_ShaderData[eSHADERTYPE_VERTEX].Blob->GetBufferPointer(),
-			m_ShaderData[eSHADERTYPE_VERTEX].Blob->GetBufferSize(),
+			m_ShaderData[(int)eSHADER_TYPE::__VERTEX].Blob->GetBufferPointer(),
+			m_ShaderData[(int)eSHADER_TYPE::__VERTEX].Blob->GetBufferSize(),
 			m_Layout.GetAddressOf())))
 		{
 			assert(nullptr);
@@ -78,8 +78,8 @@ void CGraphicsShader::CreateInputLayout()
 	case eSHADER_LOADTYPE::eSHADER_INCLUDE:
 		if (FAILED(DEVICE->CreateInputLayout(
 			LayoutDesc, 2,
-			m_ShaderData[eSHADERTYPE_VERTEX].pByteCode,
-			m_ShaderData[eSHADERTYPE_VERTEX].ByteCodeSize,
+			m_ShaderData[(int)eSHADER_TYPE::__VERTEX].pByteCode,
+			m_ShaderData[(int)eSHADER_TYPE::__VERTEX].ByteCodeSize,
 			m_Layout.GetAddressOf())))
 		{
 			assert(nullptr);
@@ -91,40 +91,38 @@ void CGraphicsShader::CreateInputLayout()
 	default:
 		break;
 	}
-
-
-
 }
 
-void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADERTYPE _ShaderType)
+
+void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType)
 {
-	m_ShaderData[_ShaderType].LoadType = eSHADER_LOADTYPE::eSHADER_INCLUDE;
-	m_ShaderData[_ShaderType].pByteCode = _pShaderByteCode;
-	m_ShaderData[_ShaderType].ByteCodeSize = _ShaderByteCodeSize;
+	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::eSHADER_INCLUDE;
+	m_ShaderData[(int)_ShaderType].pByteCode = _pShaderByteCode;
+	m_ShaderData[(int)_ShaderType].ByteCodeSize = _ShaderByteCodeSize;
 
 	HRESULT result = S_OK;
 
 	switch (_ShaderType)
 	{
-	case eSHADERTYPE_VERTEX:
+	case eSHADER_TYPE::__VERTEX:
 		result = DEVICE->CreateVertexShader(
 			_pShaderByteCode, _ShaderByteCodeSize,
 			nullptr,
 			m_VS.GetAddressOf()
 		);
 
-		CreateInputLayout();
+		CreateDefaultInputLayout();
 		break;
 
-	case eSHADERTYPE_HULL:
+	case eSHADER_TYPE::__HULL:
 		break;
 
-	case eSHADERTYPE_DOMAIN:
+	case eSHADER_TYPE::__DOMAIN:
 
 
 		break;
 
-	case eSHADERTYPE_GEOMETRY:
+	case eSHADER_TYPE::__GEOMETRY:
 		result = DEVICE->CreateGeometryShader(
 			_pShaderByteCode, _ShaderByteCodeSize,
 			nullptr,
@@ -133,59 +131,63 @@ void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCod
 
 		break;
 
-	case eSHADERTYPE_PIXEL:
+	case eSHADER_TYPE::__PIXEL:
 		result = DEVICE->CreatePixelShader(_pShaderByteCode, _ShaderByteCodeSize, nullptr, m_PS.GetAddressOf());
 		break;
 	default:
 		break;
 	}
 
-	assert(false == FAILED(result));
+	if (true == FAILED(result))
+	{
+		MessageBoxA(nullptr, "Shader Loading Failed!!", NULL, MB_OK);
+		assert(SUCCEEDED(result));
+	}
 }
 
-void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADERTYPE _ShaderType)
+void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType)
 {
 	// 1. Shader 파일 경로 받아옴
 	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
 	strShaderFile += _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경
-	m_ShaderData[_ShaderType].LoadType = eSHADER_LOADTYPE::eSHADER_RUNTIME;
+	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::eSHADER_RUNTIME;
 
 
 	char ShaderNameVersion[32] = {};
 	//2. 쉐이더 타입에 따른 다른 파라미터용 변수를 할당
 	switch (_ShaderType)
 	{
-	case eSHADERTYPE_VERTEX:
+	case eSHADER_TYPE::__VERTEX:
 		strcpy_s(ShaderNameVersion, 32u, "vs_5_0");
 		break;
 
-	case eSHADERTYPE_HULL:
+	case eSHADER_TYPE::__HULL:
 		strcpy_s(ShaderNameVersion, 32u, "hs_5_0");
 		break;
 
-	case eSHADERTYPE_DOMAIN:
+	case eSHADER_TYPE::__DOMAIN:
 		strcpy_s(ShaderNameVersion, 32u, "ds_5_0");
 		break;
 
-	case eSHADERTYPE_GEOMETRY:
+	case eSHADER_TYPE::__GEOMETRY:
 		strcpy_s(ShaderNameVersion, 32u, "gs_5_0");
 		break;
 
-	case eSHADERTYPE_PIXEL:
+	case eSHADER_TYPE::__PIXEL:
 		strcpy_s(ShaderNameVersion, 32u, "ps_5_0");
 		break;
 
 	default:
 		//에러 발생시킴
-		assert(eSHADERTYPE::eSHADERTYPE_END != 0);
+		assert((int)eSHADER_TYPE::END == 0);
 		break;
 	}
 
 	// 3. VertexShader Compile
 	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, _strFuncName.c_str(), ShaderNameVersion, 0, 0, m_ShaderData[_ShaderType].Blob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
+		, _strFuncName.c_str(), ShaderNameVersion, 0, 0, m_ShaderData[(int)_ShaderType].Blob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
 	{
 		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
 			, "Vertex Shader Compile Failed!!", MB_OK);
@@ -194,11 +196,11 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 	//4. 다시 switch문으로 각 쉐이더별 함수를 호출
 	switch (_ShaderType)
 	{
-	case eSHADERTYPE_VERTEX:
+	case eSHADER_TYPE::__VERTEX:
 		// 컴파일된 객체로 VertexShader, PixelShader 를 만든다.
 		if (FAILED(DEVICE->CreateVertexShader(
-			m_ShaderData[_ShaderType].Blob->GetBufferPointer(),
-			m_ShaderData[_ShaderType].Blob->GetBufferSize()
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
 			, nullptr,
 			m_VS.GetAddressOf()
 		)))
@@ -208,14 +210,14 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		}
 
 		 
-		CreateInputLayout();
+		CreateDefaultInputLayout();
 
 		break;
-	case eSHADERTYPE_HULL:
+	case eSHADER_TYPE::__HULL:
 		// 컴파일된 객체로 VertexShader, PixelShader 를 만든다.
 		if (FAILED(DEVICE->CreateHullShader(
-			m_ShaderData[_ShaderType].Blob->GetBufferPointer(),
-			m_ShaderData[_ShaderType].Blob->GetBufferSize()
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
 			, nullptr,
 			m_HS.GetAddressOf()
 		)))
@@ -224,11 +226,11 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 				,"Hull Shader Compile Failed!!", MB_OK);
 		}
 		break;
-	case eSHADERTYPE_DOMAIN:
+	case eSHADER_TYPE::__DOMAIN:
 		// 컴파일된 객체로 VertexShader, PixelShader 를 만든다.
 		if (FAILED(DEVICE->CreateDomainShader(
-			m_ShaderData[_ShaderType].Blob->GetBufferPointer(),
-			m_ShaderData[_ShaderType].Blob->GetBufferSize()
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
 			, nullptr,
 			m_DS.GetAddressOf()
 		)))
@@ -237,11 +239,11 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 				, "Domain Shader Compile Failed!!", MB_OK);
 		}
 		break;
-	case eSHADERTYPE_GEOMETRY:
+	case eSHADER_TYPE::__GEOMETRY:
 		// 컴파일된 객체로 VertexShader, PixelShader 를 만든다.
 		if (FAILED(DEVICE->CreateGeometryShader(
-			m_ShaderData[_ShaderType].Blob->GetBufferPointer(),
-			m_ShaderData[_ShaderType].Blob->GetBufferSize()
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
 			, nullptr,
 			m_GS.GetAddressOf()
 		)))
@@ -250,11 +252,11 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 				, "Geometry Shader Compile Failed!!", MB_OK);
 		}
 		break;
-	case eSHADERTYPE_PIXEL:
+	case eSHADER_TYPE::__PIXEL:
 		// 컴파일된 객체로 VertexShader, PixelShader 를 만든다.
 		if (FAILED(DEVICE->CreatePixelShader(
-			m_ShaderData[_ShaderType].Blob->GetBufferPointer(),
-			m_ShaderData[_ShaderType].Blob->GetBufferSize()
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
+			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
 			, nullptr,
 			m_PS.GetAddressOf()
 		)))
@@ -266,7 +268,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 	
 	default:
 		//에러 발생시킴
-		assert(eSHADERTYPE::eSHADERTYPE_END == 0);
+		assert((int)eSHADER_TYPE::END == 0);
 		break;
 	}
 }
@@ -318,7 +320,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //void CGraphicsShader::CreateVertexShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize)
 //{
 //
-//	D3DCreateBlob(_ShaderByteCodeSize, &m_Blob[eSHADERTYPE_VERTEX]);
+//	D3DCreateBlob(_ShaderByteCodeSize, &m_Blob[(int)eSHADER_TYPE::__VERTEX]);
 //
 //	//Vertex Shader Compilation by included header
 //	DEVICE->CreateVertexShader(_pShaderByteCode, _ShaderByteCodeSize, nullptr, m_VS.GetAddressOf());
@@ -351,7 +353,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //	LayoutDesc[2].InstanceDataStepRate = 0;
 //	
 //
-//	if (FAILED(DEVICE->CreateInputLayout(LayoutDesc, 3
+//	if (FAILED(DEVICE->CreateDefaultInputLayout(LayoutDesc, 3
 //		, _pShaderByteCode, _ShaderByteCodeSize
 //		, m_Layout.GetAddressOf())))
 //	{
