@@ -13,14 +13,31 @@ typedef Vector2     float2;
 typedef Vector3     float3;
 typedef Vector4     float4;
 typedef int         BOOL;
+
+struct INT32_2 { INT32 i[2]; };
+struct INT32_3 { INT32 i[3]; };
+struct INT32_4 { INT32 i[4]; };
+
+struct UINT32_2 { UINT32 u[2]; };
+struct UINT32_3 { UINT32 u[3]; };
+struct UINT32_4 { UINT32 u[4]; };
+
 typedef Matrix      MATRIX;
 
 #define SEMANTIC(_Type)
 
 #else
 
-#define INT32 int
-#define UINT32 uint
+#define INT32   int
+#define INT32_2 int2
+#define INT32_3 int3
+#define INT32_4 int4
+
+#define UINT32   uint
+#define UINT32_2 uint2
+#define UINT32_3 uint3
+#define UINT32_4 uint4
+
 #define BOOL int
 #define MATRIX row_major matrix
 
@@ -53,10 +70,10 @@ typedef Matrix      MATRIX;
 
 struct tMtrlData
 {
-    int     INT_0;
-    int     INT_1;
-    int     INT_2;
-    int     INT_3;
+    INT32   INT_0;
+    INT32   INT_1;
+    INT32   INT_2;
+    INT32   INT_3;
     
     float   FLOAT_0;
     float   FLOAT_1;
@@ -199,18 +216,21 @@ struct tParticleModule
     BOOL bModule_ColorChange;
 	BOOL bModule_ScaleChange;
     BOOL bModule_Rotation;
-	BOOL bModule_AddVelocity;
     
+	BOOL bModule_AddVelocity;
 	BOOL bModule_Drag;
-	int iMaxParticleCount;
-	float modulepad;
+	BOOL bModule_NoiseForce;
+    BOOL bModule_ExpandVelocity;    //속도에 따라 파티클의 크기 변화시키는 모듈
+    
+	INT32 iMaxParticleCount;
+	float3 PADDING1;
     
     
     //Spawn Module Part
-	int eSpawnShapeType; // Sphere , Box
-	int iSpawnRate;
-	int bFollowing;
-	float SpawnPadding1;
+	INT32 eSpawnShapeType; // Sphere , Box
+	INT32 iSpawnRate;
+	INT32 bFollowing;
+	float PADDING2;
     
     float4 vSpawnColor;
     float4 vSpawnScaleMin;
@@ -221,7 +241,7 @@ struct tParticleModule
     
     float fMinLifeTime;
     float fMaxLifeTime;
-	float2 SpawnPadding2;
+	float2 PADDING3;
 
     
 	//Color Change Module Part
@@ -232,32 +252,41 @@ struct tParticleModule
 	// Scale Change Module Part
     float fStartScale; // 초기 크기
     float fEndScale; // 최종 크기	
-	float2 ScaleChangePadding;
+	float2 PADDING4;
     
     
     //Rotation Module Part
 	float3 vRotRadPerSec;
-	float RotModulePadding1;
+	float PADDING5;
 	float3 vRotRandomRange;     //이 범위 사이에서 회전속도 랜덤
-	float RotModulePadding2;
+	float PADDING6;
 
     
 	// Add Velocity Module Part
     float4 vVelocityDir;
     
-    int eAddVelocityType; // 0 : From Center, 1 : Fixed Direction	
+    INT32 eAddVelocityType; // 0 : From Center, 1 : Fixed Direction	
     float fOffsetAngle;
     float fSpeed;
-    int AddVelocityPadding;
+    float PADDING7;
 
     
 	// Drag Module Part : 진행될수록 속도가 감소하는 효과
     float fStartDrag;
     float fEndDrag;
-    float2 dragpad;
+    
+    
+    // NoiseForce 모듈
+	float fNoiseTerm;
+	float fNoiseForce;
+        
+    // Render 모듈
+	INT32 VelocityAlignment; // 1 : 속도정렬 사용(이동 방향으로 회전) 0 : 사용 안함
+	INT32 VelocityScale; // 1 : 속도에 따른 크기 변화 사용, 0 : 사용 안함	
+	float vMaxSpeed; // 최대 크기에 도달하는 속력
+	float PADDING8;
+    
+    
+	float4 vMaxVelocityScale; // 속력에 따른 크기 변화량 최대치
 };
-
-
-
-
 #endif

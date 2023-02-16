@@ -69,7 +69,7 @@ void CParticleSystem::finaltick()
 
 		m_AccTime = fSpawnCountPerTime * (fData - floor(fData));
 
-		tParticleShareData rwbuffer = { (int)fData, };
+		tParticleShareData rwbuffer = { (int)fData, CTimeMgr::GetInst()->GetRandom(), CTimeMgr::GetInst()->GetRandom(), };
 
 		m_pSBufferRW_Shared->UploadData(&rwbuffer, 1u);
 	}
@@ -105,11 +105,11 @@ void CParticleSystem::CreateParticle()
 	m_tModuleData.iMaxParticleCount = 100;
 
 	//파티클을 처리할 버퍼 생성
-	m_pSBufferRW_ParticleTransform->Create(sizeof(tParticleTransform), 100u, nullptr, 0u);
+	m_pSBufferRW_ParticleTransform->Create(sizeof(tParticleTransform), m_tModuleData.iMaxParticleCount, nullptr, 0u);
 
 	m_tModuleData.bModule_Spawn = TRUE;
 
-	m_tModuleData.iSpawnRate = 10;
+	m_tModuleData.iSpawnRate = 100;
 
 	m_tModuleData.vSpawnColor = Vec3(0.4f, 1.f, 0.4f);
 
@@ -133,7 +133,7 @@ void CParticleSystem::CreateParticle()
 
 	m_tModuleData.bModule_AddVelocity = TRUE;
 	m_tModuleData.eAddVelocityType = 0; // From Center
-	m_tModuleData.fSpeed = 150.f;
+	m_tModuleData.fSpeed = 500.f;
 	m_tModuleData.vVelocityDir;
 	m_tModuleData.fOffsetAngle;
 
@@ -150,9 +150,10 @@ void CParticleSystem::CreateParticle()
 
 
 	//공유 데이터 구조화 버퍼 생성
-	tParticleShareData rwbuffer = { (int)0, };
-	m_pSBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &rwbuffer, 1u);
+	tParticleShareData rwbuffer = { (int)0, CTimeMgr::GetInst()->GetRandom(), CTimeMgr::GetInst()->GetRandom(), };
 
+
+	m_pSBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &rwbuffer, 1u);
 }
 
 void CParticleSystem::SetParticleCS(const string& _ResKeyCS)

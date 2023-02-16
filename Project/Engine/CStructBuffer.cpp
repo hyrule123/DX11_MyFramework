@@ -215,7 +215,7 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 	}
 }
 
-void CStructBuffer::GetData(void* _pDest, UINT _uDestCapacity)
+void CStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
 {
 	ComPtr<ID3D11DeviceContext> pContext = CONTEXT;
 
@@ -231,7 +231,7 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestCapacity)
 
 		size_t bytesize = m_uElementStride * m_uElementCount;
 
-		memcpy_s(_pDest, _uDestCapacity, Data.pData, bytesize);
+		memcpy_s(_pDest, _uDestByteCapacity, Data.pData, bytesize);
 
 		pContext->Unmap(m_StructBuffer.Get(), 0);
 
@@ -259,7 +259,7 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestCapacity)
 		pContext->Map(m_StagingBuffer.Get(), 0, D3D11_MAP_READ, 0, &Data);
 
 		size_t bytesize = m_uElementStride * m_uElementCapacity;
-		memcpy_s(_pDest, bytesize, Data.pData, bytesize);
+		memcpy_s(_pDest, _uDestByteCapacity, Data.pData, bytesize);
 
 		pContext->Unmap(m_StagingBuffer.Get(), 0);
 		break;

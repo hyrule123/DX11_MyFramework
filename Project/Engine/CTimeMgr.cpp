@@ -3,6 +3,7 @@
 
 #include "CEngine.h"
 
+#include <random>
 
 CTimeMgr::CTimeMgr()
 	: m_llPrevCount{}
@@ -12,7 +13,7 @@ CTimeMgr::CTimeMgr()
 	, m_fDeltaTime(0.f)
 	, m_fTime(0.f)
 {
-
+	m_RandomEngine.seed((unsigned int)time(0));
 }
 
 CTimeMgr::~CTimeMgr()
@@ -64,4 +65,9 @@ void CTimeMgr::render()
 		m_fTime = 0.f;
 		m_iCallCount = 0;
 	}
+}
+
+UINT32 CTimeMgr::GetRandom()
+{
+	return m_RandomEngine();
 }

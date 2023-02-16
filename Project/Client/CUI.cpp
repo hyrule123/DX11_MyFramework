@@ -99,6 +99,7 @@ void CUI::MakeUniqueID(const string& _strUniqueName)
 	string Name = _strUniqueName;
 	Name += "##";
 	Name += GetStrID();
+	SetStrID(Name);
 }
 
 void CUI::AddChildUI(CUI* _UI)

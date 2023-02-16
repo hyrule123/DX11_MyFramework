@@ -59,7 +59,7 @@ public:
     void UploadData(void* _pData, UINT _uCount);
     
     //데이터를 받아옴
-    void GetData(void* _pDest, UINT _uDestCapacity);
+    void GetData(void* _pDest, UINT _uDestByteCapacity);
 
     //데이터를 특정 레지스터에 바인딩. SRV에 바인딩할것인지 UAV에 바인딩할것인지를 지정
     void BindBufferSRV();

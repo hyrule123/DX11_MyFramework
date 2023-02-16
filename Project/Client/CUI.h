@@ -70,6 +70,7 @@ public:
 	CUI* GetParent() const { return m_ParentUI; }
 	void AddChildUI(CUI* _UI);
 	CUI* FindChildUIByName(const string& _Name);
+	size_t GetChildNum() const { return m_vecChildUI.size(); }
 
 private:
 	virtual void Save(Json::Value& _Node) {};

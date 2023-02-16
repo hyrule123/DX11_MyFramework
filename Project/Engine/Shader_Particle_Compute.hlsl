@@ -17,6 +17,7 @@ void PModule_Drag(uint _uID);
 [numthreads(128, 1, 1)]
 void CS_Particle(uint3 _ID : SV_DispatchThreadID )
 {
+
     // 스레드 ID 가 파티클버퍼 최대 수를 넘긴경우 or 스레드가 담당하고있는 파티클이 비활성화 상태인 경우
     if (g_CBuffer_ParticleModule.iMaxParticleCount <= (int) _ID.x)
         return;
@@ -109,28 +110,40 @@ void PModule_Spawn(uint _uID)
 			{
 				g_SBufferRW_Particle[_uID].bActive = 1;
                     
-                    // 랜덤 결과를 받을 변수
-				float3 vOut1 = (float3) 0.f;
-				float3 vOut2 = (float3) 0.f;
-				float3 vOut3 = (float3) 0.f;
-                    
-                    // 전체 유효 스레드의 아이디를 0 ~ 1 로 정규화
-				float fNormalizeThreadID = (float) _uID / (float) g_CBuffer_ParticleModule.iMaxParticleCount;
-				GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID, vOut1);
-				GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.1f, vOut2);
-				GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.2f, vOut3);
+                // 랜덤 결과를 받을 변수
+				const static float umax = float(0xffffffff);
+				float fRand1 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
+				float fRand2 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
+				float fRand3 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
+                
+                
+                //노이즈 텍스처를 활용한 랜덤 방식
+    //            // 랜덤 결과를 받을 변수
+				//float1 vOut1 = (float3) 0.f;
+				//float2 vOut2 = (float3) 0.f;
+				//float3 vOut3 = (float3) 0.f;
+
+    //            // 전체 유효 스레드의 아이디를 0 ~ 1 로 정규화
+				//float fNormalizeThreadID = (float) _uID / (float) g_CBuffer_ParticleModule.iMaxParticleCount;
+				//GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID, vOut1);
+				//GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.1f, vOut2);
+				//GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.2f, vOut3);
+                
+                //float fRand1 = vOut1.r;
+                //float fRand2 = vOut2.r;
+                //float fRand3 = vOut3.r;
                     
                 // Box 스폰
 				if (g_CBuffer_ParticleModule.eSpawnShapeType == 0)
 				{
-					g_SBufferRW_Particle[_uID].vLocalPos.xyz = float3(g_CBuffer_ParticleModule.vBoxShapeScale.x * vOut1.r - g_CBuffer_ParticleModule.vBoxShapeScale.x * 0.5f
-                                                      , g_CBuffer_ParticleModule.vBoxShapeScale.y * vOut2.r - g_CBuffer_ParticleModule.vBoxShapeScale.y * 0.5f
-                                                      , g_CBuffer_ParticleModule.vBoxShapeScale.z * vOut3.r - g_CBuffer_ParticleModule.vBoxShapeScale.z * 0.5f);
+					g_SBufferRW_Particle[_uID].vLocalPos.xyz = float3(g_CBuffer_ParticleModule.vBoxShapeScale.x * fRand1 - g_CBuffer_ParticleModule.vBoxShapeScale.x * 0.5f
+                                                      , g_CBuffer_ParticleModule.vBoxShapeScale.y * fRand2 - g_CBuffer_ParticleModule.vBoxShapeScale.y * 0.5f
+                                                      , g_CBuffer_ParticleModule.vBoxShapeScale.z * fRand3 - g_CBuffer_ParticleModule.vBoxShapeScale.z * 0.5f);
 					g_SBufferRW_Particle[_uID].vWorldPos.xyz = g_SBufferRW_Particle[_uID].vLocalPos.xyz + OWNER_OBJ_POS.xyz;
                         
                         
                         // 스폰 크기 범위내에서 랜덤 크기로 지정 (Min, Max 가 일치하면 고정크기)
-					float4 vSpawnScale = g_CBuffer_ParticleModule.vSpawnScaleMin + (g_CBuffer_ParticleModule.vSpawnScaleMax - g_CBuffer_ParticleModule.vSpawnScaleMin) * vOut3.x;
+					float4 vSpawnScale = g_CBuffer_ParticleModule.vSpawnScaleMin + (g_CBuffer_ParticleModule.vSpawnScaleMax - g_CBuffer_ParticleModule.vSpawnScaleMin) * fRand3;
 					g_SBufferRW_Particle[_uID].vWorldScale.xyz = vSpawnScale.xyz;
 				}
                
@@ -164,7 +177,7 @@ void PModule_Spawn(uint _uID)
 				else if (g_CBuffer_ParticleModule.eSpawnShapeType == 1)
 				{
 					float fRadius = 500.f; //vOut1.r * 200.f;
-					float fAngle = vOut2.r * 6.2831852f;
+					float fAngle = fRand2 * 6.2831852f;
                         //g_SBufferRW_Particle[_uID].vWorldPos.xyz = float3(fRadius * cos(fAngle), fRadius * sin(fAngle), 100.f);
 				}
                     
@@ -172,7 +185,7 @@ void PModule_Spawn(uint _uID)
 				g_SBufferRW_Particle[_uID].vColor = g_CBuffer_ParticleModule.vSpawnColor;
                                       
 				g_SBufferRW_Particle[_uID].fAge = 0.f;
-				g_SBufferRW_Particle[_uID].fLifeTime = g_CBuffer_ParticleModule.fMinLifeTime + (g_CBuffer_ParticleModule.fMaxLifeTime - g_CBuffer_ParticleModule.fMinLifeTime) * vOut2.r;
+				g_SBufferRW_Particle[_uID].fLifeTime = g_CBuffer_ParticleModule.fMinLifeTime + (g_CBuffer_ParticleModule.fMaxLifeTime - g_CBuffer_ParticleModule.fMinLifeTime) * fRand2;
 				break;
 			}
 		}

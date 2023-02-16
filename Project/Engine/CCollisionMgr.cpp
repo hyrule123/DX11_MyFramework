@@ -56,7 +56,7 @@ void CCollisionMgr::CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLB
 		for (int y = iBeginXYEndXY[BeginY]; y <= iBeginXYEndXY[EndY]; ++y)
 		{
 			UINT Idx = (UINT)(y * m_iNum2DGridX + x);
-
+			
 			m_vec2DGrid[Idx].vecColl.push_back(_pCol);
 
 			_vecIdx.push_back(Idx);
