@@ -51,6 +51,8 @@ public:
 
     void ToggleDemoWindow() { m_bShowDemoWindow1 = !m_bShowDemoWindow1; }
 
+    void RemoveUI(const string& _strID) { m_mapUI.erase(_strID); }
+
 public:
     void init(HWND _hWnd);
     void progress();

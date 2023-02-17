@@ -2,9 +2,11 @@
 #include "pch.h"
 #include "CUI_BasicWindow.h"
 
-
+#include "JsonCPP.h"
 
 #include "CUI_Widget.h"
+
+
 
 CUI_BasicWindow::CUI_BasicWindow(const string& _Name)
 	: CUI(_Name)
@@ -47,4 +49,24 @@ void CUI_BasicWindow::endUI()
 	}
 	
 	ImGui::EndChild();
+}
+
+void CUI_BasicWindow::Save(Json::Value& _Save)
+{
+	if (nullptr != GetParent())
+		return;
+
+	_Save[GetStrID()]["IsActive"] = GetActive();
+	
+}
+
+void CUI_BasicWindow::Load(Json::Value& _Load)
+{
+	if (nullptr != GetParent())
+		return;
+
+	if (_Load[GetStrID()])
+	{
+		SetActive(_Load[GetStrID()]["IsActive"].as<bool>());
+	}
 }

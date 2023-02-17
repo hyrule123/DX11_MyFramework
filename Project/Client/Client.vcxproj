@@ -146,7 +146,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CallbackDataStruct.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUI_Animator2D.h" />
     <ClInclude Include="CUI_Camera.h" />

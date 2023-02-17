@@ -82,10 +82,9 @@ public:
 
 	void ClearChildUI();
 
-protected:
-	vector<CUI*>& GetVecChildUI() { return m_vecChildUI; }
+	const vector<CUI*>& GetVecChildUI() { return m_vecChildUI; }
 
 private:
-	virtual void Save(Json::Value& _Node) {};
-	virtual void Load(Json::Value& _Node) {};
+	virtual void Save(Json::Value& _Save) {};
+	virtual void Load(Json::Value& _Load) {};
 };

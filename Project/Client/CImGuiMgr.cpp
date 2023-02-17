@@ -19,6 +19,7 @@
 #include "JsonCPP.h"
 
 #include "CUI_Contents.h"
+#include "CUI_Outliner.h"
 
 CImGuiMgr::CImGuiMgr()
     : m_hWnd()
@@ -37,7 +38,11 @@ CImGuiMgr::~CImGuiMgr()
     string utfpath = ::ConvertUnicodeToUTF8(Path);
     ImGui::SaveIniSettingsToDisk(utfpath.c_str());
 
+    vector<CUI*> vecUI;
 
+    //UI를 제거할 때 map에 있는 자신의 이터레이터를 제거하기 때문에
+    //순회 돌면서 제거하면 에러가 발생한다.
+    //그래서 별도의 vecUI에 UI 주소를 넣어 놓고 순회를 마친 후 다시 vecUI를 순회돌면서 제거해준다.
     for (const auto& iter : m_mapUI)
     {
         assert(nullptr != iter.second);
@@ -47,7 +52,13 @@ CImGuiMgr::~CImGuiMgr()
 
         iter.second->SaveRecursive(m_SavedUIData);
 
-        delete(iter.second);
+        vecUI.push_back(iter.second);
+    }
+
+    size_t size = vecUI.size();
+    for (size_t i = 0; i < size; ++i)
+    {
+        DESTRUCTOR_DELETE(vecUI[i]);
     }
 
     Path.clear();
@@ -118,6 +129,7 @@ void CImGuiMgr::AddUI(CUI* _pUI)
     if (nullptr == _pUI->GetParent())
         m_bUIUpdated = true;
 }
+
 
 void CImGuiMgr::init(HWND _hWnd)
 {
@@ -214,6 +226,7 @@ void CImGuiMgr::CreateDefaultUI()
 
     AddUI(new CUI_Inspector);
     AddUI(new CUI_Contents);
+    AddUI(new CUI_Outliner);
 }
 
 void CImGuiMgr::begin()

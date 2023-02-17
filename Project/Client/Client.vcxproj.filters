@@ -197,9 +197,6 @@
     <ClInclude Include="CUI_MenuItem.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CallbackDataStruct.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

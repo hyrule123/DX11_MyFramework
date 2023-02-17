@@ -57,6 +57,12 @@ void CLevelMgr::FindObjectALLByName(const string& _Name, vector<CGameObject*>& _
 
 void CLevelMgr::init()
 {
+	m_pCurLevel = new CLevel;
+
+	m_pCurLevel->SetLayerName(0, "DefaultLayer");
+	m_pCurLevel->SetLayerName(1, "Layer 1");
+
+
 	Ptr<CTexture> pCreateTex = CResMgr::GetInst()->CreateTexture(
 		"SampleTexture"
 		, 1280, 768
@@ -69,7 +75,7 @@ void CLevelMgr::init()
 	pCS->SetColor(Vec3(1.f, 0.f, 0.f));
 	pCS->Execute();
 
-	m_pCurLevel = new CLevel;
+	
 
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
 	Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");
@@ -233,6 +239,13 @@ void CLevelMgr::init()
 	SpawnGameObject(pTestObj3, Vec3(-100.f, -100.f, 10.f), 1);
 	//m_pCurLevel->AddGameObject(pTestObj3, 1);
 
+
+	CGameObject* pTestObj4 = new CGameObject;
+	pTestObj4->SetName("Test");
+	pTestObj4->AddComponent(new CTransform);
+
+	pTestObj3->AddChildObj(pTestObj4);
+	SpawnGameObject(pTestObj4, Vec3(-100.f, -100.f, 10.f), 1);
 
 
 	{//Tilemap

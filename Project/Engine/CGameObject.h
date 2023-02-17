@@ -87,6 +87,8 @@ public:
     //±‚≈∏
     bool GetParentWorldMatrix(__out Matrix& _mat);
 
+    const vector<CGameObject*>& GetvecChilds() const { return m_vecChild; }
+    size_t GetNumChilds() const { return m_vecChild.size(); }
     
 
 public:

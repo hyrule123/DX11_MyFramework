@@ -12,13 +12,17 @@ public:
     CUI_Inspector();
     virtual ~CUI_Inspector();
 
+public:
+    void init() override;
+    void tick() override;
+
 private:
     CGameObject* m_pTarget;
     CUI_Component* m_arrComUI[(UINT)eCOMPONENT_TYPE::END];
 
 public:
-    void init() override;
-    void tick() override;
+    void SetTarget(CGameObject* _pTarget);
+
 
 
 private:
