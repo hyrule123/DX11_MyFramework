@@ -8,7 +8,7 @@
 
 CUI_Contents::CUI_Contents()
 	: CUI_BasicWindow("Contents")
-	, m_pSelectedTree()
+	, m_arrpResTypeSelected{}
 {
 }
 
@@ -31,24 +31,29 @@ void CUI_Contents::tick()
 {
 	if (true == CResMgr::GetInst()->IsUpdated())
 	{
-		m_pSelectedTree = nullptr;
+		memset(m_arrpResTypeSelected, 0, sizeof(m_arrpResTypeSelected));
 		UpdateResources();
 	}
 }
 
 void CUI_Contents::ChangeSelectedTreeNode(CUI_Tree* _pTree, DWORD_PTR _pValue)
 {
-	if (nullptr == _pTree)
+	if (nullptr == _pTree || (DWORD_PTR)0 == _pValue)
 		return;
 	
-	if (nullptr != m_pSelectedTree)
+	CRes* pRes = reinterpret_cast<CRes*>(_pValue);
+
+	int iResTypeIdx = (int)pRes->GetResType();
+
+	if (nullptr != m_arrpResTypeSelected[iResTypeIdx])
 	{
-		m_pSelectedTree->SetSelected(false);
-		m_pSelectedTree = nullptr;
+		
+		m_arrpResTypeSelected[iResTypeIdx]->SetSelected(false);
+		m_arrpResTypeSelected[iResTypeIdx] = nullptr;
 	}
 		
-	m_pSelectedTree = _pTree;
-	m_pSelectedTree->SetSelected(true);
+	m_arrpResTypeSelected[iResTypeIdx] = _pTree;
+	m_arrpResTypeSelected[iResTypeIdx]->SetSelected(true);
 }
 
 void CUI_Contents::UpdateResources()

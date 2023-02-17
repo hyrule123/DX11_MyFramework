@@ -4,12 +4,28 @@
 class CRes :
     public CEntity
 {
+public:
+    CRes(eRES_TYPE _type);
+    CRes(const CRes& _other);
+    virtual ~CRes();
+
+    friend class CResMgr;
+
+    template<typename T>
+    friend class Ptr;
+
 private:
     const eRES_TYPE  m_Type;
     int             m_iRefCount;
 
     string         m_strKey;
     wstring         m_strRelativePath;
+
+public:
+    const string& GetKey() { return m_strKey; }
+    const wstring& GetRelativePath() { return m_strRelativePath; }
+
+    eRES_TYPE GetResType() const { return m_Type; }
 
 private:
     void SetKey(const string& _strKey) { m_strKey = _strKey; }
@@ -32,19 +48,7 @@ public:
     // 리소스는 Clone 을 구현하지 않는다.(Material 제외)
     virtual CRes* Clone() { return nullptr; assert(nullptr); }
 
-public:
-    const string& GetKey() { return m_strKey; }
-    const wstring& GetRelativePath() { return m_strRelativePath; }
 
 
-public:
-    CRes(eRES_TYPE _type);
-    CRes(const CRes& _other);
-    virtual ~CRes();
-
-    friend class CResMgr;
-
-    template<typename T>
-    friend class Ptr;
 };
 
