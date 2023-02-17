@@ -15,22 +15,24 @@
 
 //Register Number
 #define e_b_CBUFFER_TRANSFORM				REGISTER_IDX(b, 0)
-#define e_b_CBUFFER_MATERIAL				REGISTER_IDX(b, 1)
-#define e_b_CBUFFER_GLOBAL					REGISTER_IDX(b, 2)
-#define e_b_CBUFFER_SBUFFER_SHAREDATA		REGISTER_IDX(b, 3)
-#define e_b_CBUFFER_PARTICLE_MODULEDATA		REGISTER_IDX(b, 4)
-#define e_b_END								5
+#define e_b_CBUFFER_MTRL_SCALAR				REGISTER_IDX(b, 1)
+#define e_b_CBUFFER_MTRL_TEX				REGISTER_IDX(b, 2)
+#define e_b_CBUFFER_GLOBAL					REGISTER_IDX(b, 3)
+#define e_b_CBUFFER_SBUFFER_SHAREDATA		REGISTER_IDX(b, 4)
+#define e_b_CBUFFER_PARTICLE_MODULEDATA		REGISTER_IDX(b, 5)
+#define e_b_END								6
 
 	
 //eCBUFFER_IDX_SBUFFER_SHAREDATA Inner Index
 //상수 버퍼 'SBUFFERINFO' 내부의 인덱스 번호를 지정하는 열거체
 ENUM_START(eCBUFFER_SBUFFER_SHAREDATA_IDX, int)
 	ENUM_MEMBER(NONE, int, -1)
-	ENUM_MEMBER(LIGHT2D, int, 0)
-	ENUM_MEMBER(TILE, int, 1)
-	ENUM_MEMBER(SETCOLOR, int, 2)
-	ENUM_MEMBER(PARTICLE, int, 3)
-	ENUM_MEMBER(END, int, 4)
+	ENUM_MEMBER(MTRL_SCALAR, int, 0)
+	ENUM_MEMBER(LIGHT2D, int, 1)
+	ENUM_MEMBER(TILE, int, 2)
+	ENUM_MEMBER(SETCOLOR, int, 3)
+	ENUM_MEMBER(PARTICLE, int, 4)
+	ENUM_MEMBER(END, int, 5)
 ENUM_END
 
 
@@ -48,9 +50,14 @@ cbuffer CBuffer_Transform : register(e_b_CBUFFER_TRANSFORM)
 	tTransform g_CBuffer_Transform;
 };
 
-cbuffer CBuffer_Material : register(e_b_CBUFFER_MATERIAL)
+cbuffer CBuffer_Material_Scalar : register(e_b_CBUFFER_MTRL_SCALAR)
 {
-	tMtrlData g_CBuffer_MtrlData;
+	tMtrlScalarData g_CBuffer_Mtrl_Scalar;
+};
+
+cbuffer CBuffer_Material_Tex : register(e_b_CBUFFER_MTRL_TEX)
+{
+	tMtrlTexData g_CBuffer_Mtrl_Tex;
 };
 
 
@@ -94,18 +101,20 @@ cbuffer CBuffer_ParticleModule : register(e_b_CBUFFER_PARTICLE_MODULEDATA)
 #define eMTRLDATA_TEXPARAM_END 8
 #endif
 
-#define e_t_TEXTURE_CUBE_0 REGISTER_IDX(t, 8)
-#define e_t_TEXTURE_CUBE_1 REGISTER_IDX(t, 9)
+#define e_t_SBUFFER_MATERIAL REGISTER_IDX(t, 8)
 
-#define e_t_TEXTURE_ARRAY_0 REGISTER_IDX(t, 10)
-#define e_t_TEXTURE_ARRAY_1 REGISTER_IDX(t, 11)
+#define e_t_TEXTURE_CUBE_0 REGISTER_IDX(t, 9)
+#define e_t_TEXTURE_CUBE_1 REGISTER_IDX(t, 10)
 
-#define e_t_SBUFFER_LIGHT2D				REGISTER_IDX(t, 12)
-#define e_t_SBUFFER_TILE				REGISTER_IDX(t, 13)
-#define e_t_SBUFFER_SETCOLOR			REGISTER_IDX(t, 14)
-#define e_t_SBUFFER_PARTICLE_TRANSFORM	REGISTER_IDX(t, 15)
+#define e_t_TEXTURE_ARRAY_0 REGISTER_IDX(t, 11)
+#define e_t_TEXTURE_ARRAY_1 REGISTER_IDX(t, 12)
 
-#define e_t_TEXUTRE_NOISE				REGISTER_IDX(t, 16)
+#define e_t_SBUFFER_LIGHT2D				REGISTER_IDX(t, 13)
+#define e_t_SBUFFER_TILE				REGISTER_IDX(t, 14)
+#define e_t_SBUFFER_SETCOLOR			REGISTER_IDX(t, 15)
+#define e_t_SBUFFER_PARTICLE_TRANSFORM	REGISTER_IDX(t, 16)
+
+#define e_t_TEXUTRE_NOISE				REGISTER_IDX(t, 17)
 
 
 	#ifdef __cplusplus

@@ -281,8 +281,8 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// BS_TYPE : MASK
 
 	// Parameter
-	// g_CBuffer_MtrlData.INT_0 : Tile X Count
-	// g_CBuffer_MtrlData.int_1 : Tile Y Count
+	// g_CBuffer_Mtrl_Scalar.INT_0 : Tile X Count
+	// g_CBuffer_Mtrl_Scalar.int_1 : Tile Y Count
 	// g_tex_0 : Tile Atlas Texture
 	//===============================
 	{
@@ -305,7 +305,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// BS_TYPE : ALPHA_BLEND
 
 	// Parameter
-	// g_CBuffer_MtrlData.INT_0 : Particle Index
+	// g_CBuffer_Mtrl_Scalar.INT_0 : Particle Index
 	// 
 	// Domain : TRANSPARENT
 	// ============================

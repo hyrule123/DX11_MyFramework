@@ -10,9 +10,9 @@
 // DepthStencilState    : Less
 //
 // Parameter
-// g_CBuffer_MtrlData.INT_0              : AnimUse
-// g_CBuffer_MtrlData.VEC2_0             : AnimAtlas LeftTop
-// g_CBuffer_MtrlData.VEC2_1             : AnimAtlas Slice
+// g_CBuffer_Mtrl_Scalar.INT_0              : AnimUse
+// g_CBuffer_Mtrl_Scalar.VEC2_0             : AnimAtlas LeftTop
+// g_CBuffer_Mtrl_Scalar.VEC2_1             : AnimAtlas Slice
 //
 // g_tex_0              : Output Texture
 // g_tex_1              : Normal Texture

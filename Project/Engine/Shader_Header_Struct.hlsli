@@ -68,34 +68,36 @@ typedef Matrix      MATRIX;
 #endif
 
 
-struct tMtrlData
+struct tMtrlScalarData
 {
-    INT32   INT_0;
-    INT32   INT_1;
-    INT32   INT_2;
-    INT32   INT_3;
+    INT32 INT_0;
+    INT32 INT_1;
+    INT32 INT_2;
+    INT32 INT_3;
     
-    float   FLOAT_0;
-    float   FLOAT_1;
-    float   FLOAT_2;
-    float   FLOAT_3;
+	float FLOAT_0;
+	float FLOAT_1;
+	float FLOAT_2;
+	float FLOAT_3;
     
-    float2  VEC2_0;
-    float2  VEC2_1;
-    float2  VEC2_2;
-    float2  VEC2_3;
+	float2 VEC2_0;
+	float2 VEC2_1;
+	float2 VEC2_2;
+	float2 VEC2_3;
 
-    float4  VEC4_0;
-    float4  VEC4_1;
-    float4  VEC4_2;
-    float4  VEC4_3;
+	float4 VEC4_0;
+	float4 VEC4_1;
+	float4 VEC4_2;
+	float4 VEC4_3;
 
-    MATRIX  MAT_0;
-    MATRIX  MAT_1;
-    MATRIX  MAT_2;
-    MATRIX  MAT_3;
-    
-    
+    MATRIX MAT_0;
+    MATRIX MAT_1;
+    MATRIX MAT_2;
+    MATRIX MAT_3;
+};
+
+struct tMtrlTexData
+{
     //텍스처의 유무를 판단하기위한 변수
     BOOL bTEX_0;
     BOOL bTEX_1;
@@ -116,7 +118,7 @@ struct tMtrlData
 #ifdef __cplusplus
 #define MTRLDATA_PARAM_SCALAR(_Type) eMTRLDATA_PARAM_SCALAR::##_Type
 #else
-#define MTRLDATA_PARAM_SCALAR(_Type) g_CBuffer_MtrlData.##_Type
+#define MTRLDATA_PARAM_SCALAR(_Type) g_CBuffer_Mtrl_Scalar.##_Type
 #endif
 
 //C++, HLSL 공용으로 사용

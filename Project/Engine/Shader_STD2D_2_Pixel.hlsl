@@ -8,7 +8,7 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
     float4 vOutColor = (float4) 0.f;
     
     //메인텍스처가 존재하지 않을경우는 무조건 마젠타 색상을 return;
-    if (0 == g_CBuffer_MtrlData.bTEX_0)
+    if (FALSE == g_CBuffer_Mtrl_Tex.bTEX_0)
     {
         vOutColor = float4(1.f, 1.f, 0.f, 1.f);
     }

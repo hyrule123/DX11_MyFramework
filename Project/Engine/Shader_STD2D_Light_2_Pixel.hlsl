@@ -8,7 +8,7 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
     float4 vOutColor = (float4)0.f;
     
     //메인텍스처가 존재하지 않을경우는 무조건 마젠타 색상을 return;
-    if(0 == g_CBuffer_MtrlData.bTEX_0)
+    if(0 == g_CBuffer_Mtrl_Tex.bTEX_0)
     {
         vOutColor = float4(1.f, 1.f, 0.f, 1.f);
     }
@@ -52,7 +52,7 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
     //현재 월드에 배치되어있는 광원의 갯수는 tGlobal 상수버퍼에,
     //실제 광원 데이터는 구조화 버퍼에 배치되어 있다.
     float3 vNormal = (float3) 0.f;
-    if (1 == g_CBuffer_MtrlData.bTEX_1)
+    if (1 == g_CBuffer_Mtrl_Tex.bTEX_1)
     {
         vNormal = g_tex_1.Sample(g_Sampler_0, _in.vUV).xyz;
             

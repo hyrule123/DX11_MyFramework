@@ -243,15 +243,16 @@ void CDevice::CreateConstBuffer()
     m_arrConstBuffer[e_b_CBUFFER_TRANSFORM]->SetPipelineTarget(CBufferTarget);
 
     //Vertex + Pixel Shader에만 상수버퍼를 전달
-    CBufferTarget |= eSHADER_PIPELINE_STAGE::__PIXEL;
-    m_arrConstBuffer[e_b_CBUFFER_MATERIAL] = new CConstBuffer(e_b_CBUFFER_MATERIAL);
-    m_arrConstBuffer[e_b_CBUFFER_MATERIAL]->Create(sizeof(tMtrlData), 1);
-    m_arrConstBuffer[e_b_CBUFFER_MATERIAL]->SetPipelineTarget(CBufferTarget);
+    CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
+    m_arrConstBuffer[e_b_CBUFFER_MTRL_SCALAR] = new CConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
+    m_arrConstBuffer[e_b_CBUFFER_MTRL_SCALAR]->Create(sizeof(tMtrlScalarData), 1);
+    m_arrConstBuffer[e_b_CBUFFER_MTRL_SCALAR]->SetPipelineTarget(CBufferTarget);
 
-    //CBufferTarget = eSHADER_PIPELINE_STAGE::__VERTEX | eSHADER_PIPELINE_STAGE::__PIXEL;
-    //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE] = new CConstBuffer(eCONST_BUFFER_DEBUGSHAPE);
-    //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->SetPipelineTarget(CBufferTarget);
-    //m_arrConstBuffer[eCONST_BUFFER_DEBUGSHAPE]->Create(sizeof(tDebugShapeInfo), 1);
+    CBufferTarget = eSHADER_PIPELINE_STAGE::__PIXEL;
+    m_arrConstBuffer[e_b_CBUFFER_MTRL_TEX] = new CConstBuffer(e_b_CBUFFER_MTRL_TEX);
+    m_arrConstBuffer[e_b_CBUFFER_MTRL_TEX]->Create(sizeof(tMtrlTexData), 1);
+    m_arrConstBuffer[e_b_CBUFFER_MTRL_TEX]->SetPipelineTarget(CBufferTarget);
+
 
     //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
