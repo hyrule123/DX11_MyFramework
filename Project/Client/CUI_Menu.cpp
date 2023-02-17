@@ -2,11 +2,12 @@
 #include "pch.h"
 #include "CUI_Menu.h"
 
+#include "CUI_MenuItem.h"
+
 CUI_Menu::CUI_Menu(const string& _MenuName)
-	: CUI_BasicWindow("Menu")
+	: CUI_BasicWindow(_MenuName)
 	, m_bEnable(true)
 {
-	SetStrID(_MenuName);
 }
 
 CUI_Menu::~CUI_Menu()
@@ -21,4 +22,13 @@ bool CUI_Menu::beginUI()
 void CUI_Menu::endUI()
 {
 	ImGui::EndMenu();
+}
+
+CUI_MenuItem* CUI_Menu::AddMenuItem(const string& _strName, DWORD_PTR _pData)
+{
+	CUI_MenuItem* pMenuItem = new CUI_MenuItem(_strName, _pData);
+
+	AddChildUI(pMenuItem);
+
+	return pMenuItem;
 }

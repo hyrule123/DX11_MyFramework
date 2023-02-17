@@ -10,7 +10,8 @@ enum class eWIDGET_TYPE : DWORD
 {
 	COMBO_BOX,
 	IMAGE,
-	TREE
+	TREE,
+	MENU_ITEM
 };
 
 class CUI_Widget
@@ -19,7 +20,7 @@ class CUI_Widget
 private:
 	CUI_Widget() = delete;
 public:
-	CUI_Widget(const string& _Name, eWIDGET_TYPE _Type);
+	CUI_Widget(const string& _strName, eWIDGET_TYPE _Type);
 	virtual ~CUI_Widget();
 
 private:

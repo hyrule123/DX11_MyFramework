@@ -80,6 +80,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
             // 렌더 종료
             CEngine::GetInst()->present();
+
+            CEngine::GetInst()->cleartick();
         }       
     }
 

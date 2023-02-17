@@ -71,6 +71,32 @@ enum class eRES_TYPE
 	END,
 };
 
+constexpr const char* g_eRES_TYPE_strName[(int)eCOMPONENT_TYPE::END]
+{
+	"MESHDATA",
+	"MATERIAL",
+	"PREFAB",
+	"MESH",
+	"TEXTURE",
+	"SOUND",
+	"GRAPHICS_SHADER",
+	"COMPUTE_SHADER",
+	"END"
+};
+
+constexpr const wchar_t* g_eRES_TYPE_lstrName[(int)eCOMPONENT_TYPE::END]
+{
+	L"MESHDATA",
+	L"MATERIAL",
+	L"PREFAB",
+	L"MESH",
+	L"TEXTURE",
+	L"SOUND",
+	L"GRAPHICS_SHADER",
+	L"COMPUTE_SHADER",
+	L"END"
+};
+
 
 
 namespace eSHADER_PIPELINE_STAGE

@@ -26,62 +26,65 @@
     <Filter Include="ImGui\02. UI_Object">
       <UniqueIdentifier>{4fb6420e-640e-4542-b104-3be94fabdc12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\01. UI_Widget">
+    <Filter Include="ImGui\01. UI_Interface\01. UI_Widget">
       <UniqueIdentifier>{73bfd71e-634f-4ceb-87fd-96c5ffae88e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector">
       <UniqueIdentifier>{4687a60f-f87b-4e45-a12d-e2414457465a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI">
       <UniqueIdentifier>{9d84ef5b-f0d3-4954-8ce5-cca12772b1e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\10. Tilemap UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\10. Tilemap UI">
       <UniqueIdentifier>{bc89faed-6a9e-42f0-bf8d-1c7cffa74d7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\01. Collider2D UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\01. Collider2D UI">
       <UniqueIdentifier>{af71a1a8-c76e-4a73-9c8f-333954943a14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\02. Collider3D UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\02. Collider3D UI">
       <UniqueIdentifier>{6fda2739-3a49-4165-b0df-2b18dded161c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\03. Animator2D UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\03. Animator2D UI">
       <UniqueIdentifier>{08ec998e-779f-4c93-b0a0-5581227f15bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\04. Animator3D UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\04. Animator3D UI">
       <UniqueIdentifier>{3914c0c5-251d-443f-9041-e18e0e1d64b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\05. Light2D UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\05. Light2D UI">
       <UniqueIdentifier>{3aa7aaf2-6421-41e0-bc28-eccd88ec9e67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\06. Light3D UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\06. Light3D UI">
       <UniqueIdentifier>{aac0d53e-a912-4940-be4f-ac2da91eaae4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\07. Camera UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\07. Camera UI">
       <UniqueIdentifier>{db32a587-276e-4b5f-8a3b-3f532e90f816}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\08. MeshRender UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\08. MeshRender UI">
       <UniqueIdentifier>{a27dc193-7225-4131-a82a-967ec29e74c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\09. ParticleSystem UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\09. ParticleSystem UI">
       <UniqueIdentifier>{f322227e-3932-4c42-b3d5-9f181a6f1ed4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\11. Landscape UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\11. Landscape UI">
       <UniqueIdentifier>{6d762ce3-9541-481a-bc8c-68ed28f5268f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\12. Decal UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\12. Decal UI">
       <UniqueIdentifier>{b1993540-b8a1-4f6c-af9d-db82c2c34757}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\13. ScriptHolder UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\13. ScriptHolder UI">
       <UniqueIdentifier>{94ec3a12-5078-4358-8927-be3b0fab85ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\00. Transform UI">
+    <Filter Include="ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\00. Transform UI">
       <UniqueIdentifier>{6132ae5c-9c85-48df-a062-c729d34b4533}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\02. UI_Object\03. UI_MainMenubar">
+    <Filter Include="ImGui\02. UI_Object\02. UI_MainMenubar">
       <UniqueIdentifier>{2649f3b0-5ab0-492e-b694-9570f3ba98ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\04. UI_Contents">
+    <Filter Include="ImGui\03. UI_Contents">
       <UniqueIdentifier>{c000136c-b1ea-48af-b9fb-cd54fb83957a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\04. UI_Outliner">
+      <UniqueIdentifier>{3fe8da6a-3128-4c49-a977-6f6c8a1dbe10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -107,34 +110,34 @@
       <Filter>ImGui\00. Manager</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Inspector.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Component.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Transform.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\00. Transform UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\00. Transform UI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Collider2D.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\01. Collider2D UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\01. Collider2D UI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_ScriptHolder.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\13. ScriptHolder UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\13. ScriptHolder UI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Animator2D.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\03. Animator2D UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\03. Animator2D UI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Camera.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\07. Camera UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\07. Camera UI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Light2D.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\05. Light2D UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\05. Light2D UI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_MeshRender.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\08. MeshRender UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\08. MeshRender UI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Tilemap.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\10. Tilemap UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\10. Tilemap UI</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>ImGui\99. ImGuiSource</Filter>
@@ -161,16 +164,10 @@
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Widget.h">
-      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
     <ClInclude Include="CUI_ComboBox.h">
-      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
-    </ClInclude>
-    <ClInclude Include="CUI_MainMenubar.h">
-      <Filter>ImGui\02. UI_Object\03. UI_MainMenubar</Filter>
-    </ClInclude>
-    <ClInclude Include="CUI_MenuItemGroup.h">
-      <Filter>ImGui\02. UI_Object\03. UI_MainMenubar</Filter>
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
     <ClInclude Include="CUI.h">
       <Filter>ImGui\01. UI_Interface</Filter>
@@ -183,16 +180,22 @@
     </ClInclude>
     <ClInclude Include="JsonCPP.h" />
     <ClInclude Include="CUI_ParticleSystem.h">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Image.h">
-      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Tree.h">
-      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Contents.h">
-      <Filter>ImGui\04. UI_Contents</Filter>
+      <Filter>ImGui\03. UI_Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_Outliner.h">
+      <Filter>ImGui\04. UI_Outliner</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_MenuItem.h">
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,34 +223,34 @@
       <Filter>ImGui\00. Manager</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Inspector.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Component.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Transform.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\00. Transform UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\00. Transform UI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Collider2D.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\01. Collider2D UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\01. Collider2D UI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_ScriptHolder.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\13. ScriptHolder UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\13. ScriptHolder UI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Animator2D.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\03. Animator2D UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\03. Animator2D UI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Camera.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\07. Camera UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\07. Camera UI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Light2D.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\05. Light2D UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\05. Light2D UI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_MeshRender.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\08. MeshRender UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\08. MeshRender UI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Tilemap.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\10. Tilemap UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\10. Tilemap UI</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>ImGui\99. ImGuiSource</Filter>
@@ -280,16 +283,10 @@
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Widget.cpp">
-      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
     <ClCompile Include="CUI_ComboBox.cpp">
-      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
-    </ClCompile>
-    <ClCompile Include="CUI_MainMenubar.cpp">
-      <Filter>ImGui\02. UI_Object\03. UI_MainMenubar</Filter>
-    </ClCompile>
-    <ClCompile Include="CUI_MenuItemGroup.cpp">
-      <Filter>ImGui\02. UI_Object\03. UI_MainMenubar</Filter>
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
     <ClCompile Include="CUI.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
@@ -301,16 +298,22 @@
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
     <ClCompile Include="CUI_ParticleSystem.cpp">
-      <Filter>ImGui\02. UI_Object\02. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
+      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Image.cpp">
-      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Tree.cpp">
-      <Filter>ImGui\02. UI_Object\01. UI_Widget</Filter>
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Contents.cpp">
-      <Filter>ImGui\04. UI_Contents</Filter>
+      <Filter>ImGui\03. UI_Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Outliner.cpp">
+      <Filter>ImGui\04. UI_Outliner</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_MenuItem.cpp">
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "CUI_Widget.h"
 
-CUI_Widget::CUI_Widget(const string& _ID, eWIDGET_TYPE _Type)
-	: CUI_BasicWindow(_ID)
+CUI_Widget::CUI_Widget(const string& _strName, eWIDGET_TYPE _Type)
+	: CUI_BasicWindow(_strName)
 	, m_Type(_Type)
 	, m_bLeftLabel(true)
 	, m_fLeftLabelWidth(100.f)

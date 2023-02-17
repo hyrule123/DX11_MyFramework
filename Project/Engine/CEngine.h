@@ -3,6 +3,10 @@
 class CEngine
 	: public CSingleton<CEngine>
 {
+public:
+	CEngine();
+	~CEngine();
+
 private:
 	HWND	m_hWnd;
 
@@ -21,12 +25,13 @@ public:
 	void progress();
 	void present();
 
+	//한 사이클이 끝나기 전까지 지속적으로 유지되어야 하는 값들을 초기화
+	void cleartick();
+
 private:
 	void tick();
 	void render();
 
 
-public:
-	CEngine();
-	~CEngine();
+
 };

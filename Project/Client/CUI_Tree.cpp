@@ -1,13 +1,12 @@
 #include "pch.h"
 #include "CUI_Tree.h"
 
-CUI_Tree::CUI_Tree(const string& _strUniqueName, DWORD_PTR _Value)
-    : CUI_Widget("Tree", eWIDGET_TYPE::TREE)
+CUI_Tree::CUI_Tree(const string& _strName, DWORD_PTR _Value)
+    : CUI_Widget(_strName, eWIDGET_TYPE::TREE)
     , m_flagTree()
-    , m_Value(_Value)
-    , m_funcCallback()
+    , m_pData(_Value)
+    , m_funcCallback{}
 {
-    MakeUniqueID(_strUniqueName);
     m_flagTree |= ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_FramePadding;
 }
 
@@ -19,11 +18,12 @@ bool CUI_Tree::beginUI()
 {
     ImGuiTreeNodeFlags Flag = 0;
 
-    //자식 
+    //자식 없을 경우(리프노드 일경우)
     if (0 == GetChildNum())
     {
         Flag = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf;
     }
+    //자식 있을 경우
     else
     {
         Flag = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Selected;
@@ -31,24 +31,59 @@ bool CUI_Tree::beginUI()
         
     Flag |= m_flagTree;
 
-    return ImGui::TreeNodeEx(GetStrID().c_str(), Flag);
+    bool IsOpen = ImGui::TreeNodeEx(GetStrID().c_str(), Flag);
+
+    //열려있던 닫혀있던 일단 콜백함수 체크 및 호출
+    CheckCallback();
+
+    return IsOpen;
 }
+
 
 void CUI_Tree::endUI()
 {
     ImGui::TreePop();
 }
 
+
 void CUI_Tree::AddChildNode(const string& _strName, DWORD_PTR _Value)
 {
     CUI_Tree* pTree = new CUI_Tree(_strName, _Value);
 
-    ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf;
-    pTree->AddTreeFlag(flag);
+    pTree->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf);
 
     AddChildUI(pTree);
 }
 
-void CUI_Tree::SetFuncCallback(std::function<void(CUI_Tree*, DWORD_PTR)> _FuncCallback)
+void CUI_Tree::AddChildNode(CUI_Tree* _pTree)
 {
+    _pTree->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf);
+
+    AddChildUI(_pTree);
 }
+
+void CUI_Tree::CheckCallback()
+{
+    if (true == ImGui::IsItemHovered())
+    {
+        //더블클릭을 해도 클릭이 먼저 반응하기 때문에
+        //무조건 더블클릭을 먼저 감사한 후 클릭을 검사해야 함.
+        if (nullptr != m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED]
+            && true == ImGui::IsMouseDoubleClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
+        {
+            m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED](this, m_pData);
+        }
+
+        else if (nullptr != m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_CLICKED]
+            && true == ImGui::IsMouseClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
+        {
+            m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_CLICKED](this, m_pData);
+        }
+
+        else if (nullptr != m_funcCallback[(int)eUI_MOUSE_STATUS::HOVERED])
+        {
+            m_funcCallback[(int)eUI_MOUSE_STATUS::HOVERED](this, m_pData);
+        }
+    }
+}
+

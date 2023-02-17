@@ -10,7 +10,9 @@
 #include "CUI.h"
 #include "CUI_BasicWIndow.h"
 #include "CUI_Inspector.h"
-#include "CUI_MainMenubar.h"
+#include "CUI_Menubar.h"
+#include "CUI_Menu.h"
+#include "CUI_MenuItem.h"
 
 #include <fstream>
 
@@ -19,10 +21,11 @@
 #include "CUI_Contents.h"
 
 CImGuiMgr::CImGuiMgr()
-	: m_hWnd()
+    : m_hWnd()
     , m_clear_color(0.45f, 0.55f, 0.60f, 1.00f)
     , m_bShowDemoWindow1()
     , m_SavedUIData()
+    , m_bUIUpdated(true)
 {
 }
 
@@ -110,6 +113,10 @@ void CImGuiMgr::AddUI(CUI* _pUI)
     m_mapUI.insert(make_pair(_pUI->GetStrID(), _pUI));
     _pUI->init();
     _pUI->LoadRecursive(m_SavedUIData);
+
+    //최상위 루트 UI일 경우 메인메뉴 갱신해야된다고 알림
+    if (nullptr == _pUI->GetParent())
+        m_bUIUpdated = true;
 }
 
 void CImGuiMgr::init(HWND _hWnd)
@@ -201,8 +208,11 @@ void CImGuiMgr::progress()
 
 void CImGuiMgr::CreateDefaultUI()
 {
+    m_MainMenubar = new CUI_Menubar("MainMenu", true);
+    m_OpenWindowsMenu = m_MainMenubar->AddMenu("Open Windows");
+    AddUI(m_MainMenubar);
+
     AddUI(new CUI_Inspector);
-    AddUI(new CUI_MainMenubar);
     AddUI(new CUI_Contents);
 }
 
@@ -216,6 +226,12 @@ void CImGuiMgr::begin()
 
 void CImGuiMgr::tick()
 {
+    if (true == m_bUIUpdated)
+    {
+        UpdateMainMenu();
+        m_bUIUpdated = false;
+    }
+
     for (const auto& pair : m_mapUI)
     {
         if (nullptr != pair.second->GetParent())
@@ -296,3 +312,35 @@ void CImGuiMgr::render()
         ImGui::RenderPlatformWindowsDefault();
     }
 }
+
+void CImGuiMgr::UpdateMainMenu()
+{
+    m_OpenWindowsMenu->ClearChildUI();
+
+    for (const auto& iter : m_mapUI)
+    {
+        if (nullptr == iter.second->GetParent())
+        {
+            const string& UIName = iter.second->GetName();
+
+            if (UIName == "MainMenu")
+                continue;
+
+            CUI_MenuItem* pMenuItem = m_OpenWindowsMenu->AddMenuItem(UIName,
+                (DWORD_PTR)iter.second);
+            pMenuItem->SetCallback(std::bind(&CImGuiMgr::OpenWindowsCallback, this,
+                std::placeholders::_1, std::placeholders::_2));
+        }
+    }
+}
+
+void CImGuiMgr::OpenWindowsCallback(CUI_MenuItem* _pMenuItem, DWORD_PTR _pData)
+{
+    CUI* pUI = reinterpret_cast<CUI*>(_pData);
+
+    if (nullptr == _pMenuItem || nullptr == pUI)
+        return;
+
+    pUI->SetActive(true);
+}
+

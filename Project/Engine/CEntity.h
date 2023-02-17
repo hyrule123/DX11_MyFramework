@@ -2,6 +2,12 @@
 
 class CEntity
 {
+public:
+	CEntity();
+	CEntity(const string& _strName);
+	CEntity(const CEntity& _other);
+	virtual ~CEntity();
+
 private:
 	static UINT32 g_iNextID;
 
@@ -16,10 +22,5 @@ public:
 
 public:
 	virtual CEntity* Clone() = 0;
-
-public:
-	CEntity();
-	CEntity(const CEntity& _other);
-	virtual ~CEntity();
 };
 

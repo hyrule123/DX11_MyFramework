@@ -90,6 +90,12 @@ void CEngine::render()
 	CRenderMgr::GetInst()->render();
 }
 
+void CEngine::cleartick()
+{
+	CResMgr::GetInst()->cleartick();
+	CEventMgr::GetInst()->cleartick();
+}
+
 void CEngine::present()
 {
 	CDevice::GetInst()->present();

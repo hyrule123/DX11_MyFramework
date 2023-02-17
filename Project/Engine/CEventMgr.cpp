@@ -7,6 +7,7 @@
 
 
 CEventMgr::CEventMgr()
+	: m_bLevelModified()
 {
 
 }
@@ -23,6 +24,8 @@ void CEventMgr::CreateObject(const tEvent& _event)
 	CGameObject* Obj = reinterpret_cast<CGameObject*>(_event.lParam);
 
 	CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(Obj, (int)_event.rParam);
+
+	m_bLevelModified = true;
 }
 
 void CEventMgr::DestroyObject(const tEvent& _event)
@@ -36,6 +39,8 @@ void CEventMgr::DestroyObject(const tEvent& _event)
 
 	_pObj->DestroyForEventMgr();
 	m_vecReserveDestroy.push_back(_pObj);
+
+	m_bLevelModified = true;
 }
 
 void CEventMgr::AddChildObj(const tEvent& _event)
@@ -48,7 +53,6 @@ void CEventMgr::AddChildObj(const tEvent& _event)
 
 void CEventMgr::tick()
 {
-	
 	//bDestroy 상태인 게임오브젝트를 Level에서 제거
 	CLevelMgr::GetInst()->GetCurLevel()->RemoveDestroyed();
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "CUI_Widget.h"
 
+class CUI_MenuItem;
 
 class CUI_Menu :
     public CUI_BasicWindow
@@ -19,5 +20,8 @@ public:
 
 private:
 	bool m_bEnable;
+
+public:
+	CUI_MenuItem* AddMenuItem(const string& _strName, DWORD_PTR _pData = (DWORD_PTR)0);
 };
 

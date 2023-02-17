@@ -12,6 +12,9 @@
 //Delegate(함수 포인터
 class CUI;
 class CUI_Inspector;
+class CUI_Menubar;
+class CUI_Menu;
+class CUI_MenuItem;
 
 
 typedef void (CUI::* UI_DELEGATE_0)(void);
@@ -26,6 +29,9 @@ private:
     HWND                m_hWnd;
     map<string, CUI*>   m_mapUI;
 
+    CUI_Menubar* m_MainMenubar;
+    CUI_Menu* m_OpenWindowsMenu;
+
     // ImGui state
     ImVec4 m_clear_color;
 
@@ -34,8 +40,12 @@ private:
 
     Json::Value m_SavedUIData;
 
+    bool m_bUIUpdated;
+
 public:
     CUI* FindUI(const string& _UIName);
+    const map<string, CUI*>& GetMapUI() const { return m_mapUI; }
+
     HWND GetHwnd() const { return m_hWnd; }
     void AddUI(CUI* _pUI);
 
@@ -49,10 +59,12 @@ public:
 private:
     void CreateDefaultUI();
     
-
     void begin();
     void tick();
     void finaltick();
     void render();
+
+    void UpdateMainMenu();
+    void OpenWindowsCallback(CUI_MenuItem* _pMenuItem, DWORD_PTR _pData);
 };
 

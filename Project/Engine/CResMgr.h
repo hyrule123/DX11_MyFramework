@@ -20,10 +20,17 @@
 class CResMgr :
     public CSingleton<CResMgr>
 {
+    SINGLETON(CResMgr)
+public:
+    void init();
+    void cleartick() { m_bResUpdated = false; }
     
 private:
     unordered_map<string, Ptr<CRes>> m_arrRes[(UINT)eRES_TYPE::END];
     unordered_map<std::type_index, eRES_TYPE> m_umapResClassTypeIndex;
+
+    //리소스 정보가 업데이트 되면 true로 변경
+    bool    m_bResUpdated;
 
 private:
     void CreateResClassTypeIndex();
@@ -37,6 +44,8 @@ public:
     template <typename T>
     eRES_TYPE GetResType();
 
+    bool IsUpdated() const { return m_bResUpdated; }
+
     template<typename T>
     Ptr<T> FindRes(const string& _strKey);
 
@@ -49,12 +58,6 @@ public:
     const unordered_map<string, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
 
     Ptr<CTexture> CreateTexture(const string& _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
-    
-
-public:
-    void init();
-
-    SINGLETON(CResMgr)
 };
 
 template<typename T>
@@ -115,6 +118,8 @@ inline Ptr<T> CResMgr::Load(const string& _strKey, const wstring& _strRelativePa
 
     eRES_TYPE type = GetResType<T>();
     m_arrRes[(UINT)type].insert(make_pair(_strKey, pRes));
+
+    m_bResUpdated = true;
 
     return (T*)pRes.Get();
 }

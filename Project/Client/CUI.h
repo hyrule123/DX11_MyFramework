@@ -6,6 +6,13 @@
 
 #include <UtilLib/json-forwards.h>
 
+enum class eUI_MOUSE_STATUS
+{
+	HOVERED,
+	LBTN_CLICKED,
+	LBTN_DOUBLE_CLICKED,
+	END
+};
 
 //여러 개의 창이 생성될 가능성이 있는 UI의 경우
 //IMGUI.ini에 저장하지 않도록 설정하고, 저장해야 할 경우 json 파일을 통해서 설정값을 저장할것
@@ -65,12 +72,18 @@ public:
 	const string& GetStrID() const { return m_strID; }
 	void AddStrID(const string& _strID) { m_strID += _strID; }
 	void MakeUniqueID();
-	void MakeUniqueID(const string& _strUniqueName);
+	void MakeUniqueID(const string& _strUniqueIDSuffix);
 
 	CUI* GetParent() const { return m_ParentUI; }
+
 	void AddChildUI(CUI* _UI);
 	CUI* FindChildUIByName(const string& _Name);
 	size_t GetChildNum() const { return m_vecChildUI.size(); }
+
+	void ClearChildUI();
+
+protected:
+	vector<CUI*>& GetVecChildUI() { return m_vecChildUI; }
 
 private:
 	virtual void Save(Json::Value& _Node) {};

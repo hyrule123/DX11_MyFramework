@@ -13,6 +13,7 @@
 
 
 CResMgr::CResMgr()
+	: m_bResUpdated(true)
 {
 }
 

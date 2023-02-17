@@ -5,11 +5,11 @@
 #include "CImGuiMgr.h"
 
 CUI::CUI(const string& _Name)
-	: m_Active(true)
+	: CEntity(_Name)
+	, m_Active(true)
 	, m_ParentUI()
 	, m_strID(_Name)
 {
-	SetName(_Name);
 }
 
 CUI::~CUI()
@@ -91,15 +91,13 @@ void CUI::MakeUniqueID()
 	m_strID += std::to_string(GetID());
 }
 
-void CUI::MakeUniqueID(const string& _strUniqueName)
+void CUI::MakeUniqueID(const string& _strUniqueIDSuffix)
 {
-	if (true == _strUniqueName.empty())
+	if (true == _strUniqueIDSuffix.empty())
 		return;
 
-	string Name = _strUniqueName;
-	Name += "##";
-	Name += GetStrID();
-	SetStrID(Name);
+	m_strID += "##";
+	m_strID += _strUniqueIDSuffix;
 }
 
 void CUI::AddChildUI(CUI* _UI)
@@ -117,12 +115,21 @@ CUI* CUI::FindChildUIByName(const string& _Name)
 	size_t size = m_vecChildUI.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		size_t pos = m_vecChildUI[i]->GetStrID().find(_Name);
-		if (pos != string::npos)
+		if (_Name == m_vecChildUI[i]->GetName())
 			return m_vecChildUI[i];
 	}
 
 	return nullptr;
+}
+
+void CUI::ClearChildUI()
+{
+	size_t size = m_vecChildUI.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		DESTRUCTOR_DELETE(m_vecChildUI[i]);
+	}
+	m_vecChildUI.clear();
 }
 
 
