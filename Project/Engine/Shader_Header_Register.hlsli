@@ -101,7 +101,7 @@ cbuffer CBuffer_ParticleModule : register(e_b_CBUFFER_PARTICLE_MODULEDATA)
 #define eMTRLDATA_TEXPARAM_END 8
 #endif
 
-#define e_t_SBUFFER_MATERIAL REGISTER_IDX(t, 8)
+#define e_t_SBUFFER_MTRL_SCALAR REGISTER_IDX(t, 8)
 
 #define e_t_TEXTURE_CUBE_0 REGISTER_IDX(t, 9)
 #define e_t_TEXTURE_CUBE_1 REGISTER_IDX(t, 10)

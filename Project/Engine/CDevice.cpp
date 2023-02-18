@@ -262,6 +262,7 @@ void CDevice::CreateConstBuffer()
 
 
     //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
+    //이 값을 전달할 버퍼 데이터는 g_arrSBufferShareData(extern.cpp)이다.
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[e_b_CBUFFER_SBUFFER_SHAREDATA] = new CConstBuffer(e_b_CBUFFER_SBUFFER_SHAREDATA);
     m_arrConstBuffer[e_b_CBUFFER_SBUFFER_SHAREDATA]->Create(sizeof(tSBufferInfo), (UINT)eCBUFFER_SBUFFER_SHAREDATA_IDX::END);

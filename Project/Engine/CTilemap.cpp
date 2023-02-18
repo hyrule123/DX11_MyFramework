@@ -46,8 +46,8 @@ void CTilemap::render()
 
 	//타일맵의 재질에 변수를 대입한 후 바인딩
 	CMaterial* pMtrl = GetMaterial().Get();
-	pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &m_iTileCountX);
-	pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_1, &m_iTileCountY);
+	pMtrl->SetScalarParam(GetID(), eMTRLDATA_PARAM_SCALAR::INT_0, &m_iTileCountX);
+	pMtrl->SetScalarParam(GetID(), eMTRLDATA_PARAM_SCALAR::INT_1, &m_iTileCountY);
 	pMtrl->BindData();
 
 	//렌더링 진행

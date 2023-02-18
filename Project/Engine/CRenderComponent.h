@@ -21,6 +21,9 @@ private:
     Ptr<CMaterial>          m_pDynamicMtrl; //SharedMaterial 복사본. 고유 상태 표현이 필요할 경우 이 재질을 사용
     Ptr<CMaterial>          m_pCurrentMtrl; //현재 사용 중인 재질 주소
 
+        
+    tMtrlScalarData         m_MyMtrlScalarData;//자신의 스칼라 값
+
 public:
     void SetMesh(Ptr<CMesh> _Mesh) { m_pMesh = _Mesh; }
     void SetMaterial(Ptr<CMaterial> _Mtrl);

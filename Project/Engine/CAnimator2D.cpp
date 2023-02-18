@@ -43,11 +43,12 @@ void CAnimator2D::UpdateData()
     Vec2 vBackSize = m_pCurAnim->GetBackSize();
 
     int iAnimUse = 1;
-    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &iAnimUse);
-    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC2_0, &frm.LeftTopUV);
-    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC2_1, &frm.SliceUV);
-    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC2_2, &frm.Offset);
-    pMtrl->SetScalarParam(eMTRLDATA_PARAM_SCALAR::VEC2_3, &vBackSize);
+    UINT32 iID = GetID();
+    pMtrl->SetScalarParam(iID, eMTRLDATA_PARAM_SCALAR::INT_0, &iAnimUse);
+    pMtrl->SetScalarParam(iID, eMTRLDATA_PARAM_SCALAR::VEC2_0, &frm.LeftTopUV);
+    pMtrl->SetScalarParam(iID, eMTRLDATA_PARAM_SCALAR::VEC2_1, &frm.SliceUV);
+    pMtrl->SetScalarParam(iID, eMTRLDATA_PARAM_SCALAR::VEC2_2, &frm.Offset);
+    pMtrl->SetScalarParam(iID, eMTRLDATA_PARAM_SCALAR::VEC2_3, &vBackSize);
 
     pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_pCurAnim->GetAtlasTex());
 }

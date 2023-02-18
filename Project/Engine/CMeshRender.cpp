@@ -45,6 +45,8 @@ void CMeshRender::render()
 	// 재질에 BindData 요청 - 재질 상수버퍼가 바인딩됨.
 	pmtrl->BindData();
 
+	
+
 	// 메쉬 그리기 명령
-	pmesh->render();
+	pmesh->render(pmtrl->GetInstancingCount());
 }

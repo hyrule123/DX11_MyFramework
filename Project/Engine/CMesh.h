@@ -25,8 +25,8 @@ public:
 	virtual int Save(const wstring& _strRelativePath) { return S_OK; }
 
 
-	void render();
-	void renderInstanced(UINT _uInstanceCount);
+	void render(UINT _uInstancingCount);
+
 
 private:
 	virtual void BindData() override;
