@@ -32,11 +32,15 @@ void CMaterial::BindData()
 		if (true == IsTexture((eMTRLDATA_PARAM_TEX)i))
 			m_arrTex[i]->BindData_SRV(i, eSHADER_PIPELINE_STAGE::__PIXEL);
 	}
+	//Texture Const Buffer Update
+	CConstBuffer* pMtrlTexBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_TEX);
+	pMtrlTexBuffer->UploadData(&m_MtrlTex);
+	pMtrlTexBuffer->BindBuffer();
 
 	// Constant Update
-	CConstBuffer* pMtrlBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
-	pMtrlBuffer->UploadData(&m_MtrlScalar);
-	pMtrlBuffer->BindBuffer();
+	CConstBuffer* pMtrlScalarBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
+	pMtrlScalarBuffer->UploadData(&m_MtrlScalar);
+	pMtrlScalarBuffer->BindBuffer();
 }
 
 

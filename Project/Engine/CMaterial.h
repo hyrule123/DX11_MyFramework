@@ -75,16 +75,18 @@ inline bool CMaterial::IsTexture(eMTRLDATA_PARAM_TEX _Idx)
 
 inline void CMaterial::RemoveTexture(eMTRLDATA_PARAM_TEX _Param)
 {
+    m_arrTex[(int)_Param] = nullptr;
+
     switch (_Param)
     {
-    case eMTRLDATA_PARAM_TEX::_0: m_MtrlTex.bTEX_0 = FALSE;
-    case eMTRLDATA_PARAM_TEX::_1: m_MtrlTex.bTEX_1 = FALSE;
-    case eMTRLDATA_PARAM_TEX::_2: m_MtrlTex.bTEX_2 = FALSE;
-    case eMTRLDATA_PARAM_TEX::_3: m_MtrlTex.bTEX_3 = FALSE;
-    case eMTRLDATA_PARAM_TEX::_4: m_MtrlTex.bTEX_4 = FALSE;
-    case eMTRLDATA_PARAM_TEX::_5: m_MtrlTex.bTEX_5 = FALSE;
-    case eMTRLDATA_PARAM_TEX::_6: m_MtrlTex.bTEX_6 = FALSE;
-    case eMTRLDATA_PARAM_TEX::_7: m_MtrlTex.bTEX_7 = FALSE;
+    case eMTRLDATA_PARAM_TEX::_0: m_MtrlTex.bTEX_0 = FALSE; break;
+    case eMTRLDATA_PARAM_TEX::_1: m_MtrlTex.bTEX_1 = FALSE; break;
+    case eMTRLDATA_PARAM_TEX::_2: m_MtrlTex.bTEX_2 = FALSE; break;
+    case eMTRLDATA_PARAM_TEX::_3: m_MtrlTex.bTEX_3 = FALSE; break;
+    case eMTRLDATA_PARAM_TEX::_4: m_MtrlTex.bTEX_4 = FALSE; break;
+    case eMTRLDATA_PARAM_TEX::_5: m_MtrlTex.bTEX_5 = FALSE; break;
+    case eMTRLDATA_PARAM_TEX::_6: m_MtrlTex.bTEX_6 = FALSE; break;
+    case eMTRLDATA_PARAM_TEX::_7: m_MtrlTex.bTEX_7 = FALSE; break;
     case eMTRLDATA_PARAM_TEX::_END: break;
     default: break;
     }
