@@ -19,7 +19,6 @@ class CGameObject :
     public CEntity
 {
 private:
-
     //Components
     CComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
     CRenderComponent*       m_RenderCom;
@@ -28,10 +27,14 @@ private:
     CGameObject*            m_Parent;
     vector<CGameObject*>    m_vecChild;
 
+    //Own Scalar Data
+    tMtrlScalarData          m_ObjScalarData;
+
+    //Layer Info
     int                     m_iLayerIdx;
     bool                    m_bFixLayer;    //레이어 번호를 고정. 부모 레이어를 옮겨도 자신은 옮겨지지 않음.
 
-
+    //Birth, Death
     bool                    m_bDestroy;
     float                   m_fLifeSpan;
 

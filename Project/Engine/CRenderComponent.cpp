@@ -40,3 +40,13 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 	m_pCurrentMtrl = m_pDynamicMtrl;
 	return m_pCurrentMtrl;
 }
+
+void CRenderComponent::render()
+{
+	//재질과 메쉬의 존재 여부는 카메라에서 미리 다 확인했기 때문에 검사할 필요 없음.
+
+
+
+
+
+}

@@ -234,16 +234,17 @@ void CCamera::SortObject()
 					continue;
 			}
 
-			
 
 			//쉐이더 도메인을 받아와서
 			eSHADER_DOMAIN dom = Com->GetMaterial()->GetShader()->GetShaderDomain();
 
 			//만약 쉐이더 도메인이 등록되어있지 않을 경우 assert 처리
-			assert((int)dom < (int)eSHADER_DOMAIN::_END);
+			assert((eSHADER_DOMAIN)0 < dom && dom < eSHADER_DOMAIN::_END);
 
-			//그렇지 않을 경우 push back
+			//도메인이 등록되어 있을 경우 push back
 			m_arrvecShaderDomain[(int)dom].push_back(vecObj[i]);
+
+			//
 		}
 
 	}

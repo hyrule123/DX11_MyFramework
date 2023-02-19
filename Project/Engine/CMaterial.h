@@ -51,6 +51,7 @@ private:
 
 public:
     //Inline Setter
+    void AddMtrlScalarData(const tMtrlScalarData& )
     void SetScalarParam (UINT32 _iRenderComEntityID, eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
     void SetTexParam    (eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex);
     void RemoveTexture  (eMTRLDATA_PARAM_TEX _Param);

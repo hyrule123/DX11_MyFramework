@@ -21,7 +21,6 @@ private:
     Ptr<CMaterial>          m_pDynamicMtrl; //SharedMaterial 복사본. 고유 상태 표현이 필요할 경우 이 재질을 사용
     Ptr<CMaterial>          m_pCurrentMtrl; //현재 사용 중인 재질 주소
 
-        
     tMtrlScalarData         m_MyMtrlScalarData;//자신의 스칼라 값
 
 public:
@@ -30,12 +29,18 @@ public:
 
     Ptr<CMesh> GetMesh() { return m_pMesh; }
     Ptr<CMaterial> GetMaterial() { return m_pCurrentMtrl; }
-    Ptr<CMaterial> GetSharedMaterial() { return m_pSharedMtrl; }
+    Ptr<CMaterial> GetSharedMaterial();
     Ptr<CMaterial> GetDynamicMaterial();
     bool GetRenderReady() { return ((nullptr != m_pMesh) && (nullptr != m_pSharedMtrl)); }
 
 public:
-    virtual void render() = 0;
+    void Upload
+
+    void render();
+
+
+    virtual void render_update();
+
 
 private:
 
@@ -52,4 +57,10 @@ inline void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl)
 {
     m_pSharedMtrl = _Mtrl;
     m_pCurrentMtrl = m_pSharedMtrl;
+}
+
+inline Ptr<CMaterial> CRenderComponent::GetSharedMaterial()
+{ 
+    m_pCurrentMtrl = m_pSharedMtrl;
+    return m_pSharedMtrl; 
 }
