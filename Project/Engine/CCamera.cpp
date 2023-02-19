@@ -244,7 +244,8 @@ void CCamera::SortObject()
 			//도메인이 등록되어 있을 경우 push back
 			m_arrvecShaderDomain[(int)dom].push_back(vecObj[i]);
 
-			//
+			//등록했을 경우 해당 오브젝트의 데이터를 Material에 전달한다.
+			vecObj[i]->Add
 		}
 
 	}
