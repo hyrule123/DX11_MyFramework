@@ -142,9 +142,9 @@ void CTransform::UpdateData()
 	//월드 뷰 투영행렬을 곱한다.
 		//사이즈가 반영된 월드행렬을 계산에서 GameObject에 값을 등록해 놓는다.
 	MATRIX matWorld = m_matSize * m_matWorld;
-	GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WORLD, &(matWorld));
-	matWorld *= g_matViewProj;
-	GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WVP, &matWorld);
+	GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
+	//matWorld *= g_matViewProj;
+	//GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WVP, &matWorld);
 
 
 	////위의 행렬을 상수버퍼에 전달 및 바인딩

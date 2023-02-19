@@ -275,7 +275,7 @@ void CCamera::render()
 	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
 	g_matCam.matView = m_matView;
 	g_matCam.matProj = m_matProj;
-	g_matViewProj = m_matView * m_matProj;
+	g_matCam.matVP = m_matView * m_matProj;
 	
 	//카메라의 행렬을 상수버퍼에 업로드
 	CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES)->UploadData(&g_matCam);

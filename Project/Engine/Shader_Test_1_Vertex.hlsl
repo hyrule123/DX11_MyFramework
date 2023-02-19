@@ -10,12 +10,13 @@ VS_OUT VS_test(VS_IN _in)
     //인스턴싱으로 그릴 갯수가 0개로 설정되어 있으면 인스턴싱이 아님.
 	if (0 == g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR].uSBufferCount)
 	{
-		output.vPosition = mul(float4(_in.vPos, 1.f), g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_MAT_WVP);
+		output.vPosition = mul(float4(_in.vPos, 1.f), g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_MAT_WORLD);
 	}
 	else
 	{
-		output.vPosition = mul(float4(_in.vPos, 1.f), g_SBuffer_Mtrl_Scalar[_in.uInstID].MTRL_SCALAR_MAT_WVP);
+		output.vPosition = mul(float4(_in.vPos, 1.f), g_SBuffer_Mtrl_Scalar[_in.uInstID].MTRL_SCALAR_MAT_WORLD);
 	}
+	output.vPosition = mul(output.vPosition, g_CBuffer_matCam.matVP);
     
     // 입력으로 들어온 정점좌표에 상수버퍼 값을 더해서 출력
 	

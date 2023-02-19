@@ -177,12 +177,12 @@ struct tCamMatrices
     //MATRIX matWorld;
     MATRIX matView;
     MATRIX matProj;
+    MATRIX matVP;
     //MATRIX matWVP;
 };
 
 #ifdef __cplusplus
 extern tCamMatrices g_matCam;
-extern MATRIX       g_matViewProj;
 #endif
 
 
