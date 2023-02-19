@@ -110,29 +110,37 @@ struct tMtrlTexData
 };
 
 
-//==============================
-//		재질 값 예약 현황
-//==============================
-//C++ : enum으로 전환, 
-//HLSL : 일반 타입명으로 전환
+//      재질 매크로
+////C++ : enum으로 전환, 
+////HLSL : 일반 타입명으로 전환
 #ifdef __cplusplus
 #define MTRLDATA_PARAM_SCALAR(_Type) eMTRLDATA_PARAM_SCALAR::##_Type
 #else
-#define MTRLDATA_PARAM_SCALAR(_Type) g_CBuffer_Mtrl_Scalar.##_Type
+#define MTRLDATA_PARAM_SCALAR(_Type) _Type
 #endif
 
+
+
+//==============================
+//		재질 값 예약 현황
+//==============================
 //C++, HLSL 공용으로 사용
-#define COLOR_KEY               MTRLDATA_PARAM_SCALAR(VEC4_3)
-#define CS_TOTAL_ELEMCOUNT_X    MTRLDATA_PARAM_SCALAR(INT_0)
-#define CS_TOTAL_ELEMCOUNT_Y    MTRLDATA_PARAM_SCALAR(INT_1)
-#define CS_TOTAL_ELEMCOUNT_Z    MTRLDATA_PARAM_SCALAR(INT_2)
+#define MTRL_SCALAR_COLOR_KEY               MTRLDATA_PARAM_SCALAR(VEC4_3)
+#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_X    MTRLDATA_PARAM_SCALAR(INT_0)
+#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Y    MTRLDATA_PARAM_SCALAR(INT_1)
+#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Z    MTRLDATA_PARAM_SCALAR(INT_2)
+
+//카메라 기준으로 렌더링되므로 카메라의 행렬은 상수버퍼를 통해 전달되고 있음.
+//필요할때만 카메라 행렬을 갖다 쓰면 됨
+#define MTRL_SCALAR_MAT_WORLD               MTRLDATA_PARAM_SCALAR(MAT_0)
+#define MTRL_SCALAR_MAT_WVP                 MTRLDATA_PARAM_SCALAR(MAT_1)
 
 //컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
-#define TEXTURE_NOISE_RESOLUTION      MTRLDATA_PARAM_SCALAR(VEC2_0)
+#define MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION      MTRLDATA_PARAM_SCALAR(VEC2_0)
 
 
 //CCS_ParticleUpdate
-#define OWNER_OBJ_POS MTRLDATA_PARAM_SCALAR(VEC4_0)
+#define MTRL_SCALAR_OWNER_OBJ_POS MTRLDATA_PARAM_SCALAR(VEC4_0)
 //============================================================================
 
 
@@ -164,16 +172,16 @@ enum class eMTRLDATA_PARAM_TEX
 #endif
 
 
-struct tTransform
+struct tCamMatrices
 {
-    MATRIX matWorld;
+    //MATRIX matWorld;
     MATRIX matView;
     MATRIX matProj;
-    MATRIX matWVP;
+    //MATRIX matWVP;
 };
 
 #ifdef __cplusplus
-extern tTransform g_Transform;
+extern tCamMatrices g_matCam;
 extern MATRIX       g_matViewProj;
 #endif
 

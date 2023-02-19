@@ -30,7 +30,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::init()
 {
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
-	RenderCom()->GetMaterial()->SetScalarParam(COLOR_KEY, &m_ColorKey);
+	GetOwner()->SetScalarParam(MTRL_SCALAR_COLOR_KEY, &m_ColorKey);
 }
 
 void CPlayerScript::tick()
@@ -91,13 +91,13 @@ void CPlayerScript::tick()
 	if (KEY_TAP(KEY::_1))
 	{
 		int a = 0;
-		MeshRender()->GetMaterial()->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
+		GetOwner()->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
 	}
 
 	else if (KEY_TAP(KEY::_2))
 	{
 		int a = 1;
-		MeshRender()->GetMaterial()->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
+		GetOwner()->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
 	}
 
 	if (KEY_TAP(KEY::SPACE))

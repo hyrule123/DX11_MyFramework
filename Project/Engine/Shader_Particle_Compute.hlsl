@@ -67,7 +67,8 @@ void CS_Particle(uint3 _ID : SV_DispatchThreadID )
         else if (g_CBuffer_ParticleModule.bFollowing == 1)
         {
             g_SBufferRW_Particle[_ID.x].vLocalPos += g_SBufferRW_Particle[_ID.x].vVelocity * g_CBuffer_GlobalData.fDeltaTime;
-            g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = g_SBufferRW_Particle[_ID.x].vLocalPos.xyz + OWNER_OBJ_POS.xyz;
+            g_SBufferRW_Particle[_ID.x].vWorldPos.xyz = g_SBufferRW_Particle[_ID.x].vLocalPos.xyz + 
+            g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_OWNER_OBJ_POS.xyz;
         }
         
         
@@ -125,9 +126,9 @@ void PModule_Spawn(uint _uID)
 
     //            // 전체 유효 스레드의 아이디를 0 ~ 1 로 정규화
 				//float fNormalizeThreadID = (float) _uID / (float) g_CBuffer_ParticleModule.iMaxParticleCount;
-				//GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID, vOut1);
-				//GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.1f, vOut2);
-				//GaussianSample(g_Tex_Noise, TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.2f, vOut3);
+				//GaussianSample(g_Tex_Noise, MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID, vOut1);
+				//GaussianSample(g_Tex_Noise, MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.1f, vOut2);
+				//GaussianSample(g_Tex_Noise, MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.2f, vOut3);
                 
                 //float fRand1 = vOut1.r;
                 //float fRand2 = vOut2.r;
@@ -139,7 +140,7 @@ void PModule_Spawn(uint _uID)
 					g_SBufferRW_Particle[_uID].vLocalPos.xyz = float3(g_CBuffer_ParticleModule.vBoxShapeScale.x * fRand1 - g_CBuffer_ParticleModule.vBoxShapeScale.x * 0.5f
                                                       , g_CBuffer_ParticleModule.vBoxShapeScale.y * fRand2 - g_CBuffer_ParticleModule.vBoxShapeScale.y * 0.5f
                                                       , g_CBuffer_ParticleModule.vBoxShapeScale.z * fRand3 - g_CBuffer_ParticleModule.vBoxShapeScale.z * 0.5f);
-					g_SBufferRW_Particle[_uID].vWorldPos.xyz = g_SBufferRW_Particle[_uID].vLocalPos.xyz + OWNER_OBJ_POS.xyz;
+					g_SBufferRW_Particle[_uID].vWorldPos.xyz = g_SBufferRW_Particle[_uID].vLocalPos.xyz + g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_OWNER_OBJ_POS.xyz;
                         
                         
                         // 스폰 크기 범위내에서 랜덤 크기로 지정 (Min, Max 가 일치하면 고정크기)

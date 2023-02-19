@@ -66,6 +66,7 @@ struct VS_IN
 {
 	float3 vLocalPos SEMANTIC(POSITION);
 	float2 vUV SEMANTIC(TEXCOORD);
+	UINT32 uInstID SEMANTIC(SV_InstanceID);
 };
 
 struct VS_OUT
@@ -73,6 +74,7 @@ struct VS_OUT
 	float3 vWorldPos SEMANTIC(POSITION);
 	float2 vUV SEMANTIC(TEXCOORD);
 	float4 vSV_Pos SEMANTIC(SV_Position);
+	UINT32 uInstID SEMANTIC(SV_InstanceID);
 };
 
 #endif

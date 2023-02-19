@@ -19,6 +19,12 @@
 //카메라 등록
 #include "CRenderMgr.h"
 
+//tCamMatrix 버퍼 업로드 용
+#include "CConstbuffer.h"
+
+#include "CMaterial.h"
+#include "CMesh.h"
+
 CCamera::CCamera():
 	CComponent(eCOMPONENT_TYPE::CAMERA)
 	, m_AspectRatio()
@@ -71,7 +77,22 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 	}
 
 	//2. 업데이트 - 카메라 별로 렌더링이 진행되므로 굳이 업데이트 할 필요가 없음.
-	//g_Transform.MatProj = m_matProj;
+	//g_matCam.MatProj = m_matProj;
+}
+
+void CCamera::AddInstancingRenderQueue(Ptr<CMaterial> _pMtrl, Ptr<CMesh> _pMesh)
+{
+	size_t size = m_vecInstancedRenderQueue.size();
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		//이미 인스턴싱 대기열에 등록되어 있는 재질일 경우 return
+		if (_pMtrl.Get() == m_vecInstancedRenderQueue[i].pMtrl.Get())
+			return;
+	}
+
+	//그렇지 않을 경우 Mesh와 한 쌍으로 pushback
+	m_vecInstancedRenderQueue.push_back(tRenderQueueData{_pMtrl, _pMesh});
 }
 
 void CCamera::SetCamIndex(eCAMERA_INDEX _Idx)
@@ -150,7 +171,7 @@ void CCamera::finaltick()
 	m_matView *= matRot.Transpose();
 
 	//3. transform 상수버퍼 구조체에 업데이트 -> 안함. 나중에 render때 일괄적으로 view 행렬과 proj 행렬을 곱할 예정.
-	//g_Transform.matViewProj = m_matView;
+	//g_matCam.matViewProj = m_matView;
 
 
 	////===========
@@ -166,7 +187,7 @@ void CCamera::finaltick()
 	//m_matProj = XMMatrixPerspectiveFovLH(0.5f * XM_PI, m_AspectRatio, 1.f, 10000.f);
 	//
 	////2. 업데이트
-	//g_Transform.MatProj = m_matProj;
+	//g_matCam.MatProj = m_matProj;
 	
 }
 
@@ -236,16 +257,14 @@ void CCamera::SortObject()
 
 
 			//쉐이더 도메인을 받아와서
-			eSHADER_DOMAIN dom = Com->GetMaterial()->GetShader()->GetShaderDomain();
+			eSHADER_DOMAIN dom = Com->GetCurMaterial()->GetShader()->GetShaderDomain();
 
 			//만약 쉐이더 도메인이 등록되어있지 않을 경우 assert 처리
-			assert((eSHADER_DOMAIN)0 < dom && dom < eSHADER_DOMAIN::_END);
+			assert((eSHADER_DOMAIN)0 <= dom && dom < eSHADER_DOMAIN::_END);
 
 			//도메인이 등록되어 있을 경우 push back
 			m_arrvecShaderDomain[(int)dom].push_back(vecObj[i]);
 
-			//등록했을 경우 해당 오브젝트의 데이터를 Material에 전달한다.
-			vecObj[i]->Add
 		}
 
 	}
@@ -254,22 +273,37 @@ void CCamera::SortObject()
 void CCamera::render()
 {
 	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
-	g_Transform.matView = m_matView;
-	g_Transform.matProj = m_matProj;
+	g_matCam.matView = m_matView;
+	g_matCam.matProj = m_matProj;
 	g_matViewProj = m_matView * m_matProj;
 	
+	//카메라의 행렬을 상수버퍼에 업로드
+	CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES)->UploadData(&g_matCam);
 
 	for (int i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
 	{
+
 		size_t size = m_arrvecShaderDomain[i].size();
 		for (size_t j = 0; j < size; ++j)
 		{
-			m_arrvecShaderDomain[i][j]->render();
+			m_arrvecShaderDomain[i][j]->render(this);
 		}
+
+		size = m_vecInstancedRenderQueue.size();
+		for (size_t i = 0; i < size; i++)
+		{
+			m_vecInstancedRenderQueue[i].pMtrl->BindData();
+			m_vecInstancedRenderQueue[i].pMesh->render(m_vecInstancedRenderQueue[i].pMtrl->GetInstancingCount());
+		}
+		
+		//인스턴싱 대기열 비워주기
+		m_vecInstancedRenderQueue.clear();
 
 		//렌더링 순회 끝나고 나면 비워주기.
 		m_arrvecShaderDomain[i].clear();
 	}
+
+
 }
 
 

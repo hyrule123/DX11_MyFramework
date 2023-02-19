@@ -5,7 +5,7 @@
 //전역변수 선언 및 초기화 하는곳
 //=============================
 
-tTransform g_Transform = {};
+tCamMatrices g_matCam = {};
 tGlobalValue g_GlobalVal = {};
 tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::END] = {};
 Matrix g_matViewProj;

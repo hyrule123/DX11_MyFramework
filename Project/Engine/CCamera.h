@@ -1,5 +1,18 @@
 #pragma once
 #include "CComponent.h"
+
+#include "ptr.h"
+
+class CMesh;
+class CMaterial;
+
+
+struct tRenderQueueData
+{
+    Ptr<CMaterial> pMtrl;
+    Ptr<CMesh> pMesh;
+};
+
 class CCamera :
     public CComponent
 {
@@ -18,16 +31,20 @@ private:
     vector<CGameObject*>    m_arrvecShaderDomain[(UINT)eSHADER_DOMAIN::_END];
     UINT32 m_LayerFlag;
 
+    vector<tRenderQueueData> m_vecInstancedRenderQueue;
+
 public:
-    //Setter
     void SetProjType(ePROJ_TYPE _Type);
+    ePROJ_TYPE GetProjType() const { return m_ProjectionType; }
+
+    void AddInstancingRenderQueue(Ptr<CMaterial> _pMtrl, Ptr<CMesh> _pMesh);
+
     void SetCamIndex(eCAMERA_INDEX _Idx);
     void SetLayerFlag(UINT32 _iLayerFlag);
     void AddLayerFlag(UINT32 _iLayerNum);
     void OffLayerFlag(UINT32 _iLayerNum);
 
-    //Getter
-    ePROJ_TYPE GetProjType() const { return m_ProjectionType; }
+    
     Matrix GetViewProjMatrix() const { return (m_matView * m_matProj); }
 
 public:

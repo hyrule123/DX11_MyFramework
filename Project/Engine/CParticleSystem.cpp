@@ -80,18 +80,19 @@ void CParticleSystem::finaltick()
 	m_pCSParticle->Execute();
 }
 
-void CParticleSystem::render()
+void CParticleSystem::render(CCamera* _pCam)
 {
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
 		return;
 
-	Transform()->UpdateData();
+	CMaterial* pMtrl = GetCurMaterial().Get();
+	pMtrl->AddMtrlScalarData(GetOwner()->GetMtrlScalarData());
 
-	GetMaterial()->BindData();
+	pMtrl->BindData();
 
 	m_pSBufferRW_ParticleTransform->BindBufferSRV();
 
-	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
+	GetMesh()->render(m_tModuleData.iMaxParticleCount);
 }
 
 

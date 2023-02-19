@@ -42,7 +42,7 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
     }
 	
     //Alpha Check + Color Key Check
-    if (0.f == vOutColor.a || all(vOutColor.rgb == COLOR_KEY.rgb))
+	if (0.f == vOutColor.a || all(vOutColor.rgb == g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_COLOR_KEY.rgb))
     {
         discard;
     }

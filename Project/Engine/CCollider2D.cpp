@@ -34,7 +34,7 @@ void CCollider2D::finaltick()
 	bool bNeedAABBUpdate = false;
 
 	//트랜스폼의 월드행렬이 변경되어 자신의 충돌체 업데이트가 필요한 경우
-	if (true == pTransform->GetTransformUpdated())
+	if (true == pTransform->GetCamMatricesUpdated())
 	{
 		//자신의 중심 위치를 구한다.
 		const Vec3& WorldPos = Transform()->GetWorldPos();

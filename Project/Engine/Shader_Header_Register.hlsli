@@ -14,7 +14,7 @@
 //==========================================
 
 //Register Number
-#define e_b_CBUFFER_TRANSFORM				REGISTER_IDX(b, 0)
+#define e_b_CBUFFER_CAM_MATIRCES				REGISTER_IDX(b, 0)
 #define e_b_CBUFFER_MTRL_SCALAR				REGISTER_IDX(b, 1)
 #define e_b_CBUFFER_MTRL_TEX				REGISTER_IDX(b, 2)
 #define e_b_CBUFFER_GLOBAL					REGISTER_IDX(b, 3)
@@ -45,9 +45,9 @@ extern tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::E
 #else
 
 
-cbuffer CBuffer_Transform : register(e_b_CBUFFER_TRANSFORM)
+cbuffer CBuffer_Transform : register(e_b_CBUFFER_CAM_MATIRCES)
 {
-	tTransform g_CBuffer_Transform;
+	tCamMatrices g_CBuffer_matCam;
 };
 
 cbuffer CBuffer_Material_Scalar : register(e_b_CBUFFER_MTRL_SCALAR)
@@ -69,7 +69,7 @@ cbuffer CBuffer_Global : register(e_b_CBUFFER_GLOBAL)
 	 
 cbuffer CBuffer_SBUFFER_SHARED_DATA : register(e_b_CBUFFER_SBUFFER_SHAREDATA)
 {
-	tSBufferInfo g_SBufferInfo[eCBUFFER_SBUFFER_SHAREDATA_IDX::END];
+	tSBufferInfo g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::END];
 }
 
 
@@ -132,6 +132,8 @@ Texture2D g_tex_4 : register(e_t_TEXTURE_4);
 Texture2D g_tex_5 : register(e_t_TEXTURE_5);
 Texture2D g_tex_6 : register(e_t_TEXTURE_6);
 Texture2D g_tex_7 : register(e_t_TEXTURE_7);
+
+StructuredBuffer<tMtrlScalarData> g_SBuffer_Mtrl_Scalar : register(e_t_SBUFFER_MTRL_SCALAR);
 
 TextureCube g_cube_0 : register(e_t_TEXTURE_CUBE_0);
 TextureCube g_cube_1 : register(e_t_TEXTURE_CUBE_1);

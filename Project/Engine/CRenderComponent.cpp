@@ -6,8 +6,8 @@
 #include "CMaterial.h"
 
 
-CRenderComponent::CRenderComponent(eCOMPONENT_TYPE _type):
-	CComponent(_type)
+CRenderComponent::CRenderComponent(eCOMPONENT_TYPE _type)
+	: CComponent(_type)
 {
 }
 
@@ -28,7 +28,7 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 	if (nullptr == m_pSharedMtrl)
 	{
 		m_pCurrentMtrl = nullptr;
-		return m_pCurrentMtrl;
+		return nullptr;
 	}
 
 	//동적 재질 최초 요청시 clone해서 복사 후 돌려준다.
@@ -41,12 +41,7 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 	return m_pCurrentMtrl;
 }
 
-void CRenderComponent::render()
+void CRenderComponent::SetMtrlScalarParam(const tMtrlScalarData& _tMtrlScalarData)
 {
-	//재질과 메쉬의 존재 여부는 카메라에서 미리 다 확인했기 때문에 검사할 필요 없음.
-
-
-
-
-
+	m_pCurrentMtrl->AddMtrlScalarData(_tMtrlScalarData);
 }

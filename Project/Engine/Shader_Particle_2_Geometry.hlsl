@@ -14,7 +14,7 @@ void GS_Particle(
 		return;
 	
 	//정점을 뷰 공간상으로 이동
-    float3 vParticleViewPos = mul(float4(g_SBuffer_ParticleTransform[id].vWorldPos.xyz, 1.f), g_CBuffer_Transform.matView).xyz;
+    float3 vParticleViewPos = mul(float4(g_SBuffer_ParticleTransform[id].vWorldPos.xyz, 1.f), g_CBuffer_matCam.matView).xyz;
     
 	//파티클의 크기를 지정한 Scale로 조정
     float2 vParticleScale = mul(g_SBuffer_ParticleTransform[id].vWorldScale.xy, 0.5f);
@@ -54,7 +54,7 @@ void GS_Particle(
 	for (int i = 0; i < 4; ++i)
 	{
 		output[i].vSV_Pos = float4(vParticleViewPos.xy + Vertices[i], vParticleViewPos.z, 1.f);
-		output[i].vSV_Pos = mul(output[i].vSV_Pos, g_CBuffer_Transform.matProj);
+		output[i].vSV_Pos = mul(output[i].vSV_Pos, g_CBuffer_matCam.matProj);
 		output[i].uInstID = _in[0].uInstID;
 	}
 

@@ -28,7 +28,7 @@ private:
     vector<CGameObject*>    m_vecChild;
 
     //Own Scalar Data
-    tMtrlScalarData          m_ObjScalarData;
+    tMtrlScalarData          m_MtrlScalarData;
 
     //Layer Info
     int                     m_iLayerIdx;
@@ -85,20 +85,22 @@ public:
 
     //Recursive
     void AddAllHierarchyObjects(__in int _iLayerIdx, __out vector<CGameObject*>& _vecObj);
-    void SetParentTransformUpdated();
+    void SetParentCamMatricesUpdated();
 
     //기타
     bool GetParentWorldMatrix(__out Matrix& _mat);
 
     const vector<CGameObject*>& GetvecChilds() const { return m_vecChild; }
     size_t GetNumChilds() const { return m_vecChild.size(); }
-    
+
+    void SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
+    const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
 
 public:
     void init();
     void tick();
     virtual void finaltick();
-    void render();
+    void render(CCamera* _pCam);
 
     //제거되기 전 기존 오브젝트들과의 관계를 제거
     //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 cleanup() 함수만 호출한다.

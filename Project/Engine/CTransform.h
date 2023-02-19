@@ -76,7 +76,7 @@ public:
     //사이즈 또는 스케일값이 변했을 경우 간이 충돌체 정보를 새로 생성.
     float GetAABBSideLen() const;
 
-    bool GetTransformUpdated() const { return (m_bNeedMyUpdate || m_bNeedParentUpdate); }
+    bool GetCamMatricesUpdated() const { return (m_bNeedMyUpdate || m_bNeedParentUpdate); }
     bool GetSizeUpdated() const { return m_bSizeUpdated; }
 
     //inline Getter
@@ -93,7 +93,7 @@ public:
 
     Vec3 GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(UINT)_eDir]; }
     Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorld.m[(UINT)_eDir]).Normalize(); }
-    Matrix GetWorldMat() const { return m_matWorld; }
+    const Matrix& GetWorldMat() const { return m_matWorld; }
 
 
 

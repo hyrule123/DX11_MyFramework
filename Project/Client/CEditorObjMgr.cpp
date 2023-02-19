@@ -81,27 +81,28 @@ void CEditorObjMgr::render()
 		{
 		case eSHAPE_TYPE::RECT:
 		{
-			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->MeshRender()->GetMaterial();
+			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->MeshRender()->GetCurMaterial();
 			//월드행렬 전달.
 
 			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
-			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
-			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
+
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
 
 			//레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->render();
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->render(nullptr);
 
 			break;
 		}
 		case eSHAPE_TYPE::CIRCLE:
 		{
-			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->MeshRender()->GetMaterial();
+			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->MeshRender()->GetCurMaterial();
 			//월드행렬 전달.
 			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
-			pMtrl->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
-			pMtrl->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
 
-			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->render();
+			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->render(nullptr);
 			break;
 		}
 		case eSHAPE_TYPE::CUBE:

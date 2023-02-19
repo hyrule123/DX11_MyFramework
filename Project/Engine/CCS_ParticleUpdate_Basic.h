@@ -33,7 +33,7 @@ private:
 public:
     void SetNoiseTexture(Ptr<CTexture> _pTex) { m_Tex_Noise = _pTex; }
 
-    void SetParticleOwnerPos(const Vec3& _vPos) { SetScalarParam(OWNER_OBJ_POS, Vec4(_vPos, 1.f)); }
+    void SetParticleOwnerPos(const Vec3& _vPos) { SetScalarParam(MTRL_SCALAR_OWNER_OBJ_POS, Vec4(_vPos, 1.f)); }
 };
 
 

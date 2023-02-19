@@ -9,6 +9,10 @@
 //Scalar Parameter : 이 재질을 사용하는 오브젝트 개별로 달라질 수 있는 요소
 //Texture Parameter : 이 재질을 사용하는 오브젝트 모두 공통적으로 사용하는 요소
 
+enum class eMTRL_DRAWMODE
+{
+    
+};
 
 struct tMapEntityIDHashFunc
 {
@@ -19,14 +23,13 @@ struct tMapEntityIDHashFunc
 };
 
 class CStructBuffer;
+class CConstBuffer;
 
 class CMaterial :
     public CRes
 {
-private:
-    CMaterial() = delete;
 public:
-    CMaterial(bool _bUseInstancing);
+    CMaterial();
     CMaterial(const CMaterial& _Clone);
     virtual ~CMaterial();
 
@@ -35,24 +38,21 @@ public:
 private:
     Ptr<CGraphicsShader>    m_pShader;
 
-    //Key : 자신의 entity ID 정보, Value : 자신의 정보가 저장되어있는 m_vecMtrlScalar에서의 index 값
-    //재질을 관리하는 컴포넌트인 RenderComponent의 소멸자에서 반드시 제거해주어야 함.
-    unordered_map<UINT32, UINT, tMapEntityIDHashFunc>      m_mapEntityID;
     vector<tMtrlScalarData>         m_vecMtrlScalar;
+    CConstBuffer*                   m_CBufferMtrlScalar;
     CStructBuffer*                  m_SBufferMtrlScalar;
 
     tMtrlTexData            m_MtrlTex;
 
     Ptr<CTexture>           m_arrTex[(int)eMTRLDATA_PARAM_TEX::_END];
-
-    //이번 프레임 인스턴싱으로 그리는지 일반 드로우콜로 그리는지 전달
-    UINT                    m_uCurFrmInstancingCount;
     
+    //1 = 일반 드로우콜, 2 이상 = 인스턴싱
+    UINT                    m_uRenderCount;
 
 public:
     //Inline Setter
-    void AddMtrlScalarData(const tMtrlScalarData& )
-    void SetScalarParam (UINT32 _iRenderComEntityID, eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
+    void AddMtrlScalarData(const tMtrlScalarData& _MtrlScalarData) { m_vecMtrlScalar.push_back(_MtrlScalarData); }
+    
     void SetTexParam    (eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex);
     void RemoveTexture  (eMTRLDATA_PARAM_TEX _Param);
     void SetShader(Ptr<CGraphicsShader> _Shader) { m_pShader = _Shader; }
@@ -61,7 +61,9 @@ public:
     Ptr<CGraphicsShader> GetShader() const { return m_pShader; }
     Ptr<CTexture> GetTexture(eMTRLDATA_PARAM_TEX _texIdx = eMTRLDATA_PARAM_TEX::_0) const;
 
-    UINT GetInstancingCount() const { return m_uCurFrmInstancingCount; }
+    UINT GetInstancingCount() const { return m_uRenderCount; }
+    void SetInstancedRender(bool _bEnable);
+    bool GetInstencedRender() const { return (nullptr == m_SBufferMtrlScalar); }
 
 private:
     virtual int Load(const wstring& _strFilePath) { return S_OK; }
@@ -78,6 +80,7 @@ inline Ptr<CTexture> CMaterial::GetTexture(eMTRLDATA_PARAM_TEX _texIdx) const
 {
     return m_arrTex[(UINT)_texIdx];
 }
+
 
 inline bool CMaterial::IsTexture(eMTRLDATA_PARAM_TEX _Idx)
 {

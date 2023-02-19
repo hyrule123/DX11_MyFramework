@@ -92,9 +92,9 @@ void CLevelMgr::init()
 	pPlayer->AddComponent(new CMeshRender);
 	pPlayer->AddScript(new CPlayerScript);
 
-	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DLightMtrl");
+	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::TEST);
 	PlayerMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
-	PlayerMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)COLOR_KEY, ColorKey);
+	pPlayer->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_COLOR_KEY, ColorKey);
 
 	pPlayer->MeshRender()->SetMesh(RectMesh);
 	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
@@ -102,10 +102,10 @@ void CLevelMgr::init()
 	pPlayer->AddComponent(new CLight2D);
 	pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
 
-	pPlayer->AddComponent(new CAnimator2D);
-	Ptr<CTexture> pAnimAtlas = CResMgr::GetInst()->FindRes<CTexture>("LinkAtlas");
-	pPlayer->Animator2D()->CreateAnimation("WalkDown", pAnimAtlas, Vec2(0.f, 520.f), Vec2(120.f, 130.f), Vec2(300.f, 300.f), 10, 16);
-	pPlayer->Animator2D()->Play("WalkDown", true);
+	//pPlayer->AddComponent(new CAnimator2D);
+	//Ptr<CTexture> pAnimAtlas = CResMgr::GetInst()->FindRes<CTexture>("LinkAtlas");
+	//pPlayer->Animator2D()->CreateAnimation("WalkDown", pAnimAtlas, Vec2(0.f, 520.f), Vec2(120.f, 130.f), Vec2(300.f, 300.f), 10, 16);
+	//pPlayer->Animator2D()->Play("WalkDown", true);
 
 	pPlayer->AddComponent(new CCollider2D_OBB);
 
@@ -121,7 +121,7 @@ void CLevelMgr::init()
 	//pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
 	//Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
 	//TestMtrl->SetTexParam(eTEX_0, Fighter);
-	//TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)COLOR_KEY, ColorKey);
+	//TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_COLOR_KEY, ColorKey);
 	//pTestObj1->MeshRender()->SetMaterial(TestMtrl);
 
 	//::SpawnGameObject(pTestObj1, Vec3(100.f, 0.f, 10.f), 1);
@@ -146,7 +146,7 @@ void CLevelMgr::init()
 	//Ptr<CMaterial> pLightMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DLightMtrl");
 
 	//pLightMtrl->SetTexParam(eTEX_0, CResMgr::GetInst()->FindRes<CTexture>("beheaded"));
-	//pLightMtrl->SetScalarParam(COLOR_KEY, Vec4(0.f, 0.f, 0.f, 1.f));
+	//pLightMtrl->SetScalarParam(MTRL_SCALAR_COLOR_KEY, Vec4(0.f, 0.f, 0.f, 1.f));
 	//pLightMtrl->SetTexParam(eTEX_1, CResMgr::GetInst()->FindRes<CTexture>("beheaded_n"));
 
 	//pTestObj2->MeshRender()->SetMaterial(pLightMtrl);
@@ -178,7 +178,7 @@ void CLevelMgr::init()
 	//		pTestObj3->AddComponent(new CMeshRender);
 	//		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	//		Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
-	//		TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)COLOR_KEY, ColorKey);
+	//		TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_COLOR_KEY, ColorKey);
 	//		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
 	//		pTestObj3->AddComponent(new CCollider2D_OBB);
 
@@ -192,60 +192,60 @@ void CLevelMgr::init()
 
 
 	// Test Object 3
-	CGameObject* pTestObj3 = new CGameObject;
-	pTestObj3->SetName("Test Object");
-	pTestObj3->AddComponent(new CTransform);
-	pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	//CGameObject* pTestObj3 = new CGameObject;
+	//pTestObj3->SetName("Test Object");
+	//pTestObj3->AddComponent(new CTransform);
+	//pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 
-	pTestObj3->AddComponent(new CMeshRender);
-	pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
-	Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
-	TestMtrl3->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pCreateTex);
-	pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
+	//pTestObj3->AddComponent(new CMeshRender);
+	//pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
+	//Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
+	//TestMtrl3->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pCreateTex);
+	//pTestObj3->MeshRender()->SetMaterial(TestMtrl3);
 
-	//pTestObj3->AddComponent(new CParticleSystem);
-
-
-	pTestObj3->AddComponent(new CCollider2D_OBB);
-
-	//pTestObj3->AddScript(new CTestObjScript);
-
-	SpawnGameObject(pTestObj3, Vec3(100.f, 100.f, 10.f), 1);
-	//m_pCurLevel->AddGameObject(pTestObj3, 1);
+	////pTestObj3->AddComponent(new CParticleSystem);
 
 
+	//pTestObj3->AddComponent(new CCollider2D_OBB);
+
+	////pTestObj3->AddScript(new CTestObjScript);
+
+	//SpawnGameObject(pTestObj3, Vec3(100.f, 100.f, 10.f), 1);
+	////m_pCurLevel->AddGameObject(pTestObj3, 1);
 
 
-	// Test Object 4
-	pTestObj3 = new CGameObject;
-	pTestObj3->SetName("ParticleObj");
-	pTestObj3->AddComponent(new CTransform);
-	pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
-
-	CParticleSystem* pParticle = new CParticleSystem;
-
-	Ptr<CTexture> pHOSTEX = CResMgr::GetInst()->FindRes<CTexture>(RESOURCE::TEXTURE::HOS);
-	pParticle->GetMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pHOSTEX);
-	pParticle->CreateParticle();
-	pTestObj3->AddComponent(pParticle);
 
 
-	pTestObj3->AddComponent(new CCollider2D_OBB);
+	//// Test Object 4
+	//pTestObj3 = new CGameObject;
+	//pTestObj3->SetName("ParticleObj");
+	//pTestObj3->AddComponent(new CTransform);
+	//pTestObj3->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 
-	pTestObj3->AddScript(new CPlayerScript);
+	//CParticleSystem* pParticle = new CParticleSystem;
 
-	//pTestObj3->AddScript(new CTestObjScript);
+	//Ptr<CTexture> pHOSTEX = CResMgr::GetInst()->FindRes<CTexture>(RESOURCE::TEXTURE::HOS);
+	//pParticle->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pHOSTEX);
+	//pParticle->CreateParticle();
+	//pTestObj3->AddComponent(pParticle);
 
-	SpawnGameObject(pTestObj3, Vec3(-100.f, -100.f, 10.f), 1);
-	//m_pCurLevel->AddGameObject(pTestObj3, 1);
+
+	//pTestObj3->AddComponent(new CCollider2D_OBB);
+
+	//pTestObj3->AddScript(new CPlayerScript);
+
+	////pTestObj3->AddScript(new CTestObjScript);
+
+	//SpawnGameObject(pTestObj3, Vec3(-100.f, -100.f, 10.f), 1);
+	////m_pCurLevel->AddGameObject(pTestObj3, 1);
 
 
-	CGameObject* pTestObj4 = new CGameObject;
-	pTestObj4->SetName("Test");
-	pTestObj4->AddComponent(new CTransform);
+	//CGameObject* pTestObj4 = new CGameObject;
+	//pTestObj4->SetName("Test");
+	//pTestObj4->AddComponent(new CTransform);
 
-	pTestObj3->AddChildObj(pTestObj4);
-	SpawnGameObject(pTestObj4, Vec3(-100.f, -100.f, 10.f), 1);
+	//pTestObj3->AddChildObj(pTestObj4);
+	//SpawnGameObject(pTestObj4, Vec3(-100.f, -100.f, 10.f), 1);
 
 
 	{//Tilemap
@@ -256,7 +256,7 @@ void CLevelMgr::init()
 
 		pTilemap->Transform()->SetSize(Vec3(500.f, 500.f, 1.f));
 
-		pTilemap->Tilemap()->GetMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>("TileAtlas"));
+		pTilemap->Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>("TileAtlas"));
 		pTilemap->Tilemap()->SetSliceSize(Vec2(0.125f, 0.166f));
 		pTilemap->Tilemap()->SetTileCount(8, 8);
 

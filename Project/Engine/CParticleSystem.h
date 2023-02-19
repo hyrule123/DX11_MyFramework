@@ -6,6 +6,8 @@
 class CStructBuffer;
 class CCS_ParticleUpdate_Root;
 
+class CCamera;
+
 class CParticleSystem :
     public CRenderComponent
 {
@@ -17,7 +19,7 @@ public:
 public:
     virtual void init() override;
     virtual void finaltick() override;
-    virtual void render() override;
+    virtual void render(CCamera* _pCam) override;
     virtual void cleanup() override {};
 
 private:

@@ -75,6 +75,62 @@ CGameObject::~CGameObject()
 	Safe_Del_Array(m_arrCom);
 }
 
+void CGameObject::SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)
+{
+	
+
+	switch (_Param)
+	{
+	case eMTRLDATA_PARAM_SCALAR::INT_0: m_MtrlScalarData.INT_0 = *((int*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::INT_1: m_MtrlScalarData.INT_1 = *((int*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::INT_2: m_MtrlScalarData.INT_2 = *((int*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::INT_3: m_MtrlScalarData.INT_3 = *((int*)_Src);
+		break;
+
+
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_0: m_MtrlScalarData.FLOAT_0 = *((float*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_1: m_MtrlScalarData.FLOAT_1 = *((float*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_2: m_MtrlScalarData.FLOAT_2 = *((float*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::FLOAT_3: m_MtrlScalarData.FLOAT_3 = *((float*)_Src);
+		break;
+
+
+	case eMTRLDATA_PARAM_SCALAR::VEC2_0: m_MtrlScalarData.VEC2_0 = *((Vec2*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC2_1: m_MtrlScalarData.VEC2_1 = *((Vec2*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC2_2: m_MtrlScalarData.VEC2_2 = *((Vec2*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC2_3: m_MtrlScalarData.VEC2_3 = *((Vec2*)_Src);
+		break;
+
+	case eMTRLDATA_PARAM_SCALAR::VEC4_0: m_MtrlScalarData.VEC4_0 = *((Vec4*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC4_1: m_MtrlScalarData.VEC4_1 = *((Vec4*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC4_2: m_MtrlScalarData.VEC4_2 = *((Vec4*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::VEC4_3: m_MtrlScalarData.VEC4_3 = *((Vec4*)_Src);
+		break;
+
+	case eMTRLDATA_PARAM_SCALAR::MAT_0: m_MtrlScalarData.MAT_0 = *((Matrix*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::MAT_1: m_MtrlScalarData.MAT_1 = *((Matrix*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::MAT_2: m_MtrlScalarData.MAT_2 = *((Matrix*)_Src);
+		break;
+	case eMTRLDATA_PARAM_SCALAR::MAT_3: m_MtrlScalarData.MAT_3 = *((Matrix*)_Src);
+		break;
+
+	}
+}
+
 void CGameObject::init()
 {
 	m_bInitialized = true;
@@ -151,13 +207,13 @@ void CGameObject::finaltick()
 		static_cast<CTransform*>(m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])->ClearUpdateState();
 }
 
-void CGameObject::render()
+void CGameObject::render(CCamera* _pCam)
 {
 	//삭제 대기 상태일 경우 렌더링을 하지 않음.
 	if (nullptr == m_RenderCom || true == m_bDestroy)
 		return;
 
-	m_RenderCom->render();
+	m_RenderCom->render(_pCam);
 }
 
 void CGameObject::cleanup()
@@ -298,7 +354,7 @@ void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _
 	}
 }
 
-void CGameObject::SetParentTransformUpdated()
+void CGameObject::SetParentCamMatricesUpdated()
 {
 	if (nullptr != Transform())
 		Transform()->SetParentUpdate();
@@ -306,7 +362,7 @@ void CGameObject::SetParentTransformUpdated()
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->SetParentTransformUpdated();
+		m_vecChild[i]->SetParentCamMatricesUpdated();
 	}
 }
 
@@ -330,6 +386,6 @@ void CGameObject::SetChildTransformToUpdate()
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->SetParentTransformUpdated();
+		m_vecChild[i]->SetParentCamMatricesUpdated();
 	}
 }

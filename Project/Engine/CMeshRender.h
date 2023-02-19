@@ -12,7 +12,7 @@ private:
 
 public:
     virtual void finaltick() override;
-    virtual void render() override;
+    virtual void render(CCamera* _pCam) override;
 
     virtual void cleanup() override {}
 

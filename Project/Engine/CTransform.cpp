@@ -139,13 +139,16 @@ void CTransform::UpdateData()
 	//자신의 사이즈를 적용한 WVP 행렬을 만들어 상수버퍼로 업데이트 한다.
 	//const Matrix& matSize = Matrix::CreateScale(m_vSize);
 
-	//월드뷰투영행렬을 곱한다.
-	g_Transform.matWorld = m_matSize * m_matWorld;
-	g_Transform.matWVP = g_Transform.matWorld * g_matViewProj;
+	//월드 뷰 투영행렬을 곱한다.
+		//사이즈가 반영된 월드행렬을 계산에서 GameObject에 값을 등록해 놓는다.
+	MATRIX matWorld = m_matSize * m_matWorld;
+	GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WORLD, &(matWorld));
+	matWorld *= g_matViewProj;
+	GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WVP, &matWorld);
 
 
-	//위의 행렬을 상수버퍼에 전달 및 바인딩
-	CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_TRANSFORM);
-	pTransformBuffer->UploadData(&g_Transform, sizeof(tTransform));
-	pTransformBuffer->BindBuffer();
+	////위의 행렬을 상수버퍼에 전달 및 바인딩
+	//CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
+	//pTransformBuffer->UploadData(&g_matCam, sizeof(tCamMatrices));
+	//pTransformBuffer->BindBuffer();
 }

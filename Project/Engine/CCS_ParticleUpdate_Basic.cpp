@@ -33,7 +33,7 @@ bool CCS_ParticleUpdate_Basic::BindDataCS()
 
 		assert(nullptr != m_Tex_Noise);
 		const Vec2& TexSize = m_Tex_Noise->GetSize();
-		SetScalarParam(TEXTURE_NOISE_RESOLUTION, &TexSize);
+		SetScalarParam(MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION, &TexSize);
 	}
 
 

@@ -349,7 +349,7 @@ void CResMgr::CreateDefaultMaterial()
 {
 	//Debug Material
 	{
-		Ptr<CMaterial> pMtrl = new CMaterial(false);
+		Ptr<CMaterial> pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::DEBUG));
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::DEBUG);
@@ -359,8 +359,9 @@ void CResMgr::CreateDefaultMaterial()
 	// Test Material
 	{
 		Ptr<CMaterial> pMtrl = nullptr;
-		pMtrl = new CMaterial(false);
+		pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TEST));
+		pMtrl->SetInstancedRender(true);
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::TEST);
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -369,8 +370,9 @@ void CResMgr::CreateDefaultMaterial()
 	// std2D Material
 	{
 		Ptr<CMaterial> pMtrl = nullptr;
-		pMtrl = new CMaterial(true);
+		pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
+		pMtrl->SetInstancedRender(true);
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D);
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -379,7 +381,8 @@ void CResMgr::CreateDefaultMaterial()
 	// std2DLight Material
 	{
 		Ptr<CMaterial> pMtrl = nullptr;
-		pMtrl = new CMaterial(true);
+		pMtrl = new CMaterial();
+		pMtrl->SetInstancedRender(true);
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D_LIGHT));
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D_LIGHT);
@@ -388,7 +391,7 @@ void CResMgr::CreateDefaultMaterial()
 
 	// Tilemap Material
 	{
-		Ptr<CMaterial> pMtrl = new CMaterial(false);
+		Ptr<CMaterial> pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TILEMAP));
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::TILEMAP);
@@ -397,7 +400,7 @@ void CResMgr::CreateDefaultMaterial()
 
 	//Particle Material
 	{
-		Ptr<CMaterial> pMtrl = new CMaterial(false);
+		Ptr<CMaterial> pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::PARTICLE_RENDER));
 		pMtrl->SetKey(RESOURCE::MATERIAL::PARTICLE_RENDER);
 		AddRes(pMtrl->GetKey(), pMtrl);

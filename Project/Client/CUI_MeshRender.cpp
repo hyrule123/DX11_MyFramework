@@ -106,7 +106,7 @@ void CUI_MeshRender::init()
 		m_pComboBoxMesh->SetCurrentSelected(meshname);
 
 
-		const string& mtrlname = GetTarget()->MeshRender()->GetMaterial()->GetKey();
+		const string& mtrlname = GetTarget()->MeshRender()->GetCurMaterial()->GetKey();
 		m_pComboBoxMtrl->SetCurrentSelected(meshname);
 	}
 }
@@ -124,7 +124,7 @@ void CUI_MeshRender::tick()
 
 		if (-1 == m_pComboBoxMtrl->GetCurrentIndex())
 		{
-			const string& mtrlname = GetTarget()->MeshRender()->GetMaterial()->GetKey();
+			const string& mtrlname = GetTarget()->MeshRender()->GetCurMaterial()->GetKey();
 			m_pComboBoxMtrl->SetCurrentSelected(mtrlname);
 		}
 	}

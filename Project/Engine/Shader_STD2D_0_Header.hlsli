@@ -13,14 +13,16 @@
 */
 struct VS_IN
 {
-    float3 vPos : POSITION; // semantic  
-    float2 vUV : TEXCOORD;
+    float3 vPos SEMANTIC(POSITION); // semantic  
+    float2 vUV SEMANTIC(TEXCOORD);
+    UINT32 uInstID SEMANTIC(SV_InstanceID);
 };
 
 struct VS_OUT
 {
-    float4 vPosSV : SV_Position;
-    float2 vUV : TEXCOORD;
+    float4 vPosSV SEMANTIC(SV_Position);
+    float2 vUV SEMANTIC(TEXCOORD);
+    UINT32 uInstID SEMANTIC(SV_InstanceID);
 };
 
 //SV_Position == Shader Variable Position. 버텍스 쉐이더와 래스터라이저를 거쳐 결정된 픽셀의 위치.

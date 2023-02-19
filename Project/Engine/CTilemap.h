@@ -20,6 +20,7 @@
 #define TileTex    TEX_0
 
 class CStructBuffer;
+class CCamera;
 
 class CTilemap :
     public CRenderComponent
@@ -31,7 +32,7 @@ public:
 
 public:
     virtual void finaltick() override;
-    virtual void render() override;
+    virtual void render(CCamera* _pCam) override;
     virtual void cleanup() override {};
 
     void BindData();

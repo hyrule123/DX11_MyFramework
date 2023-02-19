@@ -14,19 +14,19 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
     }
     
     //애니메이션 사용중일경우
-    else if(TRUE == SHADER_STD2DMTRL_bAnimUse)
+	else if (TRUE == g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_bAnimUse)
     {
         //애니메이션의 피벗을 지정(캔버스 사이즈의 LT로부터 스프라이트 이미)
-		float2 vUV = SHADER_STD2DMTRL_vLT + (SHADER_STD2DMTRL_vCanvasSize * _in.vUV);
-		vUV -= ((SHADER_STD2DMTRL_vCanvasSize - SHADER_STD2DMTRL_vSlice) * 0.5f);
-		vUV -= SHADER_STD2DMTRL_vOffset;
+		float2 vUV = g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vLT + (g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vCanvasSize * _in.vUV);
+		vUV -= ((g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vCanvasSize - g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vSlice) * 0.5f);
+		vUV -= g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vOffset;
     
         //
         if (
-        vUV.x > SHADER_STD2DMTRL_vLT.x
-        && vUV.x < SHADER_STD2DMTRL_vLT.x + SHADER_STD2DMTRL_vSlice.x
-        && vUV.y > SHADER_STD2DMTRL_vLT.y
-        && vUV.y < SHADER_STD2DMTRL_vLT.y + SHADER_STD2DMTRL_vSlice.y
+        vUV.x > g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vLT.x
+        && vUV.x < g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vLT.x + g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vSlice.x
+        && vUV.y > g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vLT.y
+        && vUV.y < g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vLT.y + g_CBuffer_Mtrl_Scalar.SHADER_STD2DMTRL_vSlice.y
         )
         {
             vOutColor = g_tex_0.Sample(g_Sampler_0, vUV);
@@ -42,7 +42,7 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
     }
 
     //Alpha Check + Color Key Check
-    if (0.f == vOutColor.a || all(vOutColor.rgb == COLOR_KEY.rgb))
+	if (0.f == vOutColor.a || all(vOutColor.rgb == g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_COLOR_KEY.rgb))
     {
         discard;
     }
@@ -69,7 +69,7 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
         //노멀맵의 벡터 방향에 픽셀의 월드 행렬을 곱한 뒤 normalize 해준다.
         //이 때 공차좌표가 0이므로 결과값은 좌표값이 아닌 벡터값이 된다.
         //결과값은 해당 픽셀의 회전 결과가 반영되어 실제로 바라보고 있는 방향이 된다.
-        vNormal = normalize(mul(float4(vNormal, 0.f), g_CBuffer_Transform.matWorld).xyz);
+		vNormal = normalize(mul(float4(vNormal, 0.f), g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_MAT_WORLD).xyz);
             
     }
         
@@ -96,7 +96,7 @@ float4 PS_std2D_Light(VS_OUT _in) : SV_TARGET
 
 void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 {
-	for (uint i = 0; i < g_SBufferInfo[eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D].uSBufferCount; ++i)
+	for (uint i = 0; i < g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D].uSBufferCount; ++i)
     {  
         if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
         {
@@ -148,7 +148,7 @@ void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light)
 {
     //여기선 노말값까지 감안해줘야 함.    
-    for (uint i = 0; i < g_SBufferInfo[eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D].uSBufferCount; ++i)
+    for (uint i = 0; i < g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D].uSBufferCount; ++i)
     {
         if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
         {
