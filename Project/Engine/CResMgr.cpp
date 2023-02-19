@@ -371,7 +371,7 @@ void CResMgr::CreateDefaultMaterial()
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
-		pMtrl->SetInstancedRender(true);
+		//pMtrl->SetInstancedRender(true);
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D);
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -381,7 +381,7 @@ void CResMgr::CreateDefaultMaterial()
 	{
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial();
-		pMtrl->SetInstancedRender(true);
+		//pMtrl->SetInstancedRender(true);
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D_LIGHT));
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D_LIGHT);

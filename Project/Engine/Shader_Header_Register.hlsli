@@ -14,7 +14,7 @@
 //==========================================
 
 //Register Number
-#define e_b_CBUFFER_CAM_MATIRCES				REGISTER_IDX(b, 0)
+#define e_b_CBUFFER_CAM_MATIRCES			REGISTER_IDX(b, 0)
 #define e_b_CBUFFER_MTRL_SCALAR				REGISTER_IDX(b, 1)
 #define e_b_CBUFFER_MTRL_TEX				REGISTER_IDX(b, 2)
 #define e_b_CBUFFER_GLOBAL					REGISTER_IDX(b, 3)

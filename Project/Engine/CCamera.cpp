@@ -278,7 +278,9 @@ void CCamera::render()
 	g_matCam.matVP = m_matView * m_matProj;
 	
 	//카메라의 행렬을 상수버퍼에 업로드
-	CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES)->UploadData(&g_matCam);
+	CConstBuffer* pBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
+	pBuffer->UploadData(&g_matCam);
+	pBuffer->BindBuffer();
 
 	for (int i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
 	{

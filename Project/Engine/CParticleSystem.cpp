@@ -85,6 +85,8 @@ void CParticleSystem::render(CCamera* _pCam)
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
 		return;
 
+	Transform()->UpdateData();
+
 	CMaterial* pMtrl = GetCurMaterial().Get();
 	pMtrl->AddMtrlScalarData(GetOwner()->GetMtrlScalarData());
 
