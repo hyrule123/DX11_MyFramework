@@ -1,7 +1,7 @@
 {
 	"Contents" : 
 	{
-		"IsActive" : true
+		"IsActive" : false
 	},
 	"Inspector" : 
 	{
@@ -13,6 +13,6 @@
 	},
 	"Outliner" : 
 	{
-		"IsActive" : true
+		"IsActive" : false
 	}
 }

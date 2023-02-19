@@ -349,7 +349,7 @@ void CResMgr::CreateDefaultMaterial()
 {
 	//Debug Material
 	{
-		Ptr<CMaterial> pMtrl = new CMaterial();
+		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::DEBUG));
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::DEBUG);
@@ -358,8 +358,7 @@ void CResMgr::CreateDefaultMaterial()
 
 	// Test Material
 	{
-		Ptr<CMaterial> pMtrl = nullptr;
-		pMtrl = new CMaterial();
+		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TEST));
 		pMtrl->SetInstancedRender(true);
 

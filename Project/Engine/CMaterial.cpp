@@ -22,12 +22,14 @@ CMaterial::CMaterial(const CMaterial& _Clone)
 	, m_pShader(_Clone.m_pShader)
 	, m_MtrlTex(_Clone.m_MtrlTex)
 	, m_uRenderCount(1u)
-	, m_CBufferMtrlScalar(_Clone.m_CBufferMtrlScalar)
+	, m_CBufferMtrlScalar()
 {
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{
 		m_arrTex[i] = _Clone.m_arrTex[i];
 	}
+
+	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
 }
 
 

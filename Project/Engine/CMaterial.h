@@ -63,7 +63,7 @@ public:
 
     UINT GetInstancingCount() const { return m_uRenderCount; }
     void SetInstancedRender(bool _bEnable);
-    bool GetInstencedRender() const { return (nullptr == m_SBufferMtrlScalar); }
+    bool GetInstencedRender() const { return (nullptr != m_SBufferMtrlScalar); }
 
 private:
     virtual int Load(const wstring& _strFilePath) { return S_OK; }
