@@ -4,35 +4,41 @@
 #include "Shader_header_register.hlsli"
 
 
+
 struct tParticleShareData
 {
     INT32 iSpawnCount; // 스폰 시킬 파티클 개수
 	UINT32_2 uSeeds;
-	float padding;
+	float Padding;
 };
 
 
 // Particle
 struct tParticleTransform
 {
+	//위치 정보
 	float4 vLocalPos;
-	float4 vWorldPos; // 파티클 위치
 	float4 vWorldScale; // 파티클 크기
 	float4 vWorldRotation;
-	float4 vColor; // 파티클 색상
+	
+	float4 vWorldPos; // 파티클 위치
 	float4 vVelocity; // 파티클 현재 속도
 	float4 vForce; // 파티클에 주어진 힘
-	float4 vRandomForce; //파티클에 랜덤하게 주어지는 방향
+	
+	float4 vColor; // 파티클 색상
 
 	float fAge; // 생존 시간
 	float fPrevAge;
 	float fNormalizedAge; // 수명대비 생존시간을 0~1로 정규화 한 값
 	float fLifeTime; // 수명
+	
 	float fMass; // 질량
 	float fScaleFactor; // 추가 크기 배율
 
 	BOOL bActive;
-	float pad;
+	BOOL bIsBouncing;
+	
+	float4 vRotPerSec;
 };
 
 
@@ -60,5 +66,14 @@ struct GS_OUT
 	UINT32 uInstID SEMANTIC(SV_InstanceID);
 };
 
+
+
+#ifndef __cplusplus
+
+#include "Shader_Func.hlsli"
+RWStructuredBuffer<tParticleTransform> g_SBufferRW_ParticleTransform : register(e_u_PARTICLE_SBUFFERRW);
+RWStructuredBuffer<tParticleShareData> g_SBufferRW_Particle_Shared : register(e_u_PARTICLE_SBUFFERRW_SHAREDATA);
+
+#endif
 
 #endif

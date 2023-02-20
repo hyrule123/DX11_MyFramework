@@ -232,8 +232,10 @@ struct tParticleModule
 	BOOL bModule_NoiseForce;
     BOOL bModule_ExpandVelocity;    //속도에 따라 파티클의 크기 변화시키는 모듈
     
+    BOOL bModule_ApplyMass;
+    BOOL bModule_ApplyGravity;
 	INT32 iMaxParticleCount;
-	float3 PADDING1;
+	float PADDING1;
     
     
     //Spawn Module Part
@@ -298,5 +300,16 @@ struct tParticleModule
     
     
 	float4 vMaxVelocityScale; // 속력에 따른 크기 변화량 최대치
+    
+    
+    
+    //Gravity 모듈
+	float fGravity;
+	float fEnergyLoss;
+	float Padding;
+    BOOL bHeadingRight;
+	
+	float4 vOwnerPrevWorldPos;
+	float4 vOwnerCurWorldPos;
 };
 #endif

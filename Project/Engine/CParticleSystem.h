@@ -4,7 +4,7 @@
 #include "Shader_Particle_0_Header.hlsli"
 
 class CStructBuffer;
-class CCS_ParticleUpdate_Root;
+class CCS_ParticleUpdate;
 
 class CCamera;
 
@@ -46,7 +46,7 @@ private:
 
 
     //2.파티클 처리용 컴퓨트쉐이더 주소
-    Ptr<CCS_ParticleUpdate_Root> m_pCSParticle;
+    Ptr<CCS_ParticleUpdate> m_pCSParticle;
 
 
     //3.렌더링용 그래픽쉐이더 주소 - 이건 부모 클래스에 정의되어있음.

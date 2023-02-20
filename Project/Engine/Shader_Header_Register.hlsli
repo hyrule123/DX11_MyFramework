@@ -172,7 +172,7 @@ Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
 //각자 사용하는 쉐이더에서 별도로 선언하였음.
 //u0
 ////g_TexRW_Output
-////g_SBufferRW_Particle
+////g_SBufferRW_ParticleTransform
 
 //u1
 ////g_SBufferRW_Test

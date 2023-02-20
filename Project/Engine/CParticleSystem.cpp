@@ -9,7 +9,7 @@
 
 #include "CTransform.h"
 
-#include "CCS_ParticleUpdate_Basic.h"
+#include "CCS_ParticleUpdate.h"
 
 #include "CTimeMgr.h"
 
@@ -56,7 +56,7 @@ void CParticleSystem::finaltick()
 	//모듈데이터 전송
 	static CConstBuffer* const s_CBuffer_ModuleData = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_PARTICLE_MODULEDATA);
 	s_CBuffer_ModuleData->UploadData(&m_tModuleData);
-	s_CBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE::__ALL);
+	//s_CBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE::__ALL);
 
 
 	//몇개 스폰할지 정보를 SharedRW 버퍼에 담아서 전송
@@ -78,6 +78,10 @@ void CParticleSystem::finaltick()
 
 	//파티클 위치정보를 계산시킴.
 	m_pCSParticle->Execute();
+
+	//렌더링하고 나면 PrevPos를 업데이트
+	m_tModuleData.vOwnerPrevWorldPos = m_tModuleData.vOwnerCurWorldPos;
+	m_tModuleData.vOwnerCurWorldPos = Transform()->GetWorldPos();
 }
 
 void CParticleSystem::render(CCamera* _pCam)
@@ -95,24 +99,26 @@ void CParticleSystem::render(CCamera* _pCam)
 	m_pSBufferRW_ParticleTransform->BindBufferSRV();
 
 	GetMesh()->render(m_tModuleData.iMaxParticleCount);
+
+
+
 }
 
 
 void CParticleSystem::CreateParticle()
 {
+	assert(nullptr != m_pCSParticle);
+
 	m_bIsCreated = true;
 
-	//일단 하나밖에 없으므로 컴퓨트쉐이더는 고정(나중에 해제)
-	SetParticleCS(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE);
-
-	m_tModuleData.iMaxParticleCount = 100;
+	m_tModuleData.iMaxParticleCount = 200;
 
 	//파티클을 처리할 버퍼 생성
 	m_pSBufferRW_ParticleTransform->Create(sizeof(tParticleTransform), m_tModuleData.iMaxParticleCount, nullptr, 0u);
 
 	m_tModuleData.bModule_Spawn = TRUE;
 
-	m_tModuleData.iSpawnRate = 100;
+	m_tModuleData.iSpawnRate = 30;
 
 	m_tModuleData.vSpawnColor = Vec3(0.4f, 1.f, 0.4f);
 
@@ -123,8 +129,8 @@ void CParticleSystem::CreateParticle()
 	m_tModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);
 	m_tModuleData.bFollowing = 0; // 시뮬레이션 좌표계
 
-	m_tModuleData.fMinLifeTime = 1.f;
-	m_tModuleData.fMaxLifeTime = 3.f;
+	m_tModuleData.fMinLifeTime = 3.f;
+	m_tModuleData.fMaxLifeTime = 5.f;
 
 	m_tModuleData.bModule_ScaleChange = TRUE;
 	m_tModuleData.fStartScale = 2.f;
@@ -147,6 +153,10 @@ void CParticleSystem::CreateParticle()
 	m_tModuleData.bModule_Rotation = TRUE;
 	m_tModuleData.vRotRadPerSec = Vec3(0.f, 0.f, 10.f);
 	m_tModuleData.vRotRandomRange = Vec3(0.f, 0.f, 0.3f);
+
+	m_tModuleData.bModule_ApplyGravity = TRUE;
+	m_tModuleData.bModule_ApplyGravity = TRUE;
+	m_tModuleData.fGravity = 9.8f;
 
 
 	//노이즈 텍스처 지정

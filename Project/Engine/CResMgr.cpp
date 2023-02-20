@@ -8,7 +8,7 @@
 #include "strKeys.h"
 
 #include "CCS_SetColor.h"
-#include "CCS_ParticleUpdate_Basic.h"
+#include "CCS_ParticleUpdate.h"
 
 
 
@@ -337,9 +337,17 @@ void CResMgr::CreateDefaultComputeShader()
 	AddRes(pShader->GetKey(), pShader);
 	pShader = nullptr;
 
-	pShader = new CCS_ParticleUpdate_Basic;
-	pShader->CreateShader((void*)g_CS_Particle, sizeof(g_CS_Particle));
-	pShader->SetKey(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE);
+	//기본 파티클 쉐이더
+	pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
+	pShader->CreateShader((void*)g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic));
+	pShader->SetKey(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE_BASIC);
+	AddRes(pShader->GetKey(), pShader);
+	pShader = nullptr;
+
+	//비 효과 파티클 쉐이더
+	pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
+	pShader->CreateShader((void*)g_CS_Particle_RainDrop, sizeof(g_CS_Particle_RainDrop));
+	pShader->SetKey(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
 	AddRes(pShader->GetKey(), pShader);
 	pShader = nullptr;
 }

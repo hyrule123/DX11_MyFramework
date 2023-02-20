@@ -1,35 +1,33 @@
 #include "pch.h"
-#include "CCS_ParticleUpdate_Basic.h"
-
-#include "CStructBuffer.h"
-#include "CConstBuffer.h"
-
-#include "CDevice.h"
-
-#include "CTexture.h"
-
-#include "CParticleSystem.h"
-#include "CTransform.h"
+#include "CCS_ParticleUpdate.h"
 
 #include "CResMgr.h"
 #include "strKeys.h"
+#include "CStructBuffer.h"
+#include "CConstBuffer.h"
+#include "CGameObject.h"
+#include "CParticleSystem.h"
+#include "CTransform.h"
 
-CCS_ParticleUpdate_Basic::CCS_ParticleUpdate_Basic()
-	: CCS_ParticleUpdate_Root(128u, 1u, 1u)
+CCS_ParticleUpdate::CCS_ParticleUpdate(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ)
+	: CComputeShader(_uNumThreadsX, _uNumThreadsY, _uNumThreadsZ)
+	, m_pBufferOwner()
+	, m_pSBuffer_Transform()
+	, m_pSBufferRW_Shared()
+	, m_pCBuffer_ModuleData()
 {
 }
 
-CCS_ParticleUpdate_Basic::~CCS_ParticleUpdate_Basic()
+CCS_ParticleUpdate::~CCS_ParticleUpdate()
 {
 }
 
-
-bool CCS_ParticleUpdate_Basic::BindDataCS()
+bool CCS_ParticleUpdate::BindDataCS()
 {
 	if (nullptr == m_Tex_Noise)
 	{
 		m_Tex_Noise = CResMgr::GetInst()->FindRes<CTexture>(RESOURCE::TEXTURE::NOISE_TEXTURE_0);
-		
+
 
 		assert(nullptr != m_Tex_Noise);
 		const Vec2& TexSize = m_Tex_Noise->GetSize();
@@ -65,7 +63,7 @@ bool CCS_ParticleUpdate_Basic::BindDataCS()
 	return true;
 }
 
-void CCS_ParticleUpdate_Basic::UnBindCS()
+void CCS_ParticleUpdate::UnBindCS()
 {
 	//계산 후 UAV 바인딩을 해제.
 	m_pSBuffer_Transform->UnBindUAV();
@@ -77,4 +75,3 @@ void CCS_ParticleUpdate_Basic::UnBindCS()
 	m_pSBufferRW_Shared = nullptr;
 	m_pCBuffer_ModuleData = nullptr;
 }
-

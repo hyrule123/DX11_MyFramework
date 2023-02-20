@@ -10,6 +10,7 @@
 #include "CRenderMgr.h"
 #include "CEventMgr.h"
 #include "CCollisionMgr.h"
+#include "CAnimMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -49,6 +50,8 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
 	CResMgr::GetInst()->init();
+	CAnimMgr::GetInst()->init();
+
 	CLevelMgr::GetInst()->init();		
 	CRenderMgr::GetInst()->init();
 	CEventMgr::GetInst();

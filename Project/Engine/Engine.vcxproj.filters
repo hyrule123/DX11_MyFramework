@@ -172,16 +172,13 @@
     <ClInclude Include="CCS_SetColor.h">
       <Filter>Source\08. ShaderCode\98. Compute\01. SetColor</Filter>
     </ClInclude>
-    <ClInclude Include="CCS_ParticleUpdate_Basic.h">
-      <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
-    </ClInclude>
     <ClInclude Include="shaders.h">
       <Filter>Source\00. Header</Filter>
     </ClInclude>
     <ClInclude Include="strKeys.h">
       <Filter>Source\00. Header</Filter>
     </ClInclude>
-    <ClInclude Include="CCS_ParticleUpdate_Root.h">
+    <ClInclude Include="CCS_ParticleUpdate.h">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </ClInclude>
     <ClInclude Include="Shader_Header_Register.hlsli">
@@ -198,6 +195,9 @@
     </ClInclude>
     <ClInclude Include="CCollider2D_Point.h">
       <Filter>Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimMgr.h">
+      <Filter>Source\03. Manager\09. AnimMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -354,10 +354,7 @@
     <ClCompile Include="CCS_SetColor.cpp">
       <Filter>Source\08. ShaderCode\98. Compute\01. SetColor</Filter>
     </ClCompile>
-    <ClCompile Include="CCS_ParticleUpdate_Basic.cpp">
-      <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
-    </ClCompile>
-    <ClCompile Include="CCS_ParticleUpdate_Root.cpp">
+    <ClCompile Include="CCS_ParticleUpdate.cpp">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </ClCompile>
     <ClCompile Include="CCollider3D_Ray.cpp">
@@ -368,6 +365,9 @@
     </ClCompile>
     <ClCompile Include="CCollider2D_Point.cpp">
       <Filter>Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimMgr.cpp">
+      <Filter>Source\03. Manager\09. AnimMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -530,6 +530,9 @@
     <Filter Include="Source\08. ShaderCode\05. Particle_Render">
       <UniqueIdentifier>{cbb3eb6e-fc29-483b-8c2b-3bb7072086d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\03. Manager\09. AnimMgr">
+      <UniqueIdentifier>{7a8a566c-79db-42cd-8d08-92c928eba2c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -592,9 +595,6 @@
     <FxCompile Include="Shader_SetColor_Compute.hlsl">
       <Filter>Source\08. ShaderCode\98. Compute\01. SetColor</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Particle_Compute.hlsl">
-      <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
-    </FxCompile>
     <FxCompile Include="Shader_Particle_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\05. Particle_Render</Filter>
     </FxCompile>
@@ -603,6 +603,12 @@
     </FxCompile>
     <FxCompile Include="Shader_Particle_3_Pixel.hlsl">
       <Filter>Source\08. ShaderCode\05. Particle_Render</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_Particle_Raindrop_Compute.hlsl">
+      <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_Particle_Basic_Compute.hlsl">
+      <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

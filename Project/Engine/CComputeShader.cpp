@@ -167,7 +167,6 @@ void CComputeShader::SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _
 		break;
 	case eMTRLDATA_PARAM_SCALAR::MAT_3: m_CBuffer_CSShared.MAT_3 = *((Matrix*)_Src);
 		break;
-
 	}
 }
 
