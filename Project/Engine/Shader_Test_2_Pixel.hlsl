@@ -16,9 +16,6 @@ float4 PS_test(VS_OUT _in) : SV_Target
 		else if (g_CBuffer_Mtrl_Scalar.INT_0 == 1)
 			vColor = g_tex_0.Sample(g_Sampler_1, _in.vOutUV);
     
-		if (all(vColor.rgb == g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_COLOR_KEY.rgb))
-			discard;
-    
 		vColor.a = 0.5f;
 	}
 	else

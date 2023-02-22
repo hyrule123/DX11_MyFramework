@@ -57,13 +57,15 @@ extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 
 enum class eRES_TYPE
 {
+	MESH,			// 형태
 	MESHDATA,
 	MATERIAL,
-	PREFAB,
-
-	MESH,			// 형태
+	
 	TEXTURE,		// 이미지
+	ANIM2D_SPRITE,
 	SOUND,
+
+	PREFAB,
 
 	GRAPHICS_SHADER,
 	COMPUTE_SHADER,
@@ -274,4 +276,11 @@ enum class eLEVEL_STATE
 	PLAY,
 	PAUSE,
 	STOP
+};
+
+enum class eANIM_LOOPMODE
+{
+	NONE,
+	NORMAL_LOOP,
+	ZIG_ZAG
 };

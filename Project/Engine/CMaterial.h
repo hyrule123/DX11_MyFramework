@@ -9,18 +9,7 @@
 //Scalar Parameter : 이 재질을 사용하는 오브젝트 개별로 달라질 수 있는 요소
 //Texture Parameter : 이 재질을 사용하는 오브젝트 모두 공통적으로 사용하는 요소
 
-enum class eMTRL_DRAWMODE
-{
-    
-};
 
-struct tMapEntityIDHashFunc
-{
-    size_t operator()(const UINT32& _ukey) const
-    {
-        return static_cast<size_t>(_ukey);
-    }
-};
 
 class CStructBuffer;
 class CConstBuffer;

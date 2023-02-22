@@ -16,6 +16,7 @@ VS_OUT VS_test(VS_IN _in)
 	{
 		output.vPosition = mul(float4(_in.vPos, 1.f), g_SBuffer_Mtrl_Scalar[_in.uInstID].MTRL_SCALAR_MAT_WORLD);
 	}
+	
 	output.vPosition = mul(output.vPosition, g_CBuffer_matCam.matVP);
     
     // 입력으로 들어온 정점좌표에 상수버퍼 값을 더해서 출력

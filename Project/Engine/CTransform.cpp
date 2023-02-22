@@ -95,15 +95,6 @@ void CTransform::UpdateParentMatrix()
 				m_matParent.Right(m_matParent.Right().Normalize());
 				m_matParent.Up(m_matParent.Up().Normalize());
 				m_matParent.Forward(m_matParent.Forward().Normalize());
-
-				//for (int i = 0; i < 3; ++i)
-				//{
-				//	Vec3 Scale(m_matParent.Right().Length(), m_matParent.Up().Length(), m_matParent.Forward().Length());
-				//	Scale = Vec3(1.f, 1.f, 1.f) / Scale;
-				//	m_matParent.m[0][i] *= Scale.x;
-				//	m_matParent.m[1][i] *= Scale.y;
-				//	m_matParent.m[2][i] *= Scale.z;
-				//}
 			}
 			//else: 둘 다 상속 받는 경우에는 작업할 것이 없음. 그냥 빠져나가면 됨
 

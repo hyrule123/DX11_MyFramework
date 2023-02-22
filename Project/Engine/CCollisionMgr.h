@@ -39,13 +39,7 @@ struct tCollisionInfo
     CCollider2D* pColliderB;
 };
 
-struct tColmapHashFunc
-{
-    UINT64 operator()(const UINT64& _ukey) const
-    {
-        return static_cast<UINT64>(_ukey);
-    }
-};
+
 
 
 class CCollisionMgr :
@@ -75,7 +69,7 @@ private:
     UINT32          m_arrFlagLayerInteraction[MAX_LAYER];
 
     
-    unordered_map<UINT64, tCollisionInfo, tColmapHashFunc>   m_umapCollisionID;
+    unordered_map<UINT64, tCollisionInfo, tLightHashFunc_UINT64>   m_umapCollisionID;
 
     std::function<bool(CCollider2D*, CCollider2D*)> m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::END][(int)eCOLLIDER_TYPE_2D::END];
 public:

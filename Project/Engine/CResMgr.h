@@ -11,6 +11,7 @@
 #include "CMaterial.h"
 #include "CPrefab.h"
 #include "CComputeShader.h"
+#include "CAnim2DAtlas.h"
 
 //새 Res 추가
 //1. define.h enum에 Res 타입 추가했는지 확인
@@ -39,6 +40,8 @@ private:
     void CreateDefaultComputeShader();
     void CreateDefaultMaterial();
     void LoadDefaultTexture();
+
+    void CreateDefaultAnimAtlas();
 
 public:
     template <typename T>

@@ -3,8 +3,10 @@
 
 #include "ptr.h"
 
-class CAnim2D;
+
+class CAnim2DAtlas;
 class CTexture;
+struct tAnimFrameIdx;
 
 class CAnimator2D :
     public CComponent
@@ -15,6 +17,7 @@ public:
     CLONE(CAnimator2D);
 
 public:
+    virtual void tick() override;
     virtual void finaltick() override;
 
     virtual void cleanup() override {};
@@ -23,15 +26,36 @@ public:
     
 
 private:
-    map<string, CAnim2D*>  m_mapAnim;  // Animation 목록
-    CAnim2D* m_pCurAnim; // 현재 재생중인 Animation
-    bool                    m_bRepeat;  // 반복
+    //0부터 체크되는 프레임 번호
+    UINT                m_uCurFrame;
+
+    //벡터에서 찾을 현재 프레임의 인덱스 번호
+    UINT                m_uCurFrameIdx;
+
+    //실제로 계산된 vecFrameUV 안에서의 인덱스
+    int                m_uCalculatedIdx;
+
+    float               m_fCurTime;
+    bool                m_bFinish;
+
+    UINT                m_uMaxFrameCount;
+    float               m_fTimePerFrame;
+    float               m_fFullPlayTime;  
+
+    eANIM_LOOPMODE      m_eLoopMode;
+    bool                m_bReverse;
+
+    Ptr<CAnim2DAtlas>    m_pCurAnimSprite;
+    const tAnimFrameIdx*  m_pCurAnim;
+    //TODO : 개별 콜백함수를 사용하고자 할때는 Script와 연동되도록 해줄것
 
 public:
-    void Play(const string& _strName, bool _bRepeat);
-    CAnim2D* FindAnim(const string& _strName);
+    //애니메이션 데이터는 텍스처와 동일한 이름을 사용할것
+    void SetAtlasTex(const string& _AtlasTexStrKey);
+    void Play(const string& _strName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
 
-    void CreateAnimation(const string& _strAnimName, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vSlice, Vec2 _vBackSize, int _FrameCount, int _FPS);
-
+    
+private:
+    void ResetCurAnim();
 };
 

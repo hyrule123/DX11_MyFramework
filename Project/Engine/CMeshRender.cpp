@@ -41,7 +41,7 @@ void CMeshRender::render(CCamera* _pCam)
 		//재질에 자신의 Mtrl Scalar Data를 등록해 놓고
 		pmtrl->AddMtrlScalarData(GetOwner()->GetMtrlScalarData());
 
-		//카메라의 인스턴싱 대기열에 집어넣는다.
+		//카메라의 인스턴싱 대기열에 집어w넣는다.
 		_pCam->AddInstancingRenderQueue(pmtrl, pmesh);
 	}
 

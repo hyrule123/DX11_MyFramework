@@ -47,13 +47,7 @@ struct tRectInfo
 
 
 
-struct tAnim2DFrm
-{
-	Vec2	LeftTopUV;
-	Vec2	SliceUV;
-	Vec2	Offset;
-	float	fDuration;
-};
+
 
 struct tOBB2D
 {
@@ -63,3 +57,19 @@ struct tOBB2D
 	Vec2 m_vCenterPos;
 };
 
+
+struct tLightHashFunc_UINT32
+{
+	size_t operator()(const UINT32& _ukey) const
+	{
+		return static_cast<size_t>(_ukey);
+	}
+};
+
+struct tLightHashFunc_UINT64
+{
+	UINT64 operator()(const UINT64& _ukey) const
+	{
+		return static_cast<UINT64>(_ukey);
+	}
+};

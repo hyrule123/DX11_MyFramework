@@ -115,8 +115,6 @@ cbuffer CBuffer_ParticleModule : register(e_b_CBUFFER_PARTICLE_MODULEDATA)
 #define e_t_SBUFFER_PARTICLE_TRANSFORM	REGISTER_IDX(t, 16)
 
 #define e_t_TEXUTRE_NOISE				REGISTER_IDX(t, 17)
-
-
 	#ifdef __cplusplus
 
 #define e_t_SRV_NONE -1
@@ -145,7 +143,6 @@ Texture2DArray g_arrtex_1 : register(e_t_TEXTURE_ARRAY_1);
 StructuredBuffer<float4> g_SBuffer_SetColor : register(e_t_SBUFFER_SETCOLOR);
 
 Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
-
 
 
 	#endif

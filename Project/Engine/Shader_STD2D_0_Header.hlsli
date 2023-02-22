@@ -11,6 +11,9 @@
 정점 쉐이더는 POSITION 시맨틱의 정점의 위치가 기록되어 있지만
 픽셀 쉐이더에서는 보간을 통해서 파악한 픽셀의 위치가 기록되어 들어온다.
 */
+
+
+
 struct VS_IN
 {
     float3 vPos SEMANTIC(POSITION); // semantic  
@@ -42,8 +45,3 @@ struct VS_OUT
 //
 // g_tex_0              : Output Texture
 // ============================
-#define SHADER_STD2D_bAnimUse             g_CBuffer_Mtrl_Scalar.INT_0
-#define SHADER_STD2D_vLT                  g_CBuffer_Mtrl_Scalar.VEC2_0
-#define SHADER_STD2D_vSlice               g_CBuffer_Mtrl_Scalar.VEC2_1
-#define SHADER_STD2D_vOffset              g_CBuffer_Mtrl_Scalar.VEC2_2
-#define SHADER_STD2D_vCanvasSize          g_CBuffer_Mtrl_Scalar.VEC2_3

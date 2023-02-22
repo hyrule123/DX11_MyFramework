@@ -31,7 +31,7 @@ void CTestObjScript::BeginCollision(CCollider* _pCol)
 void CTestObjScript::init()
 {
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
-	GetOwner()->SetScalarParam(MTRL_SCALAR_COLOR_KEY, &m_ColorKey);
+	GetOwner()->SetScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 }
 
 void CTestObjScript::tick()

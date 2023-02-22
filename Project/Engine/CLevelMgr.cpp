@@ -80,7 +80,7 @@ void CLevelMgr::init()
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
 	Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");
 	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
-	Vec4 ColorKey(1.f, 1.f, 1.f, 1.f);
+	
 	
 	
 	
@@ -98,9 +98,11 @@ void CLevelMgr::init()
 
 		pPlayer->AddScript(new CPlayerScript);
 
-		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::TEST);
+		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D);
 		PlayerMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
-		pPlayer->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_COLOR_KEY, ColorKey);
+
+		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
+		pPlayer->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 
 		pPlayer->MeshRender()->SetMesh(RectMesh);
 		pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
@@ -108,14 +110,13 @@ void CLevelMgr::init()
 		//pPlayer->AddComponent(new CLight2D);
 		//pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
 
-		//pPlayer->AddComponent(new CAnimator2D);
-		//Ptr<CTexture> pAnimAtlas = CResMgr::GetInst()->FindRes<CTexture>("LinkAtlas");
-		//pPlayer->Animator2D()->CreateAnimation("WalkDown", pAnimAtlas, Vec2(0.f, 520.f), Vec2(120.f, 130.f), Vec2(300.f, 300.f), 10, 16);
-		//pPlayer->Animator2D()->Play("WalkDown", true);
+		pPlayer->AddComponent(new CAnimator2D);
+		pPlayer->Animator2D()->SetAtlasTex(RESOURCE::TEXTURE::REAVER_ATLAS);
+		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::REAVERMOVE, eANIM_LOOPMODE::ZIG_ZAG, false);
+		
+		//pPlayer->AddComponent(new CCollider2D_OBB);
 
-		pPlayer->AddComponent(new CCollider2D_OBB);
-
-		::SpawnGameObject(pPlayer, Vec3(-300.f + 10.f *(float)i, -300.f + 10.f * (float)i, 10.f), 1);
+		::SpawnGameObject(pPlayer, Vec3(0.f, 0.f, 10.f), 1);
 	}
 
 
@@ -129,7 +130,7 @@ void CLevelMgr::init()
 	//	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));
 	//	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D);
 	//	TestMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
-	//	pTestObj1->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_COLOR_KEY, ColorKey);
+	//	pTestObj1->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 	//	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
 
 	//	::SpawnGameObject(pTestObj1, Vec3(100.f, 0.f, 10.f), 1);
@@ -154,7 +155,7 @@ void CLevelMgr::init()
 	//Ptr<CMaterial> pLightMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DLightMtrl");
 
 	//pLightMtrl->SetTexParam(eTEX_0, CResMgr::GetInst()->FindRes<CTexture>("beheaded"));
-	//pLightMtrl->SetScalarParam(MTRL_SCALAR_COLOR_KEY, Vec4(0.f, 0.f, 0.f, 1.f));
+	//pLightMtrl->SetScalarParam(MTRL_SCALAR_STD2D_COLORKEY, Vec4(0.f, 0.f, 0.f, 1.f));
 	//pLightMtrl->SetTexParam(eTEX_1, CResMgr::GetInst()->FindRes<CTexture>("beheaded_n"));
 
 	//pTestObj2->MeshRender()->SetMaterial(pLightMtrl);
@@ -186,7 +187,7 @@ void CLevelMgr::init()
 	//		pTestObj3->AddComponent(new CMeshRender);
 	//		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	//		Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
-	//		TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_COLOR_KEY, ColorKey);
+	//		TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 	//		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
 	//		pTestObj3->AddComponent(new CCollider2D_OBB);
 

@@ -19,6 +19,8 @@
 // ============================
 
 
+
+
 struct tLightColor
 {
 	float4 vDiffuse;

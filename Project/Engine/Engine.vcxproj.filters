@@ -59,13 +59,13 @@
       <Filter>Source\07. Resource</Filter>
     </ClInclude>
     <ClInclude Include="CMesh.h">
-      <Filter>Source\07. Resource\1. Mesh</Filter>
+      <Filter>Source\07. Resource\00. Mesh</Filter>
     </ClInclude>
     <ClInclude Include="CShader.h">
-      <Filter>Source\07. Resource\4. Shader</Filter>
+      <Filter>Source\07. Resource\06, 07. Shader</Filter>
     </ClInclude>
     <ClInclude Include="CGraphicsShader.h">
-      <Filter>Source\07. Resource\4. Shader\GraphicsShader</Filter>
+      <Filter>Source\07. Resource\06, 07. Shader\GraphicsShader</Filter>
     </ClInclude>
     <ClInclude Include="CScript.h">
       <Filter>Source\06. Component\Script</Filter>
@@ -92,10 +92,10 @@
       <Filter>Source\04. Level</Filter>
     </ClInclude>
     <ClInclude Include="CTexture.h">
-      <Filter>Source\07. Resource\2. Texture</Filter>
+      <Filter>Source\07. Resource\03. Texture</Filter>
     </ClInclude>
     <ClInclude Include="CMaterial.h">
-      <Filter>Source\07. Resource\3. Material</Filter>
+      <Filter>Source\07. Resource\02. Material</Filter>
     </ClInclude>
     <ClInclude Include="components.h">
       <Filter>Source\00. Header</Filter>
@@ -122,7 +122,7 @@
       <Filter>Source\03. Manager\07. EventMgr</Filter>
     </ClInclude>
     <ClInclude Include="CPrefab.h">
-      <Filter>Source\07. Resource\5. Prefab</Filter>
+      <Filter>Source\07. Resource\05. Prefab</Filter>
     </ClInclude>
     <ClInclude Include="CBulletScript.h">
       <Filter>Source\Scripts</Filter>
@@ -160,11 +160,8 @@
     <ClInclude Include="CAnimator2D.h">
       <Filter>Source\06. Component\03, 04. Animator</Filter>
     </ClInclude>
-    <ClInclude Include="CAnim2D.h">
-      <Filter>Source\06. Component\03, 04. Animator</Filter>
-    </ClInclude>
     <ClInclude Include="CComputeShader.h">
-      <Filter>Source\07. Resource\4. Shader\ComputeShader</Filter>
+      <Filter>Source\07. Resource\06, 07. Shader\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="CParticleSystem.h">
       <Filter>Source\06. Component\08~Render Components\09. ParticleSystem</Filter>
@@ -196,8 +193,8 @@
     <ClInclude Include="CCollider2D_Point.h">
       <Filter>Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClInclude>
-    <ClInclude Include="CAnimMgr.h">
-      <Filter>Source\03. Manager\09. AnimMgr</Filter>
+    <ClInclude Include="CAnim2DAtlas.h">
+      <Filter>Source\07. Resource\04. Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -241,13 +238,13 @@
       <Filter>Source\07. Resource</Filter>
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
-      <Filter>Source\07. Resource\1. Mesh</Filter>
+      <Filter>Source\07. Resource\00. Mesh</Filter>
     </ClCompile>
     <ClCompile Include="CShader.cpp">
-      <Filter>Source\07. Resource\4. Shader</Filter>
+      <Filter>Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
     <ClCompile Include="CGraphicsShader.cpp">
-      <Filter>Source\07. Resource\4. Shader\GraphicsShader</Filter>
+      <Filter>Source\07. Resource\06, 07. Shader\GraphicsShader</Filter>
     </ClCompile>
     <ClCompile Include="CScript.cpp">
       <Filter>Source\06. Component\Script</Filter>
@@ -271,10 +268,10 @@
       <Filter>Source\04. Level</Filter>
     </ClCompile>
     <ClCompile Include="CTexture.cpp">
-      <Filter>Source\07. Resource\2. Texture</Filter>
+      <Filter>Source\07. Resource\03. Texture</Filter>
     </ClCompile>
     <ClCompile Include="CMaterial.cpp">
-      <Filter>Source\07. Resource\3. Material</Filter>
+      <Filter>Source\07. Resource\02. Material</Filter>
     </ClCompile>
     <ClCompile Include="extern.cpp">
       <Filter>Source\00. Header</Filter>
@@ -301,7 +298,7 @@
       <Filter>Source\03. Manager\07. EventMgr</Filter>
     </ClCompile>
     <ClCompile Include="CPrefab.cpp">
-      <Filter>Source\07. Resource\5. Prefab</Filter>
+      <Filter>Source\07. Resource\05. Prefab</Filter>
     </ClCompile>
     <ClCompile Include="CBulletScript.cpp">
       <Filter>Source\Scripts</Filter>
@@ -342,11 +339,8 @@
     <ClCompile Include="CAnimator2D.cpp">
       <Filter>Source\06. Component\03, 04. Animator</Filter>
     </ClCompile>
-    <ClCompile Include="CAnim2D.cpp">
-      <Filter>Source\06. Component\03, 04. Animator</Filter>
-    </ClCompile>
     <ClCompile Include="CComputeShader.cpp">
-      <Filter>Source\07. Resource\4. Shader\ComputeShader</Filter>
+      <Filter>Source\07. Resource\06, 07. Shader\ComputeShader</Filter>
     </ClCompile>
     <ClCompile Include="CParticleSystem.cpp">
       <Filter>Source\06. Component\08~Render Components\09. ParticleSystem</Filter>
@@ -366,8 +360,8 @@
     <ClCompile Include="CCollider2D_Point.cpp">
       <Filter>Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClCompile>
-    <ClCompile Include="CAnimMgr.cpp">
-      <Filter>Source\03. Manager\09. AnimMgr</Filter>
+    <ClCompile Include="CAnim2DAtlas.cpp">
+      <Filter>Source\07. Resource\04. Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -425,24 +419,6 @@
     <Filter Include="Source\07. Resource">
       <UniqueIdentifier>{a860b8d2-329c-422a-a7a0-3aee123c6fac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\07. Resource\1. Mesh">
-      <UniqueIdentifier>{98d8b7a9-5e30-463b-b888-4a0db5b8e3fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\07. Resource\2. Texture">
-      <UniqueIdentifier>{f20c6b68-728b-42b4-9114-c4c2341a3724}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\07. Resource\3. Material">
-      <UniqueIdentifier>{0b17e6e3-55e9-4cc1-b5f2-0dd2feb32f11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\07. Resource\4. Shader">
-      <UniqueIdentifier>{e3a93cb0-2193-4edb-9282-39a46638bc54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\07. Resource\4. Shader\GraphicsShader">
-      <UniqueIdentifier>{2be1bcef-219d-4d84-9a98-97384469b7c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\07. Resource\4. Shader\ComputeShader">
-      <UniqueIdentifier>{e151f217-81da-4353-bbc5-512b81b26bc0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\03. Manager\03. TimeMgr">
       <UniqueIdentifier>{aa8c912d-bf14-485e-9725-ea658382287f}</UniqueIdentifier>
     </Filter>
@@ -457,9 +433,6 @@
     </Filter>
     <Filter Include="Source\03. Manager\07. EventMgr">
       <UniqueIdentifier>{9a8c8c1a-b05e-4507-a5a2-6a283289572a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\07. Resource\5. Prefab">
-      <UniqueIdentifier>{249a14da-b2f0-4ec0-9486-6169ffd3652c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\03. Manager\08. CollisionMgr">
       <UniqueIdentifier>{d0b27aaa-6e7c-409d-8f75-ac800a4b608d}</UniqueIdentifier>
@@ -530,8 +503,29 @@
     <Filter Include="Source\08. ShaderCode\05. Particle_Render">
       <UniqueIdentifier>{cbb3eb6e-fc29-483b-8c2b-3bb7072086d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\03. Manager\09. AnimMgr">
-      <UniqueIdentifier>{7a8a566c-79db-42cd-8d08-92c928eba2c0}</UniqueIdentifier>
+    <Filter Include="Source\07. Resource\00. Mesh">
+      <UniqueIdentifier>{98d8b7a9-5e30-463b-b888-4a0db5b8e3fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\02. Material">
+      <UniqueIdentifier>{0b17e6e3-55e9-4cc1-b5f2-0dd2feb32f11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\03. Texture">
+      <UniqueIdentifier>{f20c6b68-728b-42b4-9114-c4c2341a3724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\04. Animation">
+      <UniqueIdentifier>{693260ec-dfbc-4f8a-8603-96711731d43c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\05. Prefab">
+      <UniqueIdentifier>{249a14da-b2f0-4ec0-9486-6169ffd3652c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\06, 07. Shader">
+      <UniqueIdentifier>{e3a93cb0-2193-4edb-9282-39a46638bc54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\06, 07. Shader\GraphicsShader">
+      <UniqueIdentifier>{2be1bcef-219d-4d84-9a98-97384469b7c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\07. Resource\06, 07. Shader\ComputeShader">
+      <UniqueIdentifier>{e151f217-81da-4353-bbc5-512b81b26bc0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

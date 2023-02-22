@@ -10,6 +10,7 @@
 #include "CCS_SetColor.h"
 #include "CCS_ParticleUpdate.h"
 
+#include "CAnim2DAtlas.h"
 
 
 CResMgr::CResMgr()
@@ -33,6 +34,8 @@ void CResMgr::init()
 	CreateDefaultMaterial();
 
 	LoadDefaultTexture();
+
+	CreateDefaultAnimAtlas();
 }
 
 void CResMgr::CreateResClassTypeIndex()
@@ -41,6 +44,7 @@ void CResMgr::CreateResClassTypeIndex()
 	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMesh)), eRES_TYPE::MESHDATA));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMaterial)), eRES_TYPE::MATERIAL));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CTexture)), eRES_TYPE::TEXTURE));
+	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CAnim2DAtlas)), eRES_TYPE::ANIM2D_SPRITE));
 	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CSound)), eRES_TYPE::SOUND));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CPrefab)), eRES_TYPE::PREFAB));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CGraphicsShader)), eRES_TYPE::GRAPHICS_SHADER));
@@ -379,7 +383,7 @@ void CResMgr::CreateDefaultMaterial()
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
-		//pMtrl->SetInstancedRender(true);
+		pMtrl->SetInstancedRender(true);
 
 		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D);
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -425,9 +429,34 @@ void CResMgr::LoadDefaultTexture()
 	Load<CTexture>(RESOURCE::TEXTURE::TILE_ATLAS, L"texture/TILE.bmp");
 	Load<CTexture>(RESOURCE::TEXTURE::LINK_ATLAS, L"texture/link.png");
 
+	Load<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS, L"texture/trilob(Reaver).bmp");
+
 
 	//노이즈텍스처
 	Load<CTexture>(RESOURCE::TEXTURE::NOISE_TEXTURE_0, L"texture/noise/noise_01.png");
+}
+
+void CResMgr::CreateDefaultAnimAtlas()
+{
+	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS));
+	Atlas->SetNewAnimUV(17u, 9u);
+
+	tAnimFrameIdx idx = {};
+	for (UINT i = 0; i < 30; i++)
+	{
+		tAnimFrame Frame = {};
+		Frame.uIdx = i;
+		idx.vecFrame.push_back(Frame);
+	}
+	idx.fFullPlayTime = 3.f;
+	idx.uNumFrame = 30;
+	idx.fTimePerFrame = 3.f / (float)idx.uNumFrame;
+	idx.strAnimName = RESOURCE::ANIM2D::REAVERMOVE;
+
+	Atlas->AddAnim2D(RESOURCE::ANIM2D::REAVERMOVE, idx);
+
+	AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::REAVER_ATLAS, Atlas);
 }
 
 
