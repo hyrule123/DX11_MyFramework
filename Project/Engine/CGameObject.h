@@ -94,6 +94,13 @@ public:
     size_t GetNumChilds() const { return m_vecChild.size(); }
 
     void SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
+
+    
+    int GetMtrlScalarData_Int(eMTRLDATA_PARAM_SCALAR _Param) const;
+    float GetMtrlScalarData_Float(eMTRLDATA_PARAM_SCALAR _Param) const;
+    Vec2 GetMtrlScalarData_Vec2(eMTRLDATA_PARAM_SCALAR _Param) const;
+    const Vec4& GetMtrlScalarData_Vec4(eMTRLDATA_PARAM_SCALAR _Param) const;
+    const MATRIX& GetMtrlScalarData_MATRIX(eMTRLDATA_PARAM_SCALAR _Param) const;
     const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
 
 public:
@@ -135,3 +142,84 @@ inline void CGameObject::SetLifeSpan(float _fLifeSpan)
 }
 
 
+inline int CGameObject::GetMtrlScalarData_Int(eMTRLDATA_PARAM_SCALAR _Param) const
+{
+    switch (_Param)
+    {
+    case eMTRLDATA_PARAM_SCALAR::INT_0: return m_MtrlScalarData.INT_0;
+        
+    case eMTRLDATA_PARAM_SCALAR::INT_1: return m_MtrlScalarData.INT_1;
+        
+    case eMTRLDATA_PARAM_SCALAR::INT_2: return m_MtrlScalarData.INT_2;
+        
+    case eMTRLDATA_PARAM_SCALAR::INT_3: return m_MtrlScalarData.INT_3;
+        
+
+    default: return INT_MIN;
+    }
+}
+
+inline float CGameObject::GetMtrlScalarData_Float(eMTRLDATA_PARAM_SCALAR _Param) const
+{
+    switch (_Param)
+    {
+    case eMTRLDATA_PARAM_SCALAR::FLOAT_0: return m_MtrlScalarData.FLOAT_0;
+
+    case eMTRLDATA_PARAM_SCALAR::FLOAT_1: return m_MtrlScalarData.FLOAT_1;
+
+    case eMTRLDATA_PARAM_SCALAR::FLOAT_2: return m_MtrlScalarData.FLOAT_2;
+
+    case eMTRLDATA_PARAM_SCALAR::FLOAT_3: return m_MtrlScalarData.FLOAT_3;
+
+
+    default: return FLT_MAX_NEG;
+    }
+}
+
+inline Vec2 CGameObject::GetMtrlScalarData_Vec2(eMTRLDATA_PARAM_SCALAR _Param) const
+{
+    switch (_Param)
+    {
+    case eMTRLDATA_PARAM_SCALAR::VEC2_0: return m_MtrlScalarData.VEC2_0;
+
+    case eMTRLDATA_PARAM_SCALAR::VEC2_1: return m_MtrlScalarData.VEC2_1;
+
+    case eMTRLDATA_PARAM_SCALAR::VEC2_2: return m_MtrlScalarData.VEC2_2;
+
+    case eMTRLDATA_PARAM_SCALAR::VEC2_3: return m_MtrlScalarData.VEC2_3;
+
+    default: return Vec2(FLT_MAX_NEG);
+    }
+}
+
+inline const Vec4& CGameObject::GetMtrlScalarData_Vec4(eMTRLDATA_PARAM_SCALAR _Param) const
+{
+    switch (_Param)
+    {
+    case eMTRLDATA_PARAM_SCALAR::VEC4_0: return m_MtrlScalarData.VEC4_0;
+
+    case eMTRLDATA_PARAM_SCALAR::VEC4_1: return m_MtrlScalarData.VEC4_1;
+
+    case eMTRLDATA_PARAM_SCALAR::VEC4_2: return m_MtrlScalarData.VEC4_2;
+
+    case eMTRLDATA_PARAM_SCALAR::VEC4_3: return m_MtrlScalarData.VEC4_3;
+
+    default: return Vec4(FLT_MAX_NEG);
+    }
+}
+
+inline const MATRIX& CGameObject::GetMtrlScalarData_MATRIX(eMTRLDATA_PARAM_SCALAR _Param) const
+{
+    switch (_Param)
+    {
+    case eMTRLDATA_PARAM_SCALAR::MAT_0: return m_MtrlScalarData.MAT_0;
+
+    case eMTRLDATA_PARAM_SCALAR::MAT_1: return m_MtrlScalarData.MAT_1;
+
+    case eMTRLDATA_PARAM_SCALAR::MAT_2: return m_MtrlScalarData.MAT_2;
+
+    case eMTRLDATA_PARAM_SCALAR::MAT_3: return m_MtrlScalarData.MAT_3;
+
+    default: return MATRIX::Zero;
+    }
+}

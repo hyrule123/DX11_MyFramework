@@ -13,7 +13,8 @@ class CAnimator2D :
 {
 public:
     CAnimator2D();
-    ~CAnimator2D();
+    CAnimator2D(const CAnimator2D& _other);
+    virtual ~CAnimator2D();
     CLONE(CAnimator2D);
 
 public:
@@ -45,17 +46,24 @@ private:
     eANIM_LOOPMODE      m_eLoopMode;
     bool                m_bReverse;
 
-    Ptr<CAnim2DAtlas>    m_pCurAnimSprite;
-    const tAnimFrameIdx*  m_pCurAnim;
+    Ptr<CAnim2DAtlas>       m_arrAtlasTex[(int)eMTRLDATA_PARAM_TEX::_END];
+
+    //현재 재생 정보
+    int                     m_iCurAtlasTexIdx;
+    const tAnimFrameIdx*    m_pCurAnim;
+
+    bool                    m_bNeedUpdateMtrl;
+
     //TODO : 개별 콜백함수를 사용하고자 할때는 Script와 연동되도록 해줄것
 
 public:
     //애니메이션 데이터는 텍스처와 동일한 이름을 사용할것
-    void SetAtlasTex(const string& _AtlasTexStrKey);
-    void Play(const string& _strName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
+    void AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex);
+    void Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
 
     
 private:
-    void ResetCurAnim();
+    void Stop() { m_iCurAtlasTexIdx = -1; m_pCurAnim = nullptr; };
+    void UpdateAtlasTexToMtrl();
 };
 

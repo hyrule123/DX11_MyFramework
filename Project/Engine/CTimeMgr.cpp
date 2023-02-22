@@ -67,7 +67,3 @@ void CTimeMgr::render()
 	}
 }
 
-UINT32 CTimeMgr::GetRandom()
-{
-	return m_RandomEngine();
-}

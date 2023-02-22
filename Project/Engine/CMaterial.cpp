@@ -128,20 +128,21 @@ void CMaterial::BindData()
 
 void CMaterial::SetTexParam(eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex)
 {
-	assert(nullptr != _Tex);
-
 	m_arrTex[(int)_Param] = _Tex;
+
+	//nullptr일 경우 해제
+	BOOL bIsExist = (nullptr != _Tex);
 
 	switch (_Param)
 	{
-	case eMTRLDATA_PARAM_TEX::_0: m_MtrlTex.bTEX_0 = TRUE; break;
-	case eMTRLDATA_PARAM_TEX::_1: m_MtrlTex.bTEX_1 = TRUE; break;
-	case eMTRLDATA_PARAM_TEX::_2: m_MtrlTex.bTEX_2 = TRUE; break;
-	case eMTRLDATA_PARAM_TEX::_3: m_MtrlTex.bTEX_3 = TRUE; break;
-	case eMTRLDATA_PARAM_TEX::_4: m_MtrlTex.bTEX_4 = TRUE; break;
-	case eMTRLDATA_PARAM_TEX::_5: m_MtrlTex.bTEX_5 = TRUE; break;
-	case eMTRLDATA_PARAM_TEX::_6: m_MtrlTex.bTEX_6 = TRUE; break;
-	case eMTRLDATA_PARAM_TEX::_7: m_MtrlTex.bTEX_7 = TRUE; break;
+	case eMTRLDATA_PARAM_TEX::_0: m_MtrlTex.bTEX_0 = bIsExist; break;
+	case eMTRLDATA_PARAM_TEX::_1: m_MtrlTex.bTEX_1 = bIsExist; break;
+	case eMTRLDATA_PARAM_TEX::_2: m_MtrlTex.bTEX_2 = bIsExist; break;
+	case eMTRLDATA_PARAM_TEX::_3: m_MtrlTex.bTEX_3 = bIsExist; break;
+	case eMTRLDATA_PARAM_TEX::_4: m_MtrlTex.bTEX_4 = bIsExist; break;
+	case eMTRLDATA_PARAM_TEX::_5: m_MtrlTex.bTEX_5 = bIsExist; break;
+	case eMTRLDATA_PARAM_TEX::_6: m_MtrlTex.bTEX_6 = bIsExist; break;
+	case eMTRLDATA_PARAM_TEX::_7: m_MtrlTex.bTEX_7 = bIsExist; break;
 	case eMTRLDATA_PARAM_TEX::_END: break;
 	default: break;
 	}

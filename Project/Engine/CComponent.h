@@ -43,6 +43,7 @@ public:
     CAnimator2D* Animator2D() { return m_pOwner->Animator2D(); }
     CCollider2D* Collider2D() { return m_pOwner->Collider2D(); }
     CCollider3D* Collider3D() { return m_pOwner->Collider3D(); }
+    CRenderComponent* RenderComponent() { return m_pOwner->GetRenderComponent(); }
 
 
 

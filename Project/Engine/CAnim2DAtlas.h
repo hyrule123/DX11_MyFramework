@@ -55,8 +55,7 @@ private:
     //애니메이션의 대상이 되는 텍스처
     Ptr<CTexture>       m_AtlasTex; 
 
-    //각 애니메이션 프레임의 UV 정보
-    //이 데이터는 한번 생성되면 수정하기 전까지는 GPU에 올라간 상태 그대로 있을예정
+    //프레임의 UV 정보 전체 모음
     vector<tAnimFrameUV> m_vecFrameUV;
 
     //개별 애니메이션의 프레임 번호가 저장되어있는 벡터를 들고있는 변수

@@ -5,6 +5,18 @@
 class CTransform :
     public CComponent
 {
+public:
+    CTransform();
+    //단순 Value만 저장 중이므로 기본 복사 생성자로도 충분함.
+    ~CTransform();
+    CLONE(CTransform);
+
+public:
+    virtual void finaltick() override;
+    virtual void cleanup() override {};
+    void UpdateData();
+
+
 private:
     Matrix    m_matSize;
 
@@ -27,6 +39,7 @@ private:
 
     bool    m_bInheritScale;
     bool    m_bInheritRot;
+    bool    m_bLockRot; //자신의 회전 방지
     
     //부모로부터 상속받아 최종적으로 만들어진 월드행렬
     Matrix  m_matWorld;
@@ -64,6 +77,7 @@ public:
 
     void SetScaleInheritance(bool _bInherit) { m_bInheritScale = _bInherit; SetMyUpdate(); }
     void SetRotInheritance(bool _bInherit) { m_bInheritRot = _bInherit; SetMyUpdate(); }
+    void SetLockRotation(bool _bLockRot) { m_bLockRot = _bLockRot; }
 
     //이번 틱에 업데이트를 해야한다고 설정. 자신의 움직임에 영향을 받는 자식 오브젝트들에게도 재귀적으로 알림
     void SetMyUpdate();
@@ -108,16 +122,6 @@ private:
     //부모의 트랜스폼 행렬을 받아서 최종적인 월드행렬을 업데이트 한다.
     void UpdateParentMatrix();
 
-public:
-    virtual void finaltick() override;    
-    virtual void cleanup() override {};
-    void UpdateData();
-
-    CLONE(CTransform);    
-public:
-    CTransform();
-    //단순 Value만 저장 중이므로 기본 복사 생성자로도 충분함.
-    ~CTransform();
 };
 
 

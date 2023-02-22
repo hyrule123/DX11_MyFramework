@@ -65,4 +65,12 @@ const struct Matrix Matrix::Identity(
 	0.f, 0.f, 0.f, 1.f
 );
 
+const struct Matrix Matrix::Zero(
+	0.f, 0.f, 0.f, 0.f,
+	0.f, 0.f, 0.f, 0.f,
+	0.f, 0.f, 0.f, 0.f,
+	0.f, 0.f, 0.f, 0.f
+);
+
+
 const struct Quaternion Quaternion::Identity(0.f, 0.f, 0.f, 1.f);

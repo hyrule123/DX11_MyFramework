@@ -13,20 +13,47 @@
 CAnimator2D::CAnimator2D()
     : CComponent(eCOMPONENT_TYPE::ANIMATOR2D)
     , m_uCurFrame()
+    , m_uCurFrameIdx()
     , m_fCurTime()
     , m_bFinish()
     , m_fTimePerFrame()
     , m_fFullPlayTime()
     , m_eLoopMode()
     , m_bReverse()
+    , m_iCurAtlasTexIdx()
     , m_pCurAnim()
     , m_uMaxFrameCount()
+    , m_bNeedUpdateMtrl(true)
+    
 {
+}
+
+CAnimator2D::CAnimator2D(const CAnimator2D& _other)
+    : CComponent(_other)
+    , m_uCurFrame(_other.m_uCurFrame)
+    , m_uCalculatedIdx(_other.m_uCalculatedIdx)
+    , m_fCurTime(_other.m_fCurTime)
+    , m_bFinish(_other.m_bFinish)
+    , m_uMaxFrameCount(_other.m_uMaxFrameCount)
+    , m_fTimePerFrame(_other.m_fTimePerFrame)
+    , m_fFullPlayTime(_other.m_fFullPlayTime)
+    , m_eLoopMode(_other.m_eLoopMode)
+    , m_bReverse(_other.m_bReverse)
+    , m_iCurAtlasTexIdx(_other.m_iCurAtlasTexIdx)
+    , m_pCurAnim(_other.m_pCurAnim)
+    , m_bNeedUpdateMtrl(false)
+
+{
+    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+    {
+        m_arrAtlasTex[i] = _other.m_arrAtlasTex[i];
+    }
 }
 
 CAnimator2D::~CAnimator2D()
 {
 }
+
 
 void CAnimator2D::tick()
 {
@@ -108,69 +135,127 @@ void CAnimator2D::tick()
 
 void CAnimator2D::finaltick()
 {
-    //재생할 애니메이션이 없을 시 
-    if (nullptr == m_pCurAnim)
-    {
-        m_uCalculatedIdx = -1;
-        return;
-    }
-        
-
     UpdateData();
 }
 
 void CAnimator2D::UpdateData()
 {
-    //애니메이션의 UV 정보를 받아옴.
-    const tAnimFrameUV& frameuv = m_pCurAnimSprite->GetFrameUVData(m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdx);
-        
-    int iAnimFlag = (int)eANIM2D_FLAG::USEANIM;
-    
+    UpdateAtlasTexToMtrl();
+
+    //재생할 애니메이션이나 선택된 애니메이션이 없을 시 애니메이션 사용 설정을 해제하고 return
+    CGameObject* pOwner = GetOwner();
+
+    //기존의 플래그값을 받아옴
+    int iAnimFlag = pOwner->GetMtrlScalarData_Int(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX);
+    if (nullptr == m_pCurAnim)
+    {
+        iAnimFlag &= ~((int)eANIM2D_FLAG::USEANIM);
+        iAnimFlag &= ~((int)eANIM2D_FLAG::USEPIVOT);
+
+        pOwner->SetScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
+        pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
+        return;
+    }
+
+
+    //플래그값 추가 및 설정
+    iAnimFlag |= (int)eANIM2D_FLAG::USEANIM;
     if (Vec2(0.f, 0.f) != m_pCurAnim->vPivot)
     {
         iAnimFlag |= (int)eANIM2D_FLAG::USEPIVOT;
     }
 
-    CGameObject* pOwner = GetOwner();
+
     pOwner->SetScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
+    pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
+ 
+
+    //애니메이션의 UV 정보를 받아옴.
+    const tAnimFrameUV& frameuv = m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameUVData(m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdx);
+
     pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP, &(frameuv.LeftTopUV));
     pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_SLICE, &(frameuv.SliceUV));
     pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_OFFSET, &(frameuv.Offset));
     pOwner->SetScalarParam(MTRL_SCALAR_STD2D_PIVOT, &(m_pCurAnim->vPivot));
-
-
-    pOwner->GetRenderComponent()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_pCurAnimSprite->GetAtlasTex());
 }
 
-void CAnimator2D::SetAtlasTex(const string& _AtlasTexStrKey)
+
+void CAnimator2D::AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex)
 {
-    m_pCurAnimSprite = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(_AtlasTexStrKey);
+    m_arrAtlasTex[m_iCurAtlasTexIdx] = _pAtlasTex;
+
+    m_bNeedUpdateMtrl = true;
 }
+
 
 void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse)
 {
-    if (nullptr == m_pCurAnimSprite)
-        return;
+    if (nullptr != m_arrAtlasTex[m_iCurAtlasTexIdx])
+    {
+        const tAnimFrameIdx* curanim = m_arrAtlasTex[m_iCurAtlasTexIdx]->FindAnim2D(_strAnimName);
 
-    m_pCurAnim = m_pCurAnimSprite->FindAnim2D(_strAnimName);
-    
+        //같은 애니메이션일 경우 바꾸지 않음
+        if (curanim == m_pCurAnim)
+            return;
+
+        m_pCurAnim = curanim;
+    }
+
+    //위에서 못찾았을 경우 전체 순회돌면서 찾아봄
     if (nullptr == m_pCurAnim)
-        return;
+    {
+        for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+        {
+            if (nullptr != m_arrAtlasTex[i])
+            {
+                m_pCurAnim = m_arrAtlasTex[i]->FindAnim2D(_strAnimName);
+                if (nullptr != m_pCurAnim)
+                {
+                    m_iCurAtlasTexIdx = i;
+                    break;
+                }
+                    
+            }
+        }
+    }
 
-    m_eLoopMode = _eLoopMode;
-    m_bReverse = _bReverse;
+    //재생 준비
+    if (nullptr != m_pCurAnim)
+    {
+        m_eLoopMode = _eLoopMode;
+        m_bReverse = _bReverse;
 
-    m_uCurFrame = 0;
-    
-    m_uMaxFrameCount = m_pCurAnim->uNumFrame;
-    m_fTimePerFrame = m_pCurAnim->fTimePerFrame;
-    m_fFullPlayTime = m_pCurAnim->fFullPlayTime;
+        m_uCurFrame = 0u;
+        m_uCalculatedIdx = 0;
+        m_fCurTime = 0.f;
+        m_bFinish = false;
+
+        m_uMaxFrameCount = m_pCurAnim->uNumFrame;
+        m_fTimePerFrame = m_pCurAnim->fTimePerFrame;
+        m_fFullPlayTime = m_pCurAnim->fFullPlayTime;
+    }
+
 }
 
-void CAnimator2D::ResetCurAnim()
+
+
+
+
+void CAnimator2D::UpdateAtlasTexToMtrl()
 {
-   m_uCurFrame = 0u;
-   m_uCalculatedIdx = 0;
-   m_fCurTime = 0.f;
-   m_bFinish = false;
+    if (false == m_bNeedUpdateMtrl)
+        return;
+
+    CMaterial* pMtrl = GetOwner()->GetRenderComponent()->GetCurMaterial().Get();
+
+    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+    {
+        Ptr<CTexture> pTex = nullptr;
+        if (nullptr != m_arrAtlasTex[i])
+            pTex = m_arrAtlasTex[i]->GetAtlasTex();
+
+        pMtrl->SetTexParam((eMTRLDATA_PARAM_TEX)i, pTex);
+    }
+
+    m_bNeedUpdateMtrl = false;
 }

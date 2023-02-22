@@ -28,31 +28,11 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
     //애니메이션 사용중일경우
 	else if (eANIM2D_FLAG::USEANIM & Data.MTRL_SCALAR_STD2D_FLAG)
     {
+        //애니메이션의 Left Top부터 Slice에 자신의 UV값을 곱해서 실제 UV값을 구해준다.
 		float2 vUV = Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP + Data.MTRL_SCALAR_STD2D_ANIM_UV_SLICE * _in.vUV;
 
 		vOutColor = g_tex_0.Sample(g_Sampler_0, vUV);
-        
-  //      //애니메이션의 피벗을 지정(캔버스 사이즈의 LT로부터 스프라이트 이미)
-		//float2 vUV = (float2)0.f;
-  //      vUV = Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP + (Data.MTRL_SCALAR_STD2D_PIVOT * _in.vUV);
-		//vUV -= ((Data.MTRL_SCALAR_STD2D_PIVOT - Data.MTRL_SCALAR_STD2D_ANIM_UV_SLICE) * 0.5f);
-		//vUV -= SHADER_STD2D_vOffset;
-    
-  //      //
-  //      if (
-  //      vUV.x > Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP.x
-  //      && vUV.x < Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP.x + Data.MTRL_SCALAR_STD2D_ANIM_UV_SLICE.x
-  //      && vUV.y > Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP.y
-  //      && vUV.y < Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP.y + Data.MTRL_SCALAR_STD2D_ANIM_UV_SLICE.y
-  //      )
-  //      {
-  //          vOutColor = g_tex_0.Sample(g_Sampler_0, vUV);
-  //      }
-  //      else
-  //      {
-		//	discard;
-  //          //vOutColor = float4(1.f, 1.f, 0.f, 1.f);
-  //      }
+       
     }
     else
     {

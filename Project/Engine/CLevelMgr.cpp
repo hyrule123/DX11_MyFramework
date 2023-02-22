@@ -33,6 +33,8 @@
 
 #include "strKeys.h"
 
+#include "CTimeMgr.h"
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {
@@ -87,13 +89,14 @@ void CLevelMgr::init()
 	// 오브젝트 생성
 	CGameObject* pPlayer = nullptr;
 
-	//for (int i = 0; i < 100; ++i)
-	int i = 1;
+	for (int i = 0; i < 100; ++i)
+	//int i = 1;
 	{
 		pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
 		pPlayer->AddComponent(new CTransform);
 		pPlayer->Transform()->SetSize(Vec3(300.f, 300.f, 1.f));
+		pPlayer->Transform()->SetLockRotation(true);
 		pPlayer->AddComponent(new CMeshRender);
 
 		pPlayer->AddScript(new CPlayerScript);
@@ -111,12 +114,14 @@ void CLevelMgr::init()
 		//pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
 
 		pPlayer->AddComponent(new CAnimator2D);
-		pPlayer->Animator2D()->SetAtlasTex(RESOURCE::TEXTURE::REAVER_ATLAS);
+
+		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCE::TEXTURE::REAVER_ATLAS);
+		pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
 		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::REAVERMOVE, eANIM_LOOPMODE::ZIG_ZAG, false);
 		
 		//pPlayer->AddComponent(new CCollider2D_OBB);
 
-		::SpawnGameObject(pPlayer, Vec3(0.f, 0.f, 10.f), 1);
+		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 700.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
 	}
 
 

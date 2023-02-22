@@ -62,7 +62,11 @@ void CTransform::UpdateMyTransform()
 	const Matrix& matScale = Matrix::CreateScale(m_vRelativeScale);
 
 	//방향은 쿼터니언을 사용해서 계산.
-	const Matrix& matRot = Matrix::CreateFromPitchYawRoll(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);
+	//회전이 잠겨있을 경우 계산하지 않음.
+	Matrix matRot = Matrix::Identity;
+
+	if(false == m_bLockRot)
+		matRot = Matrix::CreateFromPitchYawRoll(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);
 
 	//방금 구한 회전행렬으로 직관적 방향을 계산한다.
 	//회전행렬을 따로 변수에 저장하지 않으므로 지역변수에 계산해놓은 시점에서 직관적 방향도 구해놓는다.

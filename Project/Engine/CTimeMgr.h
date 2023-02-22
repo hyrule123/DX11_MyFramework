@@ -23,11 +23,13 @@ private:
 
 	std::mt19937	m_RandomEngine;
 	
-
+	
 public:
 	float GetDeltaTime() { return m_fDeltaTime; }
 	LONGLONG GetCurCount() { return m_llCurCount.QuadPart; }
 
-	UINT32 GetRandom();
+	UINT32 GetRandom() { return m_RandomEngine(); }
+	float GetRandomNorm() { return ((float)m_RandomEngine() / (float)UINT_MAX); }
+	
 };
 

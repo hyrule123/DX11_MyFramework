@@ -666,6 +666,7 @@ namespace DirectX
 
             // Constants
             static const Matrix Identity;
+            static const Matrix Zero;
         };
 
         // Binary operators
