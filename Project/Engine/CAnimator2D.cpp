@@ -182,7 +182,7 @@ void CAnimator2D::UpdateData()
 
 void CAnimator2D::AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex)
 {
-    m_arrAtlasTex[m_iCurAtlasTexIdx] = _pAtlasTex;
+    m_arrAtlasTex[(int)_eTexParam] = _pAtlasTex;
 
     m_bNeedUpdateMtrl = true;
 }

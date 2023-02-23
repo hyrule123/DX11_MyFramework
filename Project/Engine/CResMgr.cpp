@@ -440,21 +440,8 @@ void CResMgr::CreateDefaultAnimAtlas()
 {
 	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 	Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS));
-	Atlas->SetNewAnimUV(17u, 9u, 0u, 17u, 1u, 9u);
-
-	tAnimFrameIdx idx = {};
-	for (UINT i = 0; i < 30; i++)
-	{
-		tAnimFrame Frame = {};
-		Frame.uIdx = i;
-		idx.vecFrame.push_back(Frame);
-	}
-	idx.fFullPlayTime = 3.f;
-	idx.uNumFrame = 30;
-	idx.fTimePerFrame = 3.f / (float)idx.uNumFrame;
-	idx.strAnimName = RESOURCE::ANIM2D::REAVERMOVE;
-
-	Atlas->AddAnim2D(RESOURCE::ANIM2D::REAVERMOVE, idx);
+	Atlas->SetNewAnimUV(17u, 9u, 1u, 16u, 0u, 9u);
+	Atlas->AddAnim2D(RESOURCE::ANIM2D::REAVERMOVE, 16u, 0u, 16u, 0u, 9u);
 
 	AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::REAVER_ATLAS, Atlas);
 }

@@ -145,6 +145,7 @@ struct tMtrlTexData
 ENUM_BEGIN(eANIM2D_FLAG, int)
     ENUM_MEMBER(USEANIM, int, 1<<0)
     ENUM_MEMBER(USEPIVOT, int, 1<<1)
+    ENUM_MEMBER(NEEDFLIPX, int, 1<<2)
 ENUM_END
 
 

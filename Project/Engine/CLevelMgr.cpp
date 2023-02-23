@@ -89,13 +89,13 @@ void CLevelMgr::init()
 	// 오브젝트 생성
 	CGameObject* pPlayer = nullptr;
 
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 1000; ++i)
 	//int i = 1;
 	{
 		pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
 		pPlayer->AddComponent(new CTransform);
-		pPlayer->Transform()->SetSize(Vec3(300.f, 300.f, 1.f));
+		pPlayer->Transform()->SetSize(Vec3(84.f, 84.f, 1.f));
 		pPlayer->Transform()->SetLockRotation(true);
 		pPlayer->AddComponent(new CMeshRender);
 

@@ -107,8 +107,6 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 			Data.SysMemSlicePitch = m_BufferDesc.StructureByteStride;
 			pData = &Data;
 			m_eCurBoundView = eCURRENT_BOUND_VIEW::SRV;
-
-			
 		}
 		
 
@@ -165,7 +163,7 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 	//생성될 때 값을 지정할 수 있으므로 바로 return 해주면 될듯
 	if (_uCount > m_uElementCapacity)
 	{
-		Create(m_uElementStride, _uCount * 2u, _pData, _uCount);
+		Create(m_uElementStride, _uCount, _pData, _uCount);
 		return;
 	}
 

@@ -122,7 +122,6 @@ cbuffer CBuffer_ParticleModule : register(e_b_CBUFFER_PARTICLE_MODULEDATA)
 
 	#else
 
-Texture2D g_tex[8] : register(e_t_TEXTURE_0);
 Texture2D g_tex_0 : register(e_t_TEXTURE_0);
 Texture2D g_tex_1 : register(e_t_TEXTURE_1);
 Texture2D g_tex_2 : register(e_t_TEXTURE_2);

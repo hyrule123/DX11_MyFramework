@@ -18,8 +18,6 @@ CAnim2DAtlas::~CAnim2DAtlas()
 void CAnim2DAtlas::SetAtlasTexture(Ptr<CTexture> _AtlasTex)
 {
 	m_AtlasTex = _AtlasTex;
-
-	
 }
 
 
@@ -28,20 +26,20 @@ void CAnim2DAtlas::SetNewAnimUV(vector<tAnimFrameUV>& _vecFrameUV)
 	std::swap(m_vecFrameUV, _vecFrameUV);
 }
 
-void CAnim2DAtlas::SetNewAnimUV(UINT _uNumCol, UINT _uNumRow)
+void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal)
 {
 	if (nullptr == m_AtlasTex)
 		return;
 
 	m_vecFrameUV.clear();
 
-	float RowSliceUV = 1.f / (float)_uNumRow;
-	float ColSliceUV = 1.f / (float)_uNumCol;
+	float RowSliceUV = 1.f / (float)_uRowTotal;
+	float ColSliceUV = 1.f / (float)_uColTotal;
 
 	//Left Top부터 열 순서대로 저장
-	for (UINT Col = 0; Col < _uNumCol; ++Col)
+	for (UINT Col = 0; Col < _uColTotal; ++Col)
 	{
-		for (UINT Row = 0; Row < _uNumRow; ++Row)
+		for (UINT Row = 0; Row < _uRowTotal; ++Row)
 		{
 			tAnimFrameUV uv = {};
 			uv.LeftTopUV.x = ColSliceUV * Col;
@@ -54,28 +52,34 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uNumCol, UINT _uNumRow)
 	}
 }
 
-void CAnim2DAtlas::SetNewAnimUV(UINT _uNumCol, UINT _uNumRow, UINT _uStartCol, UINT _uEndCol, UINT _uStartRow, UINT _uEndRow)
+void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch)
 {
 	if (nullptr == m_AtlasTex)
 		return;
+
+	UINT colend = _uColStart + _uColPitch - 1u;
+	UINT rowend = _uRowStart + _uRowPitch - 1u;
+
 	//조건 확인
 	assert(
-		_uStartCol < _uEndCol 
-		&& _uStartRow < _uEndRow
-		&& _uEndCol <= _uNumCol
-		&& _uEndRow <= _uNumRow
+		0u < _uColPitch
+		&& 0u < _uRowPitch
+		&& _uColStart <= colend
+		&& _uRowStart <= rowend
+		&& colend <= _uColTotal
+		&& rowend <= _uRowTotal
 	);
 	
 	m_vecFrameUV.clear();
 
 	//슬라이스를 구해준다
-	float RowSliceUV = 1.f / (float)_uNumRow;
-	float ColSliceUV = 1.f / (float)_uNumCol;
+	float RowSliceUV = 1.f / (float)_uRowTotal;
+	float ColSliceUV = 1.f / (float)_uColTotal;
 
 	//Left Top부터 열 순서대로 저장
-	for (UINT Col = _uStartCol; Col < _uEndCol; ++Col)
+	for (UINT Col = _uColStart; Col <= colend; ++Col)
 	{
-		for (UINT Row = _uStartRow; Row < _uEndRow; ++Row)
+		for (UINT Row = _uRowStart; Row <= rowend; ++Row)
 		{
 			tAnimFrameUV uv = {};
 			uv.LeftTopUV.x = ColSliceUV * Col;
@@ -95,30 +99,40 @@ void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _ve
 	m_mapAnim.insert(make_pair(_strAnimKey, _vecAnimFrameIdx));
 }
 
-std::pair<std::unordered_map<std::string, tAnimFrameIdx>::iterator, bool> CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uNumCol, UINT _uStartCol, UINT _uEndCol, UINT _uStartRow, UINT _uEndRow)
+void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch)
 {
-	UINT _uNumRow = (UINT)m_vecFrameUV.size() % _uNumCol;
+	UINT _uRowTotal = (UINT)m_vecFrameUV.size() % _uColTotal;
 
-	//에러 검사 - 맞아 떨어져야 함
+	UINT colend = _uColStart + _uColPitch - 1u;
+	UINT rowend = _uRowStart + _uRowPitch - 1u;
+
+	//에러 검사 - 행의 수가 나눠 떨어져야 함
 	assert(
-		0u == _uNumRow
-		&& _uStartCol < _uEndCol
-		&& _uStartRow < _uEndRow
+		0u == _uRowTotal
+		&& 0u < _uColPitch
+		&& 0u < _uRowPitch
+		&& _uColStart <= colend
+		&& _uRowStart <= rowend
 	);
 
-	_uNumRow = (UINT)m_vecFrameUV.size() / _uNumCol;
+	_uRowTotal = (UINT)m_vecFrameUV.size() / _uColTotal;
 
 	tAnimFrameIdx Anim = {};
 
-	for (UINT Col = _uStartCol; Col <= _uEndCol; Col++)
+	for (UINT Col = _uColStart; Col <= colend; Col++)
 	{
-		for (UINT Row = _uStartRow; Row <= _uEndRow; Row++)
+		for (UINT Row = _uRowStart; Row <= rowend; Row++)
 		{
-			Anim.vecFrame.push_back(tAnimFrame{ (Col * _uNumRow + Row) , });
+			Anim.vecFrame.push_back(tAnimFrame{ (Col * _uRowTotal + Row) , });
 		}
 	}
 
-	return m_mapAnim.insert(make_pair(_strAnimKey, Anim));
+	Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+	Anim.fFullPlayTime = 10.f;
+	Anim.strAnimName = _strAnimKey;
+	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+
+	m_mapAnim.insert(make_pair(_strAnimKey, Anim));
 }
 
 const tAnimFrameIdx* CAnim2DAtlas::FindAnim2D(const string& _AnimIdxStrKey)

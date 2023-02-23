@@ -27,6 +27,8 @@ public:
     
 
 private:
+//========= 현재 애니메이션 시간 ==================
+//     매 tick마다 갱신되는 변수
     //0부터 체크되는 프레임 번호
     UINT                m_uCurFrame;
 
@@ -38,21 +40,29 @@ private:
 
     float               m_fCurTime;
     bool                m_bFinish;
+//========================================================
 
+
+//============ 재생중인 애니메이션의 데이터 ================
+    //애니메이션 전환 시 바뀌는 변수
+
+    int                     m_iCurAtlasTexIdx;
+    const tAnimFrameIdx* m_pCurAnim;
     UINT                m_uMaxFrameCount;
     float               m_fTimePerFrame;
-    float               m_fFullPlayTime;  
+    float               m_fFullPlayTime;
 
     eANIM_LOOPMODE      m_eLoopMode;
     bool                m_bReverse;
 
+//========================================================
+
+
+//=================== 등록된 아틀라스 텍스처 주소 관련 ======================
     Ptr<CAnim2DAtlas>       m_arrAtlasTex[(int)eMTRLDATA_PARAM_TEX::_END];
 
-    //현재 재생 정보
-    int                     m_iCurAtlasTexIdx;
-    const tAnimFrameIdx*    m_pCurAnim;
-
     bool                    m_bNeedUpdateMtrl;
+//=========================================================================
 
     //TODO : 개별 콜백함수를 사용하고자 할때는 Script와 연동되도록 해줄것
 

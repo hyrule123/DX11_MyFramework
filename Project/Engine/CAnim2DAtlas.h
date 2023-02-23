@@ -66,13 +66,13 @@ private:
 public:
     void SetAtlasTexture(Ptr<CTexture> _AtlasTex);
     void SetNewAnimUV(vector<tAnimFrameUV>& _vecFrameUV);
-    void SetNewAnimUV(UINT _uNumCol, UINT _uNumRow);
-    void SetNewAnimUV(UINT _uNumCol, UINT _uNumRow, UINT _uStartCol, UINT _uEndCol, UINT _uStartRow, UINT _uEndRow);
+    void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal);
+    void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch);
 
     void AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx);
 
     //애니메이션을 만들때는 전체 열의 갯수만 받음. 나머지는 안에서 계산함
-    std::pair<std::unordered_map<std::string, tAnimFrameIdx>::iterator, bool> AddAnim2D(const string& _strAnimKey, UINT _uNumCol, UINT _uStartCol, UINT _uEndCol, UINT _uStartRow, UINT _uEndRow);
+    void AddAnim2D(const string& _strAnimKey, UINT _uColTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch);
 
     const tAnimFrameIdx* FindAnim2D(const string& _AnimIdxStrKey);
 

@@ -3,6 +3,40 @@
 
 #include "Shader_header_register.hlsli"
 
+float4 SampleMtrlTex(uint _uTexRegisterIdx, SamplerState _Sampler, float2 _vUV)
+{
+	switch (_uTexRegisterIdx)
+	{
+		case eMTRLDATA_PARAM_TEX::_0:
+			return g_tex_0.Sample(_Sampler, _vUV);
+
+		case eMTRLDATA_PARAM_TEX::_1:
+			return g_tex_1.Sample(_Sampler, _vUV);
+
+		case eMTRLDATA_PARAM_TEX::_2:
+			return g_tex_2.Sample(_Sampler, _vUV);
+            
+		case eMTRLDATA_PARAM_TEX::_3:
+			return g_tex_3.Sample(_Sampler, _vUV);
+            
+		case eMTRLDATA_PARAM_TEX::_4:
+			return g_tex_4.Sample(_Sampler, _vUV);
+            
+		case eMTRLDATA_PARAM_TEX::_5:
+			return g_tex_5.Sample(_Sampler, _vUV);
+            
+		case eMTRLDATA_PARAM_TEX::_6:
+			return g_tex_6.Sample(_Sampler, _vUV);
+            
+		case eMTRLDATA_PARAM_TEX::_7:
+			return g_tex_7.Sample(_Sampler, _vUV);
+	};
+
+	return float4(1.f, 0.f, 1.f, 1.f);
+}
+
+
+
 uint XorShift64Plus(inout uint2 state)
 {
 	uint x = state.x;

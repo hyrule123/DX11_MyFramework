@@ -226,7 +226,7 @@ void CImGuiMgr::CreateDefaultUI()
 
     AddUI(new CUI_Inspector);
     AddUI(new CUI_Contents);
-    AddUI(new CUI_Outliner);
+    //AddUI(new CUI_Outliner);
 }
 
 void CImGuiMgr::begin()
