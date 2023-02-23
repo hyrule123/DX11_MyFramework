@@ -54,14 +54,14 @@ typedef Matrix      MATRIX;
 #ifdef __cplusplus
 
 //C++ : enum class 형태로 선언함.
-#define ENUM_START(_Name, _Type) enum class _Name : _Type {
+#define ENUM_BEGIN(_Name, _Type) enum class _Name : _Type {
 #define ENUM_MEMBER(_Name, _Type, _Val) _Name = _Val,
 #define ENUM_END };
 
 #else
 
 //HLSL : namespace 형태로 선언함.
-#define ENUM_START(_Name, _Type) namespace _Name {
+#define ENUM_BEGIN(_Name, _Type) namespace _Name {
 #define ENUM_MEMBER(_Name, _Type, _Val) static const _Type _Name = _Val;
 #define ENUM_END };
 
@@ -142,7 +142,7 @@ struct tMtrlTexData
 #define MTRL_SCALAR_STD2D_PIVOT         MTRLDATA_PARAM_SCALAR(VEC2_3)
 #define MTRL_SCALAR_STD2D_COLORKEY               MTRLDATA_PARAM_SCALAR(VEC4_0)
 
-ENUM_START(eANIM2D_FLAG, int)
+ENUM_BEGIN(eANIM2D_FLAG, int)
     ENUM_MEMBER(USEANIM, int, 1<<0)
     ENUM_MEMBER(USEPIVOT, int, 1<<1)
 ENUM_END
@@ -162,6 +162,19 @@ ENUM_END
 //============================================================================
 
 
+ENUM_BEGIN(eMTRLDATA_PARAM_TEX, int)
+    ENUM_MEMBER(_0, int, 0)
+    ENUM_MEMBER(_1, int, 1)
+    ENUM_MEMBER(_2, int, 2)
+    ENUM_MEMBER(_3, int, 3)
+    ENUM_MEMBER(_4, int, 4)
+    ENUM_MEMBER(_5, int, 5)
+    ENUM_MEMBER(_6, int, 6)
+    ENUM_MEMBER(_7, int, 7)
+    ENUM_MEMBER(_END, int, 8)
+ENUM_END
+
+
 #ifdef __cplusplus
 
 //재질에서 전달하는 위 구조체를 인덱스 번호를 통해 접근하기 위한 열거체(C++에서만 사용함.)
@@ -178,16 +191,12 @@ enum class eMTRLDATA_PARAM_SCALAR
     MAT_0, MAT_1, MAT_2, MAT_3,
 };
 
-//C++ 재질에서 예약해놓은 버퍼 번호
-enum class eMTRLDATA_PARAM_TEX
-{
-	_0, _1, _2, _3, _4, _5, _6, _7, _END
-};
-
 #else
 
 
 #endif
+
+
 
 
 struct tCamMatrices

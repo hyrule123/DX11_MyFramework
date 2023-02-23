@@ -31,13 +31,56 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
         //애니메이션의 Left Top부터 Slice에 자신의 UV값을 곱해서 실제 UV값을 구해준다.
 		float2 vUV = Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP + Data.MTRL_SCALAR_STD2D_ANIM_UV_SLICE * _in.vUV;
 
-		vOutColor = g_tex_0.Sample(g_Sampler_0, vUV);
+		vOutColor = g_tex[0].Sample(g_Sampler_0, vUV);
+		
+		//switch (Data.MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX)
+		//{
+		//	case eMTRLDATA_PARAM_TEX::_0:
+		//		vOutColor = g_tex_0.Sample(g_Sampler_0, vUV);
+		//		break;
+            
+		//	case eMTRLDATA_PARAM_TEX::_1:
+		//		vOutColor = g_tex_1.Sample(g_Sampler_0, vUV);
+		//		break;
+            
+		//	case eMTRLDATA_PARAM_TEX::_2:
+		//		vOutColor = g_tex_2.Sample(g_Sampler_0, vUV);
+		//		break;
+            
+		//	case eMTRLDATA_PARAM_TEX::_3:
+		//		vOutColor = g_tex_3.Sample(g_Sampler_0, vUV);
+		//		break;
+            
+		//	case eMTRLDATA_PARAM_TEX::_4:
+		//		vOutColor = g_tex_4.Sample(g_Sampler_0, vUV);
+		//		break;
+            
+		//	case eMTRLDATA_PARAM_TEX::_5:
+		//		vOutColor = g_tex_5.Sample(g_Sampler_0, vUV);
+		//		break;
+            
+		//	case eMTRLDATA_PARAM_TEX::_6:
+		//		vOutColor = g_tex_6.Sample(g_Sampler_0, vUV);
+		//		break;
+            
+		//	case eMTRLDATA_PARAM_TEX::_7:
+		//		vOutColor = g_tex_7.Sample(g_Sampler_0, vUV);
+		//		break;
+            
+  //          default:
+		//		break;
+            
+		//};
+        
+
        
     }
     else
     {
         vOutColor = g_tex_0.Sample(g_Sampler_0, _in.vUV);
     }
+    
+   
 	
     //Alpha Check + Color Key Check
 	if (0.f == vOutColor.a || all(vOutColor.rgb == Data.MTRL_SCALAR_STD2D_COLORKEY.rgb))

@@ -25,7 +25,7 @@
 	
 //eCBUFFER_IDX_SBUFFER_SHAREDATA Inner Index
 //상수 버퍼 'SBUFFERINFO' 내부의 인덱스 번호를 지정하는 열거체
-ENUM_START(eCBUFFER_SBUFFER_SHAREDATA_IDX, int)
+ENUM_BEGIN(eCBUFFER_SBUFFER_SHAREDATA_IDX, int)
 	ENUM_MEMBER(NONE, int, -1)
 	ENUM_MEMBER(MTRL_SCALAR, int, 0)
 	ENUM_MEMBER(LIGHT2D, int, 1)
@@ -122,6 +122,7 @@ cbuffer CBuffer_ParticleModule : register(e_b_CBUFFER_PARTICLE_MODULEDATA)
 
 	#else
 
+Texture2D g_tex[8] : register(e_t_TEXTURE_0);
 Texture2D g_tex_0 : register(e_t_TEXTURE_0);
 Texture2D g_tex_1 : register(e_t_TEXTURE_1);
 Texture2D g_tex_2 : register(e_t_TEXTURE_2);

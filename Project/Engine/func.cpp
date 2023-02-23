@@ -14,6 +14,8 @@ void SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx)
 	evn.rParam = static_cast<DWORD_PTR>(_LayerIdx);
 
 	CEventMgr::GetInst()->AddEvent(evn);
+
+	//eMTRLDATA_PARAM_TEX
 }
 
 void DestroyObject(CGameObject* _pObject)

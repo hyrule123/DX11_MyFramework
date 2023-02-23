@@ -100,7 +100,6 @@ constexpr const wchar_t* g_eRES_TYPE_lstrName[(int)eCOMPONENT_TYPE::END]
 };
 
 
-
 namespace eSHADER_PIPELINE_STAGE
 {
 	enum FLAG : UINT
