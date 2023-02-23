@@ -47,13 +47,14 @@ private:
     //애니메이션 전환 시 바뀌는 변수
 
     int                     m_iCurAtlasTexIdx;
-    const tAnimFrameIdx* m_pCurAnim;
-    UINT                m_uMaxFrameCount;
-    float               m_fTimePerFrame;
-    float               m_fFullPlayTime;
+    const tAnimFrameIdx*    m_pCurAnim;
+    UINT                    m_uMaxFrameCount;
+    float                   m_fTimePerFrame;
+    float                   m_fFullPlayTime;
 
-    eANIM_LOOPMODE      m_eLoopMode;
-    bool                m_bReverse;
+    eANIM_LOOPMODE          m_eLoopMode;
+    bool                    m_bReverse;
+    bool                    m_bFlipX;
 
 //========================================================
 

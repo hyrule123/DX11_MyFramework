@@ -96,16 +96,16 @@ public:
     //inline Getter
     ////Inline methods don't need to return the value by const reference
     Vec3 GetSize() const { return Vec3(m_matSize._11, m_matSize._22, m_matSize._33); }
-    Vec3 GetRelativePos() const { return m_vRelativePos; }
+    const Vec3& GetRelativePos() const { return m_vRelativePos; }
     Vec3 GetWorldPos() const { return Vec3(m_matWorld.m[3]); }
-    Vec3 GetRelativeScale() const { return m_vRelativeScale; }
+    const Vec3& GetRelativeScale() const { return m_vRelativeScale; }
     Vec3 GetWorldScale() const;
-    Vec3 GetRelativeRot() const { return m_vRelativeRot; }
+    const Vec3& GetRelativeRot() const { return m_vRelativeRot; }
 
     Matrix GetWorldRotMat() const;
     Vec3 GetWorldRot(eAXIS3D _eAxis) const;
 
-    Vec3 GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(UINT)_eDir]; }
+    const Vec3& GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(UINT)_eDir]; }
     Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorld.m[(UINT)_eDir]).Normalize(); }
     const Matrix& GetWorldMat() const { return m_matWorld; }
 

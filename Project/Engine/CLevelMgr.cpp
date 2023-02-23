@@ -89,8 +89,8 @@ void CLevelMgr::init()
 	// 오브젝트 생성
 	CGameObject* pPlayer = nullptr;
 
-	for (int i = 0; i < 1000; ++i)
-	//int i = 1;
+	//for (int i = 0; i < 1000; ++i)
+	int i = 1;
 	{
 		pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
@@ -99,7 +99,8 @@ void CLevelMgr::init()
 		pPlayer->Transform()->SetLockRotation(true);
 		pPlayer->AddComponent(new CMeshRender);
 
-		pPlayer->AddScript(new CPlayerScript);
+		if(1 == i)
+			pPlayer->AddScript(new CPlayerScript);
 
 		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D);
 		PlayerMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);

@@ -29,13 +29,15 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
     //애니메이션 사용중일경우
     else if (eANIM2D_FLAG::USEANIM & Data.MTRL_SCALAR_STD2D_FLAG)
     {
+		float2 vUV = _in.vUV;
+        if(eANIM2D_FLAG::NEEDFLIPX & Data.MTRL_SCALAR_STD2D_FLAG)
+			vUV.x = 1.f - vUV.x;
+        
         //애니메이션의 Left Top부터 Slice에 자신의 UV값을 곱해서 실제 UV값을 구해준다.
-		float2 vUV = Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP + Data.MTRL_SCALAR_STD2D_ANIM_UV_SLICE * _in.vUV;
+		float2 RealUV = Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP + Data.MTRL_SCALAR_STD2D_ANIM_UV_SLICE * vUV;
 
 		int idx = Data.MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX;
-		vOutColor = SampleMtrlTex(idx, g_Sampler_0, vUV);
-        
-
+		vOutColor = SampleMtrlTex(idx, g_Sampler_0, RealUV);
 	}
     else
     {

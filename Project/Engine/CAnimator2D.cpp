@@ -10,6 +10,10 @@
 
 #include "CTimeMgr.h"
 
+#include "CTransform.h"
+
+
+
 CAnimator2D::CAnimator2D()
     : CComponent(eCOMPONENT_TYPE::ANIMATOR2D)
     , m_uCurFrame()
@@ -20,10 +24,12 @@ CAnimator2D::CAnimator2D()
     , m_fFullPlayTime()
     , m_eLoopMode()
     , m_bReverse()
+    , m_bFlipX()
     , m_iCurAtlasTexIdx()
     , m_pCurAnim()
     , m_uMaxFrameCount()
     , m_bNeedUpdateMtrl(true)
+    
     
 {
 }
@@ -39,6 +45,7 @@ CAnimator2D::CAnimator2D(const CAnimator2D& _other)
     , m_fFullPlayTime(_other.m_fFullPlayTime)
     , m_eLoopMode(_other.m_eLoopMode)
     , m_bReverse(_other.m_bReverse)
+    , m_bFlipX(_other.m_bFlipX)
     , m_iCurAtlasTexIdx(_other.m_iCurAtlasTexIdx)
     , m_pCurAnim(_other.m_pCurAnim)
     , m_bNeedUpdateMtrl(false)
@@ -119,7 +126,68 @@ void CAnimator2D::tick()
         m_uCurFrameIdx = m_uCurFrame;
 
     //나중에 여기서 방향성을 가지면 어떡할것인지 등등을 추가할것
-    m_uCalculatedIdx = m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdx;
+    if (eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP == m_pCurAnim->eAnimType)
+    {
+        //각도를 0~360도 사이로 한정시긴 후 0.f(0도) ~ 1.f(360도) 사이의 값으로 변환한다.
+        //참고 - z축이 양수가 되면 시계 반대방향으로 회전하기 때문에 현재 시계방향으로 정렬된 아틀라스 이미지와 일치하지 않음
+        //->그래서 -1 곱한것임
+        XM_1DIV2PI;
+        XM_1DIVPI;
+
+        //0도(12시)를 기준으로 11시 방향은 음수, 1시 방향은 양수가 된다.
+        //그러므로 180도(6시 방향)을 기준으로 나눠줘야 한다.
+        //180도(PI)로 나눈 나머지를 구한 다음 다시 PI로 나눠 주면 
+        //0.f(0도) ~ 1.f(360도) 사이의 값을 구할 수 있다.
+        //이 값을 절댓값을 통해서 fabsf로 바꿔 준다.
+        float angle = fmodf(-Transform()->GetRelativeRot().z, XM_PI);
+        
+        int fSliceAngle = (int)fabsf(angle / (float)m_pCurAnim->uColTotal * 2.f);
+
+        //
+        if (0 == fSliceAngle || fSliceAngle == (m_pCurAnim->uColTotal * 2.f))
+        {
+
+
+            int a = 0;
+        }
+
+        angle *= XM_1DIVPI;
+
+        //angle이 음수일 경우에는 1에서 빼준다.(angle 자체가 현재 음수이므로 더해준다)
+        if (angle < 0.f)
+            angle = 1.f + angle;
+
+        //angle에 현재 방향의 갯수(uColTotal)을 곱해 주면 아틀라스에 따른 방향을 구할 수 있다.
+        angle *= m_pCurAnim->uColTotal * 2.f;
+
+        //이 값을 정수로 바꾼다.
+        UINT idx = (UINT)angle;
+
+        //현재 인덱스가 반을 넘어갈 경우 반을 빼주고 flip 상태를 true로 변경한다.
+        //위에서 범위를 
+        if (idx >= m_pCurAnim->uColTotal)
+        {
+            idx = m_pCurAnim->uColTotal * 2u -1u - idx;
+
+            //마지막 회전 애니메이션(6시 방향)은 플립하지 않음
+            if (idx == m_pCurAnim->uColTotal - 1u || idx == 0)
+                m_bFlipX = false;
+            else
+                m_bFlipX = true;
+        }
+        else
+        {
+            m_bFlipX = false;
+        }
+
+        m_uCalculatedIdx = m_pCurAnim->vecFrame[idx * m_pCurAnim->uRowTotal + m_uCurFrameIdx].uIdxInVecFrameUV;
+
+    }
+    else if(eANIM_TYPE::SEQUENTIAL == m_pCurAnim->eAnimType)
+    {
+        m_uCalculatedIdx = m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdxInVecFrameUV;
+    }
+        
     
     //프레임에 등록된 콜백함수가 있을 경우 콜백함수 호출
     size_t size = m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback.size();
@@ -160,10 +228,17 @@ void CAnimator2D::UpdateData()
 
     //플래그값 추가 및 설정
     iAnimFlag |= (int)eANIM2D_FLAG::USEANIM;
-    if (Vec2(0.f, 0.f) != m_pCurAnim->vPivot)
-    {
+
+    if (Vec2(0.5f, 0.5f) != m_pCurAnim->vPivot)
         iAnimFlag |= (int)eANIM2D_FLAG::USEPIVOT;
-    }
+    else
+        iAnimFlag &= ~(int)eANIM2D_FLAG::USEPIVOT;
+
+    if (true == m_bFlipX)
+        iAnimFlag |= (int)eANIM2D_FLAG::NEEDFLIPX;
+    else
+        iAnimFlag &= ~(int)eANIM2D_FLAG::NEEDFLIPX;
+    
 
 
     pOwner->SetScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
@@ -171,7 +246,7 @@ void CAnimator2D::UpdateData()
  
 
     //애니메이션의 UV 정보를 받아옴.
-    const tAnimFrameUV& frameuv = m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameUVData(m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdx);
+    const tAnimFrameUV& frameuv = m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameUVData(m_uCalculatedIdx);
 
     pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP, &(frameuv.LeftTopUV));
     pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_SLICE, &(frameuv.SliceUV));
@@ -229,6 +304,7 @@ void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
         m_uCalculatedIdx = 0;
         m_fCurTime = 0.f;
         m_bFinish = false;
+        m_bFlipX = false;
 
         m_uMaxFrameCount = m_pCurAnim->uNumFrame;
         m_fTimePerFrame = m_pCurAnim->fTimePerFrame;

@@ -3,11 +3,10 @@
 
 #include "ptr.h"
 
-enum class eANIM_TEX_FRAME_TYPE
+enum class eANIM_TYPE
 {
-    UNORDERED,
-    DIRECTIONAL_ROW,
-    DIRECTIONAL_COL
+    SEQUENTIAL,         //순차 재생
+    DIRECTIONAL_COL_HALF_FLIP   //0도~180도 기준 애니메이션만 존재. 넘어가는 애니메이션은 FLIP을 해줘야 함.
 };
 
 struct tAnimFrameUV
@@ -22,7 +21,7 @@ struct tAnimFrameUV
 struct tAnimFrame
 {
     //애니메이션의 프레임별 인덱스
-    UINT uIdx;
+    UINT uIdxInVecFrameUV;
 
     vector<std::function<void()>> pfuncCallback;
 };
@@ -32,11 +31,20 @@ struct tAnimFrameIdx
     string strAnimName;
     vector<tAnimFrame> vecFrame;
 
-    Vec2 vPivot;
+    
     //vecFrame.size()와 이 값은 다를 수 있음. 방향 정보에 따라 같은 프레임에 다른 정보를 보여줘야 할 경우 등등
     UINT                uNumFrame;
     float               fFullPlayTime;
-    float               fTimePerFrame;  //위 수치 / 프레임 수로 나눈것(한 프레임당 시간)
+
+    //위의 전체 재생시간 / 프레임 수 한것(한 프레임당 시간) 
+    //자동 계산
+    float               fTimePerFrame;  
+
+    eANIM_TYPE          eAnimType;
+    Vec2 vPivot;
+
+    UINT                uColTotal;
+    UINT                uRowTotal;
 };
 
 class CTexture;
@@ -62,17 +70,36 @@ private:
     //실제 애니메이션이 저장되는 장소
     unordered_map<string, tAnimFrameIdx> m_mapAnim;
 
+    //그리드 형태의 애니메이션일 경우 사용
+    UINT m_uRowTotal;
+    UINT m_uColTotal;
 
 public:
     void SetAtlasTexture(Ptr<CTexture> _AtlasTex);
+
     void SetNewAnimUV(vector<tAnimFrameUV>& _vecFrameUV);
     void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal);
     void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch);
+    void SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, UINT _uRowPitch);
 
-    void AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx);
+
+    //애니메이션 생성 메소드
+    //================================================================================================================
+    void AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx, 
+         float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
+    );
 
     //애니메이션을 만들때는 전체 열의 갯수만 받음. 나머지는 안에서 계산함
-    void AddAnim2D(const string& _strAnimKey, UINT _uColTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch);
+    void AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
+        float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
+    );
+    
+    void AddAnim2D_SC_Redundant(
+        const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch,
+        float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f)
+    );
+    //=================================================================================================================
+
 
     const tAnimFrameIdx* FindAnim2D(const string& _AnimIdxStrKey);
 

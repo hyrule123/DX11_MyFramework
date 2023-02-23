@@ -440,8 +440,9 @@ void CResMgr::CreateDefaultAnimAtlas()
 {
 	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 	Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS));
-	Atlas->SetNewAnimUV(17u, 9u, 1u, 16u, 0u, 9u);
-	Atlas->AddAnim2D(RESOURCE::ANIM2D::REAVERMOVE, 16u, 0u, 16u, 0u, 9u);
+
+	Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
+	Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
 
 	AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::REAVER_ATLAS, Atlas);
 }

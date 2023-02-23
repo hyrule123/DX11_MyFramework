@@ -103,6 +103,8 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 		if (nullptr != _pInitialData)
 		{
 			Data.pSysMem = _pInitialData;
+
+			//이 값은 무시됨. BufferDesc.ByteWidth 값만 영향을 미치는 것을 확인함.
 			Data.SysMemPitch = m_uElementStride * _uElemCount;
 			Data.SysMemSlicePitch = m_BufferDesc.StructureByteStride;
 			pData = &Data;
@@ -163,6 +165,7 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 	//생성될 때 값을 지정할 수 있으므로 바로 return 해주면 될듯
 	if (_uCount > m_uElementCapacity)
 	{
+		//다시 생성하고자 할때는 초기 데이터와 사이즈를 일치시켜서 생성해줘야 한다.
 		Create(m_uElementStride, _uCount, _pData, _uCount);
 		return;
 	}

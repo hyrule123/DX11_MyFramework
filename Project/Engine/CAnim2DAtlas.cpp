@@ -8,6 +8,8 @@
 
 CAnim2DAtlas::CAnim2DAtlas()
 	: CRes(eRES_TYPE::ANIM2D_SPRITE)
+	, m_uColTotal()
+	, m_uRowTotal()
 {
 }
 
@@ -33,6 +35,9 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal)
 
 	m_vecFrameUV.clear();
 
+	m_uColTotal = _uColTotal;
+	m_uRowTotal = _uRowTotal;
+
 	float RowSliceUV = 1.f / (float)_uRowTotal;
 	float ColSliceUV = 1.f / (float)_uColTotal;
 
@@ -57,8 +62,8 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStar
 	if (nullptr == m_AtlasTex)
 		return;
 
-	UINT colend = _uColStart + _uColPitch - 1u;
-	UINT rowend = _uRowStart + _uRowPitch - 1u;
+	UINT colend = _uColStart + _uColPitch;
+	UINT rowend = _uRowStart + _uRowPitch;
 
 	//조건 확인
 	assert(
@@ -72,14 +77,17 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStar
 	
 	m_vecFrameUV.clear();
 
+	m_uColTotal = colend - _uColStart;
+	m_uRowTotal = rowend - _uRowStart;
+
 	//슬라이스를 구해준다
 	float RowSliceUV = 1.f / (float)_uRowTotal;
 	float ColSliceUV = 1.f / (float)_uColTotal;
 
 	//Left Top부터 열 순서대로 저장
-	for (UINT Col = _uColStart; Col <= colend; ++Col)
+	for (UINT Col = _uColStart; Col < colend; ++Col)
 	{
-		for (UINT Row = _uRowStart; Row <= rowend; ++Row)
+		for (UINT Row = _uRowStart; Row < rowend; ++Row)
 		{
 			tAnimFrameUV uv = {};
 			uv.LeftTopUV.x = ColSliceUV * Col;
@@ -92,44 +100,165 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStar
 	}
 }
 
-
-
-void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx)
+void CAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, UINT _uRowPitch)
 {
-	m_mapAnim.insert(make_pair(_strAnimKey, _vecAnimFrameIdx));
+	if (nullptr == m_AtlasTex)
+		return;
+
+	UINT colend = 17u;
+	UINT rowend = _uRowStart + _uRowPitch;
+
+	//조건 확인
+	assert(
+		0u < _uRowPitch
+		&& _uRowStart <= rowend
+		&& rowend <= _uRowTotal
+	);
+
+	m_vecFrameUV.clear();
+
+	m_uRowTotal = rowend - _uRowStart;
+
+	//슬라이스를 구해준다
+	float RowSliceUV = 1.f / (float)_uRowTotal;
+	float ColSliceUV = 1.f / (float)colend;
+
+	//Left Top부터 열 순서대로 저장
+	//Col은 2단위로 증가
+	for (UINT Col = 0u; Col < colend; Col = Col + 2u)
+	{
+		for (UINT Row = _uRowStart; Row < rowend; ++Row)
+		{
+			tAnimFrameUV uv = {};
+			uv.LeftTopUV.x = ColSliceUV * Col;
+			uv.LeftTopUV.y = RowSliceUV * Row;
+
+			uv.SliceUV = Vec2(ColSliceUV, RowSliceUV);
+
+			m_vecFrameUV.push_back(uv);
+		}
+	}
+
+	m_uColTotal = 9u;
+	m_uRowTotal = rowend - _uRowStart;
+
 }
 
-void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch)
-{
-	UINT _uRowTotal = (UINT)m_vecFrameUV.size() % _uColTotal;
 
-	UINT colend = _uColStart + _uColPitch - 1u;
-	UINT rowend = _uRowStart + _uRowPitch - 1u;
+
+void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx,
+	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
+)
+{
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, _vecAnimFrameIdx));
+
+	tAnimFrameIdx& Anim = pair.first->second;
+	Anim.uColTotal = 0u;
+	Anim.uRowTotal = 0u;
+
+	Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+
+	Anim.fFullPlayTime = _fFullPlayTime;
+	Anim.eAnimType = _eAnimType;
+	Anim.vPivot = _vPivot;
+	Anim.strAnimName = _strAnimKey;
+
+	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+}
+
+void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
+	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
+)
+{
+
+	UINT colend = _uColStart + _uColPitch;
+	UINT rowend = _uRowStart + _uRowPitch;
 
 	//에러 검사 - 행의 수가 나눠 떨어져야 함
 	assert(
-		0u == _uRowTotal
-		&& 0u < _uColPitch
+			0u < _uColPitch
 		&& 0u < _uRowPitch
 		&& _uColStart <= colend
 		&& _uRowStart <= rowend
 	);
 
-	_uRowTotal = (UINT)m_vecFrameUV.size() / _uColTotal;
-
 	tAnimFrameIdx Anim = {};
 
-	for (UINT Col = _uColStart; Col <= colend; Col++)
+
+	for (UINT Col = _uColStart; Col < colend; Col++)
 	{
-		for (UINT Row = _uRowStart; Row <= rowend; Row++)
+		for (UINT Row = _uRowStart; Row < rowend; Row++)
 		{
-			Anim.vecFrame.push_back(tAnimFrame{ (Col * _uRowTotal + Row) , });
+			Anim.vecFrame.push_back(tAnimFrame{ (Col * m_uRowTotal + Row) , });
 		}
 	}
 
-	Anim.uNumFrame = (UINT)Anim.vecFrame.size();
-	Anim.fFullPlayTime = 10.f;
+	Anim.uColTotal = colend - _uColStart;
+	Anim.uRowTotal = rowend - _uRowStart;
+
+	Anim.fFullPlayTime = _fFullPlayTime;
+	Anim.eAnimType = _eAnimType; 
+	Anim.vPivot = _vPivot;
 	Anim.strAnimName = _strAnimKey;
+
+	switch (Anim.eAnimType)
+	{
+	case eANIM_TYPE::SEQUENTIAL:
+		Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+		break;
+	case eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP:
+		Anim.uNumFrame = Anim.uRowTotal;
+		break;
+	default:
+		break;
+	}
+
+	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+
+	m_mapAnim.insert(make_pair(_strAnimKey, Anim));
+
+}
+
+void CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch, float _fFullPlayTime, Vec2 _vPivot)
+{
+	assert(
+		0 < _uRowPitch 
+		&& _uRowStart + _uRowPitch <= m_uRowTotal
+		&& 9u == m_uColTotal
+	);
+
+	tAnimFrameIdx Anim = {};
+
+	UINT _uRowEnd = _uRowStart + _uRowPitch;
+
+	for (UINT Col = 0u; Col < m_uColTotal; Col++)
+	{
+		for (UINT Row = _uRowStart; Row < _uRowEnd; Row++)
+		{
+			Anim.vecFrame.push_back(tAnimFrame{ (Col * m_uRowTotal + Row) , });
+		}
+	}
+
+	Anim.uColTotal = m_uColTotal;
+	Anim.uRowTotal = _uRowEnd - _uRowStart;
+
+	Anim.fFullPlayTime = _fFullPlayTime;
+	Anim.eAnimType = eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP;
+	Anim.vPivot = _vPivot;
+	Anim.strAnimName = _strAnimKey;
+
+	switch (Anim.eAnimType)
+	{
+	case eANIM_TYPE::SEQUENTIAL:
+		Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+		break;
+	case eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP:
+		Anim.uNumFrame = Anim.uRowTotal;
+		break;
+	default:
+		break;
+	}
+
 	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
 
 	m_mapAnim.insert(make_pair(_strAnimKey, Anim));
