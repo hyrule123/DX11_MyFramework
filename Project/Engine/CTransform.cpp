@@ -51,6 +51,9 @@ void CTransform::finaltick()
 	if (m_bNeedMyUpdate || m_bNeedParentUpdate)
 	{
 		m_matWorld = m_matRelative * m_matParent;
+
+		MATRIX matWorld = m_matSize * m_matWorld;
+		GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
 	}
 }
 
@@ -68,15 +71,20 @@ void CTransform::UpdateMyTransform()
 		matRot = MATRIX::CreateFromPitchYawRoll(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);*/
 
 	if (false == m_bLockRot)
+	{
 		matRot = MATRIX::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(m_vRelativeRot.y, m_vRelativeRot.x, m_vRelativeRot.z));
-	
+		//방금 구한 회전행렬으로 직관적 방향을 계산한다.
+		//회전행렬을 따로 변수에 저장하지 않으므로 지역변수에 계산해놓은 시점에서 직관적 방향도 구해놓는다.
+		//방법 1 - 행렬곱과 래핑함수를 사용
+	}
 
-	//방금 구한 회전행렬으로 직관적 방향을 계산한다.
-	//회전행렬을 따로 변수에 저장하지 않으므로 지역변수에 계산해놓은 시점에서 직관적 방향도 구해놓는다.
-	//방법 1 - 행렬곱과 래핑함수를 사용
+		
 	m_vRelativeDir[(UINT)eDIR_TYPE::FRONT] = matRot.Forward();
 	m_vRelativeDir[(UINT)eDIR_TYPE::RIGHT] = matRot.Right();
 	m_vRelativeDir[(UINT)eDIR_TYPE::UP] = matRot.Up();
+	
+
+
 
 	//이동행렬
 	const Matrix& matTranslation = Matrix::CreateTranslation(m_vRelativePos);
@@ -134,10 +142,3 @@ void CTransform::UpdateParentMatrix()
 	}
 }
 
-void CTransform::UpdateData()
-{
-	MATRIX matWorld = m_matSize * m_matWorld;
-	GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
-	//matWorld *= g_matViewProj;
-	//GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WVP, &matWorld);
-}

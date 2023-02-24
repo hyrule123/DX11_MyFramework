@@ -295,7 +295,7 @@ void CCamera::render()
 		for (size_t i = 0; i < size; i++)
 		{
 			m_vecInstancedRenderQueue[i].pMtrl->BindData();
-			m_vecInstancedRenderQueue[i].pMesh->render(m_vecInstancedRenderQueue[i].pMtrl->GetInstancingCount());
+			m_vecInstancedRenderQueue[i].pMesh->renderInstanced(m_vecInstancedRenderQueue[i].pMtrl->GetInstancingCount());
 		}
 		
 		//인스턴싱 대기열 비워주기
@@ -307,5 +307,3 @@ void CCamera::render()
 
 
 }
-
-

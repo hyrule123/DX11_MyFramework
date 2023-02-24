@@ -3,6 +3,10 @@
 
 #include "Shader_header_register.hlsli"
 
+#ifndef __cplusplus
+#include "Shader_Func.hlsli"
+#endif
+
 // ============================
 // Std2DShader
 // RasterizerState      : None
@@ -75,8 +79,8 @@ struct VS_OUT
 {
 	float3 vWorldPos SEMANTIC(POSITION);
 	float2 vUV SEMANTIC(TEXCOORD);
-	float4 vSV_Pos SEMANTIC(SV_Position);
 	UINT32 uInstID SEMANTIC(SV_InstanceID);
+	float4 vPosSV SEMANTIC(SV_Position);
 };
 
 #endif

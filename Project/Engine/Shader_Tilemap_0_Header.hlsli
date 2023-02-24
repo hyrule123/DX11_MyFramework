@@ -3,6 +3,11 @@
 
 #include "Shader_header_register.hlsli"
 
+
+//Instancing : X
+
+
+
 struct tTile
 {
 	float2 vLeftTop;

@@ -85,7 +85,7 @@ public:
 
     //Recursive
     void AddAllHierarchyObjects(__in int _iLayerIdx, __out vector<CGameObject*>& _vecObj);
-    void SetParentCamMatricesUpdated();
+    void SetParentMatrixUpdated();
 
     //±‚≈∏
     bool GetParentWorldMatrix(__out Matrix& _mat);

@@ -89,7 +89,7 @@ void CParticleSystem::render(CCamera* _pCam)
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
 		return;
 
-	Transform()->UpdateData();
+	//Transform()->UpdateData();
 
 	CMaterial* pMtrl = GetCurMaterial().Get();
 	pMtrl->AddMtrlScalarData(GetOwner()->GetMtrlScalarData());
@@ -98,7 +98,7 @@ void CParticleSystem::render(CCamera* _pCam)
 
 	m_pSBufferRW_ParticleTransform->BindBufferSRV();
 
-	GetMesh()->render(m_tModuleData.iMaxParticleCount);
+	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
 
 
 

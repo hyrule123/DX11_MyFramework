@@ -74,7 +74,11 @@ void CMaterial::BindData()
 	//그릴게 없을 경우 return
 
 	if (0u == m_vecMtrlScalar.size())
+	{
+		m_uRenderCount = 0u;
 		return;
+	}
+		
 		
 	//인스턴싱을 사용하지 않을 경우(구조화버퍼 없을 경우) 상수버퍼에 묶어서 바로 렌더링
 	else if(nullptr == m_SBufferMtrlScalar)

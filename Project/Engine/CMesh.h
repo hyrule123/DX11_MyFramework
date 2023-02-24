@@ -25,7 +25,8 @@ public:
 	virtual int Save(const wstring& _strRelativePath) { return S_OK; }
 
 
-	void render(UINT _uInstancingCount);
+	void render();
+	void renderInstanced(UINT _uInstancingCount);
 
 
 private:

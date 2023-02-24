@@ -14,7 +14,7 @@ public:
 public:
     virtual void finaltick() override;
     virtual void cleanup() override {};
-    void UpdateData();
+    //void UpdateData();
 
 
 private:

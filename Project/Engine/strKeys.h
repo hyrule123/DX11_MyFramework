@@ -19,8 +19,10 @@ namespace RESOURCE
 		inline constexpr const char* TEST = "TestMtrl";
 		inline constexpr const char* STD2D = "std2DMtrl";
 		inline constexpr const char* STD2D_LIGHT = "std2DLightMtrl";
+		inline constexpr const char* CORSAIR = "CorsairMtrl";
 		inline constexpr const char* TILEMAP = "TilemapMtrl";
 		inline constexpr const char* PARTICLE_RENDER = "ParticleRenderMtrl";
+
 
 	}
 
@@ -52,10 +54,12 @@ namespace RESOURCE
 		inline constexpr const char* LINK_ATLAS = "LinkAtlas";
 		inline constexpr const char* REAVER_ATLAS = "ReaverAtlas";
 		inline constexpr const char* NOISE_TEXTURE_0 = "NoiseTexture";
+		inline constexpr const char* CORSAIR_ATLAS = "CorsairAtlas";
 	}
 
 	namespace ANIM2D
 	{
 		inline constexpr const char* REAVERMOVE = "ReaverMove";
+		inline constexpr const char* CORSAIRMOVE = "CorsairMove";
 	}
 }

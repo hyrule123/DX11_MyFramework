@@ -70,7 +70,7 @@ inline void CCamera::SetLayerFlag(UINT32 _iLayerFlag)
     m_LayerFlag = _iLayerFlag;
 }
 
-inline void CCamera::AddLayerFlag(UINT _iLayerNum)
+inline void CCamera::AddLayerFlag(UINT32 _iLayerNum)
 {
     if (_iLayerNum > 32u)
         return;
@@ -78,7 +78,7 @@ inline void CCamera::AddLayerFlag(UINT _iLayerNum)
     m_LayerFlag |= 1 << _iLayerNum;
 }
 
-inline void CCamera::OffLayerFlag(UINT _iLayerNum)
+inline void CCamera::OffLayerFlag(UINT32 _iLayerNum)
 {
     if (_iLayerNum > 32u)
         return;

@@ -87,23 +87,21 @@ void CLevelMgr::init()
 	
 	
 	// 오브젝트 생성
-	CGameObject* pPlayer = nullptr;
 
-	//for (int i = 0; i < 1000; ++i)
-	int i = 1;
+	for (int i = 0; i < 1000; ++i)
+	//int i = 1;
 	{
-		pPlayer = new CGameObject;
+		CGameObject* pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
 		pPlayer->AddComponent(new CTransform);
 		pPlayer->Transform()->SetSize(Vec3(84.f, 84.f, 1.f));
 		pPlayer->Transform()->SetLockRotation(true);
 		pPlayer->AddComponent(new CMeshRender);
 
-		if(1 == i)
+		//if(1 == i)
 			pPlayer->AddScript(new CPlayerScript);
 
 		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D);
-		PlayerMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		pPlayer->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
@@ -122,8 +120,56 @@ void CLevelMgr::init()
 		
 		//pPlayer->AddComponent(new CCollider2D_OBB);
 
-		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 700.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
+		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
 	}
+
+	//for (int i = 0; i < 1000; ++i)
+	//{
+	//	
+	//	CGameObject* pPlayer = new CGameObject;
+	//	pPlayer->SetName("Corsair");
+	//	pPlayer->AddComponent(new CTransform);
+	//	pPlayer->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	//	pPlayer->Transform()->SetLockRotation(true);
+	//	pPlayer->AddComponent(new CMeshRender);
+
+	//	//if(1 == i)
+	//	pPlayer->AddScript(new CPlayerScript);
+
+	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D_LIGHT);
+
+	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
+	//	pPlayer->SetScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+
+	//	pPlayer->MeshRender()->SetMesh(RectMesh);
+	//	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
+
+	//	pPlayer->AddComponent(new CAnimator2D);
+
+	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCE::TEXTURE::CORSAIR_ATLAS);
+	//	pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
+	//	pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::CORSAIRMOVE, eANIM_LOOPMODE::NORMAL_LOOP, false);
+
+
+	//	::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
+	//}
+
+
+	//for(int j = 0; j < 10; ++j)
+	//{
+	//	CGameObject* LightObj = new CGameObject;
+
+	//	LightObj->AddComponent(new CTransform);
+	//	LightObj->AddComponent(new CLight2D);
+
+	//	LightObj->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
+	//	LightObj->Light2D()->SetLightRadius(200.f);
+
+
+	//	::SpawnGameObject(LightObj, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm() , -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
+	//}
+
+
 
 
 	//{
@@ -134,16 +180,13 @@ void CLevelMgr::init()
 	//	pTestObj1->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 	//	pTestObj1->AddComponent(new CMeshRender);
 	//	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));
-	//	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D);
+	//	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::TEST);
 	//	TestMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
-	//	pTestObj1->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+	//	//pTestObj1->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 	//	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
 
 	//	::SpawnGameObject(pTestObj1, Vec3(100.f, 0.f, 10.f), 1);
 	//	::AddChildObj(pPlayer, pTestObj1);
-
-	//	SpawnGameObject(pPlayer, Vec3(100.f, 0.f, 10.f), 1);
-	//	m_pCurLevel->AddGameObject(pTestObj1, 1);
 	//}
 
 
@@ -230,13 +273,13 @@ void CLevelMgr::init()
 
 
 
-
-	// Test Object 4
+		
 	//{
-	//	CGameObject* pTestObj4 = new CGameObject;
-	//	pTestObj4->SetName("ParticleObj");
-	//	pTestObj4->AddComponent(new CTransform);
-	//	pTestObj4->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
+	//	//Particle
+	//	CGameObject* pParticleObj = new CGameObject;
+	//	pParticleObj->SetName("ParticleObj");
+	//	pParticleObj->AddComponent(new CTransform);
+	//	pParticleObj->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 
 	//	CParticleSystem* pParticle = new CParticleSystem;
 	//	pParticle->SetParticleCS(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
@@ -244,16 +287,11 @@ void CLevelMgr::init()
 	//	Ptr<CTexture> pHOSTEX = CResMgr::GetInst()->FindRes<CTexture>(RESOURCE::TEXTURE::HOS);
 	//	pParticle->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pHOSTEX);
 	//	pParticle->CreateParticle();
-	//	pTestObj4->AddComponent(pParticle);
+	//	pParticleObj->AddComponent(pParticle);
 
+	//	pParticleObj->AddScript(new CPlayerScript);
 
-	//	pTestObj4->AddComponent(new CCollider2D_OBB);
-
-	//	pTestObj4->AddScript(new CPlayerScript);
-
-	//	//pTestObj3->AddScript(new CTestObjScript);
-
-	//	SpawnGameObject(pTestObj4, Vec3(-100.f, -100.f, 10.f), 1);
+	//	SpawnGameObject(pParticleObj, Vec3(-100.f, -100.f, 10.f), 1);
 	//}
 
 
@@ -267,18 +305,20 @@ void CLevelMgr::init()
 
 
 	//{//Tilemap
+
 	//	CGameObject* pTilemap = new CGameObject;
+	//	pTilemap->SetName(RESOURCE::TEXTURE::TILE_ATLAS);
 
 	//	pTilemap->AddComponent(new CTransform);
 	//	pTilemap->AddComponent(new CTilemap);
 
 	//	pTilemap->Transform()->SetSize(Vec3(500.f, 500.f, 1.f));
 
-	//	pTilemap->Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>("TileAtlas"));
+	//	pTilemap->Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>(RESOURCE::TEXTURE::TILE_ATLAS));
 	//	pTilemap->Tilemap()->SetSliceSize(Vec2(0.125f, 0.166f));
 	//	pTilemap->Tilemap()->SetTileCount(8, 8);
 
-	//	::SpawnGameObject(pTilemap, Vec3(0.f, 0.f, 500.f), 1);
+	//	::SpawnGameObject(pTilemap, Vec3(0.f, 0.f, 1000.f), 1);
 	//}
 
 

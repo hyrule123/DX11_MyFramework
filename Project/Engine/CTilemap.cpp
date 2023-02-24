@@ -7,7 +7,7 @@
 
 #include "CTransform.h"
 
-
+#include "strKeys.h"
 
 CTilemap::CTilemap()
 	: CRenderComponent(eCOMPONENT_TYPE::TILEMAP)
@@ -15,8 +15,8 @@ CTilemap::CTilemap()
 	, m_iTileCountY(1)
 	, m_SBuffer()
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>("RectMesh"));
-	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>("TilemapMtrl"));
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));
+	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::TILEMAP));
 
 	UINT Target = eSHADER_PIPELINE_STAGE::__VERTEX | eSHADER_PIPELINE_STAGE::__PIXEL;
 	m_SBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE, e_t_SBUFFER_TILE, e_u_UAV_NONE);
@@ -25,8 +25,7 @@ CTilemap::CTilemap()
 
 CTilemap::~CTilemap()
 {
-	if (nullptr != m_SBuffer)
-		delete m_SBuffer;
+	DESTRUCTOR_DELETE(m_SBuffer);
 }
 
 void CTilemap::finaltick()
@@ -44,6 +43,9 @@ void CTilemap::render(CCamera* _pCam)
 	//타일맵의 재질에 변수를 대입한 후 바인딩
 	CMaterial* pMtrl = GetCurMaterial().Get();
 
+	//트랜스폼 업데이트 시켜줌
+	//Transform()->UpdateData();
+
 	CGameObject* pOwner = GetOwner();
 	pOwner->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &m_iTileCountX);
 	pOwner->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_1, &m_iTileCountY);
@@ -52,7 +54,7 @@ void CTilemap::render(CCamera* _pCam)
 	pMtrl->BindData();
 
 	//렌더링 진행
-	GetMesh()->render(1);
+	GetMesh()->render();
 }
 
 void CTilemap::BindData()

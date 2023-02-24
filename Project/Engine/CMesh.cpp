@@ -73,13 +73,17 @@ void CMesh::BindData()
 	CONTEXT->IASetIndexBuffer(m_IB.Get(), DXGI_FORMAT_R32_UINT, 0);
 }
 
-void CMesh::render(UINT _uInstancingCount)
+void CMesh::render()
 {
 	BindData();
+	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
+}
 
-	if(1 == _uInstancingCount)
-		CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
-	else if (1 < _uInstancingCount)
-		CONTEXT->DrawIndexedInstanced(m_IdxCount, _uInstancingCount, 0, 0, 0);
+void CMesh::renderInstanced(UINT _uInstancingCount)
+{
+	if (0u == _uInstancingCount)
+		return;
 
+	BindData();
+	CONTEXT->DrawIndexedInstanced(m_IdxCount, _uInstancingCount, 0, 0, 0);
 }

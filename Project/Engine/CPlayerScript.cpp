@@ -56,22 +56,24 @@ void CPlayerScript::tick()
 	//회전한 방향으로 전진
 	if (KEY_PRESSED(KEY::UP))
 	{
-		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
-		vCurPos += DELTA_TIME * m_MoveSpeed * Dir;
+		//Vec3 Dir = Transform()->GetWorldDir(eDIR_TYPE::RIGHT);
+		//vCurPos += DELTA_TIME * m_MoveSpeed * Dir;
+		float CurRot = vCurRot.z + 0.5f * XM_PI;
 
 		PosUpdated = true;
-		//vCurPos.x += DELTA_TIME * m_MoveSpeed * cosf(vCurRot.z);
-		//vCurPos.y += DELTA_TIME * m_MoveSpeed * sinf(vCurRot.z);
+		vCurPos.x += DELTA_TIME * m_MoveSpeed * cosf(CurRot);
+		vCurPos.y += DELTA_TIME * m_MoveSpeed * sinf(CurRot);
 	}
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
-		Vec3 Dir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
-		vCurPos -= DELTA_TIME * m_MoveSpeed * Dir;
+		//Vec3 Dir = Transform()->GetWorldDir(eDIR_TYPE::RIGHT);
+		//vCurPos -= DELTA_TIME * m_MoveSpeed * Dir;
+		float CurRot = vCurRot.z + 0.5f * XM_PI;
 
 		PosUpdated = true;
-		//vCurPos.x -= DELTA_TIME * m_MoveSpeed * cosf(vCurRot.z);
-		//vCurPos.y -= DELTA_TIME * m_MoveSpeed * sinf(vCurRot.z);
+		vCurPos.x -= DELTA_TIME * m_MoveSpeed * cosf(CurRot);
+		vCurPos.y -= DELTA_TIME * m_MoveSpeed * sinf(CurRot);
 	}
 
 	if(true == PosUpdated)

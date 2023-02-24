@@ -400,6 +400,16 @@ void CResMgr::CreateDefaultMaterial()
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
+	{
+		Ptr<CMaterial> pMtrl = nullptr;
+		pMtrl = new CMaterial();
+		pMtrl->SetInstancedRender(true);
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::CORSAIR);
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
+
 	// Tilemap Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial();
@@ -430,6 +440,7 @@ void CResMgr::LoadDefaultTexture()
 	Load<CTexture>(RESOURCE::TEXTURE::LINK_ATLAS, L"texture/link.png");
 
 	Load<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS, L"texture/trilob(Reaver).bmp");
+	Load<CTexture>(RESOURCE::TEXTURE::CORSAIR_ATLAS, L"texture/corsair.bmp");
 
 
 	//노이즈텍스처
@@ -438,13 +449,25 @@ void CResMgr::LoadDefaultTexture()
 
 void CResMgr::CreateDefaultAnimAtlas()
 {
-	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-	Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS));
+	{
+		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS));
 
-	Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
-	Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
+		Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
+		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
 
-	AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::REAVER_ATLAS, Atlas);
+		AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::REAVER_ATLAS, Atlas);
+	}
+
+	{
+		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::CORSAIR_ATLAS));
+
+		Atlas->SetNewAnimUV(17u, 5u, 0u, 17u, 0u, 5u);
+		Atlas->AddAnim2D(RESOURCE::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
+
+		AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::CORSAIR_ATLAS, Atlas);
+	}
 }
 
 

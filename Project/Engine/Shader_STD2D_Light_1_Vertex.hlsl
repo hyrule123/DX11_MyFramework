@@ -2,12 +2,25 @@
 
 VS_OUT VS_std2D_Light(VS_IN _in)
 {
-    VS_OUT output = (VS_OUT) 0.f;
+	VS_OUT output = (VS_OUT) 0.f;
 	
-	output.vWorldPos = mul(float4(_in.vLocalPos, 1.f), g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_MAT_WORLD).xyz;
-	output.vSV_Pos = mul(float4(_in.vLocalPos, 1.f), g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_MAT_WVP);
-    output.vUV = _in.vUV;
+	//인스턴싱인지 아닌지에 따라서 다른 곳에서 데이터를 받아온다.
+	tMtrlScalarData Data = GetMtrlScalarData(_in.uInstID);
+	
+	
+	//피벗을 사용하도록 설정했을 경우 정점 위치를 피벗에 맞게 바꿔준다.
+	if (eANIM2D_FLAG::USEPIVOT & Data.MTRL_SCALAR_STD2D_FLAG)
+	{
+		float2 PivotOffset = float2(0.5f, 0.5f) - Data.MTRL_SCALAR_STD2D_PIVOT;
+		_in.vLocalPos.xy += PivotOffset;
+	}
+	
+	
+	output.vWorldPos = mul(float4(_in.vLocalPos, 1.f), Data.MTRL_SCALAR_MAT_WORLD);
+	output.vPosSV = mul(float4(output.vWorldPos, 1.f), g_CBuffer_matCam.matVP);
+	
+	output.vUV = _in.vUV;
 	output.uInstID = _in.uInstID;
-
-    return output;
+	
+	return output;
 }

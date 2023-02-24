@@ -3,6 +3,17 @@
 
 #include "Shader_header_register.hlsli"
 
+inline tMtrlScalarData GetMtrlScalarData(uint _uInstanceID)
+{
+	if (0 != g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR].uSBufferCount)
+	{
+		return g_SBuffer_Mtrl_Scalar[_uInstanceID];
+	}
+    
+	return g_CBuffer_Mtrl_Scalar;
+}
+
+
 float4 SampleMtrlTex(uint _uTexRegisterIdx, SamplerState _Sampler, float2 _vUV)
 {
 	switch (_uTexRegisterIdx)
@@ -34,6 +45,7 @@ float4 SampleMtrlTex(uint _uTexRegisterIdx, SamplerState _Sampler, float2 _vUV)
 
 	return float4(1.f, 0.f, 1.f, 1.f);
 }
+
 
 
 

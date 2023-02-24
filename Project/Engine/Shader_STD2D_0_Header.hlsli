@@ -1,5 +1,8 @@
 #include "Shader_header_register.hlsli"
 
+#ifndef __cplusplus
+#include "Shader_Func.hlsli"
+#endif
 
 /*
 초록색 숫자는 '시맨틱'이라고 하며,

@@ -358,7 +358,7 @@ void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _
 	}
 }
 
-void CGameObject::SetParentCamMatricesUpdated()
+void CGameObject::SetParentMatrixUpdated()
 {
 	if (nullptr != Transform())
 		Transform()->SetParentUpdate();
@@ -366,7 +366,7 @@ void CGameObject::SetParentCamMatricesUpdated()
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->SetParentCamMatricesUpdated();
+		m_vecChild[i]->SetParentMatrixUpdated();
 	}
 }
 
@@ -390,6 +390,6 @@ void CGameObject::SetChildTransformToUpdate()
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->SetParentCamMatricesUpdated();
+		m_vecChild[i]->SetParentMatrixUpdated();
 	}
 }
