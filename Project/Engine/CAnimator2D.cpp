@@ -128,60 +128,7 @@ void CAnimator2D::tick()
     //나중에 여기서 방향성을 가지면 어떡할것인지 등등을 추가할것
     if (eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP == m_pCurAnim->eAnimType)
     {
-        //각도를 0~360도 사이로 한정시긴 후 0.f(0도) ~ 1.f(360도) 사이의 값으로 변환한다.
-        //참고 - z축이 양수가 되면 시계 반대방향으로 회전하기 때문에 현재 시계방향으로 정렬된 아틀라스 이미지와 일치하지 않음
-        //->그래서 -1 곱한것임
-        XM_1DIV2PI;
-        XM_1DIVPI;
-
-        //0도(12시)를 기준으로 11시 방향은 음수, 1시 방향은 양수가 된다.
-        //그러므로 180도(6시 방향)을 기준으로 나눠줘야 한다.
-        //180도(PI)로 나눈 나머지를 구한 다음 다시 PI로 나눠 주면 
-        //0.f(0도) ~ 1.f(360도) 사이의 값을 구할 수 있다.
-        //이 값을 절댓값을 통해서 fabsf로 바꿔 준다.
-        float angle = fmodf(-Transform()->GetRelativeRot().z, XM_PI);
-        
-        int fSliceAngle = (int)fabsf(angle / (float)m_pCurAnim->uColTotal * 2.f);
-
-        //
-        if (0 == fSliceAngle || fSliceAngle == (m_pCurAnim->uColTotal * 2.f))
-        {
-
-
-            int a = 0;
-        }
-
-        angle *= XM_1DIVPI;
-
-        //angle이 음수일 경우에는 1에서 빼준다.(angle 자체가 현재 음수이므로 더해준다)
-        if (angle < 0.f)
-            angle = 1.f + angle;
-
-        //angle에 현재 방향의 갯수(uColTotal)을 곱해 주면 아틀라스에 따른 방향을 구할 수 있다.
-        angle *= m_pCurAnim->uColTotal * 2.f;
-
-        //이 값을 정수로 바꾼다.
-        UINT idx = (UINT)angle;
-
-        //현재 인덱스가 반을 넘어갈 경우 반을 빼주고 flip 상태를 true로 변경한다.
-        //위에서 범위를 
-        if (idx >= m_pCurAnim->uColTotal)
-        {
-            idx = m_pCurAnim->uColTotal * 2u -1u - idx;
-
-            //마지막 회전 애니메이션(6시 방향)은 플립하지 않음
-            if (idx == m_pCurAnim->uColTotal - 1u || idx == 0)
-                m_bFlipX = false;
-            else
-                m_bFlipX = true;
-        }
-        else
-        {
-            m_bFlipX = false;
-        }
-
-        m_uCalculatedIdx = m_pCurAnim->vecFrame[idx * m_pCurAnim->uRowTotal + m_uCurFrameIdx].uIdxInVecFrameUV;
-
+        CalculateDirectionalColHalfFlipAtlas();
     }
     else if(eANIM_TYPE::SEQUENTIAL == m_pCurAnim->eAnimType)
     {
@@ -334,4 +281,52 @@ void CAnimator2D::UpdateAtlasTexToMtrl()
     }
 
     m_bNeedUpdateMtrl = false;
+}
+
+void CAnimator2D::CalculateDirectionalColHalfFlipAtlas()
+{
+    //방향의 갯수를 구한다. 12시 방향과 6시 방향은 flip할 시 중복되므로 2를 뺴준다.
+    int NumDirection = m_pCurAnim->uColTotal * 2 - 2;
+    
+    ////라디안 기준 한바퀴(2PI)에서 방향의 갯수만큼 나눠준다. 한 방향당 각도이다.
+    float fAngleSlice = XM_2PI / (float)NumDirection;
+
+    //현재 z축 회전 각도를 받아와서 360도(2PI)로 나눈 나머지를 구해준다.
+    //12시 기준이고, 음수는 11시 방향 360도, 양수는 1시 방향 360도를 의미한다.
+    float angle = fmodf(-Transform()->GetRelativeRot().z, XM_2PI);
+
+    //각도가 음수일 경우(반시계방향 회전일 경우) 2PI에서 빼서(angle이 음수이므로 더해주면 됨) 양수 기준으로 바꿔준다.
+    //이러면 0 ~ 360도 범위가 0 ~ 2PI 범위로 바뀌게 된다.
+    if (angle < 0.f)
+        angle = XM_2PI + angle;
+    
+    //구해진 angle에서 방향의 갯수만큼 나눠주면, 인덱스 번호의 float값이 나오게 된다.
+    angle /= fAngleSlice;
+
+    //여기서 0.5f만큼 빼 주고 fabsf()를 해준다. 그러면 12시 방향이 보정된다.
+    angle = roundf(fabsf(angle));
+
+    //angle에 현재 방향의 갯수(uColTotal)을 곱해 주면 아틀라스에 따른 방향을 구할 수 있다
+
+    //이 값을 정수로 바꾼다.
+    UINT idx = (UINT)angle;
+
+    //현재 인덱스가 반을 넘어갈 경우 반을 빼주고 flip 상태를 true로 변경한다.
+
+    if (idx >= m_pCurAnim->uColTotal)
+    {
+        idx = NumDirection - idx;
+
+        //12시 방향과 6시 방향 스프라이트는 플립하지 않음.
+        if (idx == m_pCurAnim->uColTotal - 1u || idx == 0)
+            m_bFlipX = false;
+        else
+            m_bFlipX = true;
+    }
+    else
+    {
+        m_bFlipX = false;
+    }
+
+    m_uCalculatedIdx = m_pCurAnim->vecFrame[idx * m_pCurAnim->uRowTotal + m_uCurFrameIdx].uIdxInVecFrameUV;
 }

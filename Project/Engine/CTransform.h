@@ -77,6 +77,8 @@ public:
 
     void SetScaleInheritance(bool _bInherit) { m_bInheritScale = _bInherit; SetMyUpdate(); }
     void SetRotInheritance(bool _bInherit) { m_bInheritRot = _bInherit; SetMyUpdate(); }
+
+    //상대 회전값은 변화하지만 실제로 회전하지는 않음.
     void SetLockRotation(bool _bLockRot) { m_bLockRot = _bLockRot; }
 
     //이번 틱에 업데이트를 해야한다고 설정. 자신의 움직임에 영향을 받는 자식 오브젝트들에게도 재귀적으로 알림

@@ -76,5 +76,6 @@ public:
 private:
     void Stop() { m_iCurAtlasTexIdx = -1; m_pCurAnim = nullptr; };
     void UpdateAtlasTexToMtrl();
+    void CalculateDirectionalColHalfFlipAtlas();
 };
 

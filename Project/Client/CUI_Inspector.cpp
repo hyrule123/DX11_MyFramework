@@ -70,19 +70,23 @@ CUI_Inspector::~CUI_Inspector()
 
 void CUI_Inspector::init()
 {
-	//m_pTarget = CLevelMgr::GetInst()->FindObjectByName("ParticleObj");
+	m_pTarget = CLevelMgr::GetInst()->FindObjectByName("Player");
 
-	//for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
-	//{
-	//	if (nullptr == m_arrComUI[i])
-	//		continue;
+	for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr == m_arrComUI[i])
+			continue;
 
-	//	m_arrComUI[i]->SetTarget(m_pTarget);
-	//}
+		m_arrComUI[i]->SetTarget(m_pTarget);
+	}
 }
 
 void CUI_Inspector::tick()
 {
+
+	if (nullptr == m_pTarget)
+		init();
+
 	//매 tick마다 컴포넌트의 유뮤를 확인하여 갱신
 	if (nullptr != m_pTarget)
 	{

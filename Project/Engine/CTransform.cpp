@@ -64,9 +64,12 @@ void CTransform::UpdateMyTransform()
 	//방향은 쿼터니언을 사용해서 계산.
 	//회전이 잠겨있을 경우 계산하지 않음.
 	Matrix matRot = Matrix::Identity;
+	/*if (false == m_bLockRot)
+		matRot = MATRIX::CreateFromPitchYawRoll(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);*/
 
-	if(false == m_bLockRot)
-		matRot = Matrix::CreateFromPitchYawRoll(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);
+	if (false == m_bLockRot)
+		matRot = MATRIX::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(m_vRelativeRot.y, m_vRelativeRot.x, m_vRelativeRot.z));
+	
 
 	//방금 구한 회전행렬으로 직관적 방향을 계산한다.
 	//회전행렬을 따로 변수에 저장하지 않으므로 지역변수에 계산해놓은 시점에서 직관적 방향도 구해놓는다.
@@ -85,6 +88,8 @@ void CTransform::UpdateMyTransform()
 void CTransform::UpdateParentMatrix()
 {
 	m_matParent = Matrix::Identity;
+
+
 	//부모 오브젝트가 있을 경우 부모의 월드행렬을 받아온다. 
 	//성공 시 true가 반환되므로 이 때는 상속 과정을 시작하면 됨
 	bool bWorldDirInherit = false;
@@ -131,19 +136,8 @@ void CTransform::UpdateParentMatrix()
 
 void CTransform::UpdateData()
 {
-	//자신의 사이즈를 적용한 WVP 행렬을 만들어 상수버퍼로 업데이트 한다.
-	//const Matrix& matSize = Matrix::CreateScale(m_vSize);
-
-	//월드 뷰 투영행렬을 곱한다.
-		//사이즈가 반영된 월드행렬을 계산에서 GameObject에 값을 등록해 놓는다.
 	MATRIX matWorld = m_matSize * m_matWorld;
 	GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
 	//matWorld *= g_matViewProj;
 	//GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WVP, &matWorld);
-
-
-	////위의 행렬을 상수버퍼에 전달 및 바인딩
-	//CConstBuffer* pTransformBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
-	//pTransformBuffer->UploadData(&g_matCam, sizeof(tCamMatrices));
-	//pTransformBuffer->BindBuffer();
 }
