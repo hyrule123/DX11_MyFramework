@@ -119,6 +119,11 @@ void CAnimator2D::tick()
     }
 
 
+
+}
+
+void CAnimator2D::finaltick()
+{
     //역재생인지 여부를 먼저 계산
     if (true == m_bReverse)
         m_uCurFrameIdx = m_uMaxFrameCount - 1u - m_uCurFrame;
@@ -130,12 +135,12 @@ void CAnimator2D::tick()
     {
         CalculateDirectionalColHalfFlipAtlas();
     }
-    else if(eANIM_TYPE::SEQUENTIAL == m_pCurAnim->eAnimType)
+    else if (eANIM_TYPE::SEQUENTIAL == m_pCurAnim->eAnimType)
     {
         m_uCalculatedIdx = m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdxInVecFrameUV;
     }
-        
-    
+
+
     //프레임에 등록된 콜백함수가 있을 경우 콜백함수 호출
     size_t size = m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback.size();
     if ((size_t)0 != size)
@@ -146,10 +151,7 @@ void CAnimator2D::tick()
             m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback[i]();
         }
     }
-}
 
-void CAnimator2D::finaltick()
-{
     UpdateData();
 }
 

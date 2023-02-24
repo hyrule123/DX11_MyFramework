@@ -103,8 +103,8 @@ public:
     const Vec3& GetRelativeScale() const { return m_vRelativeScale; }
     Vec3 GetWorldScale() const;
     const Vec3& GetRelativeRot() const { return m_vRelativeRot; }
-
-    Matrix GetWorldRotMat() const;
+        
+    Matrix GetWorldRotMat() const;  
     Vec3 GetWorldRot(eAXIS3D _eAxis) const;
 
     const Vec3& GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(UINT)_eDir]; }

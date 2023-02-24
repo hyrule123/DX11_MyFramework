@@ -19,11 +19,12 @@ namespace RESOURCE
 		inline constexpr const char* TEST = "TestMtrl";
 		inline constexpr const char* STD2D = "std2DMtrl";
 		inline constexpr const char* STD2D_LIGHT = "std2DLightMtrl";
-		inline constexpr const char* CORSAIR = "CorsairMtrl";
+		
 		inline constexpr const char* TILEMAP = "TilemapMtrl";
 		inline constexpr const char* PARTICLE_RENDER = "ParticleRenderMtrl";
 
-
+		inline constexpr const char* CORSAIR = "CorsairMtrl";
+		inline constexpr const char* MARINE = "MarineMtrl";
 	}
 
 	namespace SHADER
@@ -55,11 +56,18 @@ namespace RESOURCE
 		inline constexpr const char* REAVER_ATLAS = "ReaverAtlas";
 		inline constexpr const char* NOISE_TEXTURE_0 = "NoiseTexture";
 		inline constexpr const char* CORSAIR_ATLAS = "CorsairAtlas";
+		inline constexpr const char* MARINE_ATLAS = "MarineAtlas";
 	}
 
 	namespace ANIM2D
 	{
 		inline constexpr const char* REAVERMOVE = "ReaverMove";
 		inline constexpr const char* CORSAIRMOVE = "CorsairMove";
+
+		inline constexpr const char* MARINE_IDLE = "MarineIdle";
+		inline constexpr const char* MARINE_MOVE = "MarineMove";
+		inline constexpr const char* MARINE_ATTACK = "MarineAttack";
+		inline constexpr const char* MARINE_ATTACKSTART = "MarineAttackStart";
+		
 	}
 }

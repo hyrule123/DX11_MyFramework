@@ -88,8 +88,8 @@ void CLevelMgr::init()
 	
 	// 오브젝트 생성
 
-	for (int i = 0; i < 1000; ++i)
-	//int i = 1;
+	//for (int i = 0; i < 1000; ++i)
+	int i = 1;
 	{
 		CGameObject* pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
@@ -101,7 +101,7 @@ void CLevelMgr::init()
 		//if(1 == i)
 			pPlayer->AddScript(new CPlayerScript);
 
-		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D);
+		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::MARINE);
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		pPlayer->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
@@ -114,9 +114,10 @@ void CLevelMgr::init()
 
 		pPlayer->AddComponent(new CAnimator2D);
 
-		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCE::TEXTURE::REAVER_ATLAS);
+		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCE::TEXTURE::MARINE_ATLAS);
 		pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
-		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::REAVERMOVE, eANIM_LOOPMODE::ZIG_ZAG, false);
+		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::MARINE_IDLE, eANIM_LOOPMODE::NONE, false);
+
 		
 		//pPlayer->AddComponent(new CCollider2D_OBB);
 

@@ -146,7 +146,7 @@ void CAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, U
 
 
 
-void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx,
+tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx,
 	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
 )
 {
@@ -164,9 +164,11 @@ void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _ve
 	Anim.strAnimName = _strAnimKey;
 
 	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+
+	return &(pair.first->second);
 }
 
-void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
+tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
 	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
 )
 {
@@ -215,11 +217,12 @@ void CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _u
 
 	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
 
-	m_mapAnim.insert(make_pair(_strAnimKey, Anim));
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, Anim));
 
+	return &(pair.first->second);
 }
 
-void CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch, float _fFullPlayTime, Vec2 _vPivot)
+tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch, float _fFullPlayTime, Vec2 _vPivot)
 {
 	assert(
 		0 < _uRowPitch 
@@ -261,7 +264,8 @@ void CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, UINT _uRowS
 
 	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
 
-	m_mapAnim.insert(make_pair(_strAnimKey, Anim));
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, Anim));
+	return &(pair.first->second);
 }
 
 const tAnimFrameIdx* CAnim2DAtlas::FindAnim2D(const string& _AnimIdxStrKey)

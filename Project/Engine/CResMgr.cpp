@@ -400,16 +400,6 @@ void CResMgr::CreateDefaultMaterial()
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
-	{
-		Ptr<CMaterial> pMtrl = nullptr;
-		pMtrl = new CMaterial();
-		pMtrl->SetInstancedRender(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
-
-		pMtrl->SetKey(RESOURCE::MATERIAL::CORSAIR);
-		AddRes(pMtrl->GetKey(), pMtrl);
-	}
-
 	// Tilemap Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial();
@@ -426,6 +416,28 @@ void CResMgr::CreateDefaultMaterial()
 		pMtrl->SetKey(RESOURCE::MATERIAL::PARTICLE_RENDER);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
+
+
+
+	{
+		Ptr<CMaterial> pMtrl = nullptr;
+		pMtrl = new CMaterial();
+		pMtrl->SetInstancedRender(true);
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::CORSAIR);
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
+
+	{
+		Ptr<CMaterial> pMtrl = nullptr;
+		pMtrl = new CMaterial();
+		pMtrl->SetInstancedRender(true);
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::MARINE);
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
 }
 
 void CResMgr::LoadDefaultTexture()
@@ -440,7 +452,10 @@ void CResMgr::LoadDefaultTexture()
 	Load<CTexture>(RESOURCE::TEXTURE::LINK_ATLAS, L"texture/link.png");
 
 	Load<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS, L"texture/trilob(Reaver).bmp");
+
+
 	Load<CTexture>(RESOURCE::TEXTURE::CORSAIR_ATLAS, L"texture/corsair.bmp");
+	Load<CTexture>(RESOURCE::TEXTURE::MARINE_ATLAS, L"texture/marine.bmp");
 
 
 	//노이즈텍스처
@@ -467,6 +482,22 @@ void CResMgr::CreateDefaultAnimAtlas()
 		Atlas->AddAnim2D(RESOURCE::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
 
 		AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::CORSAIR_ATLAS, Atlas);
+	}
+
+	{
+		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::MARINE_ATLAS));
+
+		Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
+		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_IDLE, 0u, 1u, 1.f);
+		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_ATTACKSTART, 1u, 2u, 0.5f);
+
+		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
+
+		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_ATTACK, 2u, 2u, 0.1f);
+
+
+		AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::MARINE_ATLAS, Atlas);
 	}
 }
 

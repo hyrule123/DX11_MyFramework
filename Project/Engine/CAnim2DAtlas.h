@@ -85,16 +85,16 @@ public:
 
     //애니메이션 생성 메소드
     //================================================================================================================
-    void AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx, 
+    tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx, 
          float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
 
     //애니메이션을 만들때는 전체 열의 갯수만 받음. 나머지는 안에서 계산함
-    void AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
+    tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
     
-    void AddAnim2D_SC_Redundant(
+    tAnimFrameIdx* AddAnim2D_SC_Redundant(
         const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );

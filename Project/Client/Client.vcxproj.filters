@@ -80,10 +80,10 @@
     <Filter Include="ImGui\02. UI_Object\02. UI_MainMenubar">
       <UniqueIdentifier>{2649f3b0-5ab0-492e-b694-9570f3ba98ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\03. UI_Contents">
+    <Filter Include="ImGui\02. UI_Object\03. UI_Contents">
       <UniqueIdentifier>{c000136c-b1ea-48af-b9fb-cd54fb83957a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\04. UI_Outliner">
+    <Filter Include="ImGui\02. UI_Object\04. UI_Outliner">
       <UniqueIdentifier>{3fe8da6a-3128-4c49-a977-6f6c8a1dbe10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -189,10 +189,10 @@
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Contents.h">
-      <Filter>ImGui\03. UI_Contents</Filter>
+      <Filter>ImGui\02. UI_Object\03. UI_Contents</Filter>
     </ClInclude>
     <ClInclude Include="CUI_Outliner.h">
-      <Filter>ImGui\04. UI_Outliner</Filter>
+      <Filter>ImGui\02. UI_Object\04. UI_Outliner</Filter>
     </ClInclude>
     <ClInclude Include="CUI_MenuItem.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
@@ -307,10 +307,10 @@
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Contents.cpp">
-      <Filter>ImGui\03. UI_Contents</Filter>
+      <Filter>ImGui\02. UI_Object\03. UI_Contents</Filter>
     </ClCompile>
     <ClCompile Include="CUI_Outliner.cpp">
-      <Filter>ImGui\04. UI_Outliner</Filter>
+      <Filter>ImGui\02. UI_Object\04. UI_Outliner</Filter>
     </ClCompile>
     <ClCompile Include="CUI_MenuItem.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
