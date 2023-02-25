@@ -6,9 +6,6 @@
 class CMesh;
 class CMaterial;
 
-
-
-
 class CCamera :
     public CComponent
 {
@@ -27,9 +24,9 @@ private:
 
     Matrix m_matProj;
 
-    float m_ZoomScale;
+    float m_fZoomScale;
 
-    int m_CamIndex;
+    int m_iCamIdx;
     
     UINT32 m_LayerFlag;
 
@@ -55,10 +52,9 @@ public:
     virtual void init() override;
     virtual void finaltick() override;
     virtual void cleanup() override;
+
+    //자신 기준으로 찍어야 할 오브젝트들을 분류한다.
     void SortObject();
-
-
-    void UploadData();
 };
 
 inline void CCamera::SetLayerFlag(UINT32 _iLayerFlag)

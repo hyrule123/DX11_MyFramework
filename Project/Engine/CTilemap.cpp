@@ -32,11 +32,14 @@ void CTilemap::finaltick()
 {
 }
 
-bool CTilemap::render()
+bool CTilemap::render(int _iCamIdx)
 {
 	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == GetMesh() || nullptr == GetCurMaterial())
 		return true;
+
+	CGameObject* pOwner = GetOwner();
+	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_iCamIdx);
 
 	//자신의 구조화버퍼 업데이트
 	BindData();
@@ -47,7 +50,6 @@ bool CTilemap::render()
 	//트랜스폼 업데이트 시켜줌
 	//Transform()->UpdateData();
 
-	CGameObject* pOwner = GetOwner();
 	pOwner->SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &m_iTileCountX);
 	pOwner->SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_1, &m_iTileCountY);
 

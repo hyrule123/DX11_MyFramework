@@ -240,7 +240,7 @@ void CDevice::CreateConstBuffer()
     //Vertex Shader에만 상수버퍼를 전달 + Light 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
     UINT CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES] = new CConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
-    m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES]->Create(sizeof(tCamMatrices), 1);
+    m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES]->Create(sizeof(tCamMatrices), (int)eCAM);
     m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES]->SetPipelineTarget(CBufferTarget);
 
     //Vertex + Pixel Shader에만 상수버퍼를 전달

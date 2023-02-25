@@ -28,8 +28,12 @@ void CMeshRender::finaltick()
 {
 }
 
-bool CMeshRender::render()
+bool CMeshRender::render(int _iCamIdx)
 {	
+	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
+	CGameObject* pOwner = GetOwner();
+	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_iCamIdx);
+
 	//메쉬와 재질 둘 중 하나라도 없을 경우 아예 여기에 들어오지 않으므로 따로 검사해 줄 필요 없음.
 	Ptr<CMesh> pmesh = GetMesh();
 	Ptr<CMaterial> pmtrl = GetCurMaterial();
@@ -40,7 +44,6 @@ bool CMeshRender::render()
 	//인스턴싱이 설정되어있을 경우(공유 재질을 사용중일 경우)
 	if (true == GetCurMaterial()->GetInstencedRender())
 	{
-		CGameObject* pOwner = GetOwner();
 
 		//2D까지는 우선 W와 VP를 분리해서 전달
 		//카메라 관련 행렬은 상수버퍼를 통해서 전달되었기 때문에 여기서 업데이트해줄 필요가 없어짐
@@ -67,7 +70,6 @@ bool CMeshRender::render()
 	{
 		//여기서는 카메라 데이터를 따로 계산할 필요 없음 - 상수버퍼에 바인딩되어 있음.
 		//여기도 나중에 3D되면 바꿔줄것
-		CGameObject* pOwner = GetOwner();
 
 
 		//재질에 BindData 요청 - 재질 상수버퍼가 바인딩됨.

@@ -29,9 +29,9 @@ CCamera::CCamera():
 	CComponent(eCOMPONENT_TYPE::CAMERA)
 	, m_AspectRatio()
 	, m_ProjectionType(ePROJ_TYPE::ORTHOGRAPHY)
-	, m_CamIndex(-1)
+	, m_iCamIdx(-1)
 	, m_LayerFlag(UINT32_MAX)
-	, m_ZoomScale(1.f)
+	, m_fZoomScale(1.f)
 {
 	SetProjType(m_ProjectionType);
 }
@@ -42,9 +42,9 @@ CCamera::CCamera(const CCamera& _other)
 	, m_ProjectionType(_other.m_ProjectionType)
 	, m_matView()	// finaltick()에서 매 tick마다 계산 됨
 	, m_matProj(_other.m_matProj)
-	, m_CamIndex(-1)
+	, m_iCamIdx(-1)
 	, m_LayerFlag(_other.m_LayerFlag)
-	, m_ZoomScale(_other.m_ZoomScale)
+	, m_fZoomScale(_other.m_fZoomScale)
 {
 }
 
@@ -84,7 +84,7 @@ void CCamera::SetCamIndex(eCAMERA_INDEX _Idx)
 {
 	assert(_Idx <= eCAMERA_INDEX::END);
 
-	m_CamIndex = (int)_Idx;
+	m_iCamIdx = (int)_Idx;
 	CRenderMgr::GetInst()->RegisterCamera(this, _Idx);
 }
 
@@ -95,10 +95,10 @@ void CCamera::Zoom2D(float _fScale)
 	if (ePROJ_TYPE::ORTHOGRAPHY != m_ProjectionType)
 		return;
 
-	m_ZoomScale *= _fScale;
+	m_fZoomScale *= _fScale;
 
 	//가로세로를 같은 비율로 확장/축소하므로 AspecRatio는 변하지 않음.
-	m_matProj = XMMatrixOrthographicLH(g_GlobalVal.vResolution.x * m_ZoomScale, g_GlobalVal.vResolution.y * m_ZoomScale, 1.f, 10000.f);
+	m_matProj = XMMatrixOrthographicLH(g_GlobalVal.vResolution.x * m_fZoomScale, g_GlobalVal.vResolution.y * m_fZoomScale, 1.f, 10000.f);
 }
 
 
@@ -110,6 +110,10 @@ void CCamera::init()
 
 void CCamera::finaltick()
 {
+	//트랜스폼이 업데이트 되지 않았을 경우 자신도 업데이트 할 필요 없음
+	if (false == Transform()->IsUpdated())
+		return;
+
 	Vec3 vCamPos = Transform()->GetWorldPos();
 
 	//뷰행렬 = 카메라 앞으로 월드행렬의 물체들을 끌어오는 작업.
@@ -172,8 +176,13 @@ void CCamera::finaltick()
 	//m_matProj = XMMatrixPerspectiveFovLH(0.5f * XM_PI, m_AspectRatio, 1.f, 10000.f);
 	//
 	////2. 업데이트
-	//g_matCam.MatProj = m_matProj;
-	
+
+	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
+	//자신의 인덱스에 해당하는 카메라로 업데이트
+	g_matCam[m_iCamIdx].matView = m_matView;
+	g_matCam[m_iCamIdx].matProj = m_matProj;
+	g_matCam[m_iCamIdx].matVP = m_matView * m_matProj;
+
 }
 
 void CCamera::cleanup()
@@ -184,6 +193,7 @@ void CCamera::cleanup()
 
 void CCamera::SortObject()
 {
+	
 	CRenderMgr* pRenderMgr = CRenderMgr::GetInst();
 
 	for (UINT32 i = 0; i < MAX_LAYER; ++i)
@@ -221,7 +231,6 @@ void CCamera::SortObject()
 				const Vec3& ScreenPos = WorldPos - Transform()->GetWorldPos();
 
 				const Vec2& ResHalf = g_GlobalVal.vResolution * 0.5f;
-
 				
 				if (
 					//자신의 Left가 카메라의 Right보다 클 경우
@@ -255,16 +264,3 @@ void CCamera::SortObject()
 	}
 }
 
-
-void CCamera::UploadData()
-{
-	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
-	g_matCam.matView = m_matView;
-	g_matCam.matProj = m_matProj;
-	g_matCam.matVP = m_matView * m_matProj;
-
-	//카메라의 행렬을 상수버퍼에 업로드
-	static CConstBuffer* const pBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
-	pBuffer->UploadData(&g_matCam);
-	pBuffer->BindBuffer();
-}

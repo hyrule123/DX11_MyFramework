@@ -92,7 +92,7 @@ public:
     //사이즈 또는 스케일값이 변했을 경우 간이 충돌체 정보를 새로 생성.
     float GetAABBSideLen() const;
 
-    bool GetCamMatricesUpdated() const { return (m_bNeedMyUpdate || m_bNeedParentUpdate); }
+    bool IsUpdated() const { return (m_bNeedMyUpdate || m_bNeedParentUpdate); }
     bool GetSizeUpdated() const { return m_bSizeUpdated; }
 
     //inline Getter

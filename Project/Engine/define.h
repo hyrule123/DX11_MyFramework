@@ -203,15 +203,6 @@ enum class eSHADER_DOMAIN
 	_END
 };
 
-enum class eCAMERA_INDEX : UINT
-{
-	MAIN,
-	SUB1,
-	SUB2,
-	SUB3,
-	SUB4,
-	END
-};
 
 enum class eEVENT_TYPE
 {

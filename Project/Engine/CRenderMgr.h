@@ -40,8 +40,7 @@ private:
 	vector<tLightInfo>		m_vecLight2DStruct;
 	CStructBuffer* m_pLight2DStructBuffer;
 
-	//에디터용 카메라 주소
-	CCamera* m_pEditorCam;
+	//에디터 카메라 모드인지를 저장하는 변수(Ctrl + E)버튼으로 확인 중
 	bool m_bEditorCamMode;
 
 	//카메라가 쉐이더 도메인에 따라 분류한 결과를 저장
@@ -66,7 +65,7 @@ public:
 	void AddLight2DData(const tLightInfo& _tLightInfo) { m_vecLight2DStruct.push_back(_tLightInfo); }
 
 	void ChangeRenderCam(bool _bEditorCam) { m_bEditorCamMode = _bEditorCam; }
-	void SetEditorCam(CCamera* _pCamera) { m_pEditorCam = _pCamera; }
+	void SetEditorCam(CCamera* _pCamera) { m_arrCam[(int)eCAMERA_INDEX::EDITOR] = _pCamera; }
 	bool IsEditorCamMode() const { return m_bEditorCamMode; }
 
 
@@ -98,7 +97,7 @@ inline void CRenderMgr::AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeI
 inline CCamera* CRenderMgr::GetCurCamera()
 {
 	if (m_bEditorCamMode)
-		return m_pEditorCam;
+		return m_arrCam[(int)eCAMERA_INDEX::EDITOR];
 
 
 	return m_arrCam[(int)eCAMERA_INDEX::MAIN];

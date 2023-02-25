@@ -14,11 +14,12 @@
 
 #include "CRenderComponent.h"
 
+#include "CConstBuffer.h"
+
 CRenderMgr::CRenderMgr()
     : m_arrCam{}
     , m_bDebugRenderUpdated()
     , m_pLight2DStructBuffer()
-    , m_pEditorCam()
     , m_bEditorCamMode(true)
 {
 }
@@ -109,9 +110,9 @@ void CRenderMgr::UpdateBuffer()
 
 void CRenderMgr::render_editor()
 {
-    assert(nullptr != m_pEditorCam);
+    assert(nullptr != m_arrCam[(int)eCAMERA_INDEX::EDITOR]);
 
-    m_pEditorCam->SortObject();
+    m_arrCam[(int)eCAMERA_INDEX::EDITOR]->SortObject();
 
     renderAll();
 }
@@ -132,6 +133,11 @@ void CRenderMgr::render_play()
 
 void CRenderMgr::renderAll()
 {
+    //카메라의 행렬을 상수버퍼에 업로드
+    static CConstBuffer* const pBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
+    pBuffer->UploadData(&g_matCam);
+    pBuffer->BindBuffer();
+
     //2D 과정 동안에는 W와 VP를 쉐이더에서 계산하고,
     //3D 과정에 들어간 이후부터 WVP를 일괄적으로 넘겨주도록 변경할 예정,
     //그렇기 때문에 카메라를 기준으로 인스턴싱 및 렌더링을 진행함
@@ -144,26 +150,6 @@ void CRenderMgr::renderAll()
         size_t size = m_arrvecShaderDomain[i].size();
         for (size_t j = 0; j < size; j++)
         {
-            if (pPrevCam != m_arrvecShaderDomain[i][j].pCam)
-            {
-                //혹시나 그릴게 단 한개일경우에는 카메라 데이터를 업로드해 줘야함
-                if (nullptr == pPrevCam)
-                    m_arrvecShaderDomain[i][j].pCam->UploadData();
-
-                //첫 번쨰 카메라 교체가 아닐 경우(기존에 등록된 카메라가 있는데, 다른 카메라로 교체하는 상황일 경우)
-                //또는 반복문의 끝에 도달했을 경우
-                //인스턴싱 렌더링 한번 해줌(2D 한정)
-                if (nullptr != pPrevCam)
-                {
-                    InstancedRender();
-                }
-
-                //카메라를 새것으로 교체하고 새 행렬을 업로드(2D엔진 한정 - 3D 가면 변경 예정)
-                m_arrvecShaderDomain[i][j].pCam->UploadData();
-                pPrevCam = m_arrvecShaderDomain[i][j].pCam;
-            }
-
-
             //만약 render 메소드를 호출했는데 드로우콜이 발생하지 않았다면(==인스턴싱으로 그리겠다고 설정되어 있으면)
             if (false == m_arrvecShaderDomain[i][j].pRenderCom->render())
             {

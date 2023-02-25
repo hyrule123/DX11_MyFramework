@@ -36,6 +36,7 @@ ENUM_BEGIN(eCBUFFER_SBUFFER_SHAREDATA_IDX, int)
 ENUM_END
 
 
+
 #ifdef __cplusplus
 	
 
@@ -47,7 +48,7 @@ extern tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::E
 
 cbuffer CBuffer_Transform : register(e_b_CBUFFER_CAM_MATIRCES)
 {
-	tCamMatrices g_CBuffer_matCam;
+	tCamMatrices g_CBuffer_matCam[eCAMERA_INDEX::END];
 };
 
 cbuffer CBuffer_Material_Scalar : register(e_b_CBUFFER_MTRL_SCALAR)

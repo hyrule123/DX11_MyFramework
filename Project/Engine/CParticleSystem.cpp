@@ -84,11 +84,14 @@ void CParticleSystem::finaltick()
 	m_tModuleData.vOwnerCurWorldPos = Transform()->GetWorldPos();
 }
 
-bool CParticleSystem::render()
+bool CParticleSystem::render(int _iCamIdx)
 {
 	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
 		return true;
+
+	CGameObject* pOwner = GetOwner();
+	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_iCamIdx);
 
 	//Transform()->UpdateData();
 
