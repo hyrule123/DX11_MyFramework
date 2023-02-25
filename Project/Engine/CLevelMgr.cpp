@@ -88,7 +88,7 @@ void CLevelMgr::init()
 	
 	// 오브젝트 생성
 
-	for (int i = 0; i < 200; ++i)
+	for (int i = 0; i < 10; ++i)
 	//int i = 1;
 	{
 		CGameObject* pPlayer = new CGameObject;
