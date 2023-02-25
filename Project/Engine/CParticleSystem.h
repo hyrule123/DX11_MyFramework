@@ -19,7 +19,7 @@ public:
 public:
     virtual void init() override;
     virtual void finaltick() override;
-    virtual bool render(int _iCamIdx) override;
+    virtual bool render(eCAMERA_INDEX _eCamIdx) override;
     virtual void cleanup() override {};
 
 private:

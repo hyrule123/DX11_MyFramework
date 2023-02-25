@@ -84,14 +84,15 @@ void CParticleSystem::finaltick()
 	m_tModuleData.vOwnerCurWorldPos = Transform()->GetWorldPos();
 }
 
-bool CParticleSystem::render(int _iCamIdx)
+bool CParticleSystem::render(eCAMERA_INDEX _eCamIdx)
 {
 	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
 		return true;
 
+	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_iCamIdx);
+	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_eCamIdx);
 
 	//Transform()->UpdateData();
 

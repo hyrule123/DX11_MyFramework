@@ -44,7 +44,7 @@ void CS_Particle_RainDrop( uint3 dtID : SV_DispatchThreadID )
 		g_SBufferRW_ParticleTransform[idx].vWorldPos.xy += g_SBufferRW_ParticleTransform[idx].vVelocity.xy * g_CBuffer_GlobalData.fDeltaTime;
 		
 		
-		float4 NDCPos = mul(g_SBufferRW_ParticleTransform[idx].vWorldPos, g_CBuffer_matCam.matVP);
+		float4 NDCPos = mul(g_SBufferRW_ParticleTransform[idx].vWorldPos, g_CBuffer_matCam[g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_INT_CAMIDX].matVP);
 		if (NDCPos.y < -1.f)
 		{
 			g_SBufferRW_ParticleTransform[idx].vVelocity.y *= -1.f * 0.8f;

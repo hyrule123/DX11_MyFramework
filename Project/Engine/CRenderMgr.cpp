@@ -119,7 +119,7 @@ void CRenderMgr::render_editor()
 
 void CRenderMgr::render_play()
 {
-    for (int i = 0; i < (int)eCAMERA_INDEX::END; ++i)
+    for (int i = 0; i < (int)eCAMERA_INDEX::EDITOR; ++i)
     {
         if (nullptr == m_arrCam[i])
             continue;
@@ -146,12 +146,11 @@ void CRenderMgr::renderAll()
     //나중에 3D 과정 가면 코드를 변경할 것
     for (UINT i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
     {
-        CCamera* pPrevCam = nullptr;
         size_t size = m_arrvecShaderDomain[i].size();
         for (size_t j = 0; j < size; j++)
         {
             //만약 render 메소드를 호출했는데 드로우콜이 발생하지 않았다면(==인스턴싱으로 그리겠다고 설정되어 있으면)
-            if (false == m_arrvecShaderDomain[i][j].pRenderCom->render())
+            if (false == m_arrvecShaderDomain[i][j].pRenderCom->render(m_arrvecShaderDomain[i][j].pCam->GetCamIndex()))
             {
                 //인스턴싱 대기열 map에 추가
                 DWORD_PTR pMtrl = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetCurMaterial().Get());
@@ -164,15 +163,9 @@ void CRenderMgr::renderAll()
             }
 
 
-
-            //마지막 순회일 경우 렌더링 수행
-            if (j + 1 == size)
-            {
-                //인스턴싱 렌더링 수행(카메라 행렬은 등록되어 있음)
-                InstancedRender();
-            }
         }
 
+        InstancedRender();
 
         //렌더링한 쉐이더 도메인은 제거
         m_arrvecShaderDomain[i].clear();

@@ -32,14 +32,15 @@ void CTilemap::finaltick()
 {
 }
 
-bool CTilemap::render(int _iCamIdx)
+bool CTilemap::render(eCAMERA_INDEX _eCamIdx)
 {
 	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == GetMesh() || nullptr == GetCurMaterial())
 		return true;
 
+	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_iCamIdx);
+	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_eCamIdx);
 
 	//자신의 구조화버퍼 업데이트
 	BindData();

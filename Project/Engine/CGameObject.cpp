@@ -217,13 +217,13 @@ void CGameObject::finaltick()
 		static_cast<CTransform*>(m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])->ClearUpdateState();
 }
 
-void CGameObject::render()
+bool CGameObject::render(eCAMERA_INDEX _eCamIdx)
 {
 	//삭제 대기 상태일 경우 렌더링을 하지 않음.
 	if (nullptr == m_RenderCom || true == m_bDestroy)
-		return;
+		return true;
 
-	m_RenderCom->render();
+	return m_RenderCom->render(_eCamIdx);
 }
 
 void CGameObject::cleanup()

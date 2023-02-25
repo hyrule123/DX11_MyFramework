@@ -17,7 +17,7 @@ VS_OUT VS_std2D_Light(VS_IN _in)
 	
 	
 	output.vWorldPos = mul(float4(_in.vLocalPos, 1.f), Data.MTRL_SCALAR_MAT_WORLD);
-	output.vPosSV = mul(float4(output.vWorldPos, 1.f), g_CBuffer_matCam.matVP);
+	output.vPosSV = mul(float4(output.vWorldPos, 1.f), g_CBuffer_matCam[Data.MTRL_SCALAR_INT_CAMIDX].matVP);
 	
 	output.vUV = _in.vUV;
 	output.uInstID = _in.uInstID;

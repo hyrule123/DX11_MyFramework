@@ -28,11 +28,11 @@ void CMeshRender::finaltick()
 {
 }
 
-bool CMeshRender::render(int _iCamIdx)
+bool CMeshRender::render(eCAMERA_INDEX _eCamIdx)
 {	
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_iCamIdx);
+	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &(_eCamIdx));
 
 	//메쉬와 재질 둘 중 하나라도 없을 경우 아예 여기에 들어오지 않으므로 따로 검사해 줄 필요 없음.
 	Ptr<CMesh> pmesh = GetMesh();

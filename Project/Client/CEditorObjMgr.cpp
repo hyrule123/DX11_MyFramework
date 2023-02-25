@@ -74,7 +74,7 @@ void CEditorObjMgr::render()
 {
 	CCamera* pCam = CRenderMgr::GetInst()->GetCurCamera();
 	//카메라의 데이터를 업로드
-	pCam->UploadData();
+	
 
 
 	size_t size = m_vecDebugShapeInfo.size();
@@ -218,6 +218,7 @@ void CEditorObjMgr::CreateEditorCamera()
 	CCamera* pCam = new CCamera;
 	m_pEditorCam->AddComponent(pCam);
 	pCam->SetLayerFlag(UINT32_MAX);
+	pCam->SetCamIndex(eCAMERA_INDEX::EDITOR);
 
 	CTransform* pTransform = new CTransform;
 	m_pEditorCam->AddComponent(pTransform);

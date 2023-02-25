@@ -3,9 +3,13 @@
 
 #include "Shader_header_register.hlsli"
 
+
+
 #ifdef _cplusplus
 
 #else
+
+#include "Shader_Func.hlsli"
 
 #endif
 

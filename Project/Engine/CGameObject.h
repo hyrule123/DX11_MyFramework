@@ -18,6 +18,12 @@ class CCollider3D;
 class CGameObject :
     public CEntity
 {
+    CLONE(CGameObject)
+public:
+    CGameObject();
+    CGameObject(const CGameObject& _other);
+    ~CGameObject();
+
 private:
     //Components
     CComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
@@ -107,18 +113,12 @@ public:
     void init();
     void tick();
     virtual void finaltick();
-    void render();
+    bool render(eCAMERA_INDEX _eCamIdx);
 
     //제거되기 전 기존 오브젝트들과의 관계를 제거
     //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 cleanup() 함수만 호출한다.
     void cleanup();
 
-
-    CLONE(CGameObject)    
-public:
-    CGameObject();
-    CGameObject(const CGameObject& _other);
-    ~CGameObject();
 };
 
 inline void CGameObject::DestroyForEventMgr()

@@ -38,6 +38,8 @@ public:
 
 
     void SetCamIndex(eCAMERA_INDEX _Idx);
+    eCAMERA_INDEX GetCamIndex() const { return (eCAMERA_INDEX)m_iCamIdx; }
+
     void SetLayerFlag(UINT32 _iLayerFlag);
     void AddLayerFlag(UINT32 _iLayerNum);
     void OffLayerFlag(UINT32 _iLayerNum);

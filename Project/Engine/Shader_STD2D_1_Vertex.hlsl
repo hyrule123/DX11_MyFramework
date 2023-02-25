@@ -19,7 +19,7 @@ VS_OUT VS_std2D(VS_IN _in)
 	
 	
 	output.vPosSV = mul(float4(_in.vPos, 1.f), Data.MTRL_SCALAR_MAT_WORLD);
-	output.vPosSV = mul(output.vPosSV, g_CBuffer_matCam.matVP);
+	output.vPosSV = mul(output.vPosSV, g_CBuffer_matCam[Data.MTRL_SCALAR_INT_CAMIDX].matVP);
 	
     output.vUV = _in.vUV;
 	output.uInstID = _in.uInstID;

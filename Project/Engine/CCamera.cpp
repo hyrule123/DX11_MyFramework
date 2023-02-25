@@ -182,7 +182,6 @@ void CCamera::finaltick()
 	g_matCam[m_iCamIdx].matView = m_matView;
 	g_matCam[m_iCamIdx].matProj = m_matProj;
 	g_matCam[m_iCamIdx].matVP = m_matView * m_matProj;
-
 }
 
 void CCamera::cleanup()
