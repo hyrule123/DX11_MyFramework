@@ -32,10 +32,11 @@ void CTilemap::finaltick()
 {
 }
 
-void CTilemap::render(CCamera* _pCam)
+bool CTilemap::render()
 {
+	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == GetMesh() || nullptr == GetCurMaterial())
-		return;
+		return true;
 
 	//자신의 구조화버퍼 업데이트
 	BindData();
@@ -47,14 +48,17 @@ void CTilemap::render(CCamera* _pCam)
 	//Transform()->UpdateData();
 
 	CGameObject* pOwner = GetOwner();
-	pOwner->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &m_iTileCountX);
-	pOwner->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_1, &m_iTileCountY);
+	pOwner->SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &m_iTileCountX);
+	pOwner->SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_1, &m_iTileCountY);
 
 	pMtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 	pMtrl->BindData();
 
 	//렌더링 진행
 	GetMesh()->render();
+
+	//드로우콜이 발생했으므로 true 반환
+	return true;
 }
 
 void CTilemap::BindData()

@@ -12,8 +12,10 @@
 #include <Engine/CTransform.h>
 #include <Engine/CCameraMoveScript.h>
 
-#define DEBUG_MAT_WVP eMTRLDATA_PARAM_SCALAR::MAT_0
-#define DEBUG_VEC4_COLOR eMTRLDATA_PARAM_SCALAR::VEC4_0
+#include <Engine/strKeys.h>
+
+#include <Engine/Shader_Debug_0_Header.hlsli>
+
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}
@@ -70,9 +72,11 @@ void CEditorObjMgr::tick()
 //받아온 오브젝트를 통해서 디버그 정보를 사각형으로 그리기
 void CEditorObjMgr::render()
 {
-
 	//메인 카메라의 View Projection  행렬을 가져온다.
-	const Matrix& matVP = CRenderMgr::GetInst()->GetCurCamera()->GetViewProjMatrix();
+
+	CCamera* pCam = CRenderMgr::GetInst()->GetCurCamera();
+
+	pCam->UploadData();
 
 	size_t size = m_vecDebugShapeInfo.size();
 	for (size_t i = 0; i < size; ++i)
@@ -82,15 +86,16 @@ void CEditorObjMgr::render()
 		case eSHAPE_TYPE::RECT:
 		{
 			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->MeshRender()->GetCurMaterial();
+
 			//월드행렬 전달.
+			const Matrix& matWorld = m_vecDebugShapeInfo[i].matWorld;
 
-			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_MAT_WORLD, m_vecDebugShapeInfo[i].matWorld.m);
 
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_VEC4_COLOR, &(m_vecDebugShapeInfo[i].vColor));
 
 			//레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->render(nullptr);
+			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->render();
 
 			break;
 		}
@@ -98,11 +103,15 @@ void CEditorObjMgr::render()
 		{
 			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->MeshRender()->GetCurMaterial();
 			//월드행렬 전달.
-			Matrix matWVP = m_vecDebugShapeInfo[i].matWorld * matVP;
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetScalarParam(DEBUG_MAT_WVP, matWVP.m);
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetScalarParam(DEBUG_VEC4_COLOR, m_vecDebugShapeInfo[i].vColor);
+			//월드행렬 전달.
+			const Matrix& matWorld = m_vecDebugShapeInfo[i].matWorld;
 
-			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->render(nullptr);
+			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_MAT_WORLD, m_vecDebugShapeInfo[i].matWorld.m);
+
+			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_VEC4_COLOR, &(m_vecDebugShapeInfo[i].vColor));
+
+			//레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
+			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->render();
 			break;
 		}
 		case eSHAPE_TYPE::CUBE:
@@ -128,8 +137,7 @@ void CEditorObjMgr::render()
 
 void CEditorObjMgr::CreateDebugShape()
 {
-	Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>("DebugMtrl");
-
+	
 
 	for (int i = 0; i < (int)eSHAPE_TYPE::END; ++i)
 	{
@@ -141,7 +149,8 @@ void CEditorObjMgr::CreateDebugShape()
 		{
 			CMeshRender* pMesh = new CMeshRender;
 			//월드행렬을 직접 받아서 쉐이더에 보낼 것이기 떄문에 Transform은 필요하지 않음.
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh_Debug");
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::DEBUG_RECT);
+			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::DEBUG_RECT);
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
 			m_arrDebugShape[i]->AddComponent(pMesh);
@@ -152,7 +161,8 @@ void CEditorObjMgr::CreateDebugShape()
 		case eSHAPE_TYPE::CIRCLE:
 		{
 			CMeshRender* pMesh = new CMeshRender;
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh_Debug");
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::DEBUG_CIRCLE);
+			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::DEBUG_CIRCLE);
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
 			m_arrDebugShape[i]->AddComponent(pMesh);

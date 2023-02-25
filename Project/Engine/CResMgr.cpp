@@ -122,7 +122,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(0);
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes(RESOURCE::MESH::RECT_DEBUG, pMesh);
+	AddRes(RESOURCE::MESH::DEBUG_RECT, pMesh);
 	//============================
 
 
@@ -211,7 +211,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(1);
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes(RESOURCE::MESH::CIRCLE_DEBUG, pMesh);
+	AddRes(RESOURCE::MESH::DEBUG_CIRCLE, pMesh);
 }
 
 void CResMgr::CreateDefaultGraphicsShader()
@@ -361,10 +361,20 @@ void CResMgr::CreateDefaultMaterial()
 {
 	//Debug Material
 	{
+		//Rectangle
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::DEBUG));
+		pMtrl->SetInstancedRender(true);
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::DEBUG);
+		pMtrl->SetKey(RESOURCE::MATERIAL::DEBUG_RECT);
+		AddRes(pMtrl->GetKey(), pMtrl);
+
+		//Circle
+		pMtrl = new CMaterial;
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::DEBUG));
+		pMtrl->SetInstancedRender(true);
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::DEBUG_CIRCLE);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 

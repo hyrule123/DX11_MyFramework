@@ -6,16 +6,19 @@ namespace RESOURCE
 	{
 		inline constexpr const char* POINT = "PointMesh";
 		inline constexpr const char* RECT = "RectMesh";
-		inline constexpr const char* RECT_DEBUG = "RectMesh_Debug";
 		inline constexpr const char* CIRCLE = "CircleMesh";
-		inline constexpr const char* CIRCLE_DEBUG = "CircleMesh_Debug";
+
+		inline constexpr const char* DEBUG_RECT = "RectMesh_Debug";
+		inline constexpr const char* DEBUG_CIRCLE = "CircleMesh_Debug";
 
 	}
 
 
 	namespace MATERIAL
 	{
-		inline constexpr const char* DEBUG = "DebugMtrl";
+		inline constexpr const char* DEBUG_RECT = "DebugMtrlRect";
+		inline constexpr const char* DEBUG_CIRCLE = "DebugMtrlCircle";
+
 		inline constexpr const char* TEST = "TestMtrl";
 		inline constexpr const char* STD2D = "std2DMtrl";
 		inline constexpr const char* STD2D_LIGHT = "std2DLightMtrl";

@@ -53,7 +53,7 @@ void CTransform::finaltick()
 		m_matWorld = m_matRelative * m_matParent;
 
 		MATRIX matWorld = m_matSize * m_matWorld;
-		GetOwner()->SetScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
+		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
 	}
 }
 
@@ -78,7 +78,7 @@ void CTransform::UpdateMyTransform()
 		//방법 1 - 행렬곱과 래핑함수를 사용
 	}
 
-		
+	//TODO: 방향 고정일 경우 사인과 코사인을 이용해서 상대적 방향 계산하도록 만들어 놓기
 	m_vRelativeDir[(UINT)eDIR_TYPE::FRONT] = matRot.Forward();
 	m_vRelativeDir[(UINT)eDIR_TYPE::RIGHT] = matRot.Right();
 	m_vRelativeDir[(UINT)eDIR_TYPE::UP] = matRot.Up();

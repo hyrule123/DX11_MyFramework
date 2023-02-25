@@ -36,6 +36,8 @@ private:
     Ptr<CTexture>           m_arrTex[(int)eMTRLDATA_PARAM_TEX::_END];
     
     //1 = 일반 드로우콜, 2 이상 = 인스턴싱
+    //vector은 데이터를 구조화버퍼를 전달하면 싹 지워버리기 떄문에
+    //별도의 변수를 둬서 사이즈를 따로 저장해 놔야 함
     UINT                    m_uRenderCount;
 
 public:

@@ -73,3 +73,11 @@ struct tLightHashFunc_UINT64
 		return static_cast<UINT64>(_ukey);
 	}
 };
+
+struct tLightHashFunc_DWORD_PTR
+{
+	DWORD_PTR operator()(const DWORD_PTR& _ukey) const
+	{
+		return static_cast<DWORD_PTR>(_ukey);
+	}
+};

@@ -7,6 +7,17 @@
 class CCamera;
 class CLight2D;
 class CStructBuffer;
+class CRenderComponent;
+
+//2D때만 쓸 임시 구조체
+//2D까지는 월드 매트릭스와 뷰-투영 매트릭스를 나눠서 전달할 예정임
+//CPU와 작업 분담용
+struct tRenderInfo
+{
+	CRenderComponent* pRenderCom;
+	CCamera* pCam;
+};
+
 
 class CRenderMgr : public CSingleton<CRenderMgr>
 {
@@ -32,6 +43,12 @@ private:
 	//에디터용 카메라 주소
 	CCamera* m_pEditorCam;
 	bool m_bEditorCamMode;
+
+	//카메라가 쉐이더 도메인에 따라 분류한 결과를 저장
+	vector<tRenderInfo>    m_arrvecShaderDomain[(UINT)eSHADER_DOMAIN::_END];
+
+	//Key : Mtrl 주소, Valud : Mesh 주소
+	unordered_map<DWORD_PTR, DWORD_PTR, tLightHashFunc_DWORD_PTR> m_umapInstancing;
 	
 
 public:
@@ -52,12 +69,19 @@ public:
 	void SetEditorCam(CCamera* _pCamera) { m_pEditorCam = _pCamera; }
 	bool IsEditorCamMode() const { return m_bEditorCamMode; }
 
+
+	//렌더링 단계 관련
+	void AddRenderQueue(tRenderInfo _pRenderCom, eSHADER_DOMAIN _eShaderDomain);
+
 private:
 	//Upload + Bind
 	void UpdateBuffer();
 
 	void render_editor();
 	void render_play();
+
+	//RenderMgr에 모인 데이터를 일괄적으로 렌더링
+	void renderAll();
 };
 
 
@@ -77,4 +101,10 @@ inline CCamera* CRenderMgr::GetCurCamera()
 
 
 	return m_arrCam[(int)eCAMERA_INDEX::MAIN];
+}
+
+
+inline void CRenderMgr::AddRenderQueue(tRenderInfo _pRenderCom, eSHADER_DOMAIN _eShaderDomain)
+{
+	m_arrvecShaderDomain[(int)_eShaderDomain].push_back(_pRenderCom);
 }

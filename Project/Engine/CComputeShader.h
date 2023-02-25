@@ -47,7 +47,7 @@ public:
 
     void CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _ElemCountZ);
 
-    void SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
+    void SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
 
     //컴퓨터쉐이더 연산 시행
     void Execute();

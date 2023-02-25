@@ -104,7 +104,7 @@ void CLevelMgr::init()
 		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::MARINE);
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
-		pPlayer->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+		pPlayer->SetMtrlScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 
 		pPlayer->MeshRender()->SetMesh(RectMesh);
 		pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
@@ -140,7 +140,7 @@ void CLevelMgr::init()
 	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D_LIGHT);
 
 	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
-	//	pPlayer->SetScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+	//	pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 
 	//	pPlayer->MeshRender()->SetMesh(RectMesh);
 	//	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
@@ -183,7 +183,7 @@ void CLevelMgr::init()
 	//	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));
 	//	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::TEST);
 	//	TestMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
-	//	//pTestObj1->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+	//	//pTestObj1->SetMtrlScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 	//	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
 
 	//	::SpawnGameObject(pTestObj1, Vec3(100.f, 0.f, 10.f), 1);
@@ -205,7 +205,7 @@ void CLevelMgr::init()
 	//Ptr<CMaterial> pLightMtrl = CResMgr::GetInst()->FindRes<CMaterial>("std2DLightMtrl");
 
 	//pLightMtrl->SetTexParam(eTEX_0, CResMgr::GetInst()->FindRes<CTexture>("beheaded"));
-	//pLightMtrl->SetScalarParam(MTRL_SCALAR_STD2D_COLORKEY, Vec4(0.f, 0.f, 0.f, 1.f));
+	//pLightMtrl->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, Vec4(0.f, 0.f, 0.f, 1.f));
 	//pLightMtrl->SetTexParam(eTEX_1, CResMgr::GetInst()->FindRes<CTexture>("beheaded_n"));
 
 	//pTestObj2->MeshRender()->SetMaterial(pLightMtrl);
@@ -237,7 +237,7 @@ void CLevelMgr::init()
 	//		pTestObj3->AddComponent(new CMeshRender);
 	//		pTestObj3->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	//		Ptr<CMaterial> TestMtrl3 = CResMgr::GetInst()->FindRes<CMaterial>(L"TestMtrl");
-	//		TestMtrl->SetScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+	//		TestMtrl->SetMtrlScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 	//		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
 	//		pTestObj3->AddComponent(new CCollider2D_OBB);
 

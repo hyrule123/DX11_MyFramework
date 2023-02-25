@@ -41,7 +41,6 @@ void CCollider2D_OBB::UpdateCollider()
 
 	//중심점 = 월드 위치 + 오프셋 위치
 	m_tOBBInfo.m_vCenterPos = GetCenterPos();
-
 }
 
 

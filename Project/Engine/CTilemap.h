@@ -32,7 +32,7 @@ public:
 
 public:
     virtual void finaltick() override;
-    virtual void render(CCamera* _pCam) override;
+    virtual bool render() override;
     virtual void cleanup() override {};
 
     void BindData();

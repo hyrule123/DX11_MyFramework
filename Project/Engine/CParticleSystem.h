@@ -19,7 +19,7 @@ public:
 public:
     virtual void init() override;
     virtual void finaltick() override;
-    virtual void render(CCamera* _pCam) override;
+    virtual bool render() override;
     virtual void cleanup() override {};
 
 private:

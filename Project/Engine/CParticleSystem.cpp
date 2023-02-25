@@ -84,10 +84,11 @@ void CParticleSystem::finaltick()
 	m_tModuleData.vOwnerCurWorldPos = Transform()->GetWorldPos();
 }
 
-void CParticleSystem::render(CCamera* _pCam)
+bool CParticleSystem::render()
 {
+	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
-		return;
+		return true;
 
 	//Transform()->UpdateData();
 
@@ -100,9 +101,10 @@ void CParticleSystem::render(CCamera* _pCam)
 
 	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
 
-
-
+	//드로우콜이 발생했으므로 true 반환
+	return true;
 }
+
 
 
 void CParticleSystem::CreateParticle()

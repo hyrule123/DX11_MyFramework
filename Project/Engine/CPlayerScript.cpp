@@ -30,7 +30,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::init()
 {
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
-	//GetOwner()->SetScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
+	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 }
 
 void CPlayerScript::tick()
@@ -93,13 +93,13 @@ void CPlayerScript::tick()
 	if (KEY_TAP(KEY::_1))
 	{
 		int a = 0;
-		GetOwner()->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
+		GetOwner()->SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
 	}
 
 	else if (KEY_TAP(KEY::_2))
 	{
 		int a = 1;
-		GetOwner()->SetScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
+		GetOwner()->SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
 	}
 
 	if (KEY_TAP(KEY::SPACE))

@@ -43,7 +43,6 @@ CCamera::CCamera(const CCamera& _other)
 	, m_matView()	// finaltick()에서 매 tick마다 계산 됨
 	, m_matProj(_other.m_matProj)
 	, m_CamIndex(-1)
-	, m_arrvecShaderDomain{}
 	, m_LayerFlag(_other.m_LayerFlag)
 	, m_ZoomScale(_other.m_ZoomScale)
 {
@@ -80,20 +79,6 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 	//g_matCam.MatProj = m_matProj;
 }
 
-void CCamera::AddInstancingRenderQueue(Ptr<CMaterial> _pMtrl, Ptr<CMesh> _pMesh)
-{
-	size_t size = m_vecInstancedRenderQueue.size();
-
-	for (size_t i = 0; i < size; ++i)
-	{
-		//이미 인스턴싱 대기열에 등록되어 있는 재질일 경우 return
-		if (_pMtrl.Get() == m_vecInstancedRenderQueue[i].pMtrl.Get())
-			return;
-	}
-
-	//그렇지 않을 경우 Mesh와 한 쌍으로 pushback
-	m_vecInstancedRenderQueue.push_back(tRenderQueueData{_pMtrl, _pMesh});
-}
 
 void CCamera::SetCamIndex(eCAMERA_INDEX _Idx)
 {
@@ -199,6 +184,8 @@ void CCamera::cleanup()
 
 void CCamera::SortObject()
 {
+	CRenderMgr* pRenderMgr = CRenderMgr::GetInst();
+
 	for (UINT32 i = 0; i < MAX_LAYER; ++i)
 	{
 		UINT32 mask = (UINT32)1 << i;
@@ -213,13 +200,13 @@ void CCamera::SortObject()
 		for (size_t i = 0; i < size; ++i)
 		{
 			//출력 담당 컴포넌트를 받아온다.
-			CRenderComponent* Com = vecObj[i]->GetRenderComponent();
+			CRenderComponent* pRenderCom = vecObj[i]->GetRenderComponent();
 
 			//컴포넌트가 없거나, 컴포넌트 내부의 출력용 클래스가 등록되어있지 않을 경우 continue
 			if (
-				nullptr == Com
+				nullptr == pRenderCom
 				||
-				false == Com->GetRenderReady()
+				false == pRenderCom->GetRenderReady()
 				)
 				continue;
 			
@@ -257,53 +244,27 @@ void CCamera::SortObject()
 
 
 			//쉐이더 도메인을 받아와서
-			eSHADER_DOMAIN dom = Com->GetCurMaterial()->GetShader()->GetShaderDomain();
+			eSHADER_DOMAIN dom = pRenderCom->GetCurMaterial()->GetShader()->GetShaderDomain();
 
 			//만약 쉐이더 도메인이 등록되어있지 않을 경우 assert 처리
 			assert((eSHADER_DOMAIN)0 <= dom && dom < eSHADER_DOMAIN::_END);
 
-			//도메인이 등록되어 있을 경우 push back
-			m_arrvecShaderDomain[(int)dom].push_back(vecObj[i]);
-
+			//도메인이 등록되어 있을 경우 CRenderMgr의 출력 대기열에 등록한다.
+			pRenderMgr->AddRenderQueue(tRenderInfo{ pRenderCom, this }, dom);
 		}
-
 	}
 }
 
-void CCamera::render()
+
+void CCamera::UploadData()
 {
 	//이제 카메라별로 렌더링이 진행되므로, 카메라가 가지고 있는 View 행렬과 Proj 행렬을 미리 곱해 놓는다.
 	g_matCam.matView = m_matView;
 	g_matCam.matProj = m_matProj;
 	g_matCam.matVP = m_matView * m_matProj;
-	
+
 	//카메라의 행렬을 상수버퍼에 업로드
 	static CConstBuffer* const pBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
 	pBuffer->UploadData(&g_matCam);
 	pBuffer->BindBuffer();
-
-	for (int i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
-	{
-
-		size_t size = m_arrvecShaderDomain[i].size();
-		for (size_t j = 0; j < size; ++j)
-		{
-			m_arrvecShaderDomain[i][j]->render(this);
-		}
-
-		size = m_vecInstancedRenderQueue.size();
-		for (size_t i = 0; i < size; i++)
-		{
-			m_vecInstancedRenderQueue[i].pMtrl->BindData();
-			m_vecInstancedRenderQueue[i].pMesh->renderInstanced(m_vecInstancedRenderQueue[i].pMtrl->GetInstancingCount());
-		}
-		
-		//인스턴싱 대기열 비워주기
-		m_vecInstancedRenderQueue.clear();
-
-		//렌더링 순회 끝나고 나면 비워주기.
-		m_arrvecShaderDomain[i].clear();
-	}
-
-
 }

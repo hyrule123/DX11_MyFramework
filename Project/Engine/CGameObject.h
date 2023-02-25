@@ -93,21 +93,21 @@ public:
     const vector<CGameObject*>& GetvecChilds() const { return m_vecChild; }
     size_t GetNumChilds() const { return m_vecChild.size(); }
 
-    void SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
+    void SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
 
     
-    int GetMtrlScalarData_Int(eMTRLDATA_PARAM_SCALAR _Param) const;
-    float GetMtrlScalarData_Float(eMTRLDATA_PARAM_SCALAR _Param) const;
-    Vec2 GetMtrlScalarData_Vec2(eMTRLDATA_PARAM_SCALAR _Param) const;
-    const Vec4& GetMtrlScalarData_Vec4(eMTRLDATA_PARAM_SCALAR _Param) const;
-    const MATRIX& GetMtrlScalarData_MATRIX(eMTRLDATA_PARAM_SCALAR _Param) const;
+    int GetMtrlScalarParam_Int(eMTRLDATA_PARAM_SCALAR _Param) const;
+    float GetMtrlScalarParam_Float(eMTRLDATA_PARAM_SCALAR _Param) const;
+    Vec2 GetMtrlScalarParam_Vec2(eMTRLDATA_PARAM_SCALAR _Param) const;
+    const Vec4& GetMtrlScalarParam_Vec4(eMTRLDATA_PARAM_SCALAR _Param) const;
+    const MATRIX& GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCALAR _Param) const;
     const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
 
 public:
     void init();
     void tick();
     virtual void finaltick();
-    void render(CCamera* _pCam);
+    void render();
 
     //제거되기 전 기존 오브젝트들과의 관계를 제거
     //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 cleanup() 함수만 호출한다.
@@ -142,7 +142,7 @@ inline void CGameObject::SetLifeSpan(float _fLifeSpan)
 }
 
 
-inline int CGameObject::GetMtrlScalarData_Int(eMTRLDATA_PARAM_SCALAR _Param) const
+inline int CGameObject::GetMtrlScalarParam_Int(eMTRLDATA_PARAM_SCALAR _Param) const
 {
     switch (_Param)
     {
@@ -159,7 +159,7 @@ inline int CGameObject::GetMtrlScalarData_Int(eMTRLDATA_PARAM_SCALAR _Param) con
     }
 }
 
-inline float CGameObject::GetMtrlScalarData_Float(eMTRLDATA_PARAM_SCALAR _Param) const
+inline float CGameObject::GetMtrlScalarParam_Float(eMTRLDATA_PARAM_SCALAR _Param) const
 {
     switch (_Param)
     {
@@ -176,7 +176,7 @@ inline float CGameObject::GetMtrlScalarData_Float(eMTRLDATA_PARAM_SCALAR _Param)
     }
 }
 
-inline Vec2 CGameObject::GetMtrlScalarData_Vec2(eMTRLDATA_PARAM_SCALAR _Param) const
+inline Vec2 CGameObject::GetMtrlScalarParam_Vec2(eMTRLDATA_PARAM_SCALAR _Param) const
 {
     switch (_Param)
     {
@@ -192,7 +192,7 @@ inline Vec2 CGameObject::GetMtrlScalarData_Vec2(eMTRLDATA_PARAM_SCALAR _Param) c
     }
 }
 
-inline const Vec4& CGameObject::GetMtrlScalarData_Vec4(eMTRLDATA_PARAM_SCALAR _Param) const
+inline const Vec4& CGameObject::GetMtrlScalarParam_Vec4(eMTRLDATA_PARAM_SCALAR _Param) const
 {
     switch (_Param)
     {
@@ -208,7 +208,7 @@ inline const Vec4& CGameObject::GetMtrlScalarData_Vec4(eMTRLDATA_PARAM_SCALAR _P
     }
 }
 
-inline const MATRIX& CGameObject::GetMtrlScalarData_MATRIX(eMTRLDATA_PARAM_SCALAR _Param) const
+inline const MATRIX& CGameObject::GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCALAR _Param) const
 {
     switch (_Param)
     {

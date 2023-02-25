@@ -2,7 +2,9 @@
 
 float4 PS_Debug(VS_OUT _in) : SV_TARGET
 {
-	float4 vColor = g_CBuffer_Mtrl_Scalar.SHADER_DEBUG_vecColor;
+	tMtrlScalarData Data = GetMtrlScalarData(_in.uInstID);
+	
+	float4 vColor = Data.MTRL_SCALAR_DEBUG_VEC4_COLOR;
 	
 	return vColor;
 }

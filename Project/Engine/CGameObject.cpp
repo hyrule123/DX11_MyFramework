@@ -75,10 +75,8 @@ CGameObject::~CGameObject()
 	Safe_Del_Array(m_arrCom);
 }
 
-void CGameObject::SetScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)
+void CGameObject::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)
 {
-	
-
 	switch (_Param)
 	{
 	case eMTRLDATA_PARAM_SCALAR::INT_0: m_MtrlScalarData.INT_0 = *((int*)_Src);
@@ -211,13 +209,13 @@ void CGameObject::finaltick()
 		static_cast<CTransform*>(m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])->ClearUpdateState();
 }
 
-void CGameObject::render(CCamera* _pCam)
+void CGameObject::render()
 {
 	//삭제 대기 상태일 경우 렌더링을 하지 않음.
 	if (nullptr == m_RenderCom || true == m_bDestroy)
 		return;
 
-	m_RenderCom->render(_pCam);
+	m_RenderCom->render();
 }
 
 void CGameObject::cleanup()

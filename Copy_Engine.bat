@@ -14,7 +14,7 @@ xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" "
 :: xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\*.fx" ".\OutputFile\bin\content\shader\"
 
 :: bin_d/content/ 폴더를 bin/content/ 폴더로 복사
-xcopy /d /s /y /i  /exclude:exclude_list.txt ".\OutputFile\bin_Debug\content\*" ".\OutputFile\bin\content\"
+xcopy /d /s /y /i  /exclude:exclude_list.txt ".\OutputFile\Bin_Debug\content\*" ".\OutputFile\Bin\content\"
 
 :: 파일 저장용 디렉토리가 없을 경우 새로 생성
 if not exist .\OutputFile\bin_Debug\content\SavedSettings ( mkdir .\OutputFile\bin_Debug\content\SavedSettings )

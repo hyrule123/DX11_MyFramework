@@ -62,96 +62,100 @@ CAnimator2D::~CAnimator2D()
 }
 
 
-void CAnimator2D::tick()
-{
-    //재생할 애니메이션이 없거나 애니메이션 재생 종료시 return
-    if (nullptr == m_pCurAnim || true == m_bFinish)
-        return;
 
-    //시간 추가
-    m_fCurTime += DELTA_TIME;
-
-
-    //프레임당 재생시간을 넘어갔을 경우
-    if (m_fTimePerFrame < m_fCurTime)
-    {
-        //ftime에서 한프레임별 시간을 뺴준후
-        m_fCurTime -= m_fTimePerFrame;
-
-        //다음 프레임으로 진행한다.
-        ++m_uCurFrame;
-
-        //마지막 프레임일 경우
-        if (m_uMaxFrameCount <= m_uCurFrame)
-        {
-            //마지막 프레임으로 고정시킨다
-            m_uCurFrame = m_uMaxFrameCount - 1;
-            m_bFinish = true;
-        }
-    }
-
-    //재생이 방금 끝났는데
-    if (true == m_bFinish)
-    {
-        //역재생이나 루프가 설정되어있을 경우
-        switch (m_eLoopMode)
-        {
-        case eANIM_LOOPMODE::NONE:
-            //해줄거 없음
-            break;
-        case eANIM_LOOPMODE::NORMAL_LOOP:
-            //프레임을 다시 0번으로 변경
-            m_uCurFrame = 0u;
-
-            m_bFinish = false;
-            break;
-        case eANIM_LOOPMODE::ZIG_ZAG:
-            m_uCurFrame = 0u;
-
-            //프레임 0번으로 변경하고 리버스 모드를 반대로 바꿈
-            m_bReverse = !m_bReverse;
-
-            m_bFinish = false;
-            break;
-        default:
-            break;
-        }
-    }
-
-
-
-}
 
 void CAnimator2D::finaltick()
 {
-    //역재생인지 여부를 먼저 계산
-    if (true == m_bReverse)
-        m_uCurFrameIdx = m_uMaxFrameCount - 1u - m_uCurFrame;
-    else
-        m_uCurFrameIdx = m_uCurFrame;
-
-    //나중에 여기서 방향성을 가지면 어떡할것인지 등등을 추가할것
-    if (eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP == m_pCurAnim->eAnimType)
+    //재생할 애니메이션이 있을 경우 프레임 처리
+    if (nullptr != m_pCurAnim)
     {
-        CalculateDirectionalColHalfFlipAtlas();
-    }
-    else if (eANIM_TYPE::SEQUENTIAL == m_pCurAnim->eAnimType)
-    {
-        m_uCalculatedIdx = m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdxInVecFrameUV;
-    }
-
-
-    //프레임에 등록된 콜백함수가 있을 경우 콜백함수 호출
-    size_t size = m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback.size();
-    if ((size_t)0 != size)
-    {
-        for (size_t i = 0; i < size; i++)
+        //재생이 끝나지 않았을 경우 현재 프레임 업데이트
+        if (false == m_bFinish)
         {
-            //콜백함수를 호출
-            m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback[i]();
+            //시간 추가
+            m_fCurTime += DELTA_TIME;
+
+
+            //프레임당 재생시간을 넘어갔을 경우
+            if (m_fTimePerFrame < m_fCurTime)
+            {
+                //ftime에서 한프레임별 시간을 뺴준후
+                m_fCurTime -= m_fTimePerFrame;
+
+                //다음 프레임으로 진행한다.
+                ++m_uCurFrame;
+
+                //마지막 프레임일 경우
+                if (m_uMaxFrameCount <= m_uCurFrame)
+                {
+                    //마지막 프레임으로 고정시킨다
+                    m_uCurFrame = m_uMaxFrameCount - 1;
+                    m_bFinish = true;
+                }
+            }
+
+            //재생이 이번 프레임에 종료되었을 경우 다음 과정을 처리
+            if (true == m_bFinish)
+            {
+                //역재생이나 루프가 설정되어있을 경우
+                switch (m_eLoopMode)
+                {
+                case eANIM_LOOPMODE::NONE:
+                    //해줄거 없음
+                    break;
+                case eANIM_LOOPMODE::NORMAL_LOOP:
+                    //프레임을 다시 0번으로 변경
+                    m_uCurFrame = 0u;
+
+                    m_bFinish = false;
+                    break;
+                case eANIM_LOOPMODE::ZIG_ZAG:
+                    m_uCurFrame = 0u;
+
+                    //프레임 0번으로 변경하고 리버스 모드를 반대로 바꿈
+                    m_bReverse = !m_bReverse;
+
+                    m_bFinish = false;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+
+
+        //실제 애니메이션 프레임을 계산한다.
+        //역재생인지 여부를 먼저 계산
+        if (true == m_bReverse)
+            m_uCurFrameIdx = m_uMaxFrameCount - 1u - m_uCurFrame;
+        else
+            m_uCurFrameIdx = m_uCurFrame;
+
+
+        //방향을 가진 애니메이션일 경우 방향에 따른 프레임을 계산한다.
+        if (eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP == m_pCurAnim->eAnimType)
+        {
+            CalculateDirectionalColHalfFlipAtlas();
+        }
+        else if (eANIM_TYPE::SEQUENTIAL == m_pCurAnim->eAnimType)
+        {
+            m_uCalculatedIdx = m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdxInVecFrameUV;
+        }
+
+
+        //프레임에 등록된 콜백함수가 있을 경우 콜백함수 호출
+        size_t size = m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback.size();
+        if ((size_t)0 != size)
+        {
+            for (size_t i = 0; i < size; i++)
+            {
+                //콜백함수를 호출
+                m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback[i]();
+            }
         }
     }
 
+    //재생할 애니메이션이 없더라도 업데이트는 해준다.(재생할 애니메이션이 없다고 업데이트)
     UpdateData();
 }
 
@@ -163,14 +167,14 @@ void CAnimator2D::UpdateData()
     CGameObject* pOwner = GetOwner();
 
     //기존의 플래그값을 받아옴
-    int iAnimFlag = pOwner->GetMtrlScalarData_Int(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX);
+    int iAnimFlag = pOwner->GetMtrlScalarParam_Int(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX);
     if (nullptr == m_pCurAnim)
     {
         iAnimFlag &= ~((int)eANIM2D_FLAG::USEANIM);
         iAnimFlag &= ~((int)eANIM2D_FLAG::USEPIVOT);
 
-        pOwner->SetScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
-        pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
+        pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
+        pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
         return;
     }
 
@@ -190,17 +194,17 @@ void CAnimator2D::UpdateData()
     
 
 
-    pOwner->SetScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
-    pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
  
 
     //애니메이션의 UV 정보를 받아옴.
     const tAnimFrameUV& frameuv = m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameUVData(m_uCalculatedIdx);
 
-    pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP, &(frameuv.LeftTopUV));
-    pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_SLICE, &(frameuv.SliceUV));
-    pOwner->SetScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_OFFSET, &(frameuv.Offset));
-    pOwner->SetScalarParam(MTRL_SCALAR_STD2D_PIVOT, &(m_pCurAnim->vPivot));
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP, &(frameuv.LeftTopUV));
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_SLICE, &(frameuv.SliceUV));
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_OFFSET, &(frameuv.Offset));
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_PIVOT, &(m_pCurAnim->vPivot));
 }
 
 
@@ -305,7 +309,7 @@ void CAnimator2D::CalculateDirectionalColHalfFlipAtlas()
     //구해진 angle에서 방향의 갯수만큼 나눠주면, 인덱스 번호의 float값이 나오게 된다.
     angle /= fAngleSlice;
 
-    //여기서 0.5f만큼 빼 주고 fabsf()를 해준다. 그러면 12시 방향이 보정된다.
+    //fabsf()를 해준 값을 반올림해준다. 그러면 12시 방향이 보정된다.
     angle = roundf(fabsf(angle));
 
     //angle에 현재 방향의 갯수(uColTotal)을 곱해 주면 아틀라스에 따른 방향을 구할 수 있다

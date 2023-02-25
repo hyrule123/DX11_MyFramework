@@ -7,15 +7,18 @@ class CMesh;
 class CMaterial;
 
 
-struct tRenderQueueData
-{
-    Ptr<CMaterial> pMtrl;
-    Ptr<CMesh> pMesh;
-};
+
 
 class CCamera :
     public CComponent
 {
+public:
+    CCamera();
+    CCamera(const CCamera& _other);
+    ~CCamera();
+
+    CLONE(CCamera)
+
 private:
     float m_AspectRatio;
     ePROJ_TYPE m_ProjectionType;
@@ -28,10 +31,10 @@ private:
 
     int m_CamIndex;
 
-    vector<CGameObject*>    m_arrvecShaderDomain[(UINT)eSHADER_DOMAIN::_END];
+    
     UINT32 m_LayerFlag;
 
-    vector<tRenderQueueData> m_vecInstancedRenderQueue;
+    
 
 public:
     void SetProjType(ePROJ_TYPE _Type);
@@ -57,12 +60,7 @@ public:
     void SortObject();
     void render();
 
-public:
-    CCamera(); 
-    CCamera(const CCamera& _other);
-    ~CCamera();
-
-    CLONE(CCamera)
+    void UploadData();
 };
 
 inline void CCamera::SetLayerFlag(UINT32 _iLayerFlag)

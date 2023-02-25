@@ -32,7 +32,7 @@ struct tAnimFrameIdx
     vector<tAnimFrame> vecFrame;
 
     
-    //vecFrame.size()와 이 값은 다를 수 있음. 방향 정보에 따라 같은 프레임에 다른 정보를 보여줘야 할 경우 등등
+    //vecFrame.size()와 이 값은 다를 수 있음. 방향 정보에 따라 같은 프레임에 이미지를 보여줘야 할 경우 등등
     UINT                uNumFrame;
     float               fFullPlayTime;
 

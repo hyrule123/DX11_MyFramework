@@ -113,7 +113,6 @@ public:
 
 
 
-
     //호출 시점: CGameObject에서 finaltick() 순회 끝난 이후
     //갱신 여부를 전부 끔
     void ClearUpdateState();

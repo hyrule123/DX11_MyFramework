@@ -12,6 +12,8 @@
 
 #include "CKeyMgr.h"
 
+#include "CRenderComponent.h"
+
 CRenderMgr::CRenderMgr()
     : m_arrCam{}
     , m_bDebugRenderUpdated()
@@ -78,7 +80,6 @@ void CRenderMgr::render()
 {
     UpdateBuffer();
 
-
     if (true == m_bEditorCamMode)
         render_editor();
     else
@@ -91,6 +92,7 @@ void CRenderMgr::render()
 
     m_bDebugRenderUpdated = false;
 }
+
 
 void CRenderMgr::UpdateBuffer()
 {
@@ -110,7 +112,8 @@ void CRenderMgr::render_editor()
     assert(nullptr != m_pEditorCam);
 
     m_pEditorCam->SortObject();
-    m_pEditorCam->render();
+
+    renderAll();
 }
 
 void CRenderMgr::render_play()
@@ -122,6 +125,70 @@ void CRenderMgr::render_play()
 
         //카메라에서 오브젝트를 도메인에 따라서 분류한다.
         m_arrCam[i]->SortObject();
-        m_arrCam[i]->render();
+    }
+
+    renderAll();
+}
+
+void CRenderMgr::renderAll()
+{
+    //2D 과정 동안에는 W와 VP를 쉐이더에서 계산하고,
+    //3D 과정에 들어간 이후부터 WVP를 일괄적으로 넘겨주도록 변경할 예정,
+    //그렇기 때문에 카메라를 기준으로 인스턴싱 및 렌더링을 진행함
+    // 
+    //2D에는 메쉬의 정점이 대부분 4개이므로 GPU와 작업을 좀 분담하려고 함
+    //나중에 3D 과정 가면 코드를 변경할 것
+    for (UINT i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
+    {
+        CCamera* pPrevCam = nullptr;
+        size_t size = m_arrvecShaderDomain[i].size();
+        for (size_t j = 0; j < size; j++)
+        {
+            if (pPrevCam != m_arrvecShaderDomain[i][j].pCam)
+            {
+
+                //첫 번쨰 카메라 교체가 아닐 경우(기존에 등록된 카메라가 있는데, 다른 카메라로 교체하는 상황일 경우)
+                //또는 반복문의 끝에 도달했을 경우
+                //렌더링 한번 해줌(2D 한정)
+                if (nullptr != pPrevCam || j + 1 == size)
+                {
+                    //혹시나 그릴게 단 한개일경우에는 카메라 데이터를 업로드해 줘야함
+                    if (nullptr == pPrevCam)
+                        m_arrvecShaderDomain[i][j].pCam->UploadData();
+
+                    //인스턴싱 렌더링 수행(카메라 행렬은 등록되어 있음)
+                    for (const auto& iter : m_umapInstancing)
+                    {
+                        CMaterial* pMtrl = (CMaterial*)(iter.first);
+                        pMtrl->BindData();
+                        ((CMesh*)(iter.second))->renderInstanced(pMtrl->GetInstancingCount());
+                    }
+
+                    //인스턴싱 대기열 클리어
+                    m_umapInstancing.clear();
+                }
+
+                //카메라를 새것으로 교체하고 새 행렬을 업로드(2D엔진 한정 - 3D 가면 변경 예정)
+                m_arrvecShaderDomain[i][j].pCam->UploadData();
+                pPrevCam = m_arrvecShaderDomain[i][j].pCam;
+            }
+
+
+            //만약 render 메소드를 호출했는데 드로우콜이 발생하지 않았다면(==인스턴싱으로 그리겠다고 설정되어 있으면)
+            if (false == m_arrvecShaderDomain[i][j].pRenderCom->render())
+            {
+                //인스턴싱 대기열 map에 추가
+                DWORD_PTR pMtrl = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetCurMaterial().Get());
+
+                //중복추가 방지
+                if (m_umapInstancing.end() == m_umapInstancing.find(pMtrl))
+                {
+                    m_umapInstancing[pMtrl] = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetMesh().Get());
+                }
+            }
+        }
+
+        //렌더링한 쉐이더 도메인은 제거
+        m_arrvecShaderDomain[i].clear();
     }
 }
