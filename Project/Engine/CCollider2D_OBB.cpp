@@ -31,7 +31,7 @@ void CCollider2D_OBB::UpdateCollider()
 
 
 	//자신의 OBB 정보를 계산한다.
-	const Matrix& WorldMat = pTransform->GetWorldMat();
+	const Matrix& WorldMat = pTransform->GetWorldMatWithoutSize();
 	const Vec3& Size = pTransform->GetSize();
 
 	for (int i = 0; i < (int)eAXIS2D::END; ++i)
@@ -50,8 +50,8 @@ void CCollider2D_OBB::DebugRender()
 
 	CTransform* pTransform = Transform();
 	//트랜스폼의 정보
-	const Matrix& matSize = Matrix::CreateScale(pTransform->GetSize());
-	const Matrix& matWorld = pTransform->GetWorldMat();
+	const Matrix& matSize = pTransform->GetMatSize();
+	const Matrix& matWorld = pTransform->GetWorldMatWithoutSize();
 
 	//충돌체(자신)의 정보)
 	const Matrix& matScale = Matrix::CreateScale(GetOffsetScale());
@@ -59,7 +59,7 @@ void CCollider2D_OBB::DebugRender()
 
 	tDebugShapeInfo Info = {};
 	Info.eShapeType = (int)eSHAPE_TYPE::RECT;
-	Info.matWorld = matScale * matOffset * matSize * matWorld;
+	Info.matWorld = matScale * matSize * matOffset * matWorld;
 
 	//충돌 중인 물체가 있을 경우 빨강, 아닐 경우 초록
 	Info.vColor = 0 == GetCollisionCount() ? Vec4(0.f, 1.f, 0.f, 1.f) : Vec4(1.f, 0.f, 0.f, 1.f);

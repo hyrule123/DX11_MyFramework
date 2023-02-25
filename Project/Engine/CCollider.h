@@ -29,8 +29,8 @@ private:
 public:
     //inline Getter
     
-    Vec3            GetOffsetPos()      const { return m_vOffsetPos; }
-    Vec3            GetOffsetScale()    const { return m_vOffsetScale; }
+    const Vec3&            GetOffsetPos()      const { return m_vOffsetPos; }
+    const Vec3&            GetOffsetScale()    const { return m_vOffsetScale; }
 
     void            AddCollisionCount() { ++m_iCollisionCount; }
     void            SubCollisionCount() { --m_iCollisionCount; }

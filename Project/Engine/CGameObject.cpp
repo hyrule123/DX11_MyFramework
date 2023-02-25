@@ -117,13 +117,21 @@ void CGameObject::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* 
 	case eMTRLDATA_PARAM_SCALAR::VEC4_3: m_MtrlScalarData.VEC4_3 = *((Vec4*)_Src);
 		break;
 
-	case eMTRLDATA_PARAM_SCALAR::MAT_0: m_MtrlScalarData.MAT_0 = *((Matrix*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::MAT_0: 
+		memcpy(m_MtrlScalarData.MAT_0.m, _Src, sizeof(Matrix));
+		//m_MtrlScalarData.MAT_0 = *((Matrix*)_Src);
 		break;
-	case eMTRLDATA_PARAM_SCALAR::MAT_1: m_MtrlScalarData.MAT_1 = *((Matrix*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::MAT_1: 
+		memcpy(m_MtrlScalarData.MAT_1.m, _Src, sizeof(Matrix));
+		//m_MtrlScalarData.MAT_1 = *((Matrix*)_Src);
 		break;
-	case eMTRLDATA_PARAM_SCALAR::MAT_2: m_MtrlScalarData.MAT_2 = *((Matrix*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::MAT_2: 
+		memcpy(m_MtrlScalarData.MAT_2.m, _Src, sizeof(Matrix));
+		//m_MtrlScalarData.MAT_2 = *((Matrix*)_Src);
 		break;
-	case eMTRLDATA_PARAM_SCALAR::MAT_3: m_MtrlScalarData.MAT_3 = *((Matrix*)_Src);
+	case eMTRLDATA_PARAM_SCALAR::MAT_3: 
+		memcpy(m_MtrlScalarData.MAT_3.m, _Src, sizeof(Matrix));
+		//m_MtrlScalarData.MAT_3 = *((Matrix*)_Src);
 		break;
 
 	}
@@ -375,7 +383,7 @@ bool CGameObject::GetParentWorldMatrix(Matrix& _mat)
 		return false;
 
 	//있을 경우 인자에 그대로 대입, true 반환.
-	_mat = m_Parent->Transform()->GetWorldMat();
+	_mat = m_Parent->Transform()->GetWorldMatWithoutSize();
 	return true;
 }
 

@@ -30,7 +30,6 @@ private:
     float m_ZoomScale;
 
     int m_CamIndex;
-
     
     UINT32 m_LayerFlag;
 
@@ -40,7 +39,6 @@ public:
     void SetProjType(ePROJ_TYPE _Type);
     ePROJ_TYPE GetProjType() const { return m_ProjectionType; }
 
-    void AddInstancingRenderQueue(Ptr<CMaterial> _pMtrl, Ptr<CMesh> _pMesh);
 
     void SetCamIndex(eCAMERA_INDEX _Idx);
     void SetLayerFlag(UINT32 _iLayerFlag);
@@ -58,7 +56,7 @@ public:
     virtual void finaltick() override;
     virtual void cleanup() override;
     void SortObject();
-    void render();
+
 
     void UploadData();
 };
