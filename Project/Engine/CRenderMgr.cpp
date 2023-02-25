@@ -19,7 +19,7 @@ CRenderMgr::CRenderMgr()
     , m_bDebugRenderUpdated()
     , m_pLight2DStructBuffer()
     , m_pEditorCam()
-    , m_bEditorCamMode()
+    , m_bEditorCamMode(true)
 {
 }
 
@@ -146,26 +146,16 @@ void CRenderMgr::renderAll()
         {
             if (pPrevCam != m_arrvecShaderDomain[i][j].pCam)
             {
+                //혹시나 그릴게 단 한개일경우에는 카메라 데이터를 업로드해 줘야함
+                if (nullptr == pPrevCam)
+                    m_arrvecShaderDomain[i][j].pCam->UploadData();
 
                 //첫 번쨰 카메라 교체가 아닐 경우(기존에 등록된 카메라가 있는데, 다른 카메라로 교체하는 상황일 경우)
                 //또는 반복문의 끝에 도달했을 경우
-                //렌더링 한번 해줌(2D 한정)
-                if (nullptr != pPrevCam || j + 1 == size)
+                //인스턴싱 렌더링 한번 해줌(2D 한정)
+                if (nullptr != pPrevCam)
                 {
-                    //혹시나 그릴게 단 한개일경우에는 카메라 데이터를 업로드해 줘야함
-                    if (nullptr == pPrevCam)
-                        m_arrvecShaderDomain[i][j].pCam->UploadData();
-
-                    //인스턴싱 렌더링 수행(카메라 행렬은 등록되어 있음)
-                    for (const auto& iter : m_umapInstancing)
-                    {
-                        CMaterial* pMtrl = (CMaterial*)(iter.first);
-                        pMtrl->BindData();
-                        ((CMesh*)(iter.second))->renderInstanced(pMtrl->GetInstancingCount());
-                    }
-
-                    //인스턴싱 대기열 클리어
-                    m_umapInstancing.clear();
+                    InstancedRender();
                 }
 
                 //카메라를 새것으로 교체하고 새 행렬을 업로드(2D엔진 한정 - 3D 가면 변경 예정)
@@ -186,9 +176,32 @@ void CRenderMgr::renderAll()
                     m_umapInstancing[pMtrl] = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetMesh().Get());
                 }
             }
+
+
+
+            //마지막 순회일 경우 렌더링 수행
+            if (j + 1 == size)
+            {
+                //인스턴싱 렌더링 수행(카메라 행렬은 등록되어 있음)
+                InstancedRender();
+            }
         }
+
 
         //렌더링한 쉐이더 도메인은 제거
         m_arrvecShaderDomain[i].clear();
     }
+}
+
+void CRenderMgr::InstancedRender()
+{
+    for (const auto& iter : m_umapInstancing)
+    {
+        CMaterial* pMtrl = (CMaterial*)(iter.first);
+        pMtrl->BindData();
+        ((CMesh*)(iter.second))->renderInstanced(pMtrl->GetInstancingCount());
+
+    }
+    //인스턴싱 대기열 클리어 
+    m_umapInstancing.clear();
 }

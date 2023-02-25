@@ -72,46 +72,51 @@ void CEditorObjMgr::tick()
 //받아온 오브젝트를 통해서 디버그 정보를 사각형으로 그리기
 void CEditorObjMgr::render()
 {
-	//메인 카메라의 View Projection  행렬을 가져온다.
-
 	CCamera* pCam = CRenderMgr::GetInst()->GetCurCamera();
-
+	//카메라의 데이터를 업로드
 	pCam->UploadData();
+
 
 	size_t size = m_vecDebugShapeInfo.size();
 	for (size_t i = 0; i < size; ++i)
 	{
+		m_vecDebugShapeInfo[i].fLifeSpan -= DELTA_TIME;
+
+
+		//월드행렬 전달.
+		tMtrlScalarData MtrlData = {};
+		Ptr<CMaterial> pMtrl = nullptr;
+
 		switch ((eSHAPE_TYPE)m_vecDebugShapeInfo[i].eShapeType)
 		{
 		case eSHAPE_TYPE::RECT:
 		{
-			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->MeshRender()->GetCurMaterial();
+			pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->MeshRender()->GetCurMaterial();
 
-			//월드행렬 전달.
-			const Matrix& matWorld = m_vecDebugShapeInfo[i].matWorld;
 
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_MAT_WORLD, m_vecDebugShapeInfo[i].matWorld.m);
+			//m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_MAT_WORLD, m_vecDebugShapeInfo[i].matWorld.m);
 
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_VEC4_COLOR, &(m_vecDebugShapeInfo[i].vColor));
+			//m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_VEC4_COLOR, &(m_vecDebugShapeInfo[i].vColor));
 
 			//레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
-			m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->render();
+			/*m_arrDebugShape[(int)eSHAPE_TYPE::RECT]->render();*/
 
 			break;
 		}
 		case eSHAPE_TYPE::CIRCLE:
 		{
-			Ptr<CMaterial> pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->MeshRender()->GetCurMaterial();
+			pMtrl = m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->MeshRender()->GetCurMaterial();
+
+
 			//월드행렬 전달.
-			//월드행렬 전달.
-			const Matrix& matWorld = m_vecDebugShapeInfo[i].matWorld;
+			//const Matrix& matWorld = m_vecDebugShapeInfo[i].matWorld;
 
-			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_MAT_WORLD, m_vecDebugShapeInfo[i].matWorld.m);
+			//m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_MAT_WORLD, m_vecDebugShapeInfo[i].matWorld.m);
 
-			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_VEC4_COLOR, &(m_vecDebugShapeInfo[i].vColor));
+			//m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_VEC4_COLOR, &(m_vecDebugShapeInfo[i].vColor));
 
-			//레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
-			m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->render();
+			////레이어에 속해서 게임 내에서 돌아가는 게임오브젝트가 아니므로 강제로 render()를 호출해야 한다.
+			//m_arrDebugShape[(int)eSHAPE_TYPE::CIRCLE]->render();
 			break;
 		}
 		case eSHAPE_TYPE::CUBE:
@@ -123,7 +128,31 @@ void CEditorObjMgr::render()
 		default:
 			break;
 		}
+
+
+
+		//MAT_WORLD = 1번
+		MtrlData.MAT_1 = m_vecDebugShapeInfo[i].matWorld;
+
+		//MAT_COLOR = 0번
+		MtrlData.VEC4_0 = m_vecDebugShapeInfo[i].vColor;
+
+		//재질 정보를 재질에 등록한다.
+		pMtrl->AddMtrlScalarData(MtrlData);
 	}
+
+	for (int i = 0; i < (int)eSHAPE_TYPE::END; ++i)
+	{
+		CRenderComponent* pRenderCom = m_arrDebugShape[i]->GetRenderComponent();
+		if (nullptr == pRenderCom)
+			continue;
+
+		CMaterial* pMtrl = pRenderCom->GetCurMaterial().Get();
+		pMtrl->BindData();
+		pRenderCom->GetMesh()->renderInstanced(pMtrl->GetInstancingCount());
+	}
+
+
 
 	//남은 시간이 음수가 된 디버그 쉐이프에 대해 삭제 처리를 진행
 	m_vecDebugShapeInfo.erase(

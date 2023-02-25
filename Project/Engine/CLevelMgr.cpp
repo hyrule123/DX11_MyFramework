@@ -88,8 +88,8 @@ void CLevelMgr::init()
 	
 	// 오브젝트 생성
 
-	//for (int i = 0; i < 1000; ++i)
-	int i = 1;
+	for (int i = 0; i < 200; ++i)
+	//int i = 1;
 	{
 		CGameObject* pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
@@ -98,7 +98,7 @@ void CLevelMgr::init()
 		pPlayer->Transform()->SetLockRotation(true);
 		pPlayer->AddComponent(new CMeshRender);
 
-		//if(1 == i)
+		if(1 == i)
 			pPlayer->AddScript(new CPlayerScript);
 
 		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::MARINE);
@@ -119,7 +119,7 @@ void CLevelMgr::init()
 		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::MARINE_IDLE, eANIM_LOOPMODE::NONE, false);
 
 		
-		//pPlayer->AddComponent(new CCollider2D_OBB);
+		pPlayer->AddComponent(new CCollider2D_OBB);
 
 		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
 	}

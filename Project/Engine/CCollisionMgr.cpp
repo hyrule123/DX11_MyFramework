@@ -49,7 +49,7 @@ void CCollisionMgr::CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLB
 	iBeginXYEndXY[BeginX] = std::clamp((int)_vLBRTPos.x, 0, m_iNum2DGridX);
 	iBeginXYEndXY[BeginY] = std::clamp((int)_vLBRTPos.y, 0, m_iNum2DGridY);
 	iBeginXYEndXY[EndX] = std::clamp((int)_vLBRTPos.z, 0, m_iNum2DGridX);
-	iBeginXYEndXY[EndY] = std::clamp((int)_vLBRTPos.z, 0, m_iNum2DGridY);
+	iBeginXYEndXY[EndY] = std::clamp((int)_vLBRTPos.w, 0, m_iNum2DGridY);
 
 	for (int x = iBeginXYEndXY[BeginX]; x <= iBeginXYEndXY[EndX]; ++x)
 	{

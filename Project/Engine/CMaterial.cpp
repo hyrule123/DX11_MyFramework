@@ -100,9 +100,10 @@ void CMaterial::BindData()
 	else//구조화버퍼 주소가 있을 경우(인스턴싱을 할 경우) 
 	{
 		//여긴 SBuffer만 바인딩 걸어주면 된다.
-		m_uRenderCount = (UINT)m_vecMtrlScalar.size();
 		m_SBufferMtrlScalar->UploadData(m_vecMtrlScalar.data(), m_uRenderCount);
 		m_SBufferMtrlScalar->BindBufferSRV();
+
+		m_uRenderCount = (UINT)m_vecMtrlScalar.size();
 	}
 
 	//바인딩한 데이터는 전부 제거

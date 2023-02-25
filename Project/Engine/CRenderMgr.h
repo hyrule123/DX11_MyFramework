@@ -82,6 +82,7 @@ private:
 
 	//RenderMgr에 모인 데이터를 일괄적으로 렌더링
 	void renderAll();
+	void InstancedRender();
 };
 
 
