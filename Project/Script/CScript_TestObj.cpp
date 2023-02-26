@@ -1,15 +1,12 @@
 #include "pch.h"
 #include "CScript_TestObj.h"
 
-#include "pch.h"
-#include "CScript_TestObj.h"
+#include <Engine/CMeshRender.h>
+#include <Engine/CMaterial.h>
+#include <Engine/CTransform.h>
 
-#include "CMeshRender.h"
-#include "CMaterial.h"
-#include "CTransform.h"
-
-#include "CTimeMgr.h"
-#include "CKeyMgr.h"
+#include <Engine/CTimeMgr.h>
+#include <Engine/CKeyMgr.h>
 
 CScript_TestObj::CScript_TestObj()
 	: CScript(TYPE_INDEX(CScript_TestObj))

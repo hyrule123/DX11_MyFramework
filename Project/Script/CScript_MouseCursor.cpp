@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "CScript_MouseCursor.h"
 
-#include "CKeyMgr.h"
-#include "CRenderMgr.h"
-#include "CCamera.h"
-#include "CTransform.h"
-#include "CCollider.h"
+#include <Engine/CKeyMgr.h>
+#include <Engine/CRenderMgr.h>
+#include <Engine/CCamera.h>
+#include <Engine/CTransform.h>
+#include <Engine/CCollider.h>
 
-#include "CGameObject.h"
+#include <Engine/CGameObject.h>
 
 
 CScript_MouseCursor::CScript_MouseCursor()

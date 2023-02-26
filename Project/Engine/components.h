@@ -6,6 +6,7 @@
 #include "CCollider2D_Circle.h"
 #include "CCollider2D_OBB.h"
 #include "CCollider2D_Rect.h"
+#include "CCollider2D_Point.h"
 //#include "CCollider3D.h"
 #include "CLight2D.h"
 #include "CCamera.h"

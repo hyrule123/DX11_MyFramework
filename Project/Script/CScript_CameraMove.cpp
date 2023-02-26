@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "CScript_CameraMove.h"
 
-#include "CTransform.h"
-#include "CCamera.h"
+#include <Engine/CTransform.h>
+#include <Engine/CCamera.h>
 
 //마우스 좌표 받아오는 용도
-#include "CKeyMgr.h"
-#include "CTimeMgr.h"
+#include <Engine/CKeyMgr.h>
+#include <Engine/CTimeMgr.h>
 
 CScript_CameraMove::CScript_CameraMove() 
 	: CScript(TYPE_INDEX(CScript_CameraMove))

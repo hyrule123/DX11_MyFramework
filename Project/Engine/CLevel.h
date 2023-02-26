@@ -7,6 +7,12 @@ class CGameObject;
 class CLevel :
     public CEntity
 {
+    CLONE(CLevel);
+public:
+    CLevel();
+    ~CLevel();
+
+
 private:
     CLayer*     m_arrLayer[MAX_LAYER];
     eLEVEL_STATE m_CurState;
@@ -33,10 +39,7 @@ public:
     //Remove
     void RemoveDestroyed();
 
-    CLONE(CLevel);
-public:
-    CLevel();
-    ~CLevel();
+
 };
 
 inline CLayer* CLevel::GetLayer(UINT _iLayer)

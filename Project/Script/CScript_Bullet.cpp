@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "CScript_Bullet.h"
 
-#include "CTransform.h"
-#include "CTimeMgr.h"
+#include <Engine/CTransform.h>
+#include <Engine/CTimeMgr.h>
 
 void CScript_Bullet::init()
 {

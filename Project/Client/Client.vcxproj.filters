@@ -86,6 +86,9 @@
     <Filter Include="ImGui\02. UI_Object\04. UI_Outliner">
       <UniqueIdentifier>{3fe8da6a-3128-4c49-a977-6f6c8a1dbe10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{eeee9fd6-295c-4c7a-ae8d-8ba61baac0f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -197,6 +200,7 @@
     <ClInclude Include="CUI_MenuItem.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
+    <ClInclude Include="CTestLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -315,5 +319,6 @@
     <ClCompile Include="CUI_MenuItem.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
+    <ClCompile Include="CTestLevel.cpp" />
   </ItemGroup>
 </Project>

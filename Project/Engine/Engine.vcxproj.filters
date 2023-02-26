@@ -70,9 +70,6 @@
     <ClInclude Include="CScript.h">
       <Filter>Source\06. Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="CScript_Player.h">
-      <Filter>Source\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CConstBuffer.h">
       <Filter>Source\02. Device\ConstBuffer</Filter>
     </ClInclude>
@@ -103,9 +100,6 @@
     <ClInclude Include="CCamera.h">
       <Filter>Source\06. Component\07. Camera</Filter>
     </ClInclude>
-    <ClInclude Include="CScript_CameraMove.h">
-      <Filter>Source\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CRenderMgr.h">
       <Filter>Source\03. Manager\06. RenderMgr</Filter>
     </ClInclude>
@@ -115,17 +109,11 @@
     <ClInclude Include="CScriptHolder.h">
       <Filter>Source\06. Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="CScript_TestObj.h">
-      <Filter>Source\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CEventMgr.h">
       <Filter>Source\03. Manager\07. EventMgr</Filter>
     </ClInclude>
     <ClInclude Include="CPrefab.h">
       <Filter>Source\07. Resource\05. Prefab</Filter>
-    </ClInclude>
-    <ClInclude Include="CScript_Bullet.h">
-      <Filter>Source\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionMgr.h">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
@@ -196,9 +184,6 @@
     <ClInclude Include="CAnim2DAtlas.h">
       <Filter>Source\07. Resource\04. Animation</Filter>
     </ClInclude>
-    <ClInclude Include="CScript_MouseCursor.h">
-      <Filter>Source\Scripts</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -252,9 +237,6 @@
     <ClCompile Include="CScript.cpp">
       <Filter>Source\06. Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_Player.cpp">
-      <Filter>Source\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CConstBuffer.cpp">
       <Filter>Source\02. Device\ConstBuffer</Filter>
     </ClCompile>
@@ -282,9 +264,6 @@
     <ClCompile Include="CCamera.cpp">
       <Filter>Source\06. Component\07. Camera</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_CameraMove.cpp">
-      <Filter>Source\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CRenderMgr.cpp">
       <Filter>Source\03. Manager\06. RenderMgr</Filter>
     </ClCompile>
@@ -294,17 +273,11 @@
     <ClCompile Include="CScriptHolder.cpp">
       <Filter>Source\06. Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_TestObj.cpp">
-      <Filter>Source\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CEventMgr.cpp">
       <Filter>Source\03. Manager\07. EventMgr</Filter>
     </ClCompile>
     <ClCompile Include="CPrefab.cpp">
       <Filter>Source\07. Resource\05. Prefab</Filter>
-    </ClCompile>
-    <ClCompile Include="CScript_Bullet.cpp">
-      <Filter>Source\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
       <Filter>Source\03. Manager\08. CollisionMgr</Filter>
@@ -366,9 +339,6 @@
     <ClCompile Include="CAnim2DAtlas.cpp">
       <Filter>Source\07. Resource\04. Animation</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_MouseCursor.cpp">
-      <Filter>Source\Scripts</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -400,9 +370,6 @@
     </Filter>
     <Filter Include="Source\06. Component\Script">
       <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Scripts">
-      <UniqueIdentifier>{e03b309e-cd1a-4fc9-bde6-af05087411c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\02. Device\ConstBuffer">
       <UniqueIdentifier>{57b55dc8-c509-4d81-8671-8f3269f50b93}</UniqueIdentifier>

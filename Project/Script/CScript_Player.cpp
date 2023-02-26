@@ -1,19 +1,20 @@
 #include "pch.h"
 #include "CScript_Player.h"
 
-#include "CMeshRender.h"
-#include "CMaterial.h"
-#include "CTransform.h"
+#include "CScript_Bullet.h"
 
-#include "CTimeMgr.h"
-#include "CKeyMgr.h"
+#include <Engine/CMeshRender.h>
+#include <Engine/CMaterial.h>
+#include <Engine/CTransform.h>
+
+#include <Engine/CTimeMgr.h>
+#include <Engine/CKeyMgr.h>
 
 //Prefab instantiate
-#include "CResMgr.h"
-#include "CEventMgr.h"
-#include "CScript_Bullet.h"
-#include "CScriptHolder.h"
+#include <Engine/CResMgr.h>
+#include <Engine/CEventMgr.h>
 
+#include <Engine/CScriptHolder.h>
 
 CScript_Player::CScript_Player()
 	: CScript(TYPE_INDEX(CScript_Player))

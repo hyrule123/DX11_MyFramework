@@ -1,5 +1,7 @@
 #pragma once
-#include "CScript.h"
+
+#include <Engine/CScript.h>
+
 class CScript_Bullet :
     public CScript
 {

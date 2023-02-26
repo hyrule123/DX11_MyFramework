@@ -1,7 +1,6 @@
 #pragma once
-#include "CScript.h"
 
-
+#include <Engine/CScript.h>
 
 class CScript_Player :
     public CScript
