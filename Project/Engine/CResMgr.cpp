@@ -44,7 +44,7 @@ void CResMgr::CreateResClassTypeIndex()
 	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMesh)), eRES_TYPE::MESHDATA));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMaterial)), eRES_TYPE::MATERIAL));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CTexture)), eRES_TYPE::TEXTURE));
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CAnim2DAtlas)), eRES_TYPE::ANIM2D_SPRITE));
+	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CAnim2DAtlas)), eRES_TYPE::ANIM2D_ATLAS));
 	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CSound)), eRES_TYPE::SOUND));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CPrefab)), eRES_TYPE::PREFAB));
 	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CGraphicsShader)), eRES_TYPE::GRAPHICS_SHADER));
@@ -504,8 +504,14 @@ void CResMgr::CreateDefaultAnimAtlas()
 
 		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
 
-		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_ATTACK, 2u, 2u, 0.1f);
+		vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
+		Atlas->AddAnim2D_vecRowIndex(RESOURCE::ANIM2D::MARINE_ATTACK, row, 0.6f);
 
+		row.clear();
+		
+		row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
+		Atlas->AddAnim2D(RESOURCE::ANIM2D::MARINE_DEATH, row, 1.f);
+		
 
 		AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::MARINE_ATLAS, Atlas);
 	}

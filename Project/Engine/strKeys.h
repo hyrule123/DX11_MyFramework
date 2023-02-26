@@ -71,6 +71,7 @@ namespace RESOURCE
 		inline constexpr const char* MARINE_MOVE = "MarineMove";
 		inline constexpr const char* MARINE_ATTACK = "MarineAttack";
 		inline constexpr const char* MARINE_ATTACKSTART = "MarineAttackStart";
+		inline constexpr const char* MARINE_DEATH = "MarineDeath";
 		
 	}
 }

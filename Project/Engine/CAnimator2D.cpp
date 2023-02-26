@@ -166,33 +166,31 @@ void CAnimator2D::UpdateData()
     //재생할 애니메이션이나 선택된 애니메이션이 없을 시 애니메이션 사용 설정을 해제하고 return
     CGameObject* pOwner = GetOwner();
 
-    //기존의 플래그값을 받아옴
-    int iAnimFlag = pOwner->GetMtrlScalarParam_Int(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX);
+    //기존의 플래그값을 받아와서 플래그를 꺼 준뒤 데이터를 다시 설정해준다.
+    int iAnimFlag = pOwner->GetMtrlScalarParam_Int(MTRL_SCALAR_STD2D_FLAG);
     if (nullptr == m_pCurAnim)
     {
-        iAnimFlag &= ~((int)eANIM2D_FLAG::USEANIM);
-        iAnimFlag &= ~((int)eANIM2D_FLAG::USEPIVOT);
+        iAnimFlag &= ~((int)eMTRL_SCALAR_STD2D_FLAG::USEANIM);
+        iAnimFlag &= ~((int)eMTRL_SCALAR_STD2D_FLAG::USEPIVOT);
 
         pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
         pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
         return;
     }
 
-
     //플래그값 추가 및 설정
-    iAnimFlag |= (int)eANIM2D_FLAG::USEANIM;
+    iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::USEANIM;
 
     if (Vec2(0.5f, 0.5f) != m_pCurAnim->vPivot)
-        iAnimFlag |= (int)eANIM2D_FLAG::USEPIVOT;
+        iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::USEPIVOT;
     else
-        iAnimFlag &= ~(int)eANIM2D_FLAG::USEPIVOT;
+        iAnimFlag &= ~(int)eMTRL_SCALAR_STD2D_FLAG::USEPIVOT;
 
     if (true == m_bFlipX)
-        iAnimFlag |= (int)eANIM2D_FLAG::NEEDFLIPX;
+        iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::NEEDFLIPX;
     else
-        iAnimFlag &= ~(int)eANIM2D_FLAG::NEEDFLIPX;
+        iAnimFlag &= ~(int)eMTRL_SCALAR_STD2D_FLAG::NEEDFLIPX;
     
-
 
     pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
     pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
@@ -324,9 +322,9 @@ void CAnimator2D::CalculateDirectionalColHalfFlipAtlas()
         idx = NumDirection - idx;
 
         //12시 방향과 6시 방향 스프라이트는 플립하지 않음.
-        if (idx == m_pCurAnim->uColTotal - 1u || idx == 0)
-            m_bFlipX = false;
-        else
+        //if (idx == m_pCurAnim->uColTotal - 1u || idx == 0)
+        //    m_bFlipX = false;
+        //else
             m_bFlipX = true;
     }
     else

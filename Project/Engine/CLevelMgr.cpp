@@ -88,8 +88,7 @@ void CLevelMgr::init()
 	
 	// 오브젝트 생성
 
-	for (int i = 0; i < 10; ++i)
-	//int i = 1;
+	for (int i = 0; i < 1; ++i)
 	{
 		CGameObject* pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
@@ -98,15 +97,16 @@ void CLevelMgr::init()
 		pPlayer->Transform()->SetLockRotation(true);
 		pPlayer->AddComponent(new CMeshRender);
 
-		if(1 == i)
+		if(0 == i)
 			pPlayer->AddScript(new CPlayerScript);
 
 		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::MARINE);
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
-		pPlayer->SetMtrlScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+		pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+		pPlayer->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USECOLORKEY, true);
 
-		pPlayer->MeshRender()->SetMesh(RectMesh);
+		pPlayer->MeshRender()->SetMesh(CircleMesh);
 		pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
 
 		//pPlayer->AddComponent(new CLight2D);
@@ -116,7 +116,7 @@ void CLevelMgr::init()
 
 		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCE::TEXTURE::MARINE_ATLAS);
 		pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
-		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::MARINE_IDLE, eANIM_LOOPMODE::NONE, false);
+		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
 
 		
 		pPlayer->AddComponent(new CCollider2D_OBB);

@@ -36,7 +36,7 @@ bool CTilemap::render(eCAMERA_INDEX _eCamIdx)
 {
 	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == GetMesh() || nullptr == GetCurMaterial())
-		return true;
+		return false;
 
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
@@ -60,8 +60,8 @@ bool CTilemap::render(eCAMERA_INDEX _eCamIdx)
 	//렌더링 진행
 	GetMesh()->render();
 
-	//드로우콜이 발생했으므로 true 반환
-	return true;
+	//드로우콜이 발생했으므로 false 반환
+	return false;
 }
 
 void CTilemap::BindData()

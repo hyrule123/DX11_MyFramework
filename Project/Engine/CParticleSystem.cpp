@@ -86,9 +86,9 @@ void CParticleSystem::finaltick()
 
 bool CParticleSystem::render(eCAMERA_INDEX _eCamIdx)
 {
-	//true 반환해서 인스턴싱 필요없다고 전달
+	//false 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
-		return true;
+		return false;
 
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
@@ -105,8 +105,8 @@ bool CParticleSystem::render(eCAMERA_INDEX _eCamIdx)
 
 	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
 
-	//드로우콜이 발생했으므로 true 반환
-	return true;
+	//드로우콜이 발생했으므로 -> 인스턴싱 필요 없다고 반환
+	return false;
 }
 
 

@@ -141,6 +141,8 @@ void CGameObject::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* 
 
 
 
+
+
 void CGameObject::init()
 {
 	m_bInitialized = true;

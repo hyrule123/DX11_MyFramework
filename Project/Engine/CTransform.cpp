@@ -19,6 +19,10 @@ CTransform::CTransform()
 	, m_bInheritScale(true)
 	, m_bInheritRot(true)
 	, m_bSizeUpdated(true)
+	, m_bLockRot()
+	, m_bNeedMyUpdate(true)
+	, m_bNeedParentUpdate(true)
+	, m_fLongestDiagonalLen()
 	//Matrix¿Í Vector º¯¼ö´Â ÀÚÃ¼ »ý¼ºÀÚ¸¦ ÅëÇØ ÃÊ±âÈ­ µÊ.
 {
 }
@@ -53,6 +57,11 @@ void CTransform::finaltick()
 		m_matWorld = m_matRelative * m_matParent;
 
 		MATRIX matWorld = m_matSize * m_matWorld;
+
+		//Çà·ÄÀÇ 1 ~ 3 ºÎºÐÀ» ÀüºÎ Á¦°öÇÑ µÚ, Á¦°ö±ÙÀ» ¾º¿î´Ù. ±×·¯¸é °¡Àå ±ä ´ë°¢¼±ÀÇ ±æÀÌ°¡ ³ª¿Â´Ù.
+		//sqrt(11Á¦°ö + 12Á¦°ö + 13Á¦°ö + 21Á¦°ö + 22Á¦°ö + 23Á¦°ö + 31Á¦°ö + 32Á¦°ö + 33Á¦°ö)
+		m_fLongestDiagonalLen = sqrtf(matWorld.Axis((int)eAXIS3D::X).LengthSquared() + matWorld.Axis((int)eAXIS3D::Y).LengthSquared() + matWorld.Axis((int)eAXIS3D::Z).LengthSquared());
+		
 		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
 	}
 }

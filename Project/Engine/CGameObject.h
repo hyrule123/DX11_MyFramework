@@ -99,7 +99,9 @@ public:
     const vector<CGameObject*>& GetvecChilds() const { return m_vecChild; }
     size_t GetNumChilds() const { return m_vecChild.size(); }
 
+
     void SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
+    void SetMtrlScalarParam_IntFlag(eMTRLDATA_PARAM_SCALAR _intParam, INT32 _iFlag, bool _bOnOff);
 
     
     int GetMtrlScalarParam_Int(eMTRLDATA_PARAM_SCALAR _Param) const;
@@ -139,6 +141,30 @@ inline void CGameObject::SetLifeSpan(float _fLifeSpan)
         return;
 
     m_fLifeSpan = _fLifeSpan;
+}
+
+
+inline void CGameObject::SetMtrlScalarParam_IntFlag(eMTRLDATA_PARAM_SCALAR _intParam, INT32 _iFlag, bool _bOnOff)
+{
+    INT32* pFlag = nullptr;
+
+    switch (_intParam)
+    {
+    case eMTRLDATA_PARAM_SCALAR::INT_0: pFlag = &(m_MtrlScalarData.INT_0); break;
+
+    case eMTRLDATA_PARAM_SCALAR::INT_1: pFlag = &(m_MtrlScalarData.INT_1); break;
+
+    case eMTRLDATA_PARAM_SCALAR::INT_2: pFlag = &(m_MtrlScalarData.INT_2); break;
+
+    case eMTRLDATA_PARAM_SCALAR::INT_3: pFlag = &(m_MtrlScalarData.INT_3); break;
+
+    default: return;
+    }
+
+    if (true == _bOnOff)
+        (*pFlag) |= _iFlag;
+    else
+        (*pFlag) &= ~_iFlag;
 }
 
 

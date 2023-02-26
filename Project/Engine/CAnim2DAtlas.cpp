@@ -7,7 +7,7 @@
 #include "CStructBuffer.h"
 
 CAnim2DAtlas::CAnim2DAtlas()
-	: CRes(eRES_TYPE::ANIM2D_SPRITE)
+	: CRes(eRES_TYPE::ANIM2D_ATLAS)
 	, m_uColTotal()
 	, m_uRowTotal()
 {
@@ -168,6 +168,33 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFra
 	return &(pair.first->second);
 }
 
+tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot)
+{
+	tAnimFrameIdx frameIdx = {};
+	size_t size = _vecFrame.size();
+	for (size_t i = 0; i < size; i++)
+	{
+		frameIdx.vecFrame.push_back(tAnimFrame{ _vecFrame[i], });
+	}
+
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, frameIdx));
+
+	tAnimFrameIdx& Anim = pair.first->second;
+	Anim.uColTotal = 0u;
+	Anim.uRowTotal = 0u;
+
+	Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+
+	Anim.fFullPlayTime = _fFullPlayTime;
+	Anim.eAnimType = _eAnimType;
+	Anim.vPivot = _vPivot;
+	Anim.strAnimName = _strAnimKey;
+
+	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+
+	return &(pair.first->second);
+}
+
 tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
 	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
 )
@@ -261,6 +288,34 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, U
 	default:
 		break;
 	}
+
+	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, Anim));
+	return &(pair.first->second);
+}
+
+tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot)
+{
+	tAnimFrameIdx Anim = {};
+
+	size_t rowsize = _vecRow.size();
+	for (UINT col = 0; col < m_uColTotal; ++col)
+	{
+		for (size_t row = 0; row < rowsize; row++)
+		{
+			Anim.vecFrame.push_back(tAnimFrame{ (UINT)(col * m_uRowTotal + _vecRow[row]) ,});
+		}
+	}
+
+	Anim.uColTotal = m_uColTotal;
+	Anim.uRowTotal = (UINT)rowsize;
+	Anim.uNumFrame = Anim.uRowTotal;
+
+	Anim.fFullPlayTime = _fFullPlayTime;
+	Anim.eAnimType = eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP;
+	Anim.vPivot = _vPivot;
+	Anim.strAnimName = _strAnimKey;
 
 	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
 

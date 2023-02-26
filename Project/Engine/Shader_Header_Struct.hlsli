@@ -130,7 +130,11 @@ struct tMtrlTexData
 
 //카메라 기준으로 렌더링되므로 카메라의 행렬은 상수버퍼를 통해 전달되고 있음.
 //필요할때만 카메라 행렬을 갖다 쓰면 됨
+
+//g_CBuffer_matCam에서 사용
 #define MTRL_SCALAR_MAT_VP                     MTRLDATA_PARAM_SCALAR(MAT_0)
+
+//CBuffer 또는 SBuffer에서 사용
 #define MTRL_SCALAR_MAT_WVP                     MTRLDATA_PARAM_SCALAR(MAT_0)
 #define MTRL_SCALAR_MAT_WORLD                   MTRLDATA_PARAM_SCALAR(MAT_1)
 
@@ -145,10 +149,12 @@ struct tMtrlTexData
 #define MTRL_SCALAR_STD2D_PIVOT                 MTRLDATA_PARAM_SCALAR(VEC2_3)
 #define MTRL_SCALAR_STD2D_COLORKEY              MTRLDATA_PARAM_SCALAR(VEC4_0)
 
-ENUM_BEGIN(eANIM2D_FLAG, int)
-    ENUM_MEMBER(USEANIM, int, 1<<0)
-    ENUM_MEMBER(USEPIVOT, int, 1<<1)
-    ENUM_MEMBER(NEEDFLIPX, int, 1<<2)
+ENUM_BEGIN(eMTRL_SCALAR_STD2D_FLAG, int)
+    ENUM_MEMBER(USEWVP, int, 1 << 0) //TRUE == WVP 행렬로 전달 FALSE == VP 행렬 따로 전달
+    ENUM_MEMBER(USEANIM, int, 1<<1)
+    ENUM_MEMBER(USEPIVOT, int, 1<<2)
+    ENUM_MEMBER(NEEDFLIPX, int, 1<<3)
+    ENUM_MEMBER(USECOLORKEY, int, 1<<4)
 ENUM_END
 
 

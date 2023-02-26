@@ -38,8 +38,23 @@ bool CMeshRender::render(eCAMERA_INDEX _eCamIdx)
 	Ptr<CMesh> pmesh = GetMesh();
 	Ptr<CMaterial> pmtrl = GetCurMaterial();
 
-	//Transform에 월드행렬을 반영한 WVP행렬을 업데이트해 달라고 요청
-	//Transform()->UpdateData();
+
+	//재질에 자신의 Mtrl Scalar Data를 등록해 놓고 만약 정점 갯수가 6개보다 많다면
+	//플래그를 켜주고 WVP 행렬 형태로 전송한다.
+	if (6 < pmesh->GetIdxBufferCount())
+	{
+		Matrix matWVP = pOwner->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD);
+		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USEWVP, true);
+
+
+		matWVP *= g_matCam[(int)_eCamIdx].matVP;
+		pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_WVP, matWVP.m);
+	}
+	else
+		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USEWVP, false);
+
+
+
 
 	//인스턴싱이 설정되어있을 경우(공유 재질을 사용중일 경우)
 	if (true == GetCurMaterial()->GetInstencedRender())
@@ -59,11 +74,12 @@ bool CMeshRender::render(eCAMERA_INDEX _eCamIdx)
 		//	pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_PROJ, g_matCam.matView.m);
 
 
-		//재질에 자신의 Mtrl Scalar Data를 등록해 놓고
+
+
 		pmtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 
-		//false를 반환해서 드로우콜을 하지 않았음을 전달한다.
-		return false;
+		//true를 반환해서 드로우콜을 하지 않았음을 전달한다.
+		return true;
 	}
 
 	else//개별 고유 재질을 사용중일 경우
@@ -81,7 +97,7 @@ bool CMeshRender::render(eCAMERA_INDEX _eCamIdx)
 
 		pmesh->renderInstanced(InstancingCount);
 		
-		//true를 반환해서 드로우콜을 호출했다고 전달
-		return true;
+		//false를 반환해서 인스턴싱이 필요하지 않다고 전달
+		return false;
 	}
 }

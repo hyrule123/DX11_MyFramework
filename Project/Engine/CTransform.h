@@ -24,6 +24,8 @@ private:
     Vec3    m_vRelativeScale;
     Vec3    m_vRelativeRot;
 
+    float m_fLongestDiagonalLen;
+
     //앞, 위, 오른쪽으로 나타내는 직관적인 방향 정보
     //eDIR_TYPE 열거체를 사용.
     Vec3    m_vRelativeDir[(UINT)eDIR_TYPE::END];
@@ -90,7 +92,7 @@ public:
     //이 길이를 간이 충돌체 한 변의 반의 길이로 사용하면, 
     //어떤 도형이던 간에 안에 들어오는 형태의 정사각형 또는 정육면체를 만들 수 있다.(간이 충돌체로 적합)
     //사이즈 또는 스케일값이 변했을 경우 간이 충돌체 정보를 새로 생성.
-    float GetAABBSideLen() const;
+    float GetAABBSideLen() const { return m_fLongestDiagonalLen; }
 
     bool IsUpdated() const { return (m_bNeedMyUpdate || m_bNeedParentUpdate); }
     bool GetSizeUpdated() const { return m_bSizeUpdated; }
@@ -149,10 +151,10 @@ inline void CTransform::SetMyUpdate()
     GetOwner()->SetChildTransformToUpdate();
 }
  
-inline float CTransform::GetAABBSideLen() const
-{
-    return (Vec3(m_matSize._11, m_matSize._22, m_matSize._33) * GetWorldScale()).Length();
-}
+//inline float CTransform::GetAABBSideLen() const
+//{
+//    return (Vec3(m_matSize._11, m_matSize._22, m_matSize._33) * GetWorldScale()).Length();
+//}
 
 inline Vec3 CTransform::GetWorldScale() const
 {

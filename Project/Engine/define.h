@@ -62,7 +62,7 @@ enum class eRES_TYPE
 	MATERIAL,
 	
 	TEXTURE,		// ¿ÃπÃ¡ˆ
-	ANIM2D_SPRITE,
+	ANIM2D_ATLAS,
 	SOUND,
 
 	PREFAB,

@@ -17,6 +17,10 @@ private:
 	void*					m_pIdxSys;
 
 public:
+	//이거 가지고 W / VP 행렬을 나눠서 보낼지, WVP 행렬을 만들어서 보낼지를 결정
+	UINT GetIdxBufferCount() const { return m_IdxCount; }
+
+public:
 	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
 
 private:

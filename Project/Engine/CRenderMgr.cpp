@@ -144,13 +144,15 @@ void CRenderMgr::renderAll()
     // 
     //2D에는 메쉬의 정점이 대부분 4개이므로 GPU와 작업을 좀 분담하려고 함
     //나중에 3D 과정 가면 코드를 변경할 것
+    //나중에 혹시 별도의 렌더타겟에 렌더링하는 코드가 생길 경우
+    //해당 파트도 처리해줄 방법을 가지고 있어야 함.
     for (UINT i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
     {
         size_t size = m_arrvecShaderDomain[i].size();
         for (size_t j = 0; j < size; j++)
         {
-            //만약 render 메소드를 호출했는데 드로우콜이 발생하지 않았다면(==인스턴싱으로 그리겠다고 설정되어 있으면)
-            if (false == m_arrvecShaderDomain[i][j].pRenderCom->render(m_arrvecShaderDomain[i][j].pCam->GetCamIndex()))
+            //만약 render 메소드를 호출했는데 true가 반환되었을 경우(==인스턴싱이 필요하다)
+            if (true == m_arrvecShaderDomain[i][j].pRenderCom->render(m_arrvecShaderDomain[i][j].pCam->GetCamIndex()))
             {
                 //인스턴싱 대기열 map에 추가
                 DWORD_PTR pMtrl = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetCurMaterial().Get());

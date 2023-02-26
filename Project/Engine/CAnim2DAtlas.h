@@ -89,6 +89,8 @@ public:
          float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
 
+    tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f));
+
     //애니메이션을 만들때는 전체 열의 갯수만 받음. 나머지는 안에서 계산함
     tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
@@ -98,6 +100,9 @@ public:
         const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
+
+    //각 스프라이트가 연속된 정수가 아닌 떨어진 숫자일 경우 사용
+    tAnimFrameIdx* AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f));
     //=================================================================================================================
 
 

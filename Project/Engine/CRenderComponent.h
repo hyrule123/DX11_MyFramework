@@ -54,7 +54,7 @@ public:
 public:
     //이 클래스를 상속받는 하위 컴포넌트들은 인스턴싱을 하는지 아닌지 여부에 따라서 각자 설정해줘야함.
     //인자 : 현재 render를 호출한 카메라의 번호
-    //반환값 : drawcall 여부(인스턴싱일 경우 바로 drawcall을 호출하지 않으므로)
+    //반환값 : 인스턴싱 여부(드로우콜이 일어날 경우 false 반환, 인스턴싱을 위한 데이터 전달만 했을 경우 true 반환.)
     virtual bool render(eCAMERA_INDEX _eCamIdx) = 0;
 
 
