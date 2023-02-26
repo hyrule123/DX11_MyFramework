@@ -10,9 +10,13 @@
 #include <Engine/strKeys.h>
 #include <Engine/CGameObject.h>
 #include <Engine/components.h>
-
+#include <Engine/CCollisionMgr.h>
+#include <Engine/CTimeMgr.h>
 #include <Engine/CCS_SetColor.h>
+
 #include <Script/CScript_Player.h>
+#include <Script/CScript_MouseCursor.h>
+#include <Script/CScript_Bullet.h>
 
 void CreateTestLevel()
 {

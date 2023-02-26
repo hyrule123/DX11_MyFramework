@@ -1,10 +1,12 @@
 #pragma once
 
+#define JSON_DLL
+
 #ifdef _DEBUG
-#pragma comment (lib, "UtilLib/UtilLib_Debug")
+#pragma comment (lib, "UtilDLL/UtilDLL_Debug")
 
 #else
-#pragma comment (lib, "UtilLib/UtilLib")
+#pragma comment (lib, "UtilDLL/UtilDLL")
 
 #endif
-#include <UtilLib/json.h>
+#include <UtilDLL/json.h>

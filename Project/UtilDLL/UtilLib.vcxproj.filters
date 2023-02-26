@@ -12,10 +12,14 @@
     <ClInclude Include="json-cpp\json-forwards.h">
       <Filter>JSON-CPP</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="framework.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="json-cpp\jsoncpp.cpp">
       <Filter>JSON-CPP</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="UtilLib.cpp" />
   </ItemGroup>
 </Project>

@@ -10,11 +10,15 @@
 #include <Engine/CMeshRender.h>
 #include <Engine/CCamera.h>
 #include <Engine/CTransform.h>
-#include <Engine/CScript_CameraMove.h>
+#include <Script/CScript_CameraMove.h>
 
 #include <Engine/strKeys.h>
 
 #include <Engine/Shader_Debug_0_Header.hlsli>
+
+
+//테스트용 레벨
+#include "CTestLevel.h"
 
 
 CEditorObjMgr::CEditorObjMgr()
@@ -35,6 +39,8 @@ CEditorObjMgr::~CEditorObjMgr()
 
 void CEditorObjMgr::init()
 {
+	::CreateTestLevel();
+
 	CreateDebugShape();
 
 	CreateEditorCamera();
