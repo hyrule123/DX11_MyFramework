@@ -35,6 +35,8 @@
 
 #include "CTimeMgr.h"
 
+#include "CCollider2D_Point.h"
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {
@@ -88,7 +90,7 @@ void CLevelMgr::init()
 	
 	// 오브젝트 생성
 
-	for (int i = 0; i < 1; ++i)
+	for (int i = 0; i < 2; ++i)
 	{
 		CGameObject* pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
@@ -112,14 +114,17 @@ void CLevelMgr::init()
 		//pPlayer->AddComponent(new CLight2D);
 		//pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
 
+		
 		pPlayer->AddComponent(new CAnimator2D);
 
 		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCE::TEXTURE::MARINE_ATLAS);
 		pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
 		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
 
-		
-		pPlayer->AddComponent(new CCollider2D_OBB);
+		if (0 == i)
+			pPlayer->AddComponent(new CCollider2D_Point);
+		else
+			pPlayer->AddComponent(new CCollider2D_OBB);
 
 		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
 	}

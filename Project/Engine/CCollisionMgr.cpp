@@ -227,6 +227,8 @@ bool CCollisionMgr::CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2
 
 bool CCollisionMgr::CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint)
 {
+
+
 	return false;
 }
 
@@ -254,6 +256,7 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 	static const size_t vec2_2size = sizeof(Vec2) * 2;
 
 	//각 축의 정보를 순회하기 편하도록 가져온다.
+	//OBB 구조체의 가장 첫 부분에는 X축, Y축에 대한 정보가 들어 있음. memcpy로 가져와주면 됨.
 	Vec2 arrVec[4] = {};
 	memcpy_s(&arrVec[0], vec2_2size, &OBB_1, vec2_2size);
 	memcpy_s(&arrVec[2], vec2_2size, &OBB_2, vec2_2size);
@@ -290,7 +293,60 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 
 bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollider2D* _pColPoint)
 {
-	return false;
+	const tOBB2D& OBBInfo = static_cast<CCollider2D_OBB*>(_pColOBB2D)->GetColliderInfo();
+	Vec2 vPointToOBBCenter = _pColPoint->GetCenterPos();
+
+	//점의 위치로부터 OBB의 중심 위치까지 뺴준다.
+	vPointToOBBCenter -= OBBInfo.m_vCenterPos;
+
+	for (int i = 0; i < (int)eAXIS2D::END; ++i)
+	{
+		//사영의 대상이 될 축을 단위벡터로 전환
+		Vec2 Norm = OBBInfo.m_vAxis[i];
+		Norm.Normalize();
+
+		//각 축을 사영 대상 축에 사영하고, 0.5를 곱해서 반 길이로 줄인다.(중심부터의 거리이므로)
+		float NormLen = 0.f;
+		NormLen += fabs(Norm.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::X]));
+		NormLen += fabs(Norm.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::Y]));
+		NormLen *= 0.5f;
+
+		//마찬가지로 점과 OBB의 중심점도 같은 축에 사영한다.
+		float PointToOBBCenterProj = fabs(Norm.Dot(vPointToOBBCenter));
+		
+		//만약 XY축을 사영한 길이가 중점 사이의 거리보다 길 경우 충돌이 아니다.
+		if (PointToOBBCenterProj > NormLen)
+			return false;
+	}
+
+	////X축 사영
+	//Vec2 NormX = OBBInfo.m_vAxis[(int)eAXIS2D::X];
+	//NormX.Normalize();
+	//float NormXLen = 0.f;
+	//NormXLen += fabs(NormX.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::X]));
+	//NormXLen += fabs(NormX.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::Y]));
+	//NormXLen *= 0.5f;
+
+	//float PointToOBBCenterProjX = fabs(NormX.Dot(vPointToOBBCenter));
+
+	//if (PointToOBBCenterProjX > NormXLen)
+	//	return false;
+
+
+	//Vec2 NormY = OBBInfo.m_vAxis[(int)eAXIS2D::Y];
+	//NormY.Normalize();
+	//float NormYLen = 0.f;
+	//NormYLen += fabs(NormY.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::X]));
+	//NormYLen += fabs(NormY.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::Y]));
+	//NormYLen *= 0.5f;
+
+	//float PointToOBBCenterProjY = fabs(NormY.Dot(vPointToOBBCenter));
+
+	//if (PointToOBBCenterProjY > NormYLen)
+	//	return false;
+
+
+	return true;
 }
 
 
