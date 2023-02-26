@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "CTestObjScript.h"
+#include "CScript_TestObj.h"
 
 #include "pch.h"
-#include "CTestObjScript.h"
+#include "CScript_TestObj.h"
 
 #include "CMeshRender.h"
 #include "CMaterial.h"
@@ -11,30 +11,30 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
-CTestObjScript::CTestObjScript()
-	: CScript(TYPE_INDEX(CTestObjScript))
+CScript_TestObj::CScript_TestObj()
+	: CScript(TYPE_INDEX(CScript_TestObj))
 	, m_ColorKey(1.f, 1.f, 1.f, 1.f)
 	, m_MoveSpeed(400.f)
 	, m_TurningForceRad(XM_PI / 2.f)
 {
 }
 
-CTestObjScript::~CTestObjScript()
+CScript_TestObj::~CScript_TestObj()
 {
 }
 
-void CTestObjScript::BeginCollision(CCollider* _pCol)
+void CScript_TestObj::BeginCollision(CCollider* _pCol)
 {
 	GetOwner()->SetLifeSpan(2.f);
 }
 
-void CTestObjScript::init()
+void CScript_TestObj::init()
 {
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
 	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 }
 
-void CTestObjScript::tick()
+void CScript_TestObj::tick()
 {
 	
 	Vec3 Scale = Transform()->GetRelativeScale();

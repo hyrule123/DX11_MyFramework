@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CPlayerScript.h"
+#include "CScript_Player.h"
 
 #include "CMeshRender.h"
 #include "CMaterial.h"
@@ -11,29 +11,29 @@
 //Prefab instantiate
 #include "CResMgr.h"
 #include "CEventMgr.h"
-#include "CBulletScript.h"
+#include "CScript_Bullet.h"
 #include "CScriptHolder.h"
 
 
-CPlayerScript::CPlayerScript()
-	: CScript(TYPE_INDEX(CPlayerScript))
+CScript_Player::CScript_Player()
+	: CScript(TYPE_INDEX(CScript_Player))
 	, m_ColorKey(1.f, 1.f, 1.f, 1.f)
 	, m_MoveSpeed(400.f)
 	, m_TurningForceRad(XM_PI / 2.f)
 {
 }
 
-CPlayerScript::~CPlayerScript()
+CScript_Player::~CScript_Player()
 {
 }
 
-void CPlayerScript::init()
+void CScript_Player::init()
 {
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
 	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 }
 
-void CPlayerScript::tick()
+void CScript_Player::tick()
 {
 	Vec3 vCurPos = Transform()->GetRelativePos();
 	Vector3 vCurRot = Transform()->GetRelativeRot();
@@ -109,14 +109,14 @@ void CPlayerScript::tick()
 
 }
 
-void CPlayerScript::Shoot()
+void CScript_Player::Shoot()
 {
 	CGameObject* Bullet = CResMgr::GetInst()->FindRes<CPrefab>("Bullet")->Instantiate();
 
 	const Vec3& vPos = GetOwner()->Transform()->GetWorldPos();
 	const Vec3& vDir = GetOwner()->Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 
-	Bullet->ScriptHolder()->GetScript<CBulletScript>()->SetDefaultVal(vPos, vDir);
+	Bullet->ScriptHolder()->GetScript<CScript_Bullet>()->SetDefaultVal(vPos, vDir);
 
 	tEvent event = { eEVENT_TYPE::CREATE_OBJECT, (DWORD_PTR)Bullet, (DWORD_PTR)1 };
 

@@ -8,6 +8,14 @@ class CCollider;
 class CScript :
     public CEntity
 {
+public:
+    CScript() = delete;
+    CScript(std::type_index _TypeIndex);
+    CScript(const CScript& _other);
+    ~CScript();
+
+    CLONE(CScript)
+
 private:
     CGameObject* m_pOwner;
     const std::type_index m_TypeIndex;
@@ -30,12 +38,6 @@ public:
     virtual void OnCollision(CCollider* _other) {}
     virtual void EndCollision(CCollider* _other) {}
 
-public:
-    CScript() = delete;
-    CScript(std::type_index _TypeIndex);
-    CScript(const CScript& _other);
-    ~CScript();
 
-    CLONE(CScript)
 };
 

@@ -1,15 +1,15 @@
 #include "pch.h"
-#include "CBulletScript.h"
+#include "CScript_Bullet.h"
 
 #include "CTransform.h"
 #include "CTimeMgr.h"
 
-void CBulletScript::init()
+void CScript_Bullet::init()
 {
 	GetOwner()->Transform()->SetRelativePos(m_vDefaultPos);
 }
 
-void CBulletScript::tick()
+void CScript_Bullet::tick()
 {
 	Vec3 vPos = GetOwner()->Transform()->GetRelativePos();
 
@@ -22,20 +22,20 @@ void CBulletScript::tick()
 	//이벤트 매니저에 삭제 등록을 해놔야함
 }
 
-void CBulletScript::SetDefaultVal(const Vec3& _vPos, const Vec3& _vDir)
+void CScript_Bullet::SetDefaultVal(const Vec3& _vPos, const Vec3& _vDir)
 {
 	m_vDefaultPos = _vPos;
 	m_vBulletDir = _vDir;
 
 }
 
-CBulletScript::CBulletScript()
-	: CScript(TYPE_INDEX(CBulletScript))
+CScript_Bullet::CScript_Bullet()
+	: CScript(TYPE_INDEX(CScript_Bullet))
 	, m_fBulletSpeed(500.f)
 	, m_fTimeLeft(5.f)
 {
 }
 
-CBulletScript::~CBulletScript()	
+CScript_Bullet::~CScript_Bullet()	
 {
 }

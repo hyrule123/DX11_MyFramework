@@ -114,10 +114,10 @@ void CKeyMgr::tick()
 		GetCursorPos(&ptMousePos);		
 		ScreenToClient(CEngine::GetInst()->GetMainWnd(), &ptMousePos);
 		m_vPrevMousePos = m_vMousePos;
-		m_vMousePos = Vec2((float)ptMousePos.x, (float)ptMousePos.y);
+		m_vMousePos = Vec2((float)ptMousePos.x, fabsf(g_GlobalVal.vResolution.y - (float)ptMousePos.y));
 		m_vMouseDir = m_vMousePos - m_vPrevMousePos;
 		//윈도우 창 좌표계와 DX 좌표계의 y축은 서로 반대이므로
-		m_vMouseDir.y *= -1.f;
+		//m_vMouseDir.y *= -1.f;
 	}
 
 	// Window 가 focus 상태가 아니다

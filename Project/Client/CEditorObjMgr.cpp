@@ -10,7 +10,7 @@
 #include <Engine/CMeshRender.h>
 #include <Engine/CCamera.h>
 #include <Engine/CTransform.h>
-#include <Engine/CCameraMoveScript.h>
+#include <Engine/CScript_CameraMove.h>
 
 #include <Engine/strKeys.h>
 
@@ -224,7 +224,7 @@ void CEditorObjMgr::CreateEditorCamera()
 	m_pEditorCam->AddComponent(pTransform);
 	pTransform->SetRelativePos(Vec3(0.f, 0.f, -100.f));
 
-	m_pEditorCam->AddScript(new CCameraMoveScript);
+	m_pEditorCam->AddScript(new CScript_CameraMove);
 
 	CRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
 }

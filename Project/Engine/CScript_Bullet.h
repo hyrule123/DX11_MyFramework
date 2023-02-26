@@ -1,6 +1,6 @@
 #pragma once
 #include "CScript.h"
-class CBulletScript :
+class CScript_Bullet :
     public CScript
 {
 private:
@@ -16,8 +16,8 @@ public:
     void SetDefaultVal(const Vec3& _vPos, const Vec3& _vDir);
 
 
-    CLONE(CBulletScript);
+    CLONE(CScript_Bullet);
 public:
-    CBulletScript();
-    ~CBulletScript();
+    CScript_Bullet();
+    ~CScript_Bullet();
 };

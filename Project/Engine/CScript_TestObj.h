@@ -2,7 +2,7 @@
 #include "CScript.h"
 
 
-class CTestObjScript :
+class CScript_TestObj :
     public CScript
 {
 private:
@@ -17,9 +17,9 @@ public:
     virtual void init() override;
     virtual void tick() override;
 
-    CLONE(CTestObjScript);
+    CLONE(CScript_TestObj);
 public:
-    CTestObjScript();
-    ~CTestObjScript();
+    CScript_TestObj();
+    ~CScript_TestObj();
 };
 

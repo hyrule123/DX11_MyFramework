@@ -9,13 +9,14 @@
 #include "CMeshRender.h"
 
 //Scripts
-#include "CPlayerScript.h"
-#include "CTestObjScript.h"
-#include "CBulletScript.h"
+#include "CScript_Player.h"
+#include "CScript_TestObj.h"
+#include "CScript_Bullet.h"
 
 #include "CResMgr.h"
 
-#include "CCameraMoveScript.h"
+#include "CScript_CameraMove.h"
+#include "CScript_MouseCursor.h"
 
 //Camera Register
 #include "CRenderMgr.h"
@@ -100,7 +101,7 @@ void CLevelMgr::init()
 		pPlayer->AddComponent(new CMeshRender);
 
 		if(0 == i)
-			pPlayer->AddScript(new CPlayerScript);
+			pPlayer->AddScript(new CScript_Player);
 
 		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::MARINE);
 
@@ -129,6 +130,17 @@ void CLevelMgr::init()
 		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
 	}
 
+	CGameObject* pCursor = new CGameObject;
+	pCursor->AddComponent(new CTransform);
+	pCursor->AddComponent(new CCollider2D_Point);
+
+
+	pCursor->AddScript(new CScript_MouseCursor);
+
+	::SpawnGameObject(pCursor, Vec3(0.f, 0.f, 0.f), 0);
+
+	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
+
 	//for (int i = 0; i < 1000; ++i)
 	//{
 	//	
@@ -140,7 +152,7 @@ void CLevelMgr::init()
 	//	pPlayer->AddComponent(new CMeshRender);
 
 	//	//if(1 == i)
-	//	pPlayer->AddScript(new CPlayerScript);
+	//	pPlayer->AddScript(new CScript_Player);
 
 	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D_LIGHT);
 
@@ -215,7 +227,7 @@ void CLevelMgr::init()
 
 	//pTestObj2->MeshRender()->SetMaterial(pLightMtrl);
 
-	//pTestObj2->AddScript(new CTestObjScript);
+	//pTestObj2->AddScript(new CScript_TestObj);
 	//
 	//::SpawnGameObject(pTestObj2, Vec3(300.f, 300.f, 10.f), 1);
 
@@ -246,7 +258,7 @@ void CLevelMgr::init()
 	//		pTestObj3->MeshRender()->SetMaterial(TestMtrl);
 	//		pTestObj3->AddComponent(new CCollider2D_OBB);
 
-	//		//pTestObj3->AddScript(new CTestObjScript);
+	//		//pTestObj3->AddScript(new CScript_TestObj);
 
 	//		SpawnGameObject(pTestObj3, Vec3(startxy + 110.f * i, startxy + 110.f * j, 10.f), 1);
 	//		//m_pCurLevel->AddGameObject(pTestObj3, 1);
@@ -272,7 +284,7 @@ void CLevelMgr::init()
 
 	//pTestObj3->AddComponent(new CCollider2D_OBB);
 
-	////pTestObj3->AddScript(new CTestObjScript);
+	////pTestObj3->AddScript(new CScript_TestObj);
 
 	//SpawnGameObject(pTestObj3, Vec3(100.f, 100.f, 10.f), 1);
 	////m_pCurLevel->AddGameObject(pTestObj3, 1);
@@ -295,7 +307,7 @@ void CLevelMgr::init()
 	//	pParticle->CreateParticle();
 	//	pParticleObj->AddComponent(pParticle);
 
-	//	pParticleObj->AddScript(new CPlayerScript);
+	//	pParticleObj->AddScript(new CScript_Player);
 
 	//	SpawnGameObject(pParticleObj, Vec3(-100.f, -100.f, 10.f), 1);
 	//}
@@ -337,7 +349,7 @@ void CLevelMgr::init()
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		pObj->AddComponent(new CTransform);
-		//pObj->AddScript(new CCameraMoveScript);
+		//pObj->AddScript(new CScript_CameraMove);
 
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), 1);
 		//m_pCurLevel->AddGameObject(pObj, 1);
@@ -355,7 +367,7 @@ void CLevelMgr::init()
 		pPrefab->MeshRender()->SetMaterial(pMtrl);
 		pPrefab->MeshRender()->SetMesh(pMesh);
 
-		pPrefab->AddScript(new CBulletScript);
+		pPrefab->AddScript(new CScript_Bullet);
 
 		pPrefab->AddComponent(new CTransform);
 

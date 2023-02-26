@@ -3,7 +3,7 @@
 
 
 
-class CPlayerScript :
+class CScript_Player :
     public CScript
 {
 private:
@@ -21,9 +21,9 @@ private:
 
     
 public:
-    CPlayerScript();
-    ~CPlayerScript();
+    CScript_Player();
+    ~CScript_Player();
 
-    CLONE(CPlayerScript);
+    CLONE(CScript_Player);
 };
 

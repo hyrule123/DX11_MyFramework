@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CCameraMoveScript.h"
+#include "CScript_CameraMove.h"
 
 #include "CTransform.h"
 #include "CCamera.h"
@@ -8,18 +8,18 @@
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
 
-CCameraMoveScript::CCameraMoveScript() 
-	: CScript(TYPE_INDEX(CCameraMoveScript))
+CScript_CameraMove::CScript_CameraMove() 
+	: CScript(TYPE_INDEX(CScript_CameraMove))
 	, m_CamSpeed(400.f)
 	, m_TurningForceRad(XM_PI)
 {
 }
 
-CCameraMoveScript::~CCameraMoveScript()
+CScript_CameraMove::~CScript_CameraMove()
 {
 }
 
-void CCameraMoveScript::Camera2DMove()
+void CScript_CameraMove::Camera2DMove()
 {
 	CTransform* pTransform = Transform();
 	Vec3 CamPos = pTransform->GetRelativePos();
@@ -72,7 +72,7 @@ void CCameraMoveScript::Camera2DMove()
 	pTransform->SetRelativePos(CamPos);
 }
 
-void CCameraMoveScript::Camera3DMove()
+void CScript_CameraMove::Camera3DMove()
 {
 	CTransform* pTransform = Transform();
 	Vec3 CamPos = pTransform->GetRelativePos();
@@ -120,7 +120,7 @@ void CCameraMoveScript::Camera3DMove()
 	pTransform->SetRelativeRot(CamRot);
 }
 
-void CCameraMoveScript::tick()
+void CScript_CameraMove::tick()
 {
 	ePROJ_TYPE ProjType = Camera()->GetProjType();
 	bool VTapped = false;

@@ -1,8 +1,15 @@
 #pragma once
 #include "CScript.h"
-class CCameraMoveScript :
+
+class CScript_CameraMove :
     public CScript
 {
+public:
+    CScript_CameraMove();
+    virtual ~CScript_CameraMove();
+
+    CLONE(CScript_CameraMove);
+
 private:
     float m_CamSpeed;
     float m_TurningForceRad;
@@ -14,10 +21,6 @@ protected:
 public:
     virtual void tick() override;
 
-public:
-    CCameraMoveScript();
-    ~CCameraMoveScript();
 
-    CLONE(CCameraMoveScript);
 };
 

@@ -44,7 +44,7 @@ public:
     void AddLayerFlag(UINT32 _iLayerNum);
     void OffLayerFlag(UINT32 _iLayerNum);
 
-    
+    const Matrix& GetViewMatrix() const { return m_matView; }
     Matrix GetViewProjMatrix() const { return (m_matView * m_matProj); }
 
 public:
