@@ -5,45 +5,61 @@
 
 inline tMtrlScalarData GetMtrlScalarData(uint _uInstanceID)
 {
+	tMtrlScalarData Data = (tMtrlScalarData) 0.f;
+    
 	if (0 != g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR].uSBufferCount)
 	{
-		return g_SBuffer_Mtrl_Scalar[_uInstanceID];
+		Data = g_SBuffer_Mtrl_Scalar[_uInstanceID];
+	}
+	else
+	{
+		Data = g_CBuffer_Mtrl_Scalar;
 	}
     
-	return g_CBuffer_Mtrl_Scalar;
+	return Data;
 }
 
 
 float4 SampleMtrlTex(uint _uTexRegisterIdx, SamplerState _Sampler, float2 _vUV)
 {
+	float4 SampleColor = (float4) 0.f;
+    
 	switch (_uTexRegisterIdx)
 	{
 		case eMTRLDATA_PARAM_TEX::_0:
-			return g_tex_0.Sample(_Sampler, _vUV);
+			SampleColor = g_tex_0.Sample(_Sampler, _vUV);
+			break;
 
 		case eMTRLDATA_PARAM_TEX::_1:
-			return g_tex_1.Sample(_Sampler, _vUV);
+			SampleColor = g_tex_1.Sample(_Sampler, _vUV);
+			break;
 
 		case eMTRLDATA_PARAM_TEX::_2:
-			return g_tex_2.Sample(_Sampler, _vUV);
+			SampleColor = g_tex_2.Sample(_Sampler, _vUV);
+			break;
             
 		case eMTRLDATA_PARAM_TEX::_3:
-			return g_tex_3.Sample(_Sampler, _vUV);
+			SampleColor = g_tex_3.Sample(_Sampler, _vUV);
+			break;
             
 		case eMTRLDATA_PARAM_TEX::_4:
-			return g_tex_4.Sample(_Sampler, _vUV);
+			SampleColor = g_tex_4.Sample(_Sampler, _vUV);
+			break;
             
 		case eMTRLDATA_PARAM_TEX::_5:
-			return g_tex_5.Sample(_Sampler, _vUV);
+			SampleColor = g_tex_5.Sample(_Sampler, _vUV);
+			break;
             
 		case eMTRLDATA_PARAM_TEX::_6:
-			return g_tex_6.Sample(_Sampler, _vUV);
+			SampleColor = g_tex_6.Sample(_Sampler, _vUV);
+			break;
             
 		case eMTRLDATA_PARAM_TEX::_7:
-			return g_tex_7.Sample(_Sampler, _vUV);
+			SampleColor = g_tex_7.Sample(_Sampler, _vUV);
+			break;
 	};
 
-	return float4(1.f, 0.f, 1.f, 1.f);
+	return SampleColor;
 }
 
 
