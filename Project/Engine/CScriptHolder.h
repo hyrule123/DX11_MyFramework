@@ -45,10 +45,12 @@ public:
 template <typename T>
 inline T* CScriptHolder::GetScript()
 {
+    std::type_index TypeIdx = std::type_index(typeid(T));
+
     size_t size = m_vecScript.size();
     for (size_t i = 0; i < size; ++i)
     {
-        if (std::type_index(typeid(T)) == m_vecScript[i]->GetTypeIndex())
+        if (TypeIdx == m_vecScript[i]->GetTypeIndex())
             return static_cast<T*>(m_vecScript[i]);
     }
 

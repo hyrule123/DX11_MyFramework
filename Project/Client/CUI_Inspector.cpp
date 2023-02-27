@@ -104,7 +104,7 @@ void CUI_Inspector::tick()
 
 	////여기서는 나중에 마우스 클릭을 받아서 클릭된 위치에 있는 오브젝트의 주소를 가져오는 코드를 구현
 	//CKeyMgr* KeyMgr = CKeyMgr::GetInst();
-	//if (KEY_STATE::TAP == KeyMgr->GetKeyState(KEY::LBTN))
+	//if (eKEY_STATE::TAP == KeyMgr->GetKeyState(KEY::LBTN))
 	//{
 	//	//마우스 위치를 받아온다. 이 좌표는 NDC 좌표계와 반대이므로 y축은 반전을 해준다.
 	//	Vec3 vMouseWorldPos(KeyMgr->GetMousePos(), 0.f);

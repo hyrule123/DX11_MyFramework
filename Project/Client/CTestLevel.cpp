@@ -50,7 +50,7 @@ void CreateTestLevel()
 
 	// 오브젝트 생성
 
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
 		CGameObject* pPlayer = new CGameObject;
 		pPlayer->SetName("Player");
@@ -68,12 +68,11 @@ void CreateTestLevel()
 		pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 		pPlayer->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USECOLORKEY, true);
 
-		pPlayer->MeshRender()->SetMesh(CircleMesh);
+		pPlayer->MeshRender()->SetMesh(RectMesh);
 		pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
 
 		//pPlayer->AddComponent(new CLight2D);
 		//pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
-
 
 		pPlayer->AddComponent(new CAnimator2D);
 
@@ -89,14 +88,7 @@ void CreateTestLevel()
 		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
 	}
 
-	CGameObject* pCursor = new CGameObject;
-	pCursor->AddComponent(new CTransform);
-	pCursor->AddComponent(new CCollider2D_Point);
 
-
-	pCursor->AddScript(new CScript_MouseCursor);
-
-	::SpawnGameObject(pCursor, Vec3(0.f, 0.f, 0.f), 0);
 
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
 

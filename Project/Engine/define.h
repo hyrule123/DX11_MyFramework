@@ -7,9 +7,9 @@
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) public: virtual type* Clone() { return nullptr; assert(nullptr); }
 
-#define KEY_TAP(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::TAP		
-#define KEY_RELEASE(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::RELEASE
-#define KEY_PRESSED(Key) CKeyMgr::GetInst()->GetKeyState(Key) == KEY_STATE::PRESSED
+#define KEY_TAP(Key) CKeyMgr::GetInst()->GetKeyState(Key) == eKEY_STATE::TAP		
+#define KEY_RELEASE(Key) CKeyMgr::GetInst()->GetKeyState(Key) == eKEY_STATE::RELEASE
+#define KEY_PRESSED(Key) CKeyMgr::GetInst()->GetKeyState(Key) == eKEY_STATE::PRESSED
 
 #define DELTA_TIME CTimeMgr::GetInst()->GetDeltaTime()
 
@@ -99,6 +99,14 @@ constexpr const wchar_t* g_eRES_TYPE_lstrName[(int)eCOMPONENT_TYPE::END]
 	L"END"
 };
 
+enum class eKEY_STATE
+{
+	TAP,
+	PRESSED,
+	RELEASE,
+	NONE, END = NONE,
+
+};
 
 namespace eSHADER_PIPELINE_STAGE
 {

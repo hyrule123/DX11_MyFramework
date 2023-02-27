@@ -69,7 +69,7 @@ void CKeyMgr::init()
 {
 	for (int i = 0; i < (int)KEY::END; ++i)
 	{
-		m_vecKey.push_back(tKeyInfo{ (KEY)i  , KEY_STATE::NONE });
+		m_vecKey.push_back(tKeyInfo{ (KEY)i  , eKEY_STATE::NONE });
 	}
 }
 
@@ -85,13 +85,13 @@ void CKeyMgr::tick()
 				// 이전에는 눌리지 않았다.
 				if (false == m_vecKey[i].bPrev)
 				{
-					m_vecKey[i].state = KEY_STATE::TAP;
+					m_vecKey[i].state = eKEY_STATE::TAP;
 					m_vecKey[i].bPrev = true;
 				}
 				else
 				{
 					// 지금도 눌려있고, 이전 프레임에서도 눌려있었다.
-					m_vecKey[i].state = KEY_STATE::PRESSED;
+					m_vecKey[i].state = eKEY_STATE::PRESSED;
 				}
 			}
 			else
@@ -99,11 +99,11 @@ void CKeyMgr::tick()
 				// 눌려있지 않다.
 				if (false == m_vecKey[i].bPrev)
 				{
-					m_vecKey[i].state = KEY_STATE::NONE;
+					m_vecKey[i].state = eKEY_STATE::NONE;
 				}
 				else
 				{
-					m_vecKey[i].state = KEY_STATE::RELEASE;
+					m_vecKey[i].state = eKEY_STATE::RELEASE;
 					m_vecKey[i].bPrev = false;
 				}
 			}
@@ -127,14 +127,14 @@ void CKeyMgr::tick()
 		size_t size = m_vecKey.size();
 		for (size_t i = 0; i < size; ++i)
 		{
-			if (KEY_STATE::TAP == m_vecKey[i].state || KEY_STATE::PRESSED == m_vecKey[i].state)
+			if (eKEY_STATE::TAP == m_vecKey[i].state || eKEY_STATE::PRESSED == m_vecKey[i].state)
 			{
-				m_vecKey[i].state = KEY_STATE::RELEASE;
+				m_vecKey[i].state = eKEY_STATE::RELEASE;
 			}
 
-			else if (KEY_STATE::RELEASE == m_vecKey[i].state)
+			else if (eKEY_STATE::RELEASE == m_vecKey[i].state)
 			{
-				m_vecKey[i].state = KEY_STATE::NONE;
+				m_vecKey[i].state = eKEY_STATE::NONE;
 			}
 		}
 	}	

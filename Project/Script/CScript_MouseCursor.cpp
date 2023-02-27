@@ -12,12 +12,16 @@
 
 CScript_MouseCursor::CScript_MouseCursor()
 	: CScript(TYPE_INDEX(CScript_MouseCursor))
+	, m_arrpFuncLBTNCallback{}
+	, m_arrpFuncRBTNCallback{}
 {
 }
 
 CScript_MouseCursor::~CScript_MouseCursor()
 {
 }
+
+
 
 void CScript_MouseCursor::tick()
 {
@@ -38,8 +42,14 @@ void CScript_MouseCursor::tick()
 
 void CScript_MouseCursor::OnCollision(CCollider* _Collider)
 {
-	if (KEY_TAP(KEY::LBTN))
+
+	CKeyMgr* pKeyMgr = CKeyMgr::GetInst();
+	for (int i = 0; i < (int)eKEY_STATE::END; ++i)
 	{
-		::DestroyObject(_Collider->GetOwner());
+		if (nullptr != m_arrpFuncLBTNCallback[i] && i == (int)(pKeyMgr->GetKeyState(KEY::LBTN)))
+			m_arrpFuncLBTNCallback[i](_Collider->GetOwner());
+
+		if (nullptr != m_arrpFuncRBTNCallback[i] && i == (int)(pKeyMgr->GetKeyState(KEY::RBTN)))
+			m_arrpFuncRBTNCallback[i](_Collider->GetOwner());
 	}
 }

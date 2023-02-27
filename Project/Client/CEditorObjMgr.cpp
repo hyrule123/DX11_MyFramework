@@ -1,20 +1,24 @@
 #include "pch.h"
 
 #include "CEditorObjMgr.h"
+#include "CImGuiMgr.h"
+#include "CUI_Inspector.h"
 
 #include <Engine/CGameObject.h>
-
 #include <Engine/CTimeMgr.h>
 #include <Engine/CRenderMgr.h>
 #include <Engine/CResMgr.h>
 #include <Engine/CMeshRender.h>
 #include <Engine/CCamera.h>
 #include <Engine/CTransform.h>
-#include <Script/CScript_CameraMove.h>
-
 #include <Engine/strKeys.h>
+#include <Engine/CCollider2D_Point.h>
 
 #include <Engine/Shader_Debug_0_Header.hlsli>
+
+#include <Engine/CScriptHolder.h>
+#include <Script/CScript_CameraMove.h>
+#include <Script/CScript_MouseCursor.h>
 
 
 //테스트용 레벨
@@ -24,6 +28,7 @@
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}
 	, m_pEditorCam()
+	, m_pMousePicker()
 {
 }
 CEditorObjMgr::~CEditorObjMgr()
@@ -34,6 +39,7 @@ CEditorObjMgr::~CEditorObjMgr()
 	}
 
 	DESTRUCTOR_DELETE(m_pEditorCam);
+	//DESTRUCTOR_DELETE(m_pMousePicker);
 }
 
 
@@ -44,6 +50,20 @@ void CEditorObjMgr::init()
 	CreateDebugShape();
 
 	CreateEditorCamera();
+
+
+	{//커서 생성
+		m_pMousePicker = new CGameObject;
+		m_pMousePicker->AddComponent(new CTransform);
+		m_pMousePicker->AddComponent(new CCollider2D_Point);
+
+		m_pMousePicker->AddScript(new CScript_MouseCursor);
+
+		CScript_MouseCursor* pScript = m_pMousePicker->ScriptHolder()->GetScript<CScript_MouseCursor>();
+		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
+
+		::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), 0);
+	}
 }
 
 void CEditorObjMgr::progress()
@@ -70,6 +90,7 @@ void CEditorObjMgr::tick()
 	{
 		m_vecDebugShapeInfo[i].fLifeSpan -= DT;
 	}
+
 
 	m_pEditorCam->tick();
 	m_pEditorCam->finaltick();
@@ -233,4 +254,12 @@ void CEditorObjMgr::CreateEditorCamera()
 	m_pEditorCam->AddScript(new CScript_CameraMove);
 
 	CRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
+}
+
+void CEditorObjMgr::MouseLBTNCallback(CGameObject* _pObj)
+{
+	static CUI_Inspector* pInspector = static_cast<CUI_Inspector*>(CImGuiMgr::GetInst()->FindUI("Inspector"));
+
+	if (nullptr != pInspector)
+		pInspector->SetTarget(_pObj);
 }

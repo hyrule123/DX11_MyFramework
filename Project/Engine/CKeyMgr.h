@@ -47,19 +47,13 @@ enum class KEY
 	END,
 };
 
-enum class KEY_STATE
-{
-	TAP,
-	PRESSED,
-	RELEASE,
-	NONE,
-};
+
 
 
 struct tKeyInfo
 {
 	KEY			key;
-	KEY_STATE	state;
+	eKEY_STATE	state;
 	bool		bPrev;
 };
 
@@ -82,7 +76,7 @@ public:
 
 
 public:
-	KEY_STATE GetKeyState(KEY _key) { return m_vecKey[(UINT)_key].state; }
+	eKEY_STATE GetKeyState(KEY _key) { return m_vecKey[(UINT)_key].state; }
 	Vec2 GetMousePos() { return m_vMousePos; }
 	Vec2 GetMouseDir() { return m_vMouseDir; }
 };
