@@ -34,7 +34,7 @@ CStructBuffer::CStructBuffer(eSTRUCT_BUFFER_TYPE _type, UINT _eSHADER_PIPELINE_S
 		break;
 	case eSTRUCT_BUFFER_TYPE::READ_WRITE:
 
-		//CPU는 접근 불가, 
+		//CPU는 직접 접근 불가, 
 		m_BufferDesc.CPUAccessFlags = 0;
 
 		//GPU의 읽기/쓰기는 가능

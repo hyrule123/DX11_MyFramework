@@ -4,6 +4,20 @@
 #include "ptr.h"
 #include "CTexture.h"
 
+//"ERA" 안의 정보 
+enum class TerrainInfo : unsigned char
+{
+    Badlands = 0x00,
+    SpacePlatform = 0x01,
+    Installation = 0x02,
+    AshWorld = 0x03,
+    Jungle = 0x04,
+    Desert = 0x05,
+    Ice = 0x06,
+    Twilight = 0x07
+};
+
+
 //맵데이터로부터 로드해야하는 데이터들의 플래그
 enum class eSCMAP_DATA_TYPE
 {
@@ -32,6 +46,18 @@ typedef struct Chunk
 
 } Chunk;
 
+
+struct CV5Data
+{
+    //Dummy1 + 2 = 20byte
+    char Dummy[20];
+
+    //Megatile
+    UINT16_16 MegaTileIndex;
+};
+
+class CStructBuffer;
+
 class CCS_SCMapLoader :
     public CComputeShader
 {
@@ -54,24 +80,36 @@ private:
     int m_MapSizeY;
     TerrainInfo m_Terrain;
 
-    //로드 완료 기록용
-    unsigned int m_LoadRef;
-    unsigned int m_LoadCheck;
+    //로드 완료 기록용 
+    UINT8 m_LoadRef;
+    UINT8 m_LoadCheck;
 
     //타일맵
     //CSharedPtr<class CTileMapComponent> m_TileMap;
 
     //Map의 Chunk 파일 아래의 지형정보
     //CV5 주소
+    CStructBuffer* m_pSBuffer_CV5;
+
     //VX4 주소
+    CStructBuffer* m_pSBuffer_VX4;
+
+    
     //VF4 주소
+    CStructBuffer* m_pSBuffer_VF4;
+
+
     //VR4 주소
+    CStructBuffer* m_pSBuffer_VR4;
+
+
     //WPE 주소
+    CStructBuffer* m_pSBuffer_WPE;
 
 private:
     void ReadMapData(char* Data, DWORD Size);
     void ResetMapData();
-    void LoadTileMap();
+    bool LoadTileMap();
     bool LoadComplete();
 
 };

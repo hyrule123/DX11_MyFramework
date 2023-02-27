@@ -15,13 +15,13 @@ typedef Vector4     float4;
 typedef int         BOOL;
 
 //16 byte
-struct UINT16_8 { UINT16 u16[8]; }
+struct UINT16_8 { UINT16 u16[8]; };
 
 //32 byte
-struct UINT16_16 { UINT16 u16[16]; }
+struct UINT16_16 { UINT16 u16[16]; };
 
 //64 byte
-struct UINT32_16 { UINT32 u32[16]; }
+struct UINT32_16 { UINT32 u32[16]; };
 
 struct INT32_2 { INT32 i32[2]; };
 struct INT32_3 { INT32 i32[3]; };
