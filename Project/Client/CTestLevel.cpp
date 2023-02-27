@@ -12,6 +12,8 @@
 #include <Engine/components.h>
 #include <Engine/CCollisionMgr.h>
 #include <Engine/CTimeMgr.h>
+
+#include <Engine/CComputeShader.h>
 #include <Engine/CCS_SetColor.h>
 #include <Engine/CCS_SCMapLoader.h>
 
@@ -329,7 +331,8 @@ void CreateTestLevel()
 	}
 
 
+	Ptr<CCS_SCMapLoader> pMapLoader = CResMgr::GetInst()->FindRes<CComputeShader>(RESOURCE::SHADER::COMPUTE::SC_MAP_LOADER);
 
-
+	pMapLoader->Execute();
 
 }

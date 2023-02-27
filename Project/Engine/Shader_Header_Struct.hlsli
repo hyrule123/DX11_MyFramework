@@ -14,19 +14,37 @@ typedef Vector3     float3;
 typedef Vector4     float4;
 typedef int         BOOL;
 
-struct INT32_2 { INT32 i[2]; };
-struct INT32_3 { INT32 i[3]; };
-struct INT32_4 { INT32 i[4]; };
+//16 byte
+struct UINT16_8 { UINT16 u16[8]; }
 
-struct UINT32_2 { UINT32 u[2]; };
-struct UINT32_3 { UINT32 u[3]; };
-struct UINT32_4 { UINT32 u[4]; };
+//32 byte
+struct UINT16_16 { UINT16 u16[16]; }
+
+//64 byte
+struct UINT32_16 { UINT32 u32[16]; }
+
+struct INT32_2 { INT32 i32[2]; };
+struct INT32_3 { INT32 i32[3]; };
+struct INT32_4 { INT32 i32[4]; };
+
+struct UINT32_2 { UINT32 u32[2]; };
+struct UINT32_3 { UINT32 u32[3]; };
+struct UINT32_4 { UINT32 u32[4]; };
 
 typedef Matrix      MATRIX;
 
 #define SEMANTIC(_Type)
 
 #else
+
+//16 byte
+#define UINT16_8 row_major min16uint4x2
+
+//32 byte
+#define UINT16_16 row_major min16uint4x4
+
+//64 byte
+#define UINT32_16 row_major uint4x4
 
 #define INT32   int
 #define INT32_2 int2
@@ -37,6 +55,8 @@ typedef Matrix      MATRIX;
 #define UINT32_2 uint2
 #define UINT32_3 uint3
 #define UINT32_4 uint4
+
+
 
 #define BOOL int
 #define MATRIX row_major matrix

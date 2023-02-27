@@ -309,6 +309,7 @@ call Copy_Engine.bat</Command>
     <None Include="cpp.hint" />
     <None Include="Shader_Func.hlsli" />
     <None Include="Shader_Particle_0_Header.hlsli" />
+    <None Include="Shader_SCMapLoader_0_Header.hlsli" />
     <None Include="Shader_Tilemap_0_Header.hlsli" />
     <ClInclude Include="Shader_Header_Struct.hlsli">
       <FileType>Document</FileType>

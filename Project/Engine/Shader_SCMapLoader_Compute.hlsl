@@ -1,7 +1,11 @@
 
+#include "Shader_SCMapLoader_0_Header.hlsli"
 
 
-[numthreads(1, 1, 1)]
+[numthreads(32, 1, 1)]
 void CS_SCMapLoader( uint3 DTid : SV_DispatchThreadID )
 {
+	
+	
+	
 }
