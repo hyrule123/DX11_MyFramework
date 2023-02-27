@@ -358,6 +358,10 @@ void CResMgr::CreateDefaultComputeShader()
 
 
 	pShader = new CCS_SCMapLoader;
+	pShader->CreateShader((void*)g_CS_SCMapLoader, sizeof(g_CS_SCMapLoader));
+	pShader->SetKey(RESOURCE::SHADER::COMPUTE::SC_MAP_LOADER);
+	AddRes(pShader->GetKey(), pShader);
+	
 }
 
 

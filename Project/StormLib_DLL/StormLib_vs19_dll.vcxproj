@@ -76,7 +76,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)External\Library\StormLib_DLL\</OutDir>
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>StormLib_Debug</TargetName>
+    <TargetName>StormLib_DLL_Debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>./bin/$(ProjectName)/$(Platform)/$(Configuration)\</OutDir>
@@ -87,7 +87,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)External\Library\StormLib_DLL\</OutDir>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>StormLib</TargetName>
+    <TargetName>StormLib_DLL</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,7 +127,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)StormLib_Debug.dll</OutputFile>
+      <OutputFile>$(OutDir)StormLib_DLL_Debug.dll</OutputFile>
       <ModuleDefinitionFile>.\src\DllMain_Debug.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -176,7 +176,7 @@ call Copy_StormLib_DLL.bat</Command>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)StormLib.dll</OutputFile>
+      <OutputFile>$(OutDir)StormLib_DLL.dll</OutputFile>
       <ModuleDefinitionFile>.\src\DllMain.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>

@@ -22,6 +22,7 @@
 
 #include "CompiledShaderHeader/Shader_Particle_Basic_Compute_Debug.h"
 #include "CompiledShaderHeader/Shader_Particle_RainDrop_Compute_Debug.h"
+#include "CompiledShaderHeader/Shader_SCMapLoader_Compute_Debug.h"
 
 #include "CompiledShaderHeader/Shader_Particle_1_Vertex_Debug.h"
 #include "CompiledShaderHeader/Shader_Particle_2_Geometry_Debug.h"
@@ -49,6 +50,7 @@
 
 #include "CompiledShaderHeader/Shader_Particle_Basic_Compute.h"
 #include "CompiledShaderHeader/Shader_Particle_RainDrop_Compute.h"
+#include "CompiledShaderHeader/Shader_SCMapLoader_Compute.h"
 
 #include "CompiledShaderHeader/Shader_Particle_1_Vertex.h"
 #include "CompiledShaderHeader/Shader_Particle_2_Geometry.h"

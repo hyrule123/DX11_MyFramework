@@ -44,6 +44,7 @@ namespace RESOURCE
 			inline constexpr const char* SET_COLOR = "CSSetColor";
 			inline constexpr const char* PARTICLE_UPDATE_BASIC = "CSParticleUpdateBasic";
 			inline constexpr const char* PARTICLE_UPDATE_RAINDROP = "CSParticleUpdateRainDrop";
+			inline constexpr const char* SC_MAP_LOADER = "CS_SCMapLoader";
 		}
 	}
 
