@@ -66,7 +66,7 @@ void CreateTestLevel()
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
-		pPlayer->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USECOLORKEY, true);
+		pPlayer->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 
 		pPlayer->MeshRender()->SetMesh(RectMesh);
 		pPlayer->MeshRender()->SetMaterial(PlayerMtrl);

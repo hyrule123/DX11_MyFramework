@@ -6,6 +6,8 @@
 //디버그 출력용
 #include "CRenderMgr.h"
 
+#include "Shader_Debug_0_Header.hlsli"
+
 CCollider2D_OBB::CCollider2D_OBB()
 	: CCollider2D(eCOLLIDER_TYPE_2D::OBB)
 	, m_tOBBInfo{}
@@ -58,7 +60,7 @@ void CCollider2D_OBB::DebugRender()
 	const Matrix& matOffset = Matrix::CreateTranslation(GetOffsetPos());
 
 	tDebugShapeInfo Info = {};
-	Info.eShapeType = (int)eSHAPE_TYPE::RECT;
+	Info.eShapeType = (int)eDEBUGSHAPE_TYPE::RECT;
 	Info.matWorld = matScale * matSize * matOffset * matWorld;
 
 	//충돌 중인 물체가 있을 경우 빨강, 아닐 경우 초록

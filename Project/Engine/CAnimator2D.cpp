@@ -170,8 +170,8 @@ void CAnimator2D::UpdateData()
     int iAnimFlag = pOwner->GetMtrlScalarParam_Int(MTRL_SCALAR_STD2D_FLAG);
     if (nullptr == m_pCurAnim)
     {
-        iAnimFlag &= ~((int)eMTRL_SCALAR_STD2D_FLAG::USEANIM);
-        iAnimFlag &= ~((int)eMTRL_SCALAR_STD2D_FLAG::USEPIVOT);
+        iAnimFlag &= ~((int)eMTRL_SCALAR_STD2D_FLAG::USE_ANIM);
+        iAnimFlag &= ~((int)eMTRL_SCALAR_STD2D_FLAG::USE_PIVOT);
 
         pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
         pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
@@ -179,17 +179,17 @@ void CAnimator2D::UpdateData()
     }
 
     //플래그값 추가 및 설정
-    iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::USEANIM;
+    iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::USE_ANIM;
 
     if (Vec2(0.5f, 0.5f) != m_pCurAnim->vPivot)
-        iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::USEPIVOT;
+        iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::USE_PIVOT;
     else
-        iAnimFlag &= ~(int)eMTRL_SCALAR_STD2D_FLAG::USEPIVOT;
+        iAnimFlag &= ~(int)eMTRL_SCALAR_STD2D_FLAG::USE_PIVOT;
 
     if (true == m_bFlipX)
-        iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::NEEDFLIPX;
+        iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::NEED_FLIP_X;
     else
-        iAnimFlag &= ~(int)eMTRL_SCALAR_STD2D_FLAG::NEEDFLIPX;
+        iAnimFlag &= ~(int)eMTRL_SCALAR_STD2D_FLAG::NEED_FLIP_X;
     
 
     pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);

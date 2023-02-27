@@ -27,10 +27,10 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
 	}
     
     //애니메이션 사용중일경우
-    else if (eMTRL_SCALAR_STD2D_FLAG::USEANIM & Data.MTRL_SCALAR_STD2D_FLAG)
+    else if (eMTRL_SCALAR_STD2D_FLAG::USE_ANIM & Data.MTRL_SCALAR_STD2D_FLAG)
     {
 		float2 vUV = _in.vUV;
-        if(eMTRL_SCALAR_STD2D_FLAG::NEEDFLIPX & Data.MTRL_SCALAR_STD2D_FLAG)
+        if(eMTRL_SCALAR_STD2D_FLAG::NEED_FLIP_X & Data.MTRL_SCALAR_STD2D_FLAG)
 			vUV.x = 1.f - vUV.x;
         
         //애니메이션의 Left Top부터 Slice에 자신의 UV값을 곱해서 실제 UV값을 구해준다.
@@ -51,7 +51,7 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
 	}
     
 	//ColorKey Check
-	if(eMTRL_SCALAR_STD2D_FLAG::USECOLORKEY & Data.MTRL_SCALAR_STD2D_FLAG)
+	if(eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY & Data.MTRL_SCALAR_STD2D_FLAG)
 	{
 		if(all(vOutColor.rgb == Data.MTRL_SCALAR_STD2D_COLORKEY.rgb))
 			discard;

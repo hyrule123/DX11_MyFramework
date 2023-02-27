@@ -9,7 +9,7 @@ VS_OUT VS_std2D_Light(VS_IN _in)
 	
 	
 	//피벗을 사용하도록 설정했을 경우 정점 위치를 피벗에 맞게 바꿔준다.
-	if (eMTRL_SCALAR_STD2D_FLAG::USEPIVOT & Data.MTRL_SCALAR_STD2D_FLAG)
+	if (eMTRL_SCALAR_STD2D_FLAG::USE_PIVOT & Data.MTRL_SCALAR_STD2D_FLAG)
 	{
 		float2 PivotOffset = float2(0.5f, 0.5f) - Data.MTRL_SCALAR_STD2D_PIVOT;
 		_in.vLocalPos.xy += PivotOffset;

@@ -39,19 +39,19 @@ bool CMeshRender::render(eCAMERA_INDEX _eCamIdx)
 	Ptr<CMaterial> pmtrl = GetCurMaterial();
 
 
-	//재질에 자신의 Mtrl Scalar Data를 등록해 놓고 만약 정점 갯수가 6개보다 많다면
+	//재질에 자신의 Mtrl Scalar Data를 등록해 놓고 만약 정점 갯수가 6개(Rect Mesh)보다 많다면
 	//플래그를 켜주고 WVP 행렬 형태로 전송한다.
 	if (6 < pmesh->GetIdxBufferCount())
 	{
 		Matrix matWVP = pOwner->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD);
-		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USEWVP, true);
+		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, true);
 
 
 		matWVP *= g_matCam[(int)_eCamIdx].matVP;
 		pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_WVP, matWVP.m);
 	}
 	else
-		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USEWVP, false);
+		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, false);
 
 
 

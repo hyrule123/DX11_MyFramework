@@ -221,15 +221,6 @@ enum class eEVENT_TYPE
 	LEVEL_CHANGE
 };
 
-enum class eSHAPE_TYPE
-{
-	RECT,
-	CIRCLE,
-	CUBE,
-	SPHERE,
-	END,
-};
-
 enum class eCOLLIDER_TYPE_2D
 {
 	RECT,

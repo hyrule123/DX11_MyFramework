@@ -5,6 +5,8 @@
 #include "CTransform.h"
 #include "CRenderMgr.h"
 
+#include "Shader_Debug_0_Header.hlsli"
+
 CCollider2D_Point::CCollider2D_Point()
 	: CCollider2D(eCOLLIDER_TYPE_2D::POINT)
 {
@@ -37,7 +39,7 @@ void CCollider2D_Point::DebugRender()
 	const static Matrix matSize = Matrix::CreateScale(20.f);
 
 	tDebugShapeInfo Info = {};
-	Info.eShapeType = (int)eSHAPE_TYPE::CIRCLE;
+	Info.eShapeType = (int)eDEBUGSHAPE_TYPE::CIRCLE;
 	
 	Info.matWorld = matSize * matOffset * matWorld;
 

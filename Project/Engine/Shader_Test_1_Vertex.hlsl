@@ -9,7 +9,7 @@ VS_OUT VS_test(VS_IN _in)
 	
 	tMtrlScalarData Data = GetMtrlScalarData(_in.uInstID);
 	
-	if(eMTRL_SCALAR_STD2D_FLAG::USEWVP & Data.MTRL_SCALAR_STD2D_FLAG)
+	if(eMTRL_SCALAR_STD2D_FLAG::USE_VP & Data.MTRL_SCALAR_STD2D_FLAG)
 	{
 		output.vPosition = mul(float4(_in.vPos, 1.f), Data.MTRL_SCALAR_MAT_WVP);
 	}
