@@ -13,6 +13,7 @@
 #include <Engine/CCollisionMgr.h>
 #include <Engine/CTimeMgr.h>
 #include <Engine/CCS_SetColor.h>
+#include <Engine/CCS_SCMapLoader.h>
 
 #include <Script/CScript_Player.h>
 #include <Script/CScript_MouseCursor.h>
@@ -21,7 +22,6 @@
 void CreateTestLevel()
 {
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
-
 
 	pLevel->SetLayerName(0, "DefaultLayer");
 	pLevel->SetLayerName(1, "Layer 1");
@@ -327,5 +327,9 @@ void CreateTestLevel()
 
 		CResMgr::GetInst()->AddRes("Bullet", pResPrefab);
 	}
+
+
+
+
 
 }

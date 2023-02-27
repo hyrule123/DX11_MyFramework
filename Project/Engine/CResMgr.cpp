@@ -9,6 +9,7 @@
 
 #include "CCS_SetColor.h"
 #include "CCS_ParticleUpdate.h"
+#include "CCS_SCMapLoader.h"
 
 #include "CAnim2DAtlas.h"
 
@@ -354,6 +355,9 @@ void CResMgr::CreateDefaultComputeShader()
 	pShader->SetKey(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
 	AddRes(pShader->GetKey(), pShader);
 	pShader = nullptr;
+
+
+	pShader = new CCS_SCMapLoader;
 }
 
 

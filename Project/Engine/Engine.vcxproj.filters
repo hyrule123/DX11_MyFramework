@@ -184,6 +184,9 @@
     <ClInclude Include="CAnim2DAtlas.h">
       <Filter>Source\07. Resource\04. Animation</Filter>
     </ClInclude>
+    <ClInclude Include="CCS_SCMapLoader.h">
+      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -338,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="CAnim2DAtlas.cpp">
       <Filter>Source\07. Resource\04. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CCS_SCMapLoader.cpp">
+      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -500,6 +506,9 @@
     <Filter Include="Source\07. Resource\06, 07. Shader\ComputeShader">
       <UniqueIdentifier>{e151f217-81da-4353-bbc5-512b81b26bc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\08. ShaderCode\98. Compute\03. SCMapParser">
+      <UniqueIdentifier>{84fba281-6335-4b0d-b264-cc5eda5c1b37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -576,6 +585,9 @@
     </FxCompile>
     <FxCompile Include="Shader_Particle_Basic_Compute.hlsl">
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_SCMapLoader_Compute.hlsl">
+      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
