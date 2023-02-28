@@ -335,4 +335,6 @@ void CreateTestLevel()
 
 	pMapLoader->Execute();
 
+	pMapLoader->Debug();
+
 }

@@ -539,6 +539,9 @@
     <None Include="Shader_SCMapLoader_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
     </None>
+    <None Include="Shader_Func_Bitwise.hlsli">
+      <Filter>Source\08. ShaderCode</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader_Test_2_Pixel.hlsl">

@@ -3,6 +3,7 @@
 
 #include "Shader_header_register.hlsli"
 
+
 inline tMtrlScalarData GetMtrlScalarData(uint _uInstanceID)
 {
 	tMtrlScalarData Data = (tMtrlScalarData) 0.f;
@@ -20,7 +21,7 @@ inline tMtrlScalarData GetMtrlScalarData(uint _uInstanceID)
 }
 
 
-float4 SampleMtrlTex(uint _uTexRegisterIdx, SamplerState _Sampler, float2 _vUV)
+inline float4 SampleMtrlTex(uint _uTexRegisterIdx, SamplerState _Sampler, float2 _vUV)
 {
 	float4 SampleColor = (float4) 0.f;
     

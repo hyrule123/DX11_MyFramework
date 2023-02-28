@@ -31,7 +31,6 @@
 
 
 
-
 ////단위크기: 32byte, 통과가능여부, 높이
 //typedef struct {
 //    struct VF4Data {
@@ -110,23 +109,32 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     , m_MapSizeX()
     , m_MapSizeY()
     , m_Terrain{}
+    , m_LoadCheck()
     , m_pSBuffer_CV5()
     , m_pSBuffer_VX4()
     , m_pSBuffer_VF4()
     , m_pSBuffer_WPE()
     , m_pSBuffer_VR4()
+    , m_pSBuffer_MXTM()
+    , m_pSBuffer_Debug()
+    , m_DebugData()
 {
     m_LoadRef = 0b00000111;
 }
 
 CCS_SCMapLoader::~CCS_SCMapLoader()
 {
+    DESTRUCTOR_DELETE(m_pSBuffer_MXTM);
     DESTRUCTOR_DELETE(m_pSBuffer_CV5);
+    DESTRUCTOR_DELETE(m_pSBuffer_VX4);
+    DESTRUCTOR_DELETE(m_pSBuffer_VF4);
+    DESTRUCTOR_DELETE(m_pSBuffer_VR4);
+    DESTRUCTOR_DELETE(m_pSBuffer_WPE);
+    DESTRUCTOR_DELETE(m_pSBuffer_Debug);
 
-    //for (int i = 0; i < (int)eSCMAP_DATA_TYPE::END; ++i)
-    //{
-    //    DESTRUCTOR_DELETE(m_MapDataChunk[i].Data);
-    //}
+    if (nullptr != m_DebugData)
+        delete[] m_DebugData;
+    
 }
 
 bool CCS_SCMapLoader::BindDataCS()
@@ -192,6 +200,20 @@ void CCS_SCMapLoader::UnBindCS()
 {
     m_pSBuffer_CV5->UnBindSRV();
     m_pTexture->UnBind();
+}
+
+void CCS_SCMapLoader::Debug()
+{
+    m_pSBuffer_Debug->GetData(m_DebugData, sizeof(tMtrlScalarData) * m_MapSizeX * m_MapSizeY);
+
+    for (int i = 0; i < m_MapSizeX * m_MapSizeY; ++i)
+    {
+        tMtrlScalarData Temp = m_DebugData[i];
+
+        int a = 0;
+    }
+
+    
 }
 
 void CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
@@ -298,7 +320,6 @@ bool CCS_SCMapLoader::LoadTileMap()
         return false;
 
 
-    CV5Data* cv5Original;
     VX4* vx4;
     VR4* vr4;
     WPE* wpe;
@@ -315,7 +336,24 @@ bool CCS_SCMapLoader::LoadTileMap()
     m_MapSizeY = h;
 
 
+
+    //MXTM(TILEMAP) 전송
+    m_pSBuffer_MXTM = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_MXTM, e_u_UAV_NONE);
+    UINT DataCount = (UINT)m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].length / 16u;
+
+    m_pSBuffer_MXTM->Create(16u, DataCount, m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, DataCount);
+    m_pSBuffer_MXTM->BindBufferSRV();
+
+    //FILE* MXTMData;
+    //_wfopen_s(&MXTMData, L"D:/Users/ekdrn/Desktop/TESTMXTM", L"wb");
+
+    //fwrite(m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].length, 1, MXTMData);
+
+    //fclose(MXTMData);
+
     int x, y, subx, suby, i, j;
+
+
 
 
 
@@ -382,29 +420,18 @@ bool CCS_SCMapLoader::LoadTileMap()
         return 0;
     }
 
-    //CV5
-    cv5Original = new CV5Data[4096];
-    memset(cv5Original, 0, sizeof(CV5Data) * 4096);
-    fread(cv5Original, sizeof(CV5Data), 4096, CV5fp);
-
+    //CV 로드
     CV5* cv5 = new CV5[4096];
-
-    for (size_t i = 0; i < 4096; i++)
+    memset(cv5, 0, sizeof(CV5) * 4096);
+    for (int i = 0; i < 4096; ++i)
     {
-        memcpy(cv5[i].MegaTileIndex.u16, cv5Original[i].MegaTileIndex.u16, sizeof(UINT16_16));
-
-        int a = 0;
+        //매회 20만큼 이동해서 더미 데이터를 버리고 필요한 32(sizeof(CV5))만큼 가져옴.
+        fseek(CV5fp, 20, SEEK_CUR);
+        fread(&(cv5[i]), sizeof(CV5), 1, CV5fp);
     }
-    delete[] cv5Original;
-
     m_pSBuffer_CV5 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_CV5, e_u_UAV_NONE);
-
-    m_pSBuffer_CV5->Create((UINT)sizeof(UINT16_16), 4096u, cv5, 4096u);
-
-
-    CV5* cv5after = new CV5[4096];
-    memset(cv5after, 0, sizeof(CV5) * 4096);
-
+    m_pSBuffer_CV5->Create((UINT)sizeof(CV5), 4096u, cv5, 4096u);
+    m_pSBuffer_CV5->BindBufferSRV();
     delete[] cv5;
 
 
@@ -417,6 +444,7 @@ bool CCS_SCMapLoader::LoadTileMap()
         eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VX4, e_u_UAV_NONE);
 
     m_pSBuffer_VX4->Create((UINT)sizeof(VX4), 65536, vx4, 65536);
+    m_pSBuffer_VX4->BindBufferSRV();
     delete[] vx4;
 
 
@@ -431,6 +459,7 @@ bool CCS_SCMapLoader::LoadTileMap()
         eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VR4, e_u_UAV_NONE);
 
     m_pSBuffer_VR4->Create((UINT)sizeof(VR4), 32768, vr4, 32768);
+    m_pSBuffer_VR4->BindBufferSRV();
     delete[] vr4;
 
 
@@ -443,6 +472,7 @@ bool CCS_SCMapLoader::LoadTileMap()
         eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_WPE, e_u_UAV_NONE);
 
     m_pSBuffer_WPE->Create((UINT)sizeof(WPE), 64, wpe, 64);
+    m_pSBuffer_WPE->BindBufferSRV();
     delete[] wpe;
 
 
@@ -456,6 +486,7 @@ bool CCS_SCMapLoader::LoadTileMap()
         eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VF4, e_u_UAV_NONE);
 
     m_pSBuffer_VF4->Create((UINT)sizeof(WPE), 65536, vf4, 65536);
+    m_pSBuffer_VF4->BindBufferSRV();
     delete[] vf4;
 
 
@@ -467,10 +498,70 @@ bool CCS_SCMapLoader::LoadTileMap()
     m_pTexture->BindData_UAV(e_t_TEXTURE_TARGET);
 
 
-
     CalcGroupNumber(32u * m_MapSizeX, 32u * m_MapSizeY, 1u);
 
     _fcloseall();
+
+
+    //디버그용 쉐이더 바인딩
+    m_pSBuffer_Debug = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SRV_NONE, e_u_SBUFFERRW_DEBUG);
+
+    int mapsize = m_MapSizeX * m_MapSizeY;
+    m_DebugData = new tMtrlScalarData[mapsize];
+    size_t bytesize = sizeof(tMtrlScalarData) * mapsize;
+    memset(m_DebugData, 0, bytesize);
+    m_pSBuffer_Debug->Create(sizeof(tMtrlScalarData), mapsize, m_DebugData, mapsize);
+    m_pSBuffer_Debug->BindBufferUAV();
+
+
+    UINT GroupAndIndex = 0u;
+
+    UINT uGroupID_Xdiv8 = 0 / MXTM_PACK;
+    UINT MapSizeDiv8 = 16u;
+
+    UINT IdxInPack = 0 % MXTM_PACK;
+
+    UINT32 res = 0u;
+
+    //uint의 인덱스 번호 -> 비트시프트 1해주면 2로 나눈 효과
+    UINT32 Idx = IdxInPack >> 1u;
+
+    //앞부분인지 뒷부분인지 : 2로 나눈 나머지 ( & 연산자 )
+    UINT32 FrontOrBack = (IdxInPack & 0x00000001) * 16u;
+
+    MXTM st = {};
+
+    memcpy(&st, m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, 16u);
+
+
+
+    //FILE* testfilechunk;
+    //_wfopen_s(&testfilechunk, L"D:/Users/ekdrn/Desktop/TestFileChunk", L"wb");
+    //fwrite(&st, 16, 1, testfilechunk);
+
+    //fclose(testfilechunk);
+
+
+    res = ((0xFFFF0000 >> FrontOrBack) & st.MXTM_Pack.u32[Idx]) >> (16u - FrontOrBack);
+
+    UINT16 test = (0x0000ffff & st.MXTM_Pack.u32[1]);
+
+
+
+    int group = test >> 4;
+    int index = test & 0xf;
+
+    int stop = 0;
+
+    UINT16 dest = {};
+    memcpy(&dest, m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, 2u);
+    group = res >> 4;
+    index = res & 0xf;
+
+    stop = 0;
+
+    //GroupAndIndex = ExtractUINT16FromUINT32_4(g_SBuffer_MXTM[_uGroupID_XY.y * MapSizeDiv8.x + uGroupID_Xdiv8].MXTM_Pack, IdxInPack);
+
 
     return true;
 }

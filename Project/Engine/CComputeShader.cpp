@@ -112,9 +112,9 @@ void CComputeShader::CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _E
 
 	//쓰레드가 쓰레드 갯수와 맞아떨어지지 않을 수도 있다.
 	//이럴 떄를 대비해서 상수버퍼로 TotalCount 변수를 전달하여 컴퓨트쉐이더 함수 내부에서 예외처리를 할 수 있도록 해준다.
-	SetMtrlScalarParam(CS_ELEM_COUNT_X, &_ElemCountX);
-	SetMtrlScalarParam(CS_ELEM_COUNT_Y, &_ElemCountY);
-	SetMtrlScalarParam(CS_ELEM_COUNT_Z, &_ElemCountZ);
+	SetMtrlScalarParam(MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_X, &_ElemCountX);
+	SetMtrlScalarParam(MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Y, &_ElemCountY);
+	SetMtrlScalarParam(MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Z, &_ElemCountZ);
 }
 
 void CComputeShader::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)

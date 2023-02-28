@@ -47,14 +47,8 @@ typedef struct Chunk
 } Chunk;
 
 
-struct CV5Data
-{
-    //Dummy1 + 2 = 20byte
-    char Dummy[20];
 
-    //Megatile
-    UINT16_16 MegaTileIndex;
-};
+
 
 class CStructBuffer;
 
@@ -68,6 +62,8 @@ public:
 public:
     virtual bool BindDataCS() override;
     virtual void UnBindCS() override;
+
+    void Debug();
 
 private:
     //작업할 텍스처 영역 주소
@@ -88,6 +84,9 @@ private:
     //CSharedPtr<class CTileMapComponent> m_TileMap;
 
     //Map의 Chunk 파일 아래의 지형정보
+    
+    CStructBuffer* m_pSBuffer_MXTM;
+
     //CV5 주소
     CStructBuffer* m_pSBuffer_CV5;
 
@@ -105,6 +104,9 @@ private:
 
     //WPE 주소
     CStructBuffer* m_pSBuffer_WPE;
+
+    CStructBuffer* m_pSBuffer_Debug;
+    tMtrlScalarData* m_DebugData;
 
 private:
     void ReadMapData(char* Data, DWORD Size);
