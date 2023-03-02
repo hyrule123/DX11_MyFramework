@@ -428,6 +428,7 @@ bool CCS_SCMapLoader::LoadTileMap()
         //매회 20만큼 이동해서 더미 데이터를 버리고 필요한 32(sizeof(CV5))만큼 가져옴.
         fseek(CV5fp, 20, SEEK_CUR);
         fread(&(cv5[i]), sizeof(CV5), 1, CV5fp);
+
     }
     m_pSBuffer_CV5 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_CV5, e_u_UAV_NONE);
     m_pSBuffer_CV5->Create((UINT)sizeof(CV5), 4096u, cv5, 4096u);
@@ -468,6 +469,8 @@ bool CCS_SCMapLoader::LoadTileMap()
     memset(wpe, 0, sizeof(WPE) * 64);
     fread(wpe, sizeof(WPE), 64, WPEfp);
 
+    size_t size = sizeof(WPE);
+
     m_pSBuffer_WPE = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
         eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_WPE, e_u_UAV_NONE);
 
@@ -491,11 +494,11 @@ bool CCS_SCMapLoader::LoadTileMap()
 
 
    
-
+    //텍스처
     m_pTexture = new CTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
     m_pTexture->Create(32u * m_MapSizeX, 32u * m_MapSizeY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-    m_pTexture->BindData_UAV(e_t_TEXTURE_TARGET);
+    m_pTexture->BindData_UAV(e_u_TEXTURERW_TARGET);
 
 
     CalcGroupNumber(32u * m_MapSizeX, 32u * m_MapSizeY, 1u);
@@ -514,53 +517,6 @@ bool CCS_SCMapLoader::LoadTileMap()
     m_pSBuffer_Debug->BindBufferUAV();
 
 
-    UINT GroupAndIndex = 0u;
-
-    UINT uGroupID_Xdiv8 = 0 / MXTM_PACK;
-    UINT MapSizeDiv8 = 16u;
-
-    UINT IdxInPack = 0 % MXTM_PACK;
-
-    UINT32 res = 0u;
-
-    //uint의 인덱스 번호 -> 비트시프트 1해주면 2로 나눈 효과
-    UINT32 Idx = IdxInPack >> 1u;
-
-    //앞부분인지 뒷부분인지 : 2로 나눈 나머지 ( & 연산자 )
-    UINT32 FrontOrBack = (IdxInPack & 0x00000001) * 16u;
-
-    MXTM st = {};
-
-    memcpy(&st, m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, 16u);
-
-
-
-    //FILE* testfilechunk;
-    //_wfopen_s(&testfilechunk, L"D:/Users/ekdrn/Desktop/TestFileChunk", L"wb");
-    //fwrite(&st, 16, 1, testfilechunk);
-
-    //fclose(testfilechunk);
-
-
-    res = ((0xFFFF0000 >> FrontOrBack) & st.MXTM_Pack.u32[Idx]) >> (16u - FrontOrBack);
-
-    UINT16 test = (0x0000ffff & st.MXTM_Pack.u32[1]);
-
-
-
-    int group = test >> 4;
-    int index = test & 0xf;
-
-    int stop = 0;
-
-    UINT16 dest = {};
-    memcpy(&dest, m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, 2u);
-    group = res >> 4;
-    index = res & 0xf;
-
-    stop = 0;
-
-    //GroupAndIndex = ExtractUINT16FromUINT32_4(g_SBuffer_MXTM[_uGroupID_XY.y * MapSizeDiv8.x + uGroupID_Xdiv8].MXTM_Pack, IdxInPack);
 
 
     return true;

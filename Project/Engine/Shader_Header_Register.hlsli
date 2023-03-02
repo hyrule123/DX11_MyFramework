@@ -167,6 +167,7 @@ StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(e_t_INIT_SETTIN
 #define e_u_PARTICLE_SBUFFERRW			REGISTER_IDX(u, 0)
 #define e_u_PARTICLE_SBUFFERRW_SHAREDATA	REGISTER_IDX(u, 1)
 
+
 	#ifdef __cplusplus
 
 #define e_u_UAV_NONE -1

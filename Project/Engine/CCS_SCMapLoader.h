@@ -108,6 +108,9 @@ private:
     CStructBuffer* m_pSBuffer_Debug;
     tMtrlScalarData* m_DebugData;
 
+public:
+    Ptr<CTexture> GetMap() const { return m_pTexture; }
+
 private:
     void ReadMapData(char* Data, DWORD Size);
     void ResetMapData();

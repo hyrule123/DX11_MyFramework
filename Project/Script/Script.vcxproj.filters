@@ -42,6 +42,9 @@
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="CScript_Debug.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_Bullet.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript_Debug.cpp">
+      <Filter>Script</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

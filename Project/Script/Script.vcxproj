@@ -168,6 +168,7 @@ call Copy_Script.bat</Command>
   <ItemGroup>
     <ClInclude Include="CScript_Bullet.h" />
     <ClInclude Include="CScript_CameraMove.h" />
+    <ClInclude Include="CScript_Debug.h" />
     <ClInclude Include="CScript_MouseCursor.h" />
     <ClInclude Include="CScript_Player.h" />
     <ClInclude Include="CScript_TestObj.h" />
@@ -177,6 +178,7 @@ call Copy_Script.bat</Command>
   <ItemGroup>
     <ClCompile Include="CScript_Bullet.cpp" />
     <ClCompile Include="CScript_CameraMove.cpp" />
+    <ClCompile Include="CScript_Debug.cpp" />
     <ClCompile Include="CScript_MouseCursor.cpp" />
     <ClCompile Include="CScript_Player.cpp" />
     <ClCompile Include="CScript_TestObj.cpp" />
