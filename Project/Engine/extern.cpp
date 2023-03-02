@@ -5,6 +5,8 @@
 //전역변수 선언 및 초기화 하는곳
 //=============================
 
+tInitSetting g_InitSetting = {};
+
 tCamMatrices g_matCam[(int)eCAMERA_INDEX::END] = {};
 tGlobalValue g_GlobalVal = {};
 tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::END] = {};

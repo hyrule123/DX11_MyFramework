@@ -41,6 +41,7 @@ namespace RESOURCE
 
 		namespace COMPUTE
 		{
+			inline constexpr const char* INIT_SETTING = "CSInitSetting";
 			inline constexpr const char* SET_COLOR = "CSSetColor";
 			inline constexpr const char* PARTICLE_UPDATE_BASIC = "CSParticleUpdateBasic";
 			inline constexpr const char* PARTICLE_UPDATE_RAINDROP = "CSParticleUpdateRainDrop";

@@ -187,6 +187,9 @@
     <ClInclude Include="CCS_SCMapLoader.h">
       <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
     </ClInclude>
+    <ClInclude Include="CCS_Initialize.h">
+      <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -344,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="CCS_SCMapLoader.cpp">
       <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
+    </ClCompile>
+    <ClCompile Include="CCS_Initialize.cpp">
+      <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -509,6 +515,9 @@
     <Filter Include="Source\08. ShaderCode\98. Compute\03. SCMapParser">
       <UniqueIdentifier>{84fba281-6335-4b0d-b264-cc5eda5c1b37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\08. ShaderCode\98. Compute\00. Initialize">
+      <UniqueIdentifier>{bbd3d58d-85fe-422b-8dc9-811685276c6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -594,6 +603,9 @@
     </FxCompile>
     <FxCompile Include="Shader_SCMapLoader_Compute.hlsl">
       <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_Initialize_Compute.hlsl">
+      <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

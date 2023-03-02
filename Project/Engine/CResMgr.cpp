@@ -10,6 +10,7 @@
 #include "CCS_SetColor.h"
 #include "CCS_ParticleUpdate.h"
 #include "CCS_SCMapLoader.h"
+#include "CCS_Initialize.h"
 
 #include "CAnim2DAtlas.h"
 
@@ -17,6 +18,7 @@
 CResMgr::CResMgr()
 	: m_bResUpdated(true)
 {
+	
 }
 
 CResMgr::~CResMgr()
@@ -336,6 +338,12 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 void CResMgr::CreateDefaultComputeShader()
 {
+	Ptr<CComputeShader> pInitCS = new CCS_Initialize;
+	pInitCS->CreateShader((void*)g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
+	pInitCS->SetKey(RESOURCE::SHADER::COMPUTE::INIT_SETTING);
+	AddRes(pInitCS->GetKey(), pInitCS);
+	pInitCS->Execute();
+
 	Ptr<CComputeShader> pShader = new CCS_SetColor(32u, 32u, 1u);
 	pShader->CreateShader((void*)g_CS_SetColor, sizeof(g_CS_SetColor));
 	pShader->SetKey(RESOURCE::SHADER::COMPUTE::SET_COLOR);

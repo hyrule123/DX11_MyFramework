@@ -116,6 +116,9 @@ cbuffer CBuffer_ParticleModule : register(e_b_CBUFFER_PARTICLE_MODULEDATA)
 #define e_t_SBUFFER_PARTICLE_TRANSFORM	REGISTER_IDX(t, 16)
 
 #define e_t_TEXUTRE_NOISE				REGISTER_IDX(t, 17)
+
+#define e_t_INIT_SETTING			REGISTER_IDX(t, 127)
+
 	#ifdef __cplusplus
 
 #define e_t_SRV_NONE -1
@@ -145,6 +148,7 @@ StructuredBuffer<float4> g_SBuffer_SetColor : register(e_t_SBUFFER_SETCOLOR);
 
 Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
 
+StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(e_t_INIT_SETTING);
 
 	#endif
 
@@ -156,6 +160,8 @@ Texture2D g_Tex_Noise : register(e_t_TEXUTRE_NOISE);
 
 
 //u 레지스터는 DX11 기준 0 ~ 7번까지만 존재하므로 참고
+#define e_u_INIT_SETTING			REGISTER_IDX(u, 0)	//처음에 최초 한번 작동해서 시스템 정보 확인
+
 #define e_u_SETCOLOR_TEXTURERW			REGISTER_IDX(u, 0)
 #define e_u_SETCOLOR_SBUFFERRW			REGISTER_IDX(u, 1)
 #define e_u_PARTICLE_SBUFFERRW			REGISTER_IDX(u, 0)

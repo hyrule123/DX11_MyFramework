@@ -75,6 +75,40 @@ typedef Matrix      MATRIX;
 #endif
 
 
+
+//UINT64 데이터를 HLSL에 보내고, 이 데이터를 HLSL에서 UINT32 형태로 읽어옴으로써 엔디안 방식을 확인.
+//UINT64에 1을 저장하고, 이걸 그대로 HLSL에 올린 뒤 UINT64 형태로 읽어왔을 때 그대로 1이 들어있으면 Little Endian인것.
+struct tInitSetting
+{
+#ifdef __cplusplus
+    UINT64 bIsLittleEndian;
+    float2 Padding0;
+    
+    //C++은 int 배열이 4 byte 단위 - HLSL 기준으로 맞춰주기 위함
+    //UINT32_4 NotInUse0[4];
+    //UINT32_4 NotInUse1[4];
+    
+    //UINT32_4 NotInUse2[2];
+    //UINT32_4 NotInUse3[2];
+    
+#else
+    UINT32 bIsLittleEndian;
+	float3 Padding0;
+#endif
+    
+    //HLSL은 int 배열이 16 byte 단위
+    UINT32 u8BitPartInU32Pack[4];
+    UINT32 u8BitShiftInU32Pack[4];
+
+    UINT32 u16BitPartInU32Pack[2];
+    UINT32 u16BitShiftInU32Pack[2];
+};
+
+#ifdef __cplusplus
+extern tInitSetting g_InitSetting;
+#endif
+
+
 struct tMtrlScalarData
 {
     INT32 INT_0;

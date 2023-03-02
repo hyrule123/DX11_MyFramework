@@ -52,6 +52,7 @@ typedef Vector4 Vec4;
 #include "func.h"
 #include "Shader_Header_Register.hlsli"
 
+
 #include "CSingleton.h"
 
 

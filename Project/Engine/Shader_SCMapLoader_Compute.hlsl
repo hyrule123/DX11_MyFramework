@@ -53,7 +53,7 @@ uint ExtractGroupAndIndexFromMTXM(uint2 _uGroupID_XY, uint2 _u2MapSize)
 	
 	uint IdxInPack = _uGroupID_XY.x % MXTM_PACK;
 	
-	GroupAndIndex = ExtractUINT16FromUINT32_4(g_SBuffer_MXTM[_uGroupID_XY.y * MapSizeDiv8.x + uGroupID_Xdiv8].MXTM_Pack, IdxInPack);
+	GroupAndIndex = UnpackUINT16FromUINT32_4(g_SBuffer_MXTM[_uGroupID_XY.y * MapSizeDiv8.x + uGroupID_Xdiv8].MXTM_Pack, IdxInPack);
 	
 	
 	return GroupAndIndex;

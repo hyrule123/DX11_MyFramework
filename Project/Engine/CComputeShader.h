@@ -10,9 +10,9 @@ public:
     CComputeShader(UINT _uThreadsX, UINT _uThreadsY, UINT _uThreadsZ);
     virtual ~CComputeShader();
     CLONE_DISABLE(CComputeShader);
-
-private:
+private://미사용
     virtual void BindData() final {};
+
 
 
 protected://아래의 두 함수만 재정의해서 사용해주면 됨.

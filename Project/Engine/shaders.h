@@ -3,6 +3,8 @@
 //Shader Header
 #ifdef _DEBUG
 
+#include "CompiledShaderHeader/Shader_Initialize_Compute_Debug.h"
+
 #include "CompiledShaderHeader/Shader_Debug_1_Vertex_Debug.h"
 #include "CompiledShaderHeader/Shader_Debug_2_Pixel_Debug.h"
 
@@ -30,6 +32,8 @@
 
 
 #else
+
+#include "CompiledShaderHeader/Shader_Initialize_Compute.h"
 
 #include "CompiledShaderHeader/Shader_Debug_1_Vertex.h"
 #include "CompiledShaderHeader/Shader_Debug_2_Pixel.h"
