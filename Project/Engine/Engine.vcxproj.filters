@@ -185,7 +185,7 @@
       <Filter>Source\07. Resource\04. Animation</Filter>
     </ClInclude>
     <ClInclude Include="CCS_SCMapLoader.h">
-      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
+      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapLoader</Filter>
     </ClInclude>
     <ClInclude Include="CCS_Initialize.h">
       <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>
@@ -346,7 +346,7 @@
       <Filter>Source\07. Resource\04. Animation</Filter>
     </ClCompile>
     <ClCompile Include="CCS_SCMapLoader.cpp">
-      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
+      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapLoader</Filter>
     </ClCompile>
     <ClCompile Include="CCS_Initialize.cpp">
       <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>
@@ -512,11 +512,11 @@
     <Filter Include="Source\07. Resource\06, 07. Shader\ComputeShader">
       <UniqueIdentifier>{e151f217-81da-4353-bbc5-512b81b26bc0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\08. ShaderCode\98. Compute\03. SCMapParser">
-      <UniqueIdentifier>{84fba281-6335-4b0d-b264-cc5eda5c1b37}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\08. ShaderCode\98. Compute\00. Initialize">
       <UniqueIdentifier>{bbd3d58d-85fe-422b-8dc9-811685276c6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\08. ShaderCode\98. Compute\03. SCMapLoader">
+      <UniqueIdentifier>{84fba281-6335-4b0d-b264-cc5eda5c1b37}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -546,7 +546,7 @@
       <Filter>Source\08. ShaderCode</Filter>
     </None>
     <None Include="Shader_SCMapLoader_0_Header.hlsli">
-      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
+      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapLoader</Filter>
     </None>
     <None Include="Shader_Func_Bitwise.hlsli">
       <Filter>Source\08. ShaderCode</Filter>
@@ -602,7 +602,7 @@
       <Filter>Source\08. ShaderCode\98. Compute\02. ParticleUpdate</Filter>
     </FxCompile>
     <FxCompile Include="Shader_SCMapLoader_Compute.hlsl">
-      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapParser</Filter>
+      <Filter>Source\08. ShaderCode\98. Compute\03. SCMapLoader</Filter>
     </FxCompile>
     <FxCompile Include="Shader_Initialize_Compute.hlsl">
       <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>

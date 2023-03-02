@@ -361,15 +361,15 @@ void CreateTestLevel()
 
 	::SpawnGameObject(MapObj, Vec3(0.f, 0.f, 0.f), 0);
 
-	//ComPtr<ID3D11Texture2D> Tex = MapTex->GetTex2D();
-	//ComPtr<ID3D11ShaderResourceView> SRV = MapTex->GetSRV();
-	//ComPtr<ID3D11Resource> MapRes = nullptr;
-	//SRV->GetResource(MapRes.GetAddressOf());
-	//ScratchImage* Image = new ScratchImage;
-	//CaptureTexture(DEVICE, CONTEXT, MapRes.Get(), *Image);
+	ComPtr<ID3D11Texture2D> Tex = MapTex->GetTex2D();
+	ComPtr<ID3D11ShaderResourceView> SRV = MapTex->GetSRV();
+	ComPtr<ID3D11Resource> MapRes = nullptr;
+	SRV->GetResource(MapRes.GetAddressOf());
+	ScratchImage* Image = new ScratchImage;
+	CaptureTexture(DEVICE, CONTEXT, MapRes.Get(), *Image);
 
 
-	//SaveToWICFile(*(Image->GetImages()), DirectX::WIC_FLAGS_DEFAULT_SRGB, GetWICCodec(WIC_CODEC_PNG), L"D:/Users/ekdrn/DeskTop/Result.png");
+	SaveToWICFile(*(Image->GetImages()), DirectX::WIC_FLAGS_DEFAULT_SRGB, GetWICCodec(WIC_CODEC_PNG), L"E:/ekdrn/DeskTop/Result.png");
 
-	//delete Image;
+	delete Image;
 }

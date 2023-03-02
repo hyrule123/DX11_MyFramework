@@ -38,13 +38,14 @@ UINT32 UnpackUINT16FromUINT32_8(in UINT32_8 _u32_8Src, UINT32 _uIdxInU16)
 	//row == 8로 나눈 결과, 0 또는 1
 	UINT32 row = (_uIdxInU16 >> 3u) & 0x1;
 	
-	//col == 4로 나눈 나머지 == 0b11(0x03)과 & 연산 하면 나머지를 구할 수 있음
-	UINT32 col = (_uIdxInU16 & 0x03);
+	//col == 8로 나눈 나머지를 2로 나눠준다.
+	UINT32 col = (_uIdxInU16 & 7u) >> 1u;
 	
+	//앞부분인지 뒷부분인지 확인(2로 나눈 나머지)
+	UINT32 FrontOrBack = _uIdxInU16 & 0x1;
 	
-	UINT32 FrontOrBack = _uIdxInU16 & 1u;
-	
-	result = (_u32_8Src[col][row] & g_SBuffer_InitSettings[0].u16BitPartInU32Pack[FrontOrBack]) >> g_SBuffer_InitSettings[0].u16BitShiftInU32Pack[FrontOrBack];
+	result = (_u32_8Src[row][col] & g_SBuffer_InitSettings[0].u16BitPartInU32Pack[FrontOrBack]) >> g_SBuffer_InitSettings[0].u16BitShiftInU32Pack[FrontOrBack];
+	//& g_SBuffer_InitSettings[0].u16BitPartInU32Pack[FrontOrBack]) >> g_SBuffer_InitSettings[0].u16BitShiftInU32Pack[FrontOrBack];
 	
 	return result;
 }
