@@ -2,11 +2,11 @@
 #include "CCS_SCMapLoader.h"
 
 
-#ifdef _DEBUG
-#pragma comment (lib, "StormLib_DLL/StormLib_DLL_Debug")
-#else
-#pragma comment (lib, "StormLib_DLL/StormLib_DLL")
-#endif
+//#ifdef _DEBUG
+//#pragma comment (lib, "StormLib_DLL/StormLib_DLL_Debug")
+//#else
+//#pragma comment (lib, "StormLib_DLL/StormLib_DLL")
+//#endif
 
 #define STORMLIB_NO_AUTO_LINK
 #include <StormLib_DLL/StormLib.h>
@@ -78,6 +78,7 @@ bool CCS_SCMapLoader::BindDataCS()
             nError = GetLastError();
     }
 
+    typedef  bool (WINAPI *SFileOpenIndex)(HANDLE, const char*, DWORD, HANDLE);
 
     // Open a file in the archive, e.g. "data\global\music\Act1\tristram.wav"
     if (nError == ERROR_SUCCESS)
