@@ -157,6 +157,7 @@
     <ClInclude Include="CUI_Component.h" />
     <ClInclude Include="CEditorObjMgr.h" />
     <ClInclude Include="CImGuiMgr.h" />
+    <ClInclude Include="CUI_DragNDrop.h" />
     <ClInclude Include="CUI_Image.h" />
     <ClInclude Include="CUI_Inspector.h" />
     <ClInclude Include="Client.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="CUI_ParticleSystem.h" />
     <ClInclude Include="CUI_PopupWIndow.h" />
     <ClInclude Include="CUI_ScriptHolder.h" />
+    <ClInclude Include="CUI_Structs.h" />
     <ClInclude Include="CUI_Tilemap.h" />
     <ClInclude Include="CUI_Transform.h" />
     <ClInclude Include="CUI_BasicWIndow.h" />
@@ -197,6 +199,7 @@
     <ClCompile Include="CUI_Component.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
+    <ClCompile Include="CUI_DragNDrop.cpp" />
     <ClCompile Include="CUI_Image.cpp" />
     <ClCompile Include="CUI_Inspector.cpp" />
     <ClCompile Include="CUI_Light2D.cpp" />

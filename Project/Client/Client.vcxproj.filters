@@ -201,6 +201,12 @@
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
     <ClInclude Include="CTestLevel.h" />
+    <ClInclude Include="CUI_DragNDrop.h">
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_Structs.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -320,5 +326,8 @@
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
     <ClCompile Include="CTestLevel.cpp" />
+    <ClCompile Include="CUI_DragNDrop.cpp">
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

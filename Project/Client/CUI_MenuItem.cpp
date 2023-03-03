@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "CUI_MenuItem.h"
 
-CUI_MenuItem::CUI_MenuItem(const string& _strName, DWORD_PTR _pData)
+CUI_MenuItem::CUI_MenuItem(const string& _strName, tDataPtr _pData)
 	: CUI_Widget(_strName, eWIDGET_TYPE::MENU_ITEM)
 	, m_bCheckEnable()
 	, m_bChecked()
@@ -34,7 +34,7 @@ void CUI_MenuItem::render_update()
 }
 
 
-void CUI_MenuItem::SetCallback(std::function<void(CUI_MenuItem*, DWORD_PTR)> _pCallbackFunc)
+void CUI_MenuItem::SetCallback(std::function<void(CUI_MenuItem*, tDataPtr)> _pCallbackFunc)
 {
 	m_funcCallback = _pCallbackFunc;
 }

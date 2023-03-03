@@ -26,7 +26,7 @@ bool CUI_PopupWindow::beginUI()
 //	if (false == m_bModal)
 //	{
 //		//가장 일반적인 Begin 함수를 이용해서 창을 생성한다.
-//		ImGui::Begin(strFullName.c_str(), &m_Active);
+//		ImGui::Begin(strFullName.c_str(), &m_bActive);
 
 //		
 

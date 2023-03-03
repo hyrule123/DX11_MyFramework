@@ -27,10 +27,10 @@ void CUI_MeshRender::UpdateMeshListCallback()
 	const auto& map = CResMgr::GetInst()->GetResMap(eRES_TYPE::MESH);
 	if (m_pComboBoxMesh->GetItemNum() != map.size())
 	{
-		vector<string> tempVec;
+		vector<tComboItem> tempVec;
 		for (const auto& iter : map)
 		{
-			tempVec.push_back(iter.second.Get()->GetKey());
+			tempVec.push_back(tComboItem{ iter.second.Get()->GetKey(), iter.second.Get(), });
 		}
 
 		m_pComboBoxMesh->SetItem(tempVec);
@@ -41,16 +41,14 @@ void CUI_MeshRender::UpdateMeshListCallback()
 //메쉬 콤보박스에서 특정 메쉬가 클릭되었을 때 호출될 함수
 void CUI_MeshRender::ChangeMeshCallback()
 {
-	const string& sel = m_pComboBoxMesh->GetCurrentSelected();
-	if (true == sel.empty())
+	const tComboItem& sel = m_pComboBoxMesh->GetCurrentSelected();
+	if (true == sel.strName.empty())
 		return;
 
-	Ptr<CMesh> mesh = CResMgr::GetInst()->FindRes<CMesh>(sel);
-
-	if (nullptr == mesh)
+	if (nullptr == sel.pData.pData)
 		return;
 
-	GetTarget()->MeshRender()->SetMesh(mesh);
+	GetTarget()->MeshRender()->SetMesh(static_cast<CMesh*>(sel.pData.pData));
 }
 
 void CUI_MeshRender::UpdateMtrlListCallback()
@@ -59,10 +57,10 @@ void CUI_MeshRender::UpdateMtrlListCallback()
 	const auto& map = CResMgr::GetInst()->GetResMap(eRES_TYPE::MATERIAL);
 	if (m_pComboBoxMtrl->GetItemNum() != map.size())
 	{
-		vector<string> tempVec;
+		vector<tComboItem> tempVec;
 		for (const auto& iter : map)
 		{
-			tempVec.push_back(iter.second.Get()->GetKey());
+			tempVec.push_back(tComboItem{ iter.second.Get()->GetKey(), iter.second.Get(), });
 		}
 
 		m_pComboBoxMtrl->SetItem(tempVec);
@@ -71,11 +69,11 @@ void CUI_MeshRender::UpdateMtrlListCallback()
 
 void CUI_MeshRender::ChangeMtrlCallback()
 {
-	const string& sel = m_pComboBoxMtrl->GetCurrentSelected();
-	if (true == sel.empty())
+	const tComboItem& sel = m_pComboBoxMtrl->GetCurrentSelected();
+	if (true == sel.strName.empty())
 		return;
 
-	Ptr<CMaterial> mtrl = CResMgr::GetInst()->FindRes<CMaterial>(sel);
+	Ptr<CMaterial> mtrl = static_cast<CMaterial*>(sel.pData.pData);
 
 	if (nullptr == mtrl)
 		return;

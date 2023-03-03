@@ -11,7 +11,9 @@ enum class eWIDGET_TYPE : DWORD
 	COMBO_BOX,
 	IMAGE,
 	TREE,
-	MENU_ITEM
+	MENU_ITEM,
+	DRAG_N_DROP_SENDER,
+	DRAN_N_DROP_RECEIVER
 };
 
 class CUI_Widget
@@ -22,6 +24,11 @@ private:
 public:
 	CUI_Widget(const string& _strName, eWIDGET_TYPE _Type);
 	virtual ~CUI_Widget();
+
+public:
+	virtual bool beginUI() override;
+	virtual void render_update() override;
+	virtual void endUI() override;
 
 private:
 	const eWIDGET_TYPE m_Type;
@@ -39,12 +46,6 @@ public:
 	void SetLeftLabelWidth(float _Width) { m_fLeftLabelWidth = _Width; }
 	float GetLeftLabelWidth() const { return m_fLeftLabelWidth; }
 
-public:
-	virtual bool beginUI() override;
 
-	virtual void render_update() override;
-
-
-	virtual void endUI() override;
 };
 

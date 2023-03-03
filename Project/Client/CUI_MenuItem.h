@@ -9,7 +9,7 @@ private:
     CUI_MenuItem() = delete;
 
 public:
-    CUI_MenuItem(const string& _strName, DWORD_PTR _pData);
+    CUI_MenuItem(const string& _strName, tDataPtr _pData = tDataPtr{});
     virtual ~CUI_MenuItem();
 
 public:
@@ -24,9 +24,9 @@ private:
     bool m_bChecked;
     bool m_bEnable;
 
-    DWORD_PTR m_pData;
+    tDataPtr m_pData;
 
-    std::function<void(CUI_MenuItem*, DWORD_PTR)> m_funcCallback;
+    std::function<void(CUI_MenuItem*, tDataPtr)> m_funcCallback;
 
     
 public:
@@ -37,7 +37,7 @@ public:
     void SetItemChecked(bool _bChecked) { m_bChecked = _bChecked; }
     bool GetItemChecked() const { return m_bChecked; }
 
-    void SetCallback(std::function<void(CUI_MenuItem*, DWORD_PTR)> _pCallbackFunc);
+    void SetCallback(std::function<void(CUI_MenuItem*, tDataPtr)> _pCallbackFunc);
 
 };
 

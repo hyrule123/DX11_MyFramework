@@ -24,7 +24,7 @@ void CUI_Menu::endUI()
 	ImGui::EndMenu();
 }
 
-CUI_MenuItem* CUI_Menu::AddMenuItem(const string& _strName, DWORD_PTR _pData)
+CUI_MenuItem* CUI_Menu::AddMenuItem(const string& _strName, tDataPtr _pData)
 {
 	CUI_MenuItem* pMenuItem = new CUI_MenuItem(_strName, _pData);
 

@@ -1,18 +1,16 @@
 #pragma once
 
+#include "CUI_Structs.h"
+
 #include <Engine/CEntity.h>
 
 #include "ImGui/imgui.h"
 
 #include <UtilLib_DLL/json-forwards.h>
 
-enum class eUI_MOUSE_STATUS
-{
-	HOVERED,
-	LBTN_CLICKED,
-	LBTN_DOUBLE_CLICKED,
-	END
-};
+//uDataSize == 0 -> Class Pointer
+//uDataSize > 0 -> Data Start Point
+
 
 //여러 개의 창이 생성될 가능성이 있는 UI의 경우
 //IMGUI.ini에 저장하지 않도록 설정하고, 저장해야 할 경우 json 파일을 통해서 설정값을 저장할것
@@ -55,17 +53,19 @@ public:
 
 private:
 	string			m_strID;		//고유 ID. 중복되지 않음.
-	bool			m_Active;		// UI 활성화 체크
+	
 
 	CUI*			m_ParentUI;		// 부모 UI
 	vector<CUI*>	m_vecChildUI;	// 자식 UI 목록
+	bool			m_bActive;		// UI 활성화 체크
+	bool			m_bNoChildUI;	// 자식 노드가 들어갈 수 없는 노드로 설정
 	
 
 public:
-	void SetActive(bool _Active) { m_Active = _Active; }
-	bool GetActive() { return m_Active; }
-	bool* GetActivePtr() { return &m_Active; }
-	bool ToggleActive() { m_Active = !m_Active; return m_Active; }
+	void SetActive(bool _Active) { m_bActive = _Active; }
+	bool GetActive() { return m_bActive; }
+	bool* GetActivePtr() { return &m_bActive; }
+	bool ToggleActive() { m_bActive = !m_bActive; return m_bActive; }
 
 	//자신의 숫자 ID넘버를 뒤에 더해서 고유 ID 생성(ID는 창에 뜨지 않음)
 	void SetStrID(const string& _strID) { m_strID = _strID; }

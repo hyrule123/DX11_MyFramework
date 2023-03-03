@@ -6,9 +6,10 @@
 
 CUI::CUI(const string& _Name)
 	: CEntity(_Name)
-	, m_Active(true)
 	, m_ParentUI()
 	, m_strID(_Name)
+	, m_bActive(true)
+	, m_bNoChildUI()
 {
 }
 
@@ -41,7 +42,7 @@ void CUI::tickRecursive()
 
 void CUI::finaltick()
 {
-	if (false == m_Active)
+	if (false == m_bActive)
 		return;
 
 	if (true == beginUI())
@@ -104,6 +105,13 @@ void CUI::MakeUniqueID(const string& _strUniqueIDSuffix)
 
 void CUI::AddChildUI(CUI* _UI)
 {
+	if (true == m_bNoChildUI)
+	{
+		SAFE_DELETE(_UI);
+		return;
+	}
+		
+
 	_UI->m_ParentUI = this;
 	m_vecChildUI.push_back(_UI);
 

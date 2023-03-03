@@ -9,6 +9,8 @@
 
 #include <UtilLib_DLL/json.h>
 
+#include "CUI_Structs.h"
+
 //Delegate(함수 포인터
 class CUI;
 class CUI_Inspector;
@@ -67,6 +69,6 @@ private:
     void render();
 
     void UpdateMainMenu();
-    void OpenWindowsCallback(CUI_MenuItem* _pMenuItem, DWORD_PTR _pData);
+    void OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tDataPtr _pData);
 };
 

@@ -42,7 +42,7 @@ CUI_Menu* CUI_Menubar::AddMenu(const string& _strName)
     return menu;
 }
 
-CUI_MenuItem* CUI_Menubar::AddMenuItem(const string& _MenuName, const string& _MenuItemName, DWORD_PTR _pData)
+CUI_MenuItem* CUI_Menubar::AddMenuItem(const string& _MenuName, const string& _MenuItemName, tDataPtr _pData)
 {
     CUI_Menu* pMenu = dynamic_cast<CUI_Menu*>(FindChildUIByName(_MenuName));
     if (nullptr == pMenu)

@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "CUI_Tree.h"
 
-CUI_Tree::CUI_Tree(const string& _strName, DWORD_PTR _Value)
+CUI_Tree::CUI_Tree(const string& _strName, tDataPtr _pData)
     : CUI_Widget(_strName, eWIDGET_TYPE::TREE)
     , m_flagTree()
-    , m_pData(_Value)
+    , m_pData(_pData)
     , m_funcCallback{}
 {
     m_flagTree |= ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_FramePadding;
@@ -46,9 +46,9 @@ void CUI_Tree::endUI()
 }
 
 
-void CUI_Tree::AddChildNode(const string& _strName, DWORD_PTR _Value)
+void CUI_Tree::AddChildNode(const string& _strName, tDataPtr _pData)
 {
-    CUI_Tree* pTree = new CUI_Tree(_strName, _Value);
+    CUI_Tree* pTree = new CUI_Tree(_strName, _pData);
 
     pTree->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf);
 

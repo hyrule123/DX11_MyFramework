@@ -29,6 +29,6 @@ public:
 
 private:
     void LoadGameObjectHierarchy(CUI_Tree* _pUI, CGameObject* _pGameObject);
-    void CallbackLinkInspector(CUI_Tree* _pUI, DWORD_PTR _pData);
+    void CallbackLinkInspector(CUI_Tree* _pUI, tDataPtr _pData);
 };
 

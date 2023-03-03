@@ -1,6 +1,5 @@
 #pragma once
 #include "CUI_Widget.h"
-
 #include "CImGuiMgr.h"
 
 enum class eCALLBACK_TYPE
@@ -12,6 +11,11 @@ enum class eCALLBACK_TYPE
 	END
 };
 
+struct tComboItem
+{
+	string strName;
+	tDataPtr pData;
+};
 
 class CUI_ComboBox 
 	: public CUI_Widget
@@ -29,28 +33,28 @@ public:
 	virtual void endUI() override;
 
 private:
-	vector<string> m_vecItem;
+	vector<tComboItem> m_vecItem;
 	int m_iCurrentSelected;
 	ImGuiComboFlags m_ComboFlags;
 
 	//함수 호출 대상
-	vector<std::function<void()>> m_vecCallback[(UINT)eCALLBACK_TYPE::END];
+	vector<std::function<void(const tComboItem&)>> m_vecCallback[(UINT)eCALLBACK_TYPE::END];
 
 
 public://Setter/Getter
 	void SetImguiComboFlag(ImGuiComboFlags _Flags) { m_ComboFlags = _Flags; }
 
-	void AddItem(const string& _str) { m_vecItem.push_back(_str); }
+	void AddItem(const tComboItem& _tItem) { m_vecItem.push_back(_tItem); }
 
 	//새로 들어온 벡터값으로 값을 교체
-	void SetItem(vector<string>& _vecItem) { m_vecItem.clear(); std::swap(m_vecItem, _vecItem); }
+	void SetItem(vector<tComboItem>& _vecItem) { m_vecItem.clear(); std::swap(m_vecItem, _vecItem); }
 
 	size_t GetItemNum() const { return m_vecItem.size(); }
 
 	
 	int	GetCurrentIndex() const { return m_iCurrentSelected; }
 	void SetCurrentSelected(const string& _SelectedName);
-	const string& GetCurrentSelected() const;
+	const tComboItem& GetCurrentSelected() const;
 
 	void AddClickCallback(CUI_BasicWindow* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type);
 	void ClearClickCallback(eCALLBACK_TYPE _Type);
@@ -60,12 +64,14 @@ private:
 	void CallCallbackFunc(eCALLBACK_TYPE _Type);
 };
 
-inline const string& CUI_ComboBox::GetCurrentSelected() const
+inline const tComboItem& CUI_ComboBox::GetCurrentSelected() const
 {
+	static tComboItem voidItem = {};
+
 	if (true == IsIndexValid())
 		return m_vecItem[m_iCurrentSelected];
 	else
-		return g_voidStr;
+		return voidItem;
 }
 
 inline void CUI_ComboBox::AddClickCallback(CUI_BasicWindow* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type)
@@ -88,7 +94,7 @@ inline void CUI_ComboBox::CallCallbackFunc(eCALLBACK_TYPE _Type)
 	size_t size = m_vecCallback[(UINT)_Type].size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecCallback[(UINT)_Type][i]();
+		m_vecCallback[(UINT)_Type][i](GetCurrentSelected());
 	}
 }
 

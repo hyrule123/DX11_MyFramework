@@ -72,7 +72,7 @@ static DWORD ReadMpqSectors(TMPQFile * hf, LPBYTE pbBuffer, DWORD dwByteOffset, 
             hf->bLoadedSectorCRCs = true;
         }
 
-        // TODO: If the raw data MD5s are not loaded yet, load them now
+        // If the raw data MD5s are not loaded yet, load them now
         // Only do it if the MPQ is of format 4.0
 //      if(ha->pHeader->wFormatVersion >= MPQ_FORMAT_VERSION_4 && ha->pHeader->dwRawChunkSize != 0)
 //      {

@@ -36,12 +36,12 @@ void CUI_Contents::tick()
 	}
 }
 
-void CUI_Contents::ChangeSelectedTreeNode(CUI_Tree* _pTree, DWORD_PTR _pValue)
+void CUI_Contents::ChangeSelectedTreeNode(CUI_Tree* _pTree, tDataPtr _pData)
 {
-	if (nullptr == _pTree || (DWORD_PTR)0 == _pValue)
+	if (nullptr == _pTree || nullptr == _pData.pData)
 		return;
 	
-	CRes* pRes = reinterpret_cast<CRes*>(_pValue);
+	CRes* pRes = static_cast<CRes*>(_pData.pData);
 
 	int iResTypeIdx = (int)pRes->GetResType();
 
@@ -65,7 +65,7 @@ void CUI_Contents::UpdateResources()
 		auto ResMap = CResMgr::GetInst()->GetResMap((eRES_TYPE)i);
 		for (auto iter : ResMap)
 		{
-			CUI_Tree* Node = new CUI_Tree(iter.first, (DWORD_PTR)(iter.second.Get()));
+			CUI_Tree* Node = new CUI_Tree(iter.first, tDataPtr{ (void*)iter.second.Get(), });
 			Node->SetFuncCallback(eUI_MOUSE_STATUS::LBTN_CLICKED, std::bind(&CUI_Contents::ChangeSelectedTreeNode, this, std::placeholders::_1, std::placeholders::_2));
 
 			m_arrpResTypeRoot[i]->AddChildNode(Node);

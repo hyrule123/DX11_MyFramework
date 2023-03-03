@@ -306,6 +306,8 @@ void CreateTestLevel()
 
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), 1);
 		//pLevel->AddGameObject(pObj, 1);
+
+		
 	}
 
 	{//Prefab

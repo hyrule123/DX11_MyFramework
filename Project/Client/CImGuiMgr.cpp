@@ -340,16 +340,16 @@ void CImGuiMgr::UpdateMainMenu()
                 continue;
 
             CUI_MenuItem* pMenuItem = m_OpenWindowsMenu->AddMenuItem(UIName,
-                (DWORD_PTR)iter.second);
+                tDataPtr{ iter.second, } );
             pMenuItem->SetCallback(std::bind(&CImGuiMgr::OpenWindowsCallback, this,
                 std::placeholders::_1, std::placeholders::_2));
         }
     }
 }
 
-void CImGuiMgr::OpenWindowsCallback(CUI_MenuItem* _pMenuItem, DWORD_PTR _pData)
+void CImGuiMgr::OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tDataPtr _pData)
 {
-    CUI* pUI = reinterpret_cast<CUI*>(_pData);
+    CUI* pUI = static_cast<CUI*>(_pData.pData);
 
     if (nullptr == _pMenuItem || nullptr == pUI)
         return;

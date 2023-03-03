@@ -31,7 +31,7 @@ bool CUI_ComboBox::beginUI()
 
 	string Preview;
 	if (true == IsIndexValid())
-		Preview = m_vecItem[m_iCurrentSelected];
+		Preview = m_vecItem[m_iCurrentSelected].strName;
 
 	return ImGui::BeginCombo(Label.c_str(), Preview.c_str(), m_ComboFlags);
 }
@@ -50,7 +50,7 @@ void CUI_ComboBox::render_update()
 		bool isSelected = (m_iCurrentSelected == n);
 
 		//여기는 콤보박스에서 특정 값이 선택(클릭)되었을 떄 진입한다.
-		if (true == ImGui::Selectable(m_vecItem[n].c_str(), isSelected))
+		if (true == ImGui::Selectable(m_vecItem[n].strName.c_str(), isSelected))
 		{
 			m_iCurrentSelected = n;
 			CallCallbackFunc(eCALLBACK_TYPE::ONSELECT);
@@ -75,7 +75,7 @@ void CUI_ComboBox::SetCurrentSelected(const string& _SelectedName)
 	size_t size = m_vecItem.size();
 	for (size_t i = 0; i < size; i++)
 	{
-		if (_SelectedName == m_vecItem[i])
+		if (_SelectedName == m_vecItem[i].strName)
 		{
 			m_iCurrentSelected = (int)i;
 			return;

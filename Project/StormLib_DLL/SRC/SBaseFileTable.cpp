@@ -2673,7 +2673,7 @@ static DWORD BuildFileTable_HetBet(TMPQArchive * ha)
             }
 
             //
-            // TODO: Locale (?)
+            //
             //
 
             // Move the current bit position

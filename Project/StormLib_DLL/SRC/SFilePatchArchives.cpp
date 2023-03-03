@@ -489,7 +489,7 @@ static bool IsMatchingPatchFile(
         }
         else
         {
-            // TODO: How to match it if it's not an incremental patch?
+            // How to match it if it's not an incremental patch?
             // Example: StarCraft II\Updates\enGB\s2-update-enGB-23258.MPQ:
             //          Mods\Core.SC2Mod\enGB.SC2Assets\StreamingBuckets.txt"
             bResult = false;
