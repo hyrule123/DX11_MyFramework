@@ -32,7 +32,7 @@ void CScript_MouseCursor::tick()
 	
 	const Matrix& matView = CRenderMgr::GetInst()->GetCurCamera()->GetViewMatrix();
 	//뷰 매트릭스의 위치 행을 반전시켜 주면 이동행렬을 얻을 수 있음.
-	Vec3 Pos = matView.Translation();
+	Vec3 Pos = -matView.Translation();
 
 	CursorPos.x += Pos.x;
 	CursorPos.y += Pos.y;

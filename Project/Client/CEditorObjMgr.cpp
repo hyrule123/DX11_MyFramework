@@ -131,11 +131,14 @@ void CEditorObjMgr::render()
 		{
 			pMtrl = m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::RECT]->MeshRender()->GetCurMaterial();
 
-			MtrlData.INT_0 = (int)eDEBUGSHAPE_TYPE::RECT;
+			MtrlData.INT_0 = (int)pCam->GetCamIndex();
+
+			MtrlData.INT_1 = (int)eDEBUGSHAPE_TYPE::RECT;
 
 			//MAT_WORLD = 1번, VP 행렬은 g_CBuffer_matCam에 있으므로 따로 전달하지 않음
 			MtrlData.MAT_1 = m_vecDebugShapeInfo[i].matWorld;
 
+			
 
 			//m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::RECT]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_MAT_WORLD, m_vecDebugShapeInfo[i].matWorld.m);
 
@@ -150,7 +153,7 @@ void CEditorObjMgr::render()
 		{
 			pMtrl = m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::CIRCLE]->MeshRender()->GetCurMaterial();
 
-			MtrlData.INT_0 = (int)eDEBUGSHAPE_TYPE::CIRCLE;
+			MtrlData.INT_1 = (int)eDEBUGSHAPE_TYPE::CIRCLE;
 
 			//CIRCLE의 경우 정점의 갯수가 많으므로 월드행렬 대신 WVP 행렬을 만들어서 전달
 			//MAT_WVP = 0번

@@ -102,8 +102,4 @@ RWTexture2D<float4> g_TexRW_SCMap : register(e_u_TEXTURERW_TARGET);
 #endif
 
 
-
-
-
-
 #endif

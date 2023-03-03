@@ -48,8 +48,6 @@ uint3 _uGroupID : SV_GroupID)
 	
 	float4 f4Color = (float4) u4Color;
 	f4Color /= 255.f;
-	//asfloat(u4Color);
-	//float4(asfloat(u4Color.x) / 255.f, asfloat(u4Color.y) / 255.f, asfloat(u4Color.z) / 255.f, asfloat(u4Color.w) / 255.f);
 	
 	g_TexRW_SCMap[_uDTID.xy] = f4Color;
 

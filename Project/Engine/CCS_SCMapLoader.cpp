@@ -287,8 +287,8 @@ bool CCS_SCMapLoader::PrepareDataCS()
     unsigned char Info = m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].Data[0];
 
     //앞의 4비트는 0으로 변환
-    unsigned char bitshift = 0b11110000;
-    Info &= ~bitshift;
+    unsigned char bitshift = 0b00001111;
+    Info &= bitshift;
 
     //혹시나 비트시프트 이후 8을 초과하는 값이 나올 경우 8을 빼준다.
     if (Info >= (unsigned char)8)
@@ -345,12 +345,15 @@ bool CCS_SCMapLoader::PrepareDataCS()
     //CV 로드
     CV5* cv5 = new CV5[CV5_MAX];
     memset(cv5, 0, sizeof(CV5) * CV5_MAX);
+
     for (int i = 0; i < CV5_MAX; ++i)
     {
         //매회 20만큼 이동해서 더미 데이터를 버리고 필요한 32(sizeof(CV5))만큼 가져옴.
         fseek(CV5fp, 20, SEEK_CUR);
-        fread(&(cv5[i]), sizeof(CV5), 1, CV5fp);
+        size_t BytesRead = fread(&(cv5[i]), sizeof(CV5), 1, CV5fp);
 
+        if ((size_t)0u == BytesRead)
+            break;
     }
 
     if (nullptr == m_pSBuffer_CV5)

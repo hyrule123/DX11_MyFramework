@@ -47,52 +47,48 @@ void CreateTestLevel()
 
 
 
-	//Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
-	//Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");
-	//Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
+	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
+	Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");
+	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
+	// 오브젝트 생성
 
+	for (int i = 0; i < 5; ++i)
+	{
+		CGameObject* pPlayer = new CGameObject;
+		pPlayer->SetName("Player");
+		pPlayer->AddComponent(new CTransform);
+		pPlayer->Transform()->SetSize(Vec3(84.f, 84.f, 1.f));
+		pPlayer->Transform()->SetLockRotation(true);
+		pPlayer->AddComponent(new CMeshRender);
 
+		if (0 == i)
+			pPlayer->AddScript(new CScript_Player);
 
+		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::MARINE);
 
-	//// 오브젝트 생성
+		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
+		pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+		pPlayer->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 
-	//for (int i = 0; i < 5; ++i)
-	//{
-	//	CGameObject* pPlayer = new CGameObject;
-	//	pPlayer->SetName("Player");
-	//	pPlayer->AddComponent(new CTransform);
-	//	pPlayer->Transform()->SetSize(Vec3(84.f, 84.f, 1.f));
-	//	pPlayer->Transform()->SetLockRotation(true);
-	//	pPlayer->AddComponent(new CMeshRender);
+		pPlayer->MeshRender()->SetMesh(RectMesh);
+		pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
 
-	//	if (0 == i)
-	//		pPlayer->AddScript(new CScript_Player);
+		//pPlayer->AddComponent(new CLight2D);
+		//pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
 
-	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::MARINE);
+		pPlayer->AddComponent(new CAnimator2D);
 
-	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
-	//	pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
-	//	pPlayer->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
+		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCE::TEXTURE::MARINE_ATLAS);
+		pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
+		pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
 
-	//	pPlayer->MeshRender()->SetMesh(RectMesh);
-	//	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
+		if (0 == i)
+			pPlayer->AddComponent(new CCollider2D_Point);
+		else
+			pPlayer->AddComponent(new CCollider2D_OBB);
 
-	//	//pPlayer->AddComponent(new CLight2D);
-	//	//pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
-
-	//	pPlayer->AddComponent(new CAnimator2D);
-
-	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCE::TEXTURE::MARINE_ATLAS);
-	//	pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
-	//	pPlayer->Animator2D()->Play(RESOURCE::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
-
-	//	if (0 == i)
-	//		pPlayer->AddComponent(new CCollider2D_Point);
-	//	else
-	//		pPlayer->AddComponent(new CCollider2D_OBB);
-
-	//	::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
-	//}
+		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
+	}
 
 
 
@@ -354,5 +350,5 @@ void CreateTestLevel()
 
 	pMesh->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));
 
-	::SpawnGameObject(MapObj, Vec3(0.f, 0.f, 0.f), 0);
+	::SpawnGameObject(MapObj, Vec3(0.f, 0.f, 1000.f), 0);
 }
