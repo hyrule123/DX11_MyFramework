@@ -26,90 +26,12 @@
 #define MapSizeChunk    "DIM"
 #define TileMapChunk    "MTXM"
 
-//단위크기: 52byte, 메가타일 인덱스
-
-
-
-
-////단위크기: 32byte, 통과가능여부, 높이
-//typedef struct {
-//    struct VF4Data {
-//        UINT16 MiniTileFlags[16];
-//    } data[65536];
-//}VF4;
-//
-////단위크기: 32bytes, megatile이 어떤 minitile로 이루어졌는지 표시
-//typedef struct {
-//    struct VX4Data {
-//        UINT16 VR4Index[16];
-//    } data[65536];
-//}VX4;
-//
-////단위크기: 64byte - mini tile각각의 픽셀이 WPE 팔레트의 몇 번 색에 해당하는지를 저장
-//typedef struct {
-//    struct VR4Data {
-//        UINT8 color[64];
-//    } image[32768];
-//}VR4;
-//
-////단위크기: 4byte
-//typedef struct {
-//    struct WPEData {
-//        UINT8 r;
-//        UINT8 g;
-//        UINT8 b;
-//        UINT8 padding;
-//    } data[256];
-//}WPE;
-//
-//struct WPEFloatData
-//{
-//    float r;
-//    float g;
-//    float b;
-//    float padding;
-//
-//    WPEFloatData(const WPE::WPEData& Data) :
-//        r(Data.r / 255.f),
-//        g(Data.g / 255.f),
-//        b(Data.b / 255.f),
-//        padding(1.f)
-//    {
-//    }
-//};
-//
-//
-//typedef struct RGBAbyte {
-//    UINT8 r;
-//    UINT8 g;
-//    UINT8 b;
-//    UINT8 a;
-//
-//    RGBAbyte() :
-//        r(),
-//        g(),
-//        b(),
-//        a()
-//    {}
-//    RGBAbyte(UINT8 _r, UINT8 _g, UINT8 _b, UINT8 _a) :
-//        r(_r),
-//        g(_g),
-//        b(_b),
-//        a(_a)
-//    {
-//    }
-//
-//}RGBAbyte;
-//
-//#include <packoff.h>
-
-
 CCS_SCMapLoader::CCS_SCMapLoader()
 	: CComputeShader(32u, 32u, 1u)	//메가타일 사이즈 = 32 * 32
     , m_MapSizeX()
     , m_MapSizeY()
     , m_Terrain{}
-    , m_LoadCheck()
+    //, m_LoadCheck()
     , m_pSBuffer_CV5()
     , m_pSBuffer_VX4()
     , m_pSBuffer_VF4()
@@ -119,7 +41,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     , m_pSBuffer_Debug()
     , m_DebugData()
 {
-    m_LoadRef = 0b00000111;
+    //m_LoadRef = 0b00000111;
 }
 
 CCS_SCMapLoader::~CCS_SCMapLoader()
@@ -141,7 +63,7 @@ bool CCS_SCMapLoader::BindDataCS()
 {
     wstring MapPath = CPathMgr::GetInst()->GetContentPath();
 
-    MapPath += L"Maps/(4)Fighting Sprit 1.3.scx";
+    MapPath += L"Maps/(4) Python 1.4.scx";
 
     HANDLE hMpq = NULL;          // Open archive handle
     HANDLE hFile = NULL;          // Archived file handle
@@ -189,17 +111,24 @@ bool CCS_SCMapLoader::BindDataCS()
 
     //szbuffer에 맵의 데이터가 들어와있을 것임.
     //여기서 맵을 그려내는데 필요한 정보를 가져와야 함
-    ReadMapData(szBuffer, FileSize);
+    bool bLoaded = ReadMapData(szBuffer, FileSize);
 
     delete[] szBuffer;
 
-	return true;
+    if (true == bLoaded)
+        bLoaded = PrepareDataCS();
+
+	return bLoaded;
 }
 
 void CCS_SCMapLoader::UnBindCS()
 {
     m_pSBuffer_CV5->UnBindSRV();
     m_pTexture->UnBind();
+
+
+
+    Debug();
 }
 
 void CCS_SCMapLoader::Debug()
@@ -212,157 +141,150 @@ void CCS_SCMapLoader::Debug()
 
         int a = 0;
     }
-
-    
 }
 
-void CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
+bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 {
     ResetMapData();
 
-    //읽어온 데이터를 string에 옮긴다.
-    string DataStr(Data, Data + Size);
-
-    //Terrain Chunk 시작점(문자열) 을 찾는다.
-    size_t pos = 0;
-    pos = DataStr.find(TerrainChunk);
-
-    if (pos != string::npos)
+    bool bLoaded = false;
+    do
     {
-        Chunk* chk = &m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN];
+        //읽어온 데이터를 string에 옮긴다.
+        std::string_view View(Data, Size);
+        string DataStr(View);
 
-        char* adress = Data + pos;
 
-        //이름 복사
-        memcpy(chk->TypeName, adress, 4);
+        //Terrain Chunk 시작점(문자열) 을 찾는다.
+        size_t pos = 0;
+        pos = DataStr.find(TerrainChunk);
 
-        //데이터 덩어리 사이즈 복사
-        int* len = (int*)(adress + 4);
-        chk->length = *len;
+        if (pos == string::npos)
+            break;
 
-        chk->Data = new unsigned char[chk->length + 1];
-        memcpy(chk->Data, adress + 8, chk->length);
+        {
+            Chunk* chk = &m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN];
 
-        m_LoadCheck |= 1 << (int)eSCMAP_DATA_TYPE::TERRAIN;
-    }
+            char* adress = Data + pos;
 
-    pos = 0;
-    pos = DataStr.find(MapSizeChunk);
+            //이름 복사
+            memcpy(chk->TypeName, adress, 4);
 
-    if (pos != std::string::npos)
+            //데이터 덩어리 사이즈 복사
+            int* len = (int*)(adress + 4);
+            chk->length = *len;
+
+            chk->Data = new unsigned char[chk->length + 1];
+            memcpy(chk->Data, adress + 8, chk->length);
+        }
+
+        pos = 0;
+        pos = DataStr.find(MapSizeChunk);
+
+        if (pos == std::string::npos)
+            break;
+                   
+        {
+            Chunk* chk = &m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE];
+
+            char* adress = Data + pos;
+
+            //이름 복사
+            memcpy(chk->TypeName, adress, 4);
+
+            //데이터 덩어리의 사이즈 복사
+            int* len = (int*)(adress + 4);
+            chk->length = *len;
+
+            chk->Data = new unsigned char[chk->length + 1];
+            memcpy(chk->Data, adress + 8, chk->length);
+        }
+
+
+        pos = 0;
+        pos = DataStr.find(TileMapChunk);
+
+        if (pos == std::string::npos)
+            break;
+
+        {
+            Chunk* chk = &m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP];
+
+            char* adress = Data + pos;
+
+            //이름 복사
+            memcpy(chk->TypeName, adress, 4);
+
+            //데이터 덩어리의 사이즈 복사
+            int* len = (int*)(adress + 4);
+            chk->length = *len;
+
+            chk->Data = new unsigned char[chk->length + 1];
+            memcpy(chk->Data, adress + 8, chk->length);
+        }
+
+        bLoaded = true;
+
+    } while (false);
+
+
+
+    if (false == bLoaded)
     {
-        Chunk* chk = &m_MapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE];
-
-        char* adress = Data + pos;
-
-        //이름 복사
-        memcpy(chk->TypeName, adress, 4);
-
-        //데이터 덩어리의 사이즈 복사
-        int* len = (int*)(adress + 4);
-        chk->length = *len;
-
-        chk->Data = new unsigned char[chk->length + 1];
-        memcpy(chk->Data, adress + 8, chk->length);
-
-        m_LoadCheck |= 1 << (int)eSCMAP_DATA_TYPE::MAPSIZE;
-    }
-
-
-    pos = 0;
-    pos = DataStr.find(TileMapChunk);
-
-    if (pos != std::string::npos)
-    {
-        Chunk* chk = &m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP];
-
-        char* adress = Data + pos;
-
-        //이름 복사
-        memcpy(chk->TypeName, adress, 4);
-
-        //데이터 덩어리의 사이즈 복사
-        int* len = (int*)(adress + 4);
-        chk->length = *len;
-
-        chk->Data = new unsigned char[chk->length + 1];
-        memcpy(chk->Data, adress + 8, chk->length);
-
-        m_LoadCheck |= 1 << (int)eSCMAP_DATA_TYPE::TILEMAP;
-    }
-
-
-    if (m_LoadCheck != m_LoadRef)
         ResetMapData();
+        return false;
+    }
 
-
-    LoadTileMap();
+    return true;
 }
 
 void CCS_SCMapLoader::ResetMapData()
 {
-    m_LoadCheck = 0;
+    //m_LoadCheck = 0;
 
     int Size = (int)eSCMAP_DATA_TYPE::END;
 
     for (int i = 0; i < Size; ++i)
     {
-        if(nullptr != m_MapDataChunk)
-            delete[] m_MapDataChunk[i].Data;
+        SAFE_DELETE_ARRAY(m_arrMapDataChunk[i].Data);
     }
 
-    memset(m_MapDataChunk, 0, sizeof(Chunk) * Size);
+    memset(m_arrMapDataChunk, 0, sizeof(Chunk) * Size);
 }
 
-bool CCS_SCMapLoader::LoadTileMap()
+bool CCS_SCMapLoader::PrepareDataCS()
 {
-    if (false == LoadComplete())
-        return false;
-
-
-    VX4* vx4;
-    VR4* vr4;
-    WPE* wpe;
-    VF4* vf4;
+    VX4* vx4 = nullptr;
+    VR4* vr4 = nullptr;
+    WPE* wpe = nullptr;
+    VF4* vf4 = nullptr;
 
 
     //맵 사이즈 읽기
-    if (m_MapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].length != 4)
+    if (m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].length != 4)
         return false;
 
-    int w = (int)*(unsigned short*)(m_MapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data);
-    int h = (int)*(unsigned short*)(m_MapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data + 2);
-    m_MapSizeX = w;
-    m_MapSizeY = h;
+    m_MapSizeX = (int)*(unsigned short*)(m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data);
+    m_MapSizeY = (int)*(unsigned short*)(m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data + 2);
 
+    SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_3, m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data);
 
 
     //MXTM(TILEMAP) 전송
     m_pSBuffer_MXTM = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_MXTM, e_u_UAV_NONE);
-    UINT DataCount = (UINT)m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].length / 16u;
+    UINT DataCount = (UINT)m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].length / 16u;
 
-    m_pSBuffer_MXTM->Create(16u, DataCount, m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, DataCount);
+    m_pSBuffer_MXTM->Create(16u, DataCount, m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, DataCount);
     m_pSBuffer_MXTM->BindBufferSRV();
-
-    //FILE* MXTMData;
-    //_wfopen_s(&MXTMData, L"D:/Users/ekdrn/Desktop/TESTMXTM", L"wb");
-
-    //fwrite(m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].length, 1, MXTMData);
-
-    //fclose(MXTMData);
-
-    int x, y, subx, suby, i, j;
-
-
 
 
 
     //지형 파일 읽기
-    if (m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].length != 2)
+    if (m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].length != 2)
         return false;
 
     //첫 1바이트에 지형 정보가 들어있다.
-    unsigned char Info = m_MapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].Data[0];
+    unsigned char Info = m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].Data[0];
 
     //앞의 4비트는 0으로 변환
     unsigned char bitshift = 0b11110000;
@@ -417,34 +339,49 @@ bool CCS_SCMapLoader::LoadTileMap()
 
     if (CV5fp == NULL || VX4fp == NULL || VR4fp == NULL || WPEfp == NULL) {
         _fcloseall();
-        return 0;
+        return false;
     }
 
     //CV 로드
-    CV5* cv5 = new CV5[4096];
-    memset(cv5, 0, sizeof(CV5) * 4096);
-    for (int i = 0; i < 4096; ++i)
+    CV5* cv5 = new CV5[CV5_MAX];
+    memset(cv5, 0, sizeof(CV5) * CV5_MAX);
+    for (int i = 0; i < CV5_MAX; ++i)
     {
         //매회 20만큼 이동해서 더미 데이터를 버리고 필요한 32(sizeof(CV5))만큼 가져옴.
         fseek(CV5fp, 20, SEEK_CUR);
         fread(&(cv5[i]), sizeof(CV5), 1, CV5fp);
 
     }
-    m_pSBuffer_CV5 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_CV5, e_u_UAV_NONE);
-    m_pSBuffer_CV5->Create((UINT)sizeof(CV5), 4096u, cv5, 4096u);
+
+    if (nullptr == m_pSBuffer_CV5)
+    {
+        m_pSBuffer_CV5 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_CV5, e_u_UAV_NONE);
+        m_pSBuffer_CV5->Create((UINT)sizeof(CV5), CV5_MAX, cv5, CV5_MAX);
+    }
+    else
+    {
+        m_pSBuffer_CV5->UploadData(cv5, CV5_MAX);
+    }
+
     m_pSBuffer_CV5->BindBufferSRV();
     delete[] cv5;
 
 
     //VX4
-    vx4 = new VX4[65536];
-    memset(vx4, 0, sizeof(VX4) * 65536);
-    fread(vx4, sizeof(VX4), 65536, VX4fp);
+    vx4 = new VX4[VX4_MAX];
+    memset(vx4, 0, sizeof(VX4) * VX4_MAX);
+    fread(vx4, sizeof(VX4), VX4_MAX, VX4fp);
 
-    m_pSBuffer_VX4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
-        eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VX4, e_u_UAV_NONE);
-
-    m_pSBuffer_VX4->Create((UINT)sizeof(VX4), 65536, vx4, 65536);
+    if (nullptr == m_pSBuffer_VX4)
+    {
+        m_pSBuffer_VX4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
+            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VX4, e_u_UAV_NONE);
+        m_pSBuffer_VX4->Create((UINT)sizeof(VX4), VX4_MAX, vx4, VX4_MAX);
+    }
+    else
+    {
+        m_pSBuffer_VX4->UploadData(vx4, VX4_MAX);
+    }
     m_pSBuffer_VX4->BindBufferSRV();
     delete[] vx4;
 
@@ -452,48 +389,68 @@ bool CCS_SCMapLoader::LoadTileMap()
 
 
     //VR4
-    vr4 = new VR4[32768];
-    memset(vr4, 0, sizeof(VR4) * 32768);
-    fread(vr4, sizeof(VR4), 32768, VR4fp);
+    vr4 = new VR4[VR4_MAX];
+    memset(vr4, 0, sizeof(VR4) * VR4_MAX);
+    fread(vr4, sizeof(VR4), VR4_MAX, VR4fp);
 
-    m_pSBuffer_VR4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
-        eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VR4, e_u_UAV_NONE);
-
-    m_pSBuffer_VR4->Create((UINT)sizeof(VR4), 32768, vr4, 32768);
-    m_pSBuffer_VR4->BindBufferSRV();
+    if (nullptr == m_pSBuffer_VR4)
+    {
+        m_pSBuffer_VR4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
+            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VR4, e_u_UAV_NONE);
+        m_pSBuffer_VR4->Create((UINT)sizeof(VR4), VR4_MAX, vr4, VR4_MAX);
+        m_pSBuffer_VR4->BindBufferSRV();
+    }
+    else
+    {
+        m_pSBuffer_VR4->UploadData(vr4, VR4_MAX);
+    }
     delete[] vr4;
 
 
     //wpe
-    wpe = new WPE[64];
-    memset(wpe, 0, sizeof(WPE) * 64);
-    fread(wpe, sizeof(WPE), 64, WPEfp);
+    wpe = new WPE[WPE_MAX];
+    memset(wpe, 0, sizeof(WPE) * WPE_MAX);
+    fread(wpe, sizeof(WPE), WPE_MAX, WPEfp);
 
     size_t size = sizeof(WPE);
 
-    m_pSBuffer_WPE = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
-        eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_WPE, e_u_UAV_NONE);
 
-    m_pSBuffer_WPE->Create((UINT)sizeof(WPE), 64, wpe, 64);
-    m_pSBuffer_WPE->BindBufferSRV();
+
+    if (nullptr == m_pSBuffer_WPE)
+    {
+        m_pSBuffer_WPE = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
+            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_WPE, e_u_UAV_NONE);
+        m_pSBuffer_WPE->Create((UINT)sizeof(WPE), WPE_MAX, wpe, WPE_MAX);
+        m_pSBuffer_WPE->BindBufferSRV();
+    }
+    else
+    {
+        m_pSBuffer_WPE->UploadData(wpe, WPE_MAX);
+    }
     delete[] wpe;
 
 
 
     //VF4
-    vf4 = new VF4[65536];
-    memset(vf4, 0, sizeof(WPE) * 65536);
-    fread(vf4, sizeof(WPE), 65536, VF4fp);
+    vf4 = new VF4[VF4_MAX];
+    memset(vf4, 0, sizeof(VF4) * VF4_MAX);
+    fread(vf4, sizeof(VF4), VF4_MAX, VF4fp);
 
-    m_pSBuffer_VF4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
-        eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VF4, e_u_UAV_NONE);
+    if (nullptr == m_pSBuffer_VF4)
+    {
+        m_pSBuffer_VF4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
+            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VF4, e_u_UAV_NONE);
+        m_pSBuffer_VF4->Create((UINT)sizeof(VF4), VF4_MAX, vf4, VF4_MAX);
+        m_pSBuffer_VF4->BindBufferSRV();
+    }
+    else
+    {
+        m_pSBuffer_VF4->UploadData(vf4, VF4_MAX);
+    }
 
-    m_pSBuffer_VF4->Create((UINT)sizeof(WPE), 65536, vf4, 65536);
-    m_pSBuffer_VF4->BindBufferSRV();
     delete[] vf4;
 
 
-   
     //텍스처
     m_pTexture = new CTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
@@ -515,8 +472,6 @@ bool CCS_SCMapLoader::LoadTileMap()
     memset(m_DebugData, 0, bytesize);
     m_pSBuffer_Debug->Create(sizeof(tMtrlScalarData), mapsize, m_DebugData, mapsize);
     m_pSBuffer_Debug->BindBufferUAV();
-
-
 
 
     return true;

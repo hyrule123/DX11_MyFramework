@@ -83,8 +83,6 @@ cbuffer CBuffer_ParticleModule : register(e_b_CBUFFER_PARTICLE_MODULEDATA)
 	#endif
 
 
-
-
 //==================================================
 // SRV : Texture / Structured Buffers ( t Register )
 //==================================================

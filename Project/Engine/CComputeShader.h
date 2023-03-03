@@ -50,6 +50,6 @@ public:
     void SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
 
     //컴퓨터쉐이더 연산 시행
-    void Execute();
+    bool Execute();
 };
 

@@ -3,10 +3,12 @@
 
 #include "Shader_Header_Register.hlsli"
 
+//컴퓨트쉐이더에서 0 ~ 2 3가지는 사용중
+#define MTRL_SCALAR_INT_MAPSIZE_PACK MTRLDATA_PARAM_SCALAR(INT_3)
+
 //단위크기 : 2byte
 //총 갯수 : 맵의 가로크기(메가타일) * 세로크기(메가타일)
 //HLSL에서는 8개씩 패킹해서 전달(4바이트 int 4개)
-
 #define MXTM_PACK 8u
 //MXTM_MAX는 매번 달라지므로 주의(맵사이즈)
 struct MXTM

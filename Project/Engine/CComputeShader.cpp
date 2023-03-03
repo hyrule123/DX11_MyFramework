@@ -170,10 +170,10 @@ void CComputeShader::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const voi
 	}
 }
 
-void CComputeShader::Execute()
+bool CComputeShader::Execute()
 {
 	if (false == BindDataCS())
-		return;
+		return false;
 
 	//컴퓨트쉐이더 관련 공유 데이터를 상수버퍼를 통해서 전달
 	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
@@ -186,4 +186,6 @@ void CComputeShader::Execute()
 	
 	//처리가 완료되었으면 재정의된 UnBind를 통해 데이터 바인딩을 해제.
 	UnBindCS();
+
+	return true;
 }

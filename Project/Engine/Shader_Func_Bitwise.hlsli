@@ -81,10 +81,20 @@ UINT32_4 UnpackUINT8FromUINT32_ALL(in UINT32 _u32Src)
 	result.a = (_u32Src & g_SBuffer_InitSettings[0].u8BitPartInU32Pack[3])
 		>> g_SBuffer_InitSettings[0].u8BitShiftInU32Pack[3];
 	
+	return result;
+}
 
+UINT32_2 UnpackUINT16FromUINT32_ALL(in UINT32 _u32Src)
+{
+	UINT32_2 result = (UINT32_2) 0u;
+
+	result.x = (_u32Src & g_SBuffer_InitSettings[0].u16BitPartInU32Pack[0]) >> g_SBuffer_InitSettings[0].u16BitShiftInU32Pack[0];
+	
+	result.y = (_u32Src & g_SBuffer_InitSettings[0].u16BitPartInU32Pack[1]) >> g_SBuffer_InitSettings[0].u16BitShiftInU32Pack[1];
 	
 	return result;
 }
+
 
 
 #endif

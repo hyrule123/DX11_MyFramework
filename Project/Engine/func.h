@@ -2,7 +2,7 @@
 
 
 #define SAFE_DELETE(ptr) if(nullptr != ptr) { delete ptr; ptr = nullptr; }
-#define SAFE_DELETE_ARRAY(ptr) if(nullptr != ptr) { delete[] ptr; }
+#define SAFE_DELETE_ARRAY(ptr) if(nullptr != ptr) { delete[] ptr; ptr = nullptr; }
 
 #define DESTRUCTOR_DELETE(ptr) if(nullptr != ptr) { delete ptr; }
 #define DESTRUCTOR_DELETE_ARRAY(ptr) if(nullptr != ptr) { delete[] ptr; }

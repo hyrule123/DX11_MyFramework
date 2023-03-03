@@ -339,13 +339,13 @@ void CreateTestLevel()
 
 	pMapLoader->Execute();
 
-	pMapLoader->Debug();
+	
 
 	Ptr<CTexture> MapTex = pMapLoader->GetMap();
 
 	CGameObject* MapObj = new CGameObject;
 	MapObj->AddComponent(new CTransform);
-	MapObj->Transform()->SetSize(Vec3(500.f, 500.f, 1.f));
+	MapObj->Transform()->SetSize(Vec3(MapTex->GetSize(), 1.f));
 	CMeshRender* pMesh = new CMeshRender;
 	MapObj->AddComponent(pMesh);
 	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D);
@@ -353,11 +353,6 @@ void CreateTestLevel()
 	pMesh->SetMaterial(pMtrl);
 
 	pMesh->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));
-
-	CScript_Debug* script = new CScript_Debug;
-	script->SetCS(pMapLoader);
-	MapObj->AddScript(script);
-
 
 	::SpawnGameObject(MapObj, Vec3(0.f, 0.f, 0.f), 0);
 }

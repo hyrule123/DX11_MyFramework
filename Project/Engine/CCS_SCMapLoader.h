@@ -69,7 +69,7 @@ private:
     //작업할 텍스처 영역 주소
     Ptr<CTexture> m_pTexture;
 
-    Chunk m_MapDataChunk[(int)eSCMAP_DATA_TYPE::END];
+    Chunk m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END];
 
     //============맵 정보=============
     int m_MapSizeX;
@@ -77,8 +77,8 @@ private:
     TerrainInfo m_Terrain;
 
     //로드 완료 기록용 
-    UINT8 m_LoadRef;
-    UINT8 m_LoadCheck;
+    /*UINT8 m_LoadRef;
+    UINT8 m_LoadCheck;*/
 
     //타일맵
     //CSharedPtr<class CTileMapComponent> m_TileMap;
@@ -86,25 +86,18 @@ private:
     //Map의 Chunk 파일 아래의 지형정보
     
     CStructBuffer* m_pSBuffer_MXTM;
-
     //CV5 주소
     CStructBuffer* m_pSBuffer_CV5;
-
     //VX4 주소
     CStructBuffer* m_pSBuffer_VX4;
-
-    
     //VF4 주소
     CStructBuffer* m_pSBuffer_VF4;
-
-
     //VR4 주소
     CStructBuffer* m_pSBuffer_VR4;
-
-
     //WPE 주소
     CStructBuffer* m_pSBuffer_WPE;
 
+    //TODO : 나중에 맵 문제없이 로딩될경우 아래 변수는 삭제할것
     CStructBuffer* m_pSBuffer_Debug;
     tMtrlScalarData* m_DebugData;
 
@@ -112,14 +105,20 @@ public:
     Ptr<CTexture> GetMap() const { return m_pTexture; }
 
 private:
-    void ReadMapData(char* Data, DWORD Size);
+    bool ReadMapData(char* Data, DWORD Size);
     void ResetMapData();
-    bool LoadTileMap();
+    bool PrepareDataCS();
     bool LoadComplete();
-
 };
 
 inline bool CCS_SCMapLoader::LoadComplete()
 {
-    return (m_LoadCheck == m_LoadRef);
+    for (int i = 0; i < (int)eSCMAP_DATA_TYPE::END; ++i)
+    {
+        //할당된 데이터가 하나도 없을 경우 false 반환
+        if (nullptr == m_arrMapDataChunk[i].Data)
+            return false;
+    }
+
+    return true;
 }
