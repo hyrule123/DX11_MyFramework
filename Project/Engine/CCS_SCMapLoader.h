@@ -1,21 +1,34 @@
 #pragma once
 #include "CComputeShader.h"
 
+#include "Shader_SCMapLoader_0_Header.hlsli"
+
 #include "ptr.h"
 #include "CTexture.h"
 
 //"ERA" 안의 정보 
-enum class TerrainInfo : unsigned char
+enum class eTERRAIN_INFO : UINT8
 {
-    Badlands = 0x00,
-    SpacePlatform = 0x01,
-    Installation = 0x02,
-    AshWorld = 0x03,
-    Jungle = 0x04,
-    Desert = 0x05,
-    Ice = 0x06,
-    Twilight = 0x07
+    BADLANDS = 0x00,
+    SPACE_PLATFORM = 0x01,
+    INSTALLATION = 0x02,
+    ASH_WORLD = 0x03,
+    JUNGLE = 0x04,
+    DESERT = 0x05,
+    ICE = 0x06,
+    TWILIGHT = 0x07,
+    END = 0x08
 };
+
+
+//struct tpSBufferTileSet
+//{
+//    CStructBuffer* pSBuffer_CV5;
+//    CStructBuffer* pSBuffer_VX4;
+//    CStructBuffer* pSBuffer_VF4;
+//    CStructBuffer* pSBuffer_VR4;
+//    CStructBuffer* pSBuffer_WPE;
+//};
 
 
 //맵데이터로부터 로드해야하는 데이터들의 플래그
@@ -47,7 +60,17 @@ typedef struct Chunk
 } Chunk;
 
 
+struct tMapData
+{
+    wstring wstrMapName;
+    UINT uMapSizeX;
+    UINT uMapSizeY;
+    eTERRAIN_INFO eTerrain;
+    Ptr<CTexture> pMapTex;
 
+    tMapData() : wstrMapName(), uMapSizeX(), uMapSizeY(), eTerrain(), pMapTex(nullptr)
+    {}
+};
 
 
 class CStructBuffer;
@@ -66,59 +89,27 @@ public:
     void Debug();
 
 private:
-    //작업할 텍스처 영역 주소
-    Ptr<CTexture> m_pTexture;
+    CStructBuffer* m_arr_pSBufferTileSet[(int)eTERRAIN_INFO::END];
 
-    Chunk m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END];
+    //MXTM 관련
+    //Map의 Chunk 파일 아래의 지형정보
+    CStructBuffer* m_pSBuffer_MXTM;
 
     //============맵 정보=============
-    int m_MapSizeX;
-    int m_MapSizeY;
-    TerrainInfo m_Terrain;
+    tMapData m_tMapWorkSpace;
 
-    //로드 완료 기록용 
-    /*UINT8 m_LoadRef;
-    UINT8 m_LoadCheck;*/
 
-    //타일맵
-    //CSharedPtr<class CTileMapComponent> m_TileMap;
 
-    //Map의 Chunk 파일 아래의 지형정보
-    
-    CStructBuffer* m_pSBuffer_MXTM;
-    //CV5 주소
-    CStructBuffer* m_pSBuffer_CV5;
-    //VX4 주소
-    CStructBuffer* m_pSBuffer_VX4;
-    //VF4 주소
-    CStructBuffer* m_pSBuffer_VF4;
-    //VR4 주소
-    CStructBuffer* m_pSBuffer_VR4;
-    //WPE 주소
-    CStructBuffer* m_pSBuffer_WPE;
 
     //TODO : 나중에 맵 문제없이 로딩될경우 아래 변수는 삭제할것
     CStructBuffer* m_pSBuffer_Debug;
     tMtrlScalarData* m_DebugData;
 
 public:
-    Ptr<CTexture> GetMap() const { return m_pTexture; }
+    bool LoadMap(const wstring& _wstrMapName, __out tMapData& _tMapData);
 
 private:
     bool ReadMapData(char* Data, DWORD Size);
-    void ResetMapData();
     bool PrepareDataCS();
-    bool LoadComplete();
 };
 
-inline bool CCS_SCMapLoader::LoadComplete()
-{
-    for (int i = 0; i < (int)eSCMAP_DATA_TYPE::END; ++i)
-    {
-        //할당된 데이터가 하나도 없을 경우 false 반환
-        if (nullptr == m_arrMapDataChunk[i].Data)
-            return false;
-    }
-
-    return true;
-}

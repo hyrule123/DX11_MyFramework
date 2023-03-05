@@ -70,7 +70,17 @@ struct WPE
 	UINT32_4 RGBAPack;
 };
 
+struct tTileSet
+{
+	CV5 cv5[CV5_MAX];
+	VF4 vf4[VF4_MAX];
+	VX4 vx4[VX4_MAX];
+	VR4 vr4[VR4_MAX];
+	WPE wpe[WPE_MAX];
+};
+
 #define e_t_SBUFFER_MXTM REGISTER_IDX(t, 0)
+#define e_t_SBUFFER_TILESET REGISTER_IDX(t, 1)
 #define e_t_SBUFFER_CV5 REGISTER_IDX(t, 1)
 #define e_t_SBUFFER_VX4 REGISTER_IDX(t, 2)
 #define e_t_SBUFFER_VR4 REGISTER_IDX(t, 3)
@@ -85,11 +95,13 @@ struct WPE
 
 #ifdef __cplusplus
 
-
-
 #else
 
+
+
 StructuredBuffer<MXTM> g_SBuffer_MXTM : register(e_t_SBUFFER_MXTM);
+StructuredBuffer<tTileSet> g_SBuffer_Tileset : register(e_t_SBUFFER_TILESET);
+
 StructuredBuffer<CV5> g_SBuffer_CV5 : register(e_t_SBUFFER_CV5);
 StructuredBuffer<VX4> g_SBuffer_VX4 : register(e_t_SBUFFER_VX4);
 StructuredBuffer<VR4> g_SBuffer_VR4 : register(e_t_SBUFFER_VR4);
