@@ -32,59 +32,49 @@ constexpr const char* TileMapChunk = "MTXM";
 
 CCS_SCMapLoader::CCS_SCMapLoader()
 	: CComputeShader(32u, 32u, 1u)	//메가타일 사이즈 = 32 * 32
-    , m_arr_pSBufferTileSet{}
+    , m_arrpSBufferTileSet{}
     , m_pSBuffer_MXTM()
     , m_pSBuffer_Debug()
     , m_DebugData()
     
 {
+
     wstring Path = CPathMgr::GetInst()->GetContentPath();
     Path += L"Maps/Tilesets/";
 
-    //Desc 작성해서 SBuffer 생성
-    tSBufferDesc Desc = { eSTRUCT_BUFFER_TYPE::READ_ONLY,
-    (UINT)eSHADER_PIPELINE_STAGE::__COMPUTE,
-    eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,
-    e_t_SBUFFER_TILESET,
-    e_u_UAV_NONE
-    };
-    (*m_arr_pSBufferTileSet) = new CStructBuffer[(int)eTERRAIN_INFO::END];
-    for (int i = 0; i < (int)eTERRAIN_INFO::END; ++i)
-    {
-        m_arr_pSBufferTileSet[i]->SetDesc(Desc);
-    }
 
-
-    //타일셋 데이터를 저장할 메모리공간 동적할당
+    //타일셋 데이터를 저장할 메모리공간 동적할당 
     tTileSet* Tileset = new tTileSet;
-    for (UINT8 TerrainInfo = (UINT8)0u; TerrainInfo < (UINT8)eTERRAIN_INFO::END; ++TerrainInfo)
+    for (UINT8 TileSetIdx = (UINT8)0u; TileSetIdx < (UINT8)eTILESET_INFO::END; ++TileSetIdx)
     {
+        //타일셋 데이터 초기화
+        memset(Tileset, 0, sizeof(tTileSet));
         wstring FullPath = Path;
 
-        switch ((eTERRAIN_INFO)TerrainInfo)
+        switch ((eTILESET_INFO)TileSetIdx)
         {
-        case eTERRAIN_INFO::BADLANDS:
+        case eTILESET_INFO::BADLANDS:
             FullPath += TEXT("badlands");
             break;
-        case eTERRAIN_INFO::SPACE_PLATFORM:
+        case eTILESET_INFO::SPACE_PLATFORM:
             FullPath += TEXT("platform");
             break;
-        case eTERRAIN_INFO::INSTALLATION:
+        case eTILESET_INFO::INSTALLATION:
             FullPath += TEXT("install");
             break;
-        case eTERRAIN_INFO::ASH_WORLD:
+        case eTILESET_INFO::ASH_WORLD:
             FullPath += TEXT("ashworld");
             break;
-        case eTERRAIN_INFO::JUNGLE:
+        case eTILESET_INFO::JUNGLE:
             FullPath += TEXT("jungle");
             break;
-        case eTERRAIN_INFO::DESERT:
+        case eTILESET_INFO::DESERT:
             FullPath += TEXT("Desert");
             break;
-        case eTERRAIN_INFO::ICE:
+        case eTILESET_INFO::ICE:
             FullPath += TEXT("Ice");
             break;
-        case eTERRAIN_INFO::TWILIGHT:
+        case eTILESET_INFO::TWILIGHT:
             FullPath += TEXT("Twilight");
             break;
         default:
@@ -99,14 +89,15 @@ CCS_SCMapLoader::CCS_SCMapLoader()
         _wfopen_s(&fpVF4, (FullPath + TEXT(".VF4")).c_str(), TEXT("rb"));
 
 
-        if (fpCV5 == NULL || fpVX4 == NULL || fpVR4 == NULL || fpWPE == NULL) 
+        if (fpCV5 == nullptr || fpVX4 == nullptr || fpVR4 == nullptr || fpWPE == nullptr || fpVF4 == nullptr)
         {
             _fcloseall();
+            delete Tileset;
+            MessageBoxA(nullptr, "Tileset Load Failed", nullptr, MB_OK);
             assert(nullptr);
         }
 
-        //타일셋 구조체를 초기화
-        memset(Tileset, 0, sizeof(tTileSet));
+
 
         for (int i = 0; i < CV5_MAX; ++i)
         {
@@ -123,18 +114,72 @@ CCS_SCMapLoader::CCS_SCMapLoader()
         fread(Tileset->wpe, sizeof(WPE), WPE_MAX, fpWPE);
         fread(Tileset->vf4, sizeof(VF4), VF4_MAX, fpVF4);
 
-        m_arr_pSBufferTileSet[TerrainInfo]->UploadData(Tileset, (UINT)sizeof(tTileSet));
+        //Desc 작성해서 SBuffer 생성
+        tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY,
+        eSHADER_PIPELINE_STAGE::__COMPUTE,
+        eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,
+        e_t_SRV_NONE,
+        e_u_UAV_NONE
+        };
+        //타일셋 일괄적으로 동적 할당
+        
+
+        m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)eTILESET_MEMBER::END];
+        for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
+        {
+            //0 ~ 5번까지 일치시켜 놓았음.
+            SDesc.i_e_t_SRVIdx = i;
+
+            //Desc 설정
+            m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].SetDesc(SDesc);
+
+            //각자에게 맞는 구조화버퍼 공간 생성
+            switch ((eTILESET_MEMBER)i)
+            {
+            case eTILESET_MEMBER::CV5:
+                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(CV5), (UINT)CV5_MAX, Tileset->cv5, (UINT)CV5_MAX);
+                
+                break;
+            case eTILESET_MEMBER::VX4:
+                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VX4), (UINT)VX4_MAX, Tileset->vx4, (UINT)VX4_MAX);
+
+                break;
+            case eTILESET_MEMBER::VF4:
+                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VF4), (UINT)VF4_MAX, Tileset->vf4, (UINT)VF4_MAX);
+
+                break;
+            case eTILESET_MEMBER::VR4:
+                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VR4), (UINT)VR4_MAX, Tileset->vr4, (UINT)VR4_MAX);
+
+                break;
+            case eTILESET_MEMBER::WPE:
+                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(WPE), (UINT)WPE_MAX, Tileset->wpe, (UINT)WPE_MAX);
+
+                break;
+
+            default:
+                break;
+            }
+        }
+
+
+        _fcloseall();
     }
-
-
 
     delete Tileset;
 }
 
 CCS_SCMapLoader::~CCS_SCMapLoader()
 {
+    for (int i = 0; i < (int)eTILESET_INFO::END; ++i)
+    {
+        DESTRUCTOR_DELETE_ARRAY(m_arrpSBufferTileSet[i].arrTileSetMember);
+    }
+
+    DESTRUCTOR_DELETE(m_pSBuffer_MXTM);
 
 
+    DESTRUCTOR_DELETE(m_pSBuffer_Debug);
     if (nullptr != m_DebugData)
         delete[] m_DebugData;
     
@@ -181,7 +226,6 @@ bool CCS_SCMapLoader::BindDataCS()
     pSFileCloseArchive funcCloseArchive = (pSFileCloseArchive)GetProcAddress(DLLModule, "SFileCloseArchive");
 
 
-
     //DLL로부터 로드 실패 또는 함수에서 로드를 실패했을 경우 false 반환
     if (nullptr == MpqOpenFunc || false == MpqOpenFunc(MapPath.c_str(), 0, 0, &hMpq))
     {
@@ -201,8 +245,7 @@ bool CCS_SCMapLoader::BindDataCS()
     char* szBuffer;
     DWORD dwBytes = 1;
 
-    //파일의 사이즈를 받아온 후 해당 파일을 받아올 공간을 동적할당 및 초기화한다..
-
+    //파일의 사이즈를 받아온 후 해당 파일을 받아올 공간을 동적할당 및 초기화한다.
     DWORD FileSize = funcGetFileSize(hFile, NULL);
     szBuffer = new char[FileSize];
     memset(szBuffer, 0, (size_t)FileSize);
@@ -210,8 +253,6 @@ bool CCS_SCMapLoader::BindDataCS()
 
     //데이터를 읽어온다.
     funcReadFile(hFile, szBuffer, FileSize, &dwBytes, NULL);
-
-    
 
     
     //파일 연결 해제
@@ -228,8 +269,9 @@ bool CCS_SCMapLoader::BindDataCS()
 
     delete[] szBuffer;
 
+    //맵데이터를 읽어오는것까지 성공했을 경우 CS로 데이터를 업로드한다.
     if (true == bLoaded)
-        bLoaded = PrepareDataCS();
+        bLoaded = UploadMapDataToCS();
 
 	return bLoaded;
 
@@ -278,7 +320,14 @@ bool CCS_SCMapLoader::BindDataCS()
 
 void CCS_SCMapLoader::UnBindCS()
 {
-
+    for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
+    {
+        m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].UnBindSRV();
+    }
+    
+    
+    //맵 정보는 제거
+    SAFE_DELETE(m_pSBuffer_MXTM);
 
     Debug();
 }
@@ -295,16 +344,17 @@ void CCS_SCMapLoader::Debug()
     //}
 }
 
-bool CCS_SCMapLoader::LoadMap(const wstring& _wstrMapName, tMapData& _tMapData)
+bool CCS_SCMapLoader::LoadMap(const wstring& _wstrMapName, __out tMapData& _tMapData)
 {
+    _tMapData = tMapData();
+
     m_tMapWorkSpace.wstrMapName = _wstrMapName;
 
+    //로드 실패 시 들어온 레퍼런스를 초기화하고 false 반환
     if (false == Execute())
-    {
-        _tMapData = tMapData();
         return false;
-    }
             
+    //성공 시 작업 정보를 넘겨주고 자신의 작업 영역은 초기화한다.
     _tMapData = m_tMapWorkSpace;
     m_tMapWorkSpace = tMapData();
     return true;
@@ -313,9 +363,8 @@ bool CCS_SCMapLoader::LoadMap(const wstring& _wstrMapName, tMapData& _tMapData)
 
 bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 {
-
-
-    Chunk m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END];
+    //tMapDataChunk 자체의 데이터 사이즈는 크지 않으므로 스택에 생성
+    tMapDataChunk arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END] = {};
 
     bool bLoaded = false;
     do
@@ -325,7 +374,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
         string DataStr(View);
 
 
-        //Terrain Chunk 시작점(문자열) 을 찾는다.
+        //Terrain tMapDataChunk 시작점(문자열) 을 찾는다.
         size_t pos = 0;
         pos = DataStr.find(TerrainChunk);
 
@@ -333,7 +382,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
             break;
 
         {
-            Chunk* chk = &m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN];
+            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN];
 
             char* adress = Data + pos;
 
@@ -355,7 +404,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
             break;
                    
         {
-            Chunk* chk = &m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE];
+            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE];
 
             char* adress = Data + pos;
 
@@ -367,7 +416,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
             chk->length = *len;
 
             chk->Data = new unsigned char[chk->length + 1];
-            memcpy(chk->Data, adress + 8, chk->length);
+            memcpy(chk->Data, adress + 8, chk->length);            
         }
 
 
@@ -378,7 +427,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
             break;
 
         {
-            Chunk* chk = &m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP];
+            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP];
 
             char* adress = Data + pos;
 
@@ -397,36 +446,36 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
     } while (false);
 
-
-    Chunk* arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END] = {};
-    *arrMapDataChunk = new Chunk[(int)eSCMAP_DATA_TYPE::END];
+    if (false == bLoaded)
+        return false;
 
 
     //맵 사이즈 읽기
     if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].length != 4)
         return false;
 
-    m_MapSizeX = (int)*(unsigned short*)(m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data);
-    m_MapSizeY = (int)*(unsigned short*)(m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data + 2);
+    m_tMapWorkSpace.uMapSizeX = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data);
+    m_tMapWorkSpace.uMapSizeY = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data + 2);
 
-    SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_3, m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data);
+    Vec2 vMapSize = Vec2(m_tMapWorkSpace.uMapSizeX, m_tMapWorkSpace.uMapSizeY);
+    SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &vMapSize);
 
-
-    //MXTM(TILEMAP) 전송
-    m_pSBuffer_MXTM = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_MXTM, e_u_UAV_NONE);
-    UINT DataCount = (UINT)m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].length / 16u;
-
-    m_pSBuffer_MXTM->Create(16u, DataCount, m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, DataCount);
+    //MXTM(TILEMAP) 생성 및 전송
+    SAFE_DELETE(m_pSBuffer_MXTM);
+    tSBufferDesc SBufferDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_MXTM, e_u_UAV_NONE };
+   
+    m_pSBuffer_MXTM = new CStructBuffer(SBufferDesc);
+    UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].length / 16u;
+    m_pSBuffer_MXTM->Create((UINT)sizeof(MXTM), DataCount, arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, DataCount);
     m_pSBuffer_MXTM->BindBufferSRV();
 
 
-
     //지형 파일 읽기
-    if (m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].length != 2)
+    if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].length != 2)
         return false;
 
     //첫 1바이트에 지형 정보가 들어있다.
-    unsigned char Info = m_arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].Data[0];
+    unsigned char Info = arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].Data[0];
 
     //앞의 4비트는 0으로 변환
     unsigned char bitshift = 0b00001111;
@@ -436,128 +485,41 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     if (Info >= (unsigned char)8)
         Info -= (unsigned char)8;
 
-    m_Terrain = static_cast<eTERRAIN_INFO>(Info);
-
-    if (false == bLoaded)
-    {
-        ResetMapData();
-        return false;
-    }
+    m_tMapWorkSpace.eTileSet = static_cast<eTILESET_INFO>(Info);
 
     return true;
 }
 
-bool CCS_SCMapLoader::PrepareDataCS()
+bool CCS_SCMapLoader::UploadMapDataToCS()
 {
-
-
-
-
-
-
+    //타일셋을 바인딩해준다.
+    for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
+    {
+        m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].BindBufferSRV();
+    }
     
 
-    if (nullptr == m_pSBuffer_VX4)
-    {
-        m_pSBuffer_VX4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
-            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VX4, e_u_UAV_NONE);
-        m_pSBuffer_VX4->Create((UINT)sizeof(VX4), VX4_MAX, vx4, VX4_MAX);
-    }
-    else
-    {
-        m_pSBuffer_VX4->UploadData(vx4, VX4_MAX);
-    }
-    m_pSBuffer_VX4->BindBufferSRV();
-    delete[] vx4;
-
-
-
-
-    //VR4
-    vr4 = new VR4[VR4_MAX];
-    memset(vr4, 0, sizeof(VR4) * VR4_MAX);
-    fread(vr4, sizeof(VR4), VR4_MAX, fpVR4);
-
-    if (nullptr == m_pSBuffer_VR4)
-    {
-        m_pSBuffer_VR4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
-            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VR4, e_u_UAV_NONE);
-        m_pSBuffer_VR4->Create((UINT)sizeof(VR4), VR4_MAX, vr4, VR4_MAX);
-        m_pSBuffer_VR4->BindBufferSRV();
-    }
-    else
-    {
-        m_pSBuffer_VR4->UploadData(vr4, VR4_MAX);
-    }
-    delete[] vr4;
-
-
-    //wpe
-    wpe = new WPE[WPE_MAX];
-    memset(wpe, 0, sizeof(WPE) * WPE_MAX);
-    fread(wpe, sizeof(WPE), WPE_MAX, fpWPE);
-
-    size_t size = sizeof(WPE);
-
-
-
-    if (nullptr == m_pSBuffer_WPE)
-    {
-        m_pSBuffer_WPE = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
-            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_WPE, e_u_UAV_NONE);
-        m_pSBuffer_WPE->Create((UINT)sizeof(WPE), WPE_MAX, wpe, WPE_MAX);
-        m_pSBuffer_WPE->BindBufferSRV();
-    }
-    else
-    {
-        m_pSBuffer_WPE->UploadData(wpe, WPE_MAX);
-    }
-    delete[] wpe;
-
-
-
-    //VF4
-    vf4 = new VF4[VF4_MAX];
-    memset(vf4, 0, sizeof(VF4) * VF4_MAX);
-    fread(vf4, sizeof(VF4), VF4_MAX, fpVF4);
-
-    if (nullptr == m_pSBuffer_VF4)
-    {
-        m_pSBuffer_VF4 = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE,
-            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_VF4, e_u_UAV_NONE);
-        m_pSBuffer_VF4->Create((UINT)sizeof(VF4), VF4_MAX, vf4, VF4_MAX);
-        m_pSBuffer_VF4->BindBufferSRV();
-    }
-    else
-    {
-        m_pSBuffer_VF4->UploadData(vf4, VF4_MAX);
-    }
-
-    delete[] vf4;
-
-
-    //텍스처
-    m_pTexture = new CTexture;
+    //타겟이 될 텍스처를 동적할당하고, UAV에 바인딩
+    m_tMapWorkSpace.pMapTex = new CTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
-    m_pTexture->Create(32u * m_MapSizeX, 32u * m_MapSizeY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-    m_pTexture->BindData_UAV(e_u_TEXTURERW_TARGET);
+    m_tMapWorkSpace.pMapTex->Create(32u * m_tMapWorkSpace.uMapSizeX, 32u * m_tMapWorkSpace.uMapSizeY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+    m_tMapWorkSpace.pMapTex->BindData_UAV(e_u_TEXTURERW_TARGET);
 
 
-    CalcGroupNumber(32u * m_MapSizeX, 32u * m_MapSizeY, 1u);
-
-    _fcloseall();
+    //필요한 그룹의 수 계산
+    CalcGroupNumber(32u * m_tMapWorkSpace.uMapSizeX, 32u * m_tMapWorkSpace.uMapSizeY, 1u);
 
 
     //디버그용 쉐이더 바인딩
-    m_pSBuffer_Debug = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SRV_NONE, e_u_SBUFFERRW_DEBUG);
+    tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SRV_NONE, e_u_SBUFFERRW_DEBUG };
+    m_pSBuffer_Debug = new CStructBuffer(SDesc);
 
-    int mapsize = m_MapSizeX * m_MapSizeY;
+    int mapsize = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;
     m_DebugData = new tMtrlScalarData[mapsize];
     size_t bytesize = sizeof(tMtrlScalarData) * mapsize;
     memset(m_DebugData, 0, bytesize);
     m_pSBuffer_Debug->Create(sizeof(tMtrlScalarData), mapsize, m_DebugData, mapsize);
     m_pSBuffer_Debug->BindBufferUAV();
-
 
     return true;
 }

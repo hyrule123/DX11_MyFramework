@@ -48,12 +48,12 @@ void CMaterial::SetInstancedRender(bool _bEnable)
 		m_CBufferMtrlScalar = nullptr;
 
 		//구조화버퍼 생성
-		m_SBufferMtrlScalar = new CStructBuffer(
+		m_SBufferMtrlScalar = new CStructBuffer(tSBufferDesc{
 			eSTRUCT_BUFFER_TYPE::READ_ONLY,
 			eSHADER_PIPELINE_STAGE::__ALL,
 			eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR
 			, e_t_SBUFFER_MTRL_SCALAR,
-			e_u_UAV_NONE
+			e_u_UAV_NONE }
 		);
 		m_SBufferMtrlScalar->Create((UINT)sizeof(tMtrlScalarData), 100u, nullptr, 0u);
 	}

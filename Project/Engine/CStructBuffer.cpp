@@ -31,6 +31,18 @@ CStructBuffer::CStructBuffer(const tSBufferDesc& _tDesc)
 	SetDefaultDesc();
 }
 
+CStructBuffer::CStructBuffer(tSBufferDesc&& _tDesc) 
+	: m_tSBufferDesc(_tDesc)
+	, m_bSBufferDescSet(true)
+	, m_uElementStride()
+	, m_uElementCount()
+	, m_uElementCapacity()
+	, m_BufferDesc{}
+	, m_eCurBoundView()
+{
+	SetDefaultDesc();
+}
+
 CStructBuffer::~CStructBuffer()
 {
 }
@@ -202,22 +214,22 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
 
 	switch (m_tSBufferDesc.eSBufferType)
 	{
-
-	//읽기 전용 Struct 버퍼일 경우에는 그냥 바로 데이터를 가져오면 된다.
-	//READ_ONLY는 디버그 모드에서만 데이터를 확인할 수 있음.
+		memset(_pDest, 0, (size_t)_uDestByteCapacity);
+		return;
+	//READ_ONLY일 경우에는 데이터 가져오기 불가능.
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 	{
-#ifdef _DEBUG
-		D3D11_MAPPED_SUBRESOURCE Data = {};
-
-		pContext->Map(m_StructBuffer.Get(), 0, D3D11_MAP_READ, 0, &Data);
-
-		size_t bytesize = m_uElementStride * m_uElementCount;
-
-		memcpy_s(_pDest, _uDestByteCapacity, Data.pData, bytesize);
-
-		pContext->Unmap(m_StructBuffer.Get(), 0);
-#endif
+//#ifdef _DEBUG
+//		D3D11_MAPPED_SUBRESOURCE Data = {};
+//
+//		pContext->Map(m_StructBuffer.Get(), 0, D3D11_MAP_READ, 0, &Data);
+//
+//		size_t bytesize = m_uElementStride * m_uElementCount;
+//
+//		memcpy_s(_pDest, _uDestByteCapacity, Data.pData, bytesize);
+//
+//		pContext->Unmap(m_StructBuffer.Get(), 0);
+//#endif
 		break;
 	}
 	
@@ -319,9 +331,6 @@ void CStructBuffer::SetDefaultDesc()
 
 		//CPU에서 구조화버퍼로 작성할 수 있어야 하므로 AccessFlag를 write로 설정
 		m_BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-#ifdef _DEBUG
-		m_BufferDesc.CPUAccessFlags |= D3D11_CPU_ACCESS_READ;
-#endif
 
 		//CPU에서 버퍼를 작성하고 GPU에서 버퍼를 읽어들일 경우 사용
 		m_BufferDesc.Usage = D3D11_USAGE_DYNAMIC;

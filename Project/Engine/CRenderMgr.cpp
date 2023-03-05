@@ -64,7 +64,8 @@ void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 void CRenderMgr::init()
 {
     //광원정보는 픽셀에서만 필요, 8번 텍스처 레지스터에 바인딩 되어있음.
-    m_pLight2DStructBuffer = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__PIXEL, eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D, e_t_SBUFFER_LIGHT2D, e_u_UAV_NONE);
+    m_pLight2DStructBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__PIXEL, eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D, e_t_SBUFFER_LIGHT2D, e_u_UAV_NONE
+        });
     m_pLight2DStructBuffer->Create((UINT)sizeof(tLightInfo), 10, nullptr, 0u);
 }
 

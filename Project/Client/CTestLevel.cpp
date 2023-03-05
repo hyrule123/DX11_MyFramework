@@ -335,19 +335,20 @@ void CreateTestLevel()
 
 	Ptr<CCS_SCMapLoader> pMapLoader = CResMgr::GetInst()->FindRes<CComputeShader>(RESOURCE::SHADER::COMPUTE::SC_MAP_LOADER);
 
-	pMapLoader->Execute();
+	tMapData Data = {};
+	pMapLoader->LoadMap(L"(4)Fighting Sprit 1.3.scx", Data);
 
 	
 
-	Ptr<CTexture> MapTex = pMapLoader->GetMap();
+	//Ptr<CTexture> MapTex = pMapLoader->GetMap();
 
 	CGameObject* MapObj = new CGameObject;
 	MapObj->AddComponent(new CTransform);
-	MapObj->Transform()->SetSize(Vec3(MapTex->GetSize(), 1.f));
+	MapObj->Transform()->SetSize(Vec3(Data.pMapTex->GetSize(), 1.f));
 	CMeshRender* pMesh = new CMeshRender;
 	MapObj->AddComponent(pMesh);
 	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::STD2D);
-	pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, MapTex);
+	pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Data.pMapTex);
 	pMesh->SetMaterial(pMtrl);
 
 	pMesh->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));

@@ -24,7 +24,7 @@ bool CCS_Initialize::BindDataCS()
 	g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
 
 
-	m_pSBuffer_InitSetting = new CStructBuffer(eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__ALL, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_INIT_SETTING, e_u_INIT_SETTING);
+	m_pSBuffer_InitSetting = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__ALL, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_INIT_SETTING, e_u_INIT_SETTING });
 	m_pSBuffer_InitSetting->Create(sizeof(tInitSetting), 1u, &g_InitSetting, 1u);
 
 	//UAV와 바인딩

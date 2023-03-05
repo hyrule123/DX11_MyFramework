@@ -6,8 +6,11 @@
 #include "ptr.h"
 #include "CTexture.h"
 
+
+class CStructBuffer;
+
 //"ERA" 안의 정보 
-enum class eTERRAIN_INFO : UINT8
+enum class eTILESET_INFO : UINT8
 {
     BADLANDS = 0x00,
     SPACE_PLATFORM = 0x01,
@@ -20,15 +23,30 @@ enum class eTERRAIN_INFO : UINT8
     END = 0x08
 };
 
+enum class eTILESET_MEMBER
+{
+    CV5,
+    VX4,
+    VF4,
+    VR4,
+    WPE,
+    END
+};
 
-//struct tpSBufferTileSet
-//{
-//    CStructBuffer* pSBuffer_CV5;
-//    CStructBuffer* pSBuffer_VX4;
-//    CStructBuffer* pSBuffer_VF4;
-//    CStructBuffer* pSBuffer_VR4;
-//    CStructBuffer* pSBuffer_WPE;
-//};
+struct tTileSet
+{
+    CV5 cv5[CV5_MAX];
+    VX4 vx4[VX4_MAX]; 
+    VF4 vf4[VF4_MAX];
+    VR4 vr4[VR4_MAX];
+    WPE wpe[WPE_MAX];
+};
+
+struct tpSBufferTileSet
+{
+    CStructBuffer* arrTileSetMember;
+};
+
 
 
 //맵데이터로부터 로드해야하는 데이터들의 플래그
@@ -40,24 +58,24 @@ enum class eSCMAP_DATA_TYPE
     END
 };
 
-typedef struct Chunk
+typedef struct tMapDataChunk
 {
     char TypeName[5];
     unsigned long length;
     unsigned char* Data;
 
-    Chunk() :
+    tMapDataChunk() :
         TypeName{},
         length(), Data()
     {
     }
-    ~Chunk()
+    ~tMapDataChunk()
     {
         SAFE_DELETE_ARRAY(Data);
     }
 
 
-} Chunk;
+} tMapDataChunk;
 
 
 struct tMapData
@@ -65,15 +83,15 @@ struct tMapData
     wstring wstrMapName;
     UINT uMapSizeX;
     UINT uMapSizeY;
-    eTERRAIN_INFO eTerrain;
+    eTILESET_INFO eTileSet;
     Ptr<CTexture> pMapTex;
 
-    tMapData() : wstrMapName(), uMapSizeX(), uMapSizeY(), eTerrain(), pMapTex(nullptr)
+    tMapData() : wstrMapName(), uMapSizeX(), uMapSizeY(), eTileSet(), pMapTex(nullptr)
     {}
 };
 
 
-class CStructBuffer;
+
 
 class CCS_SCMapLoader :
     public CComputeShader
@@ -89,17 +107,14 @@ public:
     void Debug();
 
 private:
-    CStructBuffer* m_arr_pSBufferTileSet[(int)eTERRAIN_INFO::END];
+    tpSBufferTileSet m_arrpSBufferTileSet[(int)eTILESET_INFO::END];
 
     //MXTM 관련
-    //Map의 Chunk 파일 아래의 지형정보
+    //Map의 tMapDataChunk 파일 아래의 지형정보
     CStructBuffer* m_pSBuffer_MXTM;
 
     //============맵 정보=============
     tMapData m_tMapWorkSpace;
-
-
-
 
     //TODO : 나중에 맵 문제없이 로딩될경우 아래 변수는 삭제할것
     CStructBuffer* m_pSBuffer_Debug;
@@ -110,6 +125,6 @@ public:
 
 private:
     bool ReadMapData(char* Data, DWORD Size);
-    bool PrepareDataCS();
+    bool UploadMapDataToCS();
 };
 

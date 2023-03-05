@@ -12,7 +12,7 @@ uint ExtractWPEColorIdxFromVR4(in uint _uMiniTileIdx, in uint2 _u2GroupThreadID,
 void CS_SCMapLoader(uint3 _uDTID : SV_DispatchThreadID, uint3 _uGTID : SV_GroupThreadID,
 uint3 _uGroupID : SV_GroupID)
 {
-	uint2 u2MapSize = UnpackUINT16FromUINT32_ALL(g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_INT_MAPSIZE_PACK);
+	uint2 u2MapSize = (uint2)round(g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_VEC2_MAPSIZE);
 	
 	//uint2 u2MapSize = uint2(
 	//			(uint) g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_X / 32u,

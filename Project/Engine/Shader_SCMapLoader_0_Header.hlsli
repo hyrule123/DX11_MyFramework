@@ -4,7 +4,11 @@
 #include "Shader_Header_Register.hlsli"
 
 //컴퓨트쉐이더에서 0 ~ 2 3가지는 사용중
-#define MTRL_SCALAR_INT_MAPSIZE_PACK MTRLDATA_PARAM_SCALAR(INT_3)
+#define MTRL_SCALAR_INT_TILESET_IDX MTRLDATA_PARAM_SCALAR(INT_3)
+
+#define MTRL_SCALAR_VEC2_MAPSIZE MTRLDATA_PARAM_SCALAR(VEC2_0)
+
+
 
 //단위크기 : 2byte
 //총 갯수 : 맵의 가로크기(메가타일) * 세로크기(메가타일)
@@ -70,22 +74,16 @@ struct WPE
 	UINT32_4 RGBAPack;
 };
 
-struct tTileSet
-{
-	CV5 cv5[CV5_MAX];
-	VF4 vf4[VF4_MAX];
-	VX4 vx4[VX4_MAX];
-	VR4 vr4[VR4_MAX];
-	WPE wpe[WPE_MAX];
-};
 
-#define e_t_SBUFFER_MXTM REGISTER_IDX(t, 0)
-#define e_t_SBUFFER_TILESET REGISTER_IDX(t, 1)
-#define e_t_SBUFFER_CV5 REGISTER_IDX(t, 1)
-#define e_t_SBUFFER_VX4 REGISTER_IDX(t, 2)
+//0~5까지 데이터는 현재 CCS_SCMapLoader에서 enum 번호로 사용 중이므로 함부로 변경하지 말것
+#define e_t_SBUFFER_CV5 REGISTER_IDX(t, 0)
+#define e_t_SBUFFER_VX4 REGISTER_IDX(t, 1)
+#define e_t_SBUFFER_VF4 REGISTER_IDX(t, 2)
 #define e_t_SBUFFER_VR4 REGISTER_IDX(t, 3)
 #define e_t_SBUFFER_WPE REGISTER_IDX(t, 4)
-#define e_t_SBUFFER_VF4 REGISTER_IDX(t, 5)
+
+
+#define e_t_SBUFFER_MXTM REGISTER_IDX(t, 5)
 
 #define e_t_TEXTURE_TARGET REGISTER_IDX(t, 6)
 #define e_u_TEXTURERW_TARGET REGISTER_IDX(u, 0)
@@ -100,7 +98,6 @@ struct tTileSet
 
 
 StructuredBuffer<MXTM> g_SBuffer_MXTM : register(e_t_SBUFFER_MXTM);
-StructuredBuffer<tTileSet> g_SBuffer_Tileset : register(e_t_SBUFFER_TILESET);
 
 StructuredBuffer<CV5> g_SBuffer_CV5 : register(e_t_SBUFFER_CV5);
 StructuredBuffer<VX4> g_SBuffer_VX4 : register(e_t_SBUFFER_VX4);

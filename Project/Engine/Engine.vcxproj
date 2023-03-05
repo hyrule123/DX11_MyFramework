@@ -438,6 +438,8 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)CompiledShaderHeader\%(Filename)_Debug.h</HeaderFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)CompiledShaderHeader\%(Filename).h</HeaderFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Shader_SetColor_Compute.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>

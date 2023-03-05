@@ -28,6 +28,7 @@ public:
     //아무 인자 없이 생성할 경우 반드시 SetInfo를 해 줄것.
     CStructBuffer();
     CStructBuffer(const tSBufferDesc& _tDesc);
+    CStructBuffer(tSBufferDesc&& _tDesc);
     virtual ~CStructBuffer();
     CLONE_DISABLE(CStructBuffer)
 
@@ -98,4 +99,5 @@ inline void CStructBuffer::SetDesc(const tSBufferDesc& _tDesc)
 {
     m_tSBufferDesc = _tDesc; 
     m_bSBufferDescSet = true;
+    SetDefaultDesc();
 }
