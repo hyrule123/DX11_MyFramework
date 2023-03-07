@@ -73,7 +73,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(&v, 1, &idx, 1);
-	AddRes(RESOURCE::MESH::POINT, pMesh);
+	AddRes(RESOURCES::MESH::POINT, pMesh);
 	pMesh = nullptr;
 
 
@@ -113,7 +113,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes(RESOURCE::MESH::RECT, pMesh);
+	AddRes(RESOURCES::MESH::RECT, pMesh);
 	pMesh = nullptr;
 
 	//Debug Rect Mesh
@@ -125,7 +125,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(0);
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes(RESOURCE::MESH::DEBUG_RECT, pMesh);
+	AddRes(RESOURCES::MESH::DEBUG_RECT, pMesh);
 	//============================
 
 
@@ -201,7 +201,7 @@ void CResMgr::CreateDefaultMesh()
 	//만든 정점버퍼와 인덱스버퍼를 메쉬에 삽입한다.
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes(RESOURCE::MESH::CIRCLE, pMesh);
+	AddRes(RESOURCES::MESH::CIRCLE, pMesh);
 	pMesh = nullptr;
 
 
@@ -214,7 +214,7 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back(1);
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddRes(RESOURCE::MESH::DEBUG_CIRCLE, pMesh);
+	AddRes(RESOURCES::MESH::DEBUG_CIRCLE, pMesh);
 }
 
 void CResMgr::CreateDefaultGraphicsShader()
@@ -229,7 +229,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 
-		pShader->SetKey(RESOURCE::SHADER::DEBUG);
+		pShader->SetKey(RESOURCES::SHADER::DEBUG);
 		pShader->CreateShader((void*)g_VS_Debug, sizeof(g_VS_Debug), eSHADER_TYPE::__VERTEX);
 		pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADER_TYPE::__PIXEL);
 		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
@@ -244,7 +244,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// =========== 
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey(RESOURCE::SHADER::TEST);
+		pShader->SetKey(RESOURCES::SHADER::TEST);
 		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADER_TYPE::__VERTEX);
 		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADER_TYPE::__PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
@@ -258,7 +258,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey(RESOURCE::SHADER::STD2D);
+		pShader->SetKey(RESOURCES::SHADER::STD2D);
 		pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADER_TYPE::__VERTEX);
 		pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADER_TYPE::__PIXEL);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
@@ -272,7 +272,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// 광원을 처리할 수 있는 2D 쉐이더
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey(RESOURCE::SHADER::STD2D_LIGHT);
+		pShader->SetKey(RESOURCES::SHADER::STD2D_LIGHT);
 		pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADER_TYPE::__VERTEX);
 		pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADER_TYPE::__PIXEL);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
@@ -282,7 +282,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 
 	// ===============================
-	// Tilemap
+	// Tilemap_Atlas
 	// RS_TYPE : CULL_BACK
 	// DS_TYPE : LESS(Default)
 	// BS_TYPE : MASK
@@ -294,7 +294,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	//===============================
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey(RESOURCE::SHADER::TILEMAP_ATLAS);
+		pShader->SetKey(RESOURCES::SHADER::TILEMAP_ATLAS);
 		pShader->CreateShader((void*)g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), eSHADER_TYPE::__VERTEX);
 		pShader->CreateShader((void*)g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), eSHADER_TYPE::__PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
@@ -302,6 +302,28 @@ void CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
 		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
 	}
+
+	// ===============================
+	// Tilemap_Atlas
+	// RS_TYPE : CULL_BACK
+	// DS_TYPE : LESS(Default)
+	// BS_TYPE : MASK
+
+	// Parameter
+	// g_tex_0 : Tile Atlas Texture
+	//===============================
+	{
+		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		pShader->SetKey(RESOURCES::SHADER::TILEMAP_COMPLETE);
+		pShader->CreateShader((void*)g_VS_Tilemap_Complete, sizeof(g_VS_Tilemap_Complete), eSHADER_TYPE::__VERTEX);
+		pShader->CreateShader((void*)g_PS_Tilemap_Complete, sizeof(g_PS_Tilemap_Complete), eSHADER_TYPE::__PIXEL);
+		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+		pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
+		pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
+		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
+	}
+
+
 
 
 	// ============================
@@ -318,7 +340,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// ============================
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey(RESOURCE::SHADER::PARTICLE_RENDER);
+		pShader->SetKey(RESOURCES::SHADER::PARTICLE_RENDER);
 	
 		pShader->CreateShader((void*)g_VS_Particle, sizeof(g_VS_Particle), eSHADER_TYPE::__VERTEX);
 		pShader->CreateShader((void*)g_GS_Particle, sizeof(g_GS_Particle), eSHADER_TYPE::__GEOMETRY);
@@ -340,34 +362,34 @@ void CResMgr::CreateDefaultComputeShader()
 {
 	Ptr<CComputeShader> pInitCS = new CCS_Initialize;
 	pInitCS->CreateShader((void*)g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
-	pInitCS->SetKey(RESOURCE::SHADER::COMPUTE::INIT_SETTING);
+	pInitCS->SetKey(RESOURCES::SHADER::COMPUTE::INIT_SETTING);
 	AddRes(pInitCS->GetKey(), pInitCS);
 	pInitCS->Execute();
 
 	Ptr<CComputeShader> pShader = new CCS_SetColor(32u, 32u, 1u);
 	pShader->CreateShader((void*)g_CS_SetColor, sizeof(g_CS_SetColor));
-	pShader->SetKey(RESOURCE::SHADER::COMPUTE::SET_COLOR);
+	pShader->SetKey(RESOURCES::SHADER::COMPUTE::SET_COLOR);
 	AddRes(pShader->GetKey(), pShader);
 	pShader = nullptr;
 
 	//기본 파티클 쉐이더
 	pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
 	pShader->CreateShader((void*)g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic));
-	pShader->SetKey(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE_BASIC);
+	pShader->SetKey(RESOURCES::SHADER::COMPUTE::PARTICLE_UPDATE_BASIC);
 	AddRes(pShader->GetKey(), pShader);
 	pShader = nullptr;
 
 	//비 효과 파티클 쉐이더
 	pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
 	pShader->CreateShader((void*)g_CS_Particle_RainDrop, sizeof(g_CS_Particle_RainDrop));
-	pShader->SetKey(RESOURCE::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
+	pShader->SetKey(RESOURCES::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
 	AddRes(pShader->GetKey(), pShader);
 	pShader = nullptr;
 
 
 	pShader = new CCS_SCMapLoader;
 	pShader->CreateShader((void*)g_CS_SCMapLoader, sizeof(g_CS_SCMapLoader));
-	pShader->SetKey(RESOURCE::SHADER::COMPUTE::SC_MAP_LOADER);
+	pShader->SetKey(RESOURCES::SHADER::COMPUTE::SC_MAP_LOADER);
 	AddRes(pShader->GetKey(), pShader);
 	
 }
@@ -379,28 +401,28 @@ void CResMgr::CreateDefaultMaterial()
 	{
 		//Rectangle
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::DEBUG));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::DEBUG));
 		pMtrl->SetInstancedRender(true);
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::DEBUG_RECT);
+		pMtrl->SetKey(RESOURCES::MATERIAL::DEBUG_RECT);
 		AddRes(pMtrl->GetKey(), pMtrl);
 
 		//Circle
 		pMtrl = new CMaterial;
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::DEBUG));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::DEBUG));
 		pMtrl->SetInstancedRender(true);
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::DEBUG_CIRCLE);
+		pMtrl->SetKey(RESOURCES::MATERIAL::DEBUG_CIRCLE);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
 	// Test Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TEST));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::TEST));
 		pMtrl->SetInstancedRender(true);
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::TEST);
+		pMtrl->SetKey(RESOURCES::MATERIAL::TEST);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
@@ -408,10 +430,10 @@ void CResMgr::CreateDefaultMaterial()
 	{
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial();
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::STD2D));
 		pMtrl->SetInstancedRender(true);
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D);
+		pMtrl->SetKey(RESOURCES::MATERIAL::STD2D);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
@@ -420,33 +442,33 @@ void CResMgr::CreateDefaultMaterial()
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial();
 		//pMtrl->SetInstancedRender(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D_LIGHT));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::STD2D_LIGHT));
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::STD2D_LIGHT);
+		pMtrl->SetKey(RESOURCES::MATERIAL::STD2D_LIGHT);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
 	// Tilemap Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial();
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TILEMAP_ATLAS));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::TILEMAP_ATLAS));
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::TILEMAP_ATLAS);
+		pMtrl->SetKey(RESOURCES::MATERIAL::TILEMAP_ATLAS);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial();
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TILEMAP_COMPLETE));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::TILEMAP_COMPLETE));
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::TILEMAP_COMPLETE);
+		pMtrl->SetKey(RESOURCES::MATERIAL::TILEMAP_COMPLETE);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
 	//Particle Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial();
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::PARTICLE_RENDER));
-		pMtrl->SetKey(RESOURCE::MATERIAL::PARTICLE_RENDER);
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::PARTICLE_RENDER));
+		pMtrl->SetKey(RESOURCES::MATERIAL::PARTICLE_RENDER);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
@@ -456,9 +478,9 @@ void CResMgr::CreateDefaultMaterial()
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial();
 		pMtrl->SetInstancedRender(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::STD2D));
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::CORSAIR);
+		pMtrl->SetKey(RESOURCES::MATERIAL::CORSAIR);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
@@ -466,77 +488,77 @@ void CResMgr::CreateDefaultMaterial()
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial();
 		pMtrl->SetInstancedRender(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::STD2D));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCES::SHADER::STD2D));
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::MARINE);
+		pMtrl->SetKey(RESOURCES::MATERIAL::MARINE);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 }
 
 void CResMgr::LoadDefaultTexture()
 {
-	Load<CTexture>(RESOURCE::TEXTURE::FIGHTER, L"texture/Fighter.bmp");
-	Load<CTexture>(RESOURCE::TEXTURE::HOS, L"texture/HOS.png");
+	Load<CTexture>(RESOURCES::TEXTURE::FIGHTER, L"texture/Fighter.bmp");
+	Load<CTexture>(RESOURCES::TEXTURE::HOS, L"texture/HOS.png");
 
-	Load<CTexture>(RESOURCE::TEXTURE::BEHEADED_ATLAS, L"texture/beheaded.png");
-	Load<CTexture>(RESOURCE::TEXTURE::BEHEADED_ATLAS_NORMAL, L"texture/beheaded_n.png");
+	Load<CTexture>(RESOURCES::TEXTURE::BEHEADED_ATLAS, L"texture/beheaded.png");
+	Load<CTexture>(RESOURCES::TEXTURE::BEHEADED_ATLAS_NORMAL, L"texture/beheaded_n.png");
 
-	Load<CTexture>(RESOURCE::TEXTURE::TILE_ATLAS, L"texture/TILE.bmp");
-	Load<CTexture>(RESOURCE::TEXTURE::LINK_ATLAS, L"texture/link.png");
+	Load<CTexture>(RESOURCES::TEXTURE::TILE_ATLAS, L"texture/TILE.bmp");
+	Load<CTexture>(RESOURCES::TEXTURE::LINK_ATLAS, L"texture/link.png");
 
-	Load<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS, L"texture/trilob(Reaver).bmp");
+	Load<CTexture>(RESOURCES::TEXTURE::REAVER_ATLAS, L"texture/trilob(Reaver).bmp");
 
 
-	Load<CTexture>(RESOURCE::TEXTURE::CORSAIR_ATLAS, L"texture/corsair.bmp");
-	Load<CTexture>(RESOURCE::TEXTURE::MARINE_ATLAS, L"texture/marine.bmp");
+	Load<CTexture>(RESOURCES::TEXTURE::CORSAIR_ATLAS, L"texture/corsair.bmp");
+	Load<CTexture>(RESOURCES::TEXTURE::MARINE_ATLAS, L"texture/marine.bmp");
 
 
 	//노이즈텍스처
-	Load<CTexture>(RESOURCE::TEXTURE::NOISE_TEXTURE_0, L"texture/noise/noise_01.png");
+	Load<CTexture>(RESOURCES::TEXTURE::NOISE_TEXTURE_0, L"texture/noise/noise_01.png");
 }
 
 void CResMgr::CreateDefaultAnimAtlas()
 {
 	{
 		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::REAVER_ATLAS));
+		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCES::TEXTURE::REAVER_ATLAS));
 
 		Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
-		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
+		Atlas->AddAnim2D_SC_Redundant(RESOURCES::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
 
-		AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::REAVER_ATLAS, Atlas);
+		AddRes<CAnim2DAtlas>(RESOURCES::TEXTURE::REAVER_ATLAS, Atlas);
 	}
 
 	{
 		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::CORSAIR_ATLAS));
+		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCES::TEXTURE::CORSAIR_ATLAS));
 
 		Atlas->SetNewAnimUV(17u, 5u, 0u, 17u, 0u, 5u);
-		Atlas->AddAnim2D(RESOURCE::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
+		Atlas->AddAnim2D(RESOURCES::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
 
-		AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::CORSAIR_ATLAS, Atlas);
+		AddRes<CAnim2DAtlas>(RESOURCES::TEXTURE::CORSAIR_ATLAS, Atlas);
 	}
 
 	{
 		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCE::TEXTURE::MARINE_ATLAS));
+		Atlas->SetAtlasTexture(FindRes<CTexture>(RESOURCES::TEXTURE::MARINE_ATLAS));
 
 		Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
-		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_IDLE, 0u, 1u, 1.f);
-		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_ATTACKSTART, 1u, 2u, 0.5f);
+		Atlas->AddAnim2D_SC_Redundant(RESOURCES::ANIM2D::MARINE_IDLE, 0u, 1u, 1.f);
+		Atlas->AddAnim2D_SC_Redundant(RESOURCES::ANIM2D::MARINE_ATTACKSTART, 1u, 2u, 0.5f);
 
-		Atlas->AddAnim2D_SC_Redundant(RESOURCE::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
+		Atlas->AddAnim2D_SC_Redundant(RESOURCES::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
 
 		vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
-		Atlas->AddAnim2D_vecRowIndex(RESOURCE::ANIM2D::MARINE_ATTACK, row, 0.6f);
+		Atlas->AddAnim2D_vecRowIndex(RESOURCES::ANIM2D::MARINE_ATTACK, row, 0.6f);
 
 		row.clear();
 		
 		row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
-		Atlas->AddAnim2D(RESOURCE::ANIM2D::MARINE_DEATH, row, 1.f);
+		Atlas->AddAnim2D(RESOURCES::ANIM2D::MARINE_DEATH, row, 1.f);
 		
 
-		AddRes<CAnim2DAtlas>(RESOURCE::TEXTURE::MARINE_ATLAS, Atlas);
+		AddRes<CAnim2DAtlas>(RESOURCES::TEXTURE::MARINE_ATLAS, Atlas);
 	}
 }
 

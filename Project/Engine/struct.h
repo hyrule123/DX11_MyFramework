@@ -81,3 +81,5 @@ struct tLightHashFunc_DWORD_PTR
 		return static_cast<DWORD_PTR>(_ukey);
 	}
 };
+
+

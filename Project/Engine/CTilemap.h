@@ -17,7 +17,6 @@
 
 enum class eTILE_TYPE
 {
-    NOT_SET,
     COMPLETE,   //완성되어있는 타일맵(그대로 출력만하면 되는 타일맵)
     ATLAS       //아틀라스에 타일맵의 개별 그림이 모여있고, UV좌표를 통해서 그려지는 타일맵
 };
@@ -32,33 +31,29 @@ class CCamera;
 class CTilemap :
     public CRenderComponent
 {
+private:
+    CTilemap() = delete;
 public:
-    CTilemap();
+    CTilemap(eTILE_TYPE _eTileType);
     virtual ~CTilemap();
-    CLONE(CTilemap)
 
 public:
-    virtual void init() override; 
-    virtual void finaltick() override;
-    virtual bool render(eCAMERA_INDEX _eCamIdx) override;
-    virtual void cleanup() override {};
+    virtual void init() = 0;
+    virtual void finaltick() = 0;
+    virtual bool render() = 0;
 
-    void BindData();
+    virtual void SetTileCount(UINT _iXCount, UINT _iYCount) { m_uTileCountX = _iXCount; m_uTileCountY = _iYCount; }
 
 private:
     eTILE_TYPE          m_eTileType;
-    UINT                m_iTileCountX;  // 타일 가로
-    UINT                m_iTileCountY;  // 타일 세로
-    Vec2                m_vSliceSize;   // 타일 하나의 크기(UV 단위)
-    vector<tTile>       m_vecTile;
-    CStructBuffer*      m_SBuffer;
+    UINT                m_uTileCountX;  // 타일 가로
+    UINT                m_uTileCountY;  // 타일 세로
+
 
 public:
-    void SetTileType(eTILE_TYPE _eType);
-
     
-    void SetTileCount(UINT _iXCount, UINT _iYCount);
-    void SetSliceSize(Vec2 _vSliceSize) { m_vSliceSize = _vSliceSize; }
-
+    UINT GetTileCountX() const { return m_uTileCountX; }
+    UINT GetTileCountY() const { return m_uTileCountY; }
+    
 };
 

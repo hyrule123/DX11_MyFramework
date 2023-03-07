@@ -19,15 +19,13 @@ VS_OUT VS_std2D(VS_IN _in)
 	
 	if (eMTRL_SCALAR_STD2D_FLAG::USE_VP & Data.MTRL_SCALAR_STD2D_FLAG)
 	{
-		output.vPosSV = mul(float4(_in.vPos, 1.f), Data.MTRL_SCALAR_MAT_WVP);
-	}
-	else
-	{
 		output.vPosSV = mul(float4(_in.vPos, 1.f), Data.MTRL_SCALAR_MAT_WORLD);
 		output.vPosSV = mul(output.vPosSV, g_CBuffer_matCam[Data.MTRL_SCALAR_INT_CAMIDX].matVP);
 	}
-	
-	
+	else
+	{
+		output.vPosSV = mul(float4(_in.vPos, 1.f), Data.MTRL_SCALAR_MAT_WVP);
+	}
 
 	
     output.vUV = _in.vUV;

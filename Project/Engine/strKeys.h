@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RESOURCE
+namespace RESOURCES
 {
 	namespace MESH
 	{
@@ -10,7 +10,6 @@ namespace RESOURCE
 
 		inline constexpr const char* DEBUG_RECT = "RectMesh_Debug";
 		inline constexpr const char* DEBUG_CIRCLE = "CircleMesh_Debug";
-
 	}
 
 
@@ -80,6 +79,5 @@ namespace RESOURCE
 		inline constexpr const char* MARINE_ATTACK = "MarineAttack";
 		inline constexpr const char* MARINE_ATTACKSTART = "MarineAttackStart";
 		inline constexpr const char* MARINE_DEATH = "MarineDeath";
-		
 	}
 }

@@ -15,7 +15,7 @@
 #include "CGameObject.h"
 
 CMeshRender::CMeshRender()
-	: CRenderComponent(eCOMPONENT_TYPE::MESH_RENDER)		
+	: CRenderComponent(eCOMPONENT_TYPE::MESH_RENDER)
 {
 }
 
@@ -28,30 +28,29 @@ void CMeshRender::finaltick()
 {
 }
 
-bool CMeshRender::render(eCAMERA_INDEX _eCamIdx)
+bool CMeshRender::render()
 {	
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &(_eCamIdx));
 
 	//메쉬와 재질 둘 중 하나라도 없을 경우 아예 여기에 들어오지 않으므로 따로 검사해 줄 필요 없음.
 	Ptr<CMesh> pmesh = GetMesh();
 	Ptr<CMaterial> pmtrl = GetCurMaterial();
 
 
-	//재질에 자신의 Mtrl Scalar Data를 등록해 놓고 만약 정점 갯수가 6개(Rect Mesh)보다 많다면
+	//재질에 자신의 Mtrl Scalar Data를 등록해 놓고 만약 정점 갯수가 6개(Rect )보다 많다면
 	//플래그를 켜주고 WVP 행렬 형태로 전송한다.
 	if (6 < pmesh->GetIdxBufferCount())
 	{
+		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, false);
+
+		int camIdx = pOwner->GetMtrlScalarParam_Int(MTRL_SCALAR_INT_CAMIDX);
 		Matrix matWVP = pOwner->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD);
-		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, true);
-
-
-		matWVP *= g_matCam[(int)_eCamIdx].matVP;
+		matWVP *= g_matCam[camIdx].matVP;
 		pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_WVP, matWVP.m);
 	}
 	else
-		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, false);
+		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, true);
 
 
 
@@ -78,8 +77,8 @@ bool CMeshRender::render(eCAMERA_INDEX _eCamIdx)
 
 		pmtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 
-		//true를 반환해서 드로우콜을 하지 않았음을 전달한다.
-		return true;
+		//false를 반환해서 드로우콜을 하지 않았음을 전달한다.
+		return false;
 	}
 
 	else//개별 고유 재질을 사용중일 경우
@@ -97,7 +96,7 @@ bool CMeshRender::render(eCAMERA_INDEX _eCamIdx)
 
 		pmesh->renderInstanced(InstancingCount);
 		
-		//false를 반환해서 인스턴싱이 필요하지 않다고 전달
-		return false;
+		//true를 반환해서 인스턴싱이 필요하지 않다고 전달
+		return true;
 	}
 }

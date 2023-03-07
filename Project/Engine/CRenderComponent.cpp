@@ -45,3 +45,11 @@ void CRenderComponent::SetMtrlScalarParam(const tMtrlScalarData& _tMtrlScalarDat
 {
 	m_pCurrentMtrl->AddMtrlScalarData(_tMtrlScalarData);
 }
+
+void CRenderComponent::SetCamIdx(eCAMERA_INDEX _eCamIdx)
+{
+	CGameObject* pOwner = GetOwner();
+	if (nullptr != pOwner)
+		pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_eCamIdx);
+}
+

@@ -157,9 +157,6 @@
     <ClInclude Include="CCS_SetColor.h">
       <Filter>Source\08. ShaderCode\98. Compute\01. SetColor</Filter>
     </ClInclude>
-    <ClInclude Include="shaders.h">
-      <Filter>Source\00. Header</Filter>
-    </ClInclude>
     <ClInclude Include="strKeys.h">
       <Filter>Source\00. Header</Filter>
     </ClInclude>
@@ -189,6 +186,15 @@
     </ClInclude>
     <ClInclude Include="CCS_Initialize.h">
       <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>
+    </ClInclude>
+    <ClInclude Include="CTilemap_Complete.h">
+      <Filter>Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="CTilemap_Atlas.h">
+      <Filter>Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="SCMapDefine.h">
+      <Filter>Source\00. Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -350,6 +356,12 @@
     </ClCompile>
     <ClCompile Include="CCS_Initialize.cpp">
       <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>
+    </ClCompile>
+    <ClCompile Include="CTilemap_Complete.cpp">
+      <Filter>Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="CTilemap_Atlas.cpp">
+      <Filter>Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

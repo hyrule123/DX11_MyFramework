@@ -115,7 +115,7 @@ public:
     void init();
     void tick();
     virtual void finaltick();
-    bool render(eCAMERA_INDEX _eCamIdx);
+    bool render();
 
     //제거되기 전 기존 오브젝트들과의 관계를 제거
     //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 cleanup() 함수만 호출한다.

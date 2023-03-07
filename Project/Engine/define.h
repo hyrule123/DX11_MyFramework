@@ -273,3 +273,17 @@ enum class eANIM_LOOPMODE
 	NORMAL_LOOP,
 	ZIG_ZAG
 };
+
+//스타크래프트 맵 데이터 속 "ERA" 안에 들어있는 정보 
+enum class eTILESET_INFO : UINT8
+{
+	BADLANDS = 0x00,
+	SPACE_PLATFORM = 0x01,
+	INSTALLATION = 0x02,
+	ASH_WORLD = 0x03,
+	JUNGLE = 0x04,
+	DESERT = 0x05,
+	ICE = 0x06,
+	TWILIGHT = 0x07,
+	END = 0x08
+};

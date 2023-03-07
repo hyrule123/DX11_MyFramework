@@ -24,8 +24,8 @@ CParticleSystem::CParticleSystem()
 	, m_AccTime()
 	, m_bIsCreated()
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::POINT));
-	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::PARTICLE_RENDER));
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCES::MESH::POINT));
+	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::PARTICLE_RENDER));
 
 
 	UINT ShaderTarget = eSHADER_PIPELINE_STAGE::__GEOMETRY | eSHADER_PIPELINE_STAGE::__PIXEL;
@@ -84,15 +84,11 @@ void CParticleSystem::finaltick()
 	m_tModuleData.vOwnerCurWorldPos = Transform()->GetWorldPos();
 }
 
-bool CParticleSystem::render(eCAMERA_INDEX _eCamIdx)
+bool CParticleSystem::render()
 {
-	//false 반환해서 인스턴싱 필요없다고 전달
+	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
-		return false;
-
-	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
-	CGameObject* pOwner = GetOwner();
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_INT_CAMIDX, &_eCamIdx);
+		return true;
 
 	//Transform()->UpdateData();
 
@@ -106,7 +102,7 @@ bool CParticleSystem::render(eCAMERA_INDEX _eCamIdx)
 	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
 
 	//드로우콜이 발생했으므로 -> 인스턴싱 필요 없다고 반환
-	return false;
+	return true;
 }
 
 

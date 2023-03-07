@@ -152,8 +152,11 @@ void CRenderMgr::renderAll()
         size_t size = m_arrvecShaderDomain[i].size();
         for (size_t j = 0; j < size; j++)
         {
-            //만약 render 메소드를 호출했는데 true가 반환되었을 경우(==인스턴싱이 필요하다)
-            if (true == m_arrvecShaderDomain[i][j].pRenderCom->render(m_arrvecShaderDomain[i][j].pCam->GetCamIndex()))
+            //카메라 인덱스를 설정해준다.
+            m_arrvecShaderDomain[i][j].pRenderCom->SetCamIdx(m_arrvecShaderDomain[i][j].pCam->GetCamIndex());
+
+            //만약 render 메소드를 호출했는데 false가 반환되었을 경우(드로우콜 미발생 == 인스턴싱이 필요하다)
+            if (false == m_arrvecShaderDomain[i][j].pRenderCom->render())
             {
                 //인스턴싱 대기열 map에 추가
                 DWORD_PTR pMtrl = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetCurMaterial().Get());

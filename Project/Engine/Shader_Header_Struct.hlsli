@@ -181,6 +181,8 @@ struct tMtrlTexData
 
 //자신의 VP 행렬을 들고 있는 카메라 상수버퍼에서의 인덱스
 #define MTRL_SCALAR_INT_CAMIDX                  MTRLDATA_PARAM_SCALAR(INT_0)
+
+
 #define MTRL_SCALAR_STD2D_FLAG                  MTRLDATA_PARAM_SCALAR(INT_1)
 #define MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX     MTRLDATA_PARAM_SCALAR(INT_2)
 
