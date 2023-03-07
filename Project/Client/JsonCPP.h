@@ -6,7 +6,7 @@
 #pragma comment (lib, "UtilLib_DLL/UtilLib_DLL_Debug")
 
 #else
-#pragma comment (lib, "UtilLib_DLL/UtilLib_DLL")
+#pragma comment (lib, "UtilLib_DLL/UtilLib_DLL_Release")
 
 #endif
 

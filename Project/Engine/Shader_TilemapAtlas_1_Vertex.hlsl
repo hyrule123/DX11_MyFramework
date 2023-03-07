@@ -1,6 +1,6 @@
-#include "Shader_Tilemap_0_header.hlsli"
+#include "Shader_TilemapAtlas_0_header.hlsli"
 
-VTX_TILEMAP_OUT VS_Tilemap(VTX_TILEMAP_IN _in)
+VTX_TILEMAP_OUT VS_Tilemap_Atlas(VTX_TILEMAP_IN _in)
 {
     VTX_TILEMAP_OUT output = (VTX_TILEMAP_OUT) 0.f;
     

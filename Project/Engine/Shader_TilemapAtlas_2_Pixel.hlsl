@@ -1,8 +1,8 @@
-#include "Shader_Tilemap_0_header.hlsli"
+#include "Shader_TilemapAtlas_0_header.hlsli"
 
 
 // pixel shader
-float4 PS_Tilemap(VTX_TILEMAP_OUT _in) : SV_Target
+float4 PS_Tilemap_Atlas(VTX_TILEMAP_OUT _in) : SV_Target
 {
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f);
     

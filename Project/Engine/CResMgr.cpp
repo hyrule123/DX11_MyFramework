@@ -294,9 +294,9 @@ void CResMgr::CreateDefaultGraphicsShader()
 	//===============================
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetKey(RESOURCE::SHADER::TILEMAP);
-		pShader->CreateShader((void*)g_VS_Tilemap, sizeof(g_VS_Tilemap), eSHADER_TYPE::__VERTEX);
-		pShader->CreateShader((void*)g_PS_Tilemap, sizeof(g_PS_Tilemap), eSHADER_TYPE::__PIXEL);
+		pShader->SetKey(RESOURCE::SHADER::TILEMAP_ATLAS);
+		pShader->CreateShader((void*)g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), eSHADER_TYPE::__VERTEX);
+		pShader->CreateShader((void*)g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), eSHADER_TYPE::__PIXEL);
 		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
 		pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
 		pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
@@ -429,9 +429,16 @@ void CResMgr::CreateDefaultMaterial()
 	// Tilemap Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial();
-		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TILEMAP));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TILEMAP_ATLAS));
 
-		pMtrl->SetKey(RESOURCE::MATERIAL::TILEMAP);
+		pMtrl->SetKey(RESOURCE::MATERIAL::TILEMAP_ATLAS);
+		AddRes(pMtrl->GetKey(), pMtrl);
+	}
+	{
+		Ptr<CMaterial> pMtrl = new CMaterial();
+		pMtrl->SetShader(FindRes<CGraphicsShader>(RESOURCE::SHADER::TILEMAP_COMPLETE));
+
+		pMtrl->SetKey(RESOURCE::MATERIAL::TILEMAP_COMPLETE);
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 

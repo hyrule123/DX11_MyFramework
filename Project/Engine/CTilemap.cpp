@@ -15,17 +15,44 @@ CTilemap::CTilemap()
 	, m_iTileCountY(1)
 	, m_SBuffer()
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));
-	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::TILEMAP));
 
-	UINT Target = eSHADER_PIPELINE_STAGE::__VERTEX | eSHADER_PIPELINE_STAGE::__PIXEL;
-	m_SBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE, e_t_SBUFFER_TILE, e_u_UAV_NONE });
-	m_SBuffer->Create(sizeof(tTile), m_iTileCountX * m_iTileCountY, nullptr, 0u);
 }
 
 CTilemap::~CTilemap()
 {
 	DESTRUCTOR_DELETE(m_SBuffer);
+}
+
+void CTilemap::init()
+{
+	switch (m_eTileType)
+	{
+	case eTILE_TYPE::NOT_SET:
+		//init 시점까지 타일맵 종류가 세팅되지 않았을 경우 에러를 발생시킨다.
+		assert(eTILE_TYPE::NOT_SET != m_eTileType);
+		break;
+
+
+	case eTILE_TYPE::COMPLETE:
+
+		break;
+
+
+	case eTILE_TYPE::ATLAS:
+	{
+		SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCE::MESH::RECT));
+		SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(RESOURCE::MATERIAL::TILEMAP_ATLAS));
+
+		UINT Target = eSHADER_PIPELINE_STAGE::__VERTEX | eSHADER_PIPELINE_STAGE::__PIXEL;
+		m_SBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE, e_t_SBUFFER_TILE, e_u_UAV_NONE });
+		m_SBuffer->Create(sizeof(tTile), m_iTileCountX * m_iTileCountY, nullptr, 0u);
+	}
+		break;
+	default:
+		break;
+	}
+
+
 }
 
 void CTilemap::finaltick()
@@ -68,6 +95,15 @@ void CTilemap::BindData()
 {
 	m_SBuffer->UploadData(m_vecTile.data(), (UINT)(sizeof(tTile) * m_vecTile.size()));
 	m_SBuffer->BindBufferSRV();
+}
+
+void CTilemap::SetTileType(eTILE_TYPE _eType)
+{
+	m_eTileType = _eType;
+
+	m_vecTile.clear();
+
+
 }
 
 void CTilemap::SetTileCount(UINT _iXCount, UINT _iYCount)

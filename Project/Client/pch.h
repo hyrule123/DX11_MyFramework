@@ -9,11 +9,11 @@
 #ifdef _DEBUG
 #pragma comment(lib, "Engine/Engine_Debug")
 #else
-#pragma comment(lib, "Engine/Engine")
+#pragma comment(lib, "Engine/Engine_Release")
 #endif
 
 #ifdef _DEBUG
 #pragma comment(lib, "Script/Script_Debug")
 #else
-#pragma comment(lib, "Script/Script")
+#pragma comment(lib, "Script/Script_Release")
 #endif

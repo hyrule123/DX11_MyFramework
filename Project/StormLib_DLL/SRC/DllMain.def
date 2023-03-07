@@ -4,7 +4,7 @@
 ; ladik@zezula.net
 ;
 
-LIBRARY StormLib_DLL.dll
+LIBRARY StormLib_DLL_Debug.dll
 
 EXPORTS
 

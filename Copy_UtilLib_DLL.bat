@@ -5,8 +5,8 @@ if exist ".\External\Library\UtilLib_DLL\UtilLib_DLL_Debug.dll" (
 xcopy /d /s /y /i ".\External\Library\UtilLib_DLL\UtilLib_DLL_Debug.dll" ".\OutputFile\Bin_Debug\"
 )
 
-if exist ".\External\Library\UtilLib_DLL\UtilLib_DLL.dll" (
-xcopy /d /s /y /i ".\External\Library\UtilLib_DLL\UtilLib_DLL.dll" ".\OutputFile\Bin\"
+if exist ".\External\Library\UtilLib_DLL\UtilLib_DLL_Release.dll" (
+xcopy /d /s /y /i ".\External\Library\UtilLib_DLL\UtilLib_DLL_Release.dll" ".\OutputFile\Bin_Release\"
 )
 
 

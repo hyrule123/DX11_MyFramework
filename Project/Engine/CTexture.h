@@ -6,7 +6,7 @@
 #ifdef _DEBUG
 #pragma comment(lib, "DirectXTex//DirectXTex_Debug")
 #else 
-#pragma comment(lib, "DirectXTex//DirectXTex")
+#pragma comment(lib, "DirectXTex//DirectXTex_Release")
 #endif
 
 class CTexture :

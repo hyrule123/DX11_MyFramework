@@ -536,7 +536,7 @@
     <None Include="Shader_STD2D_Light_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\03. Std2D_Light</Filter>
     </None>
-    <None Include="Shader_Tilemap_0_Header.hlsli">
+    <None Include="Shader_TilemapAtlas_0_Header.hlsli">
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </None>
     <None Include="Shader_Particle_0_Header.hlsli">
@@ -550,6 +550,9 @@
     </None>
     <None Include="Shader_Func_Bitwise.hlsli">
       <Filter>Source\08. ShaderCode</Filter>
+    </None>
+    <None Include="Shader_TilemapComplete_0_Header.hlsli">
+      <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -577,10 +580,10 @@
     <FxCompile Include="Shader_STD2D_Light_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\03. Std2D_Light</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Tilemap_2_Pixel.hlsl">
+    <FxCompile Include="Shader_TilemapAtlas_2_Pixel.hlsl">
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </FxCompile>
-    <FxCompile Include="Shader_Tilemap_1_Vertex.hlsl">
+    <FxCompile Include="Shader_TilemapAtlas_1_Vertex.hlsl">
       <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </FxCompile>
     <FxCompile Include="Shader_SetColor_Compute.hlsl">
@@ -606,6 +609,12 @@
     </FxCompile>
     <FxCompile Include="Shader_Initialize_Compute.hlsl">
       <Filter>Source\08. ShaderCode\98. Compute\00. Initialize</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_TilemapComplete_1_Vertex.hlsl">
+      <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_TilemapComplete_2_Pixel.hlsl">
+      <Filter>Source\08. ShaderCode\04. Tilemap</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

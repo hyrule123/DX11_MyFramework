@@ -384,7 +384,7 @@ FodyWeavers.xsd
 External/
 
 # Exclude *.pdb, *.exe file from OutputFile Bin Folder
-OutputFile/[Bb]in/*
+OutputFile/[Bb]in_Release/*
 OutputFile/[Bb]in_Debug/*
 
 # Include Content(Resources) Files, Exclude Only Shader Files(*.fx) - will be copied after build

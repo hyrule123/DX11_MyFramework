@@ -73,12 +73,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)OutputFile\Bin_Debug\</OutDir>
+    <OutDir>$(SolutionDir)OutputFile\Bin_$(Configuration)\</OutDir>
     <IncludePath>$(SolutionDir)External\Include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Library\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)OutputFile\Bin\</OutDir>
+    <OutDir>$(SolutionDir)OutputFile\Bin_$(Configuration)\</OutDir>
     <IncludePath>$(SolutionDir)External\Include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Library\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -162,6 +162,7 @@
     <ClInclude Include="CUI_Inspector.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CUI_Light2D.h" />
+    <ClInclude Include="CUI_MapViewer.h" />
     <ClInclude Include="CUI_Menubar.h" />
     <ClInclude Include="CUI_Menu.h" />
     <ClInclude Include="CUI_MenuItem.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="CUI_Image.cpp" />
     <ClCompile Include="CUI_Inspector.cpp" />
     <ClCompile Include="CUI_Light2D.cpp" />
+    <ClCompile Include="CUI_MapViewer.cpp" />
     <ClCompile Include="CUI_Menubar.cpp" />
     <ClCompile Include="CUI_Menu.cpp" />
     <ClCompile Include="CUI_MenuItem.cpp" />

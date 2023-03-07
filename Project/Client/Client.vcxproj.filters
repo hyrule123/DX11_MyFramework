@@ -89,6 +89,9 @@
     <Filter Include="ImGui\02. UI_Instance\04. UI_Outliner">
       <UniqueIdentifier>{3fe8da6a-3128-4c49-a977-6f6c8a1dbe10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\02. UI_Instance\05. UI_MapViewer">
+      <UniqueIdentifier>{eb760aa2-374d-4a24-a0f8-35549acd5047}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -206,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="CUI_Structs.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI_MapViewer.h">
+      <Filter>ImGui\02. UI_Instance\05. UI_MapViewer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +334,9 @@
     <ClCompile Include="CTestLevel.cpp" />
     <ClCompile Include="CUI_DragNDrop.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_MapViewer.cpp">
+      <Filter>ImGui\02. UI_Instance\05. UI_MapViewer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

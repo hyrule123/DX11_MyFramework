@@ -23,7 +23,9 @@ namespace RESOURCE
 		inline constexpr const char* STD2D = "std2DMtrl";
 		inline constexpr const char* STD2D_LIGHT = "std2DLightMtrl";
 		
-		inline constexpr const char* TILEMAP = "TilemapMtrl";
+		inline constexpr const char* TILEMAP_COMPLETE = "TilemapCompleteMtrl";
+		inline constexpr const char* TILEMAP_ATLAS = "TilemapAtlasMtrl";
+
 		inline constexpr const char* PARTICLE_RENDER = "ParticleRenderMtrl";
 
 		inline constexpr const char* CORSAIR = "CorsairMtrl";
@@ -36,7 +38,11 @@ namespace RESOURCE
 		inline constexpr const char* TEST = "TestShader";
 		inline constexpr const char* STD2D = "std2DShader";
 		inline constexpr const char* STD2D_LIGHT = "std2DLightShader";
-		inline constexpr const char* TILEMAP = "TilemapShader";
+		
+		inline constexpr const char* TILEMAP_COMPLETE = "TilemapComplete";
+		inline constexpr const char* TILEMAP_ATLAS = "TilemapShader";
+
+
 		inline constexpr const char* PARTICLE_RENDER = "ParticleRenderShader";
 
 		namespace COMPUTE

@@ -22,7 +22,7 @@
 #ifdef _DEBUG
 constexpr const wchar_t* strStormLibPath = L"StormLib_DLL_Debug.dll";
 #else
-constexpr const wchar_t* strStormLibPath = L"StormLib_DLL.dll";
+constexpr const wchar_t* strStormLibPath = L"StormLib_DLL_Release.dll";
 #endif
 
 //맵 정보 읽기용
@@ -203,16 +203,16 @@ bool CCS_SCMapLoader::BindDataCS()
 
     //함수 등록
     //MPQ 파일 로드
-    typedef bool(__stdcall* pSFileOpenArchive)(const TCHAR*, DWORD, DWORD, HANDLE*);
+    typedef bool(WINAPI* pSFileOpenArchive)(const TCHAR*, DWORD, DWORD, HANDLE*);
     pSFileOpenArchive MpqOpenFunc = (pSFileOpenArchive)GetProcAddress(DLLModule, "SFileOpenArchive");
     
-    typedef bool(__stdcall* pSFileOpenFileEx)(HANDLE, const char*, DWORD, HANDLE*);
+    typedef bool(WINAPI* pSFileOpenFileEx)(HANDLE, const char*, DWORD, HANDLE*);
     pSFileOpenFileEx funcOpenScenarioChk = (pSFileOpenFileEx)GetProcAddress(DLLModule, "SFileOpenFileEx");
 
     //DWORD WINAPI SFileGetFileSize(HANDLE hFile, LPDWORD pdwFileSizeHigh);
-    typedef DWORD(__stdcall* pSFileGetFileSize)(HANDLE, LPDWORD);
+    typedef DWORD(WINAPI* pSFileGetFileSize)(HANDLE, LPDWORD);
     pSFileGetFileSize funcGetFileSize = (pSFileGetFileSize)GetProcAddress(DLLModule, "SFileGetFileSize");
-
+    
     //bool WINAPI SFileReadFile(HANDLE hFile, void* pvBuffer, DWORD dwToRead, LPDWORD pdwRead, LPOVERLAPPED lpOverlapped);
     typedef bool (*pSFileReadFile)(HANDLE, void*, DWORD, LPDWORD, LPOVERLAPPED);
     pSFileReadFile funcReadFile = (pSFileReadFile)GetProcAddress(DLLModule, "SFileReadFile");
@@ -427,7 +427,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
             break;
 
         {
-            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP];
+            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS];
 
             char* adress = Data + pos;
 
@@ -460,13 +460,13 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     Vec2 vMapSize = Vec2(m_tMapWorkSpace.uMapSizeX, m_tMapWorkSpace.uMapSizeY);
     SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &vMapSize);
 
-    //MXTM(TILEMAP) 생성 및 전송
+    //MXTM(TILEMAP_ATLAS) 생성 및 전송
     SAFE_DELETE(m_pSBuffer_MXTM);
     tSBufferDesc SBufferDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_MXTM, e_u_UAV_NONE };
    
     m_pSBuffer_MXTM = new CStructBuffer(SBufferDesc);
-    UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].length / 16u;
-    m_pSBuffer_MXTM->Create((UINT)sizeof(MXTM), DataCount, arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP].Data, DataCount);
+    UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS].length / 16u;
+    m_pSBuffer_MXTM->Create((UINT)sizeof(MXTM), DataCount, arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS].Data, DataCount);
     m_pSBuffer_MXTM->BindBufferSRV();
 
 

@@ -54,7 +54,7 @@ enum class eSCMAP_DATA_TYPE
 {
     TERRAIN,
     MAPSIZE,
-    TILEMAP,
+    TILEMAP_ATLAS,
     END
 };
 
@@ -85,6 +85,7 @@ struct tMapData
     UINT uMapSizeY;
     eTILESET_INFO eTileSet;
     Ptr<CTexture> pMapTex;
+
 
     tMapData() : wstrMapName(), uMapSizeX(), uMapSizeY(), eTileSet(), pMapTex(nullptr)
     {}
