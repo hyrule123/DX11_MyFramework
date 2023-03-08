@@ -4,24 +4,33 @@
 
 #include "CodeGenFunc.h"
 
+//한글 경로 지원 안함.(어차피 여기서 지원해도 Unity Build에서 지원 안됨)
+//필요 argument : 2개
+//argv[1] = 처리해야할 작업의 종류(ex. "Script")
+//argv[2] = 작업 경로(ex. "...(경로)...\\repos\\DX_MyFramework\\Project\\Script")
 int main(int argc, char* argv[])
 {
-    //arguments가 들어오지 않으면 리턴
-    if (0 == argc)
-        return 0;
-        
-    //디버그 용 메시지 박스
-    MessageBoxA(nullptr, argv[1], argv[0], MB_OK);
+    //arguments가 만족되지 않으면 리턴
+    if (2 > argc)
+    {
+        if (0 == argc)
+            MessageBoxA(nullptr, "2 Parameters Missing", NULL, MB_OK);
+        else if (1 == argc)
+            MessageBoxA(nullptr, "1 Parameters Missing", NULL, MB_OK);
 
-    //프로그램 주소를 받아 온다.
+        return 0;
+    }
+        
+
+
+    //프로젝트 주소를 받아 온다.
+    string Path = argv[2];
 
     //argument를 비교.
-    //if(0 == strcmp("Script", argv[1]))
-        
-    
-    
-    //CreateScriptCode(path);
-    //CreateShaderCode(path);
+    if (0 == strcmp("Script", argv[1]))
+        CreateScriptCode(Path);
+    else if (0 == strcmp("Shader", argv[1]))
+        CreateShaderCode(Path);
 
 
     return 0;

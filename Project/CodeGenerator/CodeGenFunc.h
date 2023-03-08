@@ -1,5 +1,5 @@
 #pragma once
 
-void CreateScriptCode(const wstring& _wstrPath);
-void CreateShaderCode(const wstring& _wstrName);
+void CreateScriptCode(const string& _strPath);
+void CreateShaderCode(const string& _strPath);
 

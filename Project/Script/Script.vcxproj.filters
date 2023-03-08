@@ -34,7 +34,7 @@
       <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="CScriptMgr.h" />
-    <ClInclude Include="StrKeys.h" />
+    <ClInclude Include="strKeys.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_Bullet.cpp">

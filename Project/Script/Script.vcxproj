@@ -142,7 +142,7 @@ call Copy_Script.bat</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-call "CodeGenerator_$(Configuration).exe" "$(ProjectDir)"</Command>
+call "CodeGenerator_$(Configuration).exe" "Script" "$(ProjectDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -171,7 +171,7 @@ call Copy_Script.bat</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-call "CodeGenerator_$(Configuration).exe" "$(ProjectDir)"</Command>
+call "CodeGenerator_$(Configuration).exe" "Script" "$(ProjectDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -184,7 +184,7 @@ call "CodeGenerator_$(Configuration).exe" "$(ProjectDir)"</Command>
     <ClInclude Include="CScript_TestObj.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StrKeys.h" />
+    <ClInclude Include="strKeys.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScriptMgr.cpp" />
