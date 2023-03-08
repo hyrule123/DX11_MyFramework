@@ -44,6 +44,7 @@ namespace RESOURCES
 
 		inline constexpr const char* PARTICLE_RENDER = "ParticleRenderShader";
 
+
 		namespace COMPUTE
 		{
 			inline constexpr const char* INIT_SETTING = "CSInitSetting";

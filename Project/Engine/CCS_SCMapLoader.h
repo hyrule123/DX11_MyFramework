@@ -1,7 +1,7 @@
 #pragma once
 #include "CComputeShader.h"
 
-#include "Shader_SCMapLoader_0_Header.hlsli"
+#include "S_0_H_SCMapLoader.hlsli"
 
 #include "SCMapDefine.h"
 

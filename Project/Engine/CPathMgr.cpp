@@ -43,6 +43,6 @@ void CPathMgr::init()
 	wcscat_s(m_szContentPath, L"\\Content\\");
 
 	lstrcpyW(m_szShaderPath, m_szProgramPath);
-	wcscat_s(m_szContentPath, L"\\Shader\\");
+	wcscat_s(m_szShaderPath, L"\\Shader\\");
 }
 

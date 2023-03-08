@@ -1,7 +1,7 @@
 #pragma once
 #include "CRenderComponent.h"
 
-#include "Shader_TilemapAtlas_0_Header.hlsli"
+#include "S_0_H_TilemapAtlas.hlsli"
 
 // ===============================
 // Tilemap

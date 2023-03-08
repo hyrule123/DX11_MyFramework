@@ -1,5 +1,7 @@
 #pragma once
 
+//맵 로딩용 컴퓨트쉐이더 및 Tilemap 컴퓨트쉐이더에서 공유하는 구조체들을 저장해놓는 용도의 헤더
+
 #include "ptr.h"
 class CTexture;
 struct tMapData
@@ -34,6 +36,8 @@ struct tTileSet
     WPE wpe[WPE_MAX];
 };
 
+
+class CStructBuffer;
 struct tpSBufferTileSet
 {
     CStructBuffer* arrTileSetMember;

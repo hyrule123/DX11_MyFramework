@@ -5,7 +5,7 @@
 #include "CTransform.h"
 #include "CRenderMgr.h"
 
-#include "Shader_Debug_0_Header.hlsli"
+#include "S_0_H_Debug.hlsli"
 
 CCollider2D_Point::CCollider2D_Point()
 	: CCollider2D(eCOLLIDER_TYPE_2D::POINT)

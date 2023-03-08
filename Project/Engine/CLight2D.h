@@ -1,7 +1,7 @@
 #pragma once
 #include "CLight.h"
 
-#include "Shader_STD2D_Light_0_Header.hlsli"
+#include "S_0_H_STD2DLight.hlsli"
 
 class CLight2D :
     public CLight

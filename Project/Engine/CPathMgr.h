@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 
 class CPathMgr
 	: public CSingleton<CPathMgr>

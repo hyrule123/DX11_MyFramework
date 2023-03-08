@@ -3,7 +3,7 @@
 
 #include "CStructBuffer.h"
 
-#include "Shader_Header_Struct.hlsli"
+#include "S_H_Struct.hlsli"
 
 
 
