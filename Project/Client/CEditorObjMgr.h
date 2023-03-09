@@ -2,7 +2,7 @@
 
 #include <Engine/CSingleton.h>
 
-#include <Engine/Shader_Debug_0_Header.hlsli>
+#include <Engine/S_0_H_Debug.hlsli>
 
 class CGameObject;
 class CCamera;

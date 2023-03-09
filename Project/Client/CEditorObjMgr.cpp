@@ -14,7 +14,7 @@
 #include <Engine/strKeys.h>
 #include <Engine/CCollider2D_Point.h>
 
-#include <Engine/Shader_Debug_0_Header.hlsli>
+#include <Engine/S_0_H_Debug.hlsli>
 
 #include <Engine/CScriptHolder.h>
 #include <Script/CScript_CameraMove.h>

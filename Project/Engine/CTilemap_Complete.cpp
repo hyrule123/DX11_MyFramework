@@ -9,7 +9,7 @@ CTilemap_Complete::CTilemap_Complete()
 	: CTilemap(eTILE_TYPE::COMPLETE)
 	, m_tMapData()
 {
-	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::TILEMAP_COMPLETE);
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::TILEMAP_COMPLETE);
 	SetMaterial(pMtrl);
 }
 
@@ -32,7 +32,7 @@ bool CTilemap_Complete::render()
 
 bool CTilemap_Complete::LoadMap(const wstring& _strMapName)
 {
-	static Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(RESOURCES::SHADER::COMPUTE::SC_MAP_LOADER);
+	static Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(DEFAULT_RES::SHADER::COMPUTE::SC_MAP_LOADER);
 
 	m_bMapLoaded = pLoader->LoadMap(_strMapName, m_tMapData);
 

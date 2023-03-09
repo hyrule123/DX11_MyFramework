@@ -2,7 +2,9 @@
 
 #include "CodeGenFunc.h"
 
-void CreateShaderCode(const string& _wstrPath)
+#include "MacroFunc.h"
+
+void CreateShaderCode()
 {
 	MessageBoxA(nullptr, "Shader", NULL, MB_OK);
 }

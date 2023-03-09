@@ -58,6 +58,8 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 
 	m_vecScript.push_back(_pScript);
 	_pScript->SetOwner(GetOwner());
+	if (true == GetOwner()->IsInitialized())
+		_pScript->init();
 
 	return true;
 }

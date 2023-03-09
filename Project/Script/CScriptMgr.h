@@ -1,5 +1,6 @@
 #pragma once
 
+#include "strKeys.h"
 
 class CScript;
 class CScriptMgr
@@ -7,11 +8,15 @@ class CScriptMgr
 {
 	SINGLETON(CScriptMgr);
 
-private:
-	unordered_map<string, CScript*> m_umapScript;
-
 public:
 	void init();
 
+private:
+	unordered_map<string, CScript*> m_umapScript;
+	
+public:
+	CScript* GetNewScript(const string& _strKey);
+
+	
 };
 

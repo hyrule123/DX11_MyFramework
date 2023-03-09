@@ -24,6 +24,16 @@ public:
     CGameObject(const CGameObject& _other);
     ~CGameObject();
 
+public:
+    void init();
+    void tick();
+    virtual void finaltick();
+    bool render();
+
+    //제거되기 전 기존 오브젝트들과의 관계를 제거
+    //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 cleanup() 함수만 호출한다.
+    void cleanup();
+
 private:
     //Components
     CComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
@@ -49,7 +59,6 @@ private:
     bool                m_bInitialized;
 
 public:
-    //Inline Setter
     void                SetLayerIdx(int _iLayerIdx) { m_iLayerIdx = _iLayerIdx; }
     void                SetLayerFixed(bool _bFix) { m_bFixLayer = _bFix; }
     void                SetParent(CGameObject* _pObj) { m_Parent = _pObj; }
@@ -57,7 +66,8 @@ public:
     void                SetLifeSpan(float _fLifeSpan);
     void                SetChildTransformToUpdate();
 
-    //Inline Getter
+    bool                IsInitialized() const { return m_bInitialized; }
+
     ////Components
     CComponent* GetComponent(eCOMPONENT_TYPE _type) const { return (CComponent*)m_arrCom[(UINT)_type]; }
 
@@ -110,16 +120,6 @@ public:
     const Vec4& GetMtrlScalarParam_Vec4(eMTRLDATA_PARAM_SCALAR _Param) const;
     const MATRIX& GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCALAR _Param) const;
     const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
-
-public:
-    void init();
-    void tick();
-    virtual void finaltick();
-    bool render();
-
-    //제거되기 전 기존 오브젝트들과의 관계를 제거
-    //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 cleanup() 함수만 호출한다.
-    void cleanup();
 
 };
 

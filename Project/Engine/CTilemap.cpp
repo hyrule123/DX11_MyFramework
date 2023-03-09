@@ -10,7 +10,7 @@ CTilemap::CTilemap(eTILE_TYPE _eTileType)
 	, m_uTileCountX(1)
 	, m_uTileCountY(1)
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCES::MESH::RECT));
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::RECT));
 }
 
 CTilemap::~CTilemap()

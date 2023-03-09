@@ -142,7 +142,8 @@ call Copy_Script.bat</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-call "CodeGenerator_$(Configuration).exe" "Script" "$(ProjectDir)"</Command>
+call "CodeGenerator_$(Configuration).exe" Script
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -171,7 +172,8 @@ call Copy_Script.bat</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-call "CodeGenerator_$(Configuration).exe" "Script" "$(ProjectDir)"</Command>
+call "CodeGenerator_$(Configuration).exe" Script
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

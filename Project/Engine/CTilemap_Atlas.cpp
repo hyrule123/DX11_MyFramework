@@ -15,7 +15,7 @@ CTilemap_Atlas::CTilemap_Atlas()
 	, m_vecTile()
 	, m_SBuffer()
 {
-	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::TILEMAP_ATLAS));
+	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::TILEMAP_ATLAS));
 
 	UINT Target = eSHADER_PIPELINE_STAGE::__VERTEX | eSHADER_PIPELINE_STAGE::__PIXEL;
 	m_SBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE, e_t_SBUFFER_TILE, e_u_UAV_NONE });

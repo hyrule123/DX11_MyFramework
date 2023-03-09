@@ -20,6 +20,7 @@
 #include <Engine/CCS_SetColor.h>
 #include <Engine/CCS_SCMapLoader.h>
 
+#include <Script/CScriptMgr.h>
 #include <Script/CScript_Player.h>
 #include <Script/CScript_MouseCursor.h>
 #include <Script/CScript_Bullet.h>
@@ -62,7 +63,7 @@ void CreateTestLevel()
 		pPlayer->AddComponent(new CMeshRender);
 
 		if (0 == i)
-			pPlayer->AddScript(new CScript_Player);
+			pPlayer->AddScript(CScriptMgr::GetInst()->GetNewScript(SCRIPTS::PLAYER));
 
 		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::MARINE);
 
@@ -311,25 +312,25 @@ void CreateTestLevel()
 	}
 
 	{//Prefab
-		CGameObject* pPrefab = new CGameObject;
+		//CGameObject* pPrefab = new CGameObject;
 
-		pPrefab->AddComponent(new CMeshRender);
-		Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
-		Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>("HOS");
+		//pPrefab->AddComponent(new CMeshRender);
+		//Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>("TestMtrl");
+		//Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>("HOS");
 
-		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTex);
-		Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
-		pPrefab->MeshRender()->SetMaterial(pMtrl);
-		pPrefab->MeshRender()->SetMesh(pMesh);
+		//pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTex);
+		//Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
+		//pPrefab->MeshRender()->SetMaterial(pMtrl);
+		//pPrefab->MeshRender()->SetMesh(pMesh);
 
-		pPrefab->AddScript(new CScript_Bullet);
+		//pPrefab->AddScript(new CScript_Bullet);
 
-		pPrefab->AddComponent(new CTransform);
+		//pPrefab->AddComponent(new CTransform);
 
-		Ptr<CPrefab> pResPrefab = new CPrefab;
-		pResPrefab->RegisterPrefab(pPrefab);
+		//Ptr<CPrefab> pResPrefab = new CPrefab;
+		//pResPrefab->RegisterPrefab(pPrefab);
 
-		CResMgr::GetInst()->AddRes("Bullet", pResPrefab);
+		//CResMgr::GetInst()->AddRes("Bullet", pResPrefab);
 	}
 
 

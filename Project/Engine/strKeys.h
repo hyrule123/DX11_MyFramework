@@ -1,84 +1,84 @@
 #pragma once
 
-namespace RESOURCES
+namespace DEFAULT_RES
 {
 	namespace MESH
 	{
-		inline constexpr const char* POINT = "PointMesh";
-		inline constexpr const char* RECT = "RectMesh";
-		inline constexpr const char* CIRCLE = "CircleMesh";
+		constexpr const char* POINT = "PointMesh";
+		constexpr const char* RECT = "RectMesh";
+		constexpr const char* CIRCLE = "CircleMesh";
 
-		inline constexpr const char* DEBUG_RECT = "RectMesh_Debug";
-		inline constexpr const char* DEBUG_CIRCLE = "CircleMesh_Debug";
+		constexpr const char* DEBUG_RECT = "RectMesh_Debug";
+		constexpr const char* DEBUG_CIRCLE = "CircleMesh_Debug";
 	}
 
 
 	namespace MATERIAL
 	{
-		inline constexpr const char* DEBUG_RECT = "DebugMtrlRect";
-		inline constexpr const char* DEBUG_CIRCLE = "DebugMtrlCircle";
+		constexpr const char* DEBUG_RECT = "DebugMtrlRect";
+		constexpr const char* DEBUG_CIRCLE = "DebugMtrlCircle";
 
-		inline constexpr const char* TEST = "TestMtrl";
-		inline constexpr const char* STD2D = "std2DMtrl";
-		inline constexpr const char* STD2D_LIGHT = "std2DLightMtrl";
+		constexpr const char* TEST = "TestMtrl";
+		constexpr const char* STD2D = "std2DMtrl";
+		constexpr const char* STD2D_LIGHT = "std2DLightMtrl";
 		
-		inline constexpr const char* TILEMAP_COMPLETE = "TilemapCompleteMtrl";
-		inline constexpr const char* TILEMAP_ATLAS = "TilemapAtlasMtrl";
+		constexpr const char* TILEMAP_COMPLETE = "TilemapCompleteMtrl";
+		constexpr const char* TILEMAP_ATLAS = "TilemapAtlasMtrl";
 
-		inline constexpr const char* PARTICLE_RENDER = "ParticleRenderMtrl";
+		constexpr const char* PARTICLE_RENDER = "ParticleRenderMtrl";
 
-		inline constexpr const char* CORSAIR = "CorsairMtrl";
-		inline constexpr const char* MARINE = "MarineMtrl";
+		constexpr const char* CORSAIR = "CorsairMtrl";
+		constexpr const char* MARINE = "MarineMtrl";
 	}
 
 	namespace SHADER
 	{
-		inline constexpr const char* DEBUG = "DebugShader";
-		inline constexpr const char* TEST = "TestShader";
-		inline constexpr const char* STD2D = "std2DShader";
-		inline constexpr const char* STD2D_LIGHT = "std2DLightShader";
+		constexpr const char* DEBUG = "DebugShader";
+		constexpr const char* TEST = "TestShader";
+		constexpr const char* STD2D = "std2DShader";
+		constexpr const char* STD2D_LIGHT = "std2DLightShader";
 		
-		inline constexpr const char* TILEMAP_COMPLETE = "TilemapComplete";
-		inline constexpr const char* TILEMAP_ATLAS = "TilemapShader";
+		constexpr const char* TILEMAP_COMPLETE = "TilemapComplete";
+		constexpr const char* TILEMAP_ATLAS = "TilemapShader";
 
 
-		inline constexpr const char* PARTICLE_RENDER = "ParticleRenderShader";
+		constexpr const char* PARTICLE_RENDER = "ParticleRenderShader";
 
 
 		namespace COMPUTE
 		{
-			inline constexpr const char* INIT_SETTING = "CSInitSetting";
-			inline constexpr const char* SET_COLOR = "CSSetColor";
-			inline constexpr const char* PARTICLE_UPDATE_BASIC = "CSParticleUpdateBasic";
-			inline constexpr const char* PARTICLE_UPDATE_RAINDROP = "CSParticleUpdateRainDrop";
-			inline constexpr const char* SC_MAP_LOADER = "CS_SCMapLoader";
+			constexpr const char* INIT_SETTING = "CSInitSetting";
+			constexpr const char* SET_COLOR = "CSSetColor";
+			constexpr const char* PARTICLE_UPDATE_BASIC = "CSParticleUpdateBasic";
+			constexpr const char* PARTICLE_UPDATE_RAINDROP = "CSParticleUpdateRainDrop";
+			constexpr const char* SC_MAP_LOADER = "CS_SCMapLoader";
 		}
 	}
 
 	
 	namespace TEXTURE
 	{
-		inline constexpr const char* FIGHTER = "Fighter";
-		inline constexpr const char* HOS = "HOS";
-		inline constexpr const char* BEHEADED_ATLAS = "beheaded";
-		inline constexpr const char* BEHEADED_ATLAS_NORMAL = "beheaded_n";
-		inline constexpr const char* TILE_ATLAS = "TileAtlas";
-		inline constexpr const char* LINK_ATLAS = "LinkAtlas";
-		inline constexpr const char* REAVER_ATLAS = "ReaverAtlas";
-		inline constexpr const char* NOISE_TEXTURE_0 = "NoiseTexture";
-		inline constexpr const char* CORSAIR_ATLAS = "CorsairAtlas";
-		inline constexpr const char* MARINE_ATLAS = "MarineAtlas";
+		constexpr const char* FIGHTER = "Fighter";
+		constexpr const char* HOS = "HOS";
+		constexpr const char* BEHEADED_ATLAS = "beheaded";
+		constexpr const char* BEHEADED_ATLAS_NORMAL = "beheaded_n";
+		constexpr const char* TILE_ATLAS = "TileAtlas";
+		constexpr const char* LINK_ATLAS = "LinkAtlas";
+		constexpr const char* REAVER_ATLAS = "ReaverAtlas";
+		constexpr const char* NOISE_TEXTURE_0 = "NoiseTexture";
+		constexpr const char* CORSAIR_ATLAS = "CorsairAtlas";
+		constexpr const char* MARINE_ATLAS = "MarineAtlas";
 	}
 
 	namespace ANIM2D
 	{
-		inline constexpr const char* REAVERMOVE = "ReaverMove";
-		inline constexpr const char* CORSAIRMOVE = "CorsairMove";
+		constexpr const char* REAVERMOVE = "ReaverMove";
+		constexpr const char* CORSAIRMOVE = "CorsairMove";
 
-		inline constexpr const char* MARINE_IDLE = "MarineIdle";
-		inline constexpr const char* MARINE_MOVE = "MarineMove";
-		inline constexpr const char* MARINE_ATTACK = "MarineAttack";
-		inline constexpr const char* MARINE_ATTACKSTART = "MarineAttackStart";
-		inline constexpr const char* MARINE_DEATH = "MarineDeath";
+		constexpr const char* MARINE_IDLE = "MarineIdle";
+		constexpr const char* MARINE_MOVE = "MarineMove";
+		constexpr const char* MARINE_ATTACK = "MarineAttack";
+		constexpr const char* MARINE_ATTACKSTART = "MarineAttackStart";
+		constexpr const char* MARINE_DEATH = "MarineDeath";
 	}
 }

@@ -24,8 +24,8 @@ CParticleSystem::CParticleSystem()
 	, m_AccTime()
 	, m_bIsCreated()
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCES::MESH::POINT));
-	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::PARTICLE_RENDER));
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::POINT));
+	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::PARTICLE_RENDER));
 
 
 	UINT ShaderTarget = eSHADER_PIPELINE_STAGE::__GEOMETRY | eSHADER_PIPELINE_STAGE::__PIXEL;
