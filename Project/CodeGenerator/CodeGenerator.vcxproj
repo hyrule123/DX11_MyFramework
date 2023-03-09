@@ -143,6 +143,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="json-cpp\jsoncpp.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="MacroFunc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -154,6 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeGenFunc.h" />
+    <ClInclude Include="json-cpp\json-forwards.h" />
+    <ClInclude Include="json-cpp\json.h" />
     <ClInclude Include="MacroFunc.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

@@ -47,7 +47,7 @@ void CreateScriptCode()
 
 
 	//strKey ¿€º∫
-	string strKeyPath = ScriptPath + "strKeys.h";
+	string strKeyPath = ScriptPath + "strKeyScript.h";
 	std::wofstream strKey(strKeyPath);
 	if (false == strKey.is_open())
 		return;

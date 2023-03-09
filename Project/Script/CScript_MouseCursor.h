@@ -2,9 +2,6 @@
 
 #include <Engine/CScript.h>
 
-
-
-
 class CGameObject;
 class CScript_MouseCursor :
     public CScript

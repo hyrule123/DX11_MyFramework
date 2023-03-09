@@ -11,6 +11,13 @@ class CEditorObjMgr :
     public CSingleton<CEditorObjMgr>
 {
     SINGLETON(CEditorObjMgr);
+public:
+    void init();
+    void progress();
+
+private:
+    void tick();
+    void render();
 
 private:
     //디버그용 게임오브젝트를 모양별로 하나씩 만들어 놓고 모든 게임오브젝트를 해당 디버그용 오브젝트로 출력할 예정임.
@@ -24,13 +31,7 @@ private:
 public:
    
 
-public:
-    void init();
-    void progress();
 
-private:
-    void tick();
-    void render();
 
 private:
     void CreateDebugShape();

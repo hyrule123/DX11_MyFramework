@@ -186,7 +186,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CScript_TestObj.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="strKeys.h" />
+    <ClInclude Include="strKeyScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScriptMgr.cpp" />

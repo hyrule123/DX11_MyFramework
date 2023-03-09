@@ -1,6 +1,8 @@
 #pragma once
 #include "CShader.h"
 
+#include "global.h"
+
 enum class eSHADER_TYPE
 {
     __VERTEX,

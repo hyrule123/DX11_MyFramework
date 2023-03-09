@@ -29,6 +29,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StormLib_DLL", "Project\StormLib_DLL\StormLib_vs19_dll.vcxproj", "{C751E21F-DBD1-48E1-9D99-D2C9178630A6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodeGenerator", "Project\CodeGenerator\CodeGenerator.vcxproj", "{9AEDA5B3-B43F-455A-A407-1887680E4866}"
+	ProjectSection(ProjectDependencies) = postProject
+		{21A88A28-1D80-42F7-B922-B4CED888E26F} = {21A88A28-1D80-42F7-B922-B4CED888E26F}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnginePart", "EnginePart", "{C4358EC1-14E5-4F29-83DA-77709F7C0F66}"
 EndProject

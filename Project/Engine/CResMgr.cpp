@@ -12,7 +12,6 @@
 
 #include "CAnim2DAtlas.h"
 
-
 CResMgr::CResMgr()
 	: m_bResUpdated(true)
 {

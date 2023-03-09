@@ -1,6 +1,6 @@
 #pragma once
 
-#include "strKeys.h"
+#include "strKeyScript.h"
 
 class CScript;
 class CScriptMgr

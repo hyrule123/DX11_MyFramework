@@ -13,6 +13,7 @@ void GS_Particle(
 	if (0 == g_SBuffer_ParticleTransform[id].bActive)
 		return;
 	
+	
 	//정점을 뷰 공간상으로 이동
 	float3 vParticleViewPos = mul(float4(g_SBuffer_ParticleTransform[id].vWorldPos.xyz, 1.f), g_CBuffer_matCam[g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_INT_CAMIDX].matView).xyz;
     

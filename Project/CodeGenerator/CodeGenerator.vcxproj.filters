@@ -12,6 +12,9 @@
     <Filter Include="Default">
       <UniqueIdentifier>{fa432e91-8e0e-4f2b-8464-a17d380febfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="JSON-CPP">
+      <UniqueIdentifier>{d1f01546-160c-4610-8f01-62dd45c08cd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -29,6 +32,9 @@
     <ClCompile Include="MacroFunc.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="json-cpp\jsoncpp.cpp">
+      <Filter>JSON-CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeGenFunc.h">
@@ -39,6 +45,12 @@
     </ClInclude>
     <ClInclude Include="MacroFunc.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="json-cpp\json-forwards.h">
+      <Filter>JSON-CPP</Filter>
+    </ClInclude>
+    <ClInclude Include="json-cpp\json.h">
+      <Filter>JSON-CPP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

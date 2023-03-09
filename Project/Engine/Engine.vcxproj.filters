@@ -154,7 +154,7 @@
     <ClInclude Include="CParticleSystem.h">
       <Filter>_Source\06. Component\08~Render Components\09. ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="strKeys.h">
+    <ClInclude Include="strKeyDefault.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
     <ClInclude Include="CCollider3D_Ray.h">
