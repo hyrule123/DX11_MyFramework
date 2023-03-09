@@ -8,8 +8,6 @@ constexpr const wchar_t* ScriptStandardSuffix = L".h";
 
 void CreateScriptCode()
 {
-	MessageBoxA(nullptr, "Script Mode", "Noti", MB_OK);
-
 	string ScriptPath = "Project\\Script\\";
 
 	//Key = strKey의 변수명, Value = 파일명

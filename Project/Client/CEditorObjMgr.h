@@ -28,10 +28,6 @@ private:
 
     CGameObject* m_pMousePicker;
 
-public:
-   
-
-
 
 private:
     void CreateDebugShape();
