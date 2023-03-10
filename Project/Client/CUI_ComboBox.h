@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CUI_Widget.h"
 #include "CImGuiMgr.h"
 
@@ -37,7 +37,7 @@ private:
 	int m_iCurrentSelected;
 	ImGuiComboFlags m_ComboFlags;
 
-	//ÇÔ¼ö È£Ãâ ´ë»ó
+	//í•¨ìˆ˜ í˜¸ì¶œ ëŒ€ìƒ
 	vector<std::function<void(const tComboItem&)>> m_vecCallback[(UINT)eCALLBACK_TYPE::END];
 
 
@@ -46,7 +46,7 @@ public://Setter/Getter
 
 	void AddItem(const tComboItem& _tItem) { m_vecItem.push_back(_tItem); }
 
-	//»õ·Î µé¾î¿Â º¤ÅÍ°ªÀ¸·Î °ªÀ» ±³Ã¼
+	//ìƒˆë¡œ ë“¤ì–´ì˜¨ ë²¡í„°ê°’ìœ¼ë¡œ ê°’ì„ êµì²´
 	void SetItem(vector<tComboItem>& _vecItem) { m_vecItem.clear(); std::swap(m_vecItem, _vecItem); }
 
 	size_t GetItemNum() const { return m_vecItem.size(); }

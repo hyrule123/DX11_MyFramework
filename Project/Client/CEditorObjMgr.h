@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <Engine/CSingleton.h>
 
@@ -20,7 +20,7 @@ private:
     void render();
 
 private:
-    //µð¹ö±×¿ë °ÔÀÓ¿ÀºêÁ§Æ®¸¦ ¸ð¾çº°·Î ÇÏ³ª¾¿ ¸¸µé¾î ³õ°í ¸ðµç °ÔÀÓ¿ÀºêÁ§Æ®¸¦ ÇØ´ç µð¹ö±×¿ë ¿ÀºêÁ§Æ®·Î Ãâ·ÂÇÒ ¿¹Á¤ÀÓ.
+    //ë””ë²„ê·¸ìš© ê²Œìž„ì˜¤ë¸Œì íŠ¸ë¥¼ ëª¨ì–‘ë³„ë¡œ í•˜ë‚˜ì”© ë§Œë“¤ì–´ ë†“ê³  ëª¨ë“  ê²Œìž„ì˜¤ë¸Œì íŠ¸ë¥¼ í•´ë‹¹ ë””ë²„ê·¸ìš© ì˜¤ë¸Œì íŠ¸ë¡œ ì¶œë ¥í•  ì˜ˆì •ìž„.
     CGameObject* m_arrDebugShape[(UINT)eDEBUGSHAPE_TYPE::END];
     vector<tDebugShapeInfo> m_vecDebugShapeInfo;
 

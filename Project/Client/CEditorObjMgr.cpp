@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 
 #include "CEditorObjMgr.h"
 #include "CImGuiMgr.h"
@@ -22,7 +22,7 @@
 
 
 
-//Å×½ºÆ®¿ë ·¹º§
+//í…ŒìŠ¤íŠ¸ìš© ë ˆë²¨
 #include "CTestLevel.h"
 
 
@@ -53,7 +53,7 @@ void CEditorObjMgr::init()
 	CreateEditorCamera();
 
 
-	{//Ä¿¼­ »ı¼º
+	{//ì»¤ì„œ ìƒì„±
 		m_pMousePicker = new CGameObject;
 		m_pMousePicker->AddComponent(new CTransform);
 		m_pMousePicker->AddComponent(new CCollider2D_Point);
@@ -73,19 +73,19 @@ void CEditorObjMgr::progress()
 	render();
 }
 
-//EngineÀ¸·ÎºÎÅÍ µğ¹ö±×¿¡ »ç¿ëÇÒ ¿ÀºêÁ§Æ®µé Á¤º¸¸¦ ¹Ş¾Æ¿À±â
+//Engineìœ¼ë¡œë¶€í„° ë””ë²„ê·¸ì— ì‚¬ìš©í•  ì˜¤ë¸Œì íŠ¸ë“¤ ì •ë³´ë¥¼ ë°›ì•„ì˜¤ê¸°
 void CEditorObjMgr::tick()
 {
-	//ÀÌ ¸Ş¼ÒµåÀÇ È£Ãâ ½ÃÁ¡Àº ¸ğµç °ÔÀÓÀÇ ¸ŞÀÎ ·»´õ¸µ°úÁ¤ÀÌ Á¾·áµÈ ÀÌÈÄÀÌ´Ù. 
+	//ì´ ë©”ì†Œë“œì˜ í˜¸ì¶œ ì‹œì ì€ ëª¨ë“  ê²Œì„ì˜ ë©”ì¸ ë Œë”ë§ê³¼ì •ì´ ì¢…ë£Œëœ ì´í›„ì´ë‹¤. 
 	
 
 
-	//CRenderMgr·ÎºÎÅÍ ÀÌ¹ø ÇÁ·¹ÀÓ¿¡ ±×¸± µğ¹ö±× ½¦ÀÌÇÁ ¸ñ·ÏÀ» ¹Ş¾Æ¿Â´Ù.
+	//CRenderMgrë¡œë¶€í„° ì´ë²ˆ í”„ë ˆì„ì— ê·¸ë¦´ ë””ë²„ê·¸ ì‰ì´í”„ ëª©ë¡ì„ ë°›ì•„ì˜¨ë‹¤.
 	CRenderMgr::GetInst()->UpdateDebugShapeRender(m_vecDebugShapeInfo);
 
 	float DT = DELTA_TIME;
 
-	//¿©±â¼± ´Ü¼øÈ÷ ½Ã°£¸¸ •û ÁØ´Ù. render()¿¡¼­ ±×¸®°í ³ª¼­ À½¼öÀÌ¸é Á¦°ÅÇÔ.
+	//ì—¬ê¸°ì„  ë‹¨ìˆœíˆ ì‹œê°„ë§Œ ëº´ ì¤€ë‹¤. render()ì—ì„œ ê·¸ë¦¬ê³  ë‚˜ì„œ ìŒìˆ˜ì´ë©´ ì œê±°í•¨.
 	size_t size = m_vecDebugShapeInfo.size();
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -97,11 +97,11 @@ void CEditorObjMgr::tick()
 	m_pEditorCam->finaltick();
 }
 
-//¹Ş¾Æ¿Â ¿ÀºêÁ§Æ®¸¦ ÅëÇØ¼­ µğ¹ö±× Á¤º¸¸¦ »ç°¢ÇüÀ¸·Î ±×¸®±â
+//ë°›ì•„ì˜¨ ì˜¤ë¸Œì íŠ¸ë¥¼ í†µí•´ì„œ ë””ë²„ê·¸ ì •ë³´ë¥¼ ì‚¬ê°í˜•ìœ¼ë¡œ ê·¸ë¦¬ê¸°
 void CEditorObjMgr::render()
 {
 	CCamera* pCam = CRenderMgr::GetInst()->GetCurCamera();
-	//Ä«¸Ş¶óÀÇ µ¥ÀÌÅÍ¸¦ ¾÷·Îµå
+	//ì¹´ë©”ë¼ì˜ ë°ì´í„°ë¥¼ ì—…ë¡œë“œ
 	
 
 
@@ -111,12 +111,12 @@ void CEditorObjMgr::render()
 		m_vecDebugShapeInfo[i].fLifeSpan -= DELTA_TIME;
 
 
-		//¿ùµåÇà·Ä Àü´Ş.
+		//ì›”ë“œí–‰ë ¬ ì „ë‹¬.
 		tMtrlScalarData MtrlData = {};
 		Ptr<CMaterial> pMtrl = nullptr;
 
 
-		//¿©±â¼­ ¼³Á¤ÇØÁà¾ß ÇÏ´Â°Íµé
+		//ì—¬ê¸°ì„œ ì„¤ì •í•´ì¤˜ì•¼ í•˜ëŠ”ê²ƒë“¤
 //#define MTRL_SCALAR_DEBUG_MAT_VP    MTRLDATA_PARAM_SCALAR(MAT_0)
 //#define MTRL_SCALAR_DEBUG_MAT_WORLD MTRLDATA_PARAM_SCALAR(MAT_1)
 //
@@ -135,7 +135,7 @@ void CEditorObjMgr::render()
 
 			MtrlData.INT_1 = (int)eDEBUGSHAPE_TYPE::RECT;
 
-			//MAT_WORLD = 1¹ø, VP Çà·ÄÀº g_CBuffer_matCam¿¡ ÀÖÀ¸¹Ç·Î µû·Î Àü´ŞÇÏÁö ¾ÊÀ½
+			//MAT_WORLD = 1ë²ˆ, VP í–‰ë ¬ì€ g_CBuffer_matCamì— ìˆìœ¼ë¯€ë¡œ ë”°ë¡œ ì „ë‹¬í•˜ì§€ ì•ŠìŒ
 			MtrlData.MAT_1 = m_vecDebugShapeInfo[i].matWorld;
 
 			
@@ -144,7 +144,7 @@ void CEditorObjMgr::render()
 
 			//m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::RECT]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_VEC4_COLOR, &(m_vecDebugShapeInfo[i].vColor));
 
-			//·¹ÀÌ¾î¿¡ ¼ÓÇØ¼­ °ÔÀÓ ³»¿¡¼­ µ¹¾Æ°¡´Â °ÔÀÓ¿ÀºêÁ§Æ®°¡ ¾Æ´Ï¹Ç·Î °­Á¦·Î render()¸¦ È£ÃâÇØ¾ß ÇÑ´Ù.
+			//ë ˆì´ì–´ì— ì†í•´ì„œ ê²Œì„ ë‚´ì—ì„œ ëŒì•„ê°€ëŠ” ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ì•„ë‹ˆë¯€ë¡œ ê°•ì œë¡œ render()ë¥¼ í˜¸ì¶œí•´ì•¼ í•œë‹¤.
 			/*m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::RECT]->render();*/
 
 			break;
@@ -155,18 +155,18 @@ void CEditorObjMgr::render()
 
 			MtrlData.INT_1 = (int)eDEBUGSHAPE_TYPE::CIRCLE;
 
-			//CIRCLEÀÇ °æ¿ì Á¤Á¡ÀÇ °¹¼ö°¡ ¸¹À¸¹Ç·Î ¿ùµåÇà·Ä ´ë½Å WVP Çà·ÄÀ» ¸¸µé¾î¼­ Àü´Ş
-			//MAT_WVP = 0¹ø
+			//CIRCLEì˜ ê²½ìš° ì •ì ì˜ ê°¯ìˆ˜ê°€ ë§ìœ¼ë¯€ë¡œ ì›”ë“œí–‰ë ¬ ëŒ€ì‹  WVP í–‰ë ¬ì„ ë§Œë“¤ì–´ì„œ ì „ë‹¬
+			//MAT_WVP = 0ë²ˆ
 			MtrlData.MAT_0 = m_vecDebugShapeInfo[i].matWorld * g_matCam[(int)pCam->GetCamIndex()].matVP;
 
-			//¿ùµåÇà·Ä Àü´Ş.
+			//ì›”ë“œí–‰ë ¬ ì „ë‹¬.
 			//const Matrix& matWorld = m_vecDebugShapeInfo[i].matWorld;
 
 			//m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::CIRCLE]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_MAT_WORLD, m_vecDebugShapeInfo[i].matWorld.m);
 
 			//m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::CIRCLE]->SetMtrlScalarParam(MTRL_SCALAR_DEBUG_VEC4_COLOR, &(m_vecDebugShapeInfo[i].vColor));
 
-			////·¹ÀÌ¾î¿¡ ¼ÓÇØ¼­ °ÔÀÓ ³»¿¡¼­ µ¹¾Æ°¡´Â °ÔÀÓ¿ÀºêÁ§Æ®°¡ ¾Æ´Ï¹Ç·Î °­Á¦·Î render()¸¦ È£ÃâÇØ¾ß ÇÑ´Ù.
+			////ë ˆì´ì–´ì— ì†í•´ì„œ ê²Œì„ ë‚´ì—ì„œ ëŒì•„ê°€ëŠ” ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ì•„ë‹ˆë¯€ë¡œ ê°•ì œë¡œ render()ë¥¼ í˜¸ì¶œí•´ì•¼ í•œë‹¤.
 			//m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::CIRCLE]->render();
 			break;
 		}
@@ -181,10 +181,10 @@ void CEditorObjMgr::render()
 		}
 
 
-		//MAT_COLOR = 0¹ø
+		//MAT_COLOR = 0ë²ˆ
 		MtrlData.VEC4_0 = m_vecDebugShapeInfo[i].vColor;
 
-		//ÀçÁú Á¤º¸¸¦ ÀçÁú¿¡ µî·ÏÇÑ´Ù.
+		//ì¬ì§ˆ ì •ë³´ë¥¼ ì¬ì§ˆì— ë“±ë¡í•œë‹¤.
 		pMtrl->AddMtrlScalarData(MtrlData);
 	}
 
@@ -201,7 +201,7 @@ void CEditorObjMgr::render()
 
 
 
-	//³²Àº ½Ã°£ÀÌ À½¼ö°¡ µÈ µğ¹ö±× ½¦ÀÌÇÁ¿¡ ´ëÇØ »èÁ¦ Ã³¸®¸¦ ÁøÇà
+	//ë‚¨ì€ ì‹œê°„ì´ ìŒìˆ˜ê°€ ëœ ë””ë²„ê·¸ ì‰ì´í”„ì— ëŒ€í•´ ì‚­ì œ ì²˜ë¦¬ë¥¼ ì§„í–‰
 	m_vecDebugShapeInfo.erase(
 		std::remove_if(m_vecDebugShapeInfo.begin(), m_vecDebugShapeInfo.end(),
 			[](const tDebugShapeInfo& _Info)->bool
@@ -224,7 +224,7 @@ void CEditorObjMgr::CreateDebugShape()
 		case eDEBUGSHAPE_TYPE::RECT:
 		{
 			CMeshRender* pMesh = new CMeshRender;
-			//¿ùµåÇà·ÄÀ» Á÷Á¢ ¹Ş¾Æ¼­ ½¦ÀÌ´õ¿¡ º¸³¾ °ÍÀÌ±â ‹š¹®¿¡ TransformÀº ÇÊ¿äÇÏÁö ¾ÊÀ½.
+			//ì›”ë“œí–‰ë ¬ì„ ì§ì ‘ ë°›ì•„ì„œ ì‰ì´ë”ì— ë³´ë‚¼ ê²ƒì´ê¸° ë–„ë¬¸ì— Transformì€ í•„ìš”í•˜ì§€ ì•ŠìŒ.
 			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::DEBUG_RECT);
 			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::DEBUG_RECT);
 			pMesh->SetMesh(pDebugMesh);

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Engine\CSingleton.h>
 
 //IMGUI
@@ -11,7 +11,7 @@
 
 #include "CUI_Structs.h"
 
-//Delegate(ÇÔ¼ö Æ÷ÀÎÅÍ
+//Delegate(í•¨ìˆ˜ í¬ì¸í„°
 class CUI;
 class CUI_Inspector;
 class CUI_Menubar;

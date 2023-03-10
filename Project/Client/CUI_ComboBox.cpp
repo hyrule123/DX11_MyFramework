@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CUI_ComboBox.h"
 
 
@@ -15,7 +15,7 @@ CUI_ComboBox::~CUI_ComboBox()
 
 void CUI_ComboBox::tick()
 {
-	//ÀÎµ¦½º°¡ À¯È¿ÇÏÁö ¾ÊÀºÁö °Ë»çÇÏ°í À¯È¿ÇÏÁö ¾ÊÀ» ½Ã -1·Î º¯°æ
+	//ì¸ë±ìŠ¤ê°€ ìœ íš¨í•˜ì§€ ì•Šì€ì§€ ê²€ì‚¬í•˜ê³  ìœ íš¨í•˜ì§€ ì•Šì„ ì‹œ -1ë¡œ ë³€ê²½
 	if (false == IsIndexValid())
 		m_iCurrentSelected = -1;
 }
@@ -40,7 +40,7 @@ bool CUI_ComboBox::beginUI()
 void CUI_ComboBox::render_update()
 {
 
-	//ÄŞº¸¹Ú½º¸¦ Å¬¸¯Çß´Ù¸é BeginCombo¿¡¼­ true°¡ ¹İÈ¯µÇ¹Ç·Î
+	//ì½¤ë³´ë°•ìŠ¤ë¥¼ í´ë¦­í–ˆë‹¤ë©´ BeginComboì—ì„œ trueê°€ ë°˜í™˜ë˜ë¯€ë¡œ
 	CallCallbackFunc(eCALLBACK_TYPE::ONCLICK);
 
 
@@ -49,7 +49,7 @@ void CUI_ComboBox::render_update()
 	{
 		bool isSelected = (m_iCurrentSelected == n);
 
-		//¿©±â´Â ÄŞº¸¹Ú½º¿¡¼­ Æ¯Á¤ °ªÀÌ ¼±ÅÃ(Å¬¸¯)µÇ¾úÀ» ‹š ÁøÀÔÇÑ´Ù.
+		//ì—¬ê¸°ëŠ” ì½¤ë³´ë°•ìŠ¤ì—ì„œ íŠ¹ì • ê°’ì´ ì„ íƒ(í´ë¦­)ë˜ì—ˆì„ ë–„ ì§„ì…í•œë‹¤.
 		if (true == ImGui::Selectable(m_vecItem[n].strName.c_str(), isSelected))
 		{
 			m_iCurrentSelected = n;

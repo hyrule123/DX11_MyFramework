@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CImGuiMgr.h"
 
 #include <Engine/CDevice.h>
@@ -40,9 +40,9 @@ CImGuiMgr::~CImGuiMgr()
 
     vector<CUI*> vecUI;
 
-    //UI¸¦ Á¦°ÅÇÒ ¶§ map¿¡ ÀÖ´Â ÀÚ½ÅÀÇ ÀÌÅÍ·¹ÀÌÅÍ¸¦ Á¦°ÅÇÏ±â ¶§¹®¿¡
-    //¼øÈ¸ µ¹¸é¼­ Á¦°ÅÇÏ¸é ¿¡·¯°¡ ¹ß»ýÇÑ´Ù.
-    //±×·¡¼­ º°µµÀÇ vecUI¿¡ UI ÁÖ¼Ò¸¦ ³Ö¾î ³õ°í ¼øÈ¸¸¦ ¸¶Ä£ ÈÄ ´Ù½Ã vecUI¸¦ ¼øÈ¸µ¹¸é¼­ Á¦°ÅÇØÁØ´Ù.
+    //UIë¥¼ ì œê±°í•  ë•Œ mapì— ìžˆëŠ” ìžì‹ ì˜ ì´í„°ë ˆì´í„°ë¥¼ ì œê±°í•˜ê¸° ë•Œë¬¸ì—
+    //ìˆœíšŒ ëŒë©´ì„œ ì œê±°í•˜ë©´ ì—ëŸ¬ê°€ ë°œìƒí•œë‹¤.
+    //ê·¸ëž˜ì„œ ë³„ë„ì˜ vecUIì— UI ì£¼ì†Œë¥¼ ë„£ì–´ ë†“ê³  ìˆœíšŒë¥¼ ë§ˆì¹œ í›„ ë‹¤ì‹œ vecUIë¥¼ ìˆœíšŒëŒë©´ì„œ ì œê±°í•´ì¤€ë‹¤.
     for (const auto& iter : m_mapUI)
     {
         assert(nullptr != iter.second);
@@ -87,14 +87,14 @@ CUI* CImGuiMgr::FindUI(const string& _UIName)
     if (iter != iterEnd)
         return iter->second;
         
-    //Å°°ªÀ¸·Î ¸øÃ£¾ÒÀ» ½Ã Áßº¹µÉ ¼öµµ ÀÖ´Â ÀÏ¹Ý ÀÌ¸§À¸·Î ´Ù½Ã ÇÑ¹ø Å½»ö
+    //í‚¤ê°’ìœ¼ë¡œ ëª»ì°¾ì•˜ì„ ì‹œ ì¤‘ë³µë  ìˆ˜ë„ ìžˆëŠ” ì¼ë°˜ ì´ë¦„ìœ¼ë¡œ ë‹¤ì‹œ í•œë²ˆ íƒìƒ‰
     for (iter = m_mapUI.begin(); iter != iterEnd; ++iter)
     {
         if (_UIName == iter->second->GetName())
             return iter->second;
     }
 
-    //¿©±â¼­µµ ¸øÃ£¾ÒÀ¸¸é ¾ø´Â°ÍÀÓ
+    //ì—¬ê¸°ì„œë„ ëª»ì°¾ì•˜ìœ¼ë©´ ì—†ëŠ”ê²ƒìž„
     return nullptr;
 }
 
@@ -102,17 +102,17 @@ void CImGuiMgr::AddUI(CUI* _pUI)
 {
     assert(nullptr != _pUI);
 
-    //°°Àº ÀÌ¸§ÀÇ UI°¡ ÀÌ¹Ì Á¸ÀçÇÏ´ÂÁö È®ÀÎ.
-    //Á¸ÀçÇÒ °æ¿ì ÀÌ¸§¿¡ ID¸¦ ºÙ¿© °íÀ¯ÇÑ ID »ý¼º
+    //ê°™ì€ ì´ë¦„ì˜ UIê°€ ì´ë¯¸ ì¡´ìž¬í•˜ëŠ”ì§€ í™•ì¸.
+    //ì¡´ìž¬í•  ê²½ìš° ì´ë¦„ì— IDë¥¼ ë¶™ì—¬ ê³ ìœ í•œ ID ìƒì„±
     const auto& iter = m_mapUI.find(_pUI->GetStrID());
 
     if (iter != m_mapUI.end())
     {
         _pUI->MakeUniqueID();
 
-        //°íÀ¯ ÀÌ¸§À» ¸¸µç °æ¿ì¿¡´Â ÀúÀåÀÇ ÀÇ¹Ì°¡ ¾ø¾îÁü
-        //¸¸¾à °íÀ¯ ÀÌ¸§À» ¸¸µé¾ú´Âµ¥ ÇØ´ç Ã¢ÀÌ À©µµ¿ì ¼Ó¼ºÀ» °¡Áö°í ÀÖÀ»°æ¿ì Á¤º¸¸¦ ÀúÀåÇÏÁö ¾Êµµ·Ï ¼³Á¤ÇÑ´Ù.
-        //À¢¸¸ÇÏ¸é Áßº¹µÈ Ã¢ÀÌ ¸¸µé¾îÁú °¡´É¼ºÀÌ ÀÖ´Â Ã¢µéÀ» ¾ÖÃÊ¿¡ ÀúÀåÀ» ¾ÈÇÏµµ·Ï ¼³Á¤ÇÏ´Â°Ô ÁÁÀ½
+        //ê³ ìœ  ì´ë¦„ì„ ë§Œë“  ê²½ìš°ì—ëŠ” ì €ìž¥ì˜ ì˜ë¯¸ê°€ ì—†ì–´ì§
+        //ë§Œì•½ ê³ ìœ  ì´ë¦„ì„ ë§Œë“¤ì—ˆëŠ”ë° í•´ë‹¹ ì°½ì´ ìœˆë„ìš° ì†ì„±ì„ ê°€ì§€ê³  ìžˆì„ê²½ìš° ì •ë³´ë¥¼ ì €ìž¥í•˜ì§€ ì•Šë„ë¡ ì„¤ì •í•œë‹¤.
+        //ì›¬ë§Œí•˜ë©´ ì¤‘ë³µëœ ì°½ì´ ë§Œë“¤ì–´ì§ˆ ê°€ëŠ¥ì„±ì´ ìžˆëŠ” ì°½ë“¤ì„ ì• ì´ˆì— ì €ìž¥ì„ ì•ˆí•˜ë„ë¡ ì„¤ì •í•˜ëŠ”ê²Œ ì¢‹ìŒ
         CUI_BasicWindow* pWnd = dynamic_cast<CUI_BasicWindow*>(_pUI);
         if (nullptr != pWnd)
         {
@@ -125,7 +125,7 @@ void CImGuiMgr::AddUI(CUI* _pUI)
     _pUI->init();
     _pUI->LoadRecursive(m_SavedUIData);
 
-    //ÃÖ»óÀ§ ·çÆ® UIÀÏ °æ¿ì ¸ÞÀÎ¸Þ´º °»½ÅÇØ¾ßµÈ´Ù°í ¾Ë¸²
+    //ìµœìƒìœ„ ë£¨íŠ¸ UIì¼ ê²½ìš° ë©”ì¸ë©”ë‰´ ê°±ì‹ í•´ì•¼ëœë‹¤ê³  ì•Œë¦¼
     if (nullptr == _pUI->GetParent())
         m_bUIUpdated = true;
 }
@@ -136,11 +136,11 @@ void CImGuiMgr::init(HWND _hWnd)
     m_hWnd = _hWnd;
     //
     // 
-    //IMGUI ÃÊ±âÈ­
+    //IMGUI ì´ˆê¸°í™”
     //
     //
     //
-    //¸ðµç ÃÊ±âÈ­ °úÁ¤Àº IMGUI ¿¹½Ã ÄÚµå¿¡¼­ °¡Á®¿Â °ÍÀÓ. ¸ð¸£°ÚÀ¸¸é ÇØ´ç ÄÚµå¸¦ º¸°í Âü°íÇÒ°Í.
+    //ëª¨ë“  ì´ˆê¸°í™” ê³¼ì •ì€ IMGUI ì˜ˆì‹œ ì½”ë“œì—ì„œ ê°€ì ¸ì˜¨ ê²ƒìž„. ëª¨ë¥´ê² ìœ¼ë©´ í•´ë‹¹ ì½”ë“œë¥¼ ë³´ê³  ì°¸ê³ í• ê²ƒ.
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -170,7 +170,7 @@ void CImGuiMgr::init(HWND _hWnd)
     }
 
 
-    //¼³Á¤ ÆÄÀÏµé ·Îµå
+    //ì„¤ì • íŒŒì¼ë“¤ ë¡œë“œ
     wstring origPath = CPathMgr::GetInst()->GetContentPath();
     origPath += L"SavedSettings/";
     wstring path = origPath + L"imgui.ini";
@@ -231,7 +231,7 @@ void CImGuiMgr::CreateDefaultUI()
 
 void CImGuiMgr::begin()
 {
-    //·»´õ¸µÇÏ±â Àü IMGUIµµ ¾÷µ¥ÀÌÆ® ÇØ ÁØ´Ù.
+    //ë Œë”ë§í•˜ê¸° ì „ IMGUIë„ ì—…ë°ì´íŠ¸ í•´ ì¤€ë‹¤.
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
@@ -297,20 +297,20 @@ void CImGuiMgr::finaltick()
 
     for (const auto& pair : m_mapUI)
     {
-        //ºñÈ°¼ºÈ­ »óÅÂ ¶Ç´Â ÃÖ»óÀ§ UI°¡ ¾Æ´Ò °æ¿ì continue
+        //ë¹„í™œì„±í™” ìƒíƒœ ë˜ëŠ” ìµœìƒìœ„ UIê°€ ì•„ë‹ ê²½ìš° continue
         if (nullptr != pair.second->GetParent())
             continue;
             
          pair.second->finaltick();
     }
 
-    //¿£ÅÍÅ°¸¦ ´©¸¦ ½Ã IMGUI À©µµ¿ì¿¡ ´ëÇÑ Æ÷Ä¿½º ÇØÁ¦
+    //ì—”í„°í‚¤ë¥¼ ëˆ„ë¥¼ ì‹œ IMGUI ìœˆë„ìš°ì— ëŒ€í•œ í¬ì»¤ìŠ¤ í•´ì œ
     if (KEY_TAP(KEY::ENTER))
         ImGui::SetWindowFocus(nullptr);
 }
 
 
-//·»´õ¸µÀº finaltick¿¡¼­ ½×¾Æ³õÀº ·¹ÀÌ¾Æ¿ôÀ» Åä´ë·Î ImGui¿¡¼­ ÀÏ°ýÀûÀ¸·Î ÁøÇàÇÔ.
+//ë Œë”ë§ì€ finaltickì—ì„œ ìŒ“ì•„ë†“ì€ ë ˆì´ì•„ì›ƒì„ í† ëŒ€ë¡œ ImGuiì—ì„œ ì¼ê´„ì ìœ¼ë¡œ ì§„í–‰í•¨.
 void CImGuiMgr::render()
 {
     // ImGui Rendering

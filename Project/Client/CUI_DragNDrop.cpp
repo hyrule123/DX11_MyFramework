@@ -1,6 +1,6 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 
-//ÇÏ³ªÀÇ Çì´õ¸¦ °øÀ¯ÇÔ
+//í•˜ë‚˜ì˜ í—¤ë”ë¥¼ ê³µìœ í•¨
 #include "CUI_DragNDrop.h"
 
 
@@ -25,7 +25,7 @@ void CUI_DragNDropSender::render_update()
 {
 	ImGui::SetDragDropPayload(m_strKeySend.c_str(), m_tData.pData, m_tData.uDataSize);
 
-	//À§Á¬ Child¸¦ ³ÖÀ» °æ¿ì µå·¡±× ¾Ø µå¶øÀ» ÇÒ ¶§ DescriptionÀ» º¸¿©ÁÙ ¼ö ÀÖÀ½. 
+	//ìœ„ì ¯ Childë¥¼ ë„£ì„ ê²½ìš° ë“œë˜ê·¸ ì•¤ ë“œëì„ í•  ë•Œ Descriptionì„ ë³´ì—¬ì¤„ ìˆ˜ ìˆìŒ. 
 }
 
 void CUI_DragNDropSender::endUI()
