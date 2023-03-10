@@ -3,7 +3,7 @@
 
 #include "CPathMgr.h"
 
-#include "strKeys.h"
+#include "strKeyDefaultRes.h"
 
 #include "CCS_SetColor.h"
 #include "CCS_ParticleUpdate.h"
@@ -11,6 +11,8 @@
 #include "CCS_Initialize.h"
 
 #include "CAnim2DAtlas.h"
+
+#include <fstream>
 
 CResMgr::CResMgr()
 	: m_bResUpdated(true)
@@ -223,7 +225,6 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// Blend State: Default
 	// Shader Domain: Opaque
 	// ============
-
 	const wstring& ShaderPath = CPathMgr::GetInst()->GetShaderPath();
 	std::ios_base::openmode openflag = std::ios::ate | std::ios::in | std::ios::binary;
 
@@ -248,136 +249,136 @@ void CResMgr::CreateDefaultGraphicsShader()
 			int a = 0;
 		}
 	}
-
-	//		pShader->SetKey(DEFAULT_RES::SHADER::DEBUG);
-	//		pShader->CreateShader((void*)g_VS_Debug, sizeof(g_VS_Debug), eSHADER_TYPE::__VERTEX);
-	//		pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADER_TYPE::__PIXEL);
-	//		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-	//		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
-	//		pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_TEST_NO_WRITE);
-	//		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-	//		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
-	//	}
-	//
-	//	// ===========
-	//	// Test Shader
-	//	// =========== 
-	//	{
-	//		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-	//		pShader->SetKey(DEFAULT_RES::SHADER::TEST);
-	//		pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADER_TYPE::__VERTEX);
-	//		pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADER_TYPE::__PIXEL);
-	//		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-	//		pShader->SetBlendState(eBLENDSTATE_TYPE::DEFAULT);
-	//		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-	//		AddRes(pShader->GetKey(), pShader);
-	//	}
-	//
-	//	// ============
-	//	// std2D Shader
-	//	// ============
-	//	{
-	//		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-	//		pShader->SetKey(DEFAULT_RES::SHADER::STD2D);
-	//		pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADER_TYPE::__VERTEX);
-	//		pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADER_TYPE::__PIXEL);
-	//		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-	//		AddRes(pShader->GetKey(), pShader);
-	//	}
-	//
-	//
-	//	// ==================
-	//	// std2D_Light Shader
-	//	// ==================
-	//	// 광원을 처리할 수 있는 2D 쉐이더
-	//	{
-	//		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-	//		pShader->SetKey(DEFAULT_RES::SHADER::STD2D_LIGHT);
-	//		pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADER_TYPE::__VERTEX);
-	//		pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADER_TYPE::__PIXEL);
-	//		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-	//		AddRes(pShader->GetKey(), pShader);
-	//	}
-	//
-	//
-	//
-	//	// ===============================
-	//	// Tilemap_Atlas
-	//	// RS_TYPE : CULL_BACK
-	//	// DS_TYPE : LESS(Default)
-	//	// BS_TYPE : MASK
-	//
-	//	// Parameter
-	//	// g_CBuffer_Mtrl_Scalar.INT_0 : Tile X Count
-	//	// g_CBuffer_Mtrl_Scalar.int_1 : Tile Y Count
-	//	// g_tex_0 : Tile Atlas Texture
-	//	//===============================
-	//	{
-	//		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-	//		pShader->SetKey(DEFAULT_RES::SHADER::TILEMAP_ATLAS);
-	//		pShader->CreateShader((void*)g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), eSHADER_TYPE::__VERTEX);
-	//		pShader->CreateShader((void*)g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), eSHADER_TYPE::__PIXEL);
-	//		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-	//		pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
-	//		pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
-	//		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
-	//	}
-	//
-	//	// ===============================
-	//	// Tilemap_Atlas
-	//	// RS_TYPE : CULL_BACK
-	//	// DS_TYPE : LESS(Default)
-	//	// BS_TYPE : MASK
-	//
-	//	// Parameter
-	//	// g_tex_0 : Tile Atlas Texture
-	//	//===============================
-	//	{
-	//		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-	//		pShader->SetKey(DEFAULT_RES::SHADER::TILEMAP_COMPLETE);
-	//		pShader->CreateShader((void*)g_VS_Tilemap_Complete, sizeof(g_VS_Tilemap_Complete), eSHADER_TYPE::__VERTEX);
-	//		pShader->CreateShader((void*)g_PS_Tilemap_Complete, sizeof(g_PS_Tilemap_Complete), eSHADER_TYPE::__PIXEL);
-	//		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-	//		pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
-	//		pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
-	//		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
-	//	}
-	//
-	//
-	//
-	//
-	//	// ============================
-	//	// ParticleRender
-	//	// 
-	//	// RS_TYPE : CULL_NONE
-	//	// DS_TYPE : NO_WRITE
-	//	// BS_TYPE : ALPHA_BLEND
-	//
-	//	// Parameter
-	//	// g_CBuffer_Mtrl_Scalar.INT_0 : Particle Index
-	//	// 
-	//	// Domain : TRANSPARENT
-	//	// ============================
-	//	{
-	//		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-	//		pShader->SetKey(DEFAULT_RES::SHADER::PARTICLE_RENDER);
-	//	
-	//		pShader->CreateShader((void*)g_VS_Particle, sizeof(g_VS_Particle), eSHADER_TYPE::__VERTEX);
-	//		pShader->CreateShader((void*)g_GS_Particle, sizeof(g_GS_Particle), eSHADER_TYPE::__GEOMETRY);
-	//		pShader->CreateShader((void*)g_PS_Particle, sizeof(g_PS_Particle), eSHADER_TYPE::__PIXEL);
-	//
-	//		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-	//		pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_WRITE);
-	//		pShader->SetBlendState(eBLENDSTATE_TYPE::ALPHA_BLEND);
-	//		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-	//		pShader->SetShaderDomain(eSHADER_DOMAIN::_TRANSPARENT); //알파 블렌딩을 사용하므로
-	//
-	//
-	//		AddRes(pShader->GetKey(), pShader);
-	//	}
-	//}
-	//
-	//
+		//{
+		//	pShader->SetKey(DEFAULT_RES::SHADER::DEBUG);
+		//	pShader->CreateShader((void*)g_VS_Debug, sizeof(g_VS_Debug), eSHADER_TYPE::__VERTEX);
+		//	pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADER_TYPE::__PIXEL);
+		//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
+		//	pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_TEST_NO_WRITE);
+		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
+		//	AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
+		//}
+	
+		//// ===========
+		//// Test Shader
+		//// =========== 
+		//{
+		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		//	pShader->SetKey(DEFAULT_RES::SHADER::TEST);
+		//	pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADER_TYPE::__VERTEX);
+		//	pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADER_TYPE::__PIXEL);
+		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+		//	pShader->SetBlendState(eBLENDSTATE_TYPE::DEFAULT);
+		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
+		//	AddRes(pShader->GetKey(), pShader);
+		//}
+	
+		//// ============
+		//// std2D Shader
+		//// ============
+		//{
+		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		//	pShader->SetKey(DEFAULT_RES::SHADER::STD2D);
+		//	pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADER_TYPE::__VERTEX);
+		//	pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADER_TYPE::__PIXEL);
+		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
+		//	AddRes(pShader->GetKey(), pShader);
+		//}
+	
+	
+		//// ==================
+		//// std2D_Light Shader
+		//// ==================
+		//// 광원을 처리할 수 있는 2D 쉐이더
+		//{
+		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		//	pShader->SetKey(DEFAULT_RES::SHADER::STD2D_LIGHT);
+		//	pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADER_TYPE::__VERTEX);
+		//	pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADER_TYPE::__PIXEL);
+		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
+		//	AddRes(pShader->GetKey(), pShader);
+		//}
+	
+	
+	
+		//// ===============================
+		//// Tilemap_Atlas
+		//// RS_TYPE : CULL_BACK
+		//// DS_TYPE : LESS(Default)
+		//// BS_TYPE : MASK
+	
+		//// Parameter
+		//// g_CBuffer_Mtrl_Scalar.INT_0 : Tile X Count
+		//// g_CBuffer_Mtrl_Scalar.int_1 : Tile Y Count
+		//// g_tex_0 : Tile Atlas Texture
+		////===============================
+		//{
+		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		//	pShader->SetKey(DEFAULT_RES::SHADER::TILEMAP_ATLAS);
+		//	pShader->CreateShader((void*)g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), eSHADER_TYPE::__VERTEX);
+		//	pShader->CreateShader((void*)g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), eSHADER_TYPE::__PIXEL);
+		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+		//	pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
+		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
+		//	AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
+		//}
+	
+		//// ===============================
+		//// Tilemap_Atlas
+		//// RS_TYPE : CULL_BACK
+		//// DS_TYPE : LESS(Default)
+		//// BS_TYPE : MASK
+	
+		//// Parameter
+		//// g_tex_0 : Tile Atlas Texture
+		////===============================
+		//{
+		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		//	pShader->SetKey(DEFAULT_RES::SHADER::TILEMAP_COMPLETE);
+		//	pShader->CreateShader((void*)g_VS_Tilemap_Complete, sizeof(g_VS_Tilemap_Complete), eSHADER_TYPE::__VERTEX);
+		//	pShader->CreateShader((void*)g_PS_Tilemap_Complete, sizeof(g_PS_Tilemap_Complete), eSHADER_TYPE::__PIXEL);
+		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+		//	pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
+		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
+		//	AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
+		//}
+	
+	
+	
+	
+		//// ============================
+		//// ParticleRender
+		//// 
+		//// RS_TYPE : CULL_NONE
+		//// DS_TYPE : NO_WRITE
+		//// BS_TYPE : ALPHA_BLEND
+	
+		//// Parameter
+		//// g_CBuffer_Mtrl_Scalar.INT_0 : Particle Index
+		//// 
+		//// Domain : TRANSPARENT
+		//// ============================
+		//{
+		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		//	pShader->SetKey(DEFAULT_RES::SHADER::PARTICLE_RENDER);
+		//
+		//	pShader->CreateShader((void*)g_VS_Particle, sizeof(g_VS_Particle), eSHADER_TYPE::__VERTEX);
+		//	pShader->CreateShader((void*)g_GS_Particle, sizeof(g_GS_Particle), eSHADER_TYPE::__GEOMETRY);
+		//	pShader->CreateShader((void*)g_PS_Particle, sizeof(g_PS_Particle), eSHADER_TYPE::__PIXEL);
+	
+		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+		//	pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_WRITE);
+		//	pShader->SetBlendState(eBLENDSTATE_TYPE::ALPHA_BLEND);
+		//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_TRANSPARENT); //알파 블렌딩을 사용하므로
+	
+	
+		//	AddRes(pShader->GetKey(), pShader);
+		//}
+	
+	
+	
 }
 
 void CResMgr::CreateDefaultComputeShader()

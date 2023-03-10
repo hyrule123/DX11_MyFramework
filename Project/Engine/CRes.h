@@ -1,6 +1,8 @@
 #pragma once
 #include "CEntity.h"
 
+#include "global.h"
+
 class CRes :
     public CEntity
 {

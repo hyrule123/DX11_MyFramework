@@ -1,6 +1,6 @@
 #pragma once
 
-#include <fstream>
+#include "global.h"
 
 class CPathMgr
 	: public CSingleton<CPathMgr>

@@ -7,7 +7,7 @@
 
 #include "CTransform.h"
 
-#include "strKeys.h"
+#include "strKeyDefaultRes.h"
 
 CTilemap_Atlas::CTilemap_Atlas()
 	: CTilemap(eTILE_TYPE::ATLAS)

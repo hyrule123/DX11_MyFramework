@@ -2,7 +2,7 @@
 #include "CTilemap.h"
 
 #include "CResMgr.h"
-#include "strKeys.h"
+#include "strKeyDefaultRes.h"
 
 CTilemap::CTilemap(eTILE_TYPE _eTileType)
 	: CRenderComponent(eCOMPONENT_TYPE::TILEMAP)

@@ -2,7 +2,8 @@
 #include "CCS_ParticleUpdate.h"
 
 #include "CResMgr.h"
-#include "strKeys.h"
+
+#include "strKeyDefaultRes.h"
 #include "CStructBuffer.h"
 #include "CConstBuffer.h"
 #include "CGameObject.h"

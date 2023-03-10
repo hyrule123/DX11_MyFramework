@@ -73,10 +73,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <ExternalIncludePath>$(SolutionDir)External\Include\;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <ExternalIncludePath>$(SolutionDir)External\Include\;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,6 +157,7 @@
     </ClCompile>
     <ClCompile Include="ScriptGen.cpp" />
     <ClCompile Include="ShaderGen.cpp" />
+    <ClCompile Include="StringConvert.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeGenFunc.h" />
@@ -162,6 +165,7 @@
     <ClInclude Include="json-cpp\json.h" />
     <ClInclude Include="MacroFunc.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="StringConvert.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

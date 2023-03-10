@@ -27,7 +27,7 @@
 
 #include "CParticleSystem.h"
 
-#include "strKeys.h"
+#include "strKeyDefaultRes.h"
 
 #include "CTimeMgr.h"
 

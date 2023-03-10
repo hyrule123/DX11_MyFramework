@@ -35,6 +35,9 @@
     <ClCompile Include="json-cpp\jsoncpp.cpp">
       <Filter>JSON-CPP</Filter>
     </ClCompile>
+    <ClCompile Include="StringConvert.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeGenFunc.h">
@@ -51,6 +54,9 @@
     </ClInclude>
     <ClInclude Include="json-cpp\json.h">
       <Filter>JSON-CPP</Filter>
+    </ClInclude>
+    <ClInclude Include="StringConvert.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

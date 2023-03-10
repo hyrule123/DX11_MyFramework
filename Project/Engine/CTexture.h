@@ -1,13 +1,7 @@
 #pragma once
 #include "CRes.h"
 
-#include <DirectXTex\DirectXTex.h>
-
-#ifdef _DEBUG
-#pragma comment(lib, "DirectXTex//DirectXTex_Debug")
-#else 
-#pragma comment(lib, "DirectXTex//DirectXTex_Release")
-#endif
+#include "global.h"
 
 class CTexture :
     public CRes

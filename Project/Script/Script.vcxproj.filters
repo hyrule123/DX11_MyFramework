@@ -35,6 +35,7 @@
     </ClInclude>
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="strKeyScript.h" />
+    <ClInclude Include="strKeyShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_Bullet.cpp">

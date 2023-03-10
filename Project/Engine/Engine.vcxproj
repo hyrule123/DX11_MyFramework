@@ -241,8 +241,9 @@ call Copy_Engine.bat</Command>
     <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="func.h" />
+    <ClInclude Include="Precompiled.h" />
     <ClInclude Include="SCMapDefine.h" />
-    <ClInclude Include="strKeyDefault.h" />
+    <ClInclude Include="strKeyDefaultRes.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ptr.h" />

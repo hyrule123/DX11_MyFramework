@@ -124,6 +124,73 @@ namespace eSHADER_PIPELINE_STAGE
 	};
 }
 
+enum class eRASTERIZER_TYPE
+{
+	CULL_BACK,
+	CULL_FRONT,
+	CULL_NONE,
+	WIRE_FRAME,
+	END
+};
+
+enum class eDEPTHSTENCIL_TYPE
+{
+	LESS,
+	LESS_EQUAL,
+	GREATER,
+	GREATER_EQUAL,
+	NO_WRITE,			//깊이버퍼에 깊이를 기록하지 않음.
+	NO_TEST_NO_WRITE,	//깊이 테스트랄 거지치 않고 무조건 픽셀에 색상을 입력. 깊이 버퍼에도 기록하지 않음.
+	END
+};
+
+enum class eBLENDSTATE_TYPE
+{
+	DEFAULT,
+	MASK,
+	ALPHA_BLEND,
+	ONE_ONE,	//1:1로 섞는 방식 - 컬러키가 검은색인 이미지에 대한 처리
+	END
+};
+
+enum class eSHADER_DOMAIN
+{
+	_UNDEFINED = -1,
+	_OPAQUE,
+	_MASK,
+	_TRANSPARENT,
+	_POST_PROCESS,
+	_UI,
+	_END
+};
+
+namespace JSON_SHADERINFO
+{
+	constexpr const char* ShaderExtension = ".cso";
+
+	constexpr const char* VertexShaderName = "_V_";
+	constexpr const char* HullShaderName = "_H_";
+	constexpr const char* DomainShaderName = "_D_";
+	constexpr const char* GeometryShaderName = "_G_";
+	constexpr const char* PixelShaderName = "_P_";
+
+	constexpr const char* ComputeShaderName = "_C_";
+
+	//대분류
+	constexpr const char* GraphicsShader = "GRAPHICS_SHADER";
+	constexpr const char* ComputeShader = "COMPUTE_SHADER";
+
+	//각 쉐이더마다 들어가야할 설정값
+	constexpr const char* ShaderName = "SHADER_NAME";
+	constexpr const char* PipelineFlag = "eSHADER_PIPELINE_STAGE";
+	constexpr const char* Topology = "D3D_PRIMITIVE_TOPOLOGY";
+	constexpr const char* RSState = "eRASTERIZER_TYPE";
+	constexpr const char* DSState = "eDEPTHSTENCIL_TYPE";
+	constexpr const char* BState = "eBLENDSTATE_TYPE";
+	constexpr const char* ShaderDomain = "eSHADER_DOMAIN";
+}
+
+
 enum class eAXIS2D : UINT
 {
 	X,
@@ -171,45 +238,6 @@ enum class ePROJ_TYPE
 	PERSPECTIVE
 };
 
-enum class eRASTERIZER_TYPE
-{
-	CULL_BACK,
-	CULL_FRONT,
-	CULL_NONE,
-	WIRE_FRAME,
-	END
-};
-
-enum class eDEPTHSTENCIL_TYPE
-{
-	LESS,
-	LESS_EQUAL,
-	GREATER,
-	GREATER_EQUAL,
-	NO_WRITE,			//깊이버퍼에 깊이를 기록하지 않음.
-	NO_TEST_NO_WRITE,	//깊이 테스트랄 거지치 않고 무조건 픽셀에 색상을 입력. 깊이 버퍼에도 기록하지 않음.
-	END
-};
-
-enum class eBLENDSTATE_TYPE
-{
-	DEFAULT,
-	MASK,
-	ALPHA_BLEND,
-	ONE_ONE,	//1:1로 섞는 방식 - 컬러키가 검은색인 이미지에 대한 처리
-	END
-};
-
-enum class eSHADER_DOMAIN
-{
-	_UNDEFINED = -1,
-	_OPAQUE,
-	_MASK,
-	_TRANSPARENT,
-	_POST_PROCESS,
-	_UI,
-	_END
-};
 
 
 enum class eEVENT_TYPE
@@ -287,3 +315,5 @@ enum class eTILESET_INFO : UINT8
 	TWILIGHT = 0x07,
 	END = 0x08
 };
+
+

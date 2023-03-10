@@ -5,7 +5,7 @@
 
 #include "CStructBuffer.h"
 
-#include "strKeys.h"
+#include "strKeyDefaultRes.h"
 
 #include "CTransform.h"
 

@@ -1,5 +1,4 @@
 targetver.h
 pch.h
 framework.h
-CompiledShaderHeader\
-CompiledShaderHeader\*
+ShaderInfo.json

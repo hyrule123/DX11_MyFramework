@@ -1,5 +1,9 @@
 #include "../pch.h"
 
+#ifdef max
+#undef max
+#endif
+
 /// Json-cpp amalgamated source (http://jsoncpp.sourceforge.net/).
 /// It is intended to be used with #include "json/json.h"
 

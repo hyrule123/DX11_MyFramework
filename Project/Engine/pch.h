@@ -7,56 +7,7 @@
 #ifndef PCH_H
 #define PCH_H
 
-// 여기에 미리 컴파일하려는 헤더 추가
-#include "framework.h"
-
-#include <stdlib.h>
-#include <Windows.h>
-
-#include <vector>
-#include <list>
-#include <map>
-#include <unordered_map>
-#include <string>
-#include <queue>
-#include <iterator>
-
-
-
-using std::vector;
-using std::list;
-using std::map;
-using std::unordered_map;
-using std::make_pair;
-using std::wstring;
-using std::string;
-using std::queue;
-
-#include <typeinfo>
-#include <typeindex>
-#include <assert.h>
-
-#include <wrl.h>
-using namespace Microsoft::WRL;
-
-#include <d3d11.h>					// DirectX11
-#include <d3dcompiler.h>			// Shader 컴파일
-#include <DirectXMath.h>			// DX Math
-#include <DirectXPackedVector.h>	
-
-using namespace DirectX;
-using namespace DirectX::PackedVector;
-
-#pragma comment(lib, "d3d11")
-#pragma comment(lib, "d3dcompiler")
-
-
-#include "SimpleMath.h"
-using namespace DirectX::SimpleMath;
-
-typedef Vector2 Vec2;
-typedef Vector3 Vec3;
-typedef Vector4 Vec4;
+#include "Precompiled.h"
 
 
 #endif //PCH_H

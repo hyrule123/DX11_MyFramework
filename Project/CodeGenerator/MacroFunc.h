@@ -1,6 +1,5 @@
 #pragma once
 
-
 constexpr const wchar_t BracketStart = L'{';
 constexpr const wchar_t BracketEnd = L'}';
 constexpr const wchar_t* IncludeBegin = L"#include \"";

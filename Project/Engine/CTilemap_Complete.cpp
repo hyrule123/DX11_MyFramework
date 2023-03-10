@@ -2,7 +2,7 @@
 #include "CTilemap_Complete.h"
 
 #include "CResMgr.h"
-#include "strKeys.h"
+#include "strKeyDefaultRes.h"
 #include "CCS_SCMapLoader.h"
 
 CTilemap_Complete::CTilemap_Complete()
