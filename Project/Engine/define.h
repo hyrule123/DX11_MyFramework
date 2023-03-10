@@ -124,6 +124,16 @@ namespace eSHADER_PIPELINE_STAGE
 	};
 }
 
+enum class eSHADER_TYPE
+{
+	__VERTEX,
+	__HULL,
+	__DOMAIN,
+	__GEOMETRY,
+	__PIXEL,
+	END
+};
+
 enum class eRASTERIZER_TYPE
 {
 	CULL_BACK,

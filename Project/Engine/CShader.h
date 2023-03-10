@@ -3,9 +3,9 @@
 
 enum class eSHADER_LOADTYPE
 {
-    eSHADER_NOT_LOADED,
-    eSHADER_RUNTIME,    //런타임에 컴파일한 쉐이더
-    eSHADER_INCLUDE     //헤더를 포함시켜 컴파일한 쉐이더
+    NOT_LOADED,
+    RUNTIME_COMPILED,    //런타임에 컴파일한 쉐이더
+    BYTE_CODE     //헤더를 포함시켜 컴파일한 쉐이더
 };
 
 struct tShaderLoadData

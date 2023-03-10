@@ -20,6 +20,13 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
+int CGraphicsShader::Load(const wstring& _strFilePath)
+{
+
+
+	return S_OK;
+}
+
 void CGraphicsShader::CreateDefaultInputLayout()
 {
 	// InputLayout 생성
@@ -58,12 +65,12 @@ void CGraphicsShader::CreateDefaultInputLayout()
 	//blob 형태로 로드했을 경우와 헤더 형태로 로드했을 경우에 따라 다른 파일을 참조해서 로드한다.
 	switch (m_ShaderData[(int)eSHADER_TYPE::__VERTEX].LoadType)
 	{
-	case eSHADER_LOADTYPE::eSHADER_NOT_LOADED:
+	case eSHADER_LOADTYPE::NOT_LOADED:
 		//Vertrx Shader가 로드되어있지 않을 경우 assert
 		assert((bool)m_ShaderData[(int)eSHADER_TYPE::__VERTEX].LoadType);
 		break;	
 
-	case eSHADER_LOADTYPE::eSHADER_RUNTIME:
+	case eSHADER_LOADTYPE::RUNTIME_COMPILED:
 		if (FAILED(DEVICE->CreateInputLayout(LayoutDesc, 2,
 			m_ShaderData[(int)eSHADER_TYPE::__VERTEX].Blob->GetBufferPointer(),
 			m_ShaderData[(int)eSHADER_TYPE::__VERTEX].Blob->GetBufferSize(),
@@ -75,7 +82,7 @@ void CGraphicsShader::CreateDefaultInputLayout()
 
 		break;	
 
-	case eSHADER_LOADTYPE::eSHADER_INCLUDE:
+	case eSHADER_LOADTYPE::BYTE_CODE:
 		if (FAILED(DEVICE->CreateInputLayout(
 			LayoutDesc, 2,
 			m_ShaderData[(int)eSHADER_TYPE::__VERTEX].pByteCode,
@@ -96,7 +103,7 @@ void CGraphicsShader::CreateDefaultInputLayout()
 
 void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType)
 {
-	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::eSHADER_INCLUDE;
+	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::BYTE_CODE;
 	m_ShaderData[(int)_ShaderType].pByteCode = _pShaderByteCode;
 	m_ShaderData[(int)_ShaderType].ByteCodeSize = _ShaderByteCodeSize;
 
@@ -152,7 +159,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 	strShaderFile += _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경
-	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::eSHADER_RUNTIME;
+	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::RUNTIME_COMPILED;
 
 
 	char ShaderNameVersion[32] = {};

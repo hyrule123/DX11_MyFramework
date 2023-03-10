@@ -3,15 +3,7 @@
 
 #include "global.h"
 
-enum class eSHADER_TYPE
-{
-    __VERTEX,
-    __HULL,
-    __DOMAIN,
-    __GEOMETRY,
-    __PIXEL,
-    END
-};
+
 
 
 class CGraphicsShader :
@@ -20,6 +12,9 @@ class CGraphicsShader :
 public:
     CGraphicsShader();
     virtual ~CGraphicsShader();
+
+public:
+    virtual int Load(const wstring& _strFilePath) override;
 
 private:
 

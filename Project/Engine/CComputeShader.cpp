@@ -44,7 +44,7 @@ CComputeShader::~CComputeShader()
 void CComputeShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize)
 {
 
-	m_ShaderData.LoadType = eSHADER_LOADTYPE::eSHADER_INCLUDE;
+	m_ShaderData.LoadType = eSHADER_LOADTYPE::BYTE_CODE;
 	m_ShaderData.pByteCode = _pShaderByteCode;
 	m_ShaderData.ByteCodeSize = _ShaderByteCodeSize;
 
@@ -67,7 +67,7 @@ void CComputeShader::CreateShader(const wstring& _strFileName, const string& _st
 	strShaderFile += _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경
-	m_ShaderData.LoadType = eSHADER_LOADTYPE::eSHADER_RUNTIME;
+	m_ShaderData.LoadType = eSHADER_LOADTYPE::RUNTIME_COMPILED;
 
 
 	char ShaderNameVersion[32] = {};

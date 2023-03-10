@@ -254,30 +254,107 @@ void CResMgr::CreateDefaultGraphicsShader(const wstring& _wstrShaderBasePath, co
 	// Shader Domain: Opaque
 	// ============
 
-
 	std::ios_base::openmode openflag = std::ios::ate | std::ios::in | std::ios::binary;
+
+	auto iter = _ShaderInfo.begin();
+	const auto& iterEnd = _ShaderInfo.end();
+	for (iter; iter != iterEnd; ++iter)
+	{
+		Ptr<CGraphicsShader> GS = new CGraphicsShader;
+
+		int ePipelineFlag = (*iter)[JSON_SHADERINFO::PipelineFlag].asInt();
+
+		int numShader = 0;
+		for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
+		{
+			//플래그값에 일치하는 쉐이더가 있을경우 이름을 만들어준다.
+			if (ePipelineFlag & (1 << i))
+			{
+				++numShader;
+				wstring shaderName = L"Content\\Shader\\S_";
+				shaderName += std::to_wstring(numShader);
+				switch ((eSHADER_TYPE)i)
+				{
+				case eSHADER_TYPE::__VERTEX:
+					shaderName += JSON_SHADERINFO::VertexShaderName;
+					break;
+				case eSHADER_TYPE::__HULL:
+					shaderName += JSON_SHADERINFO::HullShaderName;
+					break;
+				case eSHADER_TYPE::__DOMAIN:
+					shaderName += JSON_SHADERINFO::DomainShaderName;
+					break;
+				case eSHADER_TYPE::__GEOMETRY:
+					shaderName += JSON_SHADERINFO::GeometryShaderName;
+					break;
+				case eSHADER_TYPE::__PIXEL:
+					shaderName += JSON_SHADERINFO::PixelShaderName;
+					break;
+				case eSHADER_TYPE::END:
+					break;
+				default:
+					break;
+				}
+
+				shaderName += (*iter)[JSON_SHADERINFO::ShaderName].asString();
+				shaderName += JSON_SHADERINFO::ShaderExtension;
+
+
+				//만든 이름으로 파일을 로드한다.
+				std::ifstream fpShader(shaderName, openflag);
+
+				if (true == fpShader.is_open())
+				{
+					std::streampos fileSize = fpShader.tellg();
+
+					char* ByteCode = new char[fileSize];
+					memset(ByteCode, 0, fileSize);
+					fpShader.seekg(0, std::ios::beg);
+					fpShader.read(ByteCode, fileSize);
+
+					
+					GS->CreateShader(ByteCode, )
+
+					fpShader.close();
+					delete[] ByteCode;
+				}
+			}
+
+
+		}
+		
+
+		GS->SetKey(iter.key().asString());
+		AddRes<CGraphicsShader>(GS->GetKey(), GS);
+
+		string test = iter.key().asString();
+
+		int a = 0;
+	}
+
+
 	//TODO : 여기 파일시스템 프로젝트로 다 긁어와서 알아서 컴파일하도록 하는 기능 추가하기
 	{
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-
-		fpJson.
-
-		std::ifstream fpVS((ShaderPath + L"Shader_Debug_1_Vertex.cso"), openflag);
-		if (true == fpVS.is_open())
-		{
-			std::streampos fileSize = fpVS.tellg();
-
-			char* VS = new char[fileSize];
-			memset(VS, 0, fileSize);
-
-			fpVS.seekg(0, std::ios::beg);
-			fpVS.read(VS, fileSize);
-
-			pShader->CreateShader((void*)VS, fileSize, eSHADER_TYPE::__VERTEX);
+		
 
 
-			int a = 0;
-		}
+		//Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+
+		//if (true == fpVS.is_open())
+		//{
+		//	std::streampos fileSize = fpVS.tellg();
+
+		//	char* VS = new char[fileSize];
+		//	memset(VS, 0, fileSize);
+
+		//	fpVS.seekg(0, std::ios::beg);
+		//	fpVS.read(VS, fileSize);
+
+		//	pShader->CreateShader((void*)VS, fileSize, eSHADER_TYPE::__VERTEX);
+
+
+		//	int a = 0;
+		//}
 	}
 		//{
 		//	pShader->SetKey(DEFAULT_RES::SHADER::DEBUG);
