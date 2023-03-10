@@ -14,6 +14,9 @@
 
 #include <fstream>
 
+#include <UtilLib_DLL/json.h>
+#pragma comment(lib, "UtilLib_DLL/UtilLib_DLL_Debug")
+
 CResMgr::CResMgr()
 	: m_bResUpdated(true)
 {
@@ -31,8 +34,9 @@ void CResMgr::init()
 	CreateResClassTypeIndex();
 
 	CreateDefaultMesh();
-	CreateDefaultGraphicsShader();
-	CreateDefaultComputeShader();
+	
+	CreateDefaultShader();
+
 	CreateDefaultMaterial();
 
 	LoadDefaultTexture();
@@ -216,7 +220,31 @@ void CResMgr::CreateDefaultMesh()
 	AddRes(DEFAULT_RES::MESH::DEBUG_CIRCLE, pMesh);
 }
 
-void CResMgr::CreateDefaultGraphicsShader()
+void CResMgr::CreateDefaultShader()
+{
+	const wstring& ShaderPath = CPathMgr::GetInst()->GetShaderPath();
+
+	wstring JsonFilePath = ShaderPath + JSON_SHADERINFO::W_JSONFilename;
+	std::ifstream fpJson(JsonFilePath);
+	Json::Value ShaderInfo;
+
+	if (false == fpJson.is_open())
+	{
+		MessageBoxA(nullptr, "Failed to load Shader Info", NULL, MB_OK);
+		assert(false);
+	}
+
+	fpJson >> ShaderInfo;
+	fpJson.close();
+
+	const Json::Value& GSTree = ShaderInfo[JSON_SHADERINFO::GraphicsShader];
+	CreateDefaultGraphicsShader(ShaderPath, GSTree);
+
+	const Json::Value& CSTree = ShaderInfo[JSON_SHADERINFO::ComputeShader];
+	CreateDefaultComputeShader(ShaderPath, CSTree);
+}
+
+void CResMgr::CreateDefaultGraphicsShader(const wstring& _wstrShaderBasePath, const Json::Value& _ShaderInfo)
 {
 	// ============
 	// Debug Shader
@@ -225,12 +253,14 @@ void CResMgr::CreateDefaultGraphicsShader()
 	// Blend State: Default
 	// Shader Domain: Opaque
 	// ============
-	const wstring& ShaderPath = CPathMgr::GetInst()->GetShaderPath();
-	std::ios_base::openmode openflag = std::ios::ate | std::ios::in | std::ios::binary;
 
+
+	std::ios_base::openmode openflag = std::ios::ate | std::ios::in | std::ios::binary;
 	//TODO : 여기 파일시스템 프로젝트로 다 긁어와서 알아서 컴파일하도록 하는 기능 추가하기
 	{
 		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+
+		fpJson.
 
 		std::ifstream fpVS((ShaderPath + L"Shader_Debug_1_Vertex.cso"), openflag);
 		if (true == fpVS.is_open())
@@ -381,7 +411,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	
 }
 
-void CResMgr::CreateDefaultComputeShader()
+void CResMgr::CreateDefaultComputeShader(const wstring& _wstrShaderBasePath, const Json::Value& _ShaderInfo)
 {
 	//Ptr<CComputeShader> pInitCS = new CCS_Initialize;
 	//pInitCS->CreateShader((void*)g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));

@@ -39,7 +39,7 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	// Device 초기화
 	if (FAILED(CDevice::GetInst()->init(m_hWnd, _iWidth, _iHeight)))
 	{
-		MessageBox(nullptr, L"Device 초기화 실패", L"에러", MB_OK);
+		MessageBoxW(nullptr, L"Device 초기화 실패", NULL, MB_OK);
 		return E_FAIL;
 	}
 

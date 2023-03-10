@@ -17,6 +17,7 @@
 //1. define.h enum에 Res 타입 추가했는지 확인
 //2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
 
+#include <UtilLib_DLL/json-forwards.h>
 
 class CResMgr :
     public CSingleton<CResMgr>
@@ -36,8 +37,9 @@ private:
 private:
     void CreateResClassTypeIndex();
     void CreateDefaultMesh();
-    void CreateDefaultGraphicsShader();
-    void CreateDefaultComputeShader();
+    void CreateDefaultShader();
+    void CreateDefaultGraphicsShader(const wstring& _wstrShaderBasePath, const Json::Value& _ShaderInfo);
+    void CreateDefaultComputeShader(const wstring& _wstrShaderBasePath, const Json::Value& _ShaderInfo);
     void CreateDefaultMaterial();
     void LoadDefaultTexture();
 

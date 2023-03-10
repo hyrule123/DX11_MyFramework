@@ -166,6 +166,8 @@ enum class eSHADER_DOMAIN
 
 namespace JSON_SHADERINFO
 {
+	constexpr const char* JSONFilename = "ShaderInfo.json";
+	constexpr const wchar_t* W_JSONFilename = L"ShaderInfo.json";
 	constexpr const char* ShaderExtension = ".cso";
 
 	constexpr const char* VertexShaderName = "_V_";

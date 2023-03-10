@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "CTestLevel.h"
 
-#include <Engine/CDevice.h>
+#include <Engine/global.h>
 
+#include <Engine/CDevice.h>
 
 #include <Engine/CLevel.h>
 #include <Engine/CLevelMgr.h>
@@ -64,8 +65,8 @@ void CreateTestLevel()
 
 		if (0 == i)
 			pPlayer->AddScript(CScriptMgr::GetInst()->GetNewScript(SCRIPTS::PLAYER));
-
-		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::MARINE);
+		
+		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::MARINE);
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
@@ -79,9 +80,9 @@ void CreateTestLevel()
 
 		pPlayer->AddComponent(new CAnimator2D);
 
-		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCES::TEXTURE::MARINE_ATLAS);
+		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::MARINE_ATLAS);
 		pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
-		pPlayer->Animator2D()->Play(RESOURCES::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
+		pPlayer->Animator2D()->Play(DEFAULT_RES::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
 
 		if (0 == i)
 			pPlayer->AddComponent(new CCollider2D_Point);
@@ -108,7 +109,7 @@ void CreateTestLevel()
 	//	//if(1 == i)
 	//	pPlayer->AddScript(new CScript_Player);
 
-	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::STD2D_LIGHT);
+	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::STD2D_LIGHT);
 
 	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 	//	pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
@@ -118,9 +119,9 @@ void CreateTestLevel()
 
 	//	pPlayer->AddComponent(new CAnimator2D);
 
-	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RESOURCES::TEXTURE::CORSAIR_ATLAS);
+	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::CORSAIR_ATLAS);
 	//	pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
-	//	pPlayer->Animator2D()->Play(RESOURCES::ANIM2D::CORSAIRMOVE, eANIM_LOOPMODE::NORMAL_LOOP, false);
+	//	pPlayer->Animator2D()->Play(DEFAULT_RES::ANIM2D::CORSAIRMOVE, eANIM_LOOPMODE::NORMAL_LOOP, false);
 
 
 	//	::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
@@ -151,8 +152,8 @@ void CreateTestLevel()
 	//	pTestObj1->AddComponent(new CTransform);
 	//	pTestObj1->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 	//	pTestObj1->AddComponent(new CMeshRender);
-	//	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCES::MESH::RECT));
-	//	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::TEST);
+	//	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::RECT));
+	//	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::TEST);
 	//	TestMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
 	//	//pTestObj1->SetMtrlScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 	//	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
@@ -254,9 +255,9 @@ void CreateTestLevel()
 	//	pParticleObj->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 
 	//	CParticleSystem* pParticle = new CParticleSystem;
-	//	pParticle->SetParticleCS(RESOURCES::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
+	//	pParticle->SetParticleCS(DEFAULT_RES::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
 
-	//	Ptr<CTexture> pHOSTEX = CResMgr::GetInst()->FindRes<CTexture>(RESOURCES::TEXTURE::HOS);
+	//	Ptr<CTexture> pHOSTEX = CResMgr::GetInst()->FindRes<CTexture>(DEFAULT_RES::TEXTURE::HOS);
 	//	pParticle->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pHOSTEX);
 	//	pParticle->CreateParticle();
 	//	pParticleObj->AddComponent(pParticle);
@@ -279,14 +280,14 @@ void CreateTestLevel()
 	//{//Tilemap
 
 	//	CGameObject* pTilemap = new CGameObject;
-	//	pTilemap->SetName(RESOURCES::TEXTURE::TILE_ATLAS);
+	//	pTilemap->SetName(DEFAULT_RES::TEXTURE::TILE_ATLAS);
 
 	//	pTilemap->AddComponent(new CTransform);
 	//	pTilemap->AddComponent(new CTilemap);
 
 	//	pTilemap->Transform()->SetSize(Vec3(500.f, 500.f, 1.f));
 
-	//	pTilemap->Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>(RESOURCES::TEXTURE::TILE_ATLAS));
+	//	pTilemap->Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>(DEFAULT_RES::TEXTURE::TILE_ATLAS));
 	//	pTilemap->Tilemap()->SetSliceSize(Vec2(0.125f, 0.166f));
 	//	pTilemap->Tilemap()->SetTileCount(8, 8);
 
@@ -334,7 +335,7 @@ void CreateTestLevel()
 	}
 
 
-	Ptr<CCS_SCMapLoader> pMapLoader = CResMgr::GetInst()->FindRes<CComputeShader>(RESOURCES::SHADER::COMPUTE::SC_MAP_LOADER);
+	Ptr<CCS_SCMapLoader> pMapLoader = CResMgr::GetInst()->FindRes<CComputeShader>(DEFAULT_RES::SHADER::COMPUTE::SC_MAP_LOADER);
 
 	tMapData Data = {};
 	pMapLoader->LoadMap(L"(4)Fighting Sprit 1.3.scx", Data);
@@ -348,11 +349,11 @@ void CreateTestLevel()
 	MapObj->Transform()->SetSize(Vec3(Data.pMapTex->GetSize(), 1.f));
 	CMeshRender* pMesh = new CMeshRender;
 	MapObj->AddComponent(pMesh);
-	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RESOURCES::MATERIAL::STD2D);
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::STD2D);
 	pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Data.pMapTex);
 	pMesh->SetMaterial(pMtrl);
 
-	pMesh->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RESOURCES::MESH::RECT));
+	pMesh->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::RECT));
 
 	::SpawnGameObject(MapObj, Vec3(0.f, 0.f, 1000.f), 0);
 }
