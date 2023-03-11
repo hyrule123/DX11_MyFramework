@@ -249,6 +249,7 @@ call Copy_Engine.bat</Command>
     <ClInclude Include="ptr.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="struct.h" />
+    <ClInclude Include="헤더.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnim2DAtlas.cpp" />

@@ -199,6 +199,7 @@
     <ClInclude Include="Precompiled.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
+    <ClInclude Include="헤더.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
