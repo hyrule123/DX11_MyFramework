@@ -24,7 +24,7 @@ CUI_BasicWindow::~CUI_BasicWindow()
 
 bool CUI_BasicWindow::beginUI()
 {
-	//ÃÖ»ó´Ü UI(Ã¢ º»Ã¼ - Begin)
+	//ìµœìƒë‹¨ UI(ì°½ ë³¸ì²´ - Begin)
 	if (nullptr == GetParent())
 	{
 		if (false == ImGui::Begin(GetStrID().c_str(), GetActivePtr(), m_WindowFlag))
@@ -36,7 +36,7 @@ bool CUI_BasicWindow::beginUI()
 			return true;
 	}
 
-	//ºÎ¸ğ°¡ ÀÖ´Â ÀÚ½Ä UIÀÏ °æ¿ì - BeginChild
+	//ë¶€ëª¨ê°€ ìˆëŠ” ìì‹ UIì¼ ê²½ìš° - BeginChild
 	return ImGui::BeginChild(GetStrID().c_str(), m_vSize, m_bBorder, m_WindowFlag);
 }
 

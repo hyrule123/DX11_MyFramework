@@ -22,11 +22,11 @@
 #define PKDCL_CONTINUE             10   // Internal flag, not returned to user
 #define PKDCL_GET_INPUT            11   // Internal flag, not returned to user
 
-char CopyrightPkware[] = "PKWARE Data Compression Library for Win32\r\n"
-                         "Copyright 1989-1995 PKWARE Inc.  All Rights Reserved\r\n"
-                         "Patent No. 5,051,745\r\n"
-                         "PKWARE Data Compression Library Reg. U.S. Pat. and Tm. Off.\r\n"
-                         "Version 1.11\r\n";
+char CopyrightPkware[] = "PKWARE Data Compression Library for Win32\n"
+                         "Copyright 1989-1995 PKWARE Inc.  All Rights Reserved\n"
+                         "Patent No. 5,051,745\n"
+                         "PKWARE Data Compression Library Reg. U.S. Pat. and Tm. Off.\n"
+                         "Version 1.11\n";
 
 //-----------------------------------------------------------------------------
 // Tables
