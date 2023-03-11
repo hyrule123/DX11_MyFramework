@@ -19,14 +19,14 @@ void CUI_Transform::render_update()
     CTransform* pTransform = GetTarget()->Transform();
     assert(nullptr != pTransform);
 
-    //°ªÀ» ¼öÁ¤µµ °¡´ÉÇØ¾ß ÇÏ¹Ç·Î ÀÏ¹Ý value·Î ¹Þ¾Æ¿Â´Ù.
+    //ê°’ì„ ìˆ˜ì •ë„ ê°€ëŠ¥í•´ì•¼ í•˜ë¯€ë¡œ ì¼ë°˜ valueë¡œ ë°›ì•„ì˜¨ë‹¤.
     Vec3 vPos = pTransform->GetRelativePos();
     Vec3 vSize = pTransform->GetSize();
     Vec3 vScale = pTransform->GetRelativeScale();
     Vec3 vRot = (pTransform->GetRelativeRot() / XM_PI) * 180.f;
 
 
-    //IMGUI¿¡ ¹Þ¾Æ¿Â °ªÀ» Ç¥½Ã
+    //IMGUIì— ë°›ì•„ì˜¨ ê°’ì„ í‘œì‹œ
     ImGui::Text("Position");
     ImGui::SameLine(100.f);
     bool PosChanged = ImGui::DragFloat3("##Relative Position", vPos);
@@ -48,7 +48,7 @@ void CUI_Transform::render_update()
     
 
 
-    //°ªÀÌ º¯°æµÇ¾úÀ» °æ¿ì ´Ù½Ã °ªÀ» ¼³Á¤.
+    //ê°’ì´ ë³€ê²½ë˜ì—ˆì„ ê²½ìš° ë‹¤ì‹œ ê°’ì„ ì„¤ì •.
     if (true == PosChanged)
         pTransform->SetRelativePos(vPos);
 

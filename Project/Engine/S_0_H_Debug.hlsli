@@ -4,7 +4,7 @@
 #include "S_H_Register.hlsli"
 
 
-//Debug ½¦ÀÌÇÁ Á¤º¸´Â Material·Î µ¥ÀÌÅÍ¸¦ Àü¼ÛÇØ¼­ Ã³¸® Áß.
+//Debug ì‰ì´í”„ ì •ë³´ëŠ” Materialë¡œ ë°ì´í„°ë¥¼ ì „ì†¡í•´ì„œ ì²˜ë¦¬ ì¤‘.
 
 #define MTRL_SCALAR_DEBUG_MAT_WVP    MTRLDATA_PARAM_SCALAR(MAT_0)
 #define MTRL_SCALAR_DEBUG_MAT_WORLD MTRLDATA_PARAM_SCALAR(MAT_1)

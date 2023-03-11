@@ -18,7 +18,7 @@ public:
 
 private:
 
-    //ÁöÁ¤µÈ °¢ ½¦ÀÌ´õº°·Î ¾î¶² ¹æ½ÄÀ¸·Î ·ÎµåÇß´ÂÁö¸¦ ÀúÀå.
+    //ì§€ì •ëœ ê° ì‰ì´ë”ë³„ë¡œ ì–´ë–¤ ë°©ì‹ìœ¼ë¡œ ë¡œë“œí–ˆëŠ”ì§€ë¥¼ ì €ì¥.
     tShaderLoadData                 m_ShaderData[(int)eSHADER_TYPE::END];
 
     ComPtr<ID3D11VertexShader>      m_VS;

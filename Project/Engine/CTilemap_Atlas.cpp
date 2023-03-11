@@ -34,19 +34,19 @@ void CTilemap_Atlas::finaltick()
 
 bool CTilemap_Atlas::render()
 {
-	//true ¹ÝÈ¯ÇØ¼­ ÀÎ½ºÅÏ½Ì ÇÊ¿ä¾ø´Ù°í Àü´Þ
+	//true ë°˜í™˜í•´ì„œ ì¸ìŠ¤í„´ì‹± í•„ìš”ì—†ë‹¤ê³  ì „ë‹¬
 	if (nullptr == GetMesh() || nullptr == GetCurMaterial())
 		return true;
 
 	CGameObject* pOwner = GetOwner();
 
-	//ÀÚ½ÅÀÇ ±¸Á¶È­¹öÆÛ ¾÷µ¥ÀÌÆ®
+	//ìžì‹ ì˜ êµ¬ì¡°í™”ë²„í¼ ì—…ë°ì´íŠ¸
 	BindData();
 
-	//Å¸ÀÏ¸ÊÀÇ ÀçÁú¿¡ º¯¼ö¸¦ ´ëÀÔÇÑ ÈÄ ¹ÙÀÎµù
+	//íƒ€ì¼ë§µì˜ ìž¬ì§ˆì— ë³€ìˆ˜ë¥¼ ëŒ€ìž…í•œ í›„ ë°”ì¸ë”©
 	CMaterial* pMtrl = GetCurMaterial().Get();
 
-	//Æ®·£½ºÆû ¾÷µ¥ÀÌÆ® ½ÃÄÑÁÜ
+	//íŠ¸ëžœìŠ¤í¼ ì—…ë°ì´íŠ¸ ì‹œì¼œì¤Œ
 	//Transform()->UpdateData();
 
 	UINT count = GetTileCountX();
@@ -58,10 +58,10 @@ bool CTilemap_Atlas::render()
 	pMtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 	pMtrl->BindData();
 
-	//·»´õ¸µ ÁøÇà
+	//ë Œë”ë§ ì§„í–‰
 	GetMesh()->render();
 
-	//µå·Î¿ìÄÝÀÌ ¹ß»ýÇßÀ¸¹Ç·Î true ¹ÝÈ¯
+	//ë“œë¡œìš°ì½œì´ ë°œìƒí–ˆìœ¼ë¯€ë¡œ true ë°˜í™˜
 	return true;
 }
 
@@ -84,7 +84,7 @@ void CTilemap_Atlas::SetTileCount(UINT _iXCount, UINT _iYCount)
 		m_SBuffer->Create(sizeof(tTile), (UINT)m_vecTile.size(), nullptr, 0u);
 	}
 
-	// Å¸ÀÏ ¼¼ÆÃ Å×½ºÆ®
+	// íƒ€ì¼ ì„¸íŒ… í…ŒìŠ¤íŠ¸
 	for (size_t i = 0; i < GetTileCountY(); ++i)
 	{
 		for (size_t j = 0; j < GetTileCountX(); ++j)

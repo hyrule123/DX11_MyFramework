@@ -25,7 +25,7 @@ CTimeMgr::~CTimeMgr()
 
 void CTimeMgr::init()
 {
-	// 1ÃÊ´ç Ä«¿îÆÃ Áõ°¡·®
+	// 1ì´ˆë‹¹ ì¹´ìš´íŒ… ì¦ê°€ëŸ‰
 	QueryPerformanceFrequency(&m_llFrequency);
 		
 	QueryPerformanceCounter(&m_llCurCount);
@@ -36,26 +36,26 @@ void CTimeMgr::tick()
 {	
 	QueryPerformanceCounter(&m_llCurCount);
 
-	// tick °£°İ ½Ã°£
+	// tick ê°„ê²© ì‹œê°„
 	m_fDeltaTime = (float)(m_llCurCount.QuadPart - m_llPrevCount.QuadPart) / (float)m_llFrequency.QuadPart;
 
 
 
-	// ´©Àû ½Ã°£
+	// ëˆ„ì  ì‹œê°„
 	m_fTime += m_fDeltaTime;
 	g_GlobalVal.fAccTime += m_fDeltaTime;
 	g_GlobalVal.fDeltaTime = m_fDeltaTime;
 
-	// ÇÔ¼ö È£Ãâ È½¼ö
+	// í•¨ìˆ˜ í˜¸ì¶œ íšŸìˆ˜
 	++m_iCallCount;
 
-	// ÀÌÀü Ä«¿îÆ® °ªÀ» ÇöÀç Ä«¿îÆ®·Î °»½Å
+	// ì´ì „ ì¹´ìš´íŠ¸ ê°’ì„ í˜„ì¬ ì¹´ìš´íŠ¸ë¡œ ê°±ì‹ 
 	m_llPrevCount = m_llCurCount;		
 }
 
 void CTimeMgr::render()
 {
-	// 1ÃÊ¿¡ ÇÑ¹ø
+	// 1ì´ˆì— í•œë²ˆ
 	if (1.f <= m_fTime)
 	{
 		wchar_t szBuff[256] = {};

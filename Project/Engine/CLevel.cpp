@@ -5,7 +5,7 @@
 
 #include "CGameObject.h"
 
-//¿¡µğÅÍ ¸ğµå/°ÔÀÓ¸ğµå Ä«¸Ş¶ó ÀüÈ¯¿ë
+//ì—ë””í„° ëª¨ë“œ/ê²Œì„ëª¨ë“œ ì¹´ë©”ë¼ ì „í™˜ìš©
 #include "CRenderMgr.h"
 
 CLevel::CLevel()
@@ -79,7 +79,7 @@ int CLevel::GetLayerIdxByName(const string& _sLayerName)
 			return i;
 	}
 
-	//ÀÌ¸§À¸·Î ¸øÃ£¾ÒÀ» °æ¿ì -1À» ¸®ÅÏ
+	//ì´ë¦„ìœ¼ë¡œ ëª»ì°¾ì•˜ì„ ê²½ìš° -1ì„ ë¦¬í„´
 	return -1;
 }
 

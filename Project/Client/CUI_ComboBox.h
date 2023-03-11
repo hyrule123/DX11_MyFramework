@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "CUI_Widget.h"
 #include "CImGuiMgr.h"
 

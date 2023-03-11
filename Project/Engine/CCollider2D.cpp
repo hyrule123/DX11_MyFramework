@@ -33,10 +33,10 @@ void CCollider2D::finaltick()
 
 	bool bNeedAABBUpdate = false;
 
-	//Æ®·£½ºÆûÀÇ ¿ùµåÇà·ÄÀÌ º¯°æµÇ¾î ÀÚ½ÅÀÇ Ãæµ¹Ã¼ ¾÷µ¥ÀÌÆ®°¡ ÇÊ¿äÇÑ °æ¿ì
+	//íŠ¸ëžœìŠ¤í¼ì˜ ì›”ë“œí–‰ë ¬ì´ ë³€ê²½ë˜ì–´ ìžì‹ ì˜ ì¶©ëŒì²´ ì—…ë°ì´íŠ¸ê°€ í•„ìš”í•œ ê²½ìš°
 	if (true == pTransform->IsUpdated())
 	{
-		//ÀÚ½ÅÀÇ Áß½É À§Ä¡¸¦ ±¸ÇÑ´Ù.
+		//ìžì‹ ì˜ ì¤‘ì‹¬ ìœ„ì¹˜ë¥¼ êµ¬í•œë‹¤.
 		const Vec3& WorldPos = Transform()->GetWorldPos();
 		const Vec3& OffsetPos = GetOffsetPos();
 		m_vCenterPos.x = WorldPos.x + OffsetPos.x;
@@ -44,33 +44,33 @@ void CCollider2D::finaltick()
 
 		bNeedAABBUpdate = true;
 
-		//ÀÚ½ÅÀÇ Á¤º¸¸¦ ¾÷µ¥ÀÌÆ® ÇÏ°í ³ª¸é Ãæµ¹Ã¼ ¾÷µ¥ÀÌÆ® ÇÔ¼ö¸¦ È£ÃâÇÑ´Ù.
+		//ìžì‹ ì˜ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸ í•˜ê³  ë‚˜ë©´ ì¶©ëŒì²´ ì—…ë°ì´íŠ¸ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•œë‹¤.
 		UpdateCollider();
 	}
 
-	//¶Ç´Â Æ®·£½ºÆûÀÇ ¿ùµåÁ¤º¸´Â ¾÷µ¥ÀÌÆ® µÇÁö ¾Ê¾ÒÁö¸¸ Æ®·£½ºÆûÀÇ »çÀÌÁî°¡ ¾÷µ¥ÀÌÆ®µÇ¾úÀ» °æ¿ì 
+	//ë˜ëŠ” íŠ¸ëžœìŠ¤í¼ì˜ ì›”ë“œì •ë³´ëŠ” ì—…ë°ì´íŠ¸ ë˜ì§€ ì•Šì•˜ì§€ë§Œ íŠ¸ëžœìŠ¤í¼ì˜ ì‚¬ì´ì¦ˆê°€ ì—…ë°ì´íŠ¸ë˜ì—ˆì„ ê²½ìš° 
 	bNeedAABBUpdate |= pTransform->GetSizeUpdated();
-	//°£ÀÌ Ãæµ¹Ã¼ ¾÷µ¥ÀÌÆ®°¡ ÇÊ¿äÇÒ °æ¿ì
+	//ê°„ì´ ì¶©ëŒì²´ ì—…ë°ì´íŠ¸ê°€ í•„ìš”í•  ê²½ìš°
 	if (true == bNeedAABBUpdate)
 	{
-		//°£ÀÌ Ãæµ¹Ã¼ Á¤º¸¸¸ °»½ÅÇÑ´Ù. ±âº» ¼³Á¤Àº Transform¿¡¼­ º¯ÀÇ ±æÀÌ¸¦ ¹Þ¾Æ¿Í¼­ Á¤»ç°¢Çü ÇüÅÂ·Î »ý¼ºÇÔ.
+		//ê°„ì´ ì¶©ëŒì²´ ì •ë³´ë§Œ ê°±ì‹ í•œë‹¤. ê¸°ë³¸ ì„¤ì •ì€ Transformì—ì„œ ë³€ì˜ ê¸¸ì´ë¥¼ ë°›ì•„ì™€ì„œ ì •ì‚¬ê°í˜• í˜•íƒœë¡œ ìƒì„±í•¨.
 		UpdateSimpleCollider(m_vSimpleCollLBRTPos);
 
-		//À§Ä¡ LBRT Á¤º¸¸¦ Àü´ÞÇØ¼­ ÀÎµ¦½º Á¤º¸¸¦ ¹Þ¾Æ¿Â´Ù.
+		//ìœ„ì¹˜ LBRT ì •ë³´ë¥¼ ì „ë‹¬í•´ì„œ ì¸ë±ìŠ¤ ì •ë³´ë¥¼ ë°›ì•„ì˜¨ë‹¤.
 		CCollisionMgr::GetInst()->CalcAndAddCollider2D(this, m_vSimpleCollLBRTPos, m_vecGridIdxInfo);
 	}
 
-	//´Ù ÇÊ¿ä ¾øÀ» °æ¿ì 
+	//ë‹¤ í•„ìš” ì—†ì„ ê²½ìš° 
 	else
 	{
 		CCollisionMgr::GetInst()->AddCollider2D(this, m_vecGridIdxInfo);
 	}
 	
-	//¾Æ·¡ÀÇ µÎ ¸Þ¼Òµå´Â transform¿¡¼­ ÇÏ´Â °É·Î º¯°æ
+	//ì•„ëž˜ì˜ ë‘ ë©”ì†Œë“œëŠ” transformì—ì„œ í•˜ëŠ” ê±¸ë¡œ ë³€ê²½
 	//UpdateColliderInfo();
 	//UpdateSpatialPartitionInfo();
 
-	//¿¡µðÅÍ Ä«¸Þ¶ó ¸ðµåÀÏ‹š¸¸ µð¹ö±×
+	//ì—ë””í„° ì¹´ë©”ë¼ ëª¨ë“œì¼Â‹Âšë§Œ ë””ë²„ê·¸
 	if(true == CRenderMgr::GetInst()->IsEditorCamMode())
 		DebugRender();
 }
@@ -81,7 +81,7 @@ void CCollider2D::UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos)
 
 	if (nullptr != pTransform)
 	{
-		//ÀÌ °ªÀº Æ®·£½ºÆûÀÇ Å©±â¿Í »çÀÌÁî°¡ ¸ðµÎ Àû¿ëµÈ °ªÀÓ.
+		//ì´ ê°’ì€ íŠ¸ëžœìŠ¤í¼ì˜ í¬ê¸°ì™€ ì‚¬ì´ì¦ˆê°€ ëª¨ë‘ ì ìš©ëœ ê°’ìž„.
 		float Sidelen = pTransform->GetAABBSideLen();
 
 		//LB

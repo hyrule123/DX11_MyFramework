@@ -1,7 +1,7 @@
 #ifndef PCH_H
 #define PCH_H
 
-// ¿©±â¿¡ ¹Ì¸® ÄÄÆÄÀÏÇÏ·Á´Â Çì´õ Ãß°¡
+// ì—¬ê¸°ì— ë¯¸ë¦¬ ì»´íŒŒì¼í•˜ë ¤ëŠ” í—¤ë” ì¶”ê°€
 #include <algorithm>
 #include <fstream>
 #include <filesystem>

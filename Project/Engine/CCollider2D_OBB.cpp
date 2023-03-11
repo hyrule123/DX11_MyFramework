@@ -3,7 +3,7 @@
 
 #include "CTransform.h"
 
-//µð¹ö±× Ãâ·Â¿ë
+//ë””ë²„ê·¸ ì¶œë ¥ìš©
 #include "CRenderMgr.h"
 
 #include "S_0_H_Debug.hlsli"
@@ -24,15 +24,15 @@ CCollider2D_OBB::~CCollider2D_OBB()
 }
 
 
-//ÀÌ ÇÔ¼ö´Â CTransform¿¡¼­ °ªÀÌ º¯ÇßÀ» °æ¿ì¿¡¸¸ È£ÃâµÈ´Ù.
+//ì´ í•¨ìˆ˜ëŠ” CTransformì—ì„œ ê°’ì´ ë³€í–ˆì„ ê²½ìš°ì—ë§Œ í˜¸ì¶œëœë‹¤.
 void CCollider2D_OBB::UpdateCollider()
 {
-	//Ãæµ¹Ã¼ ÁÖ¼Ò¸¦ °¡Á®¿Â´Ù.
+	//ì¶©ëŒì²´ ì£¼ì†Œë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 	CTransform* pTransform = GetOwner()->Transform();
 	assert(nullptr != pTransform);
 
 
-	//ÀÚ½ÅÀÇ OBB Á¤º¸¸¦ °è»êÇÑ´Ù.
+	//ìžì‹ ì˜ OBB ì •ë³´ë¥¼ ê³„ì‚°í•œë‹¤.
 	const Matrix& WorldMat = pTransform->GetWorldMatWithoutSize();
 	const Vec3& Size = pTransform->GetSize();
 
@@ -41,21 +41,21 @@ void CCollider2D_OBB::UpdateCollider()
 		m_tOBBInfo.m_vAxis[i] = Vec3::TransformNormal(Vec3::Unit[i], WorldMat) * Size[i];
 	}
 
-	//Áß½ÉÁ¡ = ¿ùµå À§Ä¡ + ¿ÀÇÁ¼Â À§Ä¡
+	//ì¤‘ì‹¬ì  = ì›”ë“œ ìœ„ì¹˜ + ì˜¤í”„ì…‹ ìœ„ì¹˜
 	m_tOBBInfo.m_vCenterPos = GetCenterPos();
 }
 
 
 void CCollider2D_OBB::DebugRender()
 {
-	//³ªÁß¿¡ µð¹ö±× Á¤º¸°¡ ÇÊ¿äÇÒ °æ¿ì¿¡¸¸ ·»´õ¸µÇÏµµ·Ï ÇØÁÙ°Í
+	//ë‚˜ì¤‘ì— ë””ë²„ê·¸ ì •ë³´ê°€ í•„ìš”í•  ê²½ìš°ì—ë§Œ ë Œë”ë§í•˜ë„ë¡ í•´ì¤„ê²ƒ
 
 	CTransform* pTransform = Transform();
-	//Æ®·£½ºÆûÀÇ Á¤º¸
+	//íŠ¸ëžœìŠ¤í¼ì˜ ì •ë³´
 	const Matrix& matSize = pTransform->GetMatSize();
 	const Matrix& matWorld = pTransform->GetWorldMatWithoutSize();
 
-	//Ãæµ¹Ã¼(ÀÚ½Å)ÀÇ Á¤º¸)
+	//ì¶©ëŒì²´(ìžì‹ )ì˜ ì •ë³´)
 	const Matrix& matScale = Matrix::CreateScale(GetOffsetScale());
 	const Matrix& matOffset = Matrix::CreateTranslation(GetOffsetPos());
 
@@ -63,7 +63,7 @@ void CCollider2D_OBB::DebugRender()
 	Info.eShapeType = (int)eDEBUGSHAPE_TYPE::RECT;
 	Info.matWorld = matScale * matSize * matOffset * matWorld;
 
-	//Ãæµ¹ ÁßÀÎ ¹°Ã¼°¡ ÀÖÀ» °æ¿ì »¡°­, ¾Æ´Ò °æ¿ì ÃÊ·Ï
+	//ì¶©ëŒ ì¤‘ì¸ ë¬¼ì²´ê°€ ìžˆì„ ê²½ìš° ë¹¨ê°•, ì•„ë‹ ê²½ìš° ì´ˆë¡
 	Info.vColor = 0 == GetCollisionCount() ? Vec4(0.f, 1.f, 0.f, 1.f) : Vec4(1.f, 0.f, 0.f, 1.f);
 	CRenderMgr::GetInst()->AddDebugShapeRender(Info);
 }

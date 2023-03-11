@@ -15,8 +15,8 @@ public:
 private:
 	ImGuiPopupFlags m_PopupFlags;
 
-	ImVec2			m_vPopupPos;	// UI À§Ä¡
-	bool			m_bModal;		// ¸ð´Þ or ¸ð´Þ¸®½º
+	ImVec2			m_vPopupPos;	// UI ìœ„ì¹˜
+	bool			m_bModal;		// ëª¨ë‹¬ or ëª¨ë‹¬ë¦¬ìŠ¤
 
 
 

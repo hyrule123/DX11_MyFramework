@@ -18,12 +18,12 @@ bool CUI_Tree::beginUI()
 {
     ImGuiTreeNodeFlags Flag = 0;
 
-    //ÀÚ½Ä ¾øÀ» °æ¿ì(¸®ÇÁ³ëµå ÀÏ°æ¿ì)
+    //ìì‹ ì—†ì„ ê²½ìš°(ë¦¬í”„ë…¸ë“œ ì¼ê²½ìš°)
     if (0 == GetChildNum())
     {
         Flag = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf;
     }
-    //ÀÚ½Ä ÀÖÀ» °æ¿ì
+    //ìì‹ ìˆì„ ê²½ìš°
     else
     {
         Flag = ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Selected;
@@ -33,7 +33,7 @@ bool CUI_Tree::beginUI()
 
     bool IsOpen = ImGui::TreeNodeEx(GetStrID().c_str(), Flag);
 
-    //¿­·ÁÀÖ´ø ´İÇôÀÖ´ø ÀÏ´Ü Äİ¹éÇÔ¼ö Ã¼Å© ¹× È£Ãâ
+    //ì—´ë ¤ìˆë˜ ë‹«í˜€ìˆë˜ ì¼ë‹¨ ì½œë°±í•¨ìˆ˜ ì²´í¬ ë° í˜¸ì¶œ
     CheckCallback();
 
     return IsOpen;
@@ -66,8 +66,8 @@ void CUI_Tree::CheckCallback()
 {
     if (true == ImGui::IsItemHovered())
     {
-        //´õºíÅ¬¸¯À» ÇØµµ Å¬¸¯ÀÌ ¸ÕÀú ¹İÀÀÇÏ±â ¶§¹®¿¡
-        //¹«Á¶°Ç ´õºíÅ¬¸¯À» ¸ÕÀú °¨»çÇÑ ÈÄ Å¬¸¯À» °Ë»çÇØ¾ß ÇÔ.
+        //ë”ë¸”í´ë¦­ì„ í•´ë„ í´ë¦­ì´ ë¨¼ì € ë°˜ì‘í•˜ê¸° ë•Œë¬¸ì—
+        //ë¬´ì¡°ê±´ ë”ë¸”í´ë¦­ì„ ë¨¼ì € ê°ì‚¬í•œ í›„ í´ë¦­ì„ ê²€ì‚¬í•´ì•¼ í•¨.
         if (nullptr != m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED]
             && true == ImGui::IsMouseDoubleClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
         {

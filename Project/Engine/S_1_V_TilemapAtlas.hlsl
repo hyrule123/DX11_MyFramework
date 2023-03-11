@@ -6,7 +6,7 @@ VTX_TILEMAP_OUT VS_Tilemap_Atlas(VTX_TILEMAP_IN _in)
     
 	output.vPosition = mul(float4(_in.vPos, 1.f), g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_MAT_WORLD);
 	output.vPosition = mul(float4(output.vPosition), g_CBuffer_matCam[g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_INT_CAMIDX].matVP);
-    output.vUV = _in.vUV * float2(g_CBuffer_Mtrl_Scalar.INT_0, g_CBuffer_Mtrl_Scalar.INT_1); // ÀüÃ¼ UV ¸¦ Å¸ÀÏ °³¼ö¸¸Å­ È®Àå 
+    output.vUV = _in.vUV * float2(g_CBuffer_Mtrl_Scalar.INT_0, g_CBuffer_Mtrl_Scalar.INT_1); // ì „ì²´ UV ë¥¼ íƒ€ì¼ ê°œìˆ˜ë§Œí¼ í™•ì¥ 
     
     return output;
 }

@@ -19,7 +19,7 @@ void CScript_Bullet::tick()
 
 	m_fTimeLeft -= DELTA_TIME;
 
-	//ÀÌº¥Æ® ¸Å´ÏÀú¿¡ »èÁ¦ µî·ÏÀ» ÇØ³ö¾ßÇÔ
+	//ì´ë²¤íŠ¸ ë§¤ë‹ˆì €ì— ì‚­ì œ ë“±ë¡ì„ í•´ë†”ì•¼í•¨
 }
 
 void CScript_Bullet::SetDefaultVal(const Vec3& _vPos, const Vec3& _vDir)

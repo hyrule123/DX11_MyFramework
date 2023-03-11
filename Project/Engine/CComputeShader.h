@@ -1,7 +1,7 @@
 #pragma once
 #include "CShader.h"
 
-//ÄÄÇ»Æ®½¦ÀÌ´õ´Â MtrlConst »ó¼ö¹öÆÛ¸¦ °°ÀÌ »ç¿ëÇÑ´Ù.
+//ì»´í“¨íŠ¸ì‰ì´ë”ëŠ” MtrlConst ìƒìˆ˜ë²„í¼ë¥¼ ê°™ì´ ì‚¬ìš©í•œë‹¤.
 class CComputeShader :
     public CShader
 {
@@ -10,33 +10,33 @@ public:
     CComputeShader(UINT _uThreadsX, UINT _uThreadsY, UINT _uThreadsZ);
     virtual ~CComputeShader();
     CLONE_DISABLE(CComputeShader);
-private://¹Ì»ç¿ë
+private://ë¯¸ì‚¬ìš©
     virtual void BindData() final {};
 
 
 
-protected://¾Æ·¡ÀÇ µÎ ÇÔ¼ö¸¸ ÀçÁ¤ÀÇÇØ¼­ »ç¿ëÇØÁÖ¸é µÊ.
-    //BindDataCS¿¡¼­ true¸¦ ¹İÈ¯ ½Ã¿¡¸¸ ³ª¸ÓÁö °úÁ¤ÀÌ ÁøÇàµÊ.
+protected://ì•„ë˜ì˜ ë‘ í•¨ìˆ˜ë§Œ ì¬ì •ì˜í•´ì„œ ì‚¬ìš©í•´ì£¼ë©´ ë¨.
+    //BindDataCSì—ì„œ trueë¥¼ ë°˜í™˜ ì‹œì—ë§Œ ë‚˜ë¨¸ì§€ ê³¼ì •ì´ ì§„í–‰ë¨.
     virtual bool BindDataCS() = 0;
     virtual void UnBindCS() = 0;
 
-protected://¾Æ·¡ÀÇ °ªÀº ÀÚ½Ä Å¬·¡½º¿¡¼­ Á÷Á¢ ¼öÁ¤
+protected://ì•„ë˜ì˜ ê°’ì€ ìì‹ í´ë˜ìŠ¤ì—ì„œ ì§ì ‘ ìˆ˜ì •
     enum ThreadAxis { X, Y, Z, NumAxis };
 
 private:
-    //½¦ÀÌ´õ ÄÄÆÄÀÏ °ü·Ã
+    //ì‰ì´ë” ì»´íŒŒì¼ ê´€ë ¨
     tShaderLoadData             m_ShaderData;
     ComPtr<ID3D11ComputeShader> m_CS;
 
-    //°øÀ¯ µ¥ÀÌÅÍ¸¦ Àü´ŞÇÏ±âÀ§ÇÑ »ó¼ö¹öÆÛ¿ë ±¸Á¶Ã¼
+    //ê³µìœ  ë°ì´í„°ë¥¼ ì „ë‹¬í•˜ê¸°ìœ„í•œ ìƒìˆ˜ë²„í¼ìš© êµ¬ì¡°ì²´
     tMtrlScalarData                  m_CBuffer_CSShared;
 
-    //±×·ì´ç ¾²·¹µå °¹¼ö. »ı¼ºÀÚ¿¡¼­ ÃÊ±âÈ­
+    //ê·¸ë£¹ë‹¹ ì“°ë ˆë“œ ê°¯ìˆ˜. ìƒì„±ìì—ì„œ ì´ˆê¸°í™”
     UINT                        m_uNumThreadsPerGroupX;
     UINT                        m_uNumThreadsPerGroupY;
     UINT                        m_uNumThreadsPerGroupZ;
 
-    //±×·ì °¹¼ö.  ¾²·¹µå °¹¼ö¸¦ ÅëÇØ¼­ °è»ê
+    //ê·¸ë£¹ ê°¯ìˆ˜.  ì“°ë ˆë“œ ê°¯ìˆ˜ë¥¼ í†µí•´ì„œ ê³„ì‚°
     UINT                        m_uNumGroupX;
     UINT                        m_uNumGroupY;
     UINT                        m_uNumGroupZ;
@@ -49,7 +49,7 @@ public:
 
     void SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
 
-    //ÄÄÇ»ÅÍ½¦ÀÌ´õ ¿¬»ê ½ÃÇà
+    //ì»´í“¨í„°ì‰ì´ë” ì—°ì‚° ì‹œí–‰
     bool Execute();
 };
 

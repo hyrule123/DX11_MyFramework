@@ -20,7 +20,7 @@ public:
     T* GetScript();
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
 
-    //µé°í ÀÖ´Â Script µé¿¡µµ Owner ¼³Á¤ÀÌ ÇÊ¿äÇÏ¹Ç·Î ÀçÁ¤ÀÇÇØ¼­ »ç¿ëÇÑ´Ù.
+    //ë“¤ê³  ìˆëŠ” Script ë“¤ì—ë„ Owner ì„¤ì •ì´ í•„ìš”í•˜ë¯€ë¡œ ì¬ì •ì˜í•´ì„œ ì‚¬ìš©í•œë‹¤.
     virtual void SetOwner(CGameObject* _pOwner) override;
 
 public:

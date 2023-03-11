@@ -26,15 +26,15 @@ public:
     
 
 private:
-//========= ÇöÀç ¾Ö´Ï¸ÞÀÌ¼Ç ½Ã°£ ==================
-//     ¸Å tick¸¶´Ù °»½ÅµÇ´Â º¯¼ö
-    //0ºÎÅÍ Ã¼Å©µÇ´Â ÇÁ·¹ÀÓ ¹øÈ£
+//========= í˜„ìž¬ ì• ë‹ˆë©”ì´ì…˜ ì‹œê°„ ==================
+//     ë§¤ tickë§ˆë‹¤ ê°±ì‹ ë˜ëŠ” ë³€ìˆ˜
+    //0ë¶€í„° ì²´í¬ë˜ëŠ” í”„ë ˆìž„ ë²ˆí˜¸
     UINT                m_uCurFrame;
 
-    //º¤ÅÍ¿¡¼­ Ã£À» ÇöÀç ÇÁ·¹ÀÓÀÇ ÀÎµ¦½º ¹øÈ£
+    //ë²¡í„°ì—ì„œ ì°¾ì„ í˜„ìž¬ í”„ë ˆìž„ì˜ ì¸ë±ìŠ¤ ë²ˆí˜¸
     UINT                m_uCurFrameIdx;
 
-    //½ÇÁ¦·Î °è»êµÈ vecFrameUV ¾È¿¡¼­ÀÇ ÀÎµ¦½º
+    //ì‹¤ì œë¡œ ê³„ì‚°ëœ vecFrameUV ì•ˆì—ì„œì˜ ì¸ë±ìŠ¤
     int                m_uCalculatedIdx;
 
     float               m_fCurTime;
@@ -42,8 +42,8 @@ private:
 //========================================================
 
 
-//============ Àç»ýÁßÀÎ ¾Ö´Ï¸ÞÀÌ¼ÇÀÇ µ¥ÀÌÅÍ ================
-    //¾Ö´Ï¸ÞÀÌ¼Ç ÀüÈ¯ ½Ã ¹Ù²î´Â º¯¼ö
+//============ ìž¬ìƒì¤‘ì¸ ì• ë‹ˆë©”ì´ì…˜ì˜ ë°ì´í„° ================
+    //ì• ë‹ˆë©”ì´ì…˜ ì „í™˜ ì‹œ ë°”ë€ŒëŠ” ë³€ìˆ˜
 
     int                     m_iCurAtlasTexIdx;
     const tAnimFrameIdx*    m_pCurAnim;
@@ -58,16 +58,16 @@ private:
 //========================================================
 
 
-//=================== µî·ÏµÈ ¾ÆÆ²¶ó½º ÅØ½ºÃ³ ÁÖ¼Ò °ü·Ã ======================
+//=================== ë“±ë¡ëœ ì•„í‹€ë¼ìŠ¤ í…ìŠ¤ì²˜ ì£¼ì†Œ ê´€ë ¨ ======================
     Ptr<CAnim2DAtlas>       m_arrAtlasTex[(int)eMTRLDATA_PARAM_TEX::_END];
 
     bool                    m_bNeedUpdateMtrl;
 //=========================================================================
 
-    //TODO : °³º° ÄÝ¹éÇÔ¼ö¸¦ »ç¿ëÇÏ°íÀÚ ÇÒ¶§´Â Script¿Í ¿¬µ¿µÇµµ·Ï ÇØÁÙ°Í
+    //TODO : ê°œë³„ ì½œë°±í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ê³ ìž í• ë•ŒëŠ” Scriptì™€ ì—°ë™ë˜ë„ë¡ í•´ì¤„ê²ƒ
 
 public:
-    //¾Ö´Ï¸ÞÀÌ¼Ç µ¥ÀÌÅÍ´Â ÅØ½ºÃ³¿Í µ¿ÀÏÇÑ ÀÌ¸§À» »ç¿ëÇÒ°Í
+    //ì• ë‹ˆë©”ì´ì…˜ ë°ì´í„°ëŠ” í…ìŠ¤ì²˜ì™€ ë™ì¼í•œ ì´ë¦„ì„ ì‚¬ìš©í• ê²ƒ
     void AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex);
     void Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
 

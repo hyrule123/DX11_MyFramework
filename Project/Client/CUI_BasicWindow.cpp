@@ -24,7 +24,7 @@ CUI_BasicWindow::~CUI_BasicWindow()
 
 bool CUI_BasicWindow::beginUI()
 {
-	//최상단 UI(창 본체 - Begin)
+	//理???UI(李?蹂몄껜 - Begin)
 	if (nullptr == GetParent())
 	{
 		if (false == ImGui::Begin(GetStrID().c_str(), GetActivePtr(), m_WindowFlag))
@@ -36,7 +36,7 @@ bool CUI_BasicWindow::beginUI()
 			return true;
 	}
 
-	//부모가 있는 자식 UI일 경우 - BeginChild
+	//遺紐④? ?? ?? UI??寃쎌?- BeginChild
 	return ImGui::BeginChild(GetStrID().c_str(), m_vSize, m_bBorder, m_WindowFlag);
 }
 

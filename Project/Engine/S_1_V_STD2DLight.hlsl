@@ -4,18 +4,18 @@ VS_OUT VS_std2D_Light(VS_IN _in)
 {
 	VS_OUT output = (VS_OUT) 0.f;
 	
-	//ÀÎ½ºÅÏ½ÌÀÎÁö ¾Æ´ÑÁö¿¡ µû¶ó¼­ ´Ù¸¥ °÷¿¡¼­ µ¥ÀÌÅÍ¸¦ ¹Þ¾Æ¿Â´Ù.
+	//ì¸ìŠ¤í„´ì‹±ì¸ì§€ ì•„ë‹Œì§€ì— ë”°ë¼ì„œ ë‹¤ë¥¸ ê³³ì—ì„œ ë°ì´í„°ë¥¼ ë°›ì•„ì˜¨ë‹¤.
 	tMtrlScalarData Data = GetMtrlScalarData(_in.uInstID);
 	
 	
-	//ÇÇ¹þÀ» »ç¿ëÇÏµµ·Ï ¼³Á¤ÇßÀ» °æ¿ì Á¤Á¡ À§Ä¡¸¦ ÇÇ¹þ¿¡ ¸Â°Ô ¹Ù²ãÁØ´Ù.
+	//í”¼ë²—ì„ ì‚¬ìš©í•˜ë„ë¡ ì„¤ì •í–ˆì„ ê²½ìš° ì •ì  ìœ„ì¹˜ë¥¼ í”¼ë²—ì— ë§žê²Œ ë°”ê¿”ì¤€ë‹¤.
 	if (eMTRL_SCALAR_STD2D_FLAG::USE_PIVOT & Data.MTRL_SCALAR_STD2D_FLAG)
 	{
 		float2 PivotOffset = float2(0.5f, 0.5f) - Data.MTRL_SCALAR_STD2D_PIVOT;
 		_in.vLocalPos.xy += PivotOffset;
 	}
 	
-	//¿©±ä ¾îÂ÷ÇÇ ºû °è»ê¿¡ ¿ùµå À§Ä¡°¡ ÇÊ¿äÇÏ¹Ç·Î WVP Çà·ÄÀÌ ÇÊ¿äÇÏÁö ¾ÊÀ½...
+	//ì—¬ê¸´ ì–´ì°¨í”¼ ë¹› ê³„ì‚°ì— ì›”ë“œ ìœ„ì¹˜ê°€ í•„ìš”í•˜ë¯€ë¡œ WVP í–‰ë ¬ì´ í•„ìš”í•˜ì§€ ì•ŠìŒ...
 	output.vWorldPos = mul(float4(_in.vLocalPos, 1.f), Data.MTRL_SCALAR_MAT_WORLD).xyz;
 	output.vPosSV = mul(float4(output.vWorldPos, 1.f), g_CBuffer_matCam[Data.MTRL_SCALAR_INT_CAMIDX].matVP);
 	

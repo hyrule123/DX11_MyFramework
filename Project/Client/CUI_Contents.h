@@ -20,7 +20,7 @@ private:
     CUI_Tree* m_arrpResTypeSelected[(int)eRES_TYPE::END];
 
 public:
-    //¼±ÅÃµÈ ¸®¼Ò½º¸¦ ÇÏÀÌ¶óÀÌÆÃ ÇØÁÖ´Â Äİ¹éÇÔ¼ö
+    //ì„ íƒëœ ë¦¬ì†ŒìŠ¤ë¥¼ í•˜ì´ë¼ì´íŒ… í•´ì£¼ëŠ” ì½œë°±í•¨ìˆ˜
     void ChangeSelectedTreeNode(CUI_Tree* _pTree, tDataPtr _pData);
 
 private:

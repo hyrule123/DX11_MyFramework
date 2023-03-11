@@ -27,11 +27,11 @@ void CScript_MouseCursor::tick()
 {
 	Vec2 CursorPos = CKeyMgr::GetInst()->GetMousePos();
 
-	//ÇöÀç Ä¿¼­ÀÇ À§Ä¡¿¡¼­ ÇØ»óµµÀÇ ¹Ý¸¸Å­ •û¼­ NDC ÁÂÇ¥¿Í ÀÏÄ¡½ÃÅ²´Ù
+	//í˜„ìž¬ ì»¤ì„œì˜ ìœ„ì¹˜ì—ì„œ í•´ìƒë„ì˜ ë°˜ë§Œí¼ Â•å‘¼ï£§ NDC ì¢Œí‘œì™€ ì¼ì¹˜ì‹œí‚¨ë‹¤
 	CursorPos -= (g_GlobalVal.vResolution * 0.5f);
 	
 	const Matrix& matView = CRenderMgr::GetInst()->GetCurCamera()->GetViewMatrix();
-	//ºä ¸ÅÆ®¸¯½ºÀÇ À§Ä¡ ÇàÀ» ¹ÝÀü½ÃÄÑ ÁÖ¸é ÀÌµ¿Çà·ÄÀ» ¾òÀ» ¼ö ÀÖÀ½.
+	//ë·° ë§¤íŠ¸ë¦­ìŠ¤ì˜ ìœ„ì¹˜ í–‰ì„ ë°˜ì „ì‹œì¼œ ì£¼ë©´ ì´ë™í–‰ë ¬ì„ ì–»ì„ ìˆ˜ ìžˆìŒ.
 	Vec3 Pos = -matView.Translation();
 
 	CursorPos.x += Pos.x;

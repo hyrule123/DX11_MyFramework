@@ -12,13 +12,13 @@ CMaterial::CMaterial()
 	, m_arrTex{}
 	, m_uRenderCount()
 {	
-	//±âº» ¼³Á¤Àº ´ÜÀÏ µå·Î¿ìÄİ
+	//ê¸°ë³¸ ì„¤ì •ì€ ë‹¨ì¼ ë“œë¡œìš°ì½œ
 	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
 }
 
 CMaterial::CMaterial(const CMaterial& _Clone)
 	: CRes(_Clone)
-	, m_SBufferMtrlScalar(nullptr)//°íÀ¯ ÀçÁúÀº SBuffer ¾Æ¿¹ »ı¼º ¾È½ÃÅ´
+	, m_SBufferMtrlScalar(nullptr)//ê³ ìœ  ì¬ì§ˆì€ SBuffer ì•„ì˜ˆ ìƒì„± ì•ˆì‹œí‚´
 	, m_pShader(_Clone.m_pShader)
 	, m_MtrlTex(_Clone.m_MtrlTex)
 	, m_uRenderCount(1u)
@@ -36,7 +36,7 @@ CMaterial::CMaterial(const CMaterial& _Clone)
 
 CMaterial::~CMaterial()
 {
-	//»ó¼ö¹öÆÛ´Â CDevice¿¡¼­ °ü¸®ÇÏ°í, ±¸Á¶È­¹öÆÛ´Â ¿©±â¼­ °ü¸®ÇÏ¹Ç·Î ±¸Á¶È­¹öÆÛ¸¸ Á¦°ÅÇÑ´Ù.
+	//ìƒìˆ˜ë²„í¼ëŠ” CDeviceì—ì„œ ê´€ë¦¬í•˜ê³ , êµ¬ì¡°í™”ë²„í¼ëŠ” ì—¬ê¸°ì„œ ê´€ë¦¬í•˜ë¯€ë¡œ êµ¬ì¡°í™”ë²„í¼ë§Œ ì œê±°í•œë‹¤.
 	DESTRUCTOR_DELETE(m_SBufferMtrlScalar);
 }
 
@@ -44,10 +44,10 @@ void CMaterial::SetInstancedRender(bool _bEnable)
 {
 	if(true == _bEnable)
 	{
-		//»ó¼ö¹öÆÛÁÖ¼Ò Á¦°ÅÇÏ°í
+		//ìƒìˆ˜ë²„í¼ì£¼ì†Œ ì œê±°í•˜ê³ 
 		m_CBufferMtrlScalar = nullptr;
 
-		//±¸Á¶È­¹öÆÛ »ı¼º
+		//êµ¬ì¡°í™”ë²„í¼ ìƒì„±
 		m_SBufferMtrlScalar = new CStructBuffer(tSBufferDesc{
 			eSTRUCT_BUFFER_TYPE::READ_ONLY,
 			eSHADER_PIPELINE_STAGE::__ALL,
@@ -71,7 +71,7 @@ void CMaterial::BindData()
 	if (nullptr == m_pShader)
 		return;
 	
-	//±×¸±°Ô ¾øÀ» °æ¿ì return
+	//ê·¸ë¦´ê²Œ ì—†ì„ ê²½ìš° return
 
 	if (0u == m_vecMtrlScalar.size())
 	{
@@ -80,14 +80,14 @@ void CMaterial::BindData()
 	}
 		
 		
-	//ÀÎ½ºÅÏ½ÌÀ» »ç¿ëÇÏÁö ¾ÊÀ» °æ¿ì(±¸Á¶È­¹öÆÛ ¾øÀ» °æ¿ì) »ó¼ö¹öÆÛ¿¡ ¹­¾î¼­ ¹Ù·Î ·»´õ¸µ
+	//ì¸ìŠ¤í„´ì‹±ì„ ì‚¬ìš©í•˜ì§€ ì•Šì„ ê²½ìš°(êµ¬ì¡°í™”ë²„í¼ ì—†ì„ ê²½ìš°) ìƒìˆ˜ë²„í¼ì— ë¬¶ì–´ì„œ ë°”ë¡œ ë Œë”ë§
 	else if(nullptr == m_SBufferMtrlScalar)
 	{
-		//1°³¸¦ ±×¸±Áö ¿©·¯°³¸¦ ±×¸±Áö(ÀÎ½ºÅÏ½Ì) ¿©ºÎ´Â SBUFFER SHAREDATA ´ã¾Æ¼­ º¸³¿.
-		//¿©±â¿¡ ¸¸¾à ÀÎ½ºÅÏ½Ì ÀÎµ¦½º Ä«¿îÆ®°ªÀÌ 0ÀÌ ÀÖÀ» °æ¿ì CBufferÀ» È°¿ëÇØ¼­ ·»´õ¸µÇÏ´Â ¹æ½Ä
+		//1ê°œë¥¼ ê·¸ë¦´ì§€ ì—¬ëŸ¬ê°œë¥¼ ê·¸ë¦´ì§€(ì¸ìŠ¤í„´ì‹±) ì—¬ë¶€ëŠ” SBUFFER SHAREDATA ë‹´ì•„ì„œ ë³´ëƒ„.
+		//ì—¬ê¸°ì— ë§Œì•½ ì¸ìŠ¤í„´ì‹± ì¸ë±ìŠ¤ ì¹´ìš´íŠ¸ê°’ì´ 0ì´ ìˆì„ ê²½ìš° CBufferì„ í™œìš©í•´ì„œ ë Œë”ë§í•˜ëŠ” ë°©ì‹
 		CConstBuffer* CShareDataBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_SBUFFER_SHAREDATA);
 
-		//SBuffer¿¡ ±×¸±°ÍÀÌ ¾øÀ¸¹Ç·Î 0À» ´ã¾Æ¼­ º¸³»ÁØ´Ù.
+		//SBufferì— ê·¸ë¦´ê²ƒì´ ì—†ìœ¼ë¯€ë¡œ 0ì„ ë‹´ì•„ì„œ ë³´ë‚´ì¤€ë‹¤.
 		g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR] = {};
 		CShareDataBuffer->UploadData(g_arrSBufferShareData);
 		CShareDataBuffer->BindBuffer();
@@ -97,23 +97,23 @@ void CMaterial::BindData()
 
 		m_uRenderCount = 1;
 	}
-	else//±¸Á¶È­¹öÆÛ ÁÖ¼Ò°¡ ÀÖÀ» °æ¿ì(ÀÎ½ºÅÏ½ÌÀ» ÇÒ °æ¿ì) 
+	else//êµ¬ì¡°í™”ë²„í¼ ì£¼ì†Œê°€ ìˆì„ ê²½ìš°(ì¸ìŠ¤í„´ì‹±ì„ í•  ê²½ìš°) 
 	{
-		//¿©±ä SBuffer¸¸ ¹ÙÀÎµù °É¾îÁÖ¸é µÈ´Ù.
+		//ì—¬ê¸´ SBufferë§Œ ë°”ì¸ë”© ê±¸ì–´ì£¼ë©´ ëœë‹¤.
 		m_SBufferMtrlScalar->UploadData(m_vecMtrlScalar.data(), m_uRenderCount);
 		m_SBufferMtrlScalar->BindBufferSRV();
 
 		m_uRenderCount = (UINT)m_vecMtrlScalar.size();
 	}
 
-	//¹ÙÀÎµùÇÑ µ¥ÀÌÅÍ´Â ÀüºÎ Á¦°Å
+	//ë°”ì¸ë”©í•œ ë°ì´í„°ëŠ” ì „ë¶€ ì œê±°
 	m_vecMtrlScalar.clear();
 
 
-	//½¦ÀÌ´õµµ µ¥ÀÌÅÍ¸¦ ¹ÙÀÎµùÇØÁØ´Ù.
+	//ì‰ì´ë”ë„ ë°ì´í„°ë¥¼ ë°”ì¸ë”©í•´ì¤€ë‹¤.
 	m_pShader->BindData();
 
-	//ÅØ½ºÃ³Á¤º¸µµ ¹ÙÀÎµù °É¾îÁØ´Ù.
+	//í…ìŠ¤ì²˜ì •ë³´ë„ ë°”ì¸ë”© ê±¸ì–´ì¤€ë‹¤.
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{
 		if (true == IsTexture((eMTRLDATA_PARAM_TEX)i))
@@ -135,7 +135,7 @@ void CMaterial::SetTexParam(eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex)
 {
 	m_arrTex[(int)_Param] = _Tex;
 
-	//nullptrÀÏ °æ¿ì ÇØÁ¦
+	//nullptrì¼ ê²½ìš° í•´ì œ
 	BOOL bIsExist = (nullptr != _Tex);
 
 	switch (_Param)

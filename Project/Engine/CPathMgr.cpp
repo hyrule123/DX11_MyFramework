@@ -3,11 +3,9 @@
 
 #include "CEngine.h"
 
+
+
 CPathMgr::CPathMgr()
-	: m_szProgramPath{}
-	, m_szContentPath{}
-	, m_szShaderPath{}
-	
 {
 }
 
@@ -18,31 +16,165 @@ CPathMgr::~CPathMgr()
 
 void CPathMgr::init()
 {
-	//CurrentDirectory´Â ºñÁÖ¾ó½ºÆ©µğ¿À¿¡¼­ µğ¹ö±×ÇÒ¶§¿Í ÇÁ·Î±×·¥À¸·Î ½ÇÇà½ÃÅ³¶§ ÁÖ¼Ò°¡ ´Ù¸£°Ô ³ª¿È
+	m_u8ProgramPath = std::filesystem::current_path().wstring();
+
+	m_u8ContentPath = m_u8ProgramPath + L"\\Content\\";
+
+
+	//CurrentDirectoryëŠ” ë¹„ì£¼ì–¼ìŠ¤íŠœë””ì˜¤ì—ì„œ ë””ë²„ê·¸í• ë•Œì™€ í”„ë¡œê·¸ë¨ìœ¼ë¡œ ì‹¤í–‰ì‹œí‚¬ë•Œ ì£¼ì†Œê°€ ë‹¤ë¥´ê²Œ ë‚˜ì˜´
 	//GetCurrentDirectory(256, m_szContentPath);
 
-	//ÇöÀç ÇÁ·Î±×·¥ÀÇ ÁÖ¼Ò¸¦ ¹Ş¾Æ¿À´Â°Ô ´õ ³ªÀ½.(°íÁ¤µÈ ÁÖ¼Ò¸¦ ¹Ş¾Æ¿Ã ¼ö ÀÖÀ½)
-	GetModuleFileNameW(0, m_szProgramPath, 256);
+	////í˜„ì¬ í”„ë¡œê·¸ë¨ì˜ ì£¼ì†Œë¥¼ ë°›ì•„ì˜¤ëŠ”ê²Œ ë” ë‚˜ìŒ.(ê³ ì •ëœ ì£¼ì†Œë¥¼ ë°›ì•„ì˜¬ ìˆ˜ ìˆìŒ)
+	//GetModuleFileNameW(0, m_szProgramPath, 256);
 
-	// 2´Ü°è »óÀ§Æú´õ·Î °¨
-	int iLen = (int)wcslen(m_szProgramPath);
+	//// 2ë‹¨ê³„ ìƒìœ„í´ë”ë¡œ ê°
+	//int iLen = (int)wcslen(m_szProgramPath);
 
-	//Bin ¹Ù±ùÀ¸·Î ³ª°¡¼­ OutputFile ±îÁöÀÇ ÁÖ¼Ò¸¸ ³²±ä´Ù
-	for (int i = iLen - 1; i >= 0; --i)
-	{
-		if (L'\\' == m_szProgramPath[i])
-		{
-			m_szProgramPath[i] = 0;
-			break;
-		}
-	}
+	////Bin ë°”ê¹¥ìœ¼ë¡œ ë‚˜ê°€ì„œ OutputFile ê¹Œì§€ì˜ ì£¼ì†Œë§Œ ë‚¨ê¸´ë‹¤
+	//for (int i = iLen - 1; i >= 0; --i)
+	//{
+	//	if (L'\\' == m_szProgramPath[i])
+	//	{
+	//		m_szProgramPath[i] = 0;
+	//		break;
+	//	}
+	//}
 
-	// + \\content\\
-	
-	lstrcpyW(m_szContentPath, m_szProgramPath);
-	wcscat_s(m_szContentPath, L"\\Content\\");
+	//// + \\content\\
+	//
+	//lstrcpyW(m_szContentPath, m_szProgramPath);
+	//wcscat_s(m_szContentPath, L"\\Content\\");
 
-	lstrcpyW(m_szShaderPath, m_szContentPath);
-	wcscat_s(m_szShaderPath, L"Shader\\");
+	//lstrcpyW(m_szShaderPath, m_szContentPath);
+	//wcscat_s(m_szShaderPath, L"Shader\\");
+
+
+
+
+    {
+        //wstring MapPath = CPathMgr::GetInst()->GetContentPath();
+
+        wstring MapPath = L"./";
+        MapPath += L"Maps/(4)Fighting Sprit 1.3.scx";
+        
+
+
+
+        HANDLE hMpq = NULL;          // Open archive handle
+        HANDLE hFile = NULL;          // Archived file handle
+        //HANDLE handle = NULL;          // Disk file handle
+
+        //DLL ë¡œë“œ
+        //std::filesystem::current_path().wstring();
+        HMODULE DLLModule = LoadLibraryW(L"./StormLib_DLL_Debug.dll");
+
+
+        //í•¨ìˆ˜ ë“±ë¡
+        //MPQ íŒŒì¼ ë¡œë“œ
+        typedef bool(WINAPI* pSFileOpenArchive)(const TCHAR*, DWORD, DWORD, HANDLE*);
+        pSFileOpenArchive MpqOpenFunc = (pSFileOpenArchive)GetProcAddress(DLLModule, "SFileOpenArchive");
+
+        typedef bool(WINAPI* pSFileOpenFileEx)(HANDLE, const char*, DWORD, HANDLE*);
+        pSFileOpenFileEx funcOpenScenarioChk = (pSFileOpenFileEx)GetProcAddress(DLLModule, "SFileOpenFileEx");
+
+        //DWORD WINAPI SFileGetFileSize(HANDLE hFile, LPDWORD pdwFileSizeHigh);
+        typedef DWORD(WINAPI* pSFileGetFileSize)(HANDLE, LPDWORD);
+        pSFileGetFileSize funcGetFileSize = (pSFileGetFileSize)GetProcAddress(DLLModule, "SFileGetFileSize");
+
+        //bool WINAPI SFileReadFile(HANDLE hFile, void* pvBuffer, DWORD dwToRead, LPDWORD pdwRead, LPOVERLAPPED lpOverlapped);
+        typedef bool (*pSFileReadFile)(HANDLE, void*, DWORD, LPDWORD, LPOVERLAPPED);
+        pSFileReadFile funcReadFile = (pSFileReadFile)GetProcAddress(DLLModule, "SFileReadFile");
+
+        //bool WINAPI SFileCloseFile(HANDLE hFile)
+        typedef bool (WINAPI* pSFileCloseFile)(HANDLE);
+        pSFileCloseFile funcCloseFile = (pSFileCloseFile)GetProcAddress(DLLModule, "SFileCloseFile");
+
+        //bool WINAPI SFileCloseArchive(HANDLE hMpq)
+        typedef bool (WINAPI* pSFileCloseArchive)(HANDLE);
+        pSFileCloseArchive funcCloseArchive = (pSFileCloseArchive)GetProcAddress(DLLModule, "SFileCloseArchive");
+
+
+        //DLLë¡œë¶€í„° ë¡œë“œ ì‹¤íŒ¨ ë˜ëŠ” í•¨ìˆ˜ì—ì„œ ë¡œë“œë¥¼ ì‹¤íŒ¨í–ˆì„ ê²½ìš° false ë°˜í™˜
+        if (nullptr == MpqOpenFunc || false == MpqOpenFunc(MapPath.c_str(), 0, 0, &hMpq))
+        {
+            int nError = GetLastError();
+            
+        }
+
+        //MPQ íŒŒì¼ ë‚´ë¶€ì˜ scenario.chk íŒŒì¼ íƒìƒ‰.
+        if (nullptr == funcOpenScenarioChk || false == funcOpenScenarioChk(hMpq, "staredit\\scenario.chk", 0, &hFile))
+        {
+            int nError = GetLastError();
+            
+        }
+
+
+        // Read the file from the archive
+        char* szBuffer;
+        DWORD dwBytes = 1;
+
+        //íŒŒì¼ì˜ ì‚¬ì´ì¦ˆë¥¼ ë°›ì•„ì˜¨ í›„ í•´ë‹¹ íŒŒì¼ì„ ë°›ì•„ì˜¬ ê³µê°„ì„ ë™ì í• ë‹¹ ë° ì´ˆê¸°í™”í•œë‹¤.
+        DWORD FileSize = funcGetFileSize(hFile, NULL);
+        szBuffer = new char[FileSize];
+        memset(szBuffer, 0, (size_t)FileSize);
+
+
+        //ë°ì´í„°ë¥¼ ì½ì–´ì˜¨ë‹¤.
+        funcReadFile(hFile, szBuffer, FileSize, &dwBytes, NULL);
+
+
+        //íŒŒì¼ ì—°ê²° í•´ì œ
+        funcCloseFile(hFile);
+        funcCloseArchive(hMpq);
+
+        //ë¼ì´ë¸ŒëŸ¬ë¦¬ ì—°ê²° í•´ì œ
+        FreeLibrary(DLLModule);
+
+
+
+        
+
+
+
+        //ì•”ì‹œì  ë§í‚¹ ì½”ë“œ
+    //        // Open an archive, e.g. "d2music.mpq"
+    //    if (nError == ERROR_SUCCESS)
+    //    {
+    //        if (!SFileOpenArchive(MapPath.c_str(), 0, 0, &hMpq))
+    //            nError = GetLastError();
+    //    }
+    //
+    //    typedef  bool (WINAPI* SFileOpenIndex)(HANDLE, const char*, DWORD, HANDLE);
+    //
+    //    // Open a file in the archive, e.g. "data\global\music\Act1\tristram.wav"
+    //    if (nError == ERROR_SUCCESS)
+    //    {
+    //        //ë§µ íŒŒì¼ì˜ scenario.chk ë°ì´í„°ë¥¼ ì°¾ëŠ”ë‹¤.
+    //        if (!SFileOpenFileEx(hMpq, "staredit\\scenario.chk", 0, &hFile))
+    //            nError = GetLastError();
+    //    }
+    //
+    //    if (nError != ERROR_SUCCESS)
+    //        return false;
+    //
+    //    // Read the file from the archive
+    //    char* szBuffer;
+    //    DWORD dwBytes = 1;
+    //
+    //    //ì°¾ì€ scenario.chk íŒŒì¼ë¡œë¶€í„° ì •ë³´ë¥¼ ì½ì–´ì˜¨ë‹¤.
+    //    DWORD FileSize = SFileGetFileSize(hFile, NULL);
+    //
+    //    szBuffer = new char[FileSize];
+    //
+    //    SFileReadFile(hFile, szBuffer, FileSize, &dwBytes, NULL);
+    //
+    //    // Cleanup and exit
+    ////if (handle != NULL)
+    ////    CloseHandle(handle);
+    //    if (hFile != NULL)
+    //        SFileCloseFile(hFile);
+    //    if (hMpq != NULL)
+    //        SFileCloseArchive(hMpq);
+    }
 }
 

@@ -17,7 +17,7 @@ private:
 	void*					m_pIdxSys;
 
 public:
-	//ÀÌ°Å °¡Áö°í W / VP Çà·ÄÀ» ³ª´²¼­ º¸³¾Áö, WVP Çà·ÄÀ» ¸¸µé¾î¼­ º¸³¾Áö¸¦ °áÁ¤
+	//ì´ê±° ê°€ì§€ê³  W / VP í–‰ë ¬ì„ ë‚˜ëˆ ì„œ ë³´ë‚¼ì§€, WVP í–‰ë ¬ì„ ë§Œë“¤ì–´ì„œ ë³´ë‚¼ì§€ë¥¼ ê²°ì •
 	UINT GetIdxBufferCount() const { return m_IdxCount; }
 
 public:

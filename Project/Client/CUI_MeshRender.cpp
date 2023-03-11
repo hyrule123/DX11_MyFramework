@@ -23,7 +23,7 @@ CUI_MeshRender::~CUI_MeshRender()
 
 void CUI_MeshRender::UpdateMeshListCallback()
 {
-	//¿ø·¡´Â ¸Þ½¬ÀÇ °¹¼ö ÀÚÃ¼¸¸À¸·Î »õ·Î ¸ñ·ÏÀ» °»½ÅÇØ¾ßÇÒÁö ¿©ºÎ¸¦ ÆÇ´ÜÇÏ´Â°ÍÀº ÁÁÁö ¾ÊÀ½.
+	//ì›ëž˜ëŠ” ë©”ì‰¬ì˜ ê°¯ìˆ˜ ìžì²´ë§Œìœ¼ë¡œ ìƒˆë¡œ ëª©ë¡ì„ ê°±ì‹ í•´ì•¼í• ì§€ ì—¬ë¶€ë¥¼ íŒë‹¨í•˜ëŠ”ê²ƒì€ ì¢‹ì§€ ì•ŠìŒ.
 	const auto& map = CResMgr::GetInst()->GetResMap(eRES_TYPE::MESH);
 	if (m_pComboBoxMesh->GetItemNum() != map.size())
 	{
@@ -38,7 +38,7 @@ void CUI_MeshRender::UpdateMeshListCallback()
 
 }
 
-//¸Þ½¬ ÄÞº¸¹Ú½º¿¡¼­ Æ¯Á¤ ¸Þ½¬°¡ Å¬¸¯µÇ¾úÀ» ¶§ È£ÃâµÉ ÇÔ¼ö
+//ë©”ì‰¬ ì½¤ë³´ë°•ìŠ¤ì—ì„œ íŠ¹ì • ë©”ì‰¬ê°€ í´ë¦­ë˜ì—ˆì„ ë•Œ í˜¸ì¶œë  í•¨ìˆ˜
 void CUI_MeshRender::ChangeMeshCallback()
 {
 	const tComboItem& sel = m_pComboBoxMesh->GetCurrentSelected();
@@ -53,7 +53,7 @@ void CUI_MeshRender::ChangeMeshCallback()
 
 void CUI_MeshRender::UpdateMtrlListCallback()
 {
-	//¿ø·¡´Â ¸Þ½¬ÀÇ °¹¼ö ÀÚÃ¼¸¸À¸·Î »õ·Î ¸ñ·ÏÀ» °»½ÅÇØ¾ßÇÒÁö ¿©ºÎ¸¦ ÆÇ´ÜÇÏ´Â°ÍÀº ÁÁÁö ¾ÊÀ½.
+	//ì›ëž˜ëŠ” ë©”ì‰¬ì˜ ê°¯ìˆ˜ ìžì²´ë§Œìœ¼ë¡œ ìƒˆë¡œ ëª©ë¡ì„ ê°±ì‹ í•´ì•¼í• ì§€ ì—¬ë¶€ë¥¼ íŒë‹¨í•˜ëŠ”ê²ƒì€ ì¢‹ì§€ ì•ŠìŒ.
 	const auto& map = CResMgr::GetInst()->GetResMap(eRES_TYPE::MATERIAL);
 	if (m_pComboBoxMtrl->GetItemNum() != map.size())
 	{
@@ -92,12 +92,12 @@ void CUI_MeshRender::init()
 	m_pComboBoxMtrl->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUI_MeshRender::ChangeMtrlCallback)
 		, eCALLBACK_TYPE::ONSELECT);
 
-	//ÀÏ´Ü ±âº»ÀûÀ¸·Î ¸Þ½¬¿Í ¸®½ºÆ®ÀÇ ÀÌ¸§À» ÇÑ¹ø ¹Þ¾Æ¿Â´Ù.
+	//ì¼ë‹¨ ê¸°ë³¸ì ìœ¼ë¡œ ë©”ì‰¬ì™€ ë¦¬ìŠ¤íŠ¸ì˜ ì´ë¦„ì„ í•œë²ˆ ë°›ì•„ì˜¨ë‹¤.
 	UpdateMeshListCallback();
 	UpdateMtrlListCallback();
 
 	
-	//Å¸°ÙÀÌ ÁöÁ¤µÇ¾î ÀÖÀ»°æ¿ì Å¸°ÙÀÇ ¸Þ½¬¿Í ÀçÁúÀÇ ÀÌ¸§À» ±âº» ¼¼ÆÃÇØÁØ´Ù.
+	//íƒ€ê²Ÿì´ ì§€ì •ë˜ì–´ ìžˆì„ê²½ìš° íƒ€ê²Ÿì˜ ë©”ì‰¬ì™€ ìž¬ì§ˆì˜ ì´ë¦„ì„ ê¸°ë³¸ ì„¸íŒ…í•´ì¤€ë‹¤.
 	if (nullptr != GetTarget() && nullptr != GetTarget()->MeshRender())
 	{
 		const string& meshname = GetTarget()->MeshRender()->GetMesh()->GetKey();
@@ -111,7 +111,7 @@ void CUI_MeshRender::init()
 
 void CUI_MeshRender::tick()
 {
-	//³ªÁß¿¡ °ÔÀÓ¿ÀºêÁ§Æ®¸¦ ¼±ÅÃÇØ¼­ °¡Á®¿À´Â ±â´É ±¸ÇöÇÏ¸é ¾Æ·¡ÄÚµå´Â Áö¿ï°Í,.
+	//ë‚˜ì¤‘ì— ê²Œìž„ì˜¤ë¸Œì íŠ¸ë¥¼ ì„ íƒí•´ì„œ ê°€ì ¸ì˜¤ëŠ” ê¸°ëŠ¥ êµ¬í˜„í•˜ë©´ ì•„ëž˜ì½”ë“œëŠ” ì§€ìš¸ê²ƒ,.
 	if (nullptr != GetTarget() && nullptr != GetTarget()->MeshRender())
 	{
 		if (-1 == m_pComboBoxMesh->GetCurrentIndex())

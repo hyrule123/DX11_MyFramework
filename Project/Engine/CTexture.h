@@ -17,16 +17,16 @@ private:
     ComPtr<ID3D11ShaderResourceView>    m_SRV;
     ComPtr<ID3D11UnorderedAccessView>   m_UAV;
 
-    //DSV´Â ´Ù¸¥ ºäµé°ú Áßº¹ÇØ¼­ ¹ÙÀÎµùÇÒ ¼ö ¾øÀ½.
-    //DSV·Î »ç¿ëÇÏ°íÀÚ ÇÒ ¶§´Â ¹«Á¶°Ç Dsv ¿ëµµ·Î¸¸ »ç¿ëÇØ¾ß ÇÔ. 
+    //DSVëŠ” ë‹¤ë¥¸ ë·°ë“¤ê³¼ ì¤‘ë³µí•´ì„œ ë°”ì¸ë”©í•  ìˆ˜ ì—†ìŒ.
+    //DSVë¡œ ì‚¬ìš©í•˜ê³ ìž í•  ë•ŒëŠ” ë¬´ì¡°ê±´ Dsv ìš©ë„ë¡œë§Œ ì‚¬ìš©í•´ì•¼ í•¨. 
     ComPtr<ID3D11DepthStencilView>      m_DSV;
 
     D3D11_TEXTURE2D_DESC                m_Desc;
 
     ScratchImage                        m_Image;
 
-    //ÄÄÇ»Æ®½¦ÀÌ´õ¿Í ¹ÙÀÎµùÇßÀ» °æ¿ì ÇØ´ç ÄÄÇ»Æ®½¦ÀÌ´õ ·¹Áö½ºÅÍ ¹øÈ£¸¦ ÀúÀå. 
-    //³ªÁß¿¡ UnBindÇÒ ¶§ »ç¿ëµÊ.
+    //ì»´í“¨íŠ¸ì‰ì´ë”ì™€ ë°”ì¸ë”©í–ˆì„ ê²½ìš° í•´ë‹¹ ì»´í“¨íŠ¸ì‰ì´ë” ë ˆì§€ìŠ¤í„° ë²ˆí˜¸ë¥¼ ì €ìž¥. 
+    //ë‚˜ì¤‘ì— UnBindí•  ë•Œ ì‚¬ìš©ë¨.
     eCURRENT_BOUND_VIEW           m_eCurBoundView;
     UINT                          m_flagCurBoundPipeline;
     int                           m_iCurBoundRegister;
@@ -67,7 +67,7 @@ public:
 
     void UnBind();
 
-private://º°µµÀÇ BindData()¸¦ »ç¿ëÇØ¼­ ¹ÙÀÎµùÇÑ´Ù.
+private://ë³„ë„ì˜ BindData()ë¥¼ ì‚¬ìš©í•´ì„œ ë°”ì¸ë”©í•œë‹¤.
     virtual void BindData() override {};
     
 

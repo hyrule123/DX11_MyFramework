@@ -54,12 +54,12 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 {
 	assert(true == m_bSBufferDescSet);
 
-	//»ó¼ö¹öÆÛ¿Í ¸¶Âù°¡Áö·Î 16¹ÙÀÌÆ® ´ÜÀ§·Î Á¤·ÄµÇ¾î ÀÖ¾î¾ß ÇÔ.
+	//ìƒìˆ˜ë²„í¼ì™€ ë§ˆì°¬ê°€ì§€ë¡œ 16ë°”ì´íŠ¸ ë‹¨ìœ„ë¡œ ì •ë ¬ë˜ì–´ ìˆì–´ì•¼ í•¨.
 	assert(0 == _uElemStride % 16);
 
 	assert(_uElemCapacity >= _uElemCount);
 
-	//ÀçÇÒ´ç ÇÏ±â Àü ¹ÙÀÎµùµÈ ¸®¼Ò½º°¡ ÀÖ´Ù¸é unbind
+	//ì¬í• ë‹¹ í•˜ê¸° ì „ ë°”ì¸ë”©ëœ ë¦¬ì†ŒìŠ¤ê°€ ìˆë‹¤ë©´ unbind
 	switch (m_eCurBoundView)
 	{
 	case eCURRENT_BOUND_VIEW::SRV:
@@ -72,7 +72,7 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 		break;
 	}
 
-	//»ó¼ö¹öÆÛ¿Í´Â ´Ù¸£°Ô ¹öÆÛ ÀçÇÒ´çÀÌ °¡´ÉÇÔ. ¸ÕÀú ±âÁ¸ ¹öÆÛÀÇ ÇÒ´çÀ» ÇØÁ¦ÇÑ´Ù.(ComPtrÀ» ÅëÇØ °ü¸®°¡ ÀÌ·ç¾îÁö¹Ç·Î nullptr·Î ¹Ù²ãÁÖ¸é µÊ.)
+	//ìƒìˆ˜ë²„í¼ì™€ëŠ” ë‹¤ë¥´ê²Œ ë²„í¼ ì¬í• ë‹¹ì´ ê°€ëŠ¥í•¨. ë¨¼ì € ê¸°ì¡´ ë²„í¼ì˜ í• ë‹¹ì„ í•´ì œí•œë‹¤.(ComPtrì„ í†µí•´ ê´€ë¦¬ê°€ ì´ë£¨ì–´ì§€ë¯€ë¡œ nullptrë¡œ ë°”ê¿”ì£¼ë©´ ë¨.)
 	m_uElementStride = _uElemStride;
 
 	m_uElementCount = _uElemCount;
@@ -86,17 +86,17 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 
 	switch (m_tSBufferDesc.eSBufferType)
 	{
-	//ÀÏ¹İÀûÀÎ GPU¿¡¼­ ÀĞ±â¸¸ °¡´ÉÇÑ ±¸Á¶È­ ¹öÆÛ
+	//ì¼ë°˜ì ì¸ GPUì—ì„œ ì½ê¸°ë§Œ ê°€ëŠ¥í•œ êµ¬ì¡°í™” ë²„í¼
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 	{
-		//ÃÊ±ê°ª ¾÷·Îµå ¹× ¹ÙÀÎµù
+		//ì´ˆê¹ƒê°’ ì—…ë¡œë“œ ë° ë°”ì¸ë”©
 		D3D11_SUBRESOURCE_DATA* pData = nullptr;
 		D3D11_SUBRESOURCE_DATA Data = {};
 		if (nullptr != _pInitialData)
 		{
 			Data.pSysMem = _pInitialData;
 
-			//ÀÌ °ªÀº ¹«½ÃµÊ. BufferDesc.ByteWidth °ª¸¸ ¿µÇâÀ» ¹ÌÄ¡´Â °ÍÀ» È®ÀÎÇÔ.
+			//ì´ ê°’ì€ ë¬´ì‹œë¨. BufferDesc.ByteWidth ê°’ë§Œ ì˜í–¥ì„ ë¯¸ì¹˜ëŠ” ê²ƒì„ í™•ì¸í•¨.
 			Data.SysMemPitch = m_uElementStride * _uElemCount;
 			Data.SysMemSlicePitch = m_BufferDesc.StructureByteStride;
 			pData = &Data;
@@ -104,21 +104,21 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 		}
 		
 
-		//±¸Á¶È­¹öÆÛ »ı¼º. ReleaseAndGetAddressOf() ÇÔ¼ö¸¦ ÅëÇØ¼­ ±âÁ¸ ±¸Á¶È­ ¹öÆÛ°¡ ÀÖ´Ù¸é ³¯·Á¹ö¸®°í »ı¼º
+		//êµ¬ì¡°í™”ë²„í¼ ìƒì„±. ReleaseAndGetAddressOf() í•¨ìˆ˜ë¥¼ í†µí•´ì„œ ê¸°ì¡´ êµ¬ì¡°í™” ë²„í¼ê°€ ìˆë‹¤ë©´ ë‚ ë ¤ë²„ë¦¬ê³  ìƒì„±
 		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, pData, m_StructBuffer.ReleaseAndGetAddressOf())))
 			assert(nullptr);
 
-		//Read OnlyÀÇ °æ¿ì ¹Ù·Î SRV »ı¼º
+		//Read Onlyì˜ ê²½ìš° ë°”ë¡œ SRV ìƒì„±
 		CreateSRV();
 
 		break;
 	}
 	
-	//Compute Shader°ú °áÇÕÇØ¼­ »ç¿ëÇÏ´Â, GPU¿¡¼­ Á¶ÀÛ °¡´ÉÇÑ SBuffer
-	//ÀÌ °æ¿ì¿¡´Â CPU¿Í µ¥ÀÌÅÍ Àü¼ÛÀÌ ºÒ°¡´ÉÇÏ¹Ç·Î µ¥ÀÌÅÍ Àü¼Û¿ë Staging Buffer¸¦ Áß°£ ´Ü°è·Î »ç¿ëÇØ¾ß ÇÑ´Ù.
+	//Compute Shaderê³¼ ê²°í•©í•´ì„œ ì‚¬ìš©í•˜ëŠ”, GPUì—ì„œ ì¡°ì‘ ê°€ëŠ¥í•œ SBuffer
+	//ì´ ê²½ìš°ì—ëŠ” CPUì™€ ë°ì´í„° ì „ì†¡ì´ ë¶ˆê°€ëŠ¥í•˜ë¯€ë¡œ ë°ì´í„° ì „ì†¡ìš© Staging Bufferë¥¼ ì¤‘ê°„ ë‹¨ê³„ë¡œ ì‚¬ìš©í•´ì•¼ í•œë‹¤.
 	case eSTRUCT_BUFFER_TYPE::READ_WRITE:
 	{
-		//ÃÊ±ê°ª ÁöÁ¤
+		//ì´ˆê¹ƒê°’ ì§€ì •
 		D3D11_SUBRESOURCE_DATA* pData = nullptr;
 		D3D11_SUBRESOURCE_DATA Data = {};
 		if (nullptr != _pInitialData)
@@ -130,7 +130,7 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 			m_eCurBoundView = eCURRENT_BOUND_VIEW::UAV;
 		}
 
-		//±¸Á¶È­¹öÆÛ »ı¼º
+		//êµ¬ì¡°í™”ë²„í¼ ìƒì„±
 		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, pData, m_StructBuffer.ReleaseAndGetAddressOf())))
 			assert(nullptr);
 
@@ -146,18 +146,18 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 {
 	m_uElementCount = _uCount;
-	//g_arrSBufferShareDataÀÇ ÀÚ½ÅÀÇ ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â À§Ä¡¿¡ ÀÌ¹ø¿¡ ¾÷µ¥ÀÌÆ®µÈ ±¸Á¶Ã¼ÀÇ °¹¼ö¸¦ »ğÀÔ
-	//»ó¼ö ¹öÆÛÀÇ ¹ÙÀÎµùÀº BindData()¸¦ ÇÏ´Â ½ÃÁ¡¿¡ ÇØÁØ´Ù.
+	//g_arrSBufferShareDataì˜ ìì‹ ì˜ ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” ìœ„ì¹˜ì— ì´ë²ˆì— ì—…ë°ì´íŠ¸ëœ êµ¬ì¡°ì²´ì˜ ê°¯ìˆ˜ë¥¼ ì‚½ì…
+	//ìƒìˆ˜ ë²„í¼ì˜ ë°”ì¸ë”©ì€ BindData()ë¥¼ í•˜ëŠ” ì‹œì ì— í•´ì¤€ë‹¤.
 	if(eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE != m_tSBufferDesc.eCBufferIdx)
 		g_arrSBufferShareData[(UINT)m_tSBufferDesc.eCBufferIdx].uSBufferCount = _uCount;
 
 
 
-	//»ı¼º ½Ã ÇÒ´çµÈ °¹¼öº¸´Ù µé¾î¿Â °¹¼ö°¡ ´õ Å¬ °æ¿ì ÀçÇÒ´çÇÏ°í, °Å±â¿¡ µ¥ÀÌÅÍ¸¦ Ãß°¡.
-	//»ı¼ºµÉ ¶§ °ªÀ» ÁöÁ¤ÇÒ ¼ö ÀÖÀ¸¹Ç·Î ¹Ù·Î return ÇØÁÖ¸é µÉµí
+	//ìƒì„± ì‹œ í• ë‹¹ëœ ê°¯ìˆ˜ë³´ë‹¤ ë“¤ì–´ì˜¨ ê°¯ìˆ˜ê°€ ë” í´ ê²½ìš° ì¬í• ë‹¹í•˜ê³ , ê±°ê¸°ì— ë°ì´í„°ë¥¼ ì¶”ê°€.
+	//ìƒì„±ë  ë•Œ ê°’ì„ ì§€ì •í•  ìˆ˜ ìˆìœ¼ë¯€ë¡œ ë°”ë¡œ return í•´ì£¼ë©´ ë ë“¯
 	if (_uCount > m_uElementCapacity)
 	{
-		//´Ù½Ã »ı¼ºÇÏ°íÀÚ ÇÒ¶§´Â ÃÊ±â µ¥ÀÌÅÍ¿Í »çÀÌÁî¸¦ ÀÏÄ¡½ÃÄÑ¼­ »ı¼ºÇØÁà¾ß ÇÑ´Ù.
+		//ë‹¤ì‹œ ìƒì„±í•˜ê³ ì í• ë•ŒëŠ” ì´ˆê¸° ë°ì´í„°ì™€ ì‚¬ì´ì¦ˆë¥¼ ì¼ì¹˜ì‹œì¼œì„œ ìƒì„±í•´ì¤˜ì•¼ í•œë‹¤.
 		Create(m_uElementStride, _uCount, _pData, _uCount);
 		return;
 	}
@@ -168,7 +168,7 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 	{
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 	{
-		//Read OnlyÀÏ °æ¿ì SBuffer¿¡ ¹Ù·Î Map/UnMapÀ» ÇØÁÖ¸é µÈ´Ù.
+		//Read Onlyì¼ ê²½ìš° SBufferì— ë°”ë¡œ Map/UnMapì„ í•´ì£¼ë©´ ëœë‹¤.
 		D3D11_MAPPED_SUBRESOURCE Data = {};
 		pDevice->GetDeviceContext()->Map(m_StructBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &Data);
 
@@ -188,7 +188,7 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 			D3D11_BUFFER_DESC pDesc = {};
 			m_StagingBuffer->GetDesc(&pDesc);
 
-			//»ı¼ºµÇ¾î ÀÖ´Â Staging BufferÀÇ Å©±âº¸´Ù Å¬ °æ¿ì »õ·Î »ı¼º
+			//ìƒì„±ë˜ì–´ ìˆëŠ” Staging Bufferì˜ í¬ê¸°ë³´ë‹¤ í´ ê²½ìš° ìƒˆë¡œ ìƒì„±
 			if (pDesc.ByteWidth < m_BufferDesc.ByteWidth)
 				CreateStagingBuffer();
 		}
@@ -216,7 +216,7 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
 	{
 		memset(_pDest, 0, (size_t)_uDestByteCapacity);
 		return;
-	//READ_ONLYÀÏ °æ¿ì¿¡´Â µ¥ÀÌÅÍ °¡Á®¿À±â ºÒ°¡´É.
+	//READ_ONLYì¼ ê²½ìš°ì—ëŠ” ë°ì´í„° ê°€ì ¸ì˜¤ê¸° ë¶ˆê°€ëŠ¥.
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 	{
 //#ifdef _DEBUG
@@ -233,7 +233,7 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
 		break;
 	}
 	
-	//ÀĞ±â/¾²±â ¸ğµÎ °¡´ÉÇÑ Struct ¹öÆÛÀÏ °æ¿ì¿¡´Â Staging ¹öÆÛ¸¦ ÅëÇØ¼­ °¡Á®¿Â´Ù.
+	//ì½ê¸°/ì“°ê¸° ëª¨ë‘ ê°€ëŠ¥í•œ Struct ë²„í¼ì¼ ê²½ìš°ì—ëŠ” Staging ë²„í¼ë¥¼ í†µí•´ì„œ ê°€ì ¸ì˜¨ë‹¤.
 	case eSTRUCT_BUFFER_TYPE::READ_WRITE:
 	{
 		if (nullptr == m_StagingBuffer.Get())
@@ -243,7 +243,7 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
 			D3D11_BUFFER_DESC pDesc = {};
 			m_StagingBuffer->GetDesc(&pDesc);
 
-			//»ı¼ºµÇ¾î ÀÖ´Â Staging BufferÀÇ Å©±âº¸´Ù Å¬ °æ¿ì »õ·Î »ı¼º
+			//ìƒì„±ë˜ì–´ ìˆëŠ” Staging Bufferì˜ í¬ê¸°ë³´ë‹¤ í´ ê²½ìš° ìƒˆë¡œ ìƒì„±
 			if (pDesc.ByteWidth < m_BufferDesc.ByteWidth)
 				CreateStagingBuffer();
 		}
@@ -266,13 +266,13 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
 
 void CStructBuffer::BindBufferSRV()
 {
-	//UAV¿Í ¹ÙÀÎµù µÇ¾îÀÖÀ» °æ¿ì ¹ÙÀÎµùÀ» ÇØÁ¦
+	//UAVì™€ ë°”ì¸ë”© ë˜ì–´ìˆì„ ê²½ìš° ë°”ì¸ë”©ì„ í•´ì œ
 	if (eCURRENT_BOUND_VIEW::UAV == m_eCurBoundView)
 		UnBindUAV();
 
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::SRV;
 
-	//»ó¼ö¹öÆÛ ¹ÙÀÎµù
+	//ìƒìˆ˜ë²„í¼ ë°”ì¸ë”©
 	BindConstBuffer(m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV);
 
 	if (eSHADER_PIPELINE_STAGE::__VERTEX & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
@@ -308,7 +308,7 @@ void CStructBuffer::BindBufferSRV()
 
 void CStructBuffer::BindBufferUAV()
 {
-	//ÀĞ±â ¾²±â ´Ù °¡´ÉÇÑ »óÅÂ°¡ ¾Æ´Ò°æ¿ì assert
+	//ì½ê¸° ì“°ê¸° ë‹¤ ê°€ëŠ¥í•œ ìƒíƒœê°€ ì•„ë‹ê²½ìš° assert
 	assert(eSTRUCT_BUFFER_BIND_TYPE::READ_WRITE == m_tSBufferDesc.eSBufferType);
 
 	if (eCURRENT_BOUND_VIEW::SRV == m_eCurBoundView)
@@ -329,28 +329,28 @@ void CStructBuffer::SetDefaultDesc()
 	{
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 
-		//CPU¿¡¼­ ±¸Á¶È­¹öÆÛ·Î ÀÛ¼ºÇÒ ¼ö ÀÖ¾î¾ß ÇÏ¹Ç·Î AccessFlag¸¦ write·Î ¼³Á¤
+		//CPUì—ì„œ êµ¬ì¡°í™”ë²„í¼ë¡œ ì‘ì„±í•  ìˆ˜ ìˆì–´ì•¼ í•˜ë¯€ë¡œ AccessFlagë¥¼ writeë¡œ ì„¤ì •
 		m_BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-		//CPU¿¡¼­ ¹öÆÛ¸¦ ÀÛ¼ºÇÏ°í GPU¿¡¼­ ¹öÆÛ¸¦ ÀĞ¾îµéÀÏ °æ¿ì »ç¿ë
+		//CPUì—ì„œ ë²„í¼ë¥¼ ì‘ì„±í•˜ê³  GPUì—ì„œ ë²„í¼ë¥¼ ì½ì–´ë“¤ì¼ ê²½ìš° ì‚¬ìš©
 		m_BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 
-		//SRV¸¸ ¹ÙÀÎµùµÇµµ·Ï ¼³Á¤
+		//SRVë§Œ ë°”ì¸ë”©ë˜ë„ë¡ ì„¤ì •
 		m_BufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
 		break;
 	case eSTRUCT_BUFFER_TYPE::READ_WRITE:
 
-		//CPU´Â Á÷Á¢ Á¢±Ù ºÒ°¡, 
+		//CPUëŠ” ì§ì ‘ ì ‘ê·¼ ë¶ˆê°€, 
 		m_BufferDesc.CPUAccessFlags = 0;
 
-		//GPUÀÇ ÀĞ±â/¾²±â´Â °¡´É
+		//GPUì˜ ì½ê¸°/ì“°ê¸°ëŠ” ê°€ëŠ¥
 		m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
 
-		//SRV, UAV µÑ ´Ù ¹ÙÀÎµùµÇµµ·Ï ¼³Á¤
+		//SRV, UAV ë‘˜ ë‹¤ ë°”ì¸ë”©ë˜ë„ë¡ ì„¤ì •
 		m_BufferDesc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
 
-		//READ_WRITE·Î »ç¿ëÇÏ°Ú´Ù´Â °Ç ÄÄÇ»Æ®½¦ÀÌ´õ¸¦ »ç¿ëÇÏ°Ú´Ù´Â ÀÇ¹Ì -> ½Ç¼ö ¹æÁö¸¦ À§ÇØ ÇÃ·¡±×¿¡ ÄÄÇ»Æ®½¦ÀÌ´õ Ãß°¡
+		//READ_WRITEë¡œ ì‚¬ìš©í•˜ê² ë‹¤ëŠ” ê±´ ì»´í“¨íŠ¸ì‰ì´ë”ë¥¼ ì‚¬ìš©í•˜ê² ë‹¤ëŠ” ì˜ë¯¸ -> ì‹¤ìˆ˜ ë°©ì§€ë¥¼ ìœ„í•´ í”Œë˜ê·¸ì— ì»´í“¨íŠ¸ì‰ì´ë” ì¶”ê°€
 		m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV |= eSHADER_PIPELINE_STAGE::__COMPUTE;
 
 		break;
@@ -358,19 +358,19 @@ void CStructBuffer::SetDefaultDesc()
 		break;
 	}
 
-	//±âÅ¸ ÇÃ·¡±×¿¡ ±¸Á¶È­ ¹öÆÛ·Î ¼³Á¤°ªÀÌ ÀÖÀ½.
+	//ê¸°íƒ€ í”Œë˜ê·¸ì— êµ¬ì¡°í™” ë²„í¼ë¡œ ì„¤ì •ê°’ì´ ìˆìŒ.
 	m_BufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 
 }
 
 void CStructBuffer::BindConstBuffer(UINT _eSHADER_PIPELINE_FLAG)
 {
-	//»ó¼ö¹öÆÛ ¹ÙÀÎµù ¼³Á¤À» ÇÏÁö ¾Ê¾ÒÀ» °æ¿ì return
+	//ìƒìˆ˜ë²„í¼ ë°”ì¸ë”© ì„¤ì •ì„ í•˜ì§€ ì•Šì•˜ì„ ê²½ìš° return
 	if (eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE == m_tSBufferDesc.eCBufferIdx)
 		return;
 
-	//±¸Á¶Ã¼ Á¤º¸¸¦ ´ãÀº »ó¼ö¹öÆÛ¿¡ ¹ÙÀÎµùÇÑ ±¸Á¶Ã¼ °¹¼ö¸¦ ³Ö¾î¼­ Àü´Ş
-	//»ó¼ö¹öÆÛÀÇ ÁÖ¼Ò´Â ÇÑ¹ø ½ÇÇàµÇ¸é º¯ÇÏÁö ¾ÊÀ¸¹Ç·Î static, const ÇüÅÂ·Î ¼±¾ğ.
+	//êµ¬ì¡°ì²´ ì •ë³´ë¥¼ ë‹´ì€ ìƒìˆ˜ë²„í¼ì— ë°”ì¸ë”©í•œ êµ¬ì¡°ì²´ ê°¯ìˆ˜ë¥¼ ë„£ì–´ì„œ ì „ë‹¬
+	//ìƒìˆ˜ë²„í¼ì˜ ì£¼ì†ŒëŠ” í•œë²ˆ ì‹¤í–‰ë˜ë©´ ë³€í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ static, const í˜•íƒœë¡œ ì„ ì–¸.
 	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_SBUFFER_SHAREDATA);
 	pStructCBuffer->UploadData(g_arrSBufferShareData);
 	pStructCBuffer->BindBuffer(_eSHADER_PIPELINE_FLAG);
@@ -380,7 +380,7 @@ void CStructBuffer::BindConstBuffer(UINT _eSHADER_PIPELINE_FLAG)
 
 void CStructBuffer::CreateStagingBuffer()
 {
-	//CPU Åë½Å¿ë ½ºÅ×ÀÌÂ¡ ¹öÆÛ »ı¼º
+	//CPU í†µì‹ ìš© ìŠ¤í…Œì´ì§• ë²„í¼ ìƒì„±
 	D3D11_BUFFER_DESC Desc = m_BufferDesc;
 	Desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 	Desc.Usage = D3D11_USAGE_STAGING;
@@ -393,7 +393,7 @@ void CStructBuffer::CreateStagingBuffer()
 
 void CStructBuffer::CreateSRV()
 {
-	//SRV »ı¼º
+	//SRV ìƒì„±
 	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
 	SRVDesc.ViewDimension = D3D_SRV_DIMENSION_BUFFEREX;
 	SRVDesc.BufferEx.NumElements = m_uElementCapacity;
@@ -404,7 +404,7 @@ void CStructBuffer::CreateSRV()
 
 void CStructBuffer::CreateUAV()
 {
-	//GPU¿¡¼­ ÀĞ±â ¹× ¾²±â ÀÛ¾÷ÀÌ °¡´ÉÇØ¾ß ÇÏ¹Ç·Î UAV ÇüÅÂ·Î »ı¼º
+	//GPUì—ì„œ ì½ê¸° ë° ì“°ê¸° ì‘ì—…ì´ ê°€ëŠ¥í•´ì•¼ í•˜ë¯€ë¡œ UAV í˜•íƒœë¡œ ìƒì„±
 	D3D11_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
 	UAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 	UAVDesc.Buffer.NumElements = m_uElementCapacity;

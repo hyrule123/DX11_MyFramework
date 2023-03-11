@@ -19,7 +19,7 @@ public:
     
 
 private:
-    Vec2                m_vSliceSize;   // Å¸ÀÏ ÇÏ³ªÀÇ Å©±â(UV ´ÜÀ§)
+    Vec2                m_vSliceSize;   // íƒ€ì¼ í•˜ë‚˜ì˜ í¬ê¸°(UV ë‹¨ìœ„)
     vector<tTile>       m_vecTile;
     CStructBuffer* m_SBuffer;
 

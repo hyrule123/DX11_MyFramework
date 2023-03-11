@@ -5,7 +5,7 @@ constexpr const wchar_t BracketEnd = L'}';
 constexpr const wchar_t* IncludeBegin = L"#include \"";
 
 
-//¾Æ¹« °ªµµ ÀÔ·ÂÇÏÁö ¾ÊÀ» °æ¿ì ÇÑ ÁÙ ³»¸²
+//ì•„ë¬´ ê°’ë„ ì…ë ¥í•˜ì§€ ì•Šì„ ê²½ìš° í•œ ì¤„ ë‚´ë¦¼
 void WriteCode(std::wofstream& _pFile, const wstring& _strCode = L"");
 
 inline void IncludeFile(std::wofstream& _pFile, const wstring& _strIncludeFileName)

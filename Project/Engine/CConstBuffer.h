@@ -23,8 +23,8 @@ public:
     void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_ePIPELINE_STAGE_flags = _eSHADER_PIPELINE_FLAG; }
     void AddPipelineTarget(eSHADER_PIPELINE_STAGE::FLAG _Stage) { m_ePIPELINE_STAGE_flags |= (UINT)_Stage; }
 
-    //±âº» ÇÃ·¡±×´Â MAX°ªÀ¸·Î Àü´ÞµÊ. µû·Î ÁöÁ¤ÇÒ °æ¿ì Æ¯Á¤ ÆÄÀÌÇÁ¶óÀÎ¿¡¸¸ »ó¼ö¹öÆÛ°¡ ¼³Á¤µÈ´Ù.
-    //±âº»°ªÀº NONEÀÌ¸ç, NONE ÀÌ¿ÜÀÇ °ªÀÌ Àü´ÞµÉ °æ¿ì ÇØ´ç °ªÀ» »ç¿ë.
+    //ê¸°ë³¸ í”Œëž˜ê·¸ëŠ” MAXê°’ìœ¼ë¡œ ì „ë‹¬ë¨. ë”°ë¡œ ì§€ì •í•  ê²½ìš° íŠ¹ì • íŒŒì´í”„ë¼ì¸ì—ë§Œ ìƒìˆ˜ë²„í¼ê°€ ì„¤ì •ëœë‹¤.
+    //ê¸°ë³¸ê°’ì€ NONEì´ë©°, NONE ì´ì™¸ì˜ ê°’ì´ ì „ë‹¬ë  ê²½ìš° í•´ë‹¹ ê°’ì„ ì‚¬ìš©.
     void BindBuffer(UINT _eSHADER_PIPELINE_FLAG = eSHADER_PIPELINE_STAGE::__NONE);
 
 

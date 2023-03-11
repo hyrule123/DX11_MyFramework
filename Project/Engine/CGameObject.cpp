@@ -5,15 +5,15 @@
 #include "components.h"
 
 
-//·¹ÀÌ¾î ¿Å±æ ¶§ »ç¿ë
+//ë ˆì´ì–´ ì˜®ê¸¸ ë•Œ ì‚¬ìš©
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CLayer.h"
 
-//Æ®·£½ºÆû »ó¼Ó
+//íŠ¸ëœìŠ¤í¼ ìƒì†
 #include "CTransform.h"
 
-//»ı¸íÁÖ±â °è»ê¿ë
+//ìƒëª…ì£¼ê¸° ê³„ì‚°ìš©
 #include "CTimeMgr.h"
 
 #include "CTransform.h"
@@ -38,7 +38,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	, m_bDestroy()
 	, m_fLifeSpan(FLT_MAX_NEG)
 {
-	//1. ÄÄÆ÷³ÍÆ® ¸ñ·Ï º¹»ç
+	//1. ì»´í¬ë„ŒíŠ¸ ëª©ë¡ ë³µì‚¬
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != _other.m_arrCom[i])
@@ -46,7 +46,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 			m_arrCom[i] = _other.m_arrCom[i]->Clone();
 			m_arrCom[i]->SetOwner(this);
 
-			//1-1. ·»´õ¸µ ÄÄÆ÷³ÍÆ® ÀÏ °æ¿ì m_RenderCom¿¡ º¹»ç
+			//1-1. ë Œë”ë§ ì»´í¬ë„ŒíŠ¸ ì¼ ê²½ìš° m_RenderComì— ë³µì‚¬
 			if ((UINT)g_RenderComIdxStart <= i && i < (UINT)g_RenderComIdxEnd)
 			{
 				assert(nullptr == m_RenderCom);
@@ -55,7 +55,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 		}
 	}
 
-	//2. ÀÚ³à ¿ÀºêÁ§Æ® º¹»ç
+	//2. ìë…€ ì˜¤ë¸Œì íŠ¸ ë³µì‚¬
 	size_t size = _other.m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -163,7 +163,7 @@ void CGameObject::init()
 
 void CGameObject::tick()
 {
-	//ÀÚ½ÅÀÌ ÆÄ±« ´ë±â »óÅÂÀÏ °æ¿ì ÀÚ½Å°ú ¸ğµç ÀÚ½Äµé¿¡ ´ëÇØ tickÀ» Ã³¸®ÇÏÁö ¾ÊÀ½
+	//ìì‹ ì´ íŒŒê´´ ëŒ€ê¸° ìƒíƒœì¼ ê²½ìš° ìì‹ ê³¼ ëª¨ë“  ìì‹ë“¤ì— ëŒ€í•´ tickì„ ì²˜ë¦¬í•˜ì§€ ì•ŠìŒ
 	if (true == m_bDestroy)
 		return;
 
@@ -183,10 +183,10 @@ void CGameObject::tick()
 
 void CGameObject::finaltick()
 {
-	//ÀÚ½ÅÀÌ ÆÄ±« ´ë±â »óÅÂÀÏ °æ¿ì ÀÚ½Å°ú ¸ğµç ÀÚ½Äµé¿¡ ´ëÇØ tickÀ» Ã³¸®ÇÏÁö ¾ÊÀ½
+	//ìì‹ ì´ íŒŒê´´ ëŒ€ê¸° ìƒíƒœì¼ ê²½ìš° ìì‹ ê³¼ ëª¨ë“  ìì‹ë“¤ì— ëŒ€í•´ tickì„ ì²˜ë¦¬í•˜ì§€ ì•ŠìŒ
 	if (true == m_bDestroy)
 	{
-		//½ºÅ©¸³Æ®¸¦ Á¦¿ÜÇÑ ÄÄÆ÷³ÍÆ®µé¿¡ ´ëÇØ finaltick()À» È£ÃâÇÑ´Ù.
+		//ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì œì™¸í•œ ì»´í¬ë„ŒíŠ¸ë“¤ì— ëŒ€í•´ finaltick()ì„ í˜¸ì¶œí•œë‹¤.
 		cleanup();
 		return;
 	}
@@ -201,7 +201,7 @@ void CGameObject::finaltick()
 	}
 		
 
-	//½ºÅ©¸³Æ®¸¦ Á¦¿ÜÇÑ ÄÄÆ÷³ÍÆ®µé¿¡ ´ëÇØ finaltick()À» È£ÃâÇÑ´Ù.
+	//ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì œì™¸í•œ ì»´í¬ë„ŒíŠ¸ë“¤ì— ëŒ€í•´ finaltick()ì„ í˜¸ì¶œí•œë‹¤.
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -214,14 +214,14 @@ void CGameObject::finaltick()
 		m_vecChild[i]->finaltick();
 	}
 
-	//ÀÚ³à Æ÷ÇÔ ¸ğµç ÄÄÆ÷³ÍÆ®°¡ ¾÷µ¥ÀÌÆ® µÇ¸é ¾÷µ¥ÀÌÆ® »óÈ² ÃÊ±âÈ­
+	//ìë…€ í¬í•¨ ëª¨ë“  ì»´í¬ë„ŒíŠ¸ê°€ ì—…ë°ì´íŠ¸ ë˜ë©´ ì—…ë°ì´íŠ¸ ìƒí™© ì´ˆê¸°í™”
 	if (nullptr != m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])
 		static_cast<CTransform*>(m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])->ClearUpdateState();
 }
 
 bool CGameObject::render()
 {
-	//»èÁ¦ ´ë±â »óÅÂÀÏ °æ¿ì ·»´õ¸µÀ» ÇÏÁö ¾ÊÀ½.
+	//ì‚­ì œ ëŒ€ê¸° ìƒíƒœì¼ ê²½ìš° ë Œë”ë§ì„ í•˜ì§€ ì•ŠìŒ.
 	if (nullptr == m_RenderCom || true == m_bDestroy)
 		return true;
 
@@ -230,23 +230,23 @@ bool CGameObject::render()
 
 void CGameObject::cleanup()
 {
-	//º»ÀÎÀÇ ÄÄÆ÷³ÍÆ® Á¤¸®
+	//ë³¸ì¸ì˜ ì»´í¬ë„ŒíŠ¸ ì •ë¦¬
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->cleanup();
 	}
 
-	//ÀÚ½Ä ÄÄÆ÷³ÍÆ®µéµµ ¸ğµÎ cleanup
+	//ìì‹ ì»´í¬ë„ŒíŠ¸ë“¤ë„ ëª¨ë‘ cleanup
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecChild[i]->cleanup();
 	}
 	
-	//¸¸¾à ÀÚ½ÅÀÇ ºÎ¸ğ ¿ÀºêÁ§Æ®°¡ Á¸ÀçÇÏ°í, ÇØ´ç ¿ÀºêÁ§Æ®´Â »èÁ¦ ´ë±â »óÅÂ°¡ ¾Æ´Ò °æ¿ì
-	//¡ØºÎ¸ğ ¿ÀºêÁ§Æ®µµ »èÁ¦ ´ë±â »óÅÂÀÏ °æ¿ì¿¡´Â ºÎ¸ğ ¿ÀºêÁ§Æ®µµ ¾îÂ÷ÇÇ ÀÌ¹ø ÇÁ·¹ÀÓ ¸¶Áö¸·¿¡ »èÁ¦°¡ µÉ °ÍÀÌ¹Ç·Î
-	//±»ÀÌ ÀÚ½ÅÀÇ ÁÖ¼Ò¸¦ Á¤¸®ÇØ´Ş¶ó°í ¿äÃ»ÇÏÁö ¾Ê¾Æµµ µÈ´Ù.
+	//ë§Œì•½ ìì‹ ì˜ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ê°€ ì¡´ì¬í•˜ê³ , í•´ë‹¹ ì˜¤ë¸Œì íŠ¸ëŠ” ì‚­ì œ ëŒ€ê¸° ìƒíƒœê°€ ì•„ë‹ ê²½ìš°
+	//â€»ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ë„ ì‚­ì œ ëŒ€ê¸° ìƒíƒœì¼ ê²½ìš°ì—ëŠ” ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ë„ ì–´ì°¨í”¼ ì´ë²ˆ í”„ë ˆì„ ë§ˆì§€ë§‰ì— ì‚­ì œê°€ ë  ê²ƒì´ë¯€ë¡œ
+	//êµ³ì´ ìì‹ ì˜ ì£¼ì†Œë¥¼ ì •ë¦¬í•´ë‹¬ë¼ê³  ìš”ì²­í•˜ì§€ ì•Šì•„ë„ ëœë‹¤.
 	if (nullptr != m_Parent && false == m_Parent->GetDestroyed())
 	{
 		m_Parent->RemoveChild(this);
@@ -277,7 +277,7 @@ void CGameObject::AddComponent(CComponent* _Component)
 	case eCOMPONENT_TYPE::TILEMAP:
 	case eCOMPONENT_TYPE::LANDSCAPE:
 	case eCOMPONENT_TYPE::DECAL:
-		//m_RenderCom¿¡ ÇÏ³ª ÀÌ»óÀÇ Render ÄÄÆ÷³ÍÆ®°¡ µé¾î°¡ ÀÖÀ» °æ¿ì ¿¡·¯ ¹ß»ı½ÃÅ´.
+		//m_RenderComì— í•˜ë‚˜ ì´ìƒì˜ Render ì»´í¬ë„ŒíŠ¸ê°€ ë“¤ì–´ê°€ ìˆì„ ê²½ìš° ì—ëŸ¬ ë°œìƒì‹œí‚´.
 		assert(nullptr == m_RenderCom);
 		m_RenderCom = static_cast<CRenderComponent*>(_Component);
 		break;
@@ -288,11 +288,11 @@ void CGameObject::AddComponent(CComponent* _Component)
 		break;
 	}
 
-	//¼ÒÀ¯ÀÚ ÁÖ¼Ò¸¦ µî·Ï.
+	//ì†Œìœ ì ì£¼ì†Œë¥¼ ë“±ë¡.
 	_Component->m_pOwner = this;
 	m_arrCom[ComType] = _Component;
 
-	//ÀÌ¹Ì ÀÛµ¿ÁßÀÏ °æ¿ì ¹Ù·Î init() È£Ãâ
+	//ì´ë¯¸ ì‘ë™ì¤‘ì¼ ê²½ìš° ë°”ë¡œ init() í˜¸ì¶œ
 	if(m_bInitialized)
 		_Component->init();
 }
@@ -339,26 +339,26 @@ void CGameObject::RemoveChild(CGameObject* _Object)
 
 void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _vecObj)
 {
-	//ÀÎµ¦½º°¡ ¾ÆÁ÷ ÁöÁ¤µÇÁö ¾Ê¾ÒÀ» °æ¿ì -> ¹«Á¶°Ç ÀÎµ¦½º ÁöÁ¤À» ÇÑ¹ø ÇØÁà¾ßÇÔ
-	//·¹ÀÌ¾î°¡ °íÁ¤µÇÁö ¾Ê¾ÒÀ» °æ¿ì -> ºÎ¸ğ ¿ÀºêÁ§Æ®ÀÇ ·¹ÀÌ¾î¸¦ µû¶ó°¨
-	//µÑÁß ÇÏ³ª¶óµµ °É¸®¸é ÀÏ´Ü ¿Å°Ü¾ßÇÔ
+	//ì¸ë±ìŠ¤ê°€ ì•„ì§ ì§€ì •ë˜ì§€ ì•Šì•˜ì„ ê²½ìš° -> ë¬´ì¡°ê±´ ì¸ë±ìŠ¤ ì§€ì •ì„ í•œë²ˆ í•´ì¤˜ì•¼í•¨
+	//ë ˆì´ì–´ê°€ ê³ ì •ë˜ì§€ ì•Šì•˜ì„ ê²½ìš° -> ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì˜ ë ˆì´ì–´ë¥¼ ë”°ë¼ê°
+	//ë‘˜ì¤‘ í•˜ë‚˜ë¼ë„ ê±¸ë¦¬ë©´ ì¼ë‹¨ ì˜®ê²¨ì•¼í•¨
 	if (-1 == m_iLayerIdx || false == m_bFixLayer)
 	{
-		//¸¸¾à ¾îµò°¡ÀÇ ·¹ÀÌ¾î¿¡ µî·ÏµÇ¾î ÀÖ¾ú´Ù¸é ±âÁ¸ ·¹ÀÌ¾î¿¡¼­ ÀÚ½ÅÀ» »èÁ¦ÇØ¾ß ÇÑ´Ù.
+		//ë§Œì•½ ì–´ë”˜ê°€ì˜ ë ˆì´ì–´ì— ë“±ë¡ë˜ì–´ ìˆì—ˆë‹¤ë©´ ê¸°ì¡´ ë ˆì´ì–´ì—ì„œ ìì‹ ì„ ì‚­ì œí•´ì•¼ í•œë‹¤.
 		if (m_iLayerIdx > 0)
 		{
 			CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx)->RemoveGameObject(this);
 		}
 
-		//»èÁ¦ÇÏ°í »õ·Î¿î ·¹ÀÌ¾î¿¡ µî·Ï
+		//ì‚­ì œí•˜ê³  ìƒˆë¡œìš´ ë ˆì´ì–´ì— ë“±ë¡
 		m_iLayerIdx = _iLayerIdx;
 		_vecObj.push_back(this);
 	}
 	
-	//À§ Á¶°ÇÀÇ ¹İ´ë´Â
-	//m_iLayerIdx°¡ 1ÀÌ ¾Æ´Ï°í(&&) m_bFixLayer°¡ true ÀÏ¶§ ÀÌ¹Ç·Î ÀÌ ¶§´Â ·¹ÀÌ¾î ÀÌµ¿À» ¹«Á¶°Ç ¾ÈÇÏ´Â °æ¿ìÀÌ´Ù.
+	//ìœ„ ì¡°ê±´ì˜ ë°˜ëŒ€ëŠ”
+	//m_iLayerIdxê°€ 1ì´ ì•„ë‹ˆê³ (&&) m_bFixLayerê°€ true ì¼ë•Œ ì´ë¯€ë¡œ ì´ ë•ŒëŠ” ë ˆì´ì–´ ì´ë™ì„ ë¬´ì¡°ê±´ ì•ˆí•˜ëŠ” ê²½ìš°ì´ë‹¤.
 	
-	//ÀÚ½ÄµéÀ» ´ë»óÀ¸·Îµµ Àç±ÍÀûÀ¸·Î È£Ãâ
+	//ìì‹ë“¤ì„ ëŒ€ìƒìœ¼ë¡œë„ ì¬ê·€ì ìœ¼ë¡œ í˜¸ì¶œ
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -380,11 +380,11 @@ void CGameObject::SetParentMatrixUpdated()
 
 bool CGameObject::GetParentWorldMatrix(Matrix& _mat)
 {
-	//ºÎ¸ğ ¿ÀºêÁ§Æ®°¡ ¾ø°Å³ª Æ®·£½ºÆûÀÌ ¾øÀ» °æ¿ì false ¹İÈ¯
+	//ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ê°€ ì—†ê±°ë‚˜ íŠ¸ëœìŠ¤í¼ì´ ì—†ì„ ê²½ìš° false ë°˜í™˜
 	if (nullptr == m_Parent || nullptr == m_Parent->Transform())
 		return false;
 
-	//ÀÖÀ» °æ¿ì ÀÎÀÚ¿¡ ±×´ë·Î ´ëÀÔ, true ¹İÈ¯.
+	//ìˆì„ ê²½ìš° ì¸ìì— ê·¸ëŒ€ë¡œ ëŒ€ì…, true ë°˜í™˜.
 	_mat = m_Parent->Transform()->GetWorldMatWithoutSize();
 	return true;
 }

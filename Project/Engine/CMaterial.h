@@ -6,8 +6,8 @@
 #include "CTexture.h"
 
 
-//Scalar Parameter : ÀÌ ÀçÁúÀ» »ç¿ëÇÏ´Â ¿ÀºêÁ§Æ® °³º°·Î ´Þ¶óÁú ¼ö ÀÖ´Â ¿ä¼Ò
-//Texture Parameter : ÀÌ ÀçÁúÀ» »ç¿ëÇÏ´Â ¿ÀºêÁ§Æ® ¸ðµÎ °øÅëÀûÀ¸·Î »ç¿ëÇÏ´Â ¿ä¼Ò
+//Scalar Parameter : ì´ ìž¬ì§ˆì„ ì‚¬ìš©í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ ê°œë³„ë¡œ ë‹¬ë¼ì§ˆ ìˆ˜ ìžˆëŠ” ìš”ì†Œ
+//Texture Parameter : ì´ ìž¬ì§ˆì„ ì‚¬ìš©í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ ëª¨ë‘ ê³µí†µì ìœ¼ë¡œ ì‚¬ìš©í•˜ëŠ” ìš”ì†Œ
 
 
 
@@ -35,9 +35,9 @@ private:
 
     Ptr<CTexture>           m_arrTex[(int)eMTRLDATA_PARAM_TEX::_END];
     
-    //1 = ÀÏ¹Ý µå·Î¿ìÄÝ, 2 ÀÌ»ó = ÀÎ½ºÅÏ½Ì
-    //vectorÀº µ¥ÀÌÅÍ¸¦ ±¸Á¶È­¹öÆÛ¸¦ Àü´ÞÇÏ¸é ½Ï Áö¿ö¹ö¸®±â ‹š¹®¿¡
-    //º°µµÀÇ º¯¼ö¸¦ µÖ¼­ »çÀÌÁî¸¦ µû·Î ÀúÀåÇØ ³ö¾ß ÇÔ
+    //1 = ì¼ë°˜ ë“œë¡œìš°ì½œ, 2 ì´ìƒ = ì¸ìŠ¤í„´ì‹±
+    //vectorì€ ë°ì´í„°ë¥¼ êµ¬ì¡°í™”ë²„í¼ë¥¼ ì „ë‹¬í•˜ë©´ ì‹¹ ì§€ì›Œë²„ë¦¬ê¸° Â‹Âšë¬¸ì—
+    //ë³„ë„ì˜ ë³€ìˆ˜ë¥¼ ë‘¬ì„œ ì‚¬ì´ì¦ˆë¥¼ ë”°ë¡œ ì €ìž¥í•´ ë†”ì•¼ í•¨
     UINT                    m_uRenderCount;
 
 public:

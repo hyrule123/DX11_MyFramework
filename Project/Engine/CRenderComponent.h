@@ -23,22 +23,22 @@ public:
     virtual ~CRenderComponent();
 
 public:
-    //ÀÌ Å¬·¡½º¸¦ »ó¼Ó¹Ş´Â ÇÏÀ§ ÄÄÆ÷³ÍÆ®µéÀº ÀÎ½ºÅÏ½ÌÀ» ÇÏ´ÂÁö ¾Æ´ÑÁö ¿©ºÎ¿¡ µû¶ó¼­ °¢ÀÚ ¼³Á¤ÇØÁà¾ßÇÔ.
-    //ÀÎÀÚ : ÇöÀç render¸¦ È£ÃâÇÑ Ä«¸Ş¶óÀÇ ¹øÈ£
-    //¹İÈ¯°ª : ÀÎ½ºÅÏ½Ì ¿©ºÎ(µå·Î¿ìÄİÀÌ ÀÏ¾î³¯ °æ¿ì true ¹İÈ¯, ÀÎ½ºÅÏ½ÌÀ» À§ÇÑ µ¥ÀÌÅÍ Àü´Ş¸¸ ÇßÀ» °æ¿ì false ¹İÈ¯.)
+    //ì´ í´ë˜ìŠ¤ë¥¼ ìƒì†ë°›ëŠ” í•˜ìœ„ ì»´í¬ë„ŒíŠ¸ë“¤ì€ ì¸ìŠ¤í„´ì‹±ì„ í•˜ëŠ”ì§€ ì•„ë‹Œì§€ ì—¬ë¶€ì— ë”°ë¼ì„œ ê°ì ì„¤ì •í•´ì¤˜ì•¼í•¨.
+    //ì¸ì : í˜„ì¬ renderë¥¼ í˜¸ì¶œí•œ ì¹´ë©”ë¼ì˜ ë²ˆí˜¸
+    //ë°˜í™˜ê°’ : ì¸ìŠ¤í„´ì‹± ì—¬ë¶€(ë“œë¡œìš°ì½œì´ ì¼ì–´ë‚  ê²½ìš° true ë°˜í™˜, ì¸ìŠ¤í„´ì‹±ì„ ìœ„í•œ ë°ì´í„° ì „ë‹¬ë§Œ í–ˆì„ ê²½ìš° false ë°˜í™˜.)
     virtual bool render() = 0;
 
 private:
     Ptr<CMesh>              m_pMesh;
 
-    //¿øº» ÀçÁú. Æ¯º°ÇÑ »óÅÂ¸¦ Ç¥ÇöÇÒ ÇÊ¿ä°¡ ¾øÀ» °æ¿ì ÀÌ ÀçÁúÀ» »ç¿ë
+    //ì›ë³¸ ì¬ì§ˆ. íŠ¹ë³„í•œ ìƒíƒœë¥¼ í‘œí˜„í•  í•„ìš”ê°€ ì—†ì„ ê²½ìš° ì´ ì¬ì§ˆì„ ì‚¬ìš©
     Ptr<CMaterial>          m_pSharedMtrl;  
 
-    //SharedMaterial º¹»çº»(Clone). °íÀ¯ »óÅÂ Ç¥ÇöÀÌ ÇÊ¿äÇÒ °æ¿ì ÀÌ ÀçÁúÀ» »ç¿ë
-    //DynamicMtrlÀº ¹«Á¶°Ç ´ÜÀÏ µå·Î¿ìÄİÀÌ È£ÃâµÊ.
+    //SharedMaterial ë³µì‚¬ë³¸(Clone). ê³ ìœ  ìƒíƒœ í‘œí˜„ì´ í•„ìš”í•  ê²½ìš° ì´ ì¬ì§ˆì„ ì‚¬ìš©
+    //DynamicMtrlì€ ë¬´ì¡°ê±´ ë‹¨ì¼ ë“œë¡œìš°ì½œì´ í˜¸ì¶œë¨.
     Ptr<CMaterial>          m_pDynamicMtrl; 
 
-    //ÇöÀç »ç¿ë ÁßÀÎ ÀçÁú ÁÖ¼Ò
+    //í˜„ì¬ ì‚¬ìš© ì¤‘ì¸ ì¬ì§ˆ ì£¼ì†Œ
     Ptr<CMaterial>          m_pCurrentMtrl; 
 
 public:
@@ -52,7 +52,7 @@ public:
     void SetUseInstancing() { GetDynamicMaterial(); }
     bool GetRenderReady() { return ((nullptr != m_pMesh) && (nullptr != m_pSharedMtrl)); }
 
-    //°øÀ¯ ÀçÁúÀ» »ç¿ë ÁßÀÏ °æ¿ì
+    //ê³µìœ  ì¬ì§ˆì„ ì‚¬ìš© ì¤‘ì¼ ê²½ìš°
     bool IsUsingInstancing() const { return (m_pSharedMtrl.Get() == m_pCurrentMtrl.Get()); }
 
     void SetMtrlScalarParam(const tMtrlScalarData& _tMtrlScalarData);
@@ -64,7 +64,7 @@ inline void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl)
 {
     m_pSharedMtrl = _Mtrl;
 
-    //ÀÎ½ºÅÏ½ÌÀ» »ç¿ëÇÏÁö ¾ÊÀ¸¸é ¹«Á¶°Ç º¹»çº»À» »ı¼º
+    //ì¸ìŠ¤í„´ì‹±ì„ ì‚¬ìš©í•˜ì§€ ì•Šìœ¼ë©´ ë¬´ì¡°ê±´ ë³µì‚¬ë³¸ì„ ìƒì„±
     if (false == m_pSharedMtrl->GetInstencedRender())
     {
         GetDynamicMaterial();

@@ -66,45 +66,45 @@ CAnimator2D::~CAnimator2D()
 
 void CAnimator2D::finaltick()
 {
-    //Àç»ýÇÒ ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ÀÖÀ» °æ¿ì ÇÁ·¹ÀÓ Ã³¸®
+    //ìž¬ìƒí•  ì• ë‹ˆë©”ì´ì…˜ì´ ìžˆì„ ê²½ìš° í”„ë ˆìž„ ì²˜ë¦¬
     if (nullptr != m_pCurAnim)
     {
-        //Àç»ýÀÌ ³¡³ªÁö ¾Ê¾ÒÀ» °æ¿ì ÇöÀç ÇÁ·¹ÀÓ ¾÷µ¥ÀÌÆ®
+        //ìž¬ìƒì´ ëë‚˜ì§€ ì•Šì•˜ì„ ê²½ìš° í˜„ìž¬ í”„ë ˆìž„ ì—…ë°ì´íŠ¸
         if (false == m_bFinish)
         {
-            //½Ã°£ Ãß°¡
+            //ì‹œê°„ ì¶”ê°€
             m_fCurTime += DELTA_TIME;
 
 
-            //ÇÁ·¹ÀÓ´ç Àç»ý½Ã°£À» ³Ñ¾î°¬À» °æ¿ì
+            //í”„ë ˆìž„ë‹¹ ìž¬ìƒì‹œê°„ì„ ë„˜ì–´ê°”ì„ ê²½ìš°
             if (m_fTimePerFrame < m_fCurTime)
             {
-                //ftime¿¡¼­ ÇÑÇÁ·¹ÀÓº° ½Ã°£À» •ûÁØÈÄ
+                //ftimeì—ì„œ í•œí”„ë ˆìž„ë³„ ì‹œê°„ì„ Â•å¼§æ²«?
                 m_fCurTime -= m_fTimePerFrame;
 
-                //´ÙÀ½ ÇÁ·¹ÀÓÀ¸·Î ÁøÇàÇÑ´Ù.
+                //ë‹¤ìŒ í”„ë ˆìž„ìœ¼ë¡œ ì§„í–‰í•œë‹¤.
                 ++m_uCurFrame;
 
-                //¸¶Áö¸· ÇÁ·¹ÀÓÀÏ °æ¿ì
+                //ë§ˆì§€ë§‰ í”„ë ˆìž„ì¼ ê²½ìš°
                 if (m_uMaxFrameCount <= m_uCurFrame)
                 {
-                    //¸¶Áö¸· ÇÁ·¹ÀÓÀ¸·Î °íÁ¤½ÃÅ²´Ù
+                    //ë§ˆì§€ë§‰ í”„ë ˆìž„ìœ¼ë¡œ ê³ ì •ì‹œí‚¨ë‹¤
                     m_uCurFrame = m_uMaxFrameCount - 1;
                     m_bFinish = true;
                 }
             }
 
-            //Àç»ýÀÌ ÀÌ¹ø ÇÁ·¹ÀÓ¿¡ Á¾·áµÇ¾úÀ» °æ¿ì ´ÙÀ½ °úÁ¤À» Ã³¸®
+            //ìž¬ìƒì´ ì´ë²ˆ í”„ë ˆìž„ì— ì¢…ë£Œë˜ì—ˆì„ ê²½ìš° ë‹¤ìŒ ê³¼ì •ì„ ì²˜ë¦¬
             if (true == m_bFinish)
             {
-                //¿ªÀç»ýÀÌ³ª ·çÇÁ°¡ ¼³Á¤µÇ¾îÀÖÀ» °æ¿ì
+                //ì—­ìž¬ìƒì´ë‚˜ ë£¨í”„ê°€ ì„¤ì •ë˜ì–´ìžˆì„ ê²½ìš°
                 switch (m_eLoopMode)
                 {
                 case eANIM_LOOPMODE::NONE:
-                    //ÇØÁÙ°Å ¾øÀ½
+                    //í•´ì¤„ê±° ì—†ìŒ
                     break;
                 case eANIM_LOOPMODE::NORMAL_LOOP:
-                    //ÇÁ·¹ÀÓÀ» ´Ù½Ã 0¹øÀ¸·Î º¯°æ
+                    //í”„ë ˆìž„ì„ ë‹¤ì‹œ 0ë²ˆìœ¼ë¡œ ë³€ê²½
                     m_uCurFrame = 0u;
 
                     m_bFinish = false;
@@ -112,7 +112,7 @@ void CAnimator2D::finaltick()
                 case eANIM_LOOPMODE::ZIG_ZAG:
                     m_uCurFrame = 0u;
 
-                    //ÇÁ·¹ÀÓ 0¹øÀ¸·Î º¯°æÇÏ°í ¸®¹ö½º ¸ðµå¸¦ ¹Ý´ë·Î ¹Ù²Þ
+                    //í”„ë ˆìž„ 0ë²ˆìœ¼ë¡œ ë³€ê²½í•˜ê³  ë¦¬ë²„ìŠ¤ ëª¨ë“œë¥¼ ë°˜ëŒ€ë¡œ ë°”ê¿ˆ
                     m_bReverse = !m_bReverse;
 
                     m_bFinish = false;
@@ -124,15 +124,15 @@ void CAnimator2D::finaltick()
         }
 
 
-        //½ÇÁ¦ ¾Ö´Ï¸ÞÀÌ¼Ç ÇÁ·¹ÀÓÀ» °è»êÇÑ´Ù.
-        //¿ªÀç»ýÀÎÁö ¿©ºÎ¸¦ ¸ÕÀú °è»ê
+        //ì‹¤ì œ ì• ë‹ˆë©”ì´ì…˜ í”„ë ˆìž„ì„ ê³„ì‚°í•œë‹¤.
+        //ì—­ìž¬ìƒì¸ì§€ ì—¬ë¶€ë¥¼ ë¨¼ì € ê³„ì‚°
         if (true == m_bReverse)
             m_uCurFrameIdx = m_uMaxFrameCount - 1u - m_uCurFrame;
         else
             m_uCurFrameIdx = m_uCurFrame;
 
 
-        //¹æÇâÀ» °¡Áø ¾Ö´Ï¸ÞÀÌ¼ÇÀÏ °æ¿ì ¹æÇâ¿¡ µû¸¥ ÇÁ·¹ÀÓÀ» °è»êÇÑ´Ù.
+        //ë°©í–¥ì„ ê°€ì§„ ì• ë‹ˆë©”ì´ì…˜ì¼ ê²½ìš° ë°©í–¥ì— ë”°ë¥¸ í”„ë ˆìž„ì„ ê³„ì‚°í•œë‹¤.
         if (eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP == m_pCurAnim->eAnimType)
         {
             CalculateDirectionalColHalfFlipAtlas();
@@ -143,19 +143,19 @@ void CAnimator2D::finaltick()
         }
 
 
-        //ÇÁ·¹ÀÓ¿¡ µî·ÏµÈ ÄÝ¹éÇÔ¼ö°¡ ÀÖÀ» °æ¿ì ÄÝ¹éÇÔ¼ö È£Ãâ
+        //í”„ë ˆìž„ì— ë“±ë¡ëœ ì½œë°±í•¨ìˆ˜ê°€ ìžˆì„ ê²½ìš° ì½œë°±í•¨ìˆ˜ í˜¸ì¶œ
         size_t size = m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback.size();
         if ((size_t)0 != size)
         {
             for (size_t i = 0; i < size; i++)
             {
-                //ÄÝ¹éÇÔ¼ö¸¦ È£Ãâ
+                //ì½œë°±í•¨ìˆ˜ë¥¼ í˜¸ì¶œ
                 m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback[i]();
             }
         }
     }
 
-    //Àç»ýÇÒ ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ¾ø´õ¶óµµ ¾÷µ¥ÀÌÆ®´Â ÇØÁØ´Ù.(Àç»ýÇÒ ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ¾ø´Ù°í ¾÷µ¥ÀÌÆ®)
+    //ìž¬ìƒí•  ì• ë‹ˆë©”ì´ì…˜ì´ ì—†ë”ë¼ë„ ì—…ë°ì´íŠ¸ëŠ” í•´ì¤€ë‹¤.(ìž¬ìƒí•  ì• ë‹ˆë©”ì´ì…˜ì´ ì—†ë‹¤ê³  ì—…ë°ì´íŠ¸)
     UpdateData();
 }
 
@@ -163,10 +163,10 @@ void CAnimator2D::UpdateData()
 {
     UpdateAtlasTexToMtrl();
 
-    //Àç»ýÇÒ ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ³ª ¼±ÅÃµÈ ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ¾øÀ» ½Ã ¾Ö´Ï¸ÞÀÌ¼Ç »ç¿ë ¼³Á¤À» ÇØÁ¦ÇÏ°í return
+    //ìž¬ìƒí•  ì• ë‹ˆë©”ì´ì…˜ì´ë‚˜ ì„ íƒëœ ì• ë‹ˆë©”ì´ì…˜ì´ ì—†ì„ ì‹œ ì• ë‹ˆë©”ì´ì…˜ ì‚¬ìš© ì„¤ì •ì„ í•´ì œí•˜ê³  return
     CGameObject* pOwner = GetOwner();
 
-    //±âÁ¸ÀÇ ÇÃ·¡±×°ªÀ» ¹Þ¾Æ¿Í¼­ ÇÃ·¡±×¸¦ ²¨ ÁØµÚ µ¥ÀÌÅÍ¸¦ ´Ù½Ã ¼³Á¤ÇØÁØ´Ù.
+    //ê¸°ì¡´ì˜ í”Œëž˜ê·¸ê°’ì„ ë°›ì•„ì™€ì„œ í”Œëž˜ê·¸ë¥¼ êº¼ ì¤€ë’¤ ë°ì´í„°ë¥¼ ë‹¤ì‹œ ì„¤ì •í•´ì¤€ë‹¤.
     int iAnimFlag = pOwner->GetMtrlScalarParam_Int(MTRL_SCALAR_STD2D_FLAG);
     if (nullptr == m_pCurAnim)
     {
@@ -178,7 +178,7 @@ void CAnimator2D::UpdateData()
         return;
     }
 
-    //ÇÃ·¡±×°ª Ãß°¡ ¹× ¼³Á¤
+    //í”Œëž˜ê·¸ê°’ ì¶”ê°€ ë° ì„¤ì •
     iAnimFlag |= (int)eMTRL_SCALAR_STD2D_FLAG::USE_ANIM;
 
     if (Vec2(0.5f, 0.5f) != m_pCurAnim->vPivot)
@@ -196,7 +196,7 @@ void CAnimator2D::UpdateData()
     pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
  
 
-    //¾Ö´Ï¸ÞÀÌ¼ÇÀÇ UV Á¤º¸¸¦ ¹Þ¾Æ¿È.
+    //ì• ë‹ˆë©”ì´ì…˜ì˜ UV ì •ë³´ë¥¼ ë°›ì•„ì˜´.
     const tAnimFrameUV& frameuv = m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameUVData(m_uCalculatedIdx);
 
     pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP, &(frameuv.LeftTopUV));
@@ -220,14 +220,14 @@ void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
     {
         const tAnimFrameIdx* curanim = m_arrAtlasTex[m_iCurAtlasTexIdx]->FindAnim2D(_strAnimName);
 
-        //°°Àº ¾Ö´Ï¸ÞÀÌ¼ÇÀÏ °æ¿ì ¹Ù²ÙÁö ¾ÊÀ½
+        //ê°™ì€ ì• ë‹ˆë©”ì´ì…˜ì¼ ê²½ìš° ë°”ê¾¸ì§€ ì•ŠìŒ
         if (curanim == m_pCurAnim)
             return;
 
         m_pCurAnim = curanim;
     }
 
-    //À§¿¡¼­ ¸øÃ£¾ÒÀ» °æ¿ì ÀüÃ¼ ¼øÈ¸µ¹¸é¼­ Ã£¾Æº½
+    //ìœ„ì—ì„œ ëª»ì°¾ì•˜ì„ ê²½ìš° ì „ì²´ ìˆœíšŒëŒë©´ì„œ ì°¾ì•„ë´„
     if (nullptr == m_pCurAnim)
     {
         for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
@@ -245,7 +245,7 @@ void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
         }
     }
 
-    //Àç»ý ÁØºñ
+    //ìž¬ìƒ ì¤€ë¹„
     if (nullptr != m_pCurAnim)
     {
         m_eLoopMode = _eLoopMode;
@@ -289,39 +289,39 @@ void CAnimator2D::UpdateAtlasTexToMtrl()
 
 void CAnimator2D::CalculateDirectionalColHalfFlipAtlas()
 {
-    //¹æÇâÀÇ °¹¼ö¸¦ ±¸ÇÑ´Ù. 12½Ã ¹æÇâ°ú 6½Ã ¹æÇâÀº flipÇÒ ½Ã Áßº¹µÇ¹Ç·Î 2¸¦ •ûÁØ´Ù.
+    //ë°©í–¥ì˜ ê°¯ìˆ˜ë¥¼ êµ¬í•œë‹¤. 12ì‹œ ë°©í–¥ê³¼ 6ì‹œ ë°©í–¥ì€ flipí•  ì‹œ ì¤‘ë³µë˜ë¯€ë¡œ 2ë¥¼ Â•å¼§å¨©?
     int NumDirection = m_pCurAnim->uColTotal * 2 - 2;
     
-    ////¶óµð¾È ±âÁØ ÇÑ¹ÙÄû(2PI)¿¡¼­ ¹æÇâÀÇ °¹¼ö¸¸Å­ ³ª´²ÁØ´Ù. ÇÑ ¹æÇâ´ç °¢µµÀÌ´Ù.
+    ////ë¼ë””ì•ˆ ê¸°ì¤€ í•œë°”í€´(2PI)ì—ì„œ ë°©í–¥ì˜ ê°¯ìˆ˜ë§Œí¼ ë‚˜ëˆ ì¤€ë‹¤. í•œ ë°©í–¥ë‹¹ ê°ë„ì´ë‹¤.
     float fAngleSlice = XM_2PI / (float)NumDirection;
 
-    //ÇöÀç zÃà È¸Àü °¢µµ¸¦ ¹Þ¾Æ¿Í¼­ 360µµ(2PI)·Î ³ª´« ³ª¸ÓÁö¸¦ ±¸ÇØÁØ´Ù.
-    //12½Ã ±âÁØÀÌ°í, À½¼ö´Â 11½Ã ¹æÇâ 360µµ, ¾ç¼ö´Â 1½Ã ¹æÇâ 360µµ¸¦ ÀÇ¹ÌÇÑ´Ù.
+    //í˜„ìž¬ zì¶• íšŒì „ ê°ë„ë¥¼ ë°›ì•„ì™€ì„œ 360ë„(2PI)ë¡œ ë‚˜ëˆˆ ë‚˜ë¨¸ì§€ë¥¼ êµ¬í•´ì¤€ë‹¤.
+    //12ì‹œ ê¸°ì¤€ì´ê³ , ìŒìˆ˜ëŠ” 11ì‹œ ë°©í–¥ 360ë„, ì–‘ìˆ˜ëŠ” 1ì‹œ ë°©í–¥ 360ë„ë¥¼ ì˜ë¯¸í•œë‹¤.
     float angle = fmodf(-Transform()->GetRelativeRot().z, XM_2PI);
 
-    //°¢µµ°¡ À½¼öÀÏ °æ¿ì(¹Ý½Ã°è¹æÇâ È¸ÀüÀÏ °æ¿ì) 2PI¿¡¼­ »©¼­(angleÀÌ À½¼öÀÌ¹Ç·Î ´õÇØÁÖ¸é µÊ) ¾ç¼ö ±âÁØÀ¸·Î ¹Ù²ãÁØ´Ù.
-    //ÀÌ·¯¸é 0 ~ 360µµ ¹üÀ§°¡ 0 ~ 2PI ¹üÀ§·Î ¹Ù²î°Ô µÈ´Ù.
+    //ê°ë„ê°€ ìŒìˆ˜ì¼ ê²½ìš°(ë°˜ì‹œê³„ë°©í–¥ íšŒì „ì¼ ê²½ìš°) 2PIì—ì„œ ë¹¼ì„œ(angleì´ ìŒìˆ˜ì´ë¯€ë¡œ ë”í•´ì£¼ë©´ ë¨) ì–‘ìˆ˜ ê¸°ì¤€ìœ¼ë¡œ ë°”ê¿”ì¤€ë‹¤.
+    //ì´ëŸ¬ë©´ 0 ~ 360ë„ ë²”ìœ„ê°€ 0 ~ 2PI ë²”ìœ„ë¡œ ë°”ë€Œê²Œ ëœë‹¤.
     if (angle < 0.f)
         angle = XM_2PI + angle;
     
-    //±¸ÇØÁø angle¿¡¼­ ¹æÇâÀÇ °¹¼ö¸¸Å­ ³ª´²ÁÖ¸é, ÀÎµ¦½º ¹øÈ£ÀÇ float°ªÀÌ ³ª¿À°Ô µÈ´Ù.
+    //êµ¬í•´ì§„ angleì—ì„œ ë°©í–¥ì˜ ê°¯ìˆ˜ë§Œí¼ ë‚˜ëˆ ì£¼ë©´, ì¸ë±ìŠ¤ ë²ˆí˜¸ì˜ floatê°’ì´ ë‚˜ì˜¤ê²Œ ëœë‹¤.
     angle /= fAngleSlice;
 
-    //fabsf()¸¦ ÇØÁØ °ªÀ» ¹Ý¿Ã¸²ÇØÁØ´Ù. ±×·¯¸é 12½Ã ¹æÇâÀÌ º¸Á¤µÈ´Ù.
+    //fabsf()ë¥¼ í•´ì¤€ ê°’ì„ ë°˜ì˜¬ë¦¼í•´ì¤€ë‹¤. ê·¸ëŸ¬ë©´ 12ì‹œ ë°©í–¥ì´ ë³´ì •ëœë‹¤.
     angle = roundf(fabsf(angle));
 
-    //angle¿¡ ÇöÀç ¹æÇâÀÇ °¹¼ö(uColTotal)À» °öÇØ ÁÖ¸é ¾ÆÆ²¶ó½º¿¡ µû¸¥ ¹æÇâÀ» ±¸ÇÒ ¼ö ÀÖ´Ù
+    //angleì— í˜„ìž¬ ë°©í–¥ì˜ ê°¯ìˆ˜(uColTotal)ì„ ê³±í•´ ì£¼ë©´ ì•„í‹€ë¼ìŠ¤ì— ë”°ë¥¸ ë°©í–¥ì„ êµ¬í•  ìˆ˜ ìžˆë‹¤
 
-    //ÀÌ °ªÀ» Á¤¼ö·Î ¹Ù²Û´Ù.
+    //ì´ ê°’ì„ ì •ìˆ˜ë¡œ ë°”ê¾¼ë‹¤.
     UINT idx = (UINT)angle;
 
-    //ÇöÀç ÀÎµ¦½º°¡ ¹ÝÀ» ³Ñ¾î°¥ °æ¿ì ¹ÝÀ» »©ÁÖ°í flip »óÅÂ¸¦ true·Î º¯°æÇÑ´Ù.
+    //í˜„ìž¬ ì¸ë±ìŠ¤ê°€ ë°˜ì„ ë„˜ì–´ê°ˆ ê²½ìš° ë°˜ì„ ë¹¼ì£¼ê³  flip ìƒíƒœë¥¼ trueë¡œ ë³€ê²½í•œë‹¤.
 
     if (idx >= m_pCurAnim->uColTotal)
     {
         idx = NumDirection - idx;
 
-        //12½Ã ¹æÇâ°ú 6½Ã ¹æÇâ ½ºÇÁ¶óÀÌÆ®´Â ÇÃ¸³ÇÏÁö ¾ÊÀ½.
+        //12ì‹œ ë°©í–¥ê³¼ 6ì‹œ ë°©í–¥ ìŠ¤í”„ë¼ì´íŠ¸ëŠ” í”Œë¦½í•˜ì§€ ì•ŠìŒ.
         //if (idx == m_pCurAnim->uColTotal - 1u || idx == 0)
         //    m_bFlipX = false;
         //else

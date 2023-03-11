@@ -140,8 +140,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)
-call "CodeGenerator_$(Configuration).exe" Engine
+      <Command>
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -175,8 +174,7 @@ call Copy_Engine.bat</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)
-call "CodeGenerator_$(Configuration).exe" Engine
+      <Command>
 </Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -249,7 +247,6 @@ call Copy_Engine.bat</Command>
     <ClInclude Include="ptr.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="struct.h" />
-    <ClInclude Include="헤더.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnim2DAtlas.cpp" />

@@ -30,16 +30,16 @@ void CMeshRender::finaltick()
 
 bool CMeshRender::render()
 {	
-	//ÀÌ¹ø¿¡ Ãâ·ÂµÉ Ä«¸Þ¶ó ÀÎµ¦½º¸¦ ÀÚ½ÅÀÇ Scalar Data¿¡ µî·Ï
+	//ì´ë²ˆì— ì¶œë ¥ë  ì¹´ë©”ë¼ ì¸ë±ìŠ¤ë¥¼ ìžì‹ ì˜ Scalar Dataì— ë“±ë¡
 	CGameObject* pOwner = GetOwner();
 
-	//¸Þ½¬¿Í ÀçÁú µÑ Áß ÇÏ³ª¶óµµ ¾øÀ» °æ¿ì ¾Æ¿¹ ¿©±â¿¡ µé¾î¿ÀÁö ¾ÊÀ¸¹Ç·Î µû·Î °Ë»çÇØ ÁÙ ÇÊ¿ä ¾øÀ½.
+	//ë©”ì‰¬ì™€ ìž¬ì§ˆ ë‘˜ ì¤‘ í•˜ë‚˜ë¼ë„ ì—†ì„ ê²½ìš° ì•„ì˜ˆ ì—¬ê¸°ì— ë“¤ì–´ì˜¤ì§€ ì•Šìœ¼ë¯€ë¡œ ë”°ë¡œ ê²€ì‚¬í•´ ì¤„ í•„ìš” ì—†ìŒ.
 	Ptr<CMesh> pmesh = GetMesh();
 	Ptr<CMaterial> pmtrl = GetCurMaterial();
 
 
-	//ÀçÁú¿¡ ÀÚ½ÅÀÇ Mtrl Scalar Data¸¦ µî·ÏÇØ ³õ°í ¸¸¾à Á¤Á¡ °¹¼ö°¡ 6°³(Rect )º¸´Ù ¸¹´Ù¸é
-	//ÇÃ·¡±×¸¦ ÄÑÁÖ°í WVP Çà·Ä ÇüÅÂ·Î Àü¼ÛÇÑ´Ù.
+	//ìž¬ì§ˆì— ìžì‹ ì˜ Mtrl Scalar Dataë¥¼ ë“±ë¡í•´ ë†“ê³  ë§Œì•½ ì •ì  ê°¯ìˆ˜ê°€ 6ê°œ(Rect )ë³´ë‹¤ ë§Žë‹¤ë©´
+	//í”Œëž˜ê·¸ë¥¼ ì¼œì£¼ê³  WVP í–‰ë ¬ í˜•íƒœë¡œ ì „ì†¡í•œë‹¤.
 	if (6 < pmesh->GetIdxBufferCount())
 	{
 		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, false);
@@ -55,15 +55,15 @@ bool CMeshRender::render()
 
 
 
-	//ÀÎ½ºÅÏ½ÌÀÌ ¼³Á¤µÇ¾îÀÖÀ» °æ¿ì(°øÀ¯ ÀçÁúÀ» »ç¿ëÁßÀÏ °æ¿ì)
+	//ì¸ìŠ¤í„´ì‹±ì´ ì„¤ì •ë˜ì–´ìžˆì„ ê²½ìš°(ê³µìœ  ìž¬ì§ˆì„ ì‚¬ìš©ì¤‘ì¼ ê²½ìš°)
 	if (true == GetCurMaterial()->GetInstencedRender())
 	{
 
-		//2D±îÁö´Â ¿ì¼± W¿Í VP¸¦ ºÐ¸®ÇØ¼­ Àü´Þ
-		//Ä«¸Þ¶ó °ü·Ã Çà·ÄÀº »ó¼ö¹öÆÛ¸¦ ÅëÇØ¼­ Àü´ÞµÇ¾ú±â ¶§¹®¿¡ ¿©±â¼­ ¾÷µ¥ÀÌÆ®ÇØÁÙ ÇÊ¿ä°¡ ¾ø¾îÁü
+		//2Dê¹Œì§€ëŠ” ìš°ì„  Wì™€ VPë¥¼ ë¶„ë¦¬í•´ì„œ ì „ë‹¬
+		//ì¹´ë©”ë¼ ê´€ë ¨ í–‰ë ¬ì€ ìƒìˆ˜ë²„í¼ë¥¼ í†µí•´ì„œ ì „ë‹¬ë˜ì—ˆê¸° ë•Œë¬¸ì— ì—¬ê¸°ì„œ ì—…ë°ì´íŠ¸í•´ì¤„ í•„ìš”ê°€ ì—†ì–´ì§
 		
 
-		//3D°¡¸é ÀÌ·¸°Ô ¹Ù²ãÁÙ°Í(ÀçÁú¿¡¼­ ½¦ÀÌ´õ¿¡ ÇÊ¿äÇÑ Çà·Ä¸¸ °ñ¶ó¼­ ¹ÞÀ»¼öÀÖµµ·Ï ¼³Á¤ÇØÁÙ°Í.)
+		//3Dê°€ë©´ ì´ë ‡ê²Œ ë°”ê¿”ì¤„ê²ƒ(ìž¬ì§ˆì—ì„œ ì‰ì´ë”ì— í•„ìš”í•œ í–‰ë ¬ë§Œ ê³¨ë¼ì„œ ë°›ì„ìˆ˜ìžˆë„ë¡ ì„¤ì •í•´ì¤„ê²ƒ.)
 		//const Matrix& matWVP = pOwner->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD) * g_matCam.matWVP;
 		//pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_WVP, matWVP.m);
 		
@@ -77,26 +77,26 @@ bool CMeshRender::render()
 
 		pmtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 
-		//false¸¦ ¹ÝÈ¯ÇØ¼­ µå·Î¿ìÄÝÀ» ÇÏÁö ¾Ê¾ÒÀ½À» Àü´ÞÇÑ´Ù.
+		//falseë¥¼ ë°˜í™˜í•´ì„œ ë“œë¡œìš°ì½œì„ í•˜ì§€ ì•Šì•˜ìŒì„ ì „ë‹¬í•œë‹¤.
 		return false;
 	}
 
-	else//°³º° °íÀ¯ ÀçÁúÀ» »ç¿ëÁßÀÏ °æ¿ì
+	else//ê°œë³„ ê³ ìœ  ìž¬ì§ˆì„ ì‚¬ìš©ì¤‘ì¼ ê²½ìš°
 	{
-		//¿©±â¼­´Â Ä«¸Þ¶ó µ¥ÀÌÅÍ¸¦ µû·Î °è»êÇÒ ÇÊ¿ä ¾øÀ½ - »ó¼ö¹öÆÛ¿¡ ¹ÙÀÎµùµÇ¾î ÀÖÀ½.
-		//¿©±âµµ ³ªÁß¿¡ 3DµÇ¸é ¹Ù²ãÁÙ°Í
+		//ì—¬ê¸°ì„œëŠ” ì¹´ë©”ë¼ ë°ì´í„°ë¥¼ ë”°ë¡œ ê³„ì‚°í•  í•„ìš” ì—†ìŒ - ìƒìˆ˜ë²„í¼ì— ë°”ì¸ë”©ë˜ì–´ ìžˆìŒ.
+		//ì—¬ê¸°ë„ ë‚˜ì¤‘ì— 3Dë˜ë©´ ë°”ê¿”ì¤„ê²ƒ
 
 
-		//ÀçÁú¿¡ BindData ¿äÃ» - ÀçÁú »ó¼ö¹öÆÛ°¡ ¹ÙÀÎµùµÊ.
+		//ìž¬ì§ˆì— BindData ìš”ì²­ - ìž¬ì§ˆ ìƒìˆ˜ë²„í¼ê°€ ë°”ì¸ë”©ë¨.
 		pmtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 		pmtrl->BindData();
 
-		// ¸Þ½¬ ±×¸®±â ¸í·É
+		// ë©”ì‰¬ ê·¸ë¦¬ê¸° ëª…ë ¹
 		UINT InstancingCount = pmtrl->GetInstancingCount();
 
 		pmesh->renderInstanced(InstancingCount);
 		
-		//true¸¦ ¹ÝÈ¯ÇØ¼­ ÀÎ½ºÅÏ½ÌÀÌ ÇÊ¿äÇÏÁö ¾Ê´Ù°í Àü´Þ
+		//trueë¥¼ ë°˜í™˜í•´ì„œ ì¸ìŠ¤í„´ì‹±ì´ í•„ìš”í•˜ì§€ ì•Šë‹¤ê³  ì „ë‹¬
 		return true;
 	}
 }

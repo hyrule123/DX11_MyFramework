@@ -30,7 +30,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	m_VtxCount = _iVtxCount;
 	m_IdxCount = _IdxCount;
 
-	// SystemMem µ•¿Ã≈Õ ∫πªÁ
+	// SystemMem Îç∞Ïù¥ÌÑ∞ Î≥µÏÇ¨
 	m_pVtxSys = new Vtx[m_VtxCount];
 	memcpy(m_pVtxSys, _VtxSysMem, sizeof(Vtx) * m_VtxCount);
 
@@ -38,7 +38,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	memcpy(m_pIdxSys, _IdxSysMem, sizeof(UINT) * m_IdxCount);
 	
 
-	// Vertex πˆ∆€ ª˝º∫
+	// Vertex Î≤ÑÌçº ÏÉùÏÑ±
 	m_tVBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
 	m_tVBDesc.CPUAccessFlags = 0;
 	m_tVBDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -51,7 +51,7 @@ void CMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 		assert(nullptr);
 	}
 
-	// Index πˆ∆€ ª˝º∫
+	// Index Î≤ÑÌçº ÏÉùÏÑ±
 	m_tIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 	m_tIBDesc.CPUAccessFlags = 0;
 	m_tIBDesc.Usage = D3D11_USAGE_DEFAULT;	

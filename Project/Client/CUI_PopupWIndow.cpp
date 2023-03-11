@@ -19,35 +19,35 @@ bool CUI_PopupWindow::beginUI()
 {
 
 
-	////ºÎ¸ð UI ÁÖ¼Ò°¡ ¾øÀ» °æ¿ì, Áï ÀÚ½ÅÀÌ ÃÖ»ó´Ü °èÃþÀÇ UIÀÏ °æ¿ì
+	////ë¶€ëª¨ UI ì£¼ì†Œê°€ ì—†ì„ ê²½ìš°, ì¦‰ ìžì‹ ì´ ìµœìƒë‹¨ ê³„ì¸µì˜ UIì¼ ê²½ìš°
 //if (nullptr == m_ParentUI)
 //{
-//	//¸ð´Þ¸®½º Ã¢ÀÏ °æ¿ì(ÀÌ UI°¡ ¿­·Á ÀÖ¾îµµ ´Ù¸¥ UI ¸¦ »ç¿ëÇÒ ¼ö ÀÖÀ» °æ¿ì)
+//	//ëª¨ë‹¬ë¦¬ìŠ¤ ì°½ì¼ ê²½ìš°(ì´ UIê°€ ì—´ë ¤ ìžˆì–´ë„ ë‹¤ë¥¸ UI ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìžˆì„ ê²½ìš°)
 //	if (false == m_bModal)
 //	{
-//		//°¡Àå ÀÏ¹ÝÀûÀÎ Begin ÇÔ¼ö¸¦ ÀÌ¿ëÇØ¼­ Ã¢À» »ý¼ºÇÑ´Ù.
+//		//ê°€ìž¥ ì¼ë°˜ì ì¸ Begin í•¨ìˆ˜ë¥¼ ì´ìš©í•´ì„œ ì°½ì„ ìƒì„±í•œë‹¤.
 //		ImGui::Begin(strFullName.c_str(), &m_bActive);
 
 //		
 
-//		//ÀÚ½ÅÀÇ ±¸¼º À§Á¬µé¿¡ ´ëÇÑ ·»´õ¸µ ÀÛ¾÷À» ÁøÇàÇÏ°í
+//		//ìžì‹ ì˜ êµ¬ì„± ìœ„ì ¯ë“¤ì— ëŒ€í•œ ë Œë”ë§ ìž‘ì—…ì„ ì§„í–‰í•˜ê³ 
 //		render_update();
 
-//		//ÀÚ½Ä ±¸¼º ¿ä¼Òµé¿¡ ´ëÇÑ ¾÷µ¥ÀÌÆ®µµ ÁøÇàÇÑ´Ù.
+//		//ìžì‹ êµ¬ì„± ìš”ì†Œë“¤ì— ëŒ€í•œ ì—…ë°ì´íŠ¸ë„ ì§„í–‰í•œë‹¤.
 //		LoopChildFinaltick();
 
-//		//ÀÚ½ÅÀÌ Parent UI ÀÌ¹Ç·Î End()
+//		//ìžì‹ ì´ Parent UI ì´ë¯€ë¡œ End()
 //		ImGui::End();
 //	}
 
-//	//¸ð´Þ
+//	//ëª¨ë‹¬
 //	else
 //	{
 
 //	}
 //}
 
-////ÀÚ½ÅÀÌ ÀÚ½Ä UIÀÏ °æ¿ì
+////ìžì‹ ì´ ìžì‹ UIì¼ ê²½ìš°
 //else
 //{
 //	ImGui::BeginChild(strFullName.c_str(), m_vSize);

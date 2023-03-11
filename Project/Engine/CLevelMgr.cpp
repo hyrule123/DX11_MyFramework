@@ -16,13 +16,13 @@
 //Camera Register
 #include "CRenderMgr.h"
 
-//Ãæµ¹ ·¹ÀÌ¾î µî·Ï ¹× Ã¼Å©¿ë
+//ì¶©ëŒ ë ˆì´ì–´ ë“±ë¡ ë° ì²´í¬ìš©
 #include "CCollisionMgr.h"
 
-//Å¸ÀÏ¸Ê
+//íƒ€ì¼ë§µ
 #include "CTilemap.h"
 
-//ÄÄÇ»Æ®½¦ÀÌ´õ Å×½ºÆ®
+//ì»´í“¨íŠ¸ì‰ì´ë” í…ŒìŠ¤íŠ¸
 #include "CCS_SetColor.h"
 
 #include "CParticleSystem.h"

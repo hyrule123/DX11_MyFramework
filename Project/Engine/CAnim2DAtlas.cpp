@@ -41,7 +41,7 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal)
 	float RowSliceUV = 1.f / (float)_uRowTotal;
 	float ColSliceUV = 1.f / (float)_uColTotal;
 
-	//Left TopºÎÅÍ ¿­ ¼ø¼­´ë·Î ÀúÀå
+	//Left Topë¶€í„° ì—´ ìˆœì„œëŒ€ë¡œ ì €ìž¥
 	for (UINT Col = 0; Col < _uColTotal; ++Col)
 	{
 		for (UINT Row = 0; Row < _uRowTotal; ++Row)
@@ -65,7 +65,7 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStar
 	UINT colend = _uColStart + _uColPitch;
 	UINT rowend = _uRowStart + _uRowPitch;
 
-	//Á¶°Ç È®ÀÎ
+	//ì¡°ê±´ í™•ì¸
 	assert(
 		0u < _uColPitch
 		&& 0u < _uRowPitch
@@ -80,11 +80,11 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStar
 	m_uColTotal = colend - _uColStart;
 	m_uRowTotal = rowend - _uRowStart;
 
-	//½½¶óÀÌ½º¸¦ ±¸ÇØÁØ´Ù
+	//ìŠ¬ë¼ì´ìŠ¤ë¥¼ êµ¬í•´ì¤€ë‹¤
 	float RowSliceUV = 1.f / (float)_uRowTotal;
 	float ColSliceUV = 1.f / (float)_uColTotal;
 
-	//Left TopºÎÅÍ ¿­ ¼ø¼­´ë·Î ÀúÀå
+	//Left Topë¶€í„° ì—´ ìˆœì„œëŒ€ë¡œ ì €ìž¥
 	for (UINT Col = _uColStart; Col < colend; ++Col)
 	{
 		for (UINT Row = _uRowStart; Row < rowend; ++Row)
@@ -108,7 +108,7 @@ void CAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, U
 	UINT colend = 17u;
 	UINT rowend = _uRowStart + _uRowPitch;
 
-	//Á¶°Ç È®ÀÎ
+	//ì¡°ê±´ í™•ì¸
 	assert(
 		0u < _uRowPitch
 		&& _uRowStart <= rowend
@@ -119,12 +119,12 @@ void CAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, U
 
 	m_uRowTotal = rowend - _uRowStart;
 
-	//½½¶óÀÌ½º¸¦ ±¸ÇØÁØ´Ù
+	//ìŠ¬ë¼ì´ìŠ¤ë¥¼ êµ¬í•´ì¤€ë‹¤
 	float RowSliceUV = 1.f / (float)_uRowTotal;
 	float ColSliceUV = 1.f / (float)colend;
 
-	//Left TopºÎÅÍ ¿­ ¼ø¼­´ë·Î ÀúÀå
-	//ColÀº 2´ÜÀ§·Î Áõ°¡
+	//Left Topë¶€í„° ì—´ ìˆœì„œëŒ€ë¡œ ì €ìž¥
+	//Colì€ 2ë‹¨ìœ„ë¡œ ì¦ê°€
 	for (UINT Col = 0u; Col < colend; Col = Col + 2u)
 	{
 		for (UINT Row = _uRowStart; Row < rowend; ++Row)
@@ -203,7 +203,7 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStar
 	UINT colend = _uColStart + _uColPitch;
 	UINT rowend = _uRowStart + _uRowPitch;
 
-	//¿¡·¯ °Ë»ç - ÇàÀÇ ¼ö°¡ ³ª´² ¶³¾îÁ®¾ß ÇÔ
+	//ì—ëŸ¬ ê²€ì‚¬ - í–‰ì˜ ìˆ˜ê°€ ë‚˜ëˆ  ë–¨ì–´ì ¸ì•¼ í•¨
 	assert(
 			0u < _uColPitch
 		&& 0u < _uRowPitch

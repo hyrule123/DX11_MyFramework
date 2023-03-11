@@ -19,7 +19,7 @@ public:
     virtual void UnBindCS() override;
 
 private:
-    //¾Æ·¡ ¹öÆÛµéÀ» ¼ÒÀ¯ÇÑ ÄÄÆ÷³ÍÆ®ÀÇ ÁÖ¼Òµµ ¹Ş¾Æ³õ´Â´Ù.
+    //ì•„ë˜ ë²„í¼ë“¤ì„ ì†Œìœ í•œ ì»´í¬ë„ŒíŠ¸ì˜ ì£¼ì†Œë„ ë°›ì•„ë†“ëŠ”ë‹¤.
     CParticleSystem* m_pBufferOwner;
     CStructBuffer* m_pSBuffer_Transform;
     CStructBuffer* m_pSBufferRW_Shared;

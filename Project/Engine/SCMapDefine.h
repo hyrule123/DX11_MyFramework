@@ -1,6 +1,6 @@
 #pragma once
 
-//¸Ê ·Îµù¿ë ÄÄÇ»Æ®½¦ÀÌ´õ ¹× Tilemap ÄÄÇ»Æ®½¦ÀÌ´õ¿¡¼­ °øÀ¯ÇÏ´Â ±¸Á¶Ã¼µéÀ» ÀúÀåÇØ³õ´Â ¿ëµµÀÇ Çì´õ
+//ë§µ ë¡œë”©ìš© ì»´í“¨íŠ¸ì‰ì´ë” ë° Tilemap ì»´í“¨íŠ¸ì‰ì´ë”ì—ì„œ ê³µìœ í•˜ëŠ” êµ¬ì¡°ì²´ë“¤ì„ ì €ìž¥í•´ë†“ëŠ” ìš©ë„ì˜ í—¤ë”
 
 #include "ptr.h"
 class CTexture;
@@ -45,7 +45,7 @@ struct tpSBufferTileSet
 
 
 
-//¸Êµ¥ÀÌÅÍ·ÎºÎÅÍ ·ÎµåÇØ¾ßÇÏ´Â µ¥ÀÌÅÍµéÀÇ ÇÃ·¡±×
+//ë§µë°ì´í„°ë¡œë¶€í„° ë¡œë“œí•´ì•¼í•˜ëŠ” ë°ì´í„°ë“¤ì˜ í”Œëž˜ê·¸
 enum class eSCMAP_DATA_TYPE
 {
     TERRAIN,

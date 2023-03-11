@@ -13,7 +13,7 @@
 
 #include "CTimeMgr.h"
 
-//»ó¼ö¹öÆÛ »ı¼º¿ë
+//ìƒìˆ˜ë²„í¼ ìƒì„±ìš©
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
@@ -31,7 +31,7 @@ CParticleSystem::CParticleSystem()
 	UINT ShaderTarget = eSHADER_PIPELINE_STAGE::__GEOMETRY | eSHADER_PIPELINE_STAGE::__PIXEL;
 	m_pSBufferRW_ParticleTransform = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, ShaderTarget, eCBUFFER_SBUFFER_SHAREDATA_IDX::PARTICLE, e_t_SBUFFER_PARTICLE_TRANSFORM, e_u_PARTICLE_SBUFFERRW });
 
-	//ÄÄÇ»Æ®½¦ÀÌ´õ Àü¿ë
+	//ì»´í“¨íŠ¸ì‰ì´ë” ì „ìš©
 	m_pSBufferRW_Shared = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__NONE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,e_t_SRV_NONE, e_u_PARTICLE_SBUFFERRW_SHAREDATA });
 }
 
@@ -50,16 +50,16 @@ void CParticleSystem::finaltick()
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
 		return;
 
-	//¹öÆÛ ¹ÙÀÎµùÀº ½¦ÀÌ´õ Å¬·¡½º¿¡¼­ ÀÏ°ıÀûÀ¸·Î ÁøÇàÇÔ.
-	//¿©±â´Â µ¥ÀÌÅÍ ¾÷·Îµå¸¸ ´ã´ç.
+	//ë²„í¼ ë°”ì¸ë”©ì€ ì‰ì´ë” í´ë˜ìŠ¤ì—ì„œ ì¼ê´„ì ìœ¼ë¡œ ì§„í–‰í•¨.
+	//ì—¬ê¸°ëŠ” ë°ì´í„° ì—…ë¡œë“œë§Œ ë‹´ë‹¹.
 
-	//¸ğµâµ¥ÀÌÅÍ Àü¼Û
+	//ëª¨ë“ˆë°ì´í„° ì „ì†¡
 	static CConstBuffer* const s_CBuffer_ModuleData = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_PARTICLE_MODULEDATA);
 	s_CBuffer_ModuleData->UploadData(&m_tModuleData);
 	//s_CBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE::__ALL);
 
 
-	//¸î°³ ½ºÆùÇÒÁö Á¤º¸¸¦ SharedRW ¹öÆÛ¿¡ ´ã¾Æ¼­ Àü¼Û
+	//ëª‡ê°œ ìŠ¤í°í• ì§€ ì •ë³´ë¥¼ SharedRW ë²„í¼ì— ë‹´ì•„ì„œ ì „ì†¡
 	float fSpawnCountPerTime = 1.f / (float)m_tModuleData.iSpawnRate;
 	m_AccTime += DELTA_TIME;
 
@@ -76,17 +76,17 @@ void CParticleSystem::finaltick()
 
 	m_pCSParticle->SetBuffers(this, m_pSBufferRW_ParticleTransform, m_pSBufferRW_Shared, s_CBuffer_ModuleData);
 
-	//ÆÄÆ¼Å¬ À§Ä¡Á¤º¸¸¦ °è»ê½ÃÅ´.
+	//íŒŒí‹°í´ ìœ„ì¹˜ì •ë³´ë¥¼ ê³„ì‚°ì‹œí‚´.
 	m_pCSParticle->Execute();
 
-	//·»´õ¸µÇÏ°í ³ª¸é PrevPos¸¦ ¾÷µ¥ÀÌÆ®
+	//ë Œë”ë§í•˜ê³  ë‚˜ë©´ PrevPosë¥¼ ì—…ë°ì´íŠ¸
 	m_tModuleData.vOwnerPrevWorldPos = m_tModuleData.vOwnerCurWorldPos;
 	m_tModuleData.vOwnerCurWorldPos = Transform()->GetWorldPos();
 }
 
 bool CParticleSystem::render()
 {
-	//true ¹İÈ¯ÇØ¼­ ÀÎ½ºÅÏ½Ì ÇÊ¿ä¾ø´Ù°í Àü´Ş
+	//true ë°˜í™˜í•´ì„œ ì¸ìŠ¤í„´ì‹± í•„ìš”ì—†ë‹¤ê³  ì „ë‹¬
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
 		return true;
 
@@ -101,7 +101,7 @@ bool CParticleSystem::render()
 
 	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
 
-	//µå·Î¿ìÄİÀÌ ¹ß»ıÇßÀ¸¹Ç·Î -> ÀÎ½ºÅÏ½Ì ÇÊ¿ä ¾ø´Ù°í ¹İÈ¯
+	//ë“œë¡œìš°ì½œì´ ë°œìƒí–ˆìœ¼ë¯€ë¡œ -> ì¸ìŠ¤í„´ì‹± í•„ìš” ì—†ë‹¤ê³  ë°˜í™˜
 	return true;
 }
 
@@ -115,7 +115,7 @@ void CParticleSystem::CreateParticle()
 
 	m_tModuleData.iMaxParticleCount = 200;
 
-	//ÆÄÆ¼Å¬À» Ã³¸®ÇÒ ¹öÆÛ »ı¼º
+	//íŒŒí‹°í´ì„ ì²˜ë¦¬í•  ë²„í¼ ìƒì„±
 	m_pSBufferRW_ParticleTransform->Create(sizeof(tParticleTransform), m_tModuleData.iMaxParticleCount, nullptr, 0u);
 
 	m_tModuleData.bModule_Spawn = TRUE;
@@ -129,7 +129,7 @@ void CParticleSystem::CreateParticle()
 
 	m_tModuleData.eSpawnShapeType = 0;
 	m_tModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);
-	m_tModuleData.bFollowing = 0; // ½Ã¹Ä·¹ÀÌ¼Ç ÁÂÇ¥°è
+	m_tModuleData.bFollowing = 0; // ì‹œë®¬ë ˆì´ì…˜ ì¢Œí‘œê³„
 
 	m_tModuleData.fMinLifeTime = 3.f;
 	m_tModuleData.fMaxLifeTime = 5.f;
@@ -161,10 +161,10 @@ void CParticleSystem::CreateParticle()
 	m_tModuleData.fGravity = 9.8f;
 
 
-	//³ëÀÌÁî ÅØ½ºÃ³ ÁöÁ¤
+	//ë…¸ì´ì¦ˆ í…ìŠ¤ì²˜ ì§€ì •
 
 
-	//°øÀ¯ µ¥ÀÌÅÍ ±¸Á¶È­ ¹öÆÛ »ı¼º
+	//ê³µìœ  ë°ì´í„° êµ¬ì¡°í™” ë²„í¼ ìƒì„±
 	tParticleShareData rwbuffer = { (int)0, CTimeMgr::GetInst()->GetRandom(), CTimeMgr::GetInst()->GetRandom(), };
 
 

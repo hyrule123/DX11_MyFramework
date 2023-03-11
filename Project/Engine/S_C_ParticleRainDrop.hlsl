@@ -67,11 +67,11 @@ void CS_Particle_RainDrop( uint3 dtID : SV_DispatchThreadID )
 
 void PModule_Spawn(uint _uID)
 {
-    // ÆÄÆ¼Å¬ÀÌ ºñÈ°¼ºÈ­ »óÅÂÀÎ °æ¿ì µµ·Î »ì·Á³»´Â ÀÛ¾÷ ½ÃÀÛ
+    // íŒŒí‹°í´ì´ ë¹„í™œì„±í™” ìƒíƒœì¸ ê²½ìš° ë„ë¡œ ì‚´ë ¤ë‚´ëŠ” ìž‘ì—… ì‹œìž‘
 	if (FALSE == g_SBufferRW_ParticleTransform[_uID].bActive)
 	{
-        // SpawnCount ¸¦ È®ÀÎ
-        // ¸¸¾à SpawnCount °¡ 0 ÀÌ»óÀÌ¶ó¸é, ÆÄÆ¼Å¬À» È°¼ºÈ­½ÃÅ´      
+        // SpawnCount ë¥¼ í™•ì¸
+        // ë§Œì•½ SpawnCount ê°€ 0 ì´ìƒì´ë¼ë©´, íŒŒí‹°í´ì„ í™œì„±í™”ì‹œí‚´      
 		while (0 < g_SBufferRW_Particle_Shared[0].iSpawnCount)
 		{
 			int orgvalue = g_SBufferRW_Particle_Shared[0].iSpawnCount;
@@ -82,14 +82,14 @@ void PModule_Spawn(uint _uID)
 			{
 				g_SBufferRW_ParticleTransform[_uID].bActive = 1;
                     
-                // ·£´ý °á°ú¸¦ ¹ÞÀ» º¯¼ö
+                // ëžœë¤ ê²°ê³¼ë¥¼ ë°›ì„ ë³€ìˆ˜
 				const static float umax = float(0xffffffff);
 				float fRand1 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
 				float fRand2 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
 				float fRand3 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
                 
                     
-                // Box ½ºÆù
+                // Box ìŠ¤í°
 				if (g_CBuffer_ParticleModule.eSpawnShapeType == 0)
 				{
 					g_SBufferRW_ParticleTransform[_uID].vLocalPos.xyz = float3(g_CBuffer_ParticleModule.vBoxShapeScale.x * fRand1 - g_CBuffer_ParticleModule.vBoxShapeScale.x * 0.5f
@@ -98,7 +98,7 @@ void PModule_Spawn(uint _uID)
 					g_SBufferRW_ParticleTransform[_uID].vWorldPos.xyz = g_SBufferRW_ParticleTransform[_uID].vLocalPos.xyz + g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_OWNER_OBJ_POS.xyz;
                         
                         
-                        // ½ºÆù Å©±â ¹üÀ§³»¿¡¼­ ·£´ý Å©±â·Î ÁöÁ¤ (Min, Max °¡ ÀÏÄ¡ÇÏ¸é °íÁ¤Å©±â)
+                        // ìŠ¤í° í¬ê¸° ë²”ìœ„ë‚´ì—ì„œ ëžœë¤ í¬ê¸°ë¡œ ì§€ì • (Min, Max ê°€ ì¼ì¹˜í•˜ë©´ ê³ ì •í¬ê¸°)
 					float4 vSpawnScale = g_CBuffer_ParticleModule.vSpawnScaleMin + (g_CBuffer_ParticleModule.vSpawnScaleMax - g_CBuffer_ParticleModule.vSpawnScaleMin) * fRand3;
 					g_SBufferRW_ParticleTransform[_uID].vWorldScale.xyz = vSpawnScale.xyz;
 					
@@ -110,7 +110,7 @@ void PModule_Spawn(uint _uID)
 						
 
                    
-                // bModule_AddVelocity ¸ðµâ
+                // bModule_AddVelocity ëª¨ë“ˆ
 				if (TRUE == g_CBuffer_ParticleModule.bModule_AddVelocity)
 				{
 					//g_SBufferRW_ParticleTransform[_uID].vVelocity = normalize
@@ -125,7 +125,7 @@ void PModule_Spawn(uint _uID)
 				
 
                     
-                // Sphere ½ºÆù
+                // Sphere ìŠ¤í°
 				else if (g_CBuffer_ParticleModule.eSpawnShapeType == 1)
 				{
 					float fRadius = 500.f; //vOut1.r * 200.f;

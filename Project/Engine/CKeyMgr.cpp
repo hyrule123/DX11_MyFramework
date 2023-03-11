@@ -82,7 +82,7 @@ void CKeyMgr::tick()
 		{
 			if (GetAsyncKeyState(g_arrVK[(UINT)m_vecKey[i].key]) & 0x8000)
 			{
-				// ÀÌÀü¿¡´Â ´­¸®Áö ¾Ê¾Ò´Ù.
+				// ì´ì „ì—ëŠ” ëˆŒë¦¬ì§€ ì•Šì•˜ë‹¤.
 				if (false == m_vecKey[i].bPrev)
 				{
 					m_vecKey[i].state = eKEY_STATE::TAP;
@@ -90,13 +90,13 @@ void CKeyMgr::tick()
 				}
 				else
 				{
-					// Áö±İµµ ´­·ÁÀÖ°í, ÀÌÀü ÇÁ·¹ÀÓ¿¡¼­µµ ´­·ÁÀÖ¾ú´Ù.
+					// ì§€ê¸ˆë„ ëˆŒë ¤ìˆê³ , ì´ì „ í”„ë ˆì„ì—ì„œë„ ëˆŒë ¤ìˆì—ˆë‹¤.
 					m_vecKey[i].state = eKEY_STATE::PRESSED;
 				}
 			}
 			else
 			{
-				// ´­·ÁÀÖÁö ¾Ê´Ù.
+				// ëˆŒë ¤ìˆì§€ ì•Šë‹¤.
 				if (false == m_vecKey[i].bPrev)
 				{
 					m_vecKey[i].state = eKEY_STATE::NONE;
@@ -109,18 +109,18 @@ void CKeyMgr::tick()
 			}
 		}
 
-		// Mouse À§Ä¡ °»½Å. ÇöÀç À§Ä¡, ÀÌÀü À§Ä¡, ¸¶¿ì½º ¹æÇâ 3°¡Áö °è»ê
+		// Mouse ìœ„ì¹˜ ê°±ì‹ . í˜„ì¬ ìœ„ì¹˜, ì´ì „ ìœ„ì¹˜, ë§ˆìš°ìŠ¤ ë°©í–¥ 3ê°€ì§€ ê³„ì‚°
 		POINT ptMousePos = {};
 		GetCursorPos(&ptMousePos);		
 		ScreenToClient(CEngine::GetInst()->GetMainWnd(), &ptMousePos);
 		m_vPrevMousePos = m_vMousePos;
 		m_vMousePos = Vec2((float)ptMousePos.x, fabsf(g_GlobalVal.vResolution.y - (float)ptMousePos.y));
 		m_vMouseDir = m_vMousePos - m_vPrevMousePos;
-		//À©µµ¿ì Ã¢ ÁÂÇ¥°è¿Í DX ÁÂÇ¥°èÀÇ yÃàÀº ¼­·Î ¹İ´ëÀÌ¹Ç·Î
+		//ìœˆë„ìš° ì°½ ì¢Œí‘œê³„ì™€ DX ì¢Œí‘œê³„ì˜ yì¶•ì€ ì„œë¡œ ë°˜ëŒ€ì´ë¯€ë¡œ
 		//m_vMouseDir.y *= -1.f;
 	}
 
-	// Window °¡ focus »óÅÂ°¡ ¾Æ´Ï´Ù
+	// Window ê°€ focus ìƒíƒœê°€ ì•„ë‹ˆë‹¤
 	else
 	{
 		

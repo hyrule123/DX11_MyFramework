@@ -30,7 +30,7 @@ CScript_Player::~CScript_Player()
 
 void CScript_Player::init()
 {
-	//»ó¼ö¹öÆÛ¿¡ ÄÃ·¯Å°¸¦ Àü´Þ, ÇÈ¼¿ ½¦ÀÌ´õ¿¡ »ó¼ö¹öÆÛ°¡ Àü´ÞµÇµµ·Ï ¼³Á¤
+	//ìƒìˆ˜ë²„í¼ì— ì»¬ëŸ¬í‚¤ë¥¼ ì „ë‹¬, í”½ì…€ ì‰ì´ë”ì— ìƒìˆ˜ë²„í¼ê°€ ì „ë‹¬ë˜ë„ë¡ ì„¤ì •
 	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 }
 
@@ -41,7 +41,7 @@ void CScript_Player::tick()
 
 	bool RotUpdated = false;
 	bool PosUpdated = false;
-	//È¸Àü ¸ÕÀú Àû¿ëÇÏ°í
+	//íšŒì „ ë¨¼ì € ì ìš©í•˜ê³ 
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		vCurRot.z += DELTA_TIME * m_TurningForceRad;
@@ -54,7 +54,7 @@ void CScript_Player::tick()
 		RotUpdated = true;
 	}
 
-	//È¸ÀüÇÑ ¹æÇâÀ¸·Î ÀüÁø
+	//íšŒì „í•œ ë°©í–¥ìœ¼ë¡œ ì „ì§„
 	if (KEY_PRESSED(KEY::UP))
 	{
 		//Vec3 Dir = Transform()->GetWorldDir(eDIR_TYPE::RIGHT);

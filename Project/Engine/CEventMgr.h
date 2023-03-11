@@ -10,8 +10,8 @@ class CEventMgr :
 private:
     vector<tEvent> m_vecEvent;
 
-    //»èÁ¦ ´ë±â¿­
-    //´Ù¸¥ °ÔÀÓ¿ÀºêÁ§Æ®¿ÍÀÇ °ü°è Á¤¸®¸¦ À§ÇØ¼­ ÇÑ ÇÁ·¹ÀÓÀÇ À¯¿¹ ±â°£À» µÒ.
+    //ì‚­ì œ ëŒ€ê¸°ì—´
+    //ë‹¤ë¥¸ ê²Œìž„ì˜¤ë¸Œì íŠ¸ì™€ì˜ ê´€ê³„ ì •ë¦¬ë¥¼ ìœ„í•´ì„œ í•œ í”„ë ˆìž„ì˜ ìœ ì˜ˆ ê¸°ê°„ì„ ë‘ .
     vector<CGameObject*> m_vecReserveDestroy;
 
     bool                 m_bLevelModified;

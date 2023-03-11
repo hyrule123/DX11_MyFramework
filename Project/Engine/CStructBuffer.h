@@ -4,7 +4,7 @@
 
 struct tSBufferDesc
 {
-    //ÀÚ½ÅÀÇ °øÀ¯Á¤º¸¸¦ ´ã°íÀÖ´Â »ó¼ö¹öÆÛ ³»ºÎ¿¡¼­ÀÇ ÀÎµ¦½º
+    //ìì‹ ì˜ ê³µìœ ì •ë³´ë¥¼ ë‹´ê³ ìˆëŠ” ìƒìˆ˜ë²„í¼ ë‚´ë¶€ì—ì„œì˜ ì¸ë±ìŠ¤
     eSTRUCT_BUFFER_TYPE eSBufferType; 
     UINT flag_eSHADER_PIPELINE_STAGE_FLAG_SRV;
     eCBUFFER_SBUFFER_SHAREDATA_IDX eCBufferIdx;
@@ -25,7 +25,7 @@ class CStructBuffer
     : public CEntity
 {
 public:
-    //¾Æ¹« ÀÎÀÚ ¾øÀÌ »ı¼ºÇÒ °æ¿ì ¹İµå½Ã SetInfo¸¦ ÇØ ÁÙ°Í.
+    //ì•„ë¬´ ì¸ì ì—†ì´ ìƒì„±í•  ê²½ìš° ë°˜ë“œì‹œ SetInfoë¥¼ í•´ ì¤„ê²ƒ.
     CStructBuffer();
     CStructBuffer(const tSBufferDesc& _tDesc);
     CStructBuffer(tSBufferDesc&& _tDesc);
@@ -36,9 +36,9 @@ private:
     tSBufferDesc                m_tSBufferDesc;
     bool                        m_bSBufferDescSet;
    
-    UINT                        m_uElementStride;   //±¸Á¶Ã¼ ÇÏ³ª ´ç ¹ÙÀÌÆ® °¹¼ö
-    UINT                        m_uElementCount;    //ÇöÀç µî·ÏÇÑ ±¸Á¶Ã¼ÀÇ °¹¼ö
-    UINT                        m_uElementCapacity; //ÇöÀç È®º¸µÇ¾îÀÖ´Â ±¸Á¶Ã¼ÀÇ °¹¼ö
+    UINT                        m_uElementStride;   //êµ¬ì¡°ì²´ í•˜ë‚˜ ë‹¹ ë°”ì´íŠ¸ ê°¯ìˆ˜
+    UINT                        m_uElementCount;    //í˜„ì¬ ë“±ë¡í•œ êµ¬ì¡°ì²´ì˜ ê°¯ìˆ˜
+    UINT                        m_uElementCapacity; //í˜„ì¬ í™•ë³´ë˜ì–´ìˆëŠ” êµ¬ì¡°ì²´ì˜ ê°¯ìˆ˜
 
 
     D3D11_BUFFER_DESC           m_BufferDesc;
@@ -46,7 +46,7 @@ private:
 
     ComPtr<ID3D11ShaderResourceView> m_SRV;
 
-    //RW ÇüÅÂ·Î ¹ÙÀÎµùÇÏ°íÀÚ ÇÒ¶§
+    //RW í˜•íƒœë¡œ ë°”ì¸ë”©í•˜ê³ ì í• ë•Œ
     ComPtr<ID3D11UnorderedAccessView> m_UAV;
 
     ComPtr<ID3D11Buffer>    m_StagingBuffer;
@@ -64,20 +64,20 @@ public:
 
     UINT GetCapacity() const { return m_uElementCapacity; }
 
-    //±Û·Î¹ú º¯¼ö¿¡ ÀÖ´Â°Å ¸®ÅÏÇØÁÖ¸é µÉµí
+    //ê¸€ë¡œë²Œ ë³€ìˆ˜ì— ìˆëŠ”ê±° ë¦¬í„´í•´ì£¼ë©´ ë ë“¯
     UINT GetElemCount() const { return m_uElementCount; }
 
 public:
-    //Ã³À½ »ı¼ºÇÒ ¶§ ¹İµå½Ã ¸ñÇ¥ ÆÄÀÌÇÁ¶óÀÎ Å¸°Ù°ú ·¹Áö½ºÅÍ ¹øÈ£¸¦ ¼³Á¤ÇØÁÙ °Í
+    //ì²˜ìŒ ìƒì„±í•  ë•Œ ë°˜ë“œì‹œ ëª©í‘œ íŒŒì´í”„ë¼ì¸ íƒ€ê²Ÿê³¼ ë ˆì§€ìŠ¤í„° ë²ˆí˜¸ë¥¼ ì„¤ì •í•´ì¤„ ê²ƒ
     void Create(UINT _uiElementStride, UINT _uElementCapacity, void* _pInitialData, UINT _uElemCount);
 
-    //µ¥ÀÌÅÍ¸¦ ¹öÆÛ·Î Àü¼Û
+    //ë°ì´í„°ë¥¼ ë²„í¼ë¡œ ì „ì†¡
     void UploadData(void* _pData, UINT _uCount);
     
-    //µ¥ÀÌÅÍ¸¦ ¹Ş¾Æ¿È
+    //ë°ì´í„°ë¥¼ ë°›ì•„ì˜´
     void GetData(void* _pDest, UINT _uDestByteCapacity);
 
-    //µ¥ÀÌÅÍ¸¦ Æ¯Á¤ ·¹Áö½ºÅÍ¿¡ ¹ÙÀÎµù. SRV¿¡ ¹ÙÀÎµùÇÒ°ÍÀÎÁö UAV¿¡ ¹ÙÀÎµùÇÒ°ÍÀÎÁö¸¦ ÁöÁ¤
+    //ë°ì´í„°ë¥¼ íŠ¹ì • ë ˆì§€ìŠ¤í„°ì— ë°”ì¸ë”©. SRVì— ë°”ì¸ë”©í• ê²ƒì¸ì§€ UAVì— ë°”ì¸ë”©í• ê²ƒì¸ì§€ë¥¼ ì§€ì •
     void BindBufferSRV();
     void UnBindSRV();
 

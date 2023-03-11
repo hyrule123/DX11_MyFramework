@@ -21,7 +21,7 @@ CCollider3D::~CCollider3D()
 
 void CCollider3D::finaltick()
 {
-	//¾Æ·¡ÀÇ µÎ ¸Ş¼Òµå´Â transform¿¡¼­ ÇÏ´Â °É·Î º¯°æ
+	//ì•„ë˜ì˜ ë‘ ë©”ì†Œë“œëŠ” transformì—ì„œ í•˜ëŠ” ê±¸ë¡œ ë³€ê²½
 	//UpdateColliderInfo();
 	//UpdateSpatialPartitionInfo();
 	DebugRender();

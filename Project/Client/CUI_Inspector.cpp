@@ -65,7 +65,7 @@ CUI_Inspector::CUI_Inspector()
 
 CUI_Inspector::~CUI_Inspector()
 {
-	//Ŭ���� �ν��Ͻ� ������ Child UI�� ��ȸ �����ָ鼭 �����ǹǷ� ���⼭ �� �ʿ� ����.
+	//클래스 인스턴스 삭제는 Child UI를 순회 돌아주면서 삭제되므로 여기서 할 필요 없음.
 }
 
 void CUI_Inspector::init()
@@ -87,7 +87,7 @@ void CUI_Inspector::tick()
 	if (nullptr == m_pTarget)
 		init();
 
-	//�� tick���� ������Ʈ�� ���¸� Ȯ���Ͽ� ����
+	//매 tick마다 컴포넌트의 유뮤를 확인하여 갱신
 	if (nullptr != m_pTarget)
 	{
 		for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
@@ -102,36 +102,36 @@ void CUI_Inspector::tick()
 	}
 
 
-	////���⼭�� ���߿� ���콺 Ŭ���� �޾Ƽ� Ŭ���� ��ġ�� �ִ� ������Ʈ�� �ּҸ� �������� �ڵ带 ����
+	////여기서는 나중에 마우스 클릭을 받아서 클릭된 위치에 있는 오브젝트의 주소를 가져오는 코드를 구현
 	//CKeyMgr* KeyMgr = CKeyMgr::GetInst();
 	//if (eKEY_STATE::TAP == KeyMgr->GetKeyState(KEY::LBTN))
 	//{
-	//	//���콺 ��ġ�� �޾ƿ´�. �� ��ǥ�� NDC ��ǥ��� �ݴ��̹Ƿ� y���� ������ ���ش�.
+	//	//마우스 위치를 받아온다. 이 좌표는 NDC 좌표계와 반대이므로 y축은 반전을 해준다.
 	//	Vec3 vMouseWorldPos(KeyMgr->GetMousePos(), 0.f);
 	//	vMouseWorldPos.y = g_GlobalVal.vResolution.y - vMouseWorldPos.y;
 
-	//	//NDC ��ǥ��� ������ �����̴�. -> �ػ��� �ݸ�ŭ ���ش�.
+	//	//NDC 좌표계는 원점이 중점이다. -> 해상도의 반만큼 빼준다.
 	//	vMouseWorldPos.x -= g_GlobalVal.vResolution.x * 0.5f;
 	//	vMouseWorldPos.y -= g_GlobalVal.vResolution.y * 0.5f;
 
 	//	CCamera* pCam = CRenderMgr::GetInst()->GetCurCamera();
 	//	const Vec3& CamPos = pCam->Transform()->GetWorldPos();
 
-	//	//���� ��ǥ�� ī�޶��� ��ġ�� ���Ѵ�. -> ����󿡼��� ��ǥ�� ��ȯ �Ϸ�.
+	//	//구한 좌표에 카메라의 위치를 더한다. -> 월드상에서의 좌표로 변환 완료.
 	//	vMouseWorldPos += CamPos;
 
-	//	//�ش� ���⿡�� ī�޶� ���� �������� ������ ������ ����� �浹�˻縦 �ǽ��Ѵ�.
+	//	//해당 방향에서 카메라가 보는 방향으로 가상의 직선을 만들고 충돌검사를 실시한다.
 
 	//	
 
-	//	//���콺 ��ġ�� 
+	//	//마우스 위치를 
 	//	
 
-	//	//���콺 ��ġ�� ���Ѵ�.
+	//	//마우스 위치를 더한다.
 	//	//vMouseWorldPos.x += MousePos.x;
 	//	//vMouseWorldPos.y -= MousePos.y;
 	//	
-	//	//���콺 ��ǥ�� NDC ��ǥ �������� ��ȯ�Ѵ�.(�ػ� �� ���Ѱ� ����)
+	//	//마우스 좌표를 NDC 좌표 형식으로 변환한다.(해상도 반 곱한걸 빼줌)
 
 
 

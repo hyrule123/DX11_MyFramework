@@ -24,27 +24,27 @@ CEngine::~CEngine()
 
 int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 {
-	// ¸ŞÀÎ À©µµ¿ì ÇÚµé
+	// ë©”ì¸ ìœˆë„ìš° í•¸ë“¤
 	m_hWnd = _hWnd;
 	m_vResolution = Vec2((float)_iWidth, (float)_iHeight);
 	g_GlobalVal.vResolution = m_vResolution;
 
-	// ÇØ»óµµ¿¡ ¸Â´Â ÀÛ¾÷¿µ¿ª Å©±â Á¶Á¤
+	// í•´ìƒë„ì— ë§ëŠ” ì‘ì—…ì˜ì—­ í¬ê¸° ì¡°ì •
 	RECT rt = { 0, 0, (int)_iWidth, (int)_iHeight};
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 	SetWindowPos(m_hWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top, 0);
 	ShowWindow(m_hWnd, true);
 
 
-	// Device ÃÊ±âÈ­
+	// Device ì´ˆê¸°í™”
 	if (FAILED(CDevice::GetInst()->init(m_hWnd, _iWidth, _iHeight)))
 	{
-		MessageBoxW(nullptr, L"Device ÃÊ±âÈ­ ½ÇÆĞ", NULL, MB_OK);
+		MessageBoxW(nullptr, L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", NULL, MB_OK);
 		return E_FAIL;
 	}
 
 
-	// Manager ÃÊ±âÈ­
+	// Manager ì´ˆê¸°í™”
 	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
@@ -81,13 +81,13 @@ void CEngine::render()
 {
 	CTimeMgr::GetInst()->render();
 
-	// Ãâ·Â Å¸°Ù ¼³Á¤
+	// ì¶œë ¥ íƒ€ê²Ÿ ì„¤ì •
 	CDevice::GetInst()->SetRenderTarget();
 
-	// ·»´õ¸µ ½ÃÀÛ
+	// ë Œë”ë§ ì‹œì‘
 	CDevice::GetInst()->ClearTarget(m_ClearColor);
 
-	//·»´õ¸µ. ·»´õÅ¸°Ù ÇÃ¸³Àº ¿©±â¼­ ÁøÇàÇÏÁö ¾ÊÀ½. EditorObjMgrÀÇ ·»´õ¸µ °úÁ¤µµ ³¡³­ ÀÌÈÄ ÁøÇà
+	//ë Œë”ë§. ë Œë”íƒ€ê²Ÿ í”Œë¦½ì€ ì—¬ê¸°ì„œ ì§„í–‰í•˜ì§€ ì•ŠìŒ. EditorObjMgrì˜ ë Œë”ë§ ê³¼ì •ë„ ëë‚œ ì´í›„ ì§„í–‰
 	CRenderMgr::GetInst()->render();
 }
 

@@ -24,7 +24,7 @@
 
 	
 //eCBUFFER_IDX_SBUFFER_SHAREDATA Inner Index
-//»ó¼ö ¹öÆÛ 'SBUFFERINFO' ³»ºÎÀÇ ÀÎµ¦½º ¹øÈ£¸¦ ÁöÁ¤ÇÏ´Â ¿­°ÅÃ¼
+//ìƒìˆ˜ ë²„í¼ 'SBUFFERINFO' ë‚´ë¶€ì˜ ì¸ë±ìŠ¤ ë²ˆí˜¸ë¥¼ ì§€ì •í•˜ëŠ” ì—´ê±°ì²´
 ENUM_BEGIN(eCBUFFER_SBUFFER_SHAREDATA_IDX, int)
 	ENUM_MEMBER(NONE, int, -1)
 	ENUM_MEMBER(MTRL_SCALAR, int, 0)
@@ -40,7 +40,7 @@ ENUM_END
 #ifdef __cplusplus
 	
 
-//¾Æ·¡ÀÇ CBuffer_SBUFFER_SHARED_DATA¿¡ Àü´ÞµÇ´Â »ó¼ö¹öÆÛ
+//ì•„ëž˜ì˜ CBuffer_SBUFFER_SHARED_DATAì— ì „ë‹¬ë˜ëŠ” ìƒìˆ˜ë²„í¼
 extern tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::END];
 
 #else
@@ -62,7 +62,7 @@ cbuffer CBuffer_Material_Tex : register(e_b_CBUFFER_MTRL_TEX)
 };
 
 
-	//°ÔÀÓÀÇ °¢Á¾ Á¤º¸¸¦ ³Ñ°ÜÁÖ±â À§ÇÑ »ó¼ö¹öÆÛ
+	//ê²Œìž„ì˜ ê°ì¢… ì •ë³´ë¥¼ ë„˜ê²¨ì£¼ê¸° ìœ„í•œ ìƒìˆ˜ë²„í¼
 cbuffer CBuffer_Global : register(e_b_CBUFFER_GLOBAL)
 {
 	tGlobalValue g_CBuffer_GlobalData;
@@ -157,8 +157,8 @@ StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(e_t_INIT_SETTIN
 //UAV -> u Register
 
 
-//u ·¹Áö½ºÅÍ´Â DX11 ±âÁØ 0 ~ 7¹ø±îÁö¸¸ Á¸ÀçÇÏ¹Ç·Î Âü°í
-#define e_u_INIT_SETTING			REGISTER_IDX(u, 0)	//Ã³À½¿¡ ÃÖÃÊ ÇÑ¹ø ÀÛµ¿ÇØ¼­ ½Ã½ºÅÛ Á¤º¸ È®ÀÎ
+//u ë ˆì§€ìŠ¤í„°ëŠ” DX11 ê¸°ì¤€ 0 ~ 7ë²ˆê¹Œì§€ë§Œ ì¡´ìž¬í•˜ë¯€ë¡œ ì°¸ê³ 
+#define e_u_INIT_SETTING			REGISTER_IDX(u, 0)	//ì²˜ìŒì— ìµœì´ˆ í•œë²ˆ ìž‘ë™í•´ì„œ ì‹œìŠ¤í…œ ì •ë³´ í™•ì¸
 
 #define e_u_SETCOLOR_TEXTURERW			REGISTER_IDX(u, 0)
 #define e_u_SETCOLOR_SBUFFERRW			REGISTER_IDX(u, 1)
@@ -172,7 +172,7 @@ StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(e_t_INIT_SETTIN
 
 	#else
 
-//°¢ÀÚ »ç¿ëÇÏ´Â ½¦ÀÌ´õ¿¡¼­ º°µµ·Î ¼±¾ðÇÏ¿´À½.
+//ê°ìž ì‚¬ìš©í•˜ëŠ” ì‰ì´ë”ì—ì„œ ë³„ë„ë¡œ ì„ ì–¸í•˜ì˜€ìŒ.
 //u0
 ////g_TexRW_Output
 ////g_SBufferRW_ParticleTransform
@@ -221,3 +221,4 @@ SamplerState g_Sampler_1 : register(e_s_SAMPLER_POINT);
 
 
 #endif
+

@@ -52,7 +52,7 @@ void CUI::finaltick()
 		size_t size = m_vecChildUI.size();
 		for (size_t i = 0; i < size; ++i)
 		{
-			//ÀÚ½Ä UI¸¦ ÀÚ½ÅÀÇ UI À§ÂÊ¿¡ ·»´õ¸µÇÑ´Ù.
+			//ìžì‹ UIë¥¼ ìžì‹ ì˜ UI ìœ„ìª½ì— ë Œë”ë§í•œë‹¤.
 			m_vecChildUI[i]->finaltick();
 		}
 

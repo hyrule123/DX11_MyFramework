@@ -2,8 +2,8 @@
 #include "CSingleton.h"
 
 //**********************************************
-// Ãæµ¹Ã¼°¡ ±×¸®µå ÇÏ³ª Å©±âº¸´Ù Ä¿Áú °æ¿ì ¿¡·¯ ³ª¹Ç·Î ÁÖÀÇÇÒ °Í
-// ÃÖ´ë 4±×¸®µå±îÁö¸¸ Á¡½´ÇÒ ¼ö ÀÖµµ·Ï ±¸ÇöÇØ ³õ¾ÒÀ½
+// ì¶©ëŒì²´ê°€ ê·¸ë¦¬ë“œ í•˜ë‚˜ í¬ê¸°ë³´ë‹¤ ì»¤ì§ˆ ê²½ìš° ì—ëŸ¬ ë‚˜ë¯€ë¡œ ì£¼ì˜í•  ê²ƒ
+// ìµœëŒ€ 4ê·¸ë¦¬ë“œê¹Œì§€ë§Œ ì ìŠˆí•  ìˆ˜ ìžˆë„ë¡ êµ¬í˜„í•´ ë†“ì•˜ìŒ
 //**********************************************
 
 
@@ -34,7 +34,7 @@ union CollisionID
 
 struct tCollisionInfo
 {
-    LONGLONG llCheckedCount; //CTimeMgr¿¡¼­ quadpart¸¦ ±×´ë·Î ¹Þ¾Æ¿Í¼­ Ã¼Å©ÇÑ ½Ã°£À» ±â·ÏÇÑ´Ù.
+    LONGLONG llCheckedCount; //CTimeMgrì—ì„œ quadpartë¥¼ ê·¸ëŒ€ë¡œ ë°›ì•„ì™€ì„œ ì²´í¬í•œ ì‹œê°„ì„ ê¸°ë¡í•œë‹¤.
     CCollider2D* pColliderA;
     CCollider2D* pColliderB;
 };
@@ -48,7 +48,7 @@ class CCollisionMgr :
     SINGLETON(CCollisionMgr)
 
 private:
-    //¿ì¼± ³í¸®ÀûÀ¸·Î¸¸ Ãæµ¹Á¤º¸¸¦ ÀúÀå. ³ªÁß¿¡ ÇÊ¿äÇØÁö¸é µû·Î ¸¸µé°Í.
+    //ìš°ì„  ë…¼ë¦¬ì ìœ¼ë¡œë§Œ ì¶©ëŒì •ë³´ë¥¼ ì €ìž¥. ë‚˜ì¤‘ì— í•„ìš”í•´ì§€ë©´ ë”°ë¡œ ë§Œë“¤ê²ƒ.
     vector<tGrid2D> m_vec2DGrid;
     int            m_iNum2DGridX;
     int            m_iNum2DGridY;
@@ -61,11 +61,11 @@ private:
 
     Vec2            m_vGridSize;
 
-    Vec2            m_vGridSizeInv;//°ö¼ÀÃÖÀûÈ­¿ë º¯¼ö
+    Vec2            m_vGridSizeInv;//ê³±ì…ˆìµœì í™”ìš© ë³€ìˆ˜
     Vec4            m_v4GridSizeInv;
 
-    //Âü°í - Vec4´Â ÆíÀÇ¸¦ À§ÇØ »ç¿ë Áß.
-    //2DGridSizeInvÀÇ °æ¿ì ³ª´°¼ÀÀ» ¹Ì¸® ÇØµÎ¾î¼­ °ö¼ÀÀ» ÇÏ±â À§ÇÑ ¿ëµµÀÇ º¯¼öÀÓ.
+    //ì°¸ê³  - Vec4ëŠ” íŽ¸ì˜ë¥¼ ìœ„í•´ ì‚¬ìš© ì¤‘.
+    //2DGridSizeInvì˜ ê²½ìš° ë‚˜ëˆ—ì…ˆì„ ë¯¸ë¦¬ í•´ë‘ì–´ì„œ ê³±ì…ˆì„ í•˜ê¸° ìœ„í•œ ìš©ë„ì˜ ë³€ìˆ˜ìž„.
     UINT32          m_arrFlagLayerInteraction[MAX_LAYER];
 
     
@@ -73,31 +73,31 @@ private:
 
     std::function<bool(CCollider2D*, CCollider2D*)> m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::END][(int)eCOLLIDER_TYPE_2D::END];
 public:
-    //°ø°£ºÐÇÒÀ» À§ÇÑ ÀÚ½ÅÀÇ °£ÀÌ Ãæµ¹Ã¼ ²ÀÁöÁ¡ Á¤º¸¸¦ Àü´ÞÇÑ´Ù.
-    //Rect´Â 4°³, Point´Â 1°³ µî ´Ù¸¦ ¼ö ÀÖ±â ¶§¹®¿¡ Á¤Á¡ À§Ä¡¸¦ vector¿¡ ´ã¾Æ¼­ Àü´ÞÇÏ´Â ¹æ½ÄÀ¸·Î ±¸Çö
+    //ê³µê°„ë¶„í• ì„ ìœ„í•œ ìžì‹ ì˜ ê°„ì´ ì¶©ëŒì²´ ê¼­ì§€ì  ì •ë³´ë¥¼ ì „ë‹¬í•œë‹¤.
+    //RectëŠ” 4ê°œ, PointëŠ” 1ê°œ ë“± ë‹¤ë¥¼ ìˆ˜ ìžˆê¸° ë•Œë¬¸ì— ì •ì  ìœ„ì¹˜ë¥¼ vectorì— ë‹´ì•„ì„œ ì „ë‹¬í•˜ëŠ” ë°©ì‹ìœ¼ë¡œ êµ¬í˜„
     //
     void CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx);
 
-    //ÀÌ°Ç Æ®·£½ºÆû¿¡¼­ Ãß°¡ ¿¬»êÀÌ ¾ø¾úÀ» °æ¿ì(ÀÚ½ÅÀÇ °£ÀÌÁ¤Á¡ À§Ä¡¿¡ º¯ÇÔÀÌ ¾øÀ» °æ¿ì) È£Ãâ
+    //ì´ê±´ íŠ¸ëžœìŠ¤í¼ì—ì„œ ì¶”ê°€ ì—°ì‚°ì´ ì—†ì—ˆì„ ê²½ìš°(ìžì‹ ì˜ ê°„ì´ì •ì  ìœ„ì¹˜ì— ë³€í•¨ì´ ì—†ì„ ê²½ìš°) í˜¸ì¶œ
     void AddCollider2D(CCollider2D* _pCol, const vector<UINT>& _vecIdx);
     void AddCollider3D(CCollider3D* _pCol) {};
     void AddLayerInteraction2D(int _iLayer1, int _iLayer2);
 
 public:
-    //CollisionMgrÀÇ È£Ãâ ½ÃÁ¡: CLevelMgr::tick()ÀÌ È£ÃâµÇ´Â ½ÃÁ¡. -> °¡Á®´Ù ½áµµ ¹®Á¦ ¾øÀ½.
+    //CollisionMgrì˜ í˜¸ì¶œ ì‹œì : CLevelMgr::tick()ì´ í˜¸ì¶œë˜ëŠ” ì‹œì . -> ê°€ì ¸ë‹¤ ì¨ë„ ë¬¸ì œ ì—†ìŒ.
     void Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridNumX, UINT _uiGridNumY);
 
-    //Ãæµ¹ °Ë»ç ½ÃÇà
+    //ì¶©ëŒ ê²€ì‚¬ ì‹œí–‰
     void tick();
 
 
-private://Ãæµ¹ °Ë»ç ÇÔ¼ö
+private://ì¶©ëŒ ê²€ì‚¬ í•¨ìˆ˜
 
-    //Ãæµ¹ÇÔ¼ö¸¦ ÇÔ¼öÆ÷ÀÎÅÍ¿¡ µî·ÏÇØÁÖ´Â ÇÔ¼ö
+    //ì¶©ëŒí•¨ìˆ˜ë¥¼ í•¨ìˆ˜í¬ì¸í„°ì— ë“±ë¡í•´ì£¼ëŠ” í•¨ìˆ˜
     void RegisterCollisionFunc();
 
 
-    //Ãæµ¹Ã¼ Å¸ÀÔÀ» ºÐ·ùÇØ¼­ ¾Æ·¡ÀÇ ÇÔ¼öµéÀ» È£ÃâÇÑ´Ù.
+    //ì¶©ëŒì²´ íƒ€ìž…ì„ ë¶„ë¥˜í•´ì„œ ì•„ëž˜ì˜ í•¨ìˆ˜ë“¤ì„ í˜¸ì¶œí•œë‹¤.
     bool CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2);
 
     bool CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollider2D* _pColRect_2);

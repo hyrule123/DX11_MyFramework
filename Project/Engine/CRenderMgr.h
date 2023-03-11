@@ -9,9 +9,9 @@ class CLight2D;
 class CStructBuffer;
 class CRenderComponent;
 
-//2D¶§¸¸ ¾µ ÀÓ½Ã ±¸Á¶Ã¼
-//2D±îÁö´Â ¿ùµå ¸ÅÆ®¸¯½º¿Í ºä-Åõ¿µ ¸ÅÆ®¸¯½º¸¦ ³ª´²¼­ Àü´ŞÇÒ ¿¹Á¤ÀÓ
-//CPU¿Í ÀÛ¾÷ ºĞ´ã¿ë
+//2Dë•Œë§Œ ì“¸ ì„ì‹œ êµ¬ì¡°ì²´
+//2Dê¹Œì§€ëŠ” ì›”ë“œ ë§¤íŠ¸ë¦­ìŠ¤ì™€ ë·°-íˆ¬ì˜ ë§¤íŠ¸ë¦­ìŠ¤ë¥¼ ë‚˜ëˆ ì„œ ì „ë‹¬í•  ì˜ˆì •ì„
+//CPUì™€ ì‘ì—… ë¶„ë‹´ìš©
 struct tRenderInfo
 {
 	CRenderComponent* pRenderCom;
@@ -32,21 +32,21 @@ private:
 	CCamera* m_arrCam[(UINT)eCAMERA_INDEX::END];
 
 	vector<tDebugShapeInfo> m_vecDebugShapeRender;
-	//Å¬¶óÀÌ¾ğÆ® ÇÁ·ÎÁ§Æ®¿¡¼­ À§ µğ¹ö±× ·»´õ¸µ Á¤º¸¸¦ ¹Ş¾Æ°¬´ÂÁö È®ÀÎÇÏ´Â º¯¼ö
-	//¸¸¾à Å¬¶óÀÌ¾ğÆ®¿¡¼­ Á¤º¸¸¦ ¹Ş¾Æ°¡Áö ¾ÊÀ» °æ¿ì µğ¹ö±× ·»´õ¸µ ¹è¿­ÀÌ ¸Å ÇÁ·¹ÀÓ¸¶´Ù ´©ÀûµÇ¹Ç·Î ¹İµå½Ã ºñ¿öÁà¾ß ÇÑ´Ù.
+	//í´ë¼ì´ì–¸íŠ¸ í”„ë¡œì íŠ¸ì—ì„œ ìœ„ ë””ë²„ê·¸ ë Œë”ë§ ì •ë³´ë¥¼ ë°›ì•„ê°”ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë³€ìˆ˜
+	//ë§Œì•½ í´ë¼ì´ì–¸íŠ¸ì—ì„œ ì •ë³´ë¥¼ ë°›ì•„ê°€ì§€ ì•Šì„ ê²½ìš° ë””ë²„ê·¸ ë Œë”ë§ ë°°ì—´ì´ ë§¤ í”„ë ˆì„ë§ˆë‹¤ ëˆ„ì ë˜ë¯€ë¡œ ë°˜ë“œì‹œ ë¹„ì›Œì¤˜ì•¼ í•œë‹¤.
 	bool					m_bDebugRenderUpdated;	
 
-	//ºû °ü·Ã ±¸Á¶È­ ¹öÆÛ º¯¼ö
+	//ë¹› ê´€ë ¨ êµ¬ì¡°í™” ë²„í¼ ë³€ìˆ˜
 	vector<tLightInfo>		m_vecLight2DStruct;
 	CStructBuffer* m_pLight2DStructBuffer;
 
-	//¿¡µğÅÍ Ä«¸Ş¶ó ¸ğµåÀÎÁö¸¦ ÀúÀåÇÏ´Â º¯¼ö(Ctrl + E)¹öÆ°À¸·Î È®ÀÎ Áß
+	//ì—ë””í„° ì¹´ë©”ë¼ ëª¨ë“œì¸ì§€ë¥¼ ì €ì¥í•˜ëŠ” ë³€ìˆ˜(Ctrl + E)ë²„íŠ¼ìœ¼ë¡œ í™•ì¸ ì¤‘
 	bool m_bEditorCamMode;
 
-	//Ä«¸Ş¶ó°¡ ½¦ÀÌ´õ µµ¸ŞÀÎ¿¡ µû¶ó ºĞ·ùÇÑ °á°ú¸¦ ÀúÀå
+	//ì¹´ë©”ë¼ê°€ ì‰ì´ë” ë„ë©”ì¸ì— ë”°ë¼ ë¶„ë¥˜í•œ ê²°ê³¼ë¥¼ ì €ì¥
 	vector<tRenderInfo>    m_arrvecShaderDomain[(UINT)eSHADER_DOMAIN::_END];
 
-	//Key : Mtrl ÁÖ¼Ò, Valud : Mesh ÁÖ¼Ò
+	//Key : Mtrl ì£¼ì†Œ, Valud : Mesh ì£¼ì†Œ
 	unordered_map<DWORD_PTR, DWORD_PTR, tLightHashFunc_DWORD_PTR> m_umapInstancing;
 	
 
@@ -59,7 +59,7 @@ public:
 	void RemoveCamera(CCamera* _pCam);
 	void AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeInfo);
 
-	//CEditorObjMgr¿¡¼­ »ç¿ë. ÇØ´ç °´Ã¼ÀÇ ¸®½ºÆ®¸¦ ·¹ÆÛ·±½º ÀÎÀÚ·Î Àü´ŞÇÏ¸é ¸®½ºÆ®¿¡ Á¤º¸¸¦ Ãß°¡ÇØÁØ µÚ ¿£Áø ³»ºÎÀÇ ¸®½ºÆ®¸¦ ÀüºÎ Á¦°Å
+	//CEditorObjMgrì—ì„œ ì‚¬ìš©. í•´ë‹¹ ê°ì²´ì˜ ë¦¬ìŠ¤íŠ¸ë¥¼ ë ˆí¼ëŸ°ìŠ¤ ì¸ìë¡œ ì „ë‹¬í•˜ë©´ ë¦¬ìŠ¤íŠ¸ì— ì •ë³´ë¥¼ ì¶”ê°€í•´ì¤€ ë’¤ ì—”ì§„ ë‚´ë¶€ì˜ ë¦¬ìŠ¤íŠ¸ë¥¼ ì „ë¶€ ì œê±°
 	void UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef);
 
 	void AddLight2DData(const tLightInfo& _tLightInfo) { m_vecLight2DStruct.push_back(_tLightInfo); }
@@ -69,7 +69,7 @@ public:
 	bool IsEditorCamMode() const { return m_bEditorCamMode; }
 
 
-	//·»´õ¸µ ´Ü°è °ü·Ã
+	//ë Œë”ë§ ë‹¨ê³„ ê´€ë ¨
 	void AddRenderQueue(tRenderInfo _pRenderCom, eSHADER_DOMAIN _eShaderDomain);
 
 private:
@@ -79,7 +79,7 @@ private:
 	void render_editor();
 	void render_play();
 
-	//RenderMgr¿¡ ¸ğÀÎ µ¥ÀÌÅÍ¸¦ ÀÏ°ıÀûÀ¸·Î ·»´õ¸µ
+	//RenderMgrì— ëª¨ì¸ ë°ì´í„°ë¥¼ ì¼ê´„ì ìœ¼ë¡œ ë Œë”ë§
 	void renderAll();
 	void InstancedRender();
 };
@@ -87,7 +87,7 @@ private:
 
 inline void CRenderMgr::AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeInfo)
 {
-	//ÇÃ·¹ÀÌ ¸ğµåÀÏ¶§´Â µğ¹ö±× ½¦ÀÌÇÁ¸¦ ·»´õ¸µÇÏÁö ¾ÊÀ½.
+	//í”Œë ˆì´ ëª¨ë“œì¼ë•ŒëŠ” ë””ë²„ê·¸ ì‰ì´í”„ë¥¼ ë Œë”ë§í•˜ì§€ ì•ŠìŒ.
 	if (false == m_bEditorCamMode)
 		return;
 

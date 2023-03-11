@@ -38,7 +38,7 @@ void CLayer::AddGameObject(CGameObject* _Object)
 	if (nullptr == _Object)
 		return;
 
-	//ÀÚ½ÅÀÇ ¿ÀºêÁ§Æ® ¸®½ºÆ®¿¡ ÀüÃ¼ °èÃþ±¸Á¶¸¦ Ãß°¡ÇÑ´Ù.
+	//ìžì‹ ì˜ ì˜¤ë¸Œì íŠ¸ ë¦¬ìŠ¤íŠ¸ì— ì „ì²´ ê³„ì¸µêµ¬ì¡°ë¥¼ ì¶”ê°€í•œë‹¤.
 	_Object->AddAllHierarchyObjects(m_iLayerIdx, m_vecObject);
 }
 
@@ -60,7 +60,7 @@ void CLayer::RemoveGameObject(CGameObject* _Object)
 
 void CLayer::RemoveDestroyed()
 {
-	//Destroy »óÅÂÀÇ ¿ÀºêÁ§Æ®¸¦ vector¿¡¼­ Á¦°Å
+	//Destroy ìƒíƒœì˜ ì˜¤ë¸Œì íŠ¸ë¥¼ vectorì—ì„œ ì œê±°
 	m_vecObject.erase(std::remove_if(m_vecObject.begin(), m_vecObject.end(),
 		[](CGameObject* _Obj)->bool
 		{

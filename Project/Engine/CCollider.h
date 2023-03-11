@@ -12,12 +12,12 @@ public:
 
 private:
 
-    Matrix              m_matCollider;      // Collider ÀÇ ¿ùµåÇà·Ä
+    Matrix              m_matCollider;      // Collider ì˜ ì›”ë“œí–‰ë ¬
 
     Vec3                m_vOffsetPos;
     Vec3                m_vOffsetScale;
-    bool                m_bFixSize;         // °íÁ¤ »çÀÌÁî¸¦ »ç¿ë
-    int                 m_iCollisionCount;  // ÇöÀç Ãæµ¹ÁßÀÎ Ãæµ¹Ã¼ÀÇ °¹¼ö¸¦ ÀúÀå
+    bool                m_bFixSize;         // ê³ ì • ì‚¬ì´ì¦ˆë¥¼ ì‚¬ìš©
+    int                 m_iCollisionCount;  // í˜„ì¬ ì¶©ëŒì¤‘ì¸ ì¶©ëŒì²´ì˜ ê°¯ìˆ˜ë¥¼ ì €ì¥
 
     bool                m_bNeedPosUpdate;
     bool                m_bNeedRotUpdate;
@@ -39,7 +39,7 @@ public:
     int             GetLayerIndex()           { return GetOwner()->GetLayer(); }
     
 
-    //nullptrÀÌ ¹İÈ¯µÉ ¼ö ÀÖÀ¸¹Ç·Î ÁÖÀÇÇÒ°Í
+    //nullptrì´ ë°˜í™˜ë  ìˆ˜ ìˆìœ¼ë¯€ë¡œ ì£¼ì˜í• ê²ƒ
     CScriptHolder* ScriptHolder()             { return GetOwner()->ScriptHolder(); }
 
     //inline Setter
@@ -53,9 +53,9 @@ public:
     void EndCollision(CCollider* _other);
 
 public:
-    //Ãæµ¹Ã¼ finaltick()Àº transform::finaltick()ÀÌÈÄ È£ÃâµÇ¹Ç·Î transformÀÇ °ªÀ» ¸¶À½²¯ °¡Á®´Ù »ç¿ëÇØµµ ¹®Á¦ ¾øÀ½.
+    //ì¶©ëŒì²´ finaltick()ì€ transform::finaltick()ì´í›„ í˜¸ì¶œë˜ë¯€ë¡œ transformì˜ ê°’ì„ ë§ˆìŒê» ê°€ì ¸ë‹¤ ì‚¬ìš©í•´ë„ ë¬¸ì œ ì—†ìŒ.
     virtual void finaltick() = 0;
 
-    //°íÀ¯ Ãæµ¹Ã¼ÀÇ Á¤º¸¿Í AABB »ç°¢Çü Á¤º¸(m_RectInfo)¸¦ ¾÷µ¥ÀÌÆ® ÇØ¾ßÇÔ.
+    //ê³ ìœ  ì¶©ëŒì²´ì˜ ì •ë³´ì™€ AABB ì‚¬ê°í˜• ì •ë³´(m_RectInfo)ë¥¼ ì—…ë°ì´íŠ¸ í•´ì•¼í•¨.
     virtual void UpdateCollider() = 0;
 };

@@ -20,8 +20,8 @@ CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	{
 		m_vecScript.push_back(_other.m_vecScript[i]->Clone());
 
-		//º¹»ç »ý¼ºÀÚ¿¡´Â ¾ÆÁ÷ ¼ÒÀ¯ÀÚ Æ÷ÀÎÅÍ Á¤º¸°¡ ÀÔ·ÂµÇÁö ¾Ê¾ÒÀ¸¹Ç·Î 
-		//SetOwner¿¡¼­ Ã³¸®ÇØÁà¾ß ÇÑ´Ù.
+		//ë³µì‚¬ ìƒì„±ìžì—ëŠ” ì•„ì§ ì†Œìœ ìž í¬ì¸í„° ì •ë³´ê°€ ìž…ë ¥ë˜ì§€ ì•Šì•˜ìœ¼ë¯€ë¡œ 
+		//SetOwnerì—ì„œ ì²˜ë¦¬í•´ì¤˜ì•¼ í•œë‹¤.
 	}
 }
 
@@ -45,7 +45,7 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 
 	std::type_index type = _pScript->GetTypeIndex();
 
-	//½ºÅ©¸³Æ® Áßº¹ ¹æÁö
+	//ìŠ¤í¬ë¦½íŠ¸ ì¤‘ë³µ ë°©ì§€
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{

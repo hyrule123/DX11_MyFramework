@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CRenderComponent.h"
 
-//Ãâ·ÂÀ» À§ÇÑ Å¬·¡½º
+//ì¶œë ¥ì„ ìœ„í•œ í´ë˜ìŠ¤
 #include "CMesh.h"
 #include "CMaterial.h"
 
@@ -24,14 +24,14 @@ CRenderComponent::~CRenderComponent()
 
 Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 {
-	//¿øº» ÀçÁúÀÌ ¾øÀ» °æ¿ì nullptrÀ» ¹İÈ¯ÇÑ´Ù.
+	//ì›ë³¸ ì¬ì§ˆì´ ì—†ì„ ê²½ìš° nullptrì„ ë°˜í™˜í•œë‹¤.
 	if (nullptr == m_pSharedMtrl)
 	{
 		m_pCurrentMtrl = nullptr;
 		return nullptr;
 	}
 
-	//µ¿Àû ÀçÁú ÃÖÃÊ ¿äÃ»½Ã cloneÇØ¼­ º¹»ç ÈÄ µ¹·ÁÁØ´Ù.
+	//ë™ì  ì¬ì§ˆ ìµœì´ˆ ìš”ì²­ì‹œ cloneí•´ì„œ ë³µì‚¬ í›„ ëŒë ¤ì¤€ë‹¤.
 	if (nullptr == m_pDynamicMtrl)
 	{
 		m_pDynamicMtrl = m_pSharedMtrl->Clone();

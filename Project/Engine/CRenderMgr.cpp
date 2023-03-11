@@ -5,7 +5,7 @@
 
 #include "CStructBuffer.h"
 
-//»ó¼ö¹öÆÛ ¾÷µ¥ÀÌÆ®¿ë
+//ìƒìˆ˜ë²„í¼ ì—…ë°ì´íŠ¸ìš©
 #include "CTimeMgr.h"
 #include "CDevice.h"
 #include "CConstBuffer.h"
@@ -52,7 +52,7 @@ void CRenderMgr::RemoveCamera(CCamera* _pCam)
 
 void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 {
-    //·»´õ ¸Å´ÏÀú¿¡ ÀúÀåµÈ µð¹ö±× ½¦ÀÌÇÁ ·»´õ¸µ ¸ñ·ÏÀ» º¹»çÇØÁØµÚ ÀÚ½ÅÀÇ ¸ñ·ÏÀ» ºñ¿î´Ù.
+    //ë Œë” ë§¤ë‹ˆì €ì— ì €ìž¥ëœ ë””ë²„ê·¸ ì‰ì´í”„ ë Œë”ë§ ëª©ë¡ì„ ë³µì‚¬í•´ì¤€ë’¤ ìžì‹ ì˜ ëª©ë¡ì„ ë¹„ìš´ë‹¤.
     std::copy(m_vecDebugShapeRender.begin(), m_vecDebugShapeRender.end(), std::back_inserter(_vecDebugRef));
     m_vecDebugShapeRender.clear();
     m_bDebugRenderUpdated = true;
@@ -63,7 +63,7 @@ void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 
 void CRenderMgr::init()
 {
-    //±¤¿øÁ¤º¸´Â ÇÈ¼¿¿¡¼­¸¸ ÇÊ¿ä, 8¹ø ÅØ½ºÃ³ ·¹Áö½ºÅÍ¿¡ ¹ÙÀÎµù µÇ¾îÀÖÀ½.
+    //ê´‘ì›ì •ë³´ëŠ” í”½ì…€ì—ì„œë§Œ í•„ìš”, 8ë²ˆ í…ìŠ¤ì²˜ ë ˆì§€ìŠ¤í„°ì— ë°”ì¸ë”© ë˜ì–´ìžˆìŒ.
     m_pLight2DStructBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__PIXEL, eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D, e_t_SBUFFER_LIGHT2D, e_u_UAV_NONE
         });
     m_pLight2DStructBuffer->Create((UINT)sizeof(tLightInfo), 10, nullptr, 0u);
@@ -88,7 +88,7 @@ void CRenderMgr::render()
         render_play();
 
 
-    //Å¬¶óÀÌ¾ðÆ® ÂÊ¿¡¼­ µð¹ö±×·»´õ¸µ Á¤º¸¸¦ ¹Þ¾Æ°¡Áö ¾Ê¾ÒÀ» °æ¿ì µ¥ÀÌÅÍ Æó±â
+    //í´ë¼ì´ì–¸íŠ¸ ìª½ì—ì„œ ë””ë²„ê·¸ë Œë”ë§ ì •ë³´ë¥¼ ë°›ì•„ê°€ì§€ ì•Šì•˜ì„ ê²½ìš° ë°ì´í„° íê¸°
     if (false == m_bDebugRenderUpdated)
         m_vecDebugShapeRender.clear();
 
@@ -98,12 +98,12 @@ void CRenderMgr::render()
 
 void CRenderMgr::UpdateBuffer()
 {
-    //±Û·Î¹ú Á¤º¸¸¦ tGlobalValue »ó¼ö¹öÆÛ·Î ¾÷µ¥ÀÌÆ®
+    //ê¸€ë¡œë²Œ ì •ë³´ë¥¼ tGlobalValue ìƒìˆ˜ë²„í¼ë¡œ ì—…ë°ì´íŠ¸
     CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_GLOBAL);
     pConstBuffer->UploadData((void*)(&g_GlobalVal), sizeof(tGlobalValue));
     pConstBuffer->BindBuffer();
 
-    //ÀÚ½ÅÀÇ ±¸Á¶È­ ¹öÆÛ µ¥ÀÌÅÍ¸¦ ¾÷µ¥ÀÌÆ® ÇÑÈÄ µ¥ÀÌÅÍ¸¦ Å¬¸®¾î
+    //ìžì‹ ì˜ êµ¬ì¡°í™” ë²„í¼ ë°ì´í„°ë¥¼ ì—…ë°ì´íŠ¸ í•œí›„ ë°ì´í„°ë¥¼ í´ë¦¬ì–´
     m_pLight2DStructBuffer->UploadData(static_cast<void*>(m_vecLight2DStruct.data()), (UINT)m_vecLight2DStruct.size());
     m_pLight2DStructBuffer->BindBufferSRV();
     m_vecLight2DStruct.clear();
@@ -125,7 +125,7 @@ void CRenderMgr::render_play()
         if (nullptr == m_arrCam[i])
             continue;
 
-        //Ä«¸Þ¶ó¿¡¼­ ¿ÀºêÁ§Æ®¸¦ µµ¸ÞÀÎ¿¡ µû¶ó¼­ ºÐ·ùÇÑ´Ù.
+        //ì¹´ë©”ë¼ì—ì„œ ì˜¤ë¸Œì íŠ¸ë¥¼ ë„ë©”ì¸ì— ë”°ë¼ì„œ ë¶„ë¥˜í•œë‹¤.
         m_arrCam[i]->SortObject();
     }
 
@@ -134,34 +134,34 @@ void CRenderMgr::render_play()
 
 void CRenderMgr::renderAll()
 {
-    //Ä«¸Þ¶óÀÇ Çà·ÄÀ» »ó¼ö¹öÆÛ¿¡ ¾÷·Îµå
+    //ì¹´ë©”ë¼ì˜ í–‰ë ¬ì„ ìƒìˆ˜ë²„í¼ì— ì—…ë¡œë“œ
     static CConstBuffer* const pBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
     pBuffer->UploadData(&g_matCam);
     pBuffer->BindBuffer();
 
-    //2D °úÁ¤ µ¿¾È¿¡´Â W¿Í VP¸¦ ½¦ÀÌ´õ¿¡¼­ °è»êÇÏ°í,
-    //3D °úÁ¤¿¡ µé¾î°£ ÀÌÈÄºÎÅÍ WVP¸¦ ÀÏ°ýÀûÀ¸·Î ³Ñ°ÜÁÖµµ·Ï º¯°æÇÒ ¿¹Á¤,
-    //±×·¸±â ¶§¹®¿¡ Ä«¸Þ¶ó¸¦ ±âÁØÀ¸·Î ÀÎ½ºÅÏ½Ì ¹× ·»´õ¸µÀ» ÁøÇàÇÔ
+    //2D ê³¼ì • ë™ì•ˆì—ëŠ” Wì™€ VPë¥¼ ì‰ì´ë”ì—ì„œ ê³„ì‚°í•˜ê³ ,
+    //3D ê³¼ì •ì— ë“¤ì–´ê°„ ì´í›„ë¶€í„° WVPë¥¼ ì¼ê´„ì ìœ¼ë¡œ ë„˜ê²¨ì£¼ë„ë¡ ë³€ê²½í•  ì˜ˆì •,
+    //ê·¸ë ‡ê¸° ë•Œë¬¸ì— ì¹´ë©”ë¼ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì¸ìŠ¤í„´ì‹± ë° ë Œë”ë§ì„ ì§„í–‰í•¨
     // 
-    //2D¿¡´Â ¸Þ½¬ÀÇ Á¤Á¡ÀÌ ´ëºÎºÐ 4°³ÀÌ¹Ç·Î GPU¿Í ÀÛ¾÷À» Á» ºÐ´ãÇÏ·Á°í ÇÔ
-    //³ªÁß¿¡ 3D °úÁ¤ °¡¸é ÄÚµå¸¦ º¯°æÇÒ °Í
-    //³ªÁß¿¡ È¤½Ã º°µµÀÇ ·»´õÅ¸°Ù¿¡ ·»´õ¸µÇÏ´Â ÄÚµå°¡ »ý±æ °æ¿ì
-    //ÇØ´ç ÆÄÆ®µµ Ã³¸®ÇØÁÙ ¹æ¹ýÀ» °¡Áö°í ÀÖ¾î¾ß ÇÔ.
+    //2Dì—ëŠ” ë©”ì‰¬ì˜ ì •ì ì´ ëŒ€ë¶€ë¶„ 4ê°œì´ë¯€ë¡œ GPUì™€ ìž‘ì—…ì„ ì¢€ ë¶„ë‹´í•˜ë ¤ê³  í•¨
+    //ë‚˜ì¤‘ì— 3D ê³¼ì • ê°€ë©´ ì½”ë“œë¥¼ ë³€ê²½í•  ê²ƒ
+    //ë‚˜ì¤‘ì— í˜¹ì‹œ ë³„ë„ì˜ ë Œë”íƒ€ê²Ÿì— ë Œë”ë§í•˜ëŠ” ì½”ë“œê°€ ìƒê¸¸ ê²½ìš°
+    //í•´ë‹¹ íŒŒíŠ¸ë„ ì²˜ë¦¬í•´ì¤„ ë°©ë²•ì„ ê°€ì§€ê³  ìžˆì–´ì•¼ í•¨.
     for (UINT i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
     {
         size_t size = m_arrvecShaderDomain[i].size();
         for (size_t j = 0; j < size; j++)
         {
-            //Ä«¸Þ¶ó ÀÎµ¦½º¸¦ ¼³Á¤ÇØÁØ´Ù.
+            //ì¹´ë©”ë¼ ì¸ë±ìŠ¤ë¥¼ ì„¤ì •í•´ì¤€ë‹¤.
             m_arrvecShaderDomain[i][j].pRenderCom->SetCamIdx(m_arrvecShaderDomain[i][j].pCam->GetCamIndex());
 
-            //¸¸¾à render ¸Þ¼Òµå¸¦ È£ÃâÇß´Âµ¥ false°¡ ¹ÝÈ¯µÇ¾úÀ» °æ¿ì(µå·Î¿ìÄÝ ¹Ì¹ß»ý == ÀÎ½ºÅÏ½ÌÀÌ ÇÊ¿äÇÏ´Ù)
+            //ë§Œì•½ render ë©”ì†Œë“œë¥¼ í˜¸ì¶œí–ˆëŠ”ë° falseê°€ ë°˜í™˜ë˜ì—ˆì„ ê²½ìš°(ë“œë¡œìš°ì½œ ë¯¸ë°œìƒ == ì¸ìŠ¤í„´ì‹±ì´ í•„ìš”í•˜ë‹¤)
             if (false == m_arrvecShaderDomain[i][j].pRenderCom->render())
             {
-                //ÀÎ½ºÅÏ½Ì ´ë±â¿­ map¿¡ Ãß°¡
+                //ì¸ìŠ¤í„´ì‹± ëŒ€ê¸°ì—´ mapì— ì¶”ê°€
                 DWORD_PTR pMtrl = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetCurMaterial().Get());
 
-                //Áßº¹Ãß°¡ ¹æÁö
+                //ì¤‘ë³µì¶”ê°€ ë°©ì§€
                 if (m_umapInstancing.end() == m_umapInstancing.find(pMtrl))
                 {
                     m_umapInstancing[pMtrl] = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetMesh().Get());
@@ -173,7 +173,7 @@ void CRenderMgr::renderAll()
 
         InstancedRender();
 
-        //·»´õ¸µÇÑ ½¦ÀÌ´õ µµ¸ÞÀÎÀº Á¦°Å
+        //ë Œë”ë§í•œ ì‰ì´ë” ë„ë©”ì¸ì€ ì œê±°
         m_arrvecShaderDomain[i].clear();
     }
 }
@@ -187,6 +187,6 @@ void CRenderMgr::InstancedRender()
         ((CMesh*)(iter.second))->renderInstanced(pMtrl->GetInstancingCount());
 
     }
-    //ÀÎ½ºÅÏ½Ì ´ë±â¿­ Å¬¸®¾î 
+    //ì¸ìŠ¤í„´ì‹± ëŒ€ê¸°ì—´ í´ë¦¬ì–´ 
     m_umapInstancing.clear();
 }

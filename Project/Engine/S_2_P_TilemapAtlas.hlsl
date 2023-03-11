@@ -6,8 +6,8 @@ float4 PS_Tilemap_Atlas(VTX_TILEMAP_OUT _in) : SV_Target
 {
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f);
     
-    // ¼Ò¼öÆÄÆ®, frac(_in.vUV) : Å¸ÀÏ ÇÑÄ­ ³»¿¡¼­ ÇÈ¼¿ÀÇ »ó´ëÀûÀÎ À§Ä¡ (0 ~ 1)
-    // Á¤¼öÆÄÆ®, floor(_in.vUV): ÀüÃ¼ Å¸ÀÏ Áß¿¡¼­ ÀÎµ¦½º(Çà, ¿­)    
+    // ì†Œìˆ˜íŒŒíŠ¸, frac(_in.vUV) : íƒ€ì¼ í•œì¹¸ ë‚´ì—ì„œ í”½ì…€ì˜ ìƒëŒ€ì ì¸ ìœ„ì¹˜ (0 ~ 1)
+    // ì •ìˆ˜íŒŒíŠ¸, floor(_in.vUV): ì „ì²´ íƒ€ì¼ ì¤‘ì—ì„œ ì¸ë±ìŠ¤(í–‰, ì—´)    
     int2 TileIdx = floor(_in.vUV);
     int BufferIdx = g_CBuffer_Mtrl_Scalar.INT_0 * TileIdx.y + TileIdx.x;
     float2 vUV = g_SBuffer_Tile[BufferIdx].vLeftTop + (g_SBuffer_Tile[BufferIdx].vSlice * frac(_in.vUV));

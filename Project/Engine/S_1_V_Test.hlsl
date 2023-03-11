@@ -1,8 +1,7 @@
-
 #include "S_0_H_Test.hlsli"
 
 // vertex shader
-// LocalSpace ¹°Ã¼¸¦ NDC ÁÂÇ¥°è·Î ÀÌµ¿
+// LocalSpace ë¬¼ì²´ë¥¼ NDC ì¢Œí‘œê³„ë¡œ ì´ë™
 VS_OUT VS_test(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
@@ -20,7 +19,7 @@ VS_OUT VS_test(VS_IN _in)
 	}
 	
     
-    // ÀÔ·ÂÀ¸·Î µé¾î¿Â Á¤Á¡ÁÂÇ¥¿¡ »ó¼ö¹öÆÛ °ªÀ» ´õÇØ¼­ Ãâ·Â
+    // ì…ë ¥ìœ¼ë¡œ ë“¤ì–´ì˜¨ ì •ì ì¢Œí‘œì— ìƒìˆ˜ë²„í¼ ê°’ì„ ë”í•´ì„œ ì¶œë ¥
 	
     //output.vOutColor = _in.vColor;
     output.vOutUV = _in.vUV;

@@ -17,10 +17,10 @@ CUI_Component::~CUI_Component()
 
 void CUI_Component::SetTarget(CGameObject* _pTarget)
 {
-	//Å¸°ÙÀ» ¿ì¼± ´ëÀÔ
+	//íƒ€ê²Ÿì„ ìš°ì„  ëŒ€ì…
 	m_pTarget = _pTarget;
 
-	//ÀÚ½ÅÀÌ ´ã´çÇÏ´Â ÄÄÆ÷³ÍÆ®°¡ ¾øÀ» °æ¿ì ÀÏ´Ü Ç¥½Ã ÁßÁö
+	//ìì‹ ì´ ë‹´ë‹¹í•˜ëŠ” ì»´í¬ë„ŒíŠ¸ê°€ ì—†ì„ ê²½ìš° ì¼ë‹¨ í‘œì‹œ ì¤‘ì§€
 	if (nullptr == m_pTarget || nullptr == m_pTarget->GetComponent(m_Type))
 		SetActive(false);
 	else
@@ -30,7 +30,7 @@ void CUI_Component::SetTarget(CGameObject* _pTarget)
 
 const string& CUI_Component::GetResKey(Ptr<CRes> _Res)
 {
-	//Res ÁÖ¼Ò°¡ ¾ø´Ù¸é return
+	//Res ì£¼ì†Œê°€ ì—†ë‹¤ë©´ return
 	if (nullptr == _Res)
 		return g_voidStr;
 
@@ -45,13 +45,13 @@ void CUI_Component::tick()
 
 bool CUI_Component::beginUI()
 {
-	//Å¸°Ù °ÔÀÓ¿ÀºêÁ§Æ®°¡ Á¸ÀçÇÏ±â ¾Ê°Å³ª ÀÚ½ÅÀÇ ´ã´ç ÄÄÆ÷³ÍÆ®°¡ Á¸ÀçÇÏÁö ¾ÊÀ» ½Ã Ãâ·ÂÇÏÁö ¾Ê´Â´Ù.
+	//íƒ€ê²Ÿ ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ì¡´ì¬í•˜ê¸° ì•Šê±°ë‚˜ ìì‹ ì˜ ë‹´ë‹¹ ì»´í¬ë„ŒíŠ¸ê°€ ì¡´ì¬í•˜ì§€ ì•Šì„ ì‹œ ì¶œë ¥í•˜ì§€ ì•ŠëŠ”ë‹¤.
 	if (nullptr == m_pTarget || nullptr == m_pTarget->GetComponent(m_Type))
 		return false;
 
 	ImGui::PushID(0);
 
-	//¹öÆ° »ı»ó°ªÀ» ÁöÁ¤
+	//ë²„íŠ¼ ìƒìƒê°’ì„ ì§€ì •
 	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f / 7.0f, 0.6f, 0.6f));

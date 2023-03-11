@@ -36,18 +36,18 @@ private:
     void AddRef() { ++m_iRefCount; }
     void Release();
 
-    // ¸®¼Ò½º ¹ÙÀÎµù
+    // ë¦¬ì†ŒìŠ¤ ë°”ì¸ë”©
     virtual void BindData() = 0;
 
 private:
-    // ÆÄÀÏ·ÎºÎÅÍ ·Îµù
+    // íŒŒì¼ë¡œë¶€í„° ë¡œë”©
     virtual int Load(const wstring& _strFilePath) = 0;
 
 public:
-    // ÆÄÀÏ·Î ÀúÀå
+    // íŒŒì¼ë¡œ ì €ì¥
     virtual int Save(const wstring&) = 0;
 
-    // ¸®¼Ò½º´Â Clone À» ±¸ÇöÇÏÁö ¾Ê´Â´Ù.(Material Á¦¿Ü)
+    // ë¦¬ì†ŒìŠ¤ëŠ” Clone ì„ êµ¬í˜„í•˜ì§€ ì•ŠëŠ”ë‹¤.(Material ì œì™¸)
     virtual CRes* Clone() { return nullptr; assert(nullptr); }
 
 

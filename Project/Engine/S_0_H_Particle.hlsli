@@ -7,7 +7,7 @@
 
 struct tParticleShareData
 {
-    INT32 iSpawnCount; // ½ºÆù ½ÃÅ³ ÆÄÆ¼Å¬ °³¼ö
+    INT32 iSpawnCount; // ìŠ¤í° ì‹œí‚¬ íŒŒí‹°í´ ê°œìˆ˜
 	UINT32_2 uSeeds;
 	float Padding;
 };
@@ -16,24 +16,24 @@ struct tParticleShareData
 // Particle
 struct tParticleTransform
 {
-	//À§Ä¡ Á¤º¸
+	//ìœ„ì¹˜ ì •ë³´
 	float4 vLocalPos;
-	float4 vWorldScale; // ÆÄÆ¼Å¬ Å©±â
+	float4 vWorldScale; // íŒŒí‹°í´ í¬ê¸°
 	float4 vWorldRotation;
 	
-	float4 vWorldPos; // ÆÄÆ¼Å¬ À§Ä¡
-	float4 vVelocity; // ÆÄÆ¼Å¬ ÇöÀç ¼Óµµ
-	float4 vForce; // ÆÄÆ¼Å¬¿¡ ÁÖ¾îÁø Èû
+	float4 vWorldPos; // íŒŒí‹°í´ ìœ„ì¹˜
+	float4 vVelocity; // íŒŒí‹°í´ í˜„ì¬ ì†ë„
+	float4 vForce; // íŒŒí‹°í´ì— ì£¼ì–´ì§„ í˜
 	
-	float4 vColor; // ÆÄÆ¼Å¬ »ö»ó
+	float4 vColor; // íŒŒí‹°í´ ìƒ‰ìƒ
 
-	float fAge; // »ıÁ¸ ½Ã°£
+	float fAge; // ìƒì¡´ ì‹œê°„
 	float fPrevAge;
-	float fNormalizedAge; // ¼ö¸í´ëºñ »ıÁ¸½Ã°£À» 0~1·Î Á¤±ÔÈ­ ÇÑ °ª
-	float fLifeTime; // ¼ö¸í
+	float fNormalizedAge; // ìˆ˜ëª…ëŒ€ë¹„ ìƒì¡´ì‹œê°„ì„ 0~1ë¡œ ì •ê·œí™” í•œ ê°’
+	float fLifeTime; // ìˆ˜ëª…
 	
-	float fMass; // Áú·®
-	float fScaleFactor; // Ãß°¡ Å©±â ¹èÀ²
+	float fMass; // ì§ˆëŸ‰
+	float fScaleFactor; // ì¶”ê°€ í¬ê¸° ë°°ìœ¨
 
 	BOOL bActive;
 	BOOL bIsBouncing;
@@ -56,9 +56,9 @@ struct VS_INOUT
 	UINT32 uInstID SEMANTIC(SV_InstanceID);
 };
 
-//Geometry Shader ÀÇ »ç¿ë ¸ñÀû
-//1. ÆÄÀÌÇÁ¶óÀÎ Á¦¾î(ÇÈ¼¿ ½¦ÀÌ´õ¿¡ µµ´ŞÇÏ±â Àü¿¡ ½¦ÀÌ´õ ÆÄÀÌÇÁ¶óÀÎÀ» Áß´Ü)
-//2. ºôº¸µå Ã³¸®(¾î¶² »óÅÂ¿¡¼­µç Ä«¸Ş¶ó¸¦ ¹Ù¶óº½)
+//Geometry Shader ì˜ ì‚¬ìš© ëª©ì 
+//1. íŒŒì´í”„ë¼ì¸ ì œì–´(í”½ì…€ ì‰ì´ë”ì— ë„ë‹¬í•˜ê¸° ì „ì— ì‰ì´ë” íŒŒì´í”„ë¼ì¸ì„ ì¤‘ë‹¨)
+//2. ë¹Œë³´ë“œ ì²˜ë¦¬(ì–´ë–¤ ìƒíƒœì—ì„œë“  ì¹´ë©”ë¼ë¥¼ ë°”ë¼ë´„)
 struct GS_OUT
 {
 	float4 vSV_Pos SEMANTIC(SV_Position);

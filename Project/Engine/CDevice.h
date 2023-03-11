@@ -8,16 +8,16 @@ class CDevice
 	: public CSingleton<CDevice>
 {
 private:
-	//ÃÊ±âÈ­ ¼ø¼­ + ·»´õ¸µ ÆÄÀÌÇÁ¶óÀÎ ¼ø¼­´ë·Î Á¤·Ä
+	//ì´ˆê¸°í™” ìˆœì„œ + ë Œë”ë§ íŒŒì´í”„ë¼ì¸ ìˆœì„œëŒ€ë¡œ ì •ë ¬
 	//Window
 	HWND							m_hWnd;
 
-	// ·»´õÅ¸°Ù ÇØ»óµµ
+	// ë Œë”íƒ€ê²Ÿ í•´ìƒë„
 	Vec2							m_vRenderResolution;
 
 	//Device-Context
-	ComPtr<ID3D11Device>			m_Device;		// GPU ¸Ş¸ğ¸® ÇÒ´ç 	
-	ComPtr<ID3D11DeviceContext>		m_Context;		// GPU Á¦¾î, ·»´õ¸µ, µ¿ÀÛ ¼öÇà
+	ComPtr<ID3D11Device>			m_Device;		// GPU ë©”ëª¨ë¦¬ í• ë‹¹ 	
+	ComPtr<ID3D11DeviceContext>		m_Context;		// GPU ì œì–´, ë Œë”ë§, ë™ì‘ ìˆ˜í–‰
 
 	//SwapChain, Render Target
 

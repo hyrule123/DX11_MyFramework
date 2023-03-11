@@ -5,8 +5,8 @@
 
 enum class eANIM_TYPE
 {
-    SEQUENTIAL,         //¼øÂ÷ Àç»ý
-    DIRECTIONAL_COL_HALF_FLIP   //0µµ~180µµ ±âÁØ ¾Ö´Ï¸ÞÀÌ¼Ç¸¸ Á¸Àç. ³Ñ¾î°¡´Â ¾Ö´Ï¸ÞÀÌ¼ÇÀº FLIPÀ» ÇØÁà¾ß ÇÔ.
+    SEQUENTIAL,         //ìˆœì°¨ ìž¬ìƒ
+    DIRECTIONAL_COL_HALF_FLIP   //0ë„~180ë„ ê¸°ì¤€ ì• ë‹ˆë©”ì´ì…˜ë§Œ ì¡´ìž¬. ë„˜ì–´ê°€ëŠ” ì• ë‹ˆë©”ì´ì…˜ì€ FLIPì„ í•´ì¤˜ì•¼ í•¨.
 };
 
 struct tAnimFrameUV
@@ -20,7 +20,7 @@ struct tAnimFrameUV
 
 struct tAnimFrame
 {
-    //¾Ö´Ï¸ÞÀÌ¼ÇÀÇ ÇÁ·¹ÀÓº° ÀÎµ¦½º
+    //ì• ë‹ˆë©”ì´ì…˜ì˜ í”„ë ˆìž„ë³„ ì¸ë±ìŠ¤
     UINT uIdxInVecFrameUV;
 
     vector<std::function<void()>> pfuncCallback;
@@ -32,12 +32,12 @@ struct tAnimFrameIdx
     vector<tAnimFrame> vecFrame;
 
     
-    //vecFrame.size()¿Í ÀÌ °ªÀº ´Ù¸¦ ¼ö ÀÖÀ½. ¹æÇâ Á¤º¸¿¡ µû¶ó °°Àº ÇÁ·¹ÀÓ¿¡ ÀÌ¹ÌÁö¸¦ º¸¿©Áà¾ß ÇÒ °æ¿ì µîµî
+    //vecFrame.size()ì™€ ì´ ê°’ì€ ë‹¤ë¥¼ ìˆ˜ ìžˆìŒ. ë°©í–¥ ì •ë³´ì— ë”°ë¼ ê°™ì€ í”„ë ˆìž„ì— ì´ë¯¸ì§€ë¥¼ ë³´ì—¬ì¤˜ì•¼ í•  ê²½ìš° ë“±ë“±
     UINT                uNumFrame;
     float               fFullPlayTime;
 
-    //À§ÀÇ ÀüÃ¼ Àç»ý½Ã°£ / ÇÁ·¹ÀÓ ¼ö ÇÑ°Í(ÇÑ ÇÁ·¹ÀÓ´ç ½Ã°£) 
-    //ÀÚµ¿ °è»ê
+    //ìœ„ì˜ ì „ì²´ ìž¬ìƒì‹œê°„ / í”„ë ˆìž„ ìˆ˜ í•œê²ƒ(í•œ í”„ë ˆìž„ë‹¹ ì‹œê°„) 
+    //ìžë™ ê³„ì‚°
     float               fTimePerFrame;  
 
     eANIM_TYPE          eAnimType;
@@ -60,17 +60,17 @@ public:
     virtual int Save(const wstring&) override { return 0; };
 
 private:
-    //¾Ö´Ï¸ÞÀÌ¼ÇÀÇ ´ë»óÀÌ µÇ´Â ÅØ½ºÃ³
+    //ì• ë‹ˆë©”ì´ì…˜ì˜ ëŒ€ìƒì´ ë˜ëŠ” í…ìŠ¤ì²˜
     Ptr<CTexture>       m_AtlasTex; 
 
-    //ÇÁ·¹ÀÓÀÇ UV Á¤º¸ ÀüÃ¼ ¸ðÀ½
+    //í”„ë ˆìž„ì˜ UV ì •ë³´ ì „ì²´ ëª¨ìŒ
     vector<tAnimFrameUV> m_vecFrameUV;
 
-    //°³º° ¾Ö´Ï¸ÞÀÌ¼ÇÀÇ ÇÁ·¹ÀÓ ¹øÈ£°¡ ÀúÀåµÇ¾îÀÖ´Â º¤ÅÍ¸¦ µé°íÀÖ´Â º¯¼ö
-    //½ÇÁ¦ ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ÀúÀåµÇ´Â Àå¼Ò
+    //ê°œë³„ ì• ë‹ˆë©”ì´ì…˜ì˜ í”„ë ˆìž„ ë²ˆí˜¸ê°€ ì €ìž¥ë˜ì–´ìžˆëŠ” ë²¡í„°ë¥¼ ë“¤ê³ ìžˆëŠ” ë³€ìˆ˜
+    //ì‹¤ì œ ì• ë‹ˆë©”ì´ì…˜ì´ ì €ìž¥ë˜ëŠ” ìž¥ì†Œ
     unordered_map<string, tAnimFrameIdx> m_mapAnim;
 
-    //±×¸®µå ÇüÅÂÀÇ ¾Ö´Ï¸ÞÀÌ¼ÇÀÏ °æ¿ì »ç¿ë
+    //ê·¸ë¦¬ë“œ í˜•íƒœì˜ ì• ë‹ˆë©”ì´ì…˜ì¼ ê²½ìš° ì‚¬ìš©
     UINT m_uRowTotal;
     UINT m_uColTotal;
 
@@ -83,7 +83,7 @@ public:
     void SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, UINT _uRowPitch);
 
 
-    //¾Ö´Ï¸ÞÀÌ¼Ç »ý¼º ¸Þ¼Òµå
+    //ì• ë‹ˆë©”ì´ì…˜ ìƒì„± ë©”ì†Œë“œ
     //================================================================================================================
     tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx, 
          float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
@@ -91,7 +91,7 @@ public:
 
     tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f));
 
-    //¾Ö´Ï¸ÞÀÌ¼ÇÀ» ¸¸µé¶§´Â ÀüÃ¼ ¿­ÀÇ °¹¼ö¸¸ ¹ÞÀ½. ³ª¸ÓÁö´Â ¾È¿¡¼­ °è»êÇÔ
+    //ì• ë‹ˆë©”ì´ì…˜ì„ ë§Œë“¤ë•ŒëŠ” ì „ì²´ ì—´ì˜ ê°¯ìˆ˜ë§Œ ë°›ìŒ. ë‚˜ë¨¸ì§€ëŠ” ì•ˆì—ì„œ ê³„ì‚°í•¨
     tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
@@ -101,7 +101,7 @@ public:
         float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
 
-    //°¢ ½ºÇÁ¶óÀÌÆ®°¡ ¿¬¼ÓµÈ Á¤¼ö°¡ ¾Æ´Ñ ¶³¾îÁø ¼ýÀÚÀÏ °æ¿ì »ç¿ë
+    //ê° ìŠ¤í”„ë¼ì´íŠ¸ê°€ ì—°ì†ëœ ì •ìˆ˜ê°€ ì•„ë‹Œ ë–¨ì–´ì§„ ìˆ«ìžì¼ ê²½ìš° ì‚¬ìš©
     tAnimFrameIdx* AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f));
     //=================================================================================================================
 

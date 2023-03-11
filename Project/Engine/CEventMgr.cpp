@@ -32,8 +32,8 @@ void CEventMgr::DestroyObject(const tEvent& _event)
 {
 	CGameObject* _pObj = reinterpret_cast<CGameObject*>(_event.lParam);
 
-	//ÀÌ¹Ì »èÁ¦ ´ë±â »óÅÂ¿¡ µé¾î°¡ ÀÖ´Â °æ¿ì Ãß°¡·Î µî·ÏÇÏÁö ¾ÊÀ½.
-	//Áßº¹ »èÁ¦ ¹æÁö(´ó±Û¸µ Æ÷ÀÎÅÍ À§Çè)
+	//ì´ë¯¸ ì‚­ì œ ëŒ€ê¸° ìƒíƒœì— ë“¤ì–´ê°€ ìžˆëŠ” ê²½ìš° ì¶”ê°€ë¡œ ë“±ë¡í•˜ì§€ ì•ŠìŒ.
+	//ì¤‘ë³µ ì‚­ì œ ë°©ì§€(ëŒ•ê¸€ë§ í¬ì¸í„° ìœ„í—˜)
 	if (true == _pObj->GetDestroyed())
 		return;
 
@@ -53,11 +53,11 @@ void CEventMgr::AddChildObj(const tEvent& _event)
 
 void CEventMgr::tick()
 {
-	//bDestroy »óÅÂÀÎ °ÔÀÓ¿ÀºêÁ§Æ®¸¦ Level¿¡¼­ Á¦°Å
+	//bDestroy ìƒíƒœì¸ ê²Œìž„ì˜¤ë¸Œì íŠ¸ë¥¼ Levelì—ì„œ ì œê±°
 	CLevelMgr::GetInst()->GetCurLevel()->RemoveDestroyed();
 
-	//ÀÌº¥Æ® Å¥°¡ ÁøÇàµÇ±â Àü¿¡ ÀÌÀü ÇÁ·¹ÀÓ¿¡¼­ µî·ÏµÈ ¿ÀºêÁ§Æ®¸¦ Á¦°Å
-	//ÀÌ·¯¸é Áö³­ ÇÁ·¹ÀÓ¿¡¼­ Á¦°ÅÇÏµµ·Ï µî·ÏµÇ¾ú´ø ¿ÀºêÁ§Æ®µéÀÌ ÀüºÎ Áö¿öÁö°Ô µÊ.
+	//ì´ë²¤íŠ¸ íê°€ ì§„í–‰ë˜ê¸° ì „ì— ì´ì „ í”„ë ˆìž„ì—ì„œ ë“±ë¡ëœ ì˜¤ë¸Œì íŠ¸ë¥¼ ì œê±°
+	//ì´ëŸ¬ë©´ ì§€ë‚œ í”„ë ˆìž„ì—ì„œ ì œê±°í•˜ë„ë¡ ë“±ë¡ë˜ì—ˆë˜ ì˜¤ë¸Œì íŠ¸ë“¤ì´ ì „ë¶€ ì§€ì›Œì§€ê²Œ ë¨.
 	size_t size = m_vecReserveDestroy.size();
 	for (size_t i = 0; i < size; ++i)
 	{

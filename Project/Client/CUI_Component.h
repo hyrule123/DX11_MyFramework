@@ -27,7 +27,7 @@ public:
     CGameObject* GetTarget() { return m_pTarget; }
     eCOMPONENT_TYPE GetComponentType() { return m_Type; }
 
-    //ÀÎÀÚ·Î µé¾î¿Â ¹öÆÛ¿¡ wstring Å¸ÀÔÀÇ Å°°ªÀ» string ÇüÅÂ·Î ¹Ù²ã¼­ ³Ö¾îÁÖ´Â ÇÔ¼ö
+    //ì¸ìë¡œ ë“¤ì–´ì˜¨ ë²„í¼ì— wstring íƒ€ì…ì˜ í‚¤ê°’ì„ string í˜•íƒœë¡œ ë°”ê¿”ì„œ ë„£ì–´ì£¼ëŠ” í•¨ìˆ˜
     const string& GetResKey(Ptr<CRes> _Res);
 
 public:

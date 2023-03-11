@@ -30,8 +30,8 @@ public:
     virtual void finaltick();
     bool render();
 
-    //Á¦°ÅµÇ±â Àü ±âÁ¸ ¿ÀºêÁ§Æ®µé°úÀÇ °ü°è¸¦ Á¦°Å
-    //bDestroy°¡ trueÀÏ °æ¿ì À§ÀÇ ·ÎÁ÷Àº ÁøÇàÇÏÁö ¾Ê°í ¿ÀÁ÷ cleanup() ÇÔ¼ö¸¸ È£ÃâÇÑ´Ù.
+    //ì œê±°ë˜ê¸° ì „ ê¸°ì¡´ ì˜¤ë¸Œì íŠ¸ë“¤ê³¼ì˜ ê´€ê³„ë¥¼ ì œê±°
+    //bDestroyê°€ trueì¼ ê²½ìš° ìœ„ì˜ ë¡œì§ì€ ì§„í–‰í•˜ì§€ ì•Šê³  ì˜¤ì§ cleanup() í•¨ìˆ˜ë§Œ í˜¸ì¶œí•œë‹¤.
     void cleanup();
 
 private:
@@ -48,14 +48,14 @@ private:
 
     //Layer Info
     int                     m_iLayerIdx;
-    bool                    m_bFixLayer;    //·¹ÀÌ¾î ¹øÈ£¸¦ °íÁ¤. ºÎ¸ğ ·¹ÀÌ¾î¸¦ ¿Å°Üµµ ÀÚ½ÅÀº ¿Å°ÜÁöÁö ¾ÊÀ½.
+    bool                    m_bFixLayer;    //ë ˆì´ì–´ ë²ˆí˜¸ë¥¼ ê³ ì •. ë¶€ëª¨ ë ˆì´ì–´ë¥¼ ì˜®ê²¨ë„ ìì‹ ì€ ì˜®ê²¨ì§€ì§€ ì•ŠìŒ.
 
     //Birth, Death
     bool                    m_bDestroy;
     float                   m_fLifeSpan;
 
-    //ÃÊ±âÈ­ µÇ¾î ÇöÀç Level ¾È¿¡¼­ ÀÛµ¿ÁßÀÎÁö ¿©ºÎ¸¦ ÀúÀå.
-    //ÀÛµ¿ ÀÌÈÄ ÄÄÆ÷³ÍÆ®°¡ Ãß°¡µÉ ½Ã ¹Ù·Î init È£Ãâ.
+    //ì´ˆê¸°í™” ë˜ì–´ í˜„ì¬ Level ì•ˆì—ì„œ ì‘ë™ì¤‘ì¸ì§€ ì—¬ë¶€ë¥¼ ì €ì¥.
+    //ì‘ë™ ì´í›„ ì»´í¬ë„ŒíŠ¸ê°€ ì¶”ê°€ë  ì‹œ ë°”ë¡œ init í˜¸ì¶œ.
     bool                m_bInitialized;
 
 public:
@@ -90,7 +90,7 @@ public:
     int          GetLayer() const { return m_iLayerIdx; }
     bool         GetDestroyed() const { return m_bDestroy; }
     
-    //Master GameObject¸¸ LevelMgr¿¡¼­ tick()¸¦ È£ÃâÇÑ´Ù.
+    //Master GameObjectë§Œ LevelMgrì—ì„œ tick()ë¥¼ í˜¸ì¶œí•œë‹¤.
     bool                IsMaster()  const { return (nullptr == m_Parent); }
 
     //Add
@@ -103,7 +103,7 @@ public:
     void AddAllHierarchyObjects(__in int _iLayerIdx, __out vector<CGameObject*>& _vecObj);
     void SetParentMatrixUpdated();
 
-    //±âÅ¸
+    //ê¸°íƒ€
     bool GetParentWorldMatrix(__out Matrix& _mat);
 
     const vector<CGameObject*>& GetvecChilds() const { return m_vecChild; }
@@ -136,7 +136,7 @@ inline void CGameObject::DestroyForEventMgr()
 
 inline void CGameObject::SetLifeSpan(float _fLifeSpan)
 {
-    //ÀÌ¹Ì ¼ö¸íÀÌ ¼³Á¤µÇ¾úÀ» °æ¿ì¿¡´Â retrurn
+    //ì´ë¯¸ ìˆ˜ëª…ì´ ì„¤ì •ë˜ì—ˆì„ ê²½ìš°ì—ëŠ” retrurn
     if (m_fLifeSpan != FLT_MAX_NEG)
         return;
 

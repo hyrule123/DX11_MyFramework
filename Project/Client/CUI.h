@@ -12,8 +12,8 @@
 //uDataSize > 0 -> Data Start Point
 
 
-//¿©·¯ °³ÀÇ Ã¢ÀÌ »ý¼ºµÉ °¡´É¼ºÀÌ ÀÖ´Â UIÀÇ °æ¿ì
-//IMGUI.ini¿¡ ÀúÀåÇÏÁö ¾Êµµ·Ï ¼³Á¤ÇÏ°í, ÀúÀåÇØ¾ß ÇÒ °æ¿ì json ÆÄÀÏÀ» ÅëÇØ¼­ ¼³Á¤°ªÀ» ÀúÀåÇÒ°Í
+//ì—¬ëŸ¬ ê°œì˜ ì°½ì´ ìƒì„±ë  ê°€ëŠ¥ì„±ì´ ìžˆëŠ” UIì˜ ê²½ìš°
+//IMGUI.iniì— ì €ìž¥í•˜ì§€ ì•Šë„ë¡ ì„¤ì •í•˜ê³ , ì €ìž¥í•´ì•¼ í•  ê²½ìš° json íŒŒì¼ì„ í†µí•´ì„œ ì„¤ì •ê°’ì„ ì €ìž¥í• ê²ƒ
 
 class CUI
 	: public CEntity
@@ -25,7 +25,7 @@ public:
 	CLONE_DISABLE(CUI)
 
 public:
-	//À§Ä¡ ÀÌµ¿ÀÌ³ª ³»ºÎ ¿¬°áµÈ °´Ã¼µéÀÇ °ª Á¶Á¤ ÀÛ¾÷Àº ¿©±â¼­ ÁøÇà
+	//ìœ„ì¹˜ ì´ë™ì´ë‚˜ ë‚´ë¶€ ì—°ê²°ëœ ê°ì²´ë“¤ì˜ ê°’ ì¡°ì • ìž‘ì—…ì€ ì—¬ê¸°ì„œ ì§„í–‰
 	void tickRecursive();
 	void finaltick();
 
@@ -34,16 +34,16 @@ public:
 	virtual void tick() {}
 	
 
-	//ÀçÁ¤ÀÇÇØ¼­ °¢ÀÚ UI¿¡ ¸Â´Â beginÇÔ¼ö¸¦ È£Ãâ. bool °ªÀÌ ¹ÝÈ¯µÇ¸ç, true°¡ ¹ÝÈ¯µÇ¾úÀ» ¶§¿¡¸¸ endUI()°¡ È£ÃâµÊ.
-	//±×·¯¹Ç·Î ¹«Á¶°Ç endUI()¸¦ È£ÃâÇÏ°í ½ÍÀ» °æ¿ì¿¡´Â true¸¦ °íÁ¤À¸·Î ¹ÝÈ¯½ÃÄÑÁÙ °Í 
-	//bool°ªÀ» ¹ÝÈ¯ ¿©ºÎ¿¡ µû¶ó endUI() È£Ãâ ¿©ºÎ°¡ ´Þ¶óÁö´Â IMGUI ÇÔ¼ö(ex.ComboBox)ÀÇ °æ¿ì¿¡´Â
-	//return °ªÀ¸·Î ÇØ´ç ÇÔ¼ö¸¦ È£ÃâÇÏ¸é µÈ´Ù.
+	//ìž¬ì •ì˜í•´ì„œ ê°ìž UIì— ë§žëŠ” beginí•¨ìˆ˜ë¥¼ í˜¸ì¶œ. bool ê°’ì´ ë°˜í™˜ë˜ë©°, trueê°€ ë°˜í™˜ë˜ì—ˆì„ ë•Œì—ë§Œ endUI()ê°€ í˜¸ì¶œë¨.
+	//ê·¸ëŸ¬ë¯€ë¡œ ë¬´ì¡°ê±´ endUI()ë¥¼ í˜¸ì¶œí•˜ê³  ì‹¶ì„ ê²½ìš°ì—ëŠ” trueë¥¼ ê³ ì •ìœ¼ë¡œ ë°˜í™˜ì‹œì¼œì¤„ ê²ƒ 
+	//boolê°’ì„ ë°˜í™˜ ì—¬ë¶€ì— ë”°ë¼ endUI() í˜¸ì¶œ ì—¬ë¶€ê°€ ë‹¬ë¼ì§€ëŠ” IMGUI í•¨ìˆ˜(ex.ComboBox)ì˜ ê²½ìš°ì—ëŠ”
+	//return ê°’ìœ¼ë¡œ í•´ë‹¹ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ë©´ ëœë‹¤.
 	virtual bool beginUI() = 0;
 
-	//¿©±â¿¡´Â Å¬·¡½º¿¡¼­ Æ¯º°ÇÏ°Ô È£ÃâÇØ¾ßÇÒ ·¹ÀÌ¾Æ¿ôÀÌ ÀÖÀ» °æ¿ì ÀçÁ¤ÀÇÇØ¼­ »ç¿ëÇÏ¸é µÊ.
+	//ì—¬ê¸°ì—ëŠ” í´ëž˜ìŠ¤ì—ì„œ íŠ¹ë³„í•˜ê²Œ í˜¸ì¶œí•´ì•¼í•  ë ˆì´ì•„ì›ƒì´ ìžˆì„ ê²½ìš° ìž¬ì •ì˜í•´ì„œ ì‚¬ìš©í•˜ë©´ ë¨.
 	virtual void render_update() {}
 
-	//ÀçÁ¤ÀÇÇØ¼­ °¢ÀÚ UI¿¡ ¸Â´Â endÇÔ¼ö¸¦ È£Ãâ
+	//ìž¬ì •ì˜í•´ì„œ ê°ìž UIì— ë§žëŠ” endí•¨ìˆ˜ë¥¼ í˜¸ì¶œ
 	virtual void endUI() = 0;
 
 	void SaveRecursive(Json::Value& _Node);
@@ -52,13 +52,13 @@ public:
 
 
 private:
-	string			m_strID;		//°íÀ¯ ID. Áßº¹µÇÁö ¾ÊÀ½.
+	string			m_strID;		//ê³ ìœ  ID. ì¤‘ë³µë˜ì§€ ì•ŠìŒ.
 	
 
-	CUI*			m_ParentUI;		// ºÎ¸ð UI
-	vector<CUI*>	m_vecChildUI;	// ÀÚ½Ä UI ¸ñ·Ï
-	bool			m_bActive;		// UI È°¼ºÈ­ Ã¼Å©
-	bool			m_bNoChildUI;	// ÀÚ½Ä ³ëµå°¡ µé¾î°¥ ¼ö ¾ø´Â ³ëµå·Î ¼³Á¤
+	CUI*			m_ParentUI;		// ë¶€ëª¨ UI
+	vector<CUI*>	m_vecChildUI;	// ìžì‹ UI ëª©ë¡
+	bool			m_bActive;		// UI í™œì„±í™” ì²´í¬
+	bool			m_bNoChildUI;	// ìžì‹ ë…¸ë“œê°€ ë“¤ì–´ê°ˆ ìˆ˜ ì—†ëŠ” ë…¸ë“œë¡œ ì„¤ì •
 	
 
 public:
@@ -67,7 +67,7 @@ public:
 	bool* GetActivePtr() { return &m_bActive; }
 	bool ToggleActive() { m_bActive = !m_bActive; return m_bActive; }
 
-	//ÀÚ½ÅÀÇ ¼ýÀÚ ID³Ñ¹ö¸¦ µÚ¿¡ ´õÇØ¼­ °íÀ¯ ID »ý¼º(ID´Â Ã¢¿¡ ¶ßÁö ¾ÊÀ½)
+	//ìžì‹ ì˜ ìˆ«ìž IDë„˜ë²„ë¥¼ ë’¤ì— ë”í•´ì„œ ê³ ìœ  ID ìƒì„±(IDëŠ” ì°½ì— ëœ¨ì§€ ì•ŠìŒ)
 	void SetStrID(const string& _strID) { m_strID = _strID; }
 	const string& GetStrID() const { return m_strID; }
 	void AddStrID(const string& _strID) { m_strID += _strID; }

@@ -10,7 +10,7 @@ void CreateScriptCode()
 {
 	string ScriptPath = "Project\\Script\\";
 
-	//Key = strKeyÀÇ º¯¼ö¸í, Value = ÆÄÀÏ¸í
+	//Key = strKeyì˜ ë³€ìˆ˜ëª…, Value = íŒŒì¼ëª…
 	unordered_map<wstring, wstring> mapScripts;
 
 	std::filesystem::directory_iterator iter(ScriptPath);
@@ -20,20 +20,20 @@ void CreateScriptCode()
 
 		const wstring& ScriptVal = entry.path().filename().wstring();
 
-		//"CScript_" ¿Í .h°¡ ºÙ¾îÀÖ´Â ÆÄÀÏµé¸¸ Ãß°¡
+		//"CScript_" ì™€ .hê°€ ë¶™ì–´ìˆëŠ” íŒŒì¼ë“¤ë§Œ ì¶”ê°€
 		if (wstring::npos != ScriptVal.find(ScriptStandardPrefix) && wstring::npos != ScriptVal.find(ScriptStandardSuffix))
 		{
 			wstring ScriptKey = ScriptVal;
 
-			//¾ÕºÎºĞ Á¦°Å
+			//ì•ë¶€ë¶„ ì œê±°
 			ScriptKey.erase(0, lstrlenW(ScriptStandardPrefix));
 
-			//µŞºÎºĞ Á¦°Å
+			//ë’·ë¶€ë¶„ ì œê±°
 			size_t pos = ScriptKey.find(ScriptStandardSuffix);
 			if (wstring::npos != pos)
 				ScriptKey.erase(pos, lstrlenW(ScriptStandardSuffix));
 
-			//´ë¹®ÀÚ·Î º¯°æ
+			//ëŒ€ë¬¸ìë¡œ ë³€ê²½
 			transform(ScriptKey.begin(), ScriptKey.end(), ScriptKey.begin(), ::towupper);
 
 
@@ -44,7 +44,7 @@ void CreateScriptCode()
 	}
 
 
-	//strKey ÀÛ¼º
+	//strKey ì‘ì„±
 	string strKeyPath = ScriptPath + "strKeyScript.h";
 	std::wofstream strKey(strKeyPath);
 	if (false == strKey.is_open())
@@ -75,13 +75,13 @@ void CreateScriptCode()
 	strKey.close();
 
 
-	//CScriptMgr ÀÛ¼º
+	//CScriptMgr ì‘ì„±
 	string ScriptMgrPath = ScriptPath + "CScriptMgr.cpp";
 	std::wofstream ScriptMgr(ScriptMgrPath);
 	if (false == ScriptMgr.is_open())
 		return;
 
-	//±âº» include
+	//ê¸°ë³¸ include
 	wstring RawLiteral = LR"(
 #pragma once
 
@@ -92,7 +92,7 @@ void CreateScriptCode()
 	ScriptMgr << RawLiteral;
 
 
-	//»ı¼ºµÈ ½ºÅ©¸³Æ® ¼øÈ¸µ¹¸ç »ğÀÔ
+	//ìƒì„±ëœ ìŠ¤í¬ë¦½íŠ¸ ìˆœíšŒëŒë©° ì‚½ì…
 	WriteCode(ScriptMgr, L"//Created Scripts");
 	for (const auto& iter : mapScripts)
 	{
@@ -101,7 +101,7 @@ void CreateScriptCode()
 	WriteCode(ScriptMgr);
 
 
-	//»ı¼ºÀÚ ¹× ¼Ò¸êÀÚ
+	//ìƒì„±ì ë° ì†Œë©¸ì
 	RawLiteral = LR"(
 
 

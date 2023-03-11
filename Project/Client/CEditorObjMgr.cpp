@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 
 #include "CEditorObjMgr.h"
 #include "CImGuiMgr.h"
@@ -11,7 +11,7 @@
 #include <Engine/CMeshRender.h>
 #include <Engine/CCamera.h>
 #include <Engine/CTransform.h>
-#include <Engine/strKeys.h>
+#include <Engine/strKeyDefaultRes.h>
 #include <Engine/CCollider2D_Point.h>
 
 #include <Engine/S_0_H_Debug.hlsli>

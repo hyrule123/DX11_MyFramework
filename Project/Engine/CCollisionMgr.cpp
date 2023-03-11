@@ -38,12 +38,12 @@ void CCollisionMgr::CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLB
 {
 	_vecIdx.clear();
 
-	//±×¸®µå ±âÁØÀÇ ÁÂÇ¥°è·Î º¯È¯ÇÑ´Ù.
+	//ê·¸ë¦¬ë“œ ê¸°ì¤€ì˜ ì¢Œí‘œê³„ë¡œ ë³€í™˜í•œë‹¤.
 	_vLBRTPos -= m_v4SpaceLBPos;
-	//±×¸®µå ÇÑ Ä­ÀÇ »çÀÌÁî·Î ³ª´² ÁÖ¸é Á¡ ÇÑ Ä­ÀÇ ÀÎµ¦½º À§Ä¡¸¦ °è»êÇÒ ¼ö ÀÖÀ½.
+	//ê·¸ë¦¬ë“œ í•œ ì¹¸ì˜ ì‚¬ì´ì¦ˆë¡œ ë‚˜ëˆ  ì£¼ë©´ ì  í•œ ì¹¸ì˜ ì¸ë±ìŠ¤ ìœ„ì¹˜ë¥¼ ê³„ì‚°í•  ìˆ˜ ìˆìŒ.
 	_vLBRTPos *= m_v4GridSizeInv;
 
-	//ÀÎµ¦½ºÀÇ ¹üÀ§¸¦ ±×¸®µå ¹üÀ§ ¾ÈÀ¸·Î ÇÑÁ¤
+	//ì¸ë±ìŠ¤ì˜ ë²”ìœ„ë¥¼ ê·¸ë¦¬ë“œ ë²”ìœ„ ì•ˆìœ¼ë¡œ í•œì •
 	enum { BeginX, BeginY, EndX, EndY };
 	int iBeginXYEndXY[4] = {};
 	iBeginXYEndXY[BeginX] = std::clamp((int)_vLBRTPos.x, 0, m_iNum2DGridX);
@@ -67,7 +67,7 @@ void CCollisionMgr::CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLB
 
 void CCollisionMgr::AddCollider2D(CCollider2D* _pCol, const vector<UINT>& _vecIdx)
 {
-	//±×³É ¼øÈ¸ µ¹¾ÆÁÖ¸é¼­ ±×¸®µå¿¡ Ãæµ¹°Ë»çÇØ¾ßµÉ Ãæµ¹Ã¼ Á¤Á¡À» Áı¾î³Ö´Â´Ù.
+	//ê·¸ëƒ¥ ìˆœíšŒ ëŒì•„ì£¼ë©´ì„œ ê·¸ë¦¬ë“œì— ì¶©ëŒê²€ì‚¬í•´ì•¼ë  ì¶©ëŒì²´ ì •ì ì„ ì§‘ì–´ë„£ëŠ”ë‹¤.
 	size_t size = _vecIdx.size();
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -92,7 +92,7 @@ void CCollisionMgr::Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridN
 	m_vGridSize = Vec2(GridSizeX, GridSizeY);
 
 
-	//³ª´°¼ÀÀº °ö¼Àº¸´Ù ´À¸®¹Ç·Î, °Ô»ê ÃÖÀûÈ­¸¦ À§ÇØ ³ª´°¼À °ªÀ» ¹Ì¸® ±¸ÇØ ³õ´Â´Ù.
+	//ë‚˜ëˆ—ì…ˆì€ ê³±ì…ˆë³´ë‹¤ ëŠë¦¬ë¯€ë¡œ, ê²Œì‚° ìµœì í™”ë¥¼ ìœ„í•´ ë‚˜ëˆ—ì…ˆ ê°’ì„ ë¯¸ë¦¬ êµ¬í•´ ë†“ëŠ”ë‹¤.
 	m_vGridSizeInv.x = 1.f / GridSizeX;
 	m_vGridSizeInv.y = 1.f / GridSizeY;
 	m_v4GridSizeInv = Vec4(m_vGridSizeInv.x, m_vGridSizeInv.y, m_vGridSizeInv.x, m_vGridSizeInv.y);
@@ -107,14 +107,14 @@ void CCollisionMgr::tick()
 	for (int i = 0; i < m_iNum2DGridTotalIndex; ++i)
 	{
 		size_t size = m_vec2DGrid[i].vecColl.size();
-		//Ãæµ¹Àº ÃÖ¼Ò 2°³°¡ ÀÖ¾î¾ß ÁøÇà °¡´ÉÇÏ¹Ç·Î 2»çÀÌÁî°¡ 2°³ ÀÌÇÏÀÏ °æ¿ì ºñ¿öÁÖ°í ´ÙÀ½ º¤ÅÍ¿¡ ´ëÇØ Ãæµ¹°Ë»ç ÁøÇà
+		//ì¶©ëŒì€ ìµœì†Œ 2ê°œê°€ ìˆì–´ì•¼ ì§„í–‰ ê°€ëŠ¥í•˜ë¯€ë¡œ 2ì‚¬ì´ì¦ˆê°€ 2ê°œ ì´í•˜ì¼ ê²½ìš° ë¹„ì›Œì£¼ê³  ë‹¤ìŒ ë²¡í„°ì— ëŒ€í•´ ì¶©ëŒê²€ì‚¬ ì§„í–‰
 		if (size < 2)
 		{
 			m_vec2DGrid[i].vecColl.clear();
 			continue;
 		}
 			
-		//±×¸®µå ³»ºÎ¸¦ ID ¼ø¼­´ë·Î Á¤·ÄÇÑ´Ù.
+		//ê·¸ë¦¬ë“œ ë‚´ë¶€ë¥¼ ID ìˆœì„œëŒ€ë¡œ ì •ë ¬í•œë‹¤.
 		std::sort(m_vec2DGrid[i].vecColl.begin(), m_vec2DGrid[i].vecColl.end(),
 			[](CCollider2D* _pColA, CCollider2D* _pColB)->bool
 			{
@@ -126,14 +126,14 @@ void CCollisionMgr::tick()
 		{
 			for (int m = l + 1; m < size; ++m)
 			{
-				//µÎ ·¹ÀÌ¾î°¡ Ãæµ¹ÇÏµµ·Ï ¼³Á¤µÇ¾î ÀÖ´ÂÁö ¿©ºÎ¸¦ °Ë»çÇÑ´Ù. Ãæµ¹ÇÏÁö ¾Ê´Â ·¹ÀÌ¾îÀÏ °æ¿ì Ãæµ¹ °Ë»ç X
+				//ë‘ ë ˆì´ì–´ê°€ ì¶©ëŒí•˜ë„ë¡ ì„¤ì •ë˜ì–´ ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ ê²€ì‚¬í•œë‹¤. ì¶©ëŒí•˜ì§€ ì•ŠëŠ” ë ˆì´ì–´ì¼ ê²½ìš° ì¶©ëŒ ê²€ì‚¬ X
 				if (false == (m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColl[l]->GetLayerIndex()]
 					&
 					(UINT32)1 << m_vec2DGrid[i].vecColl[m]->GetLayerIndex())
 					)
 					continue;
 
-				//À§¿¡¼­ ID¼ø ¿À¸§Â÷¼øÀ¸·Î Á¤·ÄÇßÀ¸¹Ç·Î ID¸¦ ±»ÀÌ ºñ±³ÇÒ ÇÊ¿ä°¡ ¾ø´Ù.
+				//ìœ„ì—ì„œ IDìˆœ ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ ì •ë ¬í–ˆìœ¼ë¯€ë¡œ IDë¥¼ êµ³ì´ ë¹„êµí•  í•„ìš”ê°€ ì—†ë‹¤.
 				CollisionID ID = {}; 
 				ID.LowID = m_vec2DGrid[i].vecColl[l]->GetID();
 				ID.HighID = m_vec2DGrid[i].vecColl[m]->GetID();
@@ -141,7 +141,7 @@ void CCollisionMgr::tick()
 				CCollider2D* pColA = m_vec2DGrid[i].vecColl[l];
 				CCollider2D* pColB = m_vec2DGrid[i].vecColl[m];
 
-				//Ãæµ¹
+				//ì¶©ëŒ
 				if (true == CheckCollision2D(pColA, pColB))
 				{
 
@@ -151,7 +151,7 @@ void CCollisionMgr::tick()
 						pColA->BeginCollision(pColB);
 
 
-						//Ãæµ¹ Á¤º¸¿¡ Ãæµ¹À» Ã¼Å©ÇÑ ½Ã°£°ú Ãæµ¹Ã¼ ÁÖ¼Ò¸¦ ³Ö¾î¼­ map¿¡ »ğÀÔÇÑ´Ù.
+						//ì¶©ëŒ ì •ë³´ì— ì¶©ëŒì„ ì²´í¬í•œ ì‹œê°„ê³¼ ì¶©ëŒì²´ ì£¼ì†Œë¥¼ ë„£ì–´ì„œ mapì— ì‚½ì…í•œë‹¤.
 						tCollisionInfo Info = 
 						{ CTimeMgr::GetInst()->GetCurCount(), 
 							pColA, pColB };
@@ -161,18 +161,18 @@ void CCollisionMgr::tick()
 					{
 						pColA->OnCollision(pColB);
 
-						//Ãæµ¹ ÁßÀÌ¶ó¸é(map¿¡ Ãæµ¹ Á¤º¸°¡ µé¾î ÀÖ´Ù¸é) Ã¼Å©ÇÑ ½Ã°£¸¸ °»½ÅÇÑ´Ù.
+						//ì¶©ëŒ ì¤‘ì´ë¼ë©´(mapì— ì¶©ëŒ ì •ë³´ê°€ ë“¤ì–´ ìˆë‹¤ë©´) ì²´í¬í•œ ì‹œê°„ë§Œ ê°±ì‹ í•œë‹¤.
 						iter->second.llCheckedCount = CTimeMgr::GetInst()->GetCurCount();
 					}
 
 				}
-				//ºñÃæµ¹
+				//ë¹„ì¶©ëŒ
 				else
 				{
 					auto iter = m_umapCollisionID.find(ID.FullID);
 					if (iter != m_umapCollisionID.end())
 					{
-						//Ãæµ¹ÀÌ ³¡³µ´Âµ¥ ID°¡ ³²¾ÆÀÖ´Ù¸é Ãæµ¹ ³¡ ÇÔ¼ö¸¦ È£ÃâÇÏ°í Ãæµ¹ Á¤º¸¸¦ Á¦°ÅÇÑ´Ù.
+						//ì¶©ëŒì´ ëë‚¬ëŠ”ë° IDê°€ ë‚¨ì•„ìˆë‹¤ë©´ ì¶©ëŒ ë í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê³  ì¶©ëŒ ì •ë³´ë¥¼ ì œê±°í•œë‹¤.
 						pColA->EndCollision(pColB);
 
 						m_umapCollisionID.erase(iter);
@@ -182,18 +182,18 @@ void CCollisionMgr::tick()
 			}
 		}
 
-		//±×¸®µå ³»ºÎÀÇ Ãæµ¹Ã¼ Á¤º¸¸¦ ºñ¿öÁØ´Ù.
+		//ê·¸ë¦¬ë“œ ë‚´ë¶€ì˜ ì¶©ëŒì²´ ì •ë³´ë¥¼ ë¹„ì›Œì¤€ë‹¤.
 		m_vec2DGrid[i].vecColl.clear();
 	}
 
-	//ÀÌ¹ø Å¸ÀÓ¿¡ Ãæµ¹È®ÀÎµÇÁö ¾ÊÀº Ãæµ¹Ã¼µé¿¡ ´ëÇØ¼­ Ãæµ¹ Á¦°Å Ã³¸®
-	//ÀÌ¹ø Æ½¿¡ ±â·ÏµÈ Áøµ¿°ªÀ» ¹Ş¾Æ¿Â´Ù.
+	//ì´ë²ˆ íƒ€ì„ì— ì¶©ëŒí™•ì¸ë˜ì§€ ì•Šì€ ì¶©ëŒì²´ë“¤ì— ëŒ€í•´ì„œ ì¶©ëŒ ì œê±° ì²˜ë¦¬
+	//ì´ë²ˆ í‹±ì— ê¸°ë¡ëœ ì§„ë™ê°’ì„ ë°›ì•„ì˜¨ë‹¤.
 	LONGLONG CurTime = CTimeMgr::GetInst()->GetCurCount();
 	auto iter = m_umapCollisionID.begin();
 	const auto& iterEnd = m_umapCollisionID.end();
 	while (iter != iterEnd)
 	{
-		//±â·ÏµÈ ½Ã°£ÀÌ ÀÌ¹ø tickÀÇ ½Ã°£ÀÌ ¾Æ´Ò °æ¿ì Ãæµ¹ ÇØÃ¼ Ã³¸®ÇÏ°í Á¦°ÅÇÑ´Ù.
+		//ê¸°ë¡ëœ ì‹œê°„ì´ ì´ë²ˆ tickì˜ ì‹œê°„ì´ ì•„ë‹ ê²½ìš° ì¶©ëŒ í•´ì²´ ì²˜ë¦¬í•˜ê³  ì œê±°í•œë‹¤.
 		if (CurTime != iter->second.llCheckedCount)
 		{
 			iter->second.pColliderA->EndCollision(iter->second.pColliderB);
@@ -252,11 +252,11 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 	const tOBB2D& OBB_1 = static_cast<CCollider2D_OBB*>(_pColOBB2D_1)->GetColliderInfo();
 	const tOBB2D& OBB_2 = static_cast<CCollider2D_OBB*>(_pColOBB2D_2)->GetColliderInfo();
 
-	//Vec2ÀÇ »çÀÌÁî * 2¸¦ °è»êÇÑ´Ù. ÃÖÀûÈ­¸¦ À§ÇØ Ã³À½ °è»êÇÑ °ªÀ» °è¼Ó »ç¿ë.
+	//Vec2ì˜ ì‚¬ì´ì¦ˆ * 2ë¥¼ ê³„ì‚°í•œë‹¤. ìµœì í™”ë¥¼ ìœ„í•´ ì²˜ìŒ ê³„ì‚°í•œ ê°’ì„ ê³„ì† ì‚¬ìš©.
 	static const size_t vec2_2size = sizeof(Vec2) * 2;
 
-	//°¢ ÃàÀÇ Á¤º¸¸¦ ¼øÈ¸ÇÏ±â ÆíÇÏµµ·Ï °¡Á®¿Â´Ù.
-	//OBB ±¸Á¶Ã¼ÀÇ °¡Àå Ã¹ ºÎºĞ¿¡´Â XÃà, YÃà¿¡ ´ëÇÑ Á¤º¸°¡ µé¾î ÀÖÀ½. memcpy·Î °¡Á®¿ÍÁÖ¸é µÊ.
+	//ê° ì¶•ì˜ ì •ë³´ë¥¼ ìˆœíšŒí•˜ê¸° í¸í•˜ë„ë¡ ê°€ì ¸ì˜¨ë‹¤.
+	//OBB êµ¬ì¡°ì²´ì˜ ê°€ì¥ ì²« ë¶€ë¶„ì—ëŠ” Xì¶•, Yì¶•ì— ëŒ€í•œ ì •ë³´ê°€ ë“¤ì–´ ìˆìŒ. memcpyë¡œ ê°€ì ¸ì™€ì£¼ë©´ ë¨.
 	Vec2 arrVec[4] = {};
 	memcpy_s(&arrVec[0], vec2_2size, &OBB_1, vec2_2size);
 	memcpy_s(&arrVec[2], vec2_2size, &OBB_2, vec2_2size);
@@ -274,7 +274,7 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 			fProjSum += fabsf(norm.Dot(arrVec[j]));
 		}
 
-		//ÇÑ º¯ÀÇ ±æÀÌ(vSize)°¡ °öÇØÁ³À¸¹Ç·Î 0.5¸¦ °öÇØÁà¾ß ½ÇÁ¦ ÃàÀÇ ±æÀÌ°¡ µÊ
+		//í•œ ë³€ì˜ ê¸¸ì´(vSize)ê°€ ê³±í•´ì¡Œìœ¼ë¯€ë¡œ 0.5ë¥¼ ê³±í•´ì¤˜ì•¼ ì‹¤ì œ ì¶•ì˜ ê¸¸ì´ê°€ ë¨
 		fProjSum *= 0.5f;
 
 		float fCenterProj = fabsf(norm.Dot(VecMiddle));
@@ -284,7 +284,7 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 	}
 	
 
-	//À§ °Ë»ç¸¦ Åë°úÇÏ¸é HitPoint¸¦ °è»êÇØ¼­ °¢ Ãæµ¹Ã¼ÀÇ Ãæµ¹½ÃÀÛÇÔ¼ö¸¦ È£ÃâÇÑ´Ù.
+	//ìœ„ ê²€ì‚¬ë¥¼ í†µê³¼í•˜ë©´ HitPointë¥¼ ê³„ì‚°í•´ì„œ ê° ì¶©ëŒì²´ì˜ ì¶©ëŒì‹œì‘í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•œë‹¤.
 
 
 
@@ -296,30 +296,30 @@ bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollide
 	const tOBB2D& OBBInfo = static_cast<CCollider2D_OBB*>(_pColOBB2D)->GetColliderInfo();
 	Vec2 vPointToOBBCenter = _pColPoint->GetCenterPos();
 
-	//Á¡ÀÇ À§Ä¡·ÎºÎÅÍ OBBÀÇ Áß½É À§Ä¡±îÁö •ûÁØ´Ù.
+	//ì ì˜ ìœ„ì¹˜ë¡œë¶€í„° OBBì˜ ì¤‘ì‹¬ ìœ„ì¹˜ê¹Œì§€ Â•å¼§å¨©?
 	vPointToOBBCenter -= OBBInfo.m_vCenterPos;
 
 	for (int i = 0; i < (int)eAXIS2D::END; ++i)
 	{
-		//»ç¿µÀÇ ´ë»óÀÌ µÉ ÃàÀ» ´ÜÀ§º¤ÅÍ·Î ÀüÈ¯
+		//ì‚¬ì˜ì˜ ëŒ€ìƒì´ ë  ì¶•ì„ ë‹¨ìœ„ë²¡í„°ë¡œ ì „í™˜
 		Vec2 Norm = OBBInfo.m_vAxis[i];
 		Norm.Normalize();
 
-		//°¢ ÃàÀ» »ç¿µ ´ë»ó Ãà¿¡ »ç¿µÇÏ°í, 0.5¸¦ °öÇØ¼­ ¹İ ±æÀÌ·Î ÁÙÀÎ´Ù.(Áß½ÉºÎÅÍÀÇ °Å¸®ÀÌ¹Ç·Î)
+		//ê° ì¶•ì„ ì‚¬ì˜ ëŒ€ìƒ ì¶•ì— ì‚¬ì˜í•˜ê³ , 0.5ë¥¼ ê³±í•´ì„œ ë°˜ ê¸¸ì´ë¡œ ì¤„ì¸ë‹¤.(ì¤‘ì‹¬ë¶€í„°ì˜ ê±°ë¦¬ì´ë¯€ë¡œ)
 		float NormLen = 0.f;
 		NormLen += fabs(Norm.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::X]));
 		NormLen += fabs(Norm.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::Y]));
 		NormLen *= 0.5f;
 
-		//¸¶Âù°¡Áö·Î Á¡°ú OBBÀÇ Áß½ÉÁ¡µµ °°Àº Ãà¿¡ »ç¿µÇÑ´Ù.
+		//ë§ˆì°¬ê°€ì§€ë¡œ ì ê³¼ OBBì˜ ì¤‘ì‹¬ì ë„ ê°™ì€ ì¶•ì— ì‚¬ì˜í•œë‹¤.
 		float PointToOBBCenterProj = fabs(Norm.Dot(vPointToOBBCenter));
 		
-		//¸¸¾à XYÃàÀ» »ç¿µÇÑ ±æÀÌ°¡ ÁßÁ¡ »çÀÌÀÇ °Å¸®º¸´Ù ±æ °æ¿ì Ãæµ¹ÀÌ ¾Æ´Ï´Ù.
+		//ë§Œì•½ XYì¶•ì„ ì‚¬ì˜í•œ ê¸¸ì´ê°€ ì¤‘ì  ì‚¬ì´ì˜ ê±°ë¦¬ë³´ë‹¤ ê¸¸ ê²½ìš° ì¶©ëŒì´ ì•„ë‹ˆë‹¤.
 		if (PointToOBBCenterProj > NormLen)
 			return false;
 	}
 
-	////XÃà »ç¿µ
+	////Xì¶• ì‚¬ì˜
 	//Vec2 NormX = OBBInfo.m_vAxis[(int)eAXIS2D::X];
 	//NormX.Normalize();
 	//float NormXLen = 0.f;
@@ -357,7 +357,7 @@ bool CCollisionMgr::CheckCollision2D_Point_Point(CCollider2D* _pColPoint_1, CCol
 
 void CCollisionMgr::RegisterCollisionFunc()
 {
-	//ÀÎµ¦½º¿Í ÇÔ¼ö°¡ ¼ø¼­°¡ ºÒÀÏÄ¡ÇÒ °æ¿ì std::placeholders¸¦ ¿ª¼øÀ¸·Î ¹èÄ¡ÇÒ°Í
+	//ì¸ë±ìŠ¤ì™€ í•¨ìˆ˜ê°€ ìˆœì„œê°€ ë¶ˆì¼ì¹˜í•  ê²½ìš° std::placeholdersë¥¼ ì—­ìˆœìœ¼ë¡œ ë°°ì¹˜í• ê²ƒ
 
 	//RECTANGLE
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::RECT]

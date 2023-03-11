@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "CComputeShader.h"
 
-//½¦ÀÌ´õ ÄÚµå ÆÄÀÏ ÁÖ¼Ò¸¦ ÅëÇÑ ÄÄÆÄÀÏ
+//ì‰ì´ë” ì½”ë“œ íŒŒì¼ ì£¼ì†Œë¥¼ í†µí•œ ì»´íŒŒì¼
 #include "CPathMgr.h"
 
-//½¦ÀÌ´õ ÄÄÆÄÀÏ
+//ì‰ì´ë” ì»´íŒŒì¼
 #include "CDevice.h"
 
-//»ó¼ö¹öÆÛ
+//ìƒìˆ˜ë²„í¼
 #include "CConstBuffer.h"
 
 CComputeShader::CComputeShader()
@@ -32,7 +32,7 @@ CComputeShader::CComputeShader(UINT _uThreadsX, UINT _uThreadsY, UINT _uThreadsZ
 	, m_uNumGroupZ()
 	, m_CBuffer_CSShared{}
 {
-	//ÀÌ ½º·¹µå ¼ö´Â ºĞ¸ğ·Î »ç¿ëµÇ¾î¾ß ÇÏ¹Ç·Î ½º·¹µå°ªÀÌ 0ÀÌ µé¾î¿À¸é ¿¡·¯ ¹ß»ı
+	//ì´ ìŠ¤ë ˆë“œ ìˆ˜ëŠ” ë¶„ëª¨ë¡œ ì‚¬ìš©ë˜ì–´ì•¼ í•˜ë¯€ë¡œ ìŠ¤ë ˆë“œê°’ì´ 0ì´ ë“¤ì–´ì˜¤ë©´ ì—ëŸ¬ ë°œìƒ
 	assert(0u != _uThreadsX && 0u != _uThreadsY && 0u != _uThreadsZ);
 }
 
@@ -62,17 +62,17 @@ void CComputeShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCode
 
 void CComputeShader::CreateShader(const wstring& _strFileName, const string& _strFuncName)
 {
-	// 1. Shader ÆÄÀÏ °æ·Î ¹Ş¾Æ¿È
+	// 1. Shader íŒŒì¼ ê²½ë¡œ ë°›ì•„ì˜´
 	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
 	strShaderFile += _strFileName;
 
-	//1-1. ½¦ÀÌ´õ ·Îµå Å¸ÀÔ º¯°æ
+	//1-1. ì‰ì´ë” ë¡œë“œ íƒ€ì… ë³€ê²½
 	m_ShaderData.LoadType = eSHADER_LOADTYPE::RUNTIME_COMPILED;
 
 
 	char ShaderNameVersion[32] = {};
-	//¹ØÀÇ switch ¹®¿¡¼­ _ShaderType°¡ Àß¸øµÇ¾î ÀÖÀ» °æ¿ì°¡ °É·¯Áö¹Ç·Î ALL·Î ¼³Á¤
-	//2. ½¦ÀÌ´õ Å¸ÀÔ¿¡ µû¸¥ ´Ù¸¥ ÆÄ¶ó¹ÌÅÍ¿ë º¯¼ö¸¦ ÇÒ´ç
+	//ë°‘ì˜ switch ë¬¸ì—ì„œ _ShaderTypeê°€ ì˜ëª»ë˜ì–´ ìˆì„ ê²½ìš°ê°€ ê±¸ëŸ¬ì§€ë¯€ë¡œ ALLë¡œ ì„¤ì •
+	//2. ì‰ì´ë” íƒ€ì…ì— ë”°ë¥¸ ë‹¤ë¥¸ íŒŒë¼ë¯¸í„°ìš© ë³€ìˆ˜ë¥¼ í• ë‹¹
 	strcpy_s(ShaderNameVersion, 32u, "cs_5_0");
 
 
@@ -110,8 +110,8 @@ void CComputeShader::CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _E
 	m_uNumGroupZ = (UINT)ceilf((float)_ElemCountZ / (float)m_uNumThreadsPerGroupZ);
 	
 
-	//¾²·¹µå°¡ ¾²·¹µå °¹¼ö¿Í ¸Â¾Æ¶³¾îÁöÁö ¾ÊÀ» ¼öµµ ÀÖ´Ù.
-	//ÀÌ·² ‹š¸¦ ´ëºñÇØ¼­ »ó¼ö¹öÆÛ·Î TotalCount º¯¼ö¸¦ Àü´ŞÇÏ¿© ÄÄÇ»Æ®½¦ÀÌ´õ ÇÔ¼ö ³»ºÎ¿¡¼­ ¿¹¿ÜÃ³¸®¸¦ ÇÒ ¼ö ÀÖµµ·Ï ÇØÁØ´Ù.
+	//ì“°ë ˆë“œê°€ ì“°ë ˆë“œ ê°¯ìˆ˜ì™€ ë§ì•„ë–¨ì–´ì§€ì§€ ì•Šì„ ìˆ˜ë„ ìˆë‹¤.
+	//ì´ëŸ´ Â‹Âšë¥¼ ëŒ€ë¹„í•´ì„œ ìƒìˆ˜ë²„í¼ë¡œ TotalCount ë³€ìˆ˜ë¥¼ ì „ë‹¬í•˜ì—¬ ì»´í“¨íŠ¸ì‰ì´ë” í•¨ìˆ˜ ë‚´ë¶€ì—ì„œ ì˜ˆì™¸ì²˜ë¦¬ë¥¼ í•  ìˆ˜ ìˆë„ë¡ í•´ì¤€ë‹¤.
 	SetMtrlScalarParam(MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_X, &_ElemCountX);
 	SetMtrlScalarParam(MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Y, &_ElemCountY);
 	SetMtrlScalarParam(MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Z, &_ElemCountZ);
@@ -175,16 +175,16 @@ bool CComputeShader::Execute()
 	if (false == BindDataCS())
 		return false;
 
-	//ÄÄÇ»Æ®½¦ÀÌ´õ °ü·Ã °øÀ¯ µ¥ÀÌÅÍ¸¦ »ó¼ö¹öÆÛ¸¦ ÅëÇØ¼­ Àü´Ş
+	//ì»´í“¨íŠ¸ì‰ì´ë” ê´€ë ¨ ê³µìœ  ë°ì´í„°ë¥¼ ìƒìˆ˜ë²„í¼ë¥¼ í†µí•´ì„œ ì „ë‹¬
 	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
 	pCBuffer->UploadData(&m_CBuffer_CSShared, sizeof(tMtrlScalarData));
 	pCBuffer->BindBuffer();
 
-	//Ã³¸®ÇØÁÙ ½¦ÀÌ´õ¸¦ ÁöÁ¤ÇÏ°í °è»ê ÁøÇà.
+	//ì²˜ë¦¬í•´ì¤„ ì‰ì´ë”ë¥¼ ì§€ì •í•˜ê³  ê³„ì‚° ì§„í–‰.
 	CONTEXT->CSSetShader(m_CS.Get(), nullptr, 0);
 	CONTEXT->Dispatch(m_uNumGroupX, m_uNumGroupY, m_uNumGroupZ);
 	
-	//Ã³¸®°¡ ¿Ï·áµÇ¾úÀ¸¸é ÀçÁ¤ÀÇµÈ UnBind¸¦ ÅëÇØ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ÇØÁ¦.
+	//ì²˜ë¦¬ê°€ ì™„ë£Œë˜ì—ˆìœ¼ë©´ ì¬ì •ì˜ëœ UnBindë¥¼ í†µí•´ ë°ì´í„° ë°”ì¸ë”©ì„ í•´ì œ.
 	UnBindCS();
 
 	return true;

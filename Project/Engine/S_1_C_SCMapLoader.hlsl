@@ -20,23 +20,23 @@ uint3 _uGroupID : SV_GroupID)
 	
 	uint GroupAndIndex = ExtractGroupAndIndexFromMTXM(_uGroupID.xy, u2MapSize);
 	
-	//±×·ì°ú ÀÎµ¦½º ¹øÈ£¸¦ ±¸ÇØÁØ´Ù.
+	//ê·¸ë£¹ê³¼ ì¸ë±ìŠ¤ ë²ˆí˜¸ë¥¼ êµ¬í•´ì¤€ë‹¤.
 	uint group = GroupAndIndex >> 4u;
 	uint index = GroupAndIndex & 0x0000000Fu;
 	
 	uint megatile = UnpackUINT16FromUINT32_8(g_SBuffer_CV5[group].MegaTileIndex, index);
 	
-	//ÀÚ½ÅÀÌ ¸Þ°¡Å¸ÀÏ¿¡¼­ ¾î´À ¹Ì´ÏÅ¸ÀÏÀÎÁö¸¦ °è»êÇÑ´Ù.
+	//ìžì‹ ì´ ë©”ê°€íƒ€ì¼ì—ì„œ ì–´ëŠ ë¯¸ë‹ˆíƒ€ì¼ì¸ì§€ë¥¼ ê³„ì‚°í•œë‹¤.
 	uint MyGTIdIdx = (_uGTID.y / 8u) * 4u + _uGTID.x / 8u;
 	uint UnpackedVX4 = UnpackUINT16FromUINT32_8(g_SBuffer_VX4[megatile].VR4Index, MyGTIdIdx);
 	
 	uint minitileindex = UnpackedVX4 >> 1u;
 	bool flipped = (UnpackedVX4 & 1u == 1u);
 	
-	//VF4´Â ÀÏ´Ü º¸·ù(Àü´ÞÇÒ µ¥ÀÌÅÍ ¹öÆÛ°¡ ¾øÀ½)
+	//VF4ëŠ” ì¼ë‹¨ ë³´ë¥˜(ì „ë‹¬í•  ë°ì´í„° ë²„í¼ê°€ ì—†ìŒ)
 	
-	//¹Ì´ÏÅ¸ÀÏÀÇ 8 * 8À» ¼øÈ¸µ¹¸é¼­ ·»´õ¸µ
-	//ÀÚ½ÅÀÇ ÀÎµ¦½º ¹øÈ£¸¦ ±¸ÇÑ´Ù.
+	//ë¯¸ë‹ˆíƒ€ì¼ì˜ 8 * 8ì„ ìˆœíšŒëŒë©´ì„œ ë Œë”ë§
+	//ìžì‹ ì˜ ì¸ë±ìŠ¤ ë²ˆí˜¸ë¥¼ êµ¬í•œë‹¤.
 	uint idxInWPE = ExtractWPEColorIdxFromVR4(minitileindex, _uGTID.xy, flipped);
 	
 	
@@ -104,25 +104,25 @@ uint ExtractWPEColorIdxFromVR4(in uint _uMiniTileIdx, in uint2 _u2GroupThreadID,
 {
 	uint result = 0u;
 	
-	//³ª¸ÓÁö ¿¬»êÀ» ÅëÇØ ÀÚ½ÅÀÇ ¹Ì´ÏÅ¸ÀÏ ¾È¿¡¼­ÀÇ ÀÎµ¦½º ¹øÈ£¸¦ ±¸ÇÑ´Ù.
+	//ë‚˜ë¨¸ì§€ ì—°ì‚°ì„ í†µí•´ ìžì‹ ì˜ ë¯¸ë‹ˆíƒ€ì¼ ì•ˆì—ì„œì˜ ì¸ë±ìŠ¤ ë²ˆí˜¸ë¥¼ êµ¬í•œë‹¤.
 	uint2 myIdxInMinitile = _u2GroupThreadID % 8u;
 	
 	if(true == _bFlipped)
 		myIdxInMinitile.x = 7u - myIdxInMinitile.x;
 	
-	//1Â÷¿ø ¹è¿­¿¡¼­ÀÇ ¹øÈ£
+	//1ì°¨ì› ë°°ì—´ì—ì„œì˜ ë²ˆí˜¸
 	uint arrIdx = myIdxInMinitile.y * 8u + myIdxInMinitile.x;
 	
-	//4 by 4 »óÅÂ·Î º¯È¯ÇÑ´Ù. (8 by 8 -> 4 by 4)
+	//4 by 4 ìƒíƒœë¡œ ë³€í™˜í•œë‹¤. (8 by 8 -> 4 by 4)
 	uint2 IdxIn4x4 = uint2((arrIdx % 16u) / 4u, arrIdx / 16u);
 		
-	//À§ °á°ú°¡ °ð 4by4 Çà·ÄÀÇ ÀÎµ¦½º ¹øÈ£ÀÌ´Ù.
+	//ìœ„ ê²°ê³¼ê°€ ê³§ 4by4 í–‰ë ¬ì˜ ì¸ë±ìŠ¤ ë²ˆí˜¸ì´ë‹¤.
 	uint ColorPack = g_SBuffer_VR4[_uMiniTileIdx].ColorPack[IdxIn4x4.y][IdxIn4x4.x];
 	
-	//UINT32 ³»ºÎ¿¡¼­ÀÇ ÀÎµ¦½º ¹øÈ£µµ ÇÊ¿äÇÏ´Ù.
+	//UINT32 ë‚´ë¶€ì—ì„œì˜ ì¸ë±ìŠ¤ ë²ˆí˜¸ë„ í•„ìš”í•˜ë‹¤.
 	uint IdxInColorPack = arrIdx % 4u;
 	
-	//UINT32¿¡¼­ UINT8°ªÀ» ÃßÃâÇÑ´Ù.
+	//UINT32ì—ì„œ UINT8ê°’ì„ ì¶”ì¶œí•œë‹¤.
 	result = UnpackUINT8FromUINT32(ColorPack, IdxInColorPack);
 	
 	return result;

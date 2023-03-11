@@ -1,6 +1,6 @@
 #pragma once
 
-//ÄÄÆ÷³ÍÆ® Çì´õµéÀ» ¸ğ¾ÆµÎ´Â Çì´õ
+//ì»´í¬ë„ŒíŠ¸ í—¤ë”ë“¤ì„ ëª¨ì•„ë‘ëŠ” í—¤ë”
 
 #include "CTransform.h"
 #include "CCollider2D_Circle.h"

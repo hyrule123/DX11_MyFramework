@@ -18,8 +18,8 @@ public:
 public:
     void AddGameObject(CGameObject* _Object);
 
-    //±×³É Áö¿ö¹ö¸®¸é ´ó±Û¸µ Æ÷ÀÎÅÍ µÇ¹Ç·Î »ç¿ë¿¡ ÁÖÀÇÇÒ°Í!!!
-    //·¹ÀÌ¾î ÀÌµ¿¿¡ »ç¿ëµÊ.
+    //ê·¸ëƒ¥ ì§€ì›Œë²„ë¦¬ë©´ ëŒ•ê¸€ë§ í¬ì¸í„° ë˜ë¯€ë¡œ ì‚¬ìš©ì— ì£¼ì˜í• ê²ƒ!!!
+    //ë ˆì´ì–´ ì´ë™ì— ì‚¬ìš©ë¨.
     void RemoveGameObject(CGameObject* _Object);
     const vector<CGameObject*>& GetvecObj() const { return m_vecObject; }
 

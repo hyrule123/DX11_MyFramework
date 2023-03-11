@@ -7,8 +7,8 @@ class CCollider2D_OBB;
 class CCollider2D_Point;
 
 
-//±âº» : Rect °Ë»ç¸¦ ÁøÇà
-//Ãß°¡ÀûÀÎ Á¤¹Ð Ãæµ¹Ã¼°¡ ÇÊ¿äÇÒ °æ¿ì »ó¼Ó Å¬·¡½ºµéÀ» »ç¿ëÇÏ¸é µÊ.
+//ê¸°ë³¸ : Rect ê²€ì‚¬ë¥¼ ì§„í–‰
+//ì¶”ê°€ì ì¸ ì •ë°€ ì¶©ëŒì²´ê°€ í•„ìš”í•  ê²½ìš° ìƒì† í´ëž˜ìŠ¤ë“¤ì„ ì‚¬ìš©í•˜ë©´ ë¨.
 class CCollider2D :
     public CCollider
 {
@@ -21,16 +21,16 @@ public:
 private:
     eCOLLIDER_TYPE_2D      m_eColType;
 
-    //°ø°£ºÐÇÒ¿¡¼­ °Ë»çµÈ ÀÚ½ÅÀÌ ¼ÓÇÑ ±×¸®µå ÀÎµ¦½º ¹øÈ£
+    //ê³µê°„ë¶„í• ì—ì„œ ê²€ì‚¬ëœ ìžì‹ ì´ ì†í•œ ê·¸ë¦¬ë“œ ì¸ë±ìŠ¤ ë²ˆí˜¸
     vector<UINT>           m_vecGridIdxInfo;
 
-    //°ø°£ºÐÇÒ¿ë °£ÀÌ Ãæµ¹Ã¼ Á¤º¸(Á÷»ç°¢Çü ÇüÅÂ - ±âº» ¼¼ÆÃÀº transform¿¡¼­ Á¤»ç°¢Çü ÇüÅÂ)
-    //±âº» ¼³
+    //ê³µê°„ë¶„í• ìš© ê°„ì´ ì¶©ëŒì²´ ì •ë³´(ì§ì‚¬ê°í˜• í˜•íƒœ - ê¸°ë³¸ ì„¸íŒ…ì€ transformì—ì„œ ì •ì‚¬ê°í˜• í˜•íƒœ)
+    //ê¸°ë³¸ ì„¤
     Vec4                   m_vSimpleCollLBRTPos;
     
-    //°£ÀÌÃæµ¹Ã¼´Â °¢ÀÚ Ãæµ¹Ã¼¿¡¼­ µû·Î ±¸ÇöÇØÁÙ°Í.(Á¡Ãæµ¹Ã¼ ¶§¹®¿¡)
+    //ê°„ì´ì¶©ëŒì²´ëŠ” ê°ìž ì¶©ëŒì²´ì—ì„œ ë”°ë¡œ êµ¬í˜„í•´ì¤„ê²ƒ.(ì ì¶©ëŒì²´ ë•Œë¬¸ì—)
 
-    //¿ÀÇÁ¼Â À§Ä¡¸¦ ¹Ý¿µÇÑ À§Ä¡(2D)
+    //ì˜¤í”„ì…‹ ìœ„ì¹˜ë¥¼ ë°˜ì˜í•œ ìœ„ì¹˜(2D)
     Vec2                   m_vCenterPos;
 
     
@@ -46,8 +46,8 @@ public:
     virtual void finaltick() final;
     virtual void UpdateCollider() = 0;
     
-    //±âº» ¼³Á¤À¸·Î transform¿¡¼­ ¹Þ¾Æ¿Â º¯ÀÇ ±æÀÌ·Î °£ÀÌ Ãæµ¹Ã¼¸¦ °è»êÇÔ.
-    //´õ °£´ÜÇÑ Ãæµ¹Ã¼´Â ÀÌ°É ÀçÁ¤ÀÇ
+    //ê¸°ë³¸ ì„¤ì •ìœ¼ë¡œ transformì—ì„œ ë°›ì•„ì˜¨ ë³€ì˜ ê¸¸ì´ë¡œ ê°„ì´ ì¶©ëŒì²´ë¥¼ ê³„ì‚°í•¨.
+    //ë” ê°„ë‹¨í•œ ì¶©ëŒì²´ëŠ” ì´ê±¸ ìž¬ì •ì˜
     virtual void UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos);
     virtual void DebugRender() = 0;
     virtual void cleanup() override {};

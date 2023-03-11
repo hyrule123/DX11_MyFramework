@@ -4,7 +4,7 @@
 #include "ptr.h"
 #include "CPathMgr.h"
 
-//ÅÛÇÃ¸´¿¡ »ç¿ëµÇ´Â ¸®¼Ò½ºµé
+//í…œí”Œë¦¿ì— ì‚¬ìš©ë˜ëŠ” ë¦¬ì†ŒìŠ¤ë“¤
 #include "CMesh.h"
 #include "CTexture.h"
 #include "CGraphicsShader.h"
@@ -13,9 +13,9 @@
 #include "CComputeShader.h"
 #include "CAnim2DAtlas.h"
 
-//»õ Res Ãß°¡
-//1. define.h enum¿¡ Res Å¸ÀÔ Ãß°¡Çß´ÂÁö È®ÀÎ
-//2. m_umapResClassTypeIndex¿¡ Å¸ÀÔ ÀÎµ¦½º¿Í eRES_TYPEÀ» ¹ÙÀÎµù
+//ìƒˆ Res ì¶”ê°€
+//1. define.h enumì— Res íƒ€ì… ì¶”ê°€í–ˆëŠ”ì§€ í™•ì¸
+//2. m_umapResClassTypeIndexì— íƒ€ì… ì¸ë±ìŠ¤ì™€ eRES_TYPEì„ ë°”ì¸ë”©
 
 #include <UtilLib_DLL/json-forwards.h>
 
@@ -31,7 +31,7 @@ private:
     unordered_map<string, Ptr<CRes>> m_arrRes[(UINT)eRES_TYPE::END];
     unordered_map<std::type_index, eRES_TYPE> m_umapResClassTypeIndex;
 
-    //¸®¼Ò½º Á¤º¸°¡ ¾÷µ¥ÀÌÆ® µÇ¸é true·Î º¯°æ
+    //ë¦¬ì†ŒìŠ¤ ì •ë³´ê°€ ì—…ë°ì´íŠ¸ ë˜ë©´ trueë¡œ ë³€ê²½
     bool    m_bResUpdated;
 
 private:
@@ -91,7 +91,7 @@ inline Ptr<T> CResMgr::FindRes(const string& _strKey)
 template<typename T>
 inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
 {
-    // Áßº¹Å°·Î ¸®¼Ò½º Ãß°¡ÇÏ·Á´Â °æ¿ì
+    // ì¤‘ë³µí‚¤ë¡œ ë¦¬ì†ŒìŠ¤ ì¶”ê°€í•˜ë ¤ëŠ” ê²½ìš°
     assert( ! FindRes<T>(_strKey).Get() );
 
     eRES_TYPE type = GetResType<T>();
@@ -105,7 +105,7 @@ inline Ptr<T> CResMgr::Load(const string& _strKey, const wstring& _strRelativePa
 {
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     
-    // ÀÌ¹Ì ÇØ´ç Å°·Î ¸®¼Ò½º°¡ ÀÖ´Ù¸é, ¹İÈ¯
+    // ì´ë¯¸ í•´ë‹¹ í‚¤ë¡œ ë¦¬ì†ŒìŠ¤ê°€ ìˆë‹¤ë©´, ë°˜í™˜
     if (nullptr != pRes)
         return (T*)pRes.Get();
         

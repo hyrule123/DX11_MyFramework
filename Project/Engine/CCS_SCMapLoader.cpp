@@ -12,8 +12,8 @@
 //#include <StormLib_DLL/StormLib.h>
 
 
-//ÀÏ´Ü ¿©±â¼­ ¸ô¾Æ¼­ ¼º°øÅ³¿¹Á¤
-//³ªÁß¿¡ Áö¿ì°í ºĞ»ê½ÃÅ³°Í
+//ì¼ë‹¨ ì—¬ê¸°ì„œ ëª°ì•„ì„œ ì„±ê³µí‚¬ì˜ˆì •
+//ë‚˜ì¤‘ì— ì§€ìš°ê³  ë¶„ì‚°ì‹œí‚¬ê²ƒ
 #include "CPathMgr.h"
 #include "CStructBuffer.h"
 
@@ -25,29 +25,29 @@ constexpr const wchar_t* strStormLibPath = L"StormLib_DLL_Debug.dll";
 constexpr const wchar_t* strStormLibPath = L"StormLib_DLL_Release.dll";
 #endif
 
-//¸Ê Á¤º¸ ÀĞ±â¿ë
+//ë§µ ì •ë³´ ì½ê¸°ìš©
 constexpr const char* TerrainChunk = "ERA";
 constexpr const char* MapSizeChunk = "DIM";
 constexpr const char* TileMapChunk = "MTXM";
 
 CCS_SCMapLoader::CCS_SCMapLoader()
-	: CComputeShader(32u, 32u, 1u)	//¸Ş°¡Å¸ÀÏ »çÀÌÁî = 32 * 32
+	: CComputeShader(32u, 32u, 1u)	//ë©”ê°€íƒ€ì¼ ì‚¬ì´ì¦ˆ = 32 * 32
     , m_arrpSBufferTileSet{}
     , m_pSBuffer_MXTM()
     , m_pSBuffer_Debug()
     , m_DebugData()
     
 {
+    //wstring Path = CPathMgr::GetInst()->GetContentPath();
+    wstring Path = RELATIVE_PATH::wContent;
+    Path += L"Maps\\Tilesets\\";
 
-    wstring Path = CPathMgr::GetInst()->GetContentPath();
-    Path += L"Maps/Tilesets/";
 
-
-    //Å¸ÀÏ¼Â µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ ¸Ş¸ğ¸®°ø°£ µ¿ÀûÇÒ´ç 
+    //íƒ€ì¼ì…‹ ë°ì´í„°ë¥¼ ì €ì¥í•  ë©”ëª¨ë¦¬ê³µê°„ ë™ì í• ë‹¹ 
     tTileSet* Tileset = new tTileSet;
     for (UINT8 TileSetIdx = (UINT8)0u; TileSetIdx < (UINT8)eTILESET_INFO::END; ++TileSetIdx)
     {
-        //Å¸ÀÏ¼Â µ¥ÀÌÅÍ ÃÊ±âÈ­
+        //íƒ€ì¼ì…‹ ë°ì´í„° ì´ˆê¸°í™”
         memset(Tileset, 0, sizeof(tTileSet));
         wstring FullPath = Path;
 
@@ -101,7 +101,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
 
         for (int i = 0; i < CV5_MAX; ++i)
         {
-            //¸ÅÈ¸ 20¸¸Å­ ÀÌµ¿ÇØ¼­ ´õ¹Ì µ¥ÀÌÅÍ¸¦ ¹ö¸®°í ÇÊ¿äÇÑ 32(sizeof(CV5))¸¸Å­ °¡Á®¿È.
+            //ë§¤íšŒ 20ë§Œí¼ ì´ë™í•´ì„œ ë”ë¯¸ ë°ì´í„°ë¥¼ ë²„ë¦¬ê³  í•„ìš”í•œ 32(sizeof(CV5))ë§Œí¼ ê°€ì ¸ì˜´.
             fseek(fpCV5, 20, SEEK_CUR);
             size_t BytesRead = fread(&(Tileset->cv5[i]), sizeof(CV5), 1, fpCV5);
 
@@ -114,26 +114,26 @@ CCS_SCMapLoader::CCS_SCMapLoader()
         fread(Tileset->wpe, sizeof(WPE), WPE_MAX, fpWPE);
         fread(Tileset->vf4, sizeof(VF4), VF4_MAX, fpVF4);
 
-        //Desc ÀÛ¼ºÇØ¼­ SBuffer »ı¼º
+        //Desc ì‘ì„±í•´ì„œ SBuffer ìƒì„±
         tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY,
         eSHADER_PIPELINE_STAGE::__COMPUTE,
         eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,
         e_t_SRV_NONE,
         e_u_UAV_NONE
         };
-        //Å¸ÀÏ¼Â ÀÏ°ıÀûÀ¸·Î µ¿Àû ÇÒ´ç
+        //íƒ€ì¼ì…‹ ì¼ê´„ì ìœ¼ë¡œ ë™ì  í• ë‹¹
         
 
         m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)eTILESET_MEMBER::END];
         for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
         {
-            //0 ~ 5¹ø±îÁö ÀÏÄ¡½ÃÄÑ ³õ¾ÒÀ½.
+            //0 ~ 5ë²ˆê¹Œì§€ ì¼ì¹˜ì‹œì¼œ ë†“ì•˜ìŒ.
             SDesc.i_e_t_SRVIdx = i;
 
-            //Desc ¼³Á¤
+            //Desc ì„¤ì •
             m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].SetDesc(SDesc);
 
-            //°¢ÀÚ¿¡°Ô ¸Â´Â ±¸Á¶È­¹öÆÛ °ø°£ »ı¼º
+            //ê°ìì—ê²Œ ë§ëŠ” êµ¬ì¡°í™”ë²„í¼ ê³µê°„ ìƒì„±
             switch ((eTILESET_MEMBER)i)
             {
             case eTILESET_MEMBER::CV5:
@@ -187,22 +187,25 @@ CCS_SCMapLoader::~CCS_SCMapLoader()
 
 bool CCS_SCMapLoader::BindDataCS()
 {
-    wstring MapPath = CPathMgr::GetInst()->GetContentPath();
+    //wstring MapPath = CPathMgr::GetInst()->GetContentPath();
 
+    wstring MapPath = L"./";
     MapPath += L"Maps/";
     MapPath += m_tMapWorkSpace.wstrMapName;
+
+    
 
     HANDLE hMpq = NULL;          // Open archive handle
     HANDLE hFile = NULL;          // Archived file handle
     //HANDLE handle = NULL;          // Disk file handle
 
-    //DLL ·Îµå
+    //DLL ë¡œë“œ
     HMODULE DLLModule = LoadLibraryW(strStormLibPath);
     if (nullptr == DLLModule)
         return false;
 
-    //ÇÔ¼ö µî·Ï
-    //MPQ ÆÄÀÏ ·Îµå
+    //í•¨ìˆ˜ ë“±ë¡
+    //MPQ íŒŒì¼ ë¡œë“œ
     typedef bool(WINAPI* pSFileOpenArchive)(const TCHAR*, DWORD, DWORD, HANDLE*);
     pSFileOpenArchive MpqOpenFunc = (pSFileOpenArchive)GetProcAddress(DLLModule, "SFileOpenArchive");
     
@@ -226,14 +229,14 @@ bool CCS_SCMapLoader::BindDataCS()
     pSFileCloseArchive funcCloseArchive = (pSFileCloseArchive)GetProcAddress(DLLModule, "SFileCloseArchive");
 
 
-    //DLL·ÎºÎÅÍ ·Îµå ½ÇÆĞ ¶Ç´Â ÇÔ¼ö¿¡¼­ ·Îµå¸¦ ½ÇÆĞÇßÀ» °æ¿ì false ¹İÈ¯
+    //DLLë¡œë¶€í„° ë¡œë“œ ì‹¤íŒ¨ ë˜ëŠ” í•¨ìˆ˜ì—ì„œ ë¡œë“œë¥¼ ì‹¤íŒ¨í–ˆì„ ê²½ìš° false ë°˜í™˜
     if (nullptr == MpqOpenFunc || false == MpqOpenFunc(MapPath.c_str(), 0, 0, &hMpq))
     {
         int nError = GetLastError();
         return false;
     }
         
-    //MPQ ÆÄÀÏ ³»ºÎÀÇ scenario.chk ÆÄÀÏ Å½»ö.
+    //MPQ íŒŒì¼ ë‚´ë¶€ì˜ scenario.chk íŒŒì¼ íƒìƒ‰.
     if (nullptr == funcOpenScenarioChk || false == funcOpenScenarioChk(hMpq, "staredit\\scenario.chk", 0, &hFile))
     {
         int nError = GetLastError();
@@ -245,31 +248,31 @@ bool CCS_SCMapLoader::BindDataCS()
     char* szBuffer;
     DWORD dwBytes = 1;
 
-    //ÆÄÀÏÀÇ »çÀÌÁî¸¦ ¹Ş¾Æ¿Â ÈÄ ÇØ´ç ÆÄÀÏÀ» ¹Ş¾Æ¿Ã °ø°£À» µ¿ÀûÇÒ´ç ¹× ÃÊ±âÈ­ÇÑ´Ù.
+    //íŒŒì¼ì˜ ì‚¬ì´ì¦ˆë¥¼ ë°›ì•„ì˜¨ í›„ í•´ë‹¹ íŒŒì¼ì„ ë°›ì•„ì˜¬ ê³µê°„ì„ ë™ì í• ë‹¹ ë° ì´ˆê¸°í™”í•œë‹¤.
     DWORD FileSize = funcGetFileSize(hFile, NULL);
     szBuffer = new char[FileSize];
     memset(szBuffer, 0, (size_t)FileSize);
 
 
-    //µ¥ÀÌÅÍ¸¦ ÀĞ¾î¿Â´Ù.
+    //ë°ì´í„°ë¥¼ ì½ì–´ì˜¨ë‹¤.
     funcReadFile(hFile, szBuffer, FileSize, &dwBytes, NULL);
 
     
-    //ÆÄÀÏ ¿¬°á ÇØÁ¦
+    //íŒŒì¼ ì—°ê²° í•´ì œ
     funcCloseFile(hFile);
     funcCloseArchive(hMpq);
     
-    //¶óÀÌºê·¯¸® ¿¬°á ÇØÁ¦
+    //ë¼ì´ë¸ŒëŸ¬ë¦¬ ì—°ê²° í•´ì œ
     FreeLibrary(DLLModule);
 
 
-    //szbuffer¿¡ ¸ÊÀÇ µ¥ÀÌÅÍ°¡ µé¾î¿ÍÀÖÀ» °ÍÀÓ.
-    //¿©±â¼­ ¸ÊÀ» ±×·Á³»´Âµ¥ ÇÊ¿äÇÑ Á¤º¸¸¦ °¡Á®¿Í¾ß ÇÔ
+    //szbufferì— ë§µì˜ ë°ì´í„°ê°€ ë“¤ì–´ì™€ìˆì„ ê²ƒì„.
+    //ì—¬ê¸°ì„œ ë§µì„ ê·¸ë ¤ë‚´ëŠ”ë° í•„ìš”í•œ ì •ë³´ë¥¼ ê°€ì ¸ì™€ì•¼ í•¨
     bool bLoaded = ReadMapData(szBuffer, FileSize);
 
     delete[] szBuffer;
 
-    //¸Êµ¥ÀÌÅÍ¸¦ ÀĞ¾î¿À´Â°Í±îÁö ¼º°øÇßÀ» °æ¿ì CS·Î µ¥ÀÌÅÍ¸¦ ¾÷·ÎµåÇÑ´Ù.
+    //ë§µë°ì´í„°ë¥¼ ì½ì–´ì˜¤ëŠ”ê²ƒê¹Œì§€ ì„±ê³µí–ˆì„ ê²½ìš° CSë¡œ ë°ì´í„°ë¥¼ ì—…ë¡œë“œí•œë‹¤.
     if (true == bLoaded)
         bLoaded = UploadMapDataToCS();
 
@@ -277,7 +280,7 @@ bool CCS_SCMapLoader::BindDataCS()
 
 
 
-    //¾Ï½ÃÀû ¸µÅ· ÄÚµå
+    //ì•”ì‹œì  ë§í‚¹ ì½”ë“œ
 //        // Open an archive, e.g. "d2music.mpq"
 //    if (nError == ERROR_SUCCESS)
 //    {
@@ -290,7 +293,7 @@ bool CCS_SCMapLoader::BindDataCS()
 //    // Open a file in the archive, e.g. "data\global\music\Act1\tristram.wav"
 //    if (nError == ERROR_SUCCESS)
 //    {
-//        //¸Ê ÆÄÀÏÀÇ scenario.chk µ¥ÀÌÅÍ¸¦ Ã£´Â´Ù.
+//        //ë§µ íŒŒì¼ì˜ scenario.chk ë°ì´í„°ë¥¼ ì°¾ëŠ”ë‹¤.
 //        if (!SFileOpenFileEx(hMpq, "staredit\\scenario.chk", 0, &hFile))
 //            nError = GetLastError();
 //    }
@@ -302,7 +305,7 @@ bool CCS_SCMapLoader::BindDataCS()
 //    char* szBuffer;
 //    DWORD dwBytes = 1;
 //
-//    //Ã£Àº scenario.chk ÆÄÀÏ·ÎºÎÅÍ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.
+//    //ì°¾ì€ scenario.chk íŒŒì¼ë¡œë¶€í„° ì •ë³´ë¥¼ ì½ì–´ì˜¨ë‹¤.
 //    DWORD FileSize = SFileGetFileSize(hFile, NULL);
 //
 //    szBuffer = new char[FileSize];
@@ -326,7 +329,7 @@ void CCS_SCMapLoader::UnBindCS()
     }
     
     
-    //¸Ê Á¤º¸´Â Á¦°Å
+    //ë§µ ì •ë³´ëŠ” ì œê±°
     SAFE_DELETE(m_pSBuffer_MXTM);
 
     Debug();
@@ -350,11 +353,11 @@ bool CCS_SCMapLoader::LoadMap(const wstring& _wstrMapName, __out tMapData& _tMap
 
     m_tMapWorkSpace.wstrMapName = _wstrMapName;
 
-    //·Îµå ½ÇÆĞ ½Ã µé¾î¿Â ·¹ÆÛ·±½º¸¦ ÃÊ±âÈ­ÇÏ°í false ¹İÈ¯
+    //ë¡œë“œ ì‹¤íŒ¨ ì‹œ ë“¤ì–´ì˜¨ ë ˆí¼ëŸ°ìŠ¤ë¥¼ ì´ˆê¸°í™”í•˜ê³  false ë°˜í™˜
     if (false == Execute())
         return false;
             
-    //¼º°ø ½Ã ÀÛ¾÷ Á¤º¸¸¦ ³Ñ°ÜÁÖ°í ÀÚ½ÅÀÇ ÀÛ¾÷ ¿µ¿ªÀº ÃÊ±âÈ­ÇÑ´Ù.
+    //ì„±ê³µ ì‹œ ì‘ì—… ì •ë³´ë¥¼ ë„˜ê²¨ì£¼ê³  ìì‹ ì˜ ì‘ì—… ì˜ì—­ì€ ì´ˆê¸°í™”í•œë‹¤.
     _tMapData = m_tMapWorkSpace;
     m_tMapWorkSpace = tMapData();
     return true;
@@ -363,18 +366,18 @@ bool CCS_SCMapLoader::LoadMap(const wstring& _wstrMapName, __out tMapData& _tMap
 
 bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 {
-    //tMapDataChunk ÀÚÃ¼ÀÇ µ¥ÀÌÅÍ »çÀÌÁî´Â Å©Áö ¾ÊÀ¸¹Ç·Î ½ºÅÃ¿¡ »ı¼º
+    //tMapDataChunk ìì²´ì˜ ë°ì´í„° ì‚¬ì´ì¦ˆëŠ” í¬ì§€ ì•Šìœ¼ë¯€ë¡œ ìŠ¤íƒì— ìƒì„±
     tMapDataChunk arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END] = {};
 
     bool bLoaded = false;
     do
     {
-        //ÀĞ¾î¿Â µ¥ÀÌÅÍ¸¦ string¿¡ ¿Å±ä´Ù.
+        //ì½ì–´ì˜¨ ë°ì´í„°ë¥¼ stringì— ì˜®ê¸´ë‹¤.
         std::string_view View(Data, Size);
         string DataStr(View);
 
 
-        //Terrain tMapDataChunk ½ÃÀÛÁ¡(¹®ÀÚ¿­) À» Ã£´Â´Ù.
+        //Terrain tMapDataChunk ì‹œì‘ì (ë¬¸ìì—´) ì„ ì°¾ëŠ”ë‹¤.
         size_t pos = 0;
         pos = DataStr.find(TerrainChunk);
 
@@ -386,10 +389,10 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
             char* adress = Data + pos;
 
-            //ÀÌ¸§ º¹»ç
+            //ì´ë¦„ ë³µì‚¬
             memcpy(chk->TypeName, adress, 4);
 
-            //µ¥ÀÌÅÍ µ¢¾î¸® »çÀÌÁî º¹»ç
+            //ë°ì´í„° ë©ì–´ë¦¬ ì‚¬ì´ì¦ˆ ë³µì‚¬
             int* len = (int*)(adress + 4);
             chk->length = *len;
 
@@ -408,10 +411,10 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
             char* adress = Data + pos;
 
-            //ÀÌ¸§ º¹»ç
+            //ì´ë¦„ ë³µì‚¬
             memcpy(chk->TypeName, adress, 4);
 
-            //µ¥ÀÌÅÍ µ¢¾î¸®ÀÇ »çÀÌÁî º¹»ç
+            //ë°ì´í„° ë©ì–´ë¦¬ì˜ ì‚¬ì´ì¦ˆ ë³µì‚¬
             int* len = (int*)(adress + 4);
             chk->length = *len;
 
@@ -431,10 +434,10 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
             char* adress = Data + pos;
 
-            //ÀÌ¸§ º¹»ç
+            //ì´ë¦„ ë³µì‚¬
             memcpy(chk->TypeName, adress, 4);
 
-            //µ¥ÀÌÅÍ µ¢¾î¸®ÀÇ »çÀÌÁî º¹»ç
+            //ë°ì´í„° ë©ì–´ë¦¬ì˜ ì‚¬ì´ì¦ˆ ë³µì‚¬
             int* len = (int*)(adress + 4);
             chk->length = *len;
 
@@ -450,7 +453,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
         return false;
 
 
-    //¸Ê »çÀÌÁî ÀĞ±â
+    //ë§µ ì‚¬ì´ì¦ˆ ì½ê¸°
     if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].length != 4)
         return false;
 
@@ -460,7 +463,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     Vec2 vMapSize = Vec2(m_tMapWorkSpace.uMapSizeX, m_tMapWorkSpace.uMapSizeY);
     SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &vMapSize);
 
-    //MXTM(TILEMAP_ATLAS) »ı¼º ¹× Àü¼Û
+    //MXTM(TILEMAP_ATLAS) ìƒì„± ë° ì „ì†¡
     SAFE_DELETE(m_pSBuffer_MXTM);
     tSBufferDesc SBufferDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_MXTM, e_u_UAV_NONE };
    
@@ -470,18 +473,18 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     m_pSBuffer_MXTM->BindBufferSRV();
 
 
-    //ÁöÇü ÆÄÀÏ ÀĞ±â
+    //ì§€í˜• íŒŒì¼ ì½ê¸°
     if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].length != 2)
         return false;
 
-    //Ã¹ 1¹ÙÀÌÆ®¿¡ ÁöÇü Á¤º¸°¡ µé¾îÀÖ´Ù.
+    //ì²« 1ë°”ì´íŠ¸ì— ì§€í˜• ì •ë³´ê°€ ë“¤ì–´ìˆë‹¤.
     unsigned char Info = arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].Data[0];
 
-    //¾ÕÀÇ 4ºñÆ®´Â 0À¸·Î º¯È¯
+    //ì•ì˜ 4ë¹„íŠ¸ëŠ” 0ìœ¼ë¡œ ë³€í™˜
     unsigned char bitshift = 0b00001111;
     Info &= bitshift;
 
-    //È¤½Ã³ª ºñÆ®½ÃÇÁÆ® ÀÌÈÄ 8À» ÃÊ°úÇÏ´Â °ªÀÌ ³ª¿Ã °æ¿ì 8À» »©ÁØ´Ù.
+    //í˜¹ì‹œë‚˜ ë¹„íŠ¸ì‹œí”„íŠ¸ ì´í›„ 8ì„ ì´ˆê³¼í•˜ëŠ” ê°’ì´ ë‚˜ì˜¬ ê²½ìš° 8ì„ ë¹¼ì¤€ë‹¤.
     if (Info >= (unsigned char)8)
         Info -= (unsigned char)8;
 
@@ -492,25 +495,25 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
 bool CCS_SCMapLoader::UploadMapDataToCS()
 {
-    //Å¸ÀÏ¼ÂÀ» ¹ÙÀÎµùÇØÁØ´Ù.
+    //íƒ€ì¼ì…‹ì„ ë°”ì¸ë”©í•´ì¤€ë‹¤.
     for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
     {
         m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].BindBufferSRV();
     }
     
 
-    //Å¸°ÙÀÌ µÉ ÅØ½ºÃ³¸¦ µ¿ÀûÇÒ´çÇÏ°í, UAV¿¡ ¹ÙÀÎµù
+    //íƒ€ê²Ÿì´ ë  í…ìŠ¤ì²˜ë¥¼ ë™ì í• ë‹¹í•˜ê³ , UAVì— ë°”ì¸ë”©
     m_tMapWorkSpace.pMapTex = new CTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
     m_tMapWorkSpace.pMapTex->Create(32u * m_tMapWorkSpace.uMapSizeX, 32u * m_tMapWorkSpace.uMapSizeY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
     m_tMapWorkSpace.pMapTex->BindData_UAV(e_u_TEXTURERW_TARGET);
 
 
-    //ÇÊ¿äÇÑ ±×·ìÀÇ ¼ö °è»ê
+    //í•„ìš”í•œ ê·¸ë£¹ì˜ ìˆ˜ ê³„ì‚°
     CalcGroupNumber(32u * m_tMapWorkSpace.uMapSizeX, 32u * m_tMapWorkSpace.uMapSizeY, 1u);
 
 
-    //µğ¹ö±×¿ë ½¦ÀÌ´õ ¹ÙÀÎµù
+    //ë””ë²„ê·¸ìš© ì‰ì´ë” ë°”ì¸ë”©
     tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SRV_NONE, e_u_SBUFFERRW_DEBUG };
     m_pSBuffer_Debug = new CStructBuffer(SDesc);
 

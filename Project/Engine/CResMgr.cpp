@@ -66,7 +66,7 @@ void CResMgr::CreateDefaultMesh()
 
 
 	// ==============
-	// PointMesh »ı¼º
+	// PointMesh ìƒì„±
 	// ==============
 	v.vPos = Vec3(0.f, 0.f, 0.f);
 	v.vUV = Vec2(0.f, 0.f);
@@ -81,7 +81,7 @@ void CResMgr::CreateDefaultMesh()
 
 
 	// =============
-	// RectMesh »ı¼º
+	// RectMesh ìƒì„±
 	// =============	
 	// 0 --- 1 
 	// |  \  |
@@ -137,25 +137,25 @@ void CResMgr::CreateDefaultMesh()
 	//===================
 	pMesh = nullptr;
 
-	//Á¤Á¡¹öÆÛ¿Í ÀÎµ¦½º¹öÆÛ ÃÊ±âÈ­
+	//ì •ì ë²„í¼ì™€ ì¸ë±ìŠ¤ë²„í¼ ì´ˆê¸°í™”
 	vecVtx.clear();
 	vecIdx.clear();
 
-	//¹İÁö¸§°ú Á¶°¢º° °¢µµ¸¦ Á¤ÇÏ°í °¢µµ¸¦ °è»ê.
+	//ë°˜ì§€ë¦„ê³¼ ì¡°ê°ë³„ ê°ë„ë¥¼ ì •í•˜ê³  ê°ë„ë¥¼ ê³„ì‚°.
 	float radius = 0.5f;
 	int fslice = 40;
 	float AngleStride = XM_2PI / fslice;
 
-	//¸ÕÀú ¿øÀÇ Áß½ÉÁ¡À» Á¤Á¡¹öÆÛ¿¡ ¸ÕÀú Ãß°¡(Áß½ÉÁ¡ (0.5f, 0.5f)¿¡ ¹İÁö¸§ÀÌ 0.5fÀÎ ¿øÀ» Ãß°¡ÇÒ ¿¹Á¤)
+	//ë¨¼ì € ì›ì˜ ì¤‘ì‹¬ì ì„ ì •ì ë²„í¼ì— ë¨¼ì € ì¶”ê°€(ì¤‘ì‹¬ì  (0.5f, 0.5f)ì— ë°˜ì§€ë¦„ì´ 0.5fì¸ ì›ì„ ì¶”ê°€í•  ì˜ˆì •)
 	v.vPos = Vec3(0.f, 0.f, 0.f);
 	//v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
 	v.vUV = Vec2(0.5f, 0.5f);
 	vecVtx.push_back(v);
 
-	//¹İº¹ ¼ö ' - 1 '¸¸Å­ ¹İº¹(¸¶Áö¸· Á¤Á¡Àº µÎ ¹øÂ° Á¤Á¡À» »ç¿ëÇÏ¸é µÈ´Ù.
+	//ë°˜ë³µ ìˆ˜ ' - 1 'ë§Œí¼ ë°˜ë³µ(ë§ˆì§€ë§‰ ì •ì ì€ ë‘ ë²ˆì§¸ ì •ì ì„ ì‚¬ìš©í•˜ë©´ ëœë‹¤.
 
-	//¿øÀÇ Pos°ª(Á¤Á¡ÀÇ À§Ä¡)°ú UV°ªÀº 1:1 ´ëÀÀÀÌ µÇÁö ¾ÊÀ½
-	//yÃàÀº ¼­·Î ¹æÇâÀÌ ¹İ´ëÀÌ°í Áß½ÉÁ¡ ÁÂÇ¥µµ Â÷ÀÌ°¡ ³².
+	//ì›ì˜ Posê°’(ì •ì ì˜ ìœ„ì¹˜)ê³¼ UVê°’ì€ 1:1 ëŒ€ì‘ì´ ë˜ì§€ ì•ŠìŒ
+	//yì¶•ì€ ì„œë¡œ ë°©í–¥ì´ ë°˜ëŒ€ì´ê³  ì¤‘ì‹¬ì  ì¢Œí‘œë„ ì°¨ì´ê°€ ë‚¨.
 	/*					<POS>
 					(0.f, 0.5f)
 				/					\
@@ -171,23 +171,23 @@ void CResMgr::CreateDefaultMesh()
 					(0.5f, 1.f)
 	*/
 
-	//¿À¸¥ÂÊ ³¡ºÎÅÍ ÇÇÀÚÁ¶°¢ ¸ğ¾çÀ¸·Î Á¤Á¡¹öÆÛ¸¦ Ãß°¡ÇÑ´Ù.
-	//¸¶Áö¸· Àü±îÁö Á¤Á¡À» °è»êÇØ¼­ Á¤Á¡¹öÆÛ¿¡ »ğÀÔÇÑ´Ù.
-	//¹è¿­ÀÇ 0¹ø ÀÎµ¦½º¿¡´Â Áß½ÉÁ¡ÀÌ µé¾î°¡ ÀÖÀ¸¹Ç·Î 1ºÎÅÍ ½ÃÀÛÇÏ¸é i¸¦ ÀÎµ¦½º¹öÆÛÀÇ ÀÎµ¦½º·Î »ç¿ë °¡´É
+	//ì˜¤ë¥¸ìª½ ëë¶€í„° í”¼ìì¡°ê° ëª¨ì–‘ìœ¼ë¡œ ì •ì ë²„í¼ë¥¼ ì¶”ê°€í•œë‹¤.
+	//ë§ˆì§€ë§‰ ì „ê¹Œì§€ ì •ì ì„ ê³„ì‚°í•´ì„œ ì •ì ë²„í¼ì— ì‚½ì…í•œë‹¤.
+	//ë°°ì—´ì˜ 0ë²ˆ ì¸ë±ìŠ¤ì—ëŠ” ì¤‘ì‹¬ì ì´ ë“¤ì–´ê°€ ìˆìœ¼ë¯€ë¡œ 1ë¶€í„° ì‹œì‘í•˜ë©´ ië¥¼ ì¸ë±ìŠ¤ë²„í¼ì˜ ì¸ë±ìŠ¤ë¡œ ì‚¬ìš© ê°€ëŠ¥
 	for (int i = 0; i < fslice; ++i)
 	{
 		v.vPos.x = radius * cosf(AngleStride * i);
 		v.vPos.y = radius * sinf(AngleStride * i);
 		
-		//UV´Â ÁßÁ¡ ±âÁØÀ¸·Î ´õÇÏ°Å³ª »©´Â ¹æ½ÄÀ¸·Î ÇØÁØ´Ù.
+		//UVëŠ” ì¤‘ì  ê¸°ì¤€ìœ¼ë¡œ ë”í•˜ê±°ë‚˜ ë¹¼ëŠ” ë°©ì‹ìœ¼ë¡œ í•´ì¤€ë‹¤.
 		v.vUV.x = 0.5f + v.vPos.x;
-		v.vUV.y = 0.5f -(v.vPos.y);	//¹İ´ë ¹æÇâ
+		v.vUV.y = 0.5f -(v.vPos.y);	//ë°˜ëŒ€ ë°©í–¥
 
 		vecVtx.push_back(v);
 
-		//Á¤Á¡¹è¿­ÀÇ Ã¹¹øÂ°´Â Áß½ÉÁ¡ÀÌ µé¾î°¡ ÀÖÀ¸¹Ç·Î i + 1 == ÇöÀç Á¤Á¡¹öÆÛÀÇ »çÀÌÁî°¡ µÈ´Ù
-		//ÀÎµ¦½º´Â ½Ã°è ¹æÇâÀ¸·Î »ğÀÔ
-		//¸¶Áö¸· ÀÎµ¦½º´Â µû·Î Á÷Á¢ »ğÀÔ
+		//ì •ì ë°°ì—´ì˜ ì²«ë²ˆì§¸ëŠ” ì¤‘ì‹¬ì ì´ ë“¤ì–´ê°€ ìˆìœ¼ë¯€ë¡œ i + 1 == í˜„ì¬ ì •ì ë²„í¼ì˜ ì‚¬ì´ì¦ˆê°€ ëœë‹¤
+		//ì¸ë±ìŠ¤ëŠ” ì‹œê³„ ë°©í–¥ìœ¼ë¡œ ì‚½ì…
+		//ë§ˆì§€ë§‰ ì¸ë±ìŠ¤ëŠ” ë”°ë¡œ ì§ì ‘ ì‚½ì…
 		if (i == (fslice - 1))
 			continue;
 
@@ -201,14 +201,14 @@ void CResMgr::CreateDefaultMesh()
 	vecIdx.push_back((UINT)vecVtx.size() - 1u);
 	
 
-	//¸¸µç Á¤Á¡¹öÆÛ¿Í ÀÎµ¦½º¹öÆÛ¸¦ ¸Ş½¬¿¡ »ğÀÔÇÑ´Ù.
+	//ë§Œë“  ì •ì ë²„í¼ì™€ ì¸ë±ìŠ¤ë²„í¼ë¥¼ ë©”ì‰¬ì— ì‚½ì…í•œë‹¤.
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	AddRes(DEFAULT_RES::MESH::CIRCLE, pMesh);
 	pMesh = nullptr;
 
 
-	//µğ¹ö±× ¸Ş½¬
+	//ë””ë²„ê·¸ ë©”ì‰¬
 	vecIdx.clear();
 	for (int i = 0; i < fslice; ++i)
 	{
@@ -222,7 +222,7 @@ void CResMgr::CreateDefaultMesh()
 
 void CResMgr::CreateDefaultShader()
 {
-	const wstring& ShaderPath = CPathMgr::GetInst()->GetShaderPath();
+	const wstring& ShaderPath = CPathMgr::GetInst()->GetContentPath();
 
 	wstring JsonFilePath = ShaderPath + JSON_SHADERINFO::W_JSONFilename;
 	std::ifstream fpJson(JsonFilePath);
@@ -256,84 +256,84 @@ void CResMgr::CreateDefaultGraphicsShader(const wstring& _wstrShaderBasePath, co
 
 	std::ios_base::openmode openflag = std::ios::ate | std::ios::in | std::ios::binary;
 
-	auto iter = _ShaderInfo.begin();
-	const auto& iterEnd = _ShaderInfo.end();
-	for (iter; iter != iterEnd; ++iter)
-	{
-		Ptr<CGraphicsShader> GS = new CGraphicsShader;
+	//auto iter = _ShaderInfo.begin();
+	//const auto& iterEnd = _ShaderInfo.end();
+	//for (iter; iter != iterEnd; ++iter)
+	//{
+	//	Ptr<CGraphicsShader> GS = new CGraphicsShader;
 
-		int ePipelineFlag = (*iter)[JSON_SHADERINFO::PipelineFlag].asInt();
+	//	int ePipelineFlag = (*iter)[JSON_SHADERINFO::PipelineFlag].asInt();
 
-		int numShader = 0;
-		for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
-		{
-			//ÇÃ·¡±×°ª¿¡ ÀÏÄ¡ÇÏ´Â ½¦ÀÌ´õ°¡ ÀÖÀ»°æ¿ì ÀÌ¸§À» ¸¸µé¾îÁØ´Ù.
-			if (ePipelineFlag & (1 << i))
-			{
-				++numShader;
-				wstring shaderName = L"Content\\Shader\\S_";
-				shaderName += std::to_wstring(numShader);
-				switch ((eSHADER_TYPE)i)
-				{
-				case eSHADER_TYPE::__VERTEX:
-					shaderName += JSON_SHADERINFO::VertexShaderName;
-					break;
-				case eSHADER_TYPE::__HULL:
-					shaderName += JSON_SHADERINFO::HullShaderName;
-					break;
-				case eSHADER_TYPE::__DOMAIN:
-					shaderName += JSON_SHADERINFO::DomainShaderName;
-					break;
-				case eSHADER_TYPE::__GEOMETRY:
-					shaderName += JSON_SHADERINFO::GeometryShaderName;
-					break;
-				case eSHADER_TYPE::__PIXEL:
-					shaderName += JSON_SHADERINFO::PixelShaderName;
-					break;
-				case eSHADER_TYPE::END:
-					break;
-				default:
-					break;
-				}
+	//	int numShader = 0;
+	//	for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
+	//	{
+	//		//í”Œë˜ê·¸ê°’ì— ì¼ì¹˜í•˜ëŠ” ì‰ì´ë”ê°€ ìˆì„ê²½ìš° ì´ë¦„ì„ ë§Œë“¤ì–´ì¤€ë‹¤.
+	//		if (ePipelineFlag & (1 << i))
+	//		{
+	//			++numShader;
+	//			wstring shaderName = L"Content\\Shader\\S_";
+	//			shaderName += std::to_wstring(numShader);
+	//			switch ((eSHADER_TYPE)i)
+	//			{
+	//			case eSHADER_TYPE::__VERTEX:
+	//				shaderName += JSON_SHADERINFO::VertexShaderName;
+	//				break;
+	//			case eSHADER_TYPE::__HULL:
+	//				shaderName += JSON_SHADERINFO::HullShaderName;
+	//				break;
+	//			case eSHADER_TYPE::__DOMAIN:
+	//				shaderName += JSON_SHADERINFO::DomainShaderName;
+	//				break;
+	//			case eSHADER_TYPE::__GEOMETRY:
+	//				shaderName += JSON_SHADERINFO::GeometryShaderName;
+	//				break;
+	//			case eSHADER_TYPE::__PIXEL:
+	//				shaderName += JSON_SHADERINFO::PixelShaderName;
+	//				break;
+	//			case eSHADER_TYPE::END:
+	//				break;
+	//			default:
+	//				break;
+	//			}
 
-				shaderName += (*iter)[JSON_SHADERINFO::ShaderName].asString();
-				shaderName += JSON_SHADERINFO::ShaderExtension;
-
-
-				//¸¸µç ÀÌ¸§À¸·Î ÆÄÀÏÀ» ·ÎµåÇÑ´Ù.
-				std::ifstream fpShader(shaderName, openflag);
-
-				if (true == fpShader.is_open())
-				{
-					std::streampos fileSize = fpShader.tellg();
-
-					char* ByteCode = new char[fileSize];
-					memset(ByteCode, 0, fileSize);
-					fpShader.seekg(0, std::ios::beg);
-					fpShader.read(ByteCode, fileSize);
-
-					
-					GS->CreateShader(ByteCode, )
-
-					fpShader.close();
-					delete[] ByteCode;
-				}
-			}
+	//			shaderName += (*iter)[JSON_SHADERINFO::ShaderName].asString();
+	//			shaderName += JSON_SHADERINFO::ShaderExtension;
 
 
-		}
-		
+	//			//ë§Œë“  ì´ë¦„ìœ¼ë¡œ íŒŒì¼ì„ ë¡œë“œí•œë‹¤.
+	//			std::ifstream fpShader(shaderName, openflag);
 
-		GS->SetKey(iter.key().asString());
-		AddRes<CGraphicsShader>(GS->GetKey(), GS);
+	//			if (true == fpShader.is_open())
+	//			{
+	//				std::streampos fileSize = fpShader.tellg();
 
-		string test = iter.key().asString();
+	//				char* ByteCode = new char[fileSize];
+	//				memset(ByteCode, 0, fileSize);
+	//				fpShader.seekg(0, std::ios::beg);
+	//				fpShader.read(ByteCode, fileSize);
 
-		int a = 0;
-	}
+	//				
+	//				GS->CreateShader(ByteCode, )
+
+	//				fpShader.close();
+	//				delete[] ByteCode;
+	//			}
+	//		}
 
 
-	//TODO : ¿©±â ÆÄÀÏ½Ã½ºÅÛ ÇÁ·ÎÁ§Æ®·Î ´Ù ±Ü¾î¿Í¼­ ¾Ë¾Æ¼­ ÄÄÆÄÀÏÇÏµµ·Ï ÇÏ´Â ±â´É Ãß°¡ÇÏ±â
+	//	}
+	//	
+
+	//	GS->SetKey(iter.key().asString());
+	//	AddRes<CGraphicsShader>(GS->GetKey(), GS);
+
+	//	string test = iter.key().asString();
+
+	//	int a = 0;
+	//}
+
+
+	//TODO : ì—¬ê¸° íŒŒì¼ì‹œìŠ¤í…œ í”„ë¡œì íŠ¸ë¡œ ë‹¤ ê¸ì–´ì™€ì„œ ì•Œì•„ì„œ ì»´íŒŒì¼í•˜ë„ë¡ í•˜ëŠ” ê¸°ëŠ¥ ì¶”ê°€í•˜ê¸°
 	{
 		
 
@@ -397,7 +397,7 @@ void CResMgr::CreateDefaultGraphicsShader(const wstring& _wstrShaderBasePath, co
 		//// ==================
 		//// std2D_Light Shader
 		//// ==================
-		//// ±¤¿øÀ» Ã³¸®ÇÒ ¼ö ÀÖ´Â 2D ½¦ÀÌ´õ
+		//// ê´‘ì›ì„ ì²˜ë¦¬í•  ìˆ˜ ìˆëŠ” 2D ì‰ì´ë”
 		//{
 		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
 		//	pShader->SetKey(DEFAULT_RES::SHADER::STD2D_LIGHT);
@@ -478,7 +478,7 @@ void CResMgr::CreateDefaultGraphicsShader(const wstring& _wstrShaderBasePath, co
 		//	pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_WRITE);
 		//	pShader->SetBlendState(eBLENDSTATE_TYPE::ALPHA_BLEND);
 		//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_TRANSPARENT); //¾ËÆÄ ºí·»µùÀ» »ç¿ëÇÏ¹Ç·Î
+		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_TRANSPARENT); //ì•ŒíŒŒ ë¸”ë Œë”©ì„ ì‚¬ìš©í•˜ë¯€ë¡œ
 	
 	
 		//	AddRes(pShader->GetKey(), pShader);
@@ -502,14 +502,14 @@ void CResMgr::CreateDefaultComputeShader(const wstring& _wstrShaderBasePath, con
 	//AddRes(pShader->GetKey(), pShader);
 	//pShader = nullptr;
 
-	////±âº» ÆÄÆ¼Å¬ ½¦ÀÌ´õ
+	////ê¸°ë³¸ íŒŒí‹°í´ ì‰ì´ë”
 	//pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
 	//pShader->CreateShader((void*)g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic));
 	//pShader->SetKey(DEFAULT_RES::SHADER::COMPUTE::PARTICLE_UPDATE_BASIC);
 	//AddRes(pShader->GetKey(), pShader);
 	//pShader = nullptr;
 
-	////ºñ È¿°ú ÆÄÆ¼Å¬ ½¦ÀÌ´õ
+	////ë¹„ íš¨ê³¼ íŒŒí‹°í´ ì‰ì´ë”
 	//pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
 	//pShader->CreateShader((void*)g_CS_Particle_RainDrop, sizeof(g_CS_Particle_RainDrop));
 	//pShader->SetKey(DEFAULT_RES::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
@@ -643,7 +643,7 @@ void CResMgr::LoadDefaultTexture()
 	Load<CTexture>(DEFAULT_RES::TEXTURE::MARINE_ATLAS, L"texture/marine.bmp");
 
 
-	//³ëÀÌÁîÅØ½ºÃ³
+	//ë…¸ì´ì¦ˆí…ìŠ¤ì²˜
 	Load<CTexture>(DEFAULT_RES::TEXTURE::NOISE_TEXTURE_0, L"texture/noise/noise_01.png");
 }
 

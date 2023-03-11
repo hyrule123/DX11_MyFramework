@@ -1,6 +1,6 @@
 #pragma once
 
-// ¿©±â¿¡ ¹Ì¸® ÄÄÆÄÀÏÇÏ·Á´Â Çì´õ Ãß°¡
+// ì—¬ê¸°ì— ë¯¸ë¦¬ ì»´íŒŒì¼í•˜ë ¤ëŠ” í—¤ë” ì¶”ê°€
 #include "framework.h"
 
 #include <stdlib.h>
@@ -13,8 +13,7 @@
 #include <string>
 #include <queue>
 #include <iterator>
-
-
+#include <filesystem>
 
 using std::vector;
 using std::list;
@@ -23,6 +22,7 @@ using std::unordered_map;
 using std::make_pair;
 using std::wstring;
 using std::string;
+using std::wstring;
 using std::queue;
 
 #include <typeinfo>
@@ -33,7 +33,7 @@ using std::queue;
 using namespace Microsoft::WRL;
 
 #include <d3d11.h>					// DirectX11
-#include <d3dcompiler.h>			// Shader ÄÄÆÄÀÏ
+#include <d3dcompiler.h>			// Shader ì»´íŒŒì¼
 #include <DirectXMath.h>			// DX Math
 #include <DirectXPackedVector.h>	
 
@@ -50,7 +50,6 @@ using namespace DirectX::PackedVector;
 #else 
 #pragma comment(lib, "DirectXTex//DirectXTex_Release")
 #endif
-
 
 #include "SimpleMath.h"
 using namespace DirectX::SimpleMath;

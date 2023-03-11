@@ -19,7 +19,7 @@ private:
 
 public:
     //inline Setter
-    //¼ÒÀ¯ÀÚ Æ÷ÀÎÅÍ¸¦ ÇÏÀ§ Å¬·¡½º¿¡°Ôµµ Àü´ŞÇØÁà¾ß ÇÒ °æ¿ì ÀçÁ¤ÀÇÇØ¼­ »ç¿ëÇØ¾ß ÇÔ
+    //ì†Œìœ ì í¬ì¸í„°ë¥¼ í•˜ìœ„ í´ë˜ìŠ¤ì—ê²Œë„ ì „ë‹¬í•´ì¤˜ì•¼ í•  ê²½ìš° ì¬ì •ì˜í•´ì„œ ì‚¬ìš©í•´ì•¼ í•¨
     virtual void SetOwner(CGameObject* _pOwner) { m_pOwner = _pOwner; }
 
     //inline Getter
@@ -27,7 +27,7 @@ public:
     CGameObject* GetOwner() { return m_pOwner ; }
 
 public:
-    //Æ¯Á¤ º¯¼ö¿¡¼­ ÃÊ±â ¼³Á¤À» ÇØ¾ß ÇÒ °æ¿ì ÀÌ ¸Ş¼Òµå¸¦ ¿À¹ö¶óÀÌµùÇØ¼­ »ç¿ëÇÒ °Í.
+    //íŠ¹ì • ë³€ìˆ˜ì—ì„œ ì´ˆê¸° ì„¤ì •ì„ í•´ì•¼ í•  ê²½ìš° ì´ ë©”ì†Œë“œë¥¼ ì˜¤ë²„ë¼ì´ë”©í•´ì„œ ì‚¬ìš©í•  ê²ƒ.
     virtual void init() {}
     virtual void tick() {}
     virtual void finaltick() = 0;

@@ -3,7 +3,7 @@
 
 #include "CTransform.h"
 
-//·»´õ¸µ¸Å´ÏÀú¿¡ ¸Å ÇÁ·¹ÀÓ¸¶´Ù ÀÚ½ÅÀÇ Á¤º¸¸¦ ¾÷µ¥ÀÌÆ® ÇØ¾ßÇÔ.
+//ë Œë”ë§ë§¤ë‹ˆì €ì— ë§¤ í”„ë ˆìž„ë§ˆë‹¤ ìžì‹ ì˜ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸ í•´ì•¼í•¨.
 #include "CRenderMgr.h"
 
 CLight2D::CLight2D()
@@ -25,7 +25,7 @@ void CLight2D::finaltick()
 {
 	m_LightInfo.vLightWorldPos = Transform()->GetWorldPos();
 
-	//¸¸¾à ½ºÆ÷Æ®¶óÀÌÆ® ¶Ç´Â Á÷»ç±¤¼±ÀÏ °æ¿ì Æ®·£½ºÆûÀÇ ¹æÇâÀ» µû¶ó°¡µµ·Ï ¼³Á¤
+	//ë§Œì•½ ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ ë˜ëŠ” ì§ì‚¬ê´‘ì„ ì¼ ê²½ìš° íŠ¸ëžœìŠ¤í¼ì˜ ë°©í–¥ì„ ë”°ë¼ê°€ë„ë¡ ì„¤ì •
 	if((int)eLIGHT_TYPE::DIRECTIONAL == m_LightInfo.LightType
 		||
 		(int)eLIGHT_TYPE::SPOTLIGHT == m_LightInfo.LightType)

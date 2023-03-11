@@ -24,7 +24,7 @@ public:
     void SetLightAngle(float _fAngle) { m_LightInfo.fAngle = _fAngle; }
 
 public:
-    //À§Ä¡ ¾÷µ¥ÀÌÆ®°¡ ÇÊ¿äÇÔ.
+    //ìœ„ì¹˜ ì—…ë°ì´íŠ¸ê°€ í•„ìš”í•¨.
     void finaltick() override;
     void cleanup() override {};
 

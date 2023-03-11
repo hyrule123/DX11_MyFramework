@@ -10,7 +10,7 @@ public:
 private:
 	HWND	m_hWnd;
 
-	// À©µµ¿ì ÇØ»óµµ
+	// ìœˆë„ìš° í•´ìƒë„
 	Vec2	m_vResolution;
 
 	Vec4	m_ClearColor;
@@ -25,7 +25,7 @@ public:
 	void progress();
 	void present();
 
-	//ÇÑ »çÀÌÅ¬ÀÌ ³¡³ª±â Àü±îÁö Áö¼ÓÀûÀ¸·Î À¯ÁöµÇ¾î¾ß ÇÏ´Â °ªµéÀ» ÃÊ±âÈ­
+	//í•œ ì‚¬ì´í´ì´ ëë‚˜ê¸° ì „ê¹Œì§€ ì§€ì†ì ìœ¼ë¡œ ìœ ì§€ë˜ì–´ì•¼ í•˜ëŠ” ê°’ë“¤ì„ ì´ˆê¸°í™”
 	void cleartick();
 
 private:

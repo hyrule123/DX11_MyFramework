@@ -9,19 +9,19 @@ void GS_Particle(
 {
     uint id = _in[0].uInstID;
 	
-	//GS ´Ü°è¿¡¼­ ÇØ´ç ÆÄÆ¼Å¬ÀÇ ·»´õ¸µ ¿©ºÎ¸¦ ÆÇ´Ü ÈÄ ·»´õ¸µµÇÁö ¾ÊÀ» ÆÄÆ¼Å¬ÀÌ¸é return ÇØÁØ´Ù.
+	//GS ë‹¨ê³„ì—ì„œ í•´ë‹¹ íŒŒí‹°í´ì˜ ë Œë”ë§ ì—¬ë¶€ë¥¼ íŒë‹¨ í›„ ë Œë”ë§ë˜ì§€ ì•Šì„ íŒŒí‹°í´ì´ë©´ return í•´ì¤€ë‹¤.
 	if (0 == g_SBuffer_ParticleTransform[id].bActive)
 		return;
 	
 	
-	//Á¤Á¡À» ºä °ø°£»óÀ¸·Î ÀÌµ¿
+	//ì •ì ì„ ë·° ê³µê°„ìƒìœ¼ë¡œ ì´ë™
 	float3 vParticleViewPos = mul(float4(g_SBuffer_ParticleTransform[id].vWorldPos.xyz, 1.f), g_CBuffer_matCam[g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_INT_CAMIDX].matView).xyz;
     
-	//ÆÄÆ¼Å¬ÀÇ Å©±â¸¦ ÁöÁ¤ÇÑ Scale·Î Á¶Á¤
+	//íŒŒí‹°í´ì˜ í¬ê¸°ë¥¼ ì§€ì •í•œ Scaleë¡œ ì¡°ì •
     float2 vParticleScale = mul(g_SBuffer_ParticleTransform[id].vWorldScale.xy, 0.5f);
     
     
-    //È¸Àü ¸ðµâÀ» »ç¿ëÁßÀÏ °æ¿ì(È¸Àü°ªÀÌ 0.f°¡ ¾Æ´Ò °æ¿ì È¸Àü °è»ê)
+    //íšŒì „ ëª¨ë“ˆì„ ì‚¬ìš©ì¤‘ì¼ ê²½ìš°(íšŒì „ê°’ì´ 0.fê°€ ì•„ë‹ ê²½ìš° íšŒì „ ê³„ì‚°)
 	float2 Vertices[4] = { 
         float2(-vParticleScale.x,  vParticleScale.y), 
         float2( vParticleScale.x,  vParticleScale.y),
@@ -42,12 +42,12 @@ void GS_Particle(
 	}
        
 	
-	//»õ·Î¿î Á¤Á¡À» »ý¼º(Áß¾ÓÀÎ pointÁ¤Á¡ À§Ä¡¸¦ ±âÁØÀ¸·Î »ç°¢ÇüÀ» ¸¸µç´Ù.
-	//ºä °ø°£¿¡¼­ »ý¼ºÇÑ »ç°¢ÇüÀÌ±â ‹š¹®¿¡ ¹«Á¶°Ç ÀÌ »ç°¢ÇüÀº Ä«¸Þ¶ó¸¦ ÇâÇÏ°Ô µÈ´Ù.
+	//ìƒˆë¡œìš´ ì •ì ì„ ìƒì„±(ì¤‘ì•™ì¸ pointì •ì  ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì‚¬ê°í˜•ì„ ë§Œë“ ë‹¤.
+	//ë·° ê³µê°„ì—ì„œ ìƒì„±í•œ ì‚¬ê°í˜•ì´ê¸° Â‹Âšë¬¸ì— ë¬´ì¡°ê±´ ì´ ì‚¬ê°í˜•ì€ ì¹´ë©”ë¼ë¥¼ í–¥í•˜ê²Œ ëœë‹¤.
 	// 0   1
 	//
 	// 3   2
-	//»õ·Î ¸¸µç Á¤Á¡À¸·Î À§Ä¡¸¦ °è»êÇÑ´Ù.
+	//ìƒˆë¡œ ë§Œë“  ì •ì ìœ¼ë¡œ ìœ„ì¹˜ë¥¼ ê³„ì‚°í•œë‹¤.
 	GS_OUT output[4] =
 	{
 		(GS_OUT[4]) 0.f
@@ -65,7 +65,7 @@ void GS_Particle(
     output[3].vUV = float2(0.f, 1.f);
 	
     
-    //¸¸µç Á¤Á¡ 4°³·Î »õ Á¤Á¡À» Âï¾îÁØ´Ù.(ÅäÆú·ÎÁö : triangleList)
+    //ë§Œë“  ì •ì  4ê°œë¡œ ìƒˆ ì •ì ì„ ì°ì–´ì¤€ë‹¤.(í† í´ë¡œì§€ : triangleList)
     _outstream.Append(output[0]);
     _outstream.Append(output[1]);
     _outstream.Append(output[2]);

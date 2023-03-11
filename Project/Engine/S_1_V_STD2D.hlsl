@@ -1,4 +1,3 @@
-
 #include "S_0_H_STD2D.hlsli"
 
 
@@ -7,10 +6,10 @@ VS_OUT VS_std2D(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
 	
-	//ÀÎ½ºÅÏ½ÌÀÎÁö ¾Æ´ÑÁö¿¡ µû¶ó¼­ ´Ù¸¥ °÷¿¡¼­ µ¥ÀÌÅÍ¸¦ ¹Þ¾Æ¿Â´Ù.
+	//ì¸ìŠ¤í„´ì‹±ì¸ì§€ ì•„ë‹Œì§€ì— ë”°ë¼ì„œ ë‹¤ë¥¸ ê³³ì—ì„œ ë°ì´í„°ë¥¼ ë°›ì•„ì˜¨ë‹¤.
 	tMtrlScalarData Data = GetMtrlScalarData(_in.uInstID);
 	
-	//ÇÇ¹þÀ» »ç¿ëÇÏµµ·Ï ¼³Á¤ÇßÀ» °æ¿ì Á¤Á¡ À§Ä¡¸¦ ÇÇ¹þ¿¡ ¸Â°Ô ¹Ù²ãÁØ´Ù.
+	//í”¼ë²—ì„ ì‚¬ìš©í•˜ë„ë¡ ì„¤ì •í–ˆì„ ê²½ìš° ì •ì  ìœ„ì¹˜ë¥¼ í”¼ë²—ì— ë§žê²Œ ë°”ê¿”ì¤€ë‹¤.
 	if (eMTRL_SCALAR_STD2D_FLAG::USE_PIVOT & Data.MTRL_SCALAR_STD2D_FLAG)
 	{
 		float2 PivotOffset = float2(0.5f, 0.5f) - Data.MTRL_SCALAR_STD2D_PIVOT;

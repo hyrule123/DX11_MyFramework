@@ -35,7 +35,7 @@ void CCollider2D_Point::DebugRender()
 		
 	const Matrix& matOffset = Matrix::CreateTranslation(GetOffsetPos());
 
-	//20 »çÀÌÁîÀÇ ÀÛÀº ¿øÀ» »ý¼º
+	//20 ì‚¬ì´ì¦ˆì˜ ìž‘ì€ ì›ì„ ìƒì„±
 	const static Matrix matSize = Matrix::CreateScale(20.f);
 
 	tDebugShapeInfo Info = {};
@@ -43,7 +43,7 @@ void CCollider2D_Point::DebugRender()
 	
 	Info.matWorld = matSize * matOffset * matWorld;
 
-	//Ãæµ¹ ÁßÀÎ ¹°Ã¼°¡ ÀÖÀ» °æ¿ì »¡°­, ¾Æ´Ò °æ¿ì ÃÊ·Ï
+	//ì¶©ëŒ ì¤‘ì¸ ë¬¼ì²´ê°€ ìžˆì„ ê²½ìš° ë¹¨ê°•, ì•„ë‹ ê²½ìš° ì´ˆë¡
 	Info.vColor = 0 == GetCollisionCount() ? Vec4(0.f, 1.f, 0.f, 1.f) : Vec4(1.f, 0.f, 0.f, 1.f);
 	CRenderMgr::GetInst()->AddDebugShapeRender(Info);
 }

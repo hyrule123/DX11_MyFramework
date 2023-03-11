@@ -4,8 +4,8 @@
 enum class eSHADER_LOADTYPE
 {
     NOT_LOADED,
-    RUNTIME_COMPILED,    //·±Å¸ÀÓ¿¡ ÄÄÆÄÀÏÇÑ ½¦ÀÌ´õ
-    BYTE_CODE     //Çì´õ¸¦ Æ÷ÇÔ½ÃÄÑ ÄÄÆÄÀÏÇÑ ½¦ÀÌ´õ
+    RUNTIME_COMPILED,    //ëŸ°íƒ€ìž„ì— ì»´íŒŒì¼í•œ ì‰ì´ë”
+    BYTE_CODE     //í—¤ë”ë¥¼ í¬í•¨ì‹œì¼œ ì»´íŒŒì¼í•œ ì‰ì´ë”
 };
 
 struct tShaderLoadData

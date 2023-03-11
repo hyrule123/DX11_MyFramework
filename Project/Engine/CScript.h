@@ -30,7 +30,7 @@ public:
     const std::type_index GetTypeIndex() const { return m_TypeIndex; }
 
 public:
-    //Æ¯Á¤ º¯¼ö¿¡¼­ ÃÊ±â ¼³Á¤À» ÇØ¾ß ÇÒ °æ¿ì ÀÌ ¸Ş¼Òµå¸¦ ¿À¹ö¶óÀÌµùÇØ¼­ »ç¿ëÇÒ °Í.
+    //íŠ¹ì • ë³€ìˆ˜ì—ì„œ ì´ˆê¸° ì„¤ì •ì„ í•´ì•¼ í•  ê²½ìš° ì´ ë©”ì†Œë“œë¥¼ ì˜¤ë²„ë¼ì´ë”©í•´ì„œ ì‚¬ìš©í•  ê²ƒ.
     virtual void init() {}
     virtual void tick() {}
 

@@ -9,7 +9,7 @@
 #include "CRenderMgr.h"
 #include "CMeshRender.h"
 
-//ÀÚ½ÅÀÌ ¾÷µ¥ÀÌÆ® µÇ¸é Ãæµ¹Ã¼µµ ¾÷µ¥ÀÌÆ® ÇØÁØ´Ù.
+//ìžì‹ ì´ ì—…ë°ì´íŠ¸ ë˜ë©´ ì¶©ëŒì²´ë„ ì—…ë°ì´íŠ¸ í•´ì¤€ë‹¤.
 #include "CCollider2D.h"
 #include "CCollider3D.h"
 
@@ -23,7 +23,7 @@ CTransform::CTransform()
 	, m_bNeedMyUpdate(true)
 	, m_bNeedParentUpdate(true)
 	, m_fLongestDiagonalLen()
-	//Matrix¿Í Vector º¯¼ö´Â ÀÚÃ¼ »ý¼ºÀÚ¸¦ ÅëÇØ ÃÊ±âÈ­ µÊ.
+	//Matrixì™€ Vector ë³€ìˆ˜ëŠ” ìžì²´ ìƒì„±ìžë¥¼ í†µí•´ ì´ˆê¸°í™” ë¨.
 {
 }
 
@@ -35,31 +35,31 @@ CTransform::~CTransform()
 
 void CTransform::finaltick()
 {
-	//bool °ªµéÀº tick()¿¡¼­ false·Î ÃÊ±âÈ­ µÈ´Ù.
+	//bool ê°’ë“¤ì€ tick()ì—ì„œ falseë¡œ ì´ˆê¸°í™” ëœë‹¤.
 
 
-	//¿©±â¼± °íÀ¯ Å©±â(Size)¸¦ ¹Ý¿µÇÏÁö ¾ÊÀº ¿ùµåÇà·ÄÀ» ¸¸µç´Ù.
-	//°ÔÀÓ¿ÀºêÁ§Æ® »ó¼Ó °ü°è¿¡¼­ °íÀ¯ Å©±â±îÁö »ó¼ÓÀ» ¹Þ°Ô µÇ¸é ±âÇÏ±Þ¼öÀûÀ¸·Î Å©±â°¡ Ä¿Áü 
+	//ì—¬ê¸°ì„  ê³ ìœ  í¬ê¸°(Size)ë¥¼ ë°˜ì˜í•˜ì§€ ì•Šì€ ì›”ë“œí–‰ë ¬ì„ ë§Œë“ ë‹¤.
+	//ê²Œìž„ì˜¤ë¸Œì íŠ¸ ìƒì† ê´€ê³„ì—ì„œ ê³ ìœ  í¬ê¸°ê¹Œì§€ ìƒì†ì„ ë°›ê²Œ ë˜ë©´ ê¸°í•˜ê¸‰ìˆ˜ì ìœ¼ë¡œ í¬ê¸°ê°€ ì»¤ì§ 
 	if (true == m_bNeedMyUpdate)
 	{
-		//ÀÚ½ÅÀÇ Æ®·£½ºÆû ¾÷µ¥ÀÌÆ®¸¦ ÁøÇàÇÒ °æ¿ì - µÎ°³ ´Ù ¾÷µ¥ÀÌÆ® ÇØÁà¾ßÇÔ.
+		//ìžì‹ ì˜ íŠ¸ëžœìŠ¤í¼ ì—…ë°ì´íŠ¸ë¥¼ ì§„í–‰í•  ê²½ìš° - ë‘ê°œ ë‹¤ ì—…ë°ì´íŠ¸ í•´ì¤˜ì•¼í•¨.
 		UpdateMyTransform();
 	}
-	//ºÎ¸ð Æ®·£½ºÆû'¸¸' °»½ÅµÇ¾úÀ» °æ¿ì : ÀÚ½ÅÀº °»½ÅÇÒ ÇÊ¿ä ¾øÀ½.
+	//ë¶€ëª¨ íŠ¸ëžœìŠ¤í¼'ë§Œ' ê°±ì‹ ë˜ì—ˆì„ ê²½ìš° : ìžì‹ ì€ ê°±ì‹ í•  í•„ìš” ì—†ìŒ.
 	if (true == m_bNeedParentUpdate)
 	{
 		UpdateParentMatrix();
 	}
 
-	//µÑÁß¿¡ ÇÏ³ª¶óµµ ¾÷µ¥ÀÌÆ® µÇ¾úÀ» °æ¿ì ¿ùµåÇà·ÄÀ» »õ·Î °è»êÇÑ´Ù.
+	//ë‘˜ì¤‘ì— í•˜ë‚˜ë¼ë„ ì—…ë°ì´íŠ¸ ë˜ì—ˆì„ ê²½ìš° ì›”ë“œí–‰ë ¬ì„ ìƒˆë¡œ ê³„ì‚°í•œë‹¤.
 	if (m_bNeedMyUpdate || m_bNeedParentUpdate)
 	{
 		m_matWorld = m_matRelative * m_matParent;
 
 		MATRIX matWorld = m_matSize * m_matWorld;
 
-		//Çà·ÄÀÇ 1 ~ 3 ºÎºÐÀ» ÀüºÎ Á¦°öÇÑ µÚ, Á¦°ö±ÙÀ» ¾º¿î´Ù. ±×·¯¸é °¡Àå ±ä ´ë°¢¼±ÀÇ ±æÀÌ°¡ ³ª¿Â´Ù.
-		//sqrt(11Á¦°ö + 12Á¦°ö + 13Á¦°ö + 21Á¦°ö + 22Á¦°ö + 23Á¦°ö + 31Á¦°ö + 32Á¦°ö + 33Á¦°ö)
+		//í–‰ë ¬ì˜ 1 ~ 3 ë¶€ë¶„ì„ ì „ë¶€ ì œê³±í•œ ë’¤, ì œê³±ê·¼ì„ ì”Œìš´ë‹¤. ê·¸ëŸ¬ë©´ ê°€ìž¥ ê¸´ ëŒ€ê°ì„ ì˜ ê¸¸ì´ê°€ ë‚˜ì˜¨ë‹¤.
+		//sqrt(11ì œê³± + 12ì œê³± + 13ì œê³± + 21ì œê³± + 22ì œê³± + 23ì œê³± + 31ì œê³± + 32ì œê³± + 33ì œê³±)
 		m_fLongestDiagonalLen = sqrtf(matWorld.Axis((int)eAXIS3D::X).LengthSquared() + matWorld.Axis((int)eAXIS3D::Y).LengthSquared() + matWorld.Axis((int)eAXIS3D::Z).LengthSquared());
 		
 		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
@@ -70,11 +70,11 @@ void CTransform::finaltick()
 
 void CTransform::UpdateMyTransform()
 {
-	//Å©±âÇà·Ä(CreateScaleÀ» ÇØÁÖ¸é ÀÚµ¿À¸·Î µ¿Â÷ÁÂÇ¥¸¦ Ãß°¡ÇØ¼­ Çà·Ä¿¡ »ðÀÔÇØ ÁØ´Ù.
+	//í¬ê¸°í–‰ë ¬(CreateScaleì„ í•´ì£¼ë©´ ìžë™ìœ¼ë¡œ ë™ì°¨ì¢Œí‘œë¥¼ ì¶”ê°€í•´ì„œ í–‰ë ¬ì— ì‚½ìž…í•´ ì¤€ë‹¤.
 	const Matrix& matScale = Matrix::CreateScale(m_vRelativeScale);
 
-	//¹æÇâÀº ÄõÅÍ´Ï¾ðÀ» »ç¿ëÇØ¼­ °è»ê.
-	//È¸ÀüÀÌ Àá°ÜÀÖÀ» °æ¿ì °è»êÇÏÁö ¾ÊÀ½.
+	//ë°©í–¥ì€ ì¿¼í„°ë‹ˆì–¸ì„ ì‚¬ìš©í•´ì„œ ê³„ì‚°.
+	//íšŒì „ì´ ìž ê²¨ìžˆì„ ê²½ìš° ê³„ì‚°í•˜ì§€ ì•ŠìŒ.
 	Matrix matRot = Matrix::Identity;
 	/*if (false == m_bLockRot)
 		matRot = MATRIX::CreateFromPitchYawRoll(m_vRelativeRot.x, m_vRelativeRot.y, m_vRelativeRot.z);*/
@@ -82,12 +82,12 @@ void CTransform::UpdateMyTransform()
 	if (false == m_bLockRot)
 	{
 		matRot = MATRIX::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(m_vRelativeRot.y, m_vRelativeRot.x, m_vRelativeRot.z));
-		//¹æ±Ý ±¸ÇÑ È¸ÀüÇà·ÄÀ¸·Î Á÷°üÀû ¹æÇâÀ» °è»êÇÑ´Ù.
-		//È¸ÀüÇà·ÄÀ» µû·Î º¯¼ö¿¡ ÀúÀåÇÏÁö ¾ÊÀ¸¹Ç·Î Áö¿ªº¯¼ö¿¡ °è»êÇØ³õÀº ½ÃÁ¡¿¡¼­ Á÷°üÀû ¹æÇâµµ ±¸ÇØ³õ´Â´Ù.
-		//¹æ¹ý 1 - Çà·Ä°ö°ú ·¡ÇÎÇÔ¼ö¸¦ »ç¿ë
+		//ë°©ê¸ˆ êµ¬í•œ íšŒì „í–‰ë ¬ìœ¼ë¡œ ì§ê´€ì  ë°©í–¥ì„ ê³„ì‚°í•œë‹¤.
+		//íšŒì „í–‰ë ¬ì„ ë”°ë¡œ ë³€ìˆ˜ì— ì €ìž¥í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ì§€ì—­ë³€ìˆ˜ì— ê³„ì‚°í•´ë†“ì€ ì‹œì ì—ì„œ ì§ê´€ì  ë°©í–¥ë„ êµ¬í•´ë†“ëŠ”ë‹¤.
+		//ë°©ë²• 1 - í–‰ë ¬ê³±ê³¼ ëž˜í•‘í•¨ìˆ˜ë¥¼ ì‚¬ìš©
 	}
 
-	//TODO: ¹æÇâ °íÁ¤ÀÏ °æ¿ì »çÀÎ°ú ÄÚ»çÀÎÀ» ÀÌ¿ëÇØ¼­ »ó´ëÀû ¹æÇâ °è»êÇÏµµ·Ï ¸¸µé¾î ³õ±â
+	//TODO: ë°©í–¥ ê³ ì •ì¼ ê²½ìš° ì‚¬ì¸ê³¼ ì½”ì‚¬ì¸ì„ ì´ìš©í•´ì„œ ìƒëŒ€ì  ë°©í–¥ ê³„ì‚°í•˜ë„ë¡ ë§Œë“¤ì–´ ë†“ê¸°
 	m_vRelativeDir[(UINT)eDIR_TYPE::FRONT] = matRot.Forward();
 	m_vRelativeDir[(UINT)eDIR_TYPE::RIGHT] = matRot.Right();
 	m_vRelativeDir[(UINT)eDIR_TYPE::UP] = matRot.Up();
@@ -95,10 +95,10 @@ void CTransform::UpdateMyTransform()
 
 
 
-	//ÀÌµ¿Çà·Ä
+	//ì´ë™í–‰ë ¬
 	const Matrix& matTranslation = Matrix::CreateTranslation(m_vRelativePos);
 
-	//ÀÚ½ÅÀÇ ¿ùµåÇà·Ä ¿Ï¼º(»ó´ë°ª)
+	//ìžì‹ ì˜ ì›”ë“œí–‰ë ¬ ì™„ì„±(ìƒëŒ€ê°’)
 	m_matRelative = matScale * matRot * matTranslation;
 }
 
@@ -107,39 +107,39 @@ void CTransform::UpdateParentMatrix()
 	m_matParent = Matrix::Identity;
 
 
-	//ºÎ¸ð ¿ÀºêÁ§Æ®°¡ ÀÖÀ» °æ¿ì ºÎ¸ðÀÇ ¿ùµåÇà·ÄÀ» ¹Þ¾Æ¿Â´Ù. 
-	//¼º°ø ½Ã true°¡ ¹ÝÈ¯µÇ¹Ç·Î ÀÌ ¶§´Â »ó¼Ó °úÁ¤À» ½ÃÀÛÇÏ¸é µÊ
+	//ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ê°€ ìžˆì„ ê²½ìš° ë¶€ëª¨ì˜ ì›”ë“œí–‰ë ¬ì„ ë°›ì•„ì˜¨ë‹¤. 
+	//ì„±ê³µ ì‹œ trueê°€ ë°˜í™˜ë˜ë¯€ë¡œ ì´ ë•ŒëŠ” ìƒì† ê³¼ì •ì„ ì‹œìž‘í•˜ë©´ ë¨
 	bool bWorldDirInherit = false;
 	if (true == GetOwner()->GetParentWorldMatrix(m_matParent))
 	{
 		if (true == m_bInheritRot)
 		{
-			//È¸Àü »ó¼Ó + Å©±â ¹Ì»ó¼Ó -> Å©±âÁ¤º¸ Á¦°Å
+			//íšŒì „ ìƒì† + í¬ê¸° ë¯¸ìƒì† -> í¬ê¸°ì •ë³´ ì œê±°
 			if (false == m_bInheritScale)
 			{
-				//Á¤±ÔÈ­ÇØ¼­ Å©±âÁ¤º¸¸¦ Á¦°Å
+				//ì •ê·œí™”í•´ì„œ í¬ê¸°ì •ë³´ë¥¼ ì œê±°
 				m_matParent.Right(m_matParent.Right().Normalize());
 				m_matParent.Up(m_matParent.Up().Normalize());
 				m_matParent.Forward(m_matParent.Forward().Normalize());
 			}
-			//else: µÑ ´Ù »ó¼Ó ¹Þ´Â °æ¿ì¿¡´Â ÀÛ¾÷ÇÒ °ÍÀÌ ¾øÀ½. ±×³É ºüÁ®³ª°¡¸é µÊ
+			//else: ë‘˜ ë‹¤ ìƒì† ë°›ëŠ” ê²½ìš°ì—ëŠ” ìž‘ì—…í•  ê²ƒì´ ì—†ìŒ. ê·¸ëƒ¥ ë¹ ì ¸ë‚˜ê°€ë©´ ë¨
 
-			bWorldDirInherit = true;	//ÀÌ¶§¸¸ ¿ùµå¹æÇâÀ» »ó¼Ó¹Þ¾ÆÁÖ¸é µÈ´Ù.
+			bWorldDirInherit = true;	//ì´ë•Œë§Œ ì›”ë“œë°©í–¥ì„ ìƒì†ë°›ì•„ì£¼ë©´ ëœë‹¤.
 		}
 		else
 		{
-			//È¸Àü ¹Ì»ó¼Ó + Å©±â »ó¼Ó -> È¸ÀüÁ¤º¸ Á¦°Å
+			//íšŒì „ ë¯¸ìƒì† + í¬ê¸° ìƒì† -> íšŒì „ì •ë³´ ì œê±°
 			if (true == m_bInheritScale)
 			{
-				//È¸ÀüÁ¤º¸¸¸ »ó¼Ó¹Þ´Â °æ¿ì: Å©±âÁ¤º¸¸¸ ÃßÃâ
+				//íšŒì „ì •ë³´ë§Œ ìƒì†ë°›ëŠ” ê²½ìš°: í¬ê¸°ì •ë³´ë§Œ ì¶”ì¶œ
 				Vec3 Scale(m_matParent.Right().Length(), m_matParent.Up().Length(), m_matParent.Forward().Length());
-				//float(4) * 12 -> È¸Àü ÆÄÆ®¸¦ ¸ðµÎ 0À¸·Î ¹Ð¾î¹ö¸®°í Å©±â¸¸ µî·Ï
+				//float(4) * 12 -> íšŒì „ íŒŒíŠ¸ë¥¼ ëª¨ë‘ 0ìœ¼ë¡œ ë°€ì–´ë²„ë¦¬ê³  í¬ê¸°ë§Œ ë“±ë¡
 				memset(m_matParent.m, 0, 48);
 				m_matParent._11 = Scale.x;
 				m_matParent._22 = Scale.y;
 				m_matParent._33 = Scale.z;
 			}
-			//È¸Àü ¹Ì»ó¼Ó + Å©±â ¹Ì»ó¼Ó -> ÀüºÎ ¹Ð°í ´ÜÀ§Çà·Ä·Î
+			//íšŒì „ ë¯¸ìƒì† + í¬ê¸° ë¯¸ìƒì† -> ì „ë¶€ ë°€ê³  ë‹¨ìœ„í–‰ë ¬ë¡œ
 			else
 			{
 				memset(m_matParent.m, 0, 48);

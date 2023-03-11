@@ -11,7 +11,7 @@
 #include <Engine/ptr.h>
 #include <Engine/CTexture.h>
 #include <Engine/CResMgr.h>
-#include <Engine/strKeys.h>
+#include <Engine/strKeyDefaultRes.h>
 #include <Engine/CGameObject.h>
 #include <Engine/components.h>
 #include <Engine/CCollisionMgr.h>
@@ -52,7 +52,7 @@ void CreateTestLevel()
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
 	Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");
 	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
-	// ¿ÀºêÁ§Æ® »ı¼º
+	// ì˜¤ë¸Œì íŠ¸ ìƒì„±
 
 	for (int i = 0; i < 5; ++i)
 	{

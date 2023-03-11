@@ -36,7 +36,7 @@ bool CCS_ParticleUpdate::BindDataCS()
 	}
 
 
-	//¼¼ ¹öÆÛÁß ÇÏ³ª¶óµµ µî·ÏµÇ¾îÀÖÁö ¾ÊÀ¸¸é return falseÇØ¼­ excute °úÁ¤À» Áß´Ü
+	//ì„¸ ë²„í¼ì¤‘ í•˜ë‚˜ë¼ë„ ë“±ë¡ë˜ì–´ìˆì§€ ì•Šìœ¼ë©´ return falseí•´ì„œ excute ê³¼ì •ì„ ì¤‘ë‹¨
 	if (
 		nullptr == m_pSBuffer_Transform
 		||
@@ -46,13 +46,13 @@ bool CCS_ParticleUpdate::BindDataCS()
 		)
 		return false;
 
-	//ÆÄÆ¼Å¬ ÄÄÆ÷³ÍÆ®ÀÇ ¿ùµåÀ§Ä¡¸¦ ÄÄÇ»Æ®½¦ÀÌ´õÀÇ ¹öÆÛ¿¡ ´ã¾Æ¼­ Àü´ŞÇÑ´Ù.
+	//íŒŒí‹°í´ ì»´í¬ë„ŒíŠ¸ì˜ ì›”ë“œìœ„ì¹˜ë¥¼ ì»´í“¨íŠ¸ì‰ì´ë”ì˜ ë²„í¼ì— ë‹´ì•„ì„œ ì „ë‹¬í•œë‹¤.
 	SetParticleOwnerPos(m_pBufferOwner->Transform()->GetWorldPos());
 
-	//½º·¹µå ±×·ì ¼ö °è»ê. ÆÄÆ¼Å¬Àº ¹«Á¶°Ç ¹è¿­ ÇüÅÂÀÌ¹Ç·Î xÃàÀ¸·Î ½º·¹µå¸¦ ¹è¿­ÇÑ´Ù.
+	//ìŠ¤ë ˆë“œ ê·¸ë£¹ ìˆ˜ ê³„ì‚°. íŒŒí‹°í´ì€ ë¬´ì¡°ê±´ ë°°ì—´ í˜•íƒœì´ë¯€ë¡œ xì¶•ìœ¼ë¡œ ìŠ¤ë ˆë“œë¥¼ ë°°ì—´í•œë‹¤.
 	CalcGroupNumber(m_pSBuffer_Transform->GetCapacity(), 1u, 1u);
 
-	//µ¥ÀÌÅÍ¸¦ ÄÄÇ»Æ®½¦ÀÌ´õ¿¡ ÀÏ°ıÀûÀ¸·Î Àü´Ş
+	//ë°ì´í„°ë¥¼ ì»´í“¨íŠ¸ì‰ì´ë”ì— ì¼ê´„ì ìœ¼ë¡œ ì „ë‹¬
 	m_pSBuffer_Transform->BindBufferUAV();
 
 	m_pSBufferRW_Shared->BindBufferUAV();
@@ -66,11 +66,11 @@ bool CCS_ParticleUpdate::BindDataCS()
 
 void CCS_ParticleUpdate::UnBindCS()
 {
-	//°è»ê ÈÄ UAV ¹ÙÀÎµùÀ» ÇØÁ¦.
+	//ê³„ì‚° í›„ UAV ë°”ì¸ë”©ì„ í•´ì œ.
 	m_pSBuffer_Transform->UnBindUAV();
 	m_pSBufferRW_Shared->UnBindUAV();
 
-	//¿¡·¯ ¹æÁö¸¦ À§ÇØ nullptr·Î º¯°æ
+	//ì—ëŸ¬ ë°©ì§€ë¥¼ ìœ„í•´ nullptrë¡œ ë³€ê²½
 	m_pBufferOwner = nullptr;
 	m_pSBuffer_Transform = nullptr;
 	m_pSBufferRW_Shared = nullptr;

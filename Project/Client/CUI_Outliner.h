@@ -5,7 +5,7 @@ class CGameObject;
 class CUI_Tree;
 class CUI_Inspector;
 
-//ÇöÀç ·¹º§¿¡ Á¸ÀçÇÏ´Â °ÔÀÓ¿ÀºêÁ§Æ®ÀÇ °èÃþ±¸Á¶¸¦ ÀÏ°ýÀûÀ¸·Î °¡Á®¿È.
+//í˜„ìž¬ ë ˆë²¨ì— ì¡´ìž¬í•˜ëŠ” ê²Œìž„ì˜¤ë¸Œì íŠ¸ì˜ ê³„ì¸µêµ¬ì¡°ë¥¼ ì¼ê´„ì ìœ¼ë¡œ ê°€ì ¸ì˜´.
 class CUI_Outliner :
     public CUI_BasicWindow
 {

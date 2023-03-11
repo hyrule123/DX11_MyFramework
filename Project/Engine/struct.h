@@ -23,8 +23,8 @@ struct tSquareInfo
 	float Size;
 };
 
-//ÁÂÇ¥¸¦ ÀúÀåÇÏ´Â°Ô ¾Æ´Ï¶ó
-//°¢ º¯ÀÇ ±æÀÌ¸¦ ÀúÀåÇÑ´Ù.
+//ì¢Œí‘œë¥¼ ì €ìž¥í•˜ëŠ”ê²Œ ì•„ë‹ˆë¼
+//ê° ë³€ì˜ ê¸¸ì´ë¥¼ ì €ìž¥í•œë‹¤.
 union RectLength
 {
 	struct
@@ -48,10 +48,10 @@ struct tRectInfo
 
 
 
-//CheckCollision2D_OBB_OBB ÇÔ¼ö¿¡¼­ ÀÌ ±¸Á¶Ã¼¿¡ ´ëÇÑ memcpy¸¦ »ç¿ëÇÏ°í ÀÖÀ¸¹Ç·Î ¼öÁ¤¿¡ ÁÖÀÇÇÒ °Í.
+//CheckCollision2D_OBB_OBB í•¨ìˆ˜ì—ì„œ ì´ êµ¬ì¡°ì²´ì— ëŒ€í•œ memcpyë¥¼ ì‚¬ìš©í•˜ê³  ìžˆìœ¼ë¯€ë¡œ ìˆ˜ì •ì— ì£¼ì˜í•  ê²ƒ.
 struct tOBB2D
 {
-	//¹æÇâ
+	//ë°©í–¥
 	Vec2 m_vAxis[2];
 
 	Vec2 m_vCenterPos;

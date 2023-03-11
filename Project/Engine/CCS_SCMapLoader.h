@@ -23,14 +23,14 @@ public:
 private:
     tpSBufferTileSet m_arrpSBufferTileSet[(int)eTILESET_INFO::END];
 
-    //MXTM °ü·Ã
-    //MapÀÇ tMapDataChunk ÆÄÀÏ ¾Æ·¡ÀÇ ÁöÇüÁ¤º¸
+    //MXTM ê´€ë ¨
+    //Mapì˜ tMapDataChunk íŒŒì¼ ì•„ë˜ì˜ ì§€í˜•ì •ë³´
     CStructBuffer* m_pSBuffer_MXTM;
 
-    //============¸Ê Á¤º¸=============
+    //============ë§µ ì •ë³´=============
     tMapData m_tMapWorkSpace;
 
-    //TODO : ³ªÁß¿¡ ¸Ê ¹®Á¦¾øÀÌ ·ÎµùµÉ°æ¿ì ¾Æ·¡ º¯¼ö´Â »èÁ¦ÇÒ°Í
+    //TODO : ë‚˜ì¤‘ì— ë§µ ë¬¸ì œì—†ì´ ë¡œë”©ë ê²½ìš° ì•„ë˜ ë³€ìˆ˜ëŠ” ì‚­ì œí• ê²ƒ
     CStructBuffer* m_pSBuffer_Debug;
     tMtrlScalarData* m_DebugData;
 

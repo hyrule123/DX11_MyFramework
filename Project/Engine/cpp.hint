@@ -1,4 +1,4 @@
-// 힌트 파일은 Visual Studio IDE에서 함수 및 매크로 이름과 같은 Visual C++ 식별자를
-// 해석하는 데 도움이 됩니다.
-// 자세한 내용은 다음을 참조하세요. https://go.microsoft.com/fwlink/?linkid=865984
+// ?????쇱 Visual Studio IDE?? ?⑥ 諛 留ㅽщ? ?대?怨?媛? Visual C++ ?蹂?瑜?
+// ?댁?? ???????⑸??
+// ??명 ?댁⑹ ?ㅼ? 李몄“??몄. https://go.microsoft.com/fwlink/?linkid=865984
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }

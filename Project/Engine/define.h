@@ -24,27 +24,27 @@
 
 extern const string g_voidStr;
 
-//»õ·Î¿î ÄÄÆ÷³ÍÆ®¸¦ ¸¸µé¾îÁÙ °æ¿ì
-//eCOMPONENT_TYPE¿¡ ÄÄÆ÷³ÍÆ® Ãß°¡
-//components.h¿¡ ÄÄÆ÷³ÍÆ® ¶Õ¾îÁÖ±â
+//ìƒˆë¡œìš´ ì»´í¬ë„ŒíŠ¸ë¥¼ ë§Œë“¤ì–´ì¤„ ê²½ìš°
+//eCOMPONENT_TYPEì— ì»´í¬ë„ŒíŠ¸ ì¶”ê°€
+//components.hì— ì»´í¬ë„ŒíŠ¸ ëš«ì–´ì£¼ê¸°
 enum class eCOMPONENT_TYPE
 {
 	// update
-	TRANSFORM,		// À§Ä¡, Å©±â, È¸Àü
-	COLLIDER2D,		// 2Â÷¿ø Ãæµ¹
-	COLLIDER3D,		// 3Â÷¿ø Ãæµ¹
+	TRANSFORM,		// ìœ„ì¹˜, í¬ê¸°, íšŒì „
+	COLLIDER2D,		// 2ì°¨ì› ì¶©ëŒ
+	COLLIDER3D,		// 3ì°¨ì› ì¶©ëŒ
 	ANIMATOR2D,		// Sprite Animation
 	ANIMATOR3D,		// Bone Sknning Animation
-	LIGHT2D,			// 2Â÷¿ø ±¤¿ø
-	LIGHT3D,			// 3Â÷¿ø ±¤¿ø
+	LIGHT2D,			// 2ì°¨ì› ê´‘ì›
+	LIGHT3D,			// 3ì°¨ì› ê´‘ì›
 	CAMERA,			// Camera
 
 	// render
-	MESH_RENDER,		// ±âº»ÀûÀÎ ·»´õ¸µ
-	PARTICLE_SYSTEM, // ÀÔÀÚ ·»´õ¸µ
-	TILEMAP,		// 2Â÷¿ø Å¸ÀÏ
-	LANDSCAPE,		// 3Â÷¿ø ÁöÇü
-	DECAL,			// ³»ºÎ ·»´õ¸µ
+	MESH_RENDER,		// ê¸°ë³¸ì ì¸ ë Œë”ë§
+	PARTICLE_SYSTEM, // ìž…ìž ë Œë”ë§
+	TILEMAP,		// 2ì°¨ì› íƒ€ì¼
+	LANDSCAPE,		// 3ì°¨ì› ì§€í˜•
+	DECAL,			// ë‚´ë¶€ ë Œë”ë§
 
 	// custom
 	SCRIPT_HOLDER,			
@@ -57,11 +57,11 @@ extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 
 enum class eRES_TYPE
 {
-	MESH,			// ÇüÅÂ
+	MESH,			// í˜•íƒœ
 	MESHDATA,
 	MATERIAL,
 	
-	TEXTURE,		// ÀÌ¹ÌÁö
+	TEXTURE,		// ì´ë¯¸ì§€
 	ANIM2D_ATLAS,
 	SOUND,
 
@@ -149,8 +149,8 @@ enum class eDEPTHSTENCIL_TYPE
 	LESS_EQUAL,
 	GREATER,
 	GREATER_EQUAL,
-	NO_WRITE,			//±íÀÌ¹öÆÛ¿¡ ±íÀÌ¸¦ ±â·ÏÇÏÁö ¾ÊÀ½.
-	NO_TEST_NO_WRITE,	//±íÀÌ Å×½ºÆ®¶ö °ÅÁöÄ¡ ¾Ê°í ¹«Á¶°Ç ÇÈ¼¿¿¡ »ö»óÀ» ÀÔ·Â. ±íÀÌ ¹öÆÛ¿¡µµ ±â·ÏÇÏÁö ¾ÊÀ½.
+	NO_WRITE,			//ê¹Šì´ë²„í¼ì— ê¹Šì´ë¥¼ ê¸°ë¡í•˜ì§€ ì•ŠìŒ.
+	NO_TEST_NO_WRITE,	//ê¹Šì´ í…ŒìŠ¤íŠ¸ëž„ ê±°ì§€ì¹˜ ì•Šê³  ë¬´ì¡°ê±´ í”½ì…€ì— ìƒ‰ìƒì„ ìž…ë ¥. ê¹Šì´ ë²„í¼ì—ë„ ê¸°ë¡í•˜ì§€ ì•ŠìŒ.
 	END
 };
 
@@ -159,7 +159,7 @@ enum class eBLENDSTATE_TYPE
 	DEFAULT,
 	MASK,
 	ALPHA_BLEND,
-	ONE_ONE,	//1:1·Î ¼¯´Â ¹æ½Ä - ÄÃ·¯Å°°¡ °ËÀº»öÀÎ ÀÌ¹ÌÁö¿¡ ´ëÇÑ Ã³¸®
+	ONE_ONE,	//1:1ë¡œ ì„žëŠ” ë°©ì‹ - ì»¬ëŸ¬í‚¤ê°€ ê²€ì€ìƒ‰ì¸ ì´ë¯¸ì§€ì— ëŒ€í•œ ì²˜ë¦¬
 	END
 };
 
@@ -188,11 +188,11 @@ namespace JSON_SHADERINFO
 
 	constexpr const char* ComputeShaderName = "_C_";
 
-	//´ëºÐ·ù
+	//ëŒ€ë¶„ë¥˜
 	constexpr const char* GraphicsShader = "GRAPHICS_SHADER";
 	constexpr const char* ComputeShader = "COMPUTE_SHADER";
 
-	//°¢ ½¦ÀÌ´õ¸¶´Ù µé¾î°¡¾ßÇÒ ¼³Á¤°ª
+	//ê° ì‰ì´ë”ë§ˆë‹¤ ë“¤ì–´ê°€ì•¼í•  ì„¤ì •ê°’
 	constexpr const char* ShaderName = "SHADER_NAME";
 	constexpr const char* PipelineFlag = "eSHADER_PIPELINE_STAGE";
 	constexpr const char* Topology = "D3D_PRIMITIVE_TOPOLOGY";
@@ -233,7 +233,7 @@ enum class eAXIS4D : UINT
 
 
 
-//Á÷°üÀûÀÎ ¹æÇâ
+//ì§ê´€ì ì¸ ë°©í–¥
 enum class eDIR_TYPE
 {
 	RIGHT,
@@ -288,7 +288,7 @@ enum class eSTRUCT_BUFFER_TYPE
 	READ_WRITE  //SRV + UAV(Compute Shader)
 } typedef eSTRUCT_BUFFER_BIND_TYPE;
 
-//ÇöÀç ¹ÙÀÎµùµÇ¾î ÀÖ´Â ºä. ÇÃ·¡±×·Îµµ »ç¿ë °¡´É
+//í˜„ìž¬ ë°”ì¸ë”©ë˜ì–´ ìžˆëŠ” ë·°. í”Œëž˜ê·¸ë¡œë„ ì‚¬ìš© ê°€ëŠ¥
 enum class eCURRENT_BOUND_VIEW
 {
 	NONE,
@@ -314,7 +314,7 @@ enum class eANIM_LOOPMODE
 	ZIG_ZAG
 };
 
-//½ºÅ¸Å©·¡ÇÁÆ® ¸Ê µ¥ÀÌÅÍ ¼Ó "ERA" ¾È¿¡ µé¾îÀÖ´Â Á¤º¸ 
+//ìŠ¤íƒ€í¬ëž˜í”„íŠ¸ ë§µ ë°ì´í„° ì† "ERA" ì•ˆì— ë“¤ì–´ìžˆëŠ” ì •ë³´ 
 enum class eTILESET_INFO : UINT8
 {
 	BADLANDS = 0x00,

@@ -23,18 +23,18 @@ void CreateShaderCode()
 #endif
 	ShaderDir += "Content\\Shader\\";
 
-	//JSON ÆÄÀÏ ¿ÀÇÂ
+	//JSON íŒŒì¼ ì˜¤í”ˆ
 	string JsonPath = ShaderDir + "ShaderInfo.json";
 
 	Json::Value JsonInfo;
 
-	//»õ·Î¿î ½¦ÀÌ´õ ¹ß°ß ¿©ºÎ
+	//ìƒˆë¡œìš´ ì‰ì´ë” ë°œê²¬ ì—¬ë¶€
 	bool bNewShaderDetected = false;
 
-	//ÀúÀå ÇÊ¿ä ¿©ºÎ
+	//ì €ì¥ í•„ìš” ì—¬ë¶€
 	bool bNeedSave = false;
 
-	//ÆÄÀÏÀÌ ÀÖÀ» °æ¿ì ÆÄÀÏ µ¥ÀÌÅÍ¸¦ °¡Á®¿Â´Ù.
+	//íŒŒì¼ì´ ìˆì„ ê²½ìš° íŒŒì¼ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 	std::ifstream JsonFile(JsonPath);
 	if (true == JsonFile.is_open())
 	{
@@ -42,7 +42,7 @@ void CreateShaderCode()
 		JsonFile.close();
 	}
 
-	//ºĞ·ù°¡ ÇÏ³ª¶óµµ »ı¼ºµÇ¾îÀÖÁö ¾ÊÀ» °æ¿ì °ªÀ» »ı¼ºÇÑ´Ù.
+	//ë¶„ë¥˜ê°€ í•˜ë‚˜ë¼ë„ ìƒì„±ë˜ì–´ìˆì§€ ì•Šì„ ê²½ìš° ê°’ì„ ìƒì„±í•œë‹¤.
 	if(false == JsonInfo.isMember(JSON_SHADERINFO::GraphicsShader))
 		JsonInfo[JSON_SHADERINFO::GraphicsShader] = Json::Value(Json::ValueType::objectValue);
 	if(false == JsonInfo.isMember(JSON_SHADERINFO::ComputeShader))
@@ -51,42 +51,42 @@ void CreateShaderCode()
 
 
 
-	//½¦ÀÌ´õ µğ·ºÅä¸®¸¦ ¼øÈ¸µ¹¾Æ ÁØ´Ù.
+	//ì‰ì´ë” ë””ë ‰í† ë¦¬ë¥¼ ìˆœíšŒëŒì•„ ì¤€ë‹¤.
 	std::filesystem::directory_iterator dirIter(ShaderDir);
 	const auto& iterEnd = std::filesystem::end(dirIter);
 	for (dirIter; iterEnd != dirIter; ++dirIter)
 	{
 		const std::filesystem::directory_entry& entry = *dirIter;
 
-		//jsoncpp ÀúÀåÀ» À§ÇØ¼­ ÀÏ¹İ string Å¸ÀÔÀ¸·Î ¹Ş¾Æ¿È.(À¯´ÏÄÚµå¸¦ Áö¿øÇÏÁö ¾ÊÀ½)
+		//jsoncpp ì €ì¥ì„ ìœ„í•´ì„œ ì¼ë°˜ string íƒ€ì…ìœ¼ë¡œ ë°›ì•„ì˜´.(ìœ ë‹ˆì½”ë“œë¥¼ ì§€ì›í•˜ì§€ ì•ŠìŒ)
 		string strShaderName = entry.path().filename().string();
 
-		//È®ÀåÀÚ°¡ .cso·Î ³¡³ª´ÂÁö È®ÀÎÇÑ´Ù. È®ÀåÀÚ°¡ cso°¡ ¾Æ´Ò °æ¿ì continue;
+		//í™•ì¥ìê°€ .csoë¡œ ëë‚˜ëŠ”ì§€ í™•ì¸í•œë‹¤. í™•ì¥ìê°€ csoê°€ ì•„ë‹ ê²½ìš° continue;
 		size_t strPos = strShaderName.find(JSON_SHADERINFO::ShaderExtension);
 		if (string::npos == strPos)
 			continue;
 
 
-		//µ¥ÀÌÅÍ¸¦ Àü´ŞÇÒ º¯¼ö ¼±¾ğ.
+		//ë°ì´í„°ë¥¼ ì „ë‹¬í•  ë³€ìˆ˜ ì„ ì–¸.
 		bool bIsGraphicShader = true;
 		Json::Value* pShaderTree = nullptr;
 		int flagShaderPipeline = 0;
 
 
-		//¿ì¼± ".cso"¸¦ Áö¿öÁØ´Ù.
+		//ìš°ì„  ".cso"ë¥¼ ì§€ì›Œì¤€ë‹¤.
 		strShaderName.erase(strPos);
 
 
-		//ÄÄÇ»Æ®½¦ÀÌ´õÀÎÁö È®ÀÎÇÏ°í ºĞ·ù¿¡ ¸Â´Â ½¦ÀÌ´õ Æ®¸®ÀÇ ÁÖ¼Ò¸¦ ÀúÀåÇØ³õ´Â´Ù.
+		//ì»´í“¨íŠ¸ì‰ì´ë”ì¸ì§€ í™•ì¸í•˜ê³  ë¶„ë¥˜ì— ë§ëŠ” ì‰ì´ë” íŠ¸ë¦¬ì˜ ì£¼ì†Œë¥¼ ì €ì¥í•´ë†“ëŠ”ë‹¤.
 		strPos = strShaderName.find(JSON_SHADERINFO::ComputeShaderName);
-		if (string::npos != strPos) //ÄÄÇ»Æ®½¦ÀÌ´õÀÏ °æ¿ì
+		if (string::npos != strPos) //ì»´í“¨íŠ¸ì‰ì´ë”ì¼ ê²½ìš°
 		{
 			bIsGraphicShader = false;
 			pShaderTree = &(JsonInfo[JSON_SHADERINFO::ComputeShader]);
 		}
 
 
-		else //±×·¡ÇÈ ½¦ÀÌ´õÀÏ °æ¿ì: ÆÄÀÌÇÁ¶óÀÎ ÇÃ·¡±×°ªµµ °è»êÇØÁà¾ß ÇÔ.
+		else //ê·¸ë˜í”½ ì‰ì´ë”ì¼ ê²½ìš°: íŒŒì´í”„ë¼ì¸ í”Œë˜ê·¸ê°’ë„ ê³„ì‚°í•´ì¤˜ì•¼ í•¨.
 		{
 			pShaderTree = &(JsonInfo[JSON_SHADERINFO::GraphicsShader]);
 				
@@ -102,21 +102,21 @@ void CreateShaderCode()
 				flagShaderPipeline = eSHADER_PIPELINE_STAGE::__PIXEL;
 		}
 				
-		//¿¹¿Ü Ã³¸®
+		//ì˜ˆì™¸ ì²˜ë¦¬
 		if (nullptr == pShaderTree)
 			continue;
 
 
-		//¸¶Áö¸· "_" À§Ä¡¸¦ Ã£´Â´Ù.
+		//ë§ˆì§€ë§‰ "_" ìœ„ì¹˜ë¥¼ ì°¾ëŠ”ë‹¤.
 		strPos = strShaderName.find_last_of("_");
 		if (string::npos != strPos)
 		{
-			//¸¶Áö¸· _ À§Ä¡±îÁö Áö¿öÁØ´Ù.(½¦ÀÌ´õÀÇ ÀÌ¸§¸¸ ³²°Ü ÁØ´Ù.)
+			//ë§ˆì§€ë§‰ _ ìœ„ì¹˜ê¹Œì§€ ì§€ì›Œì¤€ë‹¤.(ì‰ì´ë”ì˜ ì´ë¦„ë§Œ ë‚¨ê²¨ ì¤€ë‹¤.)
 			strShaderName.erase((size_t)0, (size_t)(strPos + 1));
 		}
 
 
-		//³ëµå Ãß°¡
+		//ë…¸ë“œ ì¶”ê°€
 		string strKey;
 		strKey.resize(strShaderName.size());
 		transform(strShaderName.begin(), strShaderName.end(), strKey.begin(), ::toupper);
@@ -124,8 +124,8 @@ void CreateShaderCode()
 		
 		
 		
-		//JsonInfo¿¡ µé¾îÀÖÁö ¾Ê¾ÒÀ» °æ¿ì »õ ½¦ÀÌ´õ¸¦ ¹ß°ßÇÑ °ÍÀÓ.
-		//ÀÏ´Ü µ¥ÀÌÅÍ¸¦ ÃÊ±âÈ­ÇØÁØ´Ù.
+		//JsonInfoì— ë“¤ì–´ìˆì§€ ì•Šì•˜ì„ ê²½ìš° ìƒˆ ì‰ì´ë”ë¥¼ ë°œê²¬í•œ ê²ƒì„.
+		//ì¼ë‹¨ ë°ì´í„°ë¥¼ ì´ˆê¸°í™”í•´ì¤€ë‹¤.
 		if (false == pShaderTree->isMember(strKey))
 		{
 			bNewShaderDetected = true;
@@ -158,12 +158,12 @@ void CreateShaderCode()
 			}
 		}
 
-		else //±âÁ¸¿¡ ÀúÀåµÇ¾îÀÖ´Â °ªÀÌ ÀÖÀ» °æ¿ì
+		else //ê¸°ì¡´ì— ì €ì¥ë˜ì–´ìˆëŠ” ê°’ì´ ìˆì„ ê²½ìš°
 		{
 			if (true == bIsGraphicShader)
 			{
 				int curFlag = (*pShaderTree)[strKey][JSON_SHADERINFO::PipelineFlag].asInt();
-				//ÆÄÀÌÇÁ¶óÀÎ ½ºÅ×ÀÌÁö¸¦ °»½ÅÇØ¾ß ÇÒ °æ¿ì¿¡¸¸ ÀúÀåÀÌ ÇÊ¿äÇÏ´Ù°í ¾Ë¸²
+				//íŒŒì´í”„ë¼ì¸ ìŠ¤í…Œì´ì§€ë¥¼ ê°±ì‹ í•´ì•¼ í•  ê²½ìš°ì—ë§Œ ì €ì¥ì´ í•„ìš”í•˜ë‹¤ê³  ì•Œë¦¼
 				if (false == (flagShaderPipeline & curFlag))
 				{
 					bNeedSave = true;

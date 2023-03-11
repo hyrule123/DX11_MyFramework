@@ -5,7 +5,7 @@
 
 void CPrefab::RegisterPrefab(CGameObject* _pPrefab)
 {
-	//PrefabÀº ·¹ÀÌ¾î¿¡ µî·ÏµÇ¾î ½ÇÇàµÇ´Â ¿ëµµ°¡ ¾Æ´Ô.
+	//Prefabì€ ë ˆì´ì–´ì— ë“±ë¡ë˜ì–´ ì‹¤í–‰ë˜ëŠ” ìš©ë„ê°€ ì•„ë‹˜.
 	assert(0 > _pPrefab->GetLayer());
 
 	m_pPrefab = _pPrefab;

@@ -17,7 +17,7 @@ CUI_Menubar::~CUI_Menubar()
 
 bool CUI_Menubar::beginUI()
 {
-    //¸Ş´º¹Ù ¼³Á¤¿¡ µû¶ó ´Ù¸¥ ÇÔ¼ö È£Ãâ
+    //ë©”ë‰´ë°” ì„¤ì •ì— ë”°ë¼ ë‹¤ë¥¸ í•¨ìˆ˜ í˜¸ì¶œ
     if (true == m_bMainMenuBar)
         return ImGui::BeginMainMenuBar();
     else

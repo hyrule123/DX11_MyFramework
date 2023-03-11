@@ -23,10 +23,10 @@ void CConstBuffer::Create(UINT _iElementSize, UINT _iElementCount)
 
 	UINT iBufferSize = m_iElementSize * _iElementCount;
 
-	// 16¹ÙÀÌÆ® ´ÜÀ§ ¸Þ¸ð¸® Á¤·ÄÀÌ µÇ¾îÀÖÁö ¾ÊÀ» °æ¿ì ¿¡·¯¸¦ ¹ß»ý½ÃÅ²´Ù.
+	// 16ë°”ì´íŠ¸ ë‹¨ìœ„ ë©”ëª¨ë¦¬ ì •ë ¬ì´ ë˜ì–´ìžˆì§€ ì•Šì„ ê²½ìš° ì—ëŸ¬ë¥¼ ë°œìƒì‹œí‚¨ë‹¤.
 	assert(!(iBufferSize % 16));	
 
-	// »ó¼ö¹öÆÛ »ý¼º
+	// ìƒìˆ˜ë²„í¼ ìƒì„±
 	m_Desc.ByteWidth = iBufferSize;
 	m_Desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	m_Desc.Usage = D3D11_USAGE_DYNAMIC;
@@ -40,14 +40,14 @@ void CConstBuffer::Create(UINT _iElementSize, UINT _iElementCount)
 
 void CConstBuffer::UploadData(void* _pSrc, UINT _iSize)
 {
-	// Å©±â°¡ ÁöÁ¤µÇÁö ¾ÊÀº µ¥ÀÌÅÍ´Â »ó¼ö¹öÆÛ Å©±â·Î º»´Ù.
+	// í¬ê¸°ê°€ ì§€ì •ë˜ì§€ ì•Šì€ ë°ì´í„°ëŠ” ìƒìˆ˜ë²„í¼ í¬ê¸°ë¡œ ë³¸ë‹¤.
 	UINT size = _iSize;
 	if (0 == _iSize)
 	{
 		size = m_iElementSize * m_iElementCount;
 	}
 
-	// »ó¼ö¹öÆÛ Å©±âº¸´Ù ´õ Å« µ¥ÀÌÅÍ°¡ ÀÔ·ÂÀ¸·Î µé¾î¿Â °æ¿ì
+	// ìƒìˆ˜ë²„í¼ í¬ê¸°ë³´ë‹¤ ë” í° ë°ì´í„°ê°€ ìž…ë ¥ìœ¼ë¡œ ë“¤ì–´ì˜¨ ê²½ìš°
 	assert(!(size > m_iElementSize * m_iElementCount));
 
 	// SysMem -> GPU Mem
@@ -63,7 +63,7 @@ void CConstBuffer::UploadData(void* _pSrc, UINT _iSize)
 
 void CConstBuffer::BindBuffer(UINT _eSHADER_PIPELINE_FLAG)
 {
-	//ÀÎÀÚ·Î NONEÀÌ ¾Æ´Ñ ÇÃ·¡±×°ªÀÌ µé¾î¿ÔÀ» °æ¿ì ÇØ´ç ÇÃ·¡±×°ªÀ» Å¸°ÙÀ¸·Î ¹ÙÀÎµùÇÑ´Ù.
+	//ì¸ìžë¡œ NONEì´ ì•„ë‹Œ í”Œëž˜ê·¸ê°’ì´ ë“¤ì–´ì™”ì„ ê²½ìš° í•´ë‹¹ í”Œëž˜ê·¸ê°’ì„ íƒ€ê²Ÿìœ¼ë¡œ ë°”ì¸ë”©í•œë‹¤.
 	if (eSHADER_PIPELINE_STAGE::__NONE == _eSHADER_PIPELINE_FLAG)
 		_eSHADER_PIPELINE_FLAG = m_ePIPELINE_STAGE_flags;
 

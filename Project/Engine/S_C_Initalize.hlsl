@@ -9,7 +9,7 @@ void CS_HLSL_Init(uint3 DTID : SV_DispatchThreadID)
 		return;
 
 	
-	//ÃÊ±âÈ­ÇØ¾ß ÇÏ´Â °ªÀÌ ÀÖÀ¸¸é ¿©±â¼­ ÃÊ±âÈ­
+	//ì´ˆê¸°í™”í•´ì•¼ í•˜ëŠ” ê°’ì´ ìˆìœ¼ë©´ ì—¬ê¸°ì„œ ì´ˆê¸°í™”
 	if (1u == g_SBufferRW_InitSetting[0].bIsLittleEndian)
 	{
 		for (uint i = 0u; i < 4u; ++i)

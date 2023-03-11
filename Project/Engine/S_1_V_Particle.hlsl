@@ -1,6 +1,6 @@
 #include "S_0_H_Particle.hlsli"
 
-//±×·¡µµ ÀÚ½ÅÀÇ ±¸Á¶Ã¼¸¦ ¸®ÅÏ(³ª¸ÓÁö´Â Áö¿À¸ÞÆ®¸® ½¦ÀÌ´õ¿¡¼­ Ã³¸®)
+//ê·¸ëž˜ë„ ìžì‹ ì˜ êµ¬ì¡°ì²´ë¥¼ ë¦¬í„´(ë‚˜ë¨¸ì§€ëŠ” ì§€ì˜¤ë©”íŠ¸ë¦¬ ì‰ì´ë”ì—ì„œ ì²˜ë¦¬)
 VS_INOUT VS_Particle(VS_INOUT _in)
 { 
     return _in;

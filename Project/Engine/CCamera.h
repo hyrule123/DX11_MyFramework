@@ -55,7 +55,7 @@ public:
     virtual void finaltick() override;
     virtual void cleanup() override;
 
-    //ÀÚ½Å ±âÁØÀ¸·Î Âï¾î¾ß ÇÒ ¿ÀºêÁ§Æ®µéÀ» ºĞ·ùÇÑ´Ù.
+    //ìì‹  ê¸°ì¤€ìœ¼ë¡œ ì°ì–´ì•¼ í•  ì˜¤ë¸Œì íŠ¸ë“¤ì„ ë¶„ë¥˜í•œë‹¤.
     void SortObject();
 };
 

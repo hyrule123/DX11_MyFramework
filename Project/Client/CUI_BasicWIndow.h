@@ -17,20 +17,20 @@ public:
 	virtual void init() {}
 	virtual void tick() {}
 
-	//ÀçÁ¤ÀÇÇØ¼­ °¢ÀÚ UI¿¡ ¸Â´Â beginÇÔ¼ö¸¦ È£Ãâ. bool °ªÀÌ ¹ÝÈ¯µÇ¸ç, true°¡ ¹ÝÈ¯µÇ¾úÀ» ¶§¿¡¸¸ endUI()°¡ È£ÃâµÊ.
-	//±×·¯¹Ç·Î ¹«Á¶°Ç endUI()¸¦ È£ÃâÇÏ°í ½ÍÀ» °æ¿ì¿¡´Â true¸¦ °íÁ¤À¸·Î ¹ÝÈ¯½ÃÄÑÁÙ °Í 
-	//bool°ªÀ» ¹ÝÈ¯ ¿©ºÎ¿¡ µû¶ó endUI() È£Ãâ ¿©ºÎ°¡ ´Þ¶óÁö´Â IMGUI ÇÔ¼ö(ex.ComboBox)ÀÇ °æ¿ì¿¡´Â
-	//return °ªÀ¸·Î ÇØ´ç ÇÔ¼ö¸¦ È£ÃâÇÏ¸é µÈ´Ù.
+	//ìž¬ì •ì˜í•´ì„œ ê°ìž UIì— ë§žëŠ” beginí•¨ìˆ˜ë¥¼ í˜¸ì¶œ. bool ê°’ì´ ë°˜í™˜ë˜ë©°, trueê°€ ë°˜í™˜ë˜ì—ˆì„ ë•Œì—ë§Œ endUI()ê°€ í˜¸ì¶œë¨.
+	//ê·¸ëŸ¬ë¯€ë¡œ ë¬´ì¡°ê±´ endUI()ë¥¼ í˜¸ì¶œí•˜ê³  ì‹¶ì„ ê²½ìš°ì—ëŠ” trueë¥¼ ê³ ì •ìœ¼ë¡œ ë°˜í™˜ì‹œì¼œì¤„ ê²ƒ 
+	//boolê°’ì„ ë°˜í™˜ ì—¬ë¶€ì— ë”°ë¼ endUI() í˜¸ì¶œ ì—¬ë¶€ê°€ ë‹¬ë¼ì§€ëŠ” IMGUI í•¨ìˆ˜(ex.ComboBox)ì˜ ê²½ìš°ì—ëŠ”
+	//return ê°’ìœ¼ë¡œ í•´ë‹¹ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ë©´ ëœë‹¤.
 	virtual bool beginUI() override;
 
-	//¿©±â¿¡´Â Å¬·¡½º¿¡¼­ Æ¯º°ÇÏ°Ô È£ÃâÇØ¾ßÇÒ ·¹ÀÌ¾Æ¿ôÀÌ ÀÖÀ» °æ¿ì ÀçÁ¤ÀÇÇØ¼­ »ç¿ëÇÏ¸é µÊ.
+	//ì—¬ê¸°ì—ëŠ” í´ëž˜ìŠ¤ì—ì„œ íŠ¹ë³„í•˜ê²Œ í˜¸ì¶œí•´ì•¼í•  ë ˆì´ì•„ì›ƒì´ ìžˆì„ ê²½ìš° ìž¬ì •ì˜í•´ì„œ ì‚¬ìš©í•˜ë©´ ë¨.
 	virtual void render_update() override {}
 
-	//ÀçÁ¤ÀÇÇØ¼­ °¢ÀÚ UI¿¡ ¸Â´Â endÇÔ¼ö¸¦ È£Ãâ
+	//ìž¬ì •ì˜í•´ì„œ ê°ìž UIì— ë§žëŠ” endí•¨ìˆ˜ë¥¼ í˜¸ì¶œ
 	virtual void endUI() override;
 
-	//¼³Á¤µÈ ·¹ÀÌ¾Æ¿ô ¹èÄ¡ ÀÛ¾÷Àº ¿©±â¼­ ÁøÇà. ¾Æ·¡ÀÇ render_update¸¦ ¹Ýµå½Ã È£ÃâÇØÁà¾ß ÇÑ´Ù.
-	//finaltick()Àº À§Á¬¿¡ µû¶ó¼­ ¾Æ¿¹ ´Ù¸¥ ¹æ½ÄÀ¸·Î Á¤ÀÇÇØ¾ßÇÒ ¶§µµ ÀÖ±â ¶§¹®¿¡ virtual ÇüÅÂ·Î µÐ´Ù.
+	//ì„¤ì •ëœ ë ˆì´ì•„ì›ƒ ë°°ì¹˜ ìž‘ì—…ì€ ì—¬ê¸°ì„œ ì§„í–‰. ì•„ëž˜ì˜ render_updateë¥¼ ë°˜ë“œì‹œ í˜¸ì¶œí•´ì¤˜ì•¼ í•œë‹¤.
+	//finaltick()ì€ ìœ„ì ¯ì— ë”°ë¼ì„œ ì•„ì˜ˆ ë‹¤ë¥¸ ë°©ì‹ìœ¼ë¡œ ì •ì˜í•´ì•¼í•  ë•Œë„ ìžˆê¸° ë•Œë¬¸ì— virtual í˜•íƒœë¡œ ë‘”ë‹¤.
 	virtual void Save(Json::Value& _Save) override;
 	virtual void Load(Json::Value& _Load) override;
 
@@ -41,7 +41,7 @@ private:
 
 	//Child
 	bool			m_bBorder;
-	ImVec2			m_vSize;		// UI Å©±â
+	ImVec2			m_vSize;		// UI í¬ê¸°
 
 public:
 	void SetImGuiWindowFlags(ImGuiWindowFlags _uWindowFlag) { m_WindowFlag = _uWindowFlag; }

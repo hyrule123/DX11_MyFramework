@@ -15,7 +15,7 @@ CCollider::~CCollider()
 }
 
 
-//ÀÚ½Å°ú »ó´ë¹æÀÇ begincollision È£Ãâ
+//ìì‹ ê³¼ ìƒëŒ€ë°©ì˜ begincollision í˜¸ì¶œ
 void CCollider::BeginCollision(CCollider* _other)
 {
 	++m_iCollisionCount;

@@ -29,7 +29,7 @@ int CGraphicsShader::Load(const wstring& _strFilePath)
 
 void CGraphicsShader::CreateDefaultInputLayout()
 {
-	// InputLayout »ı¼º
+	// InputLayout ìƒì„±
 	D3D11_INPUT_ELEMENT_DESC LayoutDesc[2] = {};
 
 	LayoutDesc[0].SemanticName = "POSITION";
@@ -44,7 +44,7 @@ void CGraphicsShader::CreateDefaultInputLayout()
 	//LayoutDesc[1].SemanticName = "COLOR";
 	//LayoutDesc[1].SemanticIndex = 0;
 
-	////ÀÌÀü ½Ã¸àÆ½¿¡¼­ ¾ó¸¶³ª ¶³¾îÁ³´ÂÁö ¿©ºÎ¸¦ ÀúÀå. 0¹ø ÀÎµ¦½º´Â R32B32G32(4+4+4 = 12) ÀÌ¹Ç·Î ¿ÀÇÁ¼ÂÀ» 12·Î Àâ¾ÆÁØ´Ù.
+	////ì´ì „ ì‹œë©˜í‹±ì—ì„œ ì–¼ë§ˆë‚˜ ë–¨ì–´ì¡ŒëŠ”ì§€ ì—¬ë¶€ë¥¼ ì €ì¥. 0ë²ˆ ì¸ë±ìŠ¤ëŠ” R32B32G32(4+4+4 = 12) ì´ë¯€ë¡œ ì˜¤í”„ì…‹ì„ 12ë¡œ ì¡ì•„ì¤€ë‹¤.
 	//LayoutDesc[1].AlignedByteOffset = 12;					
 	//LayoutDesc[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//LayoutDesc[1].InputSlot = 0;
@@ -54,7 +54,7 @@ void CGraphicsShader::CreateDefaultInputLayout()
 	LayoutDesc[1].SemanticName = "TEXCOORD";
 	LayoutDesc[1].SemanticIndex = 0;
 
-	//0¹ø ÀÎµ¦½º1: 12 , 1¹ø ÀÎµ¦½º : R32B32G32A32(4 * 4 = 16) -> 12 + 16 = 28
+	//0ë²ˆ ì¸ë±ìŠ¤1: 12 , 1ë²ˆ ì¸ë±ìŠ¤ : R32B32G32A32(4 * 4 = 16) -> 12 + 16 = 28
 	LayoutDesc[1].AlignedByteOffset = 12;
 	LayoutDesc[1].Format = DXGI_FORMAT_R32G32_FLOAT;
 	LayoutDesc[1].InputSlot = 0;
@@ -62,11 +62,11 @@ void CGraphicsShader::CreateDefaultInputLayout()
 	LayoutDesc[1].InstanceDataStepRate = 0;
 	
 
-	//blob ÇüÅÂ·Î ·ÎµåÇßÀ» °æ¿ì¿Í Çì´õ ÇüÅÂ·Î ·ÎµåÇßÀ» °æ¿ì¿¡ µû¶ó ´Ù¸¥ ÆÄÀÏÀ» ÂüÁ¶ÇØ¼­ ·ÎµåÇÑ´Ù.
+	//blob í˜•íƒœë¡œ ë¡œë“œí–ˆì„ ê²½ìš°ì™€ í—¤ë” í˜•íƒœë¡œ ë¡œë“œí–ˆì„ ê²½ìš°ì— ë”°ë¼ ë‹¤ë¥¸ íŒŒì¼ì„ ì°¸ì¡°í•´ì„œ ë¡œë“œí•œë‹¤.
 	switch (m_ShaderData[(int)eSHADER_TYPE::__VERTEX].LoadType)
 	{
 	case eSHADER_LOADTYPE::NOT_LOADED:
-		//Vertrx Shader°¡ ·ÎµåµÇ¾îÀÖÁö ¾ÊÀ» °æ¿ì assert
+		//Vertrx Shaderê°€ ë¡œë“œë˜ì–´ìˆì§€ ì•Šì„ ê²½ìš° assert
 		assert((bool)m_ShaderData[(int)eSHADER_TYPE::__VERTEX].LoadType);
 		break;	
 
@@ -154,16 +154,16 @@ void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCod
 
 void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType)
 {
-	// 1. Shader ÆÄÀÏ °æ·Î ¹Ş¾Æ¿È
+	// 1. Shader íŒŒì¼ ê²½ë¡œ ë°›ì•„ì˜´
 	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
 	strShaderFile += _strFileName;
 
-	//1-1. ½¦ÀÌ´õ ·Îµå Å¸ÀÔ º¯°æ
+	//1-1. ì‰ì´ë” ë¡œë“œ íƒ€ì… ë³€ê²½
 	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::RUNTIME_COMPILED;
 
 
 	char ShaderNameVersion[32] = {};
-	//2. ½¦ÀÌ´õ Å¸ÀÔ¿¡ µû¸¥ ´Ù¸¥ ÆÄ¶ó¹ÌÅÍ¿ë º¯¼ö¸¦ ÇÒ´ç
+	//2. ì‰ì´ë” íƒ€ì…ì— ë”°ë¥¸ ë‹¤ë¥¸ íŒŒë¼ë¯¸í„°ìš© ë³€ìˆ˜ë¥¼ í• ë‹¹
 	switch (_ShaderType)
 	{
 	case eSHADER_TYPE::__VERTEX:
@@ -187,7 +187,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		break;
 
 	default:
-		//¿¡·¯ ¹ß»ı½ÃÅ´
+		//ì—ëŸ¬ ë°œìƒì‹œí‚´
 		assert((int)eSHADER_TYPE::END == 0);
 		break;
 	}
@@ -200,11 +200,11 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 			, "Vertex Shader Compile Failed!!", MB_OK);
 	}
 
-	//4. ´Ù½Ã switch¹®À¸·Î °¢ ½¦ÀÌ´õº° ÇÔ¼ö¸¦ È£Ãâ
+	//4. ë‹¤ì‹œ switchë¬¸ìœ¼ë¡œ ê° ì‰ì´ë”ë³„ í•¨ìˆ˜ë¥¼ í˜¸ì¶œ
 	switch (_ShaderType)
 	{
 	case eSHADER_TYPE::__VERTEX:
-		// ÄÄÆÄÀÏµÈ °´Ã¼·Î VertexShader, PixelShader ¸¦ ¸¸µç´Ù.
+		// ì»´íŒŒì¼ëœ ê°ì²´ë¡œ VertexShader, PixelShader ë¥¼ ë§Œë“ ë‹¤.
 		if (FAILED(DEVICE->CreateVertexShader(
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
@@ -221,7 +221,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 
 		break;
 	case eSHADER_TYPE::__HULL:
-		// ÄÄÆÄÀÏµÈ °´Ã¼·Î VertexShader, PixelShader ¸¦ ¸¸µç´Ù.
+		// ì»´íŒŒì¼ëœ ê°ì²´ë¡œ VertexShader, PixelShader ë¥¼ ë§Œë“ ë‹¤.
 		if (FAILED(DEVICE->CreateHullShader(
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
@@ -234,7 +234,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		}
 		break;
 	case eSHADER_TYPE::__DOMAIN:
-		// ÄÄÆÄÀÏµÈ °´Ã¼·Î VertexShader, PixelShader ¸¦ ¸¸µç´Ù.
+		// ì»´íŒŒì¼ëœ ê°ì²´ë¡œ VertexShader, PixelShader ë¥¼ ë§Œë“ ë‹¤.
 		if (FAILED(DEVICE->CreateDomainShader(
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
@@ -247,7 +247,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		}
 		break;
 	case eSHADER_TYPE::__GEOMETRY:
-		// ÄÄÆÄÀÏµÈ °´Ã¼·Î VertexShader, PixelShader ¸¦ ¸¸µç´Ù.
+		// ì»´íŒŒì¼ëœ ê°ì²´ë¡œ VertexShader, PixelShader ë¥¼ ë§Œë“ ë‹¤.
 		if (FAILED(DEVICE->CreateGeometryShader(
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
@@ -260,7 +260,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		}
 		break;
 	case eSHADER_TYPE::__PIXEL:
-		// ÄÄÆÄÀÏµÈ °´Ã¼·Î VertexShader, PixelShader ¸¦ ¸¸µç´Ù.
+		// ì»´íŒŒì¼ëœ ê°ì²´ë¡œ VertexShader, PixelShader ë¥¼ ë§Œë“ ë‹¤.
 		if (FAILED(DEVICE->CreatePixelShader(
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferPointer(),
 			m_ShaderData[(int)_ShaderType].Blob->GetBufferSize()
@@ -274,7 +274,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		break;
 	
 	default:
-		//¿¡·¯ ¹ß»ı½ÃÅ´
+		//ì—ëŸ¬ ë°œìƒì‹œí‚´
 		assert((int)eSHADER_TYPE::END == 0);
 		break;
 	}
@@ -282,7 +282,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 
 //void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const string& _strFuncName)
 //{
-//	// Shader ÆÄÀÏ °æ·Î
+//	// Shader íŒŒì¼ ê²½ë¡œ
 //	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
 //	strShaderFile += _strFileName;
 //
@@ -294,7 +294,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //			, "Vertex Shader Compile Failed!!", MB_OK);
 //	}
 //
-//	// ÄÄÆÄÀÏµÈ °´Ã¼·Î VertexShader, PixelShader ¸¦ ¸¸µç´Ù.
+//	// ì»´íŒŒì¼ëœ ê°ì²´ë¡œ VertexShader, PixelShader ë¥¼ ë§Œë“ ë‹¤.
 //	DEVICE->CreateVertexShader(m_VSBlob->GetBufferPointer(), m_VSBlob->GetBufferSize()
 //		, nullptr, m_VS.GetAddressOf());
 //
@@ -304,7 +304,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //
 //void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string& _strFuncName)
 //{
-//	// Shader ÆÄÀÏ °æ·Î
+//	// Shader íŒŒì¼ ê²½ë¡œ
 //	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
 //	strShaderFile += _strFileName;
 //
@@ -317,7 +317,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //			, "Pixel Shader Compile Failed!!", MB_OK);
 //	}
 //
-//	// ÄÄÆÄÀÏµÈ °´Ã¼·Î PixelShader ¸¦ ¸¸µç´Ù.
+//	// ì»´íŒŒì¼ëœ ê°ì²´ë¡œ PixelShader ë¥¼ ë§Œë“ ë‹¤.
 //	DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
 //		, nullptr, m_PS.GetAddressOf());
 //
@@ -332,7 +332,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //	//Vertex Shader Compilation by included header
 //	DEVICE->CreateVertexShader(_pShaderByteCode, _ShaderByteCodeSize, nullptr, m_VS.GetAddressOf());
 //	
-//	// InputLayout »ı¼º
+//	// InputLayout ìƒì„±
 //	D3D11_INPUT_ELEMENT_DESC LayoutDesc[3] = {};
 //
 //	LayoutDesc[0].SemanticName = "POSITION";

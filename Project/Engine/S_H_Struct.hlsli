@@ -1,12 +1,12 @@
 #ifndef S_H_STRUCT
 #define S_H_STRUCT
 
-//»ó¼ö¹öÆÛ ¶Ç´Â
-//µÎ °³ ÀÌ»óÀÇ ½¦ÀÌ´õ¿¡¼­ ÂüÁ¶ÇÏ´Â ±¸Á¶Ã¼µé.
-//ÇÏ³ªÀÇ ½¦ÀÌ´õ¿¡¼­ °íÀ¯ÇÏ°Ô ¾²ÀÌ´Â ±¸Á¶Ã¼ÀÇ °æ¿ì ÇØ´ç ½¦ÀÌ´õÀÇ Çì´õÆÄÀÏ¿¡¼­ ¼±¾ðÇÒ°Í.
+//ìƒìˆ˜ë²„í¼ ë˜ëŠ”
+//ë‘ ê°œ ì´ìƒì˜ ì‰ì´ë”ì—ì„œ ì°¸ì¡°í•˜ëŠ” êµ¬ì¡°ì²´ë“¤.
+//í•˜ë‚˜ì˜ ì‰ì´ë”ì—ì„œ ê³ ìœ í•˜ê²Œ ì“°ì´ëŠ” êµ¬ì¡°ì²´ì˜ ê²½ìš° í•´ë‹¹ ì‰ì´ë”ì˜ í—¤ë”íŒŒì¼ì—ì„œ ì„ ì–¸í• ê²ƒ.
 
 
-//Data Type °ü·Ã
+//Data Type ê´€ë ¨
 #ifdef __cplusplus
 
 typedef Vector2     float2;
@@ -57,17 +57,17 @@ typedef Matrix      MATRIX;
 
 
 
-//ENUM °ü·Ã
+//ENUM ê´€ë ¨
 #ifdef __cplusplus
 
-//C++ : enum class ÇüÅÂ·Î ¼±¾ðÇÔ.
+//C++ : enum class í˜•íƒœë¡œ ì„ ì–¸í•¨.
 #define ENUM_BEGIN(_Name, _Type) enum class _Name : _Type {
 #define ENUM_MEMBER(_Name, _Type, _Val) _Name = _Val,
 #define ENUM_END };
 
 #else
 
-//HLSL : namespace ÇüÅÂ·Î ¼±¾ðÇÔ.
+//HLSL : namespace í˜•íƒœë¡œ ì„ ì–¸í•¨.
 #define ENUM_BEGIN(_Name, _Type) namespace _Name {
 #define ENUM_MEMBER(_Name, _Type, _Val) static const _Type _Name = _Val;
 #define ENUM_END };
@@ -76,15 +76,15 @@ typedef Matrix      MATRIX;
 
 
 
-//UINT64 µ¥ÀÌÅÍ¸¦ HLSL¿¡ º¸³»°í, ÀÌ µ¥ÀÌÅÍ¸¦ HLSL¿¡¼­ UINT32 ÇüÅÂ·Î ÀÐ¾î¿ÈÀ¸·Î½á ¿£µð¾È ¹æ½ÄÀ» È®ÀÎ.
-//UINT64¿¡ 1À» ÀúÀåÇÏ°í, ÀÌ°É ±×´ë·Î HLSL¿¡ ¿Ã¸° µÚ UINT64 ÇüÅÂ·Î ÀÐ¾î¿ÔÀ» ¶§ ±×´ë·Î 1ÀÌ µé¾îÀÖÀ¸¸é Little EndianÀÎ°Í.
+//UINT64 ë°ì´í„°ë¥¼ HLSLì— ë³´ë‚´ê³ , ì´ ë°ì´í„°ë¥¼ HLSLì—ì„œ UINT32 í˜•íƒœë¡œ ì½ì–´ì˜´ìœ¼ë¡œì¨ ì—”ë””ì•ˆ ë°©ì‹ì„ í™•ì¸.
+//UINT64ì— 1ì„ ì €ìž¥í•˜ê³ , ì´ê±¸ ê·¸ëŒ€ë¡œ HLSLì— ì˜¬ë¦° ë’¤ UINT64 í˜•íƒœë¡œ ì½ì–´ì™”ì„ ë•Œ ê·¸ëŒ€ë¡œ 1ì´ ë“¤ì–´ìžˆìœ¼ë©´ Little Endianì¸ê²ƒ.
 struct tInitSetting
 {
 #ifdef __cplusplus
     UINT64 bIsLittleEndian;
     float2 Padding0;
     
-    //C++Àº int ¹è¿­ÀÌ 4 byte ´ÜÀ§ - HLSL ±âÁØÀ¸·Î ¸ÂÃçÁÖ±â À§ÇÔ
+    //C++ì€ int ë°°ì—´ì´ 4 byte ë‹¨ìœ„ - HLSL ê¸°ì¤€ìœ¼ë¡œ ë§žì¶°ì£¼ê¸° ìœ„í•¨
     //UINT32_4 NotInUse0[4];
     //UINT32_4 NotInUse1[4];
     
@@ -96,7 +96,7 @@ struct tInitSetting
 	float3 Padding0;
 #endif
     
-    //HLSLÀº int ¹è¿­ÀÌ 16 byte ´ÜÀ§
+    //HLSLì€ int ë°°ì—´ì´ 16 byte ë‹¨ìœ„
     UINT32 u8BitPartInU32Pack[4];
     UINT32 u8BitShiftInU32Pack[4];
 
@@ -139,7 +139,7 @@ struct tMtrlScalarData
 
 struct tMtrlTexData
 {
-    //ÅØ½ºÃ³ÀÇ À¯¹«¸¦ ÆÇ´ÜÇÏ±âÀ§ÇÑ º¯¼ö
+    //í…ìŠ¤ì²˜ì˜ ìœ ë¬´ë¥¼ íŒë‹¨í•˜ê¸°ìœ„í•œ ë³€ìˆ˜
     BOOL bTEX_0;
     BOOL bTEX_1;
     BOOL bTEX_2;
@@ -151,9 +151,9 @@ struct tMtrlTexData
 };
 
 
-//      ÀçÁú ¸ÅÅ©·Î
-////C++ : enumÀ¸·Î ÀüÈ¯, 
-////HLSL : ÀÏ¹Ý Å¸ÀÔ¸íÀ¸·Î ÀüÈ¯
+//      ìž¬ì§ˆ ë§¤í¬ë¡œ
+////C++ : enumìœ¼ë¡œ ì „í™˜, 
+////HLSL : ì¼ë°˜ íƒ€ìž…ëª…ìœ¼ë¡œ ì „í™˜
 #ifdef __cplusplus
 #define MTRLDATA_PARAM_SCALAR(_Type) eMTRLDATA_PARAM_SCALAR::##_Type
 #else
@@ -163,23 +163,23 @@ struct tMtrlTexData
 
 
 //==============================
-//		ÀçÁú °ª ¿¹¾à ÇöÈ²
+//		ìž¬ì§ˆ ê°’ ì˜ˆì•½ í˜„í™©
 //==============================
-//C++, HLSL °ø¿ëÀ¸·Î »ç¿ë
+//C++, HLSL ê³µìš©ìœ¼ë¡œ ì‚¬ìš©
 
 
 
-//Ä«¸Þ¶ó ±âÁØÀ¸·Î ·»´õ¸µµÇ¹Ç·Î Ä«¸Þ¶óÀÇ Çà·ÄÀº »ó¼ö¹öÆÛ¸¦ ÅëÇØ Àü´ÞµÇ°í ÀÖÀ½.
-//ÇÊ¿äÇÒ¶§¸¸ Ä«¸Þ¶ó Çà·ÄÀ» °®´Ù ¾²¸é µÊ
+//ì¹´ë©”ë¼ ê¸°ì¤€ìœ¼ë¡œ ë Œë”ë§ë˜ë¯€ë¡œ ì¹´ë©”ë¼ì˜ í–‰ë ¬ì€ ìƒìˆ˜ë²„í¼ë¥¼ í†µí•´ ì „ë‹¬ë˜ê³  ìžˆìŒ.
+//í•„ìš”í• ë•Œë§Œ ì¹´ë©”ë¼ í–‰ë ¬ì„ ê°–ë‹¤ ì“°ë©´ ë¨
 
-//g_CBuffer_matCam¿¡¼­ »ç¿ë
+//g_CBuffer_matCamì—ì„œ ì‚¬ìš©
 #define MTRL_SCALAR_MAT_VP                     MTRLDATA_PARAM_SCALAR(MAT_0)
 
-//CBuffer ¶Ç´Â SBuffer¿¡¼­ »ç¿ë
+//CBuffer ë˜ëŠ” SBufferì—ì„œ ì‚¬ìš©
 #define MTRL_SCALAR_MAT_WVP                     MTRLDATA_PARAM_SCALAR(MAT_0)
 #define MTRL_SCALAR_MAT_WORLD                   MTRLDATA_PARAM_SCALAR(MAT_1)
 
-//ÀÚ½ÅÀÇ VP Çà·ÄÀ» µé°í ÀÖ´Â Ä«¸Þ¶ó »ó¼ö¹öÆÛ¿¡¼­ÀÇ ÀÎµ¦½º
+//ìžì‹ ì˜ VP í–‰ë ¬ì„ ë“¤ê³  ìžˆëŠ” ì¹´ë©”ë¼ ìƒìˆ˜ë²„í¼ì—ì„œì˜ ì¸ë±ìŠ¤
 #define MTRL_SCALAR_INT_CAMIDX                  MTRLDATA_PARAM_SCALAR(INT_0)
 
 
@@ -193,7 +193,7 @@ struct tMtrlTexData
 #define MTRL_SCALAR_STD2D_COLORKEY              MTRLDATA_PARAM_SCALAR(VEC4_0)
 
 ENUM_BEGIN(eMTRL_SCALAR_STD2D_FLAG, int)
-    ENUM_MEMBER(USE_VP, int, 1 << 0) //TRUE == WVP Çà·Ä·Î Àü´Þ FALSE == VP Çà·Ä µû·Î Àü´Þ
+    ENUM_MEMBER(USE_VP, int, 1 << 0) //TRUE == WVP í–‰ë ¬ë¡œ ì „ë‹¬ FALSE == VP í–‰ë ¬ ë”°ë¡œ ì „ë‹¬
     ENUM_MEMBER(USE_ANIM, int, 1<<1)
     ENUM_MEMBER(USE_PIVOT, int, 1<<2)
     ENUM_MEMBER(NEED_FLIP_X, int, 1<<3)
@@ -201,12 +201,12 @@ ENUM_BEGIN(eMTRL_SCALAR_STD2D_FLAG, int)
 ENUM_END
 
 
-////ÄÄÇ»Æ®½¦ÀÌ´õ
+////ì»´í“¨íŠ¸ì‰ì´ë”
 #define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_X    MTRLDATA_PARAM_SCALAR(INT_0)
 #define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Y    MTRLDATA_PARAM_SCALAR(INT_1)
 #define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Z    MTRLDATA_PARAM_SCALAR(INT_2)
 
-//ÄÄÇ»Æ®½¦ÀÌ´õ°¡ µé°íÀÖ´Â ³ëÀÌÁîÅØ½ºÃ³ÀÇ ÇØ»óµµ¸¦ ÀúÀå
+//ì»´í“¨íŠ¸ì‰ì´ë”ê°€ ë“¤ê³ ìžˆëŠ” ë…¸ì´ì¦ˆí…ìŠ¤ì²˜ì˜ í•´ìƒë„ë¥¼ ì €ìž¥
 #define MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION      MTRLDATA_PARAM_SCALAR(VEC2_0)
 
 
@@ -230,7 +230,7 @@ ENUM_END
 
 #ifdef __cplusplus
 
-//ÀçÁú¿¡¼­ Àü´ÞÇÏ´Â À§ ±¸Á¶Ã¼¸¦ ÀÎµ¦½º ¹øÈ£¸¦ ÅëÇØ Á¢±ÙÇÏ±â À§ÇÑ ¿­°ÅÃ¼(C++¿¡¼­¸¸ »ç¿ëÇÔ.)
+//ìž¬ì§ˆì—ì„œ ì „ë‹¬í•˜ëŠ” ìœ„ êµ¬ì¡°ì²´ë¥¼ ì¸ë±ìŠ¤ ë²ˆí˜¸ë¥¼ í†µí•´ ì ‘ê·¼í•˜ê¸° ìœ„í•œ ì—´ê±°ì²´(C++ì—ì„œë§Œ ì‚¬ìš©í•¨.)
 enum class eMTRLDATA_PARAM_SCALAR
 {
     INT_0, INT_1, INT_2, INT_3,
@@ -296,7 +296,7 @@ struct tDebugShapeInfo
 	float4 vColor;
 };
 
-//Ä«¿îÆ®¸¦ ¼¼¾ß ÇÏ´Â SBuffer¿¡¼­ °ø¿ëÀ¸·Î »ç¿ë
+//ì¹´ìš´íŠ¸ë¥¼ ì„¸ì•¼ í•˜ëŠ” SBufferì—ì„œ ê³µìš©ìœ¼ë¡œ ì‚¬ìš©
 struct tSBufferInfo
 {
     UINT32 uSBufferCount;
@@ -306,7 +306,7 @@ struct tSBufferInfo
 };
 
 
-//CBuffer¿¡¼­ »ç¿ëÇÏ¹Ç·Î °ø¿ë struct Çì´õ¿¡ ¼±¾ð
+//CBufferì—ì„œ ì‚¬ìš©í•˜ë¯€ë¡œ ê³µìš© struct í—¤ë”ì— ì„ ì–¸
 struct tParticleModule
 {
 	//Module Switch + Basic Info
@@ -318,7 +318,7 @@ struct tParticleModule
 	BOOL bModule_AddVelocity;
 	BOOL bModule_Drag;
 	BOOL bModule_NoiseForce;
-    BOOL bModule_ExpandVelocity;    //¼Óµµ¿¡ µû¶ó ÆÄÆ¼Å¬ÀÇ Å©±â º¯È­½ÃÅ°´Â ¸ðµâ
+    BOOL bModule_ExpandVelocity;    //ì†ë„ì— ë”°ë¼ íŒŒí‹°í´ì˜ í¬ê¸° ë³€í™”ì‹œí‚¤ëŠ” ëª¨ë“ˆ
     
     BOOL bModule_ApplyMass;
     BOOL bModule_ApplyGravity;
@@ -345,20 +345,20 @@ struct tParticleModule
 
     
 	//Color Change Module Part
-    float4 vStartColor; // ÃÊ±â »ö»ó
-    float4 vEndColor; // ÃÖÁ¾ »ö»ó
+    float4 vStartColor; // ì´ˆê¸° ìƒ‰ìƒ
+    float4 vEndColor; // ìµœì¢… ìƒ‰ìƒ
 
     
 	// Scale Change Module Part
-    float fStartScale; // ÃÊ±â Å©±â
-    float fEndScale; // ÃÖÁ¾ Å©±â	
+    float fStartScale; // ì´ˆê¸° í¬ê¸°
+    float fEndScale; // ìµœì¢… í¬ê¸°	
 	float2 PADDING4;
     
     
     //Rotation Module Part
 	float3 vRotRadPerSec;
 	float PADDING5;
-	float3 vRotRandomRange;     //ÀÌ ¹üÀ§ »çÀÌ¿¡¼­ È¸Àü¼Óµµ ·£´ý
+	float3 vRotRandomRange;     //ì´ ë²”ìœ„ ì‚¬ì´ì—ì„œ íšŒì „ì†ë„ ëžœë¤
 	float PADDING6;
 
     
@@ -371,27 +371,27 @@ struct tParticleModule
     float PADDING7;
 
     
-	// Drag Module Part : ÁøÇàµÉ¼ö·Ï ¼Óµµ°¡ °¨¼ÒÇÏ´Â È¿°ú
+	// Drag Module Part : ì§„í–‰ë ìˆ˜ë¡ ì†ë„ê°€ ê°ì†Œí•˜ëŠ” íš¨ê³¼
     float fStartDrag;
     float fEndDrag;
     
     
-    // NoiseForce ¸ðµâ
+    // NoiseForce ëª¨ë“ˆ
 	float fNoiseTerm;
 	float fNoiseForce;
         
-    // Render ¸ðµâ
-	INT32 VelocityAlignment; // 1 : ¼ÓµµÁ¤·Ä »ç¿ë(ÀÌµ¿ ¹æÇâÀ¸·Î È¸Àü) 0 : »ç¿ë ¾ÈÇÔ
-	INT32 VelocityScale; // 1 : ¼Óµµ¿¡ µû¸¥ Å©±â º¯È­ »ç¿ë, 0 : »ç¿ë ¾ÈÇÔ	
-	float vMaxSpeed; // ÃÖ´ë Å©±â¿¡ µµ´ÞÇÏ´Â ¼Ó·Â
+    // Render ëª¨ë“ˆ
+	INT32 VelocityAlignment; // 1 : ì†ë„ì •ë ¬ ì‚¬ìš©(ì´ë™ ë°©í–¥ìœ¼ë¡œ íšŒì „) 0 : ì‚¬ìš© ì•ˆí•¨
+	INT32 VelocityScale; // 1 : ì†ë„ì— ë”°ë¥¸ í¬ê¸° ë³€í™” ì‚¬ìš©, 0 : ì‚¬ìš© ì•ˆí•¨	
+	float vMaxSpeed; // ìµœëŒ€ í¬ê¸°ì— ë„ë‹¬í•˜ëŠ” ì†ë ¥
 	float PADDING8;
     
     
-	float4 vMaxVelocityScale; // ¼Ó·Â¿¡ µû¸¥ Å©±â º¯È­·® ÃÖ´ëÄ¡
+	float4 vMaxVelocityScale; // ì†ë ¥ì— ë”°ë¥¸ í¬ê¸° ë³€í™”ëŸ‰ ìµœëŒ€ì¹˜
     
     
     
-    //Gravity ¸ðµâ
+    //Gravity ëª¨ë“ˆ
 	float fGravity;
 	float fEnergyLoss;
 	float Padding;
@@ -403,3 +403,4 @@ struct tParticleModule
 
 
 #endif
+

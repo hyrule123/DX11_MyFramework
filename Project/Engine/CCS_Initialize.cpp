@@ -20,14 +20,14 @@ CCS_Initialize::~CCS_Initialize()
 
 bool CCS_Initialize::BindDataCS()
 {
-	////INT64¿¡ 1À» ³Ö¾î¼­ Àü´ŞÇÑ´Ù. HLSL¿¡¼­´Â ÀÌ °ªÀ» INT32ÇüÅÂ·Î ÀĞ¾îµéÀÎ´Ù.
+	////INT64ì— 1ì„ ë„£ì–´ì„œ ì „ë‹¬í•œë‹¤. HLSLì—ì„œëŠ” ì´ ê°’ì„ INT32í˜•íƒœë¡œ ì½ì–´ë“¤ì¸ë‹¤.
 	g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
 
 
 	m_pSBuffer_InitSetting = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__ALL, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_INIT_SETTING, e_u_INIT_SETTING });
 	m_pSBuffer_InitSetting->Create(sizeof(tInitSetting), 1u, &g_InitSetting, 1u);
 
-	//UAV¿Í ¹ÙÀÎµù
+	//UAVì™€ ë°”ì¸ë”©
 	m_pSBuffer_InitSetting->BindBufferUAV();
 
 	CalcGroupNumber(1u, 1u, 1u);
@@ -42,7 +42,7 @@ void CCS_Initialize::UnBindCS()
 	//	UINT32 bIsLittleEndian;
 	//	float3 Padding0;
 
-	//	//C++Àº int ¹è¿­ÀÌ 4 byte ´ÜÀ§ - HLSL ±âÁØÀ¸·Î ¸ÂÃçÁÖ±â À§ÇÔ
+	//	//C++ì€ int ë°°ì—´ì´ 4 byte ë‹¨ìœ„ - HLSL ê¸°ì¤€ìœ¼ë¡œ ë§ì¶°ì£¼ê¸° ìœ„í•¨
 	//	UINT32_4 NotInUse0[4];
 	//	UINT32_4 NotInUse1[4];
 
@@ -56,12 +56,12 @@ void CCS_Initialize::UnBindCS()
 	//int a = 0;
 
 
-	//UNBINDÇÏ°í SRV¿Í ¹ÙÀÎµù °É¾îÁØ´Ù.
+	//UNBINDí•˜ê³  SRVì™€ ë°”ì¸ë”© ê±¸ì–´ì¤€ë‹¤.
 	m_pSBuffer_InitSetting->UnBindUAV();
 	m_pSBuffer_InitSetting->BindBufferSRV();
 
-	//C++¿¡¼­µµ endianness Å×½ºÆ®
-	//»ç½Ç ÁÖ·Î »ç¿ëÇÏ´Â Intel, Amd CPU´Â ¸ğµÎ little endian ¹æ½ÄÀÌ¶ó °ÆÁ¤ÇÒ ÇÊ¿ä ¾øÀ½.
+	//C++ì—ì„œë„ endianness í…ŒìŠ¤íŠ¸
+	//ì‚¬ì‹¤ ì£¼ë¡œ ì‚¬ìš©í•˜ëŠ” Intel, Amd CPUëŠ” ëª¨ë‘ little endian ë°©ì‹ì´ë¼ ê±±ì •í•  í•„ìš” ì—†ìŒ.
 	unsigned char IsLittleEndian = *(unsigned char*)&(g_InitSetting.bIsLittleEndian);
 	if (static_cast<unsigned char>(1u) == IsLittleEndian)
 		g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);

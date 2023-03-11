@@ -90,18 +90,18 @@ static float GaussianFilter[5][5] =
 
 void GaussianSample(in Texture2D _Tex_Noise, float2 _vResolution, float _NormalizedThreadID, out float3 _vOut)
 {
-    //µé¾î¿Â Á¤±ÔÈ­µÈ ½º·¹µå ID¸¦ UV°ªÀ¸·Î »ç¿ëÇÑ´Ù.
+    //ë“¤ì–´ì˜¨ ì •ê·œí™”ëœ ìŠ¤ë ˆë“œ IDë¥¼ UVê°’ìœ¼ë¡œ ì‚¬ìš©í•œë‹¤.
     float2 vUV = float2(_NormalizedThreadID, 0.5f);
     
-    //xµµ ¾à°£ÀÇ ·£´ý¼ºÀ» ³Ö±â À§ÇØ Áö¼ÓÀûÀ¸·Î ¿òÁ÷¾îÁØ´Ù.
+    //xë„ ì•½ê°„ì˜ ëžœë¤ì„±ì„ ë„£ê¸° ìœ„í•´ ì§€ì†ì ìœ¼ë¡œ ì›€ì§ì–´ì¤€ë‹¤.
     vUV.x += g_CBuffer_GlobalData.fAccTime * 0.5f;
     
-    // sin ±×·¡ÇÁ·Î ÅØ½ºÃÄÀÇ »ùÇÃ¸µ À§Ä¡ UV ¸¦ °è»ê
-    //fAccTime : °ÔÀÓ ½ÇÇà ÈÄ ´©ÀûµÈ °ÔÀÓ ½ÇÇà ½Ã°£. ÀÌ °ªÀ» È°¿ëÇÏ¸é »çÀÎ±×·¡ÇÁ¸¦ Áö¼ÓÀûÀ¸·Î ¿ìÃøÀ¸·Î ÀÌµ¿½ÃÅ³ ¼ö ÀÖ´Ù.
+    // sin ê·¸ëž˜í”„ë¡œ í…ìŠ¤ì³ì˜ ìƒ˜í”Œë§ ìœ„ì¹˜ UV ë¥¼ ê³„ì‚°
+    //fAccTime : ê²Œìž„ ì‹¤í–‰ í›„ ëˆ„ì ëœ ê²Œìž„ ì‹¤í–‰ ì‹œê°„. ì´ ê°’ì„ í™œìš©í•˜ë©´ ì‚¬ì¸ê·¸ëž˜í”„ë¥¼ ì§€ì†ì ìœ¼ë¡œ ìš°ì¸¡ìœ¼ë¡œ ì´ë™ì‹œí‚¬ ìˆ˜ ìžˆë‹¤.
     //
-    vUV.y -= (sin((_NormalizedThreadID - (g_CBuffer_GlobalData.fAccTime /*±×·¡ÇÁ ¿ìÃø ÀÌµ¿ ¼Óµµ*/)) * PI_DOUBLE * 10.f /*¹Ýº¹ÁÖ±â*/) * 0.5f);
+    vUV.y -= (sin((_NormalizedThreadID - (g_CBuffer_GlobalData.fAccTime /*ê·¸ëž˜í”„ ìš°ì¸¡ ì´ë™ ì†ë„*/)) * PI_DOUBLE * 10.f /*ë°˜ë³µì£¼ê¸°*/) * 0.5f);
     
-    //UV°ªÀÌ 0 ~ 1 »çÀÌÀÇ °ªÀ» ¹þ¾î³µÀ» °æ¿ì »çÀÌ·Î º¸Á¤ÇØÁØ´Ù. ³­¼ö±îÁö´Â ¾Æ´Ï¿©µµ ¾à°£ÀÇ ºÒ±ÔÄ¢¼ºÀ» °¡Áø À¯»ç³­¼ö°¡ ¸¸µé¾îÁü.
+    //UVê°’ì´ 0 ~ 1 ì‚¬ì´ì˜ ê°’ì„ ë²—ì–´ë‚¬ì„ ê²½ìš° ì‚¬ì´ë¡œ ë³´ì •í•´ì¤€ë‹¤. ë‚œìˆ˜ê¹Œì§€ëŠ” ì•„ë‹ˆì—¬ë„ ì•½ê°„ì˜ ë¶ˆê·œì¹™ì„±ì„ ê°€ì§„ ìœ ì‚¬ë‚œìˆ˜ê°€ ë§Œë“¤ì–´ì§.
     if (1.f < vUV.x)
         vUV.x = frac(vUV.x);
     else if (vUV.x < 0.f)
@@ -112,20 +112,20 @@ void GaussianSample(in Texture2D _Tex_Noise, float2 _vResolution, float _Normali
     else if (vUV.y < 0.f)
         vUV.y = 1.f + frac(vUV.y);
     
-    //¸¸µé¾îÁø UV¸¦ ÅØ½ºÃ³ÀÇ »çÀÌÁî¿¡ °öÇØ ÁÖ¸é ÃßÃâÇÒ ÇÈ¼¿ÀÇ ÀÎµ¦½º ¹øÈ£¸¦ ¾òÀ» ¼ö ÀÖ´Ù.
+    //ë§Œë“¤ì–´ì§„ UVë¥¼ í…ìŠ¤ì²˜ì˜ ì‚¬ì´ì¦ˆì— ê³±í•´ ì£¼ë©´ ì¶”ì¶œí•  í”½ì…€ì˜ ì¸ë±ìŠ¤ ë²ˆí˜¸ë¥¼ ì–»ì„ ìˆ˜ ìžˆë‹¤.
     int2 pixel = vUV * _vResolution;
     
-    //5 * 5Â¥¸® °¡¿ì½Ã¾È ÇÊÅÍ¸¦ ÁßÁ¡(2, 2)À¸·Î Àû¿ëÇÏ±â À§ÇØ¼­ °ñ¶óÁø ÇÈ¼¿¿¡¼­ 3Ä­¾¿ ¹Ð¾îÁØ´Ù.
+    //5 * 5ì§œë¦¬ ê°€ìš°ì‹œì•ˆ í•„í„°ë¥¼ ì¤‘ì (2, 2)ìœ¼ë¡œ ì ìš©í•˜ê¸° ìœ„í•´ì„œ ê³¨ë¼ì§„ í”½ì…€ì—ì„œ 3ì¹¸ì”© ë°€ì–´ì¤€ë‹¤.
     //
     // 0 1 2 3 4    
     // 1
-    // 2  (2, 2) = ÁßÁ¡
+    // 2  (2, 2) = ì¤‘ì 
     // 3
     // 4
     const static int2 offset = int2(-2, -2);
     float3 vOut = (float3) 0.f;
     
-    //¼øÈ¸¸¦ µ¹¾ÆÁÖ¸é¼­ ÇØ´ç ÀÎµ¦½ºÀÇ »ö»ó¿¡ °¡¿ì½Ã¾È ÇÊÅÍ °ªÀ» °öÇØ¼­ ÃÖÁ¾ °ªÀ» ÇÕ»êÇÑ´Ù.
+    //ìˆœíšŒë¥¼ ëŒì•„ì£¼ë©´ì„œ í•´ë‹¹ ì¸ë±ìŠ¤ì˜ ìƒ‰ìƒì— ê°€ìš°ì‹œì•ˆ í•„í„° ê°’ì„ ê³±í•´ì„œ ìµœì¢… ê°’ì„ í•©ì‚°í•œë‹¤.
     for (int i = 0; i < 5; ++i)
     {
         for (int j = 0; j < 5; ++j)

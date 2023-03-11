@@ -37,11 +37,11 @@ struct tLightInfo
 
 	float4 vLightWorldPos;
 
-	float4 vLightDir; //½ºÆ÷Æ®¶óÀÌÆ®ÀÇ ¹æÇâ
+	float4 vLightDir; //ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ì˜ ë°©í–¥
 
-	float fRadius; //Á¡±¤¿ø ¶Ç´Â ½ºÆ÷Æ®¶óÀÌÆ®ÀÇ °Å¸®
+	float fRadius; //ì ê´‘ì› ë˜ëŠ” ìŠ¤í¬íŠ¸ë¼ì´íŠ¸ì˜ ê±°ë¦¬
 	float fAngle;
-    INT32 LightType; //¾Æ·¡ ENUM°ªÀÌ µé¾îÀÖÀ½.
+    INT32 LightType; //ì•„ë˜ ENUMê°’ì´ ë“¤ì–´ìˆìŒ.
     INT32 padding;
 };
 

@@ -20,20 +20,20 @@ float4 PS_std2D(VS_OUT _in) : SV_TARGET
 	}
     
     
-    //¸ÞÀÎÅØ½ºÃ³°¡ Á¸ÀçÇÏÁö ¾ÊÀ»°æ¿ì´Â ¹«Á¶°Ç ¸¶Á¨Å¸ »ö»óÀ» return;
+    //ë©”ì¸í…ìŠ¤ì²˜ê°€ ì¡´ìž¬í•˜ì§€ ì•Šì„ê²½ìš°ëŠ” ë¬´ì¡°ê±´ ë§ˆì  íƒ€ ìƒ‰ìƒì„ return;
 	if (FALSE == g_CBuffer_Mtrl_Tex.bTEX_0)
 	{
 		vOutColor = float4(1.f, 0.f, 1.f, 1.f);
 	}
     
-    //¾Ö´Ï¸ÞÀÌ¼Ç »ç¿ëÁßÀÏ°æ¿ì
+    //ì• ë‹ˆë©”ì´ì…˜ ì‚¬ìš©ì¤‘ì¼ê²½ìš°
     else if (eMTRL_SCALAR_STD2D_FLAG::USE_ANIM & Data.MTRL_SCALAR_STD2D_FLAG)
     {
 		float2 vUV = _in.vUV;
         if(eMTRL_SCALAR_STD2D_FLAG::NEED_FLIP_X & Data.MTRL_SCALAR_STD2D_FLAG)
 			vUV.x = 1.f - vUV.x;
         
-        //¾Ö´Ï¸ÞÀÌ¼ÇÀÇ Left TopºÎÅÍ Slice¿¡ ÀÚ½ÅÀÇ UV°ªÀ» °öÇØ¼­ ½ÇÁ¦ UV°ªÀ» ±¸ÇØÁØ´Ù.
+        //ì• ë‹ˆë©”ì´ì…˜ì˜ Left Topë¶€í„° Sliceì— ìžì‹ ì˜ UVê°’ì„ ê³±í•´ì„œ ì‹¤ì œ UVê°’ì„ êµ¬í•´ì¤€ë‹¤.
 		float2 RealUV = Data.MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP + Data.MTRL_SCALAR_STD2D_ANIM_UV_SLICE * vUV;
 
 		int idx = Data.MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX;

@@ -36,8 +36,8 @@ public:
 	}
 
 
-	//ÀÌµ¿ ¿¬»êÀÚÀÇ °æ¿ì 
-	//³ªÇÑÅ× nullptr¸¦ ÁØ µÚ swap
+	//ì´ë™ ì—°ì‚°ìžì˜ ê²½ìš° 
+	//ë‚˜í•œí…Œ nullptrë¥¼ ì¤€ ë’¤ swap
 	Ptr(Ptr&& _other) noexcept
 		: m_Res(nullptr)
 	{
@@ -48,9 +48,9 @@ public:
 	}
 
 
-	//´Ù¸¥ Å¸ÀÔÀÇ ÀÌµ¿ ¿¬»êÀÚµµ ¸¶Âù°¡Áö
-	//ÀÚ½ÅÀÇ Æ÷ÀÎÅÍ·Î ¸ðµç °ªÀÌ ¿Å°ÜÁ³À» °ÍÀÌ¹Ç·Î
-	//¹Ý´ëÆíÀÇ invalidÇÑ °ª¿¡ nullptrÀ» ³Ö¾î¼­ ¿¡·¯¸¦ ¹æÁö
+	//ë‹¤ë¥¸ íƒ€ìž…ì˜ ì´ë™ ì—°ì‚°ìžë„ ë§ˆì°¬ê°€ì§€
+	//ìžì‹ ì˜ í¬ì¸í„°ë¡œ ëª¨ë“  ê°’ì´ ì˜®ê²¨ì¡Œì„ ê²ƒì´ë¯€ë¡œ
+	//ë°˜ëŒ€íŽ¸ì˜ invalidí•œ ê°’ì— nullptrì„ ë„£ì–´ì„œ ì—ëŸ¬ë¥¼ ë°©ì§€
 	template<class U>
 	Ptr(Ptr<U>&& _other) noexcept
 		: m_Res(static_cast<T*>(_other.m_Res))

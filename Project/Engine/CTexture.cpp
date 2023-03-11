@@ -44,7 +44,7 @@ void CTexture::UnBind()
 			CONTEXT->CSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
 		}
 
-		//ÇöÀç ¿¬°áµÈ ·¹Áö½ºÅÍ ¹øÈ£¿Í ÆÄÀÌÇÁ¶óÀÎÀ» ÃÊ±âÈ­
+		//í˜„ìž¬ ì—°ê²°ëœ ë ˆì§€ìŠ¤í„° ë²ˆí˜¸ì™€ íŒŒì´í”„ë¼ì¸ì„ ì´ˆê¸°í™”
 		m_iCurBoundRegister = -1;
 		m_flagCurBoundPipeline = 0u;
 	}
@@ -57,7 +57,7 @@ void CTexture::UnBind()
 		UINT u = -1;
 		CONTEXT->CSSetUnorderedAccessViews(m_iCurBoundRegister, 1, &pUAV, &u);
 
-		//ÇöÀç ¿¬°áµÈ ·¹Áö½ºÅÍ ¹øÈ£¿Í ÆÄÀÌÇÁ¶óÀÎÀ» ÃÊ±âÈ­
+		//í˜„ìž¬ ì—°ê²°ëœ ë ˆì§€ìŠ¤í„° ë²ˆí˜¸ì™€ íŒŒì´í”„ë¼ì¸ì„ ì´ˆê¸°í™”
 		m_iCurBoundRegister = -1;
 		m_flagCurBoundPipeline = 0u;
 	}
@@ -92,7 +92,7 @@ CTexture::~CTexture()
 
 void CTexture::BindData_SRV(int _iRegisterNum, UINT _eSHADER_PIPELINE_STAGE)
 {
-	//ÄÄÇ»Æ®½¦ÀÌ´õ¿ÍÀÇ ¹ÙÀÎµù ÇØÁ¦
+	//ì»´í“¨íŠ¸ì‰ì´ë”ì™€ì˜ ë°”ì¸ë”© í•´ì œ
 	UnBind();
 
 	m_iCurBoundRegister = _iRegisterNum;
@@ -134,7 +134,7 @@ void CTexture::BindData_UAV(int _iRegisterNum)
 {
 	UnBind();
 	
-	//¹ÙÀÎµùÇÑ Compute Shader ¹öÆÛ ¹øÈ£¸¦ ±â¾ï
+	//ë°”ì¸ë”©í•œ Compute Shader ë²„í¼ ë²ˆí˜¸ë¥¼ ê¸°ì–µ
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::UAV;
 	m_iCurBoundRegister = _iRegisterNum;
 
@@ -147,7 +147,7 @@ void CTexture::BindData_UAV(int _iRegisterNum)
 int CTexture::Load(const wstring& _strFilePath)
 {
 	wchar_t szExt[50] = L"";
-	_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50);
+	//_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50);
 	wstring strExt = szExt;
 
 	HRESULT hr = S_OK;
@@ -171,7 +171,7 @@ int CTexture::Load(const wstring& _strFilePath)
 	
 	if (FAILED(hr))
 	{
-		MessageBox(nullptr, L"¸®¼Ò½º ·Îµù ½ÇÆÐ", L"ÅØ½ºÃÄ ·Îµù ½ÇÆÐ", MB_OK);
+		MessageBox(nullptr, L"ë¦¬ì†ŒìŠ¤ ë¡œë”© ì‹¤íŒ¨", L"í…ìŠ¤ì³ ë¡œë”© ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
@@ -183,7 +183,7 @@ int CTexture::Load(const wstring& _strFilePath)
 
 	if (FAILED(hr))
 	{
-		MessageBox(nullptr, L"ShaderResourceView »ý¼º ½ÇÆÐ", L"ÅØ½ºÃÄ ·Îµù ½ÇÆÐ", MB_OK);
+		MessageBox(nullptr, L"ShaderResourceView ìƒì„± ì‹¤íŒ¨", L"í…ìŠ¤ì³ ë¡œë”© ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
@@ -210,23 +210,23 @@ int CTexture::Create(UINT _uWidth, UINT _uHeight, DXGI_FORMAT _pixelFormat, UINT
 	m_Desc.BindFlags = _D3D11_BIND_FLAG;
 	m_Desc.Usage = _Usage;
 
-	//CPUÀÇ ÀÐ±â/¾²±â °¡´É ¿©ºÎ¸¦ ¼³Á¤
+	//CPUì˜ ì½ê¸°/ì“°ê¸° ê°€ëŠ¥ ì—¬ë¶€ë¥¼ ì„¤ì •
 	if (D3D11_USAGE::D3D11_USAGE_DYNAMIC == _Usage)
 		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	else if (D3D11_USAGE::D3D11_USAGE_STAGING == _Usage)
 		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
-	//¿øº»¸¸ »ý¼º.(ÀÚ¼¼ÇÑ ³»¿ëÀº ¹Ó¸ÊÀ» Ã£¾Æº¼ °Í)
+	//ì›ë³¸ë§Œ ìƒì„±.(ìžì„¸í•œ ë‚´ìš©ì€ ë°‰ë§µì„ ì°¾ì•„ë³¼ ê²ƒ)
 	m_Desc.MipLevels = 1;
 	m_Desc.SampleDesc.Count = 1;
 	m_Desc.SampleDesc.Quality = 0;
 
-	//ÅØ½ºÃ³¸¦ »ý¼º
+	//í…ìŠ¤ì²˜ë¥¼ ìƒì„±
 	if (FAILED(DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf())))
 		return E_FAIL;
 
-	//¹ÙÀÎµå ÇÃ·¡±×¿¡ ¸Â´Â View¸¦ »ý¼ºÇØÁØ´Ù.
-	//DEPTH_STENCIL ºä·Î »ç¿ëÇÏ´Â ÅØ½ºÃ³ÀÇ °æ¿ì ´Ù¸¥ ºä¿Í µ¿½Ã¿¡ ¹ÙÀÎµùÀ» ÇÒ ¼ö ¾øÀ¸¹Ç·Î Âü°íÇÒ °Í.
+	//ë°”ì¸ë“œ í”Œëž˜ê·¸ì— ë§žëŠ” Viewë¥¼ ìƒì„±í•´ì¤€ë‹¤.
+	//DEPTH_STENCIL ë·°ë¡œ ì‚¬ìš©í•˜ëŠ” í…ìŠ¤ì²˜ì˜ ê²½ìš° ë‹¤ë¥¸ ë·°ì™€ ë™ì‹œì— ë°”ì¸ë”©ì„ í•  ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ì°¸ê³ í•  ê²ƒ.
 	return CreateView();
 }
 

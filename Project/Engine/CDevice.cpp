@@ -41,26 +41,26 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
         , m_Device.GetAddressOf(), &eLevel
         , m_Context.GetAddressOf())))
     {
-        MessageBox(nullptr, L"Device, Context »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ¿¡·¯", MB_OK);
+        MessageBox(nullptr, L"Device, Context ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì—ëŸ¬", MB_OK);
         return E_FAIL;
     }
 
     if (FAILED(CreateSwapChain()))
     {
-        MessageBox(nullptr, L"½ºÆÃ¼ÀÎ »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ¿¡·¯", MB_OK);
+        MessageBox(nullptr, L"ìŠ¤ÂíŒ…ì…ˆ?ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì—ëŸ¬", MB_OK);
         return E_FAIL;
     }
 
     if (FAILED(CreateView()))
     {
-        MessageBox(nullptr, L"View »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ¿¡·¯", MB_OK);
+        MessageBox(nullptr, L"View ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì—ëŸ¬", MB_OK);
         return E_FAIL;
     }
 
-    // Ãâ·Â Å¸°Ù ¼³Á¤
+    // ì¶œë ¥ íƒ€ê²Ÿ ì„¤ì •
     SetRenderTarget();
 
-    // ViewPort ¼³Á¤
+    // ViewPort ì„¤ì •
     m_ViewPort.TopLeftX = 0.f;
     m_ViewPort.TopLeftY = 0.f;
 
@@ -75,30 +75,30 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
 
 
-    // »ùÇÃ·¯ »ı¼º
+    // ìƒ˜í”ŒëŸ¬ ìƒì„±
     if (FAILED(CreateSampler()))
     {
-        MessageBox(nullptr, L"Sampler »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ¿¡·¯", MB_OK);
+        MessageBox(nullptr, L"Sampler ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì—ëŸ¬", MB_OK);
         return E_FAIL;
     }
 
-    //·¡½ºÅÍ¶óÀÌÀú ½ºÅ×ÀÌÆ® »ı¼º
+    //ë˜ìŠ¤í„°ë¼ì´ì € ìŠ¤í…Œì´íŠ¸ ìƒì„±
     if (FAILED(CreateRasterizeState()))
     {
-        MessageBoxW(nullptr, L"Rasterizer State »ı¼º ½ÇÆĞ", L"Rasterizer ÃÊ±âÈ­ ¿¡·¯", MB_OK);
+        MessageBoxW(nullptr, L"Rasterizer State ìƒì„± ì‹¤íŒ¨", L"Rasterizer ì´ˆê¸°í™” ì—ëŸ¬", MB_OK);
     }
 
     if (FAILED(CreateDepthStencilState()))
     {
-        MessageBoxW(nullptr, L"Depth-Stencil State »ı¼º ½ÇÆĞ", L"Depth-Stencil State ÃÊ±âÈ­ ¿¡·¯", MB_OK);
+        MessageBoxW(nullptr, L"Depth-Stencil State ìƒì„± ì‹¤íŒ¨", L"Depth-Stencil State ì´ˆê¸°í™” ì—ëŸ¬", MB_OK);
     }
 
     if (FAILED(CreateBlendState()))
     {
-        MessageBoxW(nullptr, L"Blend State »ı¼º ½ÇÆĞ", L"Blend State ÃÊ±âÈ­ ¿¡·¯", MB_OK);
+        MessageBoxW(nullptr, L"Blend State ìƒì„± ì‹¤íŒ¨", L"Blend State ì´ˆê¸°í™” ì—ëŸ¬", MB_OK);
     }
 
-    // »ó¼ö¹öÆÛ »ı¼º
+    // ìƒìˆ˜ë²„í¼ ìƒì„±
     CreateConstBuffer();
 
 
@@ -107,17 +107,17 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
 void CDevice::SetRenderTarget()
 {
-    // Ãâ·Â Å¸°Ù ¼³Á¤
+    // ì¶œë ¥ íƒ€ê²Ÿ ì„¤ì •
     m_Context->OMSetRenderTargets(1, m_RTV.GetAddressOf(), m_DSV.Get());
 }
 
 int CDevice::CreateSwapChain()
 {
-    // ½ºÆÃ¼ÀÎ ¼³Á¤
+    // ìŠ¤ÂíŒ…ì…ˆ?ì„¤ì •
     DXGI_SWAP_CHAIN_DESC tDesc = {};
 
-    tDesc.OutputWindow = m_hWnd;    // Ãâ·Â À©µµ¿ì
-    tDesc.Windowed = true;          // Ã¢¸ğµå, ÀüÃ¼È­¸é ¸ğµå
+    tDesc.OutputWindow = m_hWnd;    // ì¶œë ¥ ìœˆë„ìš°
+    tDesc.Windowed = true;          // ì°½ëª¨ë“œ, ì „ì²´í™”ë©´ ëª¨ë“œ
 
     tDesc.BufferCount = 2;              
     tDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -137,7 +137,7 @@ int CDevice::CreateSwapChain()
     tDesc.Flags = 0;
     
 
-    // ½ºÆÃ¼ÀÎ »ı¼º
+    // ìŠ¤ÂíŒ…ì…ˆ?ìƒì„±
     ComPtr<IDXGIDevice>  pDXGIDevice;
     ComPtr<IDXGIAdapter> pAdapter;
     ComPtr<IDXGIFactory> pFactory;
@@ -162,12 +162,12 @@ int CDevice::CreateView()
         return E_FAIL;
     }
 
-    // DepthStencil ¿ëµµ ÅØ½ºÃÄ »ı¼º
+    // DepthStencil ìš©ë„ í…ìŠ¤ì³ ìƒì„±
     D3D11_TEXTURE2D_DESC tDesc = {};
 
     tDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-    // ¹İµå½Ã ·»´õÅ¸°Ù°ú °°Àº ÇØ»óµµ·Î ¼³Á¤ÇØ¾ß ÇÔ
+    // ë°˜ë“œì‹œ ë Œë”íƒ€ê²Ÿê³¼ ê°™ì€ í•´ìƒë„ë¡œ ì„¤ì •í•´ì•¼ í•¨
     tDesc.Width = (UINT)m_vRenderResolution.x;
     tDesc.Height = (UINT)m_vRenderResolution.y;
     tDesc.ArraySize = 1;
@@ -176,7 +176,7 @@ int CDevice::CreateView()
     tDesc.Usage = D3D11_USAGE_DEFAULT;
     tDesc.CPUAccessFlags = 0;
 
-    tDesc.MipLevels = 1;    // ¿øº»¸¸ »ı¼º
+    tDesc.MipLevels = 1;    // ì›ë³¸ë§Œ ìƒì„±
 
     tDesc.SampleDesc.Count = 1;
     tDesc.SampleDesc.Quality = 0;
@@ -187,7 +187,7 @@ int CDevice::CreateView()
         return E_FAIL;
     }
 
-    // DepthStencilView »ı¼º
+    // DepthStencilView ìƒì„±
     if (FAILED(m_Device->CreateDepthStencilView(m_DSTex.Get(), nullptr, m_DSV.GetAddressOf())))
     {
         return E_FAIL;
@@ -238,13 +238,13 @@ void CDevice::ClearTarget(float(&_color)[4])
 
 void CDevice::CreateConstBuffer()
 {
-    //Vertex Shader¿¡¸¸ »ó¼ö¹öÆÛ¸¦ Àü´Ş + Light Ã³¸®¸¦ À§ÇØ¼­ ÇÈ¼¿ ½¦ÀÌ´õ¿¡µµ °ªÀ» Àü´ŞÇÑ´Ù.
+    //Vertex Shaderì—ë§Œ ìƒìˆ˜ë²„í¼ë¥¼ ì „ë‹¬ + Light ì²˜ë¦¬ë¥¼ ìœ„í•´ì„œ í”½ì…€ ì‰ì´ë”ì—ë„ ê°’ì„ ì „ë‹¬í•œë‹¤.
     UINT CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES] = new CConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
     m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES]->Create(sizeof(tCamMatrices), (int)eCAMERA_INDEX::END);
     m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES]->SetPipelineTarget(CBufferTarget);
 
-    //Vertex + Pixel Shader¿¡¸¸ »ó¼ö¹öÆÛ¸¦ Àü´Ş
+    //Vertex + Pixel Shaderì—ë§Œ ìƒìˆ˜ë²„í¼ë¥¼ ì „ë‹¬
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[e_b_CBUFFER_MTRL_SCALAR] = new CConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
     m_arrConstBuffer[e_b_CBUFFER_MTRL_SCALAR]->Create(sizeof(tMtrlScalarData), 1);
@@ -256,22 +256,22 @@ void CDevice::CreateConstBuffer()
     m_arrConstBuffer[e_b_CBUFFER_MTRL_TEX]->SetPipelineTarget(CBufferTarget);
 
 
-    //±Û·Î¹ú µ¥ÀÌÅÍ´Â ¸ğµç ½¦ÀÌ´õ ÆÄÀÌÇÁ¶óÀÎ¿¡¼­ Á¢±ÙÇÒ ¼ö ÀÖµµ·Ï ¼³Á¤
+    //ê¸€ë¡œë²Œ ë°ì´í„°ëŠ” ëª¨ë“  ì‰ì´ë” íŒŒì´í”„ë¼ì¸ì—ì„œ ì ‘ê·¼í•  ìˆ˜ ìˆë„ë¡ ì„¤ì •
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[e_b_CBUFFER_GLOBAL] = new CConstBuffer(e_b_CBUFFER_GLOBAL);
     m_arrConstBuffer[e_b_CBUFFER_GLOBAL]->Create(sizeof(tGlobalValue), 1);
     m_arrConstBuffer[e_b_CBUFFER_GLOBAL]->SetPipelineTarget(CBufferTarget);
 
 
-    //±¸Á¶È­ ¹öÆÛÀÇ °øÀ¯ ÀÚ¿øÀ» º¸³»´Â »ó¼ö ¹öÆÛ(ex. µî·ÏµÈ ±¸Á¶È­ ¹öÆÛÀÇ count)
-    //ÀÌ °ªÀ» Àü´ŞÇÒ ¹öÆÛ µ¥ÀÌÅÍ´Â g_arrSBufferShareData(extern.cpp)ÀÌ´Ù.
+    //êµ¬ì¡°í™” ë²„í¼ì˜ ê³µìœ  ìì›ì„ ë³´ë‚´ëŠ” ìƒìˆ˜ ë²„í¼(ex. ë“±ë¡ëœ êµ¬ì¡°í™” ë²„í¼ì˜ count)
+    //ì´ ê°’ì„ ì „ë‹¬í•  ë²„í¼ ë°ì´í„°ëŠ” g_arrSBufferShareData(extern.cpp)ì´ë‹¤.
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[e_b_CBUFFER_SBUFFER_SHAREDATA] = new CConstBuffer(e_b_CBUFFER_SBUFFER_SHAREDATA);
     m_arrConstBuffer[e_b_CBUFFER_SBUFFER_SHAREDATA]->Create(sizeof(tSBufferInfo), (UINT)eCBUFFER_SBUFFER_SHAREDATA_IDX::END);
     m_arrConstBuffer[e_b_CBUFFER_SBUFFER_SHAREDATA]->SetPipelineTarget(CBufferTarget);
 
     
-    //ÆÄÆ¼Å¬ ¸ğµâ µ¥ÀÌÅÍ¸¦ Àü´ŞÇÒ »ó¼ö ¹öÆÛ
+    //íŒŒí‹°í´ ëª¨ë“ˆ ë°ì´í„°ë¥¼ ì „ë‹¬í•  ìƒìˆ˜ ë²„í¼
     CBufferTarget = eSHADER_PIPELINE_STAGE::__COMPUTE;
     m_arrConstBuffer[e_b_CBUFFER_PARTICLE_MODULEDATA] = new CConstBuffer(e_b_CBUFFER_PARTICLE_MODULEDATA);
 
@@ -284,22 +284,22 @@ HRESULT CDevice::CreateRasterizeState()
 {
     D3D11_RASTERIZER_DESC Desc = {};
 
-    //1. ±âº»°ªÀº nullptr·Î ÁöÁ¤ÇØÁØ´Ù.(±âº»¼³Á¤À» ±»ÀÌ »ı¼ºÇÒÇÊ¿äX)
+    //1. ê¸°ë³¸ê°’ì€ nullptrë¡œ ì§€ì •í•´ì¤€ë‹¤.(ê¸°ë³¸ì„¤ì •ì„ êµ³ì´ ìƒì„±í• í•„ìš”X)
     m_arrRSState[(UINT)eRASTERIZER_TYPE::CULL_BACK] = nullptr;
 
-    //2. ÇÁ·ĞÆ®ÆäÀÌ½º ÄÃ¸µ
+    //2. í”„ë¡ íŠ¸í˜ì´ìŠ¤ ì»¬ë§
     Desc.CullMode = D3D11_CULL_FRONT;
     Desc.FillMode = D3D11_FILL_SOLID;
 
     HRESULT Result = S_OK;
     Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)eRASTERIZER_TYPE::CULL_FRONT]);
 
-    //3. ÄÃ¸µ ÇÏÁö ¾ÊÀ½
+    //3. ì»¬ë§ í•˜ì§€ ì•ŠìŒ
     Desc.CullMode = D3D11_CULL_NONE;
     Desc.FillMode = D3D11_FILL_SOLID;
     Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)eRASTERIZER_TYPE::CULL_NONE]);
 
-    //3.¿ÍÀÌ¾îÇÁ·¹ÀÓ
+    //3.ì™€ì´ì–´í”„ë ˆì„
     Desc.CullMode = D3D11_CULL_NONE;
     Desc.FillMode = D3D11_FILL_WIREFRAME;
     Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)eRASTERIZER_TYPE::WIRE_FRAME]);
@@ -320,7 +320,7 @@ HRESULT CDevice::CreateDepthStencilState()
         {
         case eDEPTHSTENCIL_TYPE::LESS:
 
-            //ÀÌ°Ç ±âº»°ªÀÌ¹Ç·Î nullptrÀ» ÁØ´Ù.
+            //ì´ê±´ ê¸°ë³¸ê°’ì´ë¯€ë¡œ nullptrì„ ì¤€ë‹¤.
             m_arrDSState[i] = nullptr;
             continue;
             break;
@@ -387,18 +387,18 @@ HRESULT CDevice::CreateBlendState()
             break;
 
         case eBLENDSTATE_TYPE::MASK:
-            //Alpha-To-Coverage ±â´ÉÀ» È°¼ºÈ­ÇÑ´Ù.
-            //Alpha-To-Coverage ±â´ÉÀº 
+            //Alpha-To-Coverage ê¸°ëŠ¥ì„ í™œì„±í™”í•œë‹¤.
+            //Alpha-To-Coverage ê¸°ëŠ¥ì€ 
             Desc.AlphaToCoverageEnable = true;
             
-            //¾Æ·¡ ¿É¼ÇÀº °¢ RenderTarget º°·Î ´Ù¸¥ ¿É¼ÇÀ» »ç¿ëÇÒ °ÍÀÎÁö ¿©ºÎ¸¦ °áÁ¤ÇÑ´Ù.
-            //»ç¿ëÀ¸·Î ¼³Á¤ÇÒ 8°³ÀÇ °¢ Render Target º°·Î ´Ù¸¥ ¾ËÆÄºí·»µù ¿É¼ÇÀ» ÁöÁ¤ÇÒ ¼ö ÀÖÀ¸¸ç(Desc.RenderTarget[index])
-            //»ç¿ëÇÏÁö ¾ÊÀ½À¸·Î ¼³Á¤ÇßÀ» ½Ã Desc.RenderTarget[0]ÀÇ ¿É¼Ç¸¸ »ç¿ëµÈ´Ù. ³ª¸ÓÁö´Â ÀüºÎ ¹«½ÃµÈ´Ù.
+            //ì•„ë˜ ì˜µì…˜ì€ ê° RenderTarget ë³„ë¡œ ë‹¤ë¥¸ ì˜µì…˜ì„ ì‚¬ìš©í•  ê²ƒì¸ì§€ ì—¬ë¶€ë¥¼ ê²°ì •í•œë‹¤.
+            //ì‚¬ìš©ìœ¼ë¡œ ì„¤ì •í•  8ê°œì˜ ê° Render Target ë³„ë¡œ ë‹¤ë¥¸ ì•ŒíŒŒë¸”ë Œë”© ì˜µì…˜ì„ ì§€ì •í•  ìˆ˜ ìˆìœ¼ë©°(Desc.RenderTarget[index])
+            //ì‚¬ìš©í•˜ì§€ ì•ŠìŒìœ¼ë¡œ ì„¤ì •í–ˆì„ ì‹œ Desc.RenderTarget[0]ì˜ ì˜µì…˜ë§Œ ì‚¬ìš©ëœë‹¤. ë‚˜ë¨¸ì§€ëŠ” ì „ë¶€ ë¬´ì‹œëœë‹¤.
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;
 
-            //ADD = ¾Æ·¡ ÁöÁ¤ÇÑ ¼³Á¤´ë·Î ¾ËÆÄ°ªÀ» ¹İ¿µÇÑ ±âÁ¸(Dest) »ö»ó°ú ÀÔ·Â(Src) »ö»óÀÇ »öÀ» ´õÇÑ´Ù.
-            //MaskÀÇ °æ¿ì Alpha-To-Coverage ¿É¼ÇÀ» »ç¿ëÇÏ¹Ç·Î µ¤¾î¾²´Â ÂÊÀÇ »ö»óÀ» 1·Î ÇØÁØ´Ù.
+            //ADD = ì•„ë˜ ì§€ì •í•œ ì„¤ì •ëŒ€ë¡œ ì•ŒíŒŒê°’ì„ ë°˜ì˜í•œ ê¸°ì¡´(Dest) ìƒ‰ìƒê³¼ ì…ë ¥(Src) ìƒ‰ìƒì˜ ìƒ‰ì„ ë”í•œë‹¤.
+            //Maskì˜ ê²½ìš° Alpha-To-Coverage ì˜µì…˜ì„ ì‚¬ìš©í•˜ë¯€ë¡œ ë®ì–´ì“°ëŠ” ìª½ì˜ ìƒ‰ìƒì„ 1ë¡œ í•´ì¤€ë‹¤.
             Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
             Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
             Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;
@@ -407,8 +407,8 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
             Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 
-            //¾î¶² »ö»óÀ» µ¤¾î¾º¿ï°ÇÁö¸¦ ÁöÁ¤ÇÑ´Ù.
-            //RGB Áß Æ¯Á¤ »ö»ó¸¸ Áı¾î³Öµµ·Ï ÇÒ ¼öµµ ÀÖÀ¸³ª, ½¦ÀÌ´õ ÄÚµå·Îµµ °¡´ÉÇÑ ÀÛ¾÷ÀÌ°í, ¿ÀÈ÷·Á Blend State ´Ü°è¿¡¼­ Ã³¸®ÇÏ´Â °ÍÀÌ ´õ ºÒÆíÇÏ¹Ç·Î ±×³É ÀüºÎ ALL·Î ÇØ ÁÖ´Â °ÍÀÌ ÁÁ´Ù.
+            //ì–´ë–¤ ìƒ‰ìƒì„ ë®ì–´ì”Œìš¸ê±´ì§€ë¥¼ ì§€ì •í•œë‹¤.
+            //RGB ì¤‘ íŠ¹ì • ìƒ‰ìƒë§Œ ì§‘ì–´ë„£ë„ë¡ í•  ìˆ˜ë„ ìˆìœ¼ë‚˜, ì‰ì´ë” ì½”ë“œë¡œë„ ê°€ëŠ¥í•œ ì‘ì—…ì´ê³ , ì˜¤íˆë ¤ Blend State ë‹¨ê³„ì—ì„œ ì²˜ë¦¬í•˜ëŠ” ê²ƒì´ ë” ë¶ˆí¸í•˜ë¯€ë¡œ ê·¸ëƒ¥ ì „ë¶€ ALLë¡œ í•´ ì£¼ëŠ” ê²ƒì´ ì¢‹ë‹¤.
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
             break;
 
@@ -417,21 +417,21 @@ HRESULT CDevice::CreateBlendState()
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;
 
-            //ADD = ±âÁ¸(Dest) »ö»ó°ú ÀÔ·Â(Src) »ö»óÀÇ »öÀ» ´õÇÑ´Ù.
-            //Dest´Â µŞÂÊÀÇ ¿ÀºêÁ§Æ® »ö»óÀÌ°í Src´Â ¾ÕÂÊÀÇ ¿ÀºêÁ§Æ® »ö»óÀÌ¶ó°í º¸¸é ÆíÇÔ.
-            //µŞÂÊÀÇ ¿ÀºêÁ§Æ®´Â ÀÌ¹Ì »ö»óÀÏ Ä¥ÇØÁø ÇÈ¼¿ÀÌ°í, ±×·ÁÁú ¶§ ¾ËÆÄ°ªÀÌ Àû¿ëµÇ¾î »öÄ¥µÇ¾úÀ» °ÍÀÌ´Ù.
-            //¾ÕÂÊÀÇ ¿ÀºêÁ§Æ®´Â ÀÌÁ¦ µ¤¾î¾º¿öÁú »ö»óÀÎµ¥, ¾ÕÂÊ ¿ÀºêÁ§Æ®ÀÇ Åõ¸íµµ°¡ ¾ó¸¶³Ä¿¡ µû¶ó¼­ ±¸ºĞÇØ¼­ Àû¿ëµÇ¾î¾ß ÇÒ °ÍÀÌ´Ù.
-            //±×·¯¹Ç·Î Src ÇÈ¼¿Àº alpha °ª¸¸Å­ Åõ¸íÇÏ°Ô(¿¬ÇÏ°Ô) ±×·ÁÁÖ°í, Dest ÇÈ¼¿Àº SrcÀÇ Alpha°ª¿¡¼­ ³²Àº °ª ¸¸Å­ Ä¥ÇØ ÁÖ¸é
-            //¹İÅõ¸íÇÏ´Ù´Â ´À³¦À» ÁÙ ¼ö ÀÖ°Ô µÈ´Ù.
+            //ADD = ê¸°ì¡´(Dest) ìƒ‰ìƒê³¼ ì…ë ¥(Src) ìƒ‰ìƒì˜ ìƒ‰ì„ ë”í•œë‹¤.
+            //DestëŠ” ë’·ìª½ì˜ ì˜¤ë¸Œì íŠ¸ ìƒ‰ìƒì´ê³  SrcëŠ” ì•ìª½ì˜ ì˜¤ë¸Œì íŠ¸ ìƒ‰ìƒì´ë¼ê³  ë³´ë©´ í¸í•¨.
+            //ë’·ìª½ì˜ ì˜¤ë¸Œì íŠ¸ëŠ” ì´ë¯¸ ìƒ‰ìƒì¼ ì¹ í•´ì§„ í”½ì…€ì´ê³ , ê·¸ë ¤ì§ˆ ë•Œ ì•ŒíŒŒê°’ì´ ì ìš©ë˜ì–´ ìƒ‰ì¹ ë˜ì—ˆì„ ê²ƒì´ë‹¤.
+            //ì•ìª½ì˜ ì˜¤ë¸Œì íŠ¸ëŠ” ì´ì œ ë®ì–´ì”Œì›Œì§ˆ ìƒ‰ìƒì¸ë°, ì•ìª½ ì˜¤ë¸Œì íŠ¸ì˜ íˆ¬ëª…ë„ê°€ ì–¼ë§ˆëƒì— ë”°ë¼ì„œ êµ¬ë¶„í•´ì„œ ì ìš©ë˜ì–´ì•¼ í•  ê²ƒì´ë‹¤.
+            //ê·¸ëŸ¬ë¯€ë¡œ Src í”½ì…€ì€ alpha ê°’ë§Œí¼ íˆ¬ëª…í•˜ê²Œ(ì—°í•˜ê²Œ) ê·¸ë ¤ì£¼ê³ , Dest í”½ì…€ì€ Srcì˜ Alphaê°’ì—ì„œ ë‚¨ì€ ê°’ ë§Œí¼ ì¹ í•´ ì£¼ë©´
+            //ë°˜íˆ¬ëª…í•˜ë‹¤ëŠ” ëŠë‚Œì„ ì¤„ ìˆ˜ ìˆê²Œ ëœë‹¤.
             Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
             Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
             Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 
 
-            //»ç½Ç »ö»óÀÌ °áÁ¤µÈ ÀÌÈÄ¿¡´Â ¾ËÆÄ°ªÀÌ ÇÊ¿ä°¡ ¾ø´Ù. 
-            //»ö»óÀÌ °áÁ¤µÇ¾ú´Ù´Â ±×·ÁÁ³´Ù´Â ¶æÀÎµ¥, ÀÌ°Ç ÀÌÁ¦ Dest ÇÈ¼¿ÀÌ µÇ´Â °ÍÀÌ°í,
-            //À§ÀÇ ¼³¸íÀ» º¸¸é ±×·ÁÁú ‹š SrcÀÇ ¾ËÆÄ°ª¸¸ °í·ÁÇÑ´Ù´Â »ç½ÇÀ» ¾Ë ¼ö ÀÖ´Ù.
-            //±×·¯¹Ç·Î SrcÀÇ ¾ËÆÄ°ªÀ» ±×´ë·Î ÀúÀåÇØÁØ´Ù.
+            //ì‚¬ì‹¤ ìƒ‰ìƒì´ ê²°ì •ëœ ì´í›„ì—ëŠ” ì•ŒíŒŒê°’ì´ í•„ìš”ê°€ ì—†ë‹¤. 
+            //ìƒ‰ìƒì´ ê²°ì •ë˜ì—ˆë‹¤ëŠ” ê·¸ë ¤ì¡Œë‹¤ëŠ” ëœ»ì¸ë°, ì´ê±´ ì´ì œ Dest í”½ì…€ì´ ë˜ëŠ” ê²ƒì´ê³ ,
+            //ìœ„ì˜ ì„¤ëª…ì„ ë³´ë©´ ê·¸ë ¤ì§ˆ Â‹Âš Srcì˜ ì•ŒíŒŒê°’ë§Œ ê³ ë ¤í•œë‹¤ëŠ” ì‚¬ì‹¤ì„ ì•Œ ìˆ˜ ìˆë‹¤.
+            //ê·¸ëŸ¬ë¯€ë¡œ Srcì˜ ì•ŒíŒŒê°’ì„ ê·¸ëŒ€ë¡œ ì €ì¥í•´ì¤€ë‹¤.
             Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
             Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
             Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
@@ -444,7 +444,7 @@ HRESULT CDevice::CreateBlendState()
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;
 
-            //ADD = ±âÁ¸(Dest) »ö»ó°ú ÀÔ·Â(Src) »ö»óÀÇ »öÀ» ´õÇÑ´Ù.
+            //ADD = ê¸°ì¡´(Dest) ìƒ‰ìƒê³¼ ì…ë ¥(Src) ìƒ‰ìƒì˜ ìƒ‰ì„ ë”í•œë‹¤.
 
             Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
             Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
@@ -454,8 +454,8 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
             Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 
-            //¾î¶² »ö»óÀ» µ¤¾î¾º¿ï°ÇÁö¸¦ ÁöÁ¤ÇÑ´Ù.
-            //RGB Áß Æ¯Á¤ »ö»ó¸¸ Áı¾î³Öµµ·Ï ÇÒ ¼öµµ ÀÖÀ¸³ª, ½¦ÀÌ´õ ÄÚµå·Î °¡´ÉÇÑ ÀÛ¾÷ÀÌ°í, ¿ÀÈ÷·Á Blend State ´Ü°è¿¡¼­ Ã³¸®ÇÏ´Â °ÍÀÌ ´õ ºÒÆíÇÏ¹Ç·Î ±×³É ÀüºÎ ALL·Î ÇØ ÁÖ´Â °ÍÀÌ ÁÁ´Ù.
+            //ì–´ë–¤ ìƒ‰ìƒì„ ë®ì–´ì”Œìš¸ê±´ì§€ë¥¼ ì§€ì •í•œë‹¤.
+            //RGB ì¤‘ íŠ¹ì • ìƒ‰ìƒë§Œ ì§‘ì–´ë„£ë„ë¡ í•  ìˆ˜ë„ ìˆìœ¼ë‚˜, ì‰ì´ë” ì½”ë“œë¡œ ê°€ëŠ¥í•œ ì‘ì—…ì´ê³ , ì˜¤íˆë ¤ Blend State ë‹¨ê³„ì—ì„œ ì²˜ë¦¬í•˜ëŠ” ê²ƒì´ ë” ë¶ˆí¸í•˜ë¯€ë¡œ ê·¸ëƒ¥ ì „ë¶€ ALLë¡œ í•´ ì£¼ëŠ” ê²ƒì´ ì¢‹ë‹¤.
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
             break;
 

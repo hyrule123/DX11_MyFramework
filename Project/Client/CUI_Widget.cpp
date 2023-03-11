@@ -16,10 +16,10 @@ CUI_Widget::~CUI_Widget()
 
 bool CUI_Widget::beginUI()
 {
-	//À§Á¬Àº ¹İµå½Ã ºÎ¸ğ °´Ã¼°¡ ÀÖ¾î¾ß ÇÑ´Ù.
+	//ìœ„ì ¯ì€ ë°˜ë“œì‹œ ë¶€ëª¨ ê°ì²´ê°€ ìˆì–´ì•¼ í•œë‹¤.
 	assert(nullptr != CUI_BasicWindow::GetParent());
 
-	//width¸¦ ¼³Á¤ÇØ³õ¾ÒÀ» °æ¿ì
+	//widthë¥¼ ì„¤ì •í•´ë†“ì•˜ì„ ê²½ìš°
 	float xSize = GetWidth();
 	if (0.f != xSize)
 	{

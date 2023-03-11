@@ -15,7 +15,7 @@ public:
     virtual ~CCollider3D();
 
 private:
-    //°ø°£ºĞÇÒ ¶§ »ç¿ëÇÒ »ç°¢Çü Á¤º¸
+    //ê³µê°„ë¶„í•  ë•Œ ì‚¬ìš©í•  ì‚¬ê°í˜• ì •ë³´
     eCOLLIDER_TYPE_3D m_eColType;
 
 public:
@@ -24,7 +24,7 @@ public:
 private:
 
 
-    //public://Ãæµ¹ ½Ã È£ÃâÇÒ ÇÔ¼ö
+    //public://ì¶©ëŒ ì‹œ í˜¸ì¶œí•  í•¨ìˆ˜
     //    virtual void BeginCollision(CCollider* _other);
     //    virtual void OnCollision(CCollider* _other);
     //    virtual void EndCollision(CCollider* _other);
@@ -32,7 +32,7 @@ private:
 public:
     virtual void finaltick() final;
 
-    //ÀÚ½ÅÀÇ Ãæµ¹Ã¼ Á¤º¸ + °£ÀÌ Ãæµ¹Ã¼ Á¤º¸¸¦ ¾÷µ¥ÀÌÆ® ÇØÁÙ °Í
+    //ìì‹ ì˜ ì¶©ëŒì²´ ì •ë³´ + ê°„ì´ ì¶©ëŒì²´ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸ í•´ì¤„ ê²ƒ
     virtual void UpdateColliderInfo() = 0;
     virtual void DebugRender() = 0;
     virtual void cleanup() override {};

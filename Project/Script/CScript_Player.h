@@ -7,7 +7,7 @@ class CScript_Player :
 {
 public:
     CScript_Player();
-    //CScript_Player(const CScript_Player& _other); //±âº» º¹»ç»ı¼ºÀÚ·Î ÃæºĞÇÔ.
+    //CScript_Player(const CScript_Player& _other); //ê¸°ë³¸ ë³µì‚¬ìƒì„±ìë¡œ ì¶©ë¶„í•¨.
     ~CScript_Player();
 
     CLONE(CScript_Player);

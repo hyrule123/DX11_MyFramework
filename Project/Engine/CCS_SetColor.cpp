@@ -17,13 +17,13 @@ CCS_SetColor::CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT 
 		m_vecSBuffer[i] = Vec4(c, c, c, 1.f);
 	}
 
-	//UAV ¹ÙÀÎµù
+	//UAV ë°”ì¸ë”©
 	m_StructBufferTest->Create((UINT)sizeof(Vec4), 1280u, m_vecSBuffer, 1280u);
 
-	//µ¥ÀÌÅÍ ´Ù½Ã ¹Ş±â(Å×½ºÆ®)
+	//ë°ì´í„° ë‹¤ì‹œ ë°›ê¸°(í…ŒìŠ¤íŠ¸)
 	m_StructBufferTest->GetData(m_vecSBuffer, (UINT)sizeof(m_vecSBuffer));
 
-	//SRV¿¡ ¹ÙÀÎµù5
+	//SRVì— ë°”ì¸ë”©5
 	m_StructBufferTest->BindBufferSRV();
 }
 
@@ -39,7 +39,7 @@ bool CCS_SetColor::BindDataCS()
 	m_StructBufferTest->UploadData((void*)m_vecSBuffer, 1280u);
 	m_StructBufferTest->BindBufferUAV();
 
-	// ±×·ì °³¼ö °è»ê
+	// ê·¸ë£¹ ê°œìˆ˜ ê³„ì‚°
 	CalcGroupNumber((UINT)m_OutTex->GetWidth(), (UINT)m_OutTex->GetHeight(), 1u);
 
 	return true;

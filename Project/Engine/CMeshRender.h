@@ -9,7 +9,7 @@ class CMeshRender :
     CLONE(CMeshRender);
 public:
     CMeshRender();
-    //º¹»çÇÒ ¸â¹öº¯¼ö°¡ ¾øÀ¸¹Ç·Î º¹»ç»ı¼º ÇÊ¿ä ¾øÀ½.
+    //ë³µì‚¬í•  ë©¤ë²„ë³€ìˆ˜ê°€ ì—†ìœ¼ë¯€ë¡œ ë³µì‚¬ìƒì„± í•„ìš” ì—†ìŒ.
     ~CMeshRender();
 
 public:

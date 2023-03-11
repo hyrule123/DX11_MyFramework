@@ -4,7 +4,7 @@
 #include <Engine/CTransform.h>
 #include <Engine/CCamera.h>
 
-//¸¶¿ì½º ÁÂÇ¥ ¹Þ¾Æ¿À´Â ¿ëµµ
+//ë§ˆìš°ìŠ¤ ì¢Œí‘œ ë°›ì•„ì˜¤ëŠ” ìš©ë„
 #include <Engine/CKeyMgr.h>
 #include <Engine/CTimeMgr.h>
 
@@ -104,15 +104,15 @@ void CScript_CameraMove::Camera3DMove()
 		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
 
-	//¿ìÅ¬¸¯½Ã ½ÃÁ¡ ÀüÈ¯
+	//ìš°í´ë¦­ì‹œ ì‹œì  ì „í™˜
 	if (KEY_PRESSED(KEY::RBTN))
 	{
 		Vec2 MouseDir = CKeyMgr::GetInst()->GetMouseDir();
 
-		//yÃàÀ» µ¹·Á¾ß ÁÂ¿ì·Î È¸ÀüÇÑ´Ù.
+		//yì¶•ì„ ëŒë ¤ì•¼ ì¢Œìš°ë¡œ íšŒì „í•œë‹¤.
 		CamRot.y += DELTA_TIME * MouseDir.x * m_TurningForceRad;
 
-		//xÃàÀ» µ¹·Á¾ß »óÇÏ·Î È¸ÀüÇÑ´Ù.
+		//xì¶•ì„ ëŒë ¤ì•¼ ìƒí•˜ë¡œ íšŒì „í•œë‹¤.
 		CamRot.x -= DELTA_TIME * MouseDir.y * m_TurningForceRad;
 	}
 

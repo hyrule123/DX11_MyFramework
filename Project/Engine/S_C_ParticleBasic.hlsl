@@ -15,7 +15,7 @@ void PModule_Drag(uint _uID);
 void CS_Particle_Basic(uint3 _ID : SV_DispatchThreadID)
 {
 
-    // ½º·¹µå ID °¡ ÆÄÆ¼Å¬¹öÆÛ ÃÖ´ë ¼ö¸¦ ³Ñ±ä°æ¿ì or ½º·¹µå°¡ ´ã´çÇÏ°íÀÖ´Â ÆÄÆ¼Å¬ÀÌ ºñÈ°¼ºÈ­ »óÅÂÀÎ °æ¿ì
+    // ìŠ¤ë ˆë“œ ID ê°€ íŒŒí‹°í´ë²„í¼ ìµœëŒ€ ìˆ˜ë¥¼ ë„˜ê¸´ê²½ìš° or ìŠ¤ë ˆë“œê°€ ë‹´ë‹¹í•˜ê³ ìžˆëŠ” íŒŒí‹°í´ì´ ë¹„í™œì„±í™” ìƒíƒœì¸ ê²½ìš°
     if (g_CBuffer_ParticleModule.iMaxParticleCount <= (int) _ID.x)
         return;
     
@@ -25,16 +25,16 @@ void CS_Particle_Basic(uint3 _ID : SV_DispatchThreadID)
     }
            
     
-    // ÆÄÆ¼Å¬ÀÌ È°¼ºÈ­ÀÎ °æ¿ì
+    // íŒŒí‹°í´ì´ í™œì„±í™”ì¸ ê²½ìš°
     if (TRUE == g_SBufferRW_ParticleTransform[_ID.x].bActive)
     {
         
-        //¿ì¼± ÆÄÆ¼Å¬ ¾÷µ¥ÀÌÆ®
-		// ÆÄÆ¼Å¬ÀÇ fAge ¿¡ ½Ã°£À» ´©Àû½ÃÅ´
+        //ìš°ì„  íŒŒí‹°í´ ì—…ë°ì´íŠ¸
+		// íŒŒí‹°í´ì˜ fAge ì— ì‹œê°„ì„ ëˆ„ì ì‹œí‚´
 		g_SBufferRW_ParticleTransform[_ID.x].fAge += g_CBuffer_GlobalData.fDeltaTime;
 		g_SBufferRW_ParticleTransform[_ID.x].fNormalizedAge = saturate(g_SBufferRW_ParticleTransform[_ID.x].fAge / g_SBufferRW_ParticleTransform[_ID.x].fLifeTime);
         
-        // ÆÄÆ¼Å¬ÀÇ ¼ö¸íÀÌ ³¡³ª¸é ´Ù½Ã ºñÈ°¼ºÈ­ »óÅÂ·Î µÇµ¹¸°´Ù.
+        // íŒŒí‹°í´ì˜ ìˆ˜ëª…ì´ ëë‚˜ë©´ ë‹¤ì‹œ ë¹„í™œì„±í™” ìƒíƒœë¡œ ë˜ëŒë¦°ë‹¤.
 		if (g_SBufferRW_ParticleTransform[_ID.x].fLifeTime <= g_SBufferRW_ParticleTransform[_ID.x].fAge)
 		{
 			g_SBufferRW_ParticleTransform[_ID.x].bActive = FALSE;
@@ -49,14 +49,14 @@ void CS_Particle_Basic(uint3 _ID : SV_DispatchThreadID)
 		}
         
         
-        // ¼Óµµ Á¦ÇÑ(bModule_Drag) ¸ðµâ
+        // ì†ë„ ì œí•œ(bModule_Drag) ëª¨ë“ˆ
 		if (TRUE == g_CBuffer_ParticleModule.bModule_Drag)
 		{
 			PModule_Drag(_ID.x);
 		}
         
         
-        // Drag ¸ðµâ·ÎºÎÅÍ °è»êµÈ ¼Óµµ¿¡ µû¸¥ ÆÄÆ¼Å¬À§Ä¡ ÀÌµ¿
+        // Drag ëª¨ë“ˆë¡œë¶€í„° ê³„ì‚°ëœ ì†ë„ì— ë”°ë¥¸ íŒŒí‹°í´ìœ„ì¹˜ ì´ë™
         if (g_CBuffer_ParticleModule.bFollowing == 0)
         {
             g_SBufferRW_ParticleTransform[_ID.x].vWorldPos += g_SBufferRW_ParticleTransform[_ID.x].vVelocity * g_CBuffer_GlobalData.fDeltaTime;
@@ -70,7 +70,7 @@ void CS_Particle_Basic(uint3 _ID : SV_DispatchThreadID)
         
         
         
-        // Å©±â º¯È­ ¸ðµâÀÌ È°¼ºÈ­ µÇ¾îÀÖÀ¸¸é ½Ã°£ÀÌ Áö³²¿¡ µû¶ó ScaleFactor¸¦ º¯È­½ÃÄÑÁØ´Ù.
+        // í¬ê¸° ë³€í™” ëª¨ë“ˆì´ í™œì„±í™” ë˜ì–´ìžˆìœ¼ë©´ ì‹œê°„ì´ ì§€ë‚¨ì— ë”°ë¼ ScaleFactorë¥¼ ë³€í™”ì‹œì¼œì¤€ë‹¤.
         if (g_CBuffer_ParticleModule.bModule_ScaleChange)
             g_SBufferRW_ParticleTransform[_ID.x].fScaleFactor = g_CBuffer_ParticleModule.fStartScale + g_SBufferRW_ParticleTransform[_ID.x].fNormalizedAge * (g_CBuffer_ParticleModule.fEndScale - g_CBuffer_ParticleModule.fStartScale);
         else
@@ -78,7 +78,7 @@ void CS_Particle_Basic(uint3 _ID : SV_DispatchThreadID)
         
         
         
-        // »ö»ó º¯È­¸ðµâÀÌ È°¼ºÈ­ µÇ¾îÀÖÀ¸¸é ½Ã°£ÀÌ Áö³²¿¡ µû¶ó »ö»óÀ» º¯È­½ÃÄÑÁÜ.
+        // ìƒ‰ìƒ ë³€í™”ëª¨ë“ˆì´ í™œì„±í™” ë˜ì–´ìžˆìœ¼ë©´ ì‹œê°„ì´ ì§€ë‚¨ì— ë”°ë¼ ìƒ‰ìƒì„ ë³€í™”ì‹œì¼œì¤Œ.
         if (g_CBuffer_ParticleModule.bModule_ColorChange)
         {
             g_SBufferRW_ParticleTransform[_ID.x].vColor = g_CBuffer_ParticleModule.vStartColor + g_SBufferRW_ParticleTransform[_ID.x].fNormalizedAge * (g_CBuffer_ParticleModule.vEndColor - g_CBuffer_ParticleModule.vStartColor);
@@ -92,11 +92,11 @@ void CS_Particle_Basic(uint3 _ID : SV_DispatchThreadID)
 
 void PModule_Spawn(uint _uID)
 {
-            // ÆÄÆ¼Å¬ÀÌ ºñÈ°¼ºÈ­ »óÅÂÀÎ °æ¿ì µµ·Î »ì·Á³»´Â ÀÛ¾÷ ½ÃÀÛ
+            // íŒŒí‹°í´ì´ ë¹„í™œì„±í™” ìƒíƒœì¸ ê²½ìš° ë„ë¡œ ì‚´ë ¤ë‚´ëŠ” ìž‘ì—… ì‹œìž‘
 	if (FALSE == g_SBufferRW_ParticleTransform[_uID].bActive)
 	{
-        // SpawnCount ¸¦ È®ÀÎ
-        // ¸¸¾à SpawnCount °¡ 0 ÀÌ»óÀÌ¶ó¸é, ÆÄÆ¼Å¬À» È°¼ºÈ­½ÃÅ´      
+        // SpawnCount ë¥¼ í™•ì¸
+        // ë§Œì•½ SpawnCount ê°€ 0 ì´ìƒì´ë¼ë©´, íŒŒí‹°í´ì„ í™œì„±í™”ì‹œí‚´      
 		while (0 < g_SBufferRW_Particle_Shared[0].iSpawnCount)
 		{
 			int orgvalue = g_SBufferRW_Particle_Shared[0].iSpawnCount;
@@ -107,20 +107,20 @@ void PModule_Spawn(uint _uID)
 			{
 				g_SBufferRW_ParticleTransform[_uID].bActive = 1;
                     
-                // ·£´ý °á°ú¸¦ ¹ÞÀ» º¯¼ö
+                // ëžœë¤ ê²°ê³¼ë¥¼ ë°›ì„ ë³€ìˆ˜
 				const static float umax = float(0xffffffff);
 				float fRand1 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
 				float fRand2 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
 				float fRand3 = float(XorShift64Plus(g_SBufferRW_Particle_Shared[0].uSeeds)) / umax;
                 
                 
-                //³ëÀÌÁî ÅØ½ºÃ³¸¦ È°¿ëÇÑ ·£´ý ¹æ½Ä
-    //            // ·£´ý °á°ú¸¦ ¹ÞÀ» º¯¼ö
+                //ë…¸ì´ì¦ˆ í…ìŠ¤ì²˜ë¥¼ í™œìš©í•œ ëžœë¤ ë°©ì‹
+    //            // ëžœë¤ ê²°ê³¼ë¥¼ ë°›ì„ ë³€ìˆ˜
 				//float1 vOut1 = (float3) 0.f;
 				//float2 vOut2 = (float3) 0.f;
 				//float3 vOut3 = (float3) 0.f;
 
-    //            // ÀüÃ¼ À¯È¿ ½º·¹µåÀÇ ¾ÆÀÌµð¸¦ 0 ~ 1 ·Î Á¤±ÔÈ­
+    //            // ì „ì²´ ìœ íš¨ ìŠ¤ë ˆë“œì˜ ì•„ì´ë””ë¥¼ 0 ~ 1 ë¡œ ì •ê·œí™”
 				//float fNormalizeThreadID = (float) _uID / (float) g_CBuffer_ParticleModule.iMaxParticleCount;
 				//GaussianSample(g_Tex_Noise, MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID, vOut1);
 				//GaussianSample(g_Tex_Noise, MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION, fNormalizeThreadID + 0.1f, vOut2);
@@ -130,7 +130,7 @@ void PModule_Spawn(uint _uID)
                 //float fRand2 = vOut2.r;
                 //float fRand3 = vOut3.r;
                     
-                // Box ½ºÆù
+                // Box ìŠ¤í°
 				if (g_CBuffer_ParticleModule.eSpawnShapeType == 0)
 				{
 					g_SBufferRW_ParticleTransform[_uID].vLocalPos.xyz = float3(g_CBuffer_ParticleModule.vBoxShapeScale.x * fRand1 - g_CBuffer_ParticleModule.vBoxShapeScale.x * 0.5f
@@ -139,7 +139,7 @@ void PModule_Spawn(uint _uID)
 					g_SBufferRW_ParticleTransform[_uID].vWorldPos.xyz = g_SBufferRW_ParticleTransform[_uID].vLocalPos.xyz + g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_OWNER_OBJ_POS.xyz;
                         
                         
-                        // ½ºÆù Å©±â ¹üÀ§³»¿¡¼­ ·£´ý Å©±â·Î ÁöÁ¤ (Min, Max °¡ ÀÏÄ¡ÇÏ¸é °íÁ¤Å©±â)
+                        // ìŠ¤í° í¬ê¸° ë²”ìœ„ë‚´ì—ì„œ ëžœë¤ í¬ê¸°ë¡œ ì§€ì • (Min, Max ê°€ ì¼ì¹˜í•˜ë©´ ê³ ì •í¬ê¸°)
 					float4 vSpawnScale = g_CBuffer_ParticleModule.vSpawnScaleMin + (g_CBuffer_ParticleModule.vSpawnScaleMax - g_CBuffer_ParticleModule.vSpawnScaleMin) * fRand3;
 					g_SBufferRW_ParticleTransform[_uID].vWorldScale.xyz = vSpawnScale.xyz;
 				}
@@ -147,7 +147,7 @@ void PModule_Spawn(uint _uID)
                 
                 
                 
-                // bModule_AddVelocity ¸ðµâ
+                // bModule_AddVelocity ëª¨ë“ˆ
 				if (TRUE == g_CBuffer_ParticleModule.bModule_AddVelocity)
 				{
                         // From Center
@@ -170,7 +170,7 @@ void PModule_Spawn(uint _uID)
 					}
 				}
                     
-                    // Sphere ½ºÆù
+                    // Sphere ìŠ¤í°
 				else if (g_CBuffer_ParticleModule.eSpawnShapeType == 1)
 				{
 					float fRadius = 500.f; //vOut1.r * 200.f;
@@ -192,7 +192,7 @@ void PModule_Spawn(uint _uID)
 
 void PModule_Drag(uint _uID)
 {
-    // ÆÄÆ¼Å¬ÀÇ ÇöÀç ¼Ó·Â
+    // íŒŒí‹°í´ì˜ í˜„ìž¬ ì†ë ¥
 	float fSpeed = length(g_SBufferRW_ParticleTransform[_uID].vVelocity);
 	float fDrag = g_CBuffer_ParticleModule.fStartDrag + (g_CBuffer_ParticleModule.fEndDrag - g_CBuffer_ParticleModule.fStartDrag) * g_SBufferRW_ParticleTransform[_uID].fNormalizedAge;
             

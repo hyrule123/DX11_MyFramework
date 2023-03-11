@@ -6,14 +6,14 @@ void WriteCode(std::wofstream& _pFile, const wstring& _strCode)
 {
 	static int s_iIndentation = 0;
 
-	//ÇÑÁÙ ³»·ÁÁØ´Ù.
+	//í•œì¤„ ë‚´ë ¤ì¤€ë‹¤.
 	_pFile << L"\n";
 
-	//°ø¶õÀ¸·Î ³ÖÀ» °æ¿ì ÇÑÁÙ ³»¸®±â¸¸ ÇÏ°í ³¡
+	//ê³µëž€ìœ¼ë¡œ ë„£ì„ ê²½ìš° í•œì¤„ ë‚´ë¦¬ê¸°ë§Œ í•˜ê³  ë
 	if (true == _strCode.empty())
 		return;
 
-	//´Ý´Â Áß°ýÈ£°¡ ÀÖÀ¸¸é ¸ÕÀú °ªÀ» ³»·ÁÁØ´Ù.
+	//ë‹«ëŠ” ì¤‘ê´„í˜¸ê°€ ìžˆìœ¼ë©´ ë¨¼ì € ê°’ì„ ë‚´ë ¤ì¤€ë‹¤.
 	if (std::wstring::npos != _strCode.find(BracketEnd))
 	{
 		--s_iIndentation;
@@ -21,16 +21,16 @@ void WriteCode(std::wofstream& _pFile, const wstring& _strCode)
 			s_iIndentation = 0;
 	}
 
-	//ÇöÀç µé¿©¾²±â ´Ü°è¸¸Å­ µé¿©¾²±â¸¦ ÇØÁØ´Ù.
+	//í˜„ìž¬ ë“¤ì—¬ì“°ê¸° ë‹¨ê³„ë§Œí¼ ë“¤ì—¬ì“°ê¸°ë¥¼ í•´ì¤€ë‹¤.
 	for (int i = 0; i < s_iIndentation; ++i)
 		_pFile << L"\t";
 
-	//Áß°ýÈ£°¡ ÀÖÀ» °æ¿ì indentation Áõ°¡
+	//ì¤‘ê´„í˜¸ê°€ ìžˆì„ ê²½ìš° indentation ì¦ê°€
 	if (std::wstring::npos != _strCode.find(BracketStart))
 	{
 		++s_iIndentation;
 	}
 
-	//ÄÚµå ÀÛ¼º
+	//ì½”ë“œ ìž‘ì„±
 	_pFile << _strCode;
 }

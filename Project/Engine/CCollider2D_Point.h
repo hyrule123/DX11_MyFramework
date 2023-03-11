@@ -11,7 +11,7 @@ public:
     CLONE(CCollider2D_Point)
 
 private:
-    //ÇÊ¿äÇÑ º¯¼ö ¾øÀ½.(CCollider2D::m_vCenterPos »ç¿ëÇÏ¸é µÊ)
+    //í•„ìš”í•œ ë³€ìˆ˜ ì—†ìŒ.(CCollider2D::m_vCenterPos ì‚¬ìš©í•˜ë©´ ë¨)
 
 public:
     virtual void UpdateCollider() override {};

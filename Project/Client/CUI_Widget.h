@@ -2,9 +2,9 @@
 
 #include "CUI_BasicWindow.h"
 
-//IMGUIÀÇ ÃÖ¼Ò ±¸¼º ¿ä¼Ò¸¦ Å¬·¡½ºÈ­ ÇÑ°Í.
-//¹Ýµå½Ã ºÎ¸ð UI°¡ ÀÖ¾î¾ß ÇÑ´Ù. ´Üµ¶À¸·Î´Â »ç¿ëÀÌ ºÒ°¡´É.
-//ÄÞº¸¹Ú½º °°ÀÌ º¹ÀâÇÑ ±¸¼ºÀ¸·Î µÇ¾îÀÖ´Â À§Á¬ÀÇ °æ¿ì º°µµ·Î ÀÌ Å¬·¡½º¸¦ »ó¼Ó¹Þ¾Æ ±¸ÇöÇÑ µÚ »ç¿ë
+//IMGUIì˜ ìµœì†Œ êµ¬ì„± ìš”ì†Œë¥¼ í´ëž˜ìŠ¤í™” í•œê²ƒ.
+//ë°˜ë“œì‹œ ë¶€ëª¨ UIê°€ ìžˆì–´ì•¼ í•œë‹¤. ë‹¨ë…ìœ¼ë¡œëŠ” ì‚¬ìš©ì´ ë¶ˆê°€ëŠ¥.
+//ì½¤ë³´ë°•ìŠ¤ ê°™ì´ ë³µìž¡í•œ êµ¬ì„±ìœ¼ë¡œ ë˜ì–´ìžˆëŠ” ìœ„ì ¯ì˜ ê²½ìš° ë³„ë„ë¡œ ì´ í´ëž˜ìŠ¤ë¥¼ ìƒì†ë°›ì•„ êµ¬í˜„í•œ ë’¤ ì‚¬ìš©
 
 enum class eWIDGET_TYPE : DWORD
 {

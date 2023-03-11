@@ -23,45 +23,45 @@ public:
     virtual void cleanup() override {};
 
 private:
-    //1. µ¥ÀÌÅÍ °ü·Ã º¯¼ö
-    ////tParticele µ¥ÀÌÅÍ¸¦ Àü´ÞÇÒ ±¸Á¶È­ ¹öÆÛ
-    ////°¢ ÆÄÆ¼Å¬º° Á¤º¸°¡ Àü´ÞµÉ ¹öÆÛ
+    //1. ë°ì´í„° ê´€ë ¨ ë³€ìˆ˜
+    ////tParticele ë°ì´í„°ë¥¼ ì „ë‹¬í•  êµ¬ì¡°í™” ë²„í¼
+    ////ê° íŒŒí‹°í´ë³„ ì •ë³´ê°€ ì „ë‹¬ë  ë²„í¼
     CStructBuffer* m_pSBufferRW_ParticleTransform;
 
-    ////Ãß°¡ÀûÀ¸·Î ¾²±â °¡´ÉÇÑ °øÀ¯ ÆÄÆ¼Å¬ ¹öÆÛ. 
-    ////tParticleShareData Àü´Þ¿ë
+    ////ì¶”ê°€ì ìœ¼ë¡œ ì“°ê¸° ê°€ëŠ¥í•œ ê³µìœ  íŒŒí‹°í´ ë²„í¼. 
+    ////tParticleShareData ì „ë‹¬ìš©
     CStructBuffer* m_pSBufferRW_Shared;
 
 
-    //Create ÇÔ¼ö¸¦ È£ÃâÇØ¼­ ±¸Á¶È­ ¹öÆÛ¸¦ ¸¸µé¾ú´ÂÁö ¿©ºÎ¸¦ ÀúÀåÇÒ º¯¼ö
-    //Create ÇÔ¼ö¸¦ È£ÃâÇÏÁö ¾Ê¾ÒÀ» °æ¿ì ·ÎÁ÷ ÇÔ¼öµéÀ» µ¹Áö ¾ÊÀ½
+    //Create í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•´ì„œ êµ¬ì¡°í™” ë²„í¼ë¥¼ ë§Œë“¤ì—ˆëŠ”ì§€ ì—¬ë¶€ë¥¼ ì €ìž¥í•  ë³€ìˆ˜
+    //Create í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì§€ ì•Šì•˜ì„ ê²½ìš° ë¡œì§ í•¨ìˆ˜ë“¤ì„ ëŒì§€ ì•ŠìŒ
     bool m_bIsCreated;
 
-    ////ÀÌ¿Ü¿¡µµ Ãß°¡ÀûÀ¸·Î ÆÄÆ¼Å¬ ¸ðµâÀ» Àü´ÞÇÒ »ó¼ö¹öÆÛ°¡ ÀÖÀ½.
-    ////ÀÌ°Ç ¸Þ¼Òµå ³»ºÎ¿¡¼­ static º¯¼ö·Î »ç¿ëÇÒ ¿¹Á¤
+    ////ì´ì™¸ì—ë„ ì¶”ê°€ì ìœ¼ë¡œ íŒŒí‹°í´ ëª¨ë“ˆì„ ì „ë‹¬í•  ìƒìˆ˜ë²„í¼ê°€ ìžˆìŒ.
+    ////ì´ê±´ ë©”ì†Œë“œ ë‚´ë¶€ì—ì„œ static ë³€ìˆ˜ë¡œ ì‚¬ìš©í•  ì˜ˆì •
     tParticleModule m_tModuleData;
     float m_AccTime;
     
 
 
 
-    //2.ÆÄÆ¼Å¬ Ã³¸®¿ë ÄÄÇ»Æ®½¦ÀÌ´õ ÁÖ¼Ò
+    //2.íŒŒí‹°í´ ì²˜ë¦¬ìš© ì»´í“¨íŠ¸ì‰ì´ë” ì£¼ì†Œ
     Ptr<CCS_ParticleUpdate> m_pCSParticle;
 
 
-    //3.·»´õ¸µ¿ë ±×·¡ÇÈ½¦ÀÌ´õ ÁÖ¼Ò - ÀÌ°Ç ºÎ¸ð Å¬·¡½º¿¡ Á¤ÀÇµÇ¾îÀÖÀ½.
+    //3.ë Œë”ë§ìš© ê·¸ëž˜í”½ì‰ì´ë” ì£¼ì†Œ - ì´ê±´ ë¶€ëª¨ í´ëž˜ìŠ¤ì— ì •ì˜ë˜ì–´ìžˆìŒ.
 
 
-    ////ÆÄÆ¼Å¬¿¡ »ç¿ëµÉ ÅØ½ºÃ³. - Material¿¡ Á¤ÀÇµÇ¾î ÀÖÀ½.
+    ////íŒŒí‹°í´ì— ì‚¬ìš©ë  í…ìŠ¤ì²˜. - Materialì— ì •ì˜ë˜ì–´ ìžˆìŒ.
 
     
 
 public:
     void CreateParticle();
 
-    //Ã³¸®ÇØÁÙ ÆÄÆ¼Å¬ ½¦ÀÌ´õ¸¦ ÁöÁ¤
-    //³ªÁß¿¡ ÆÄÆ¼Å¬À» ¿©·¯ Á¾·ù·Î ±¸ÇöÇÏ°Ô µÇ¸é 
-    //ÇÊ¿äÇÑ ÆÄÆ¼Å¬À» Å°·Î Ã£¾Æ¼­ »ç¿ëÇÏ´Â ¹æ½Ä
+    //ì²˜ë¦¬í•´ì¤„ íŒŒí‹°í´ ì‰ì´ë”ë¥¼ ì§€ì •
+    //ë‚˜ì¤‘ì— íŒŒí‹°í´ì„ ì—¬ëŸ¬ ì¢…ë¥˜ë¡œ êµ¬í˜„í•˜ê²Œ ë˜ë©´ 
+    //í•„ìš”í•œ íŒŒí‹°í´ì„ í‚¤ë¡œ ì°¾ì•„ì„œ ì‚¬ìš©í•˜ëŠ” ë°©ì‹
     void SetParticleCS(const string& _strKeyCS);
 
 };

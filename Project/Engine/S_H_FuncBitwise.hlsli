@@ -4,21 +4,21 @@
 #include "S_H_Register.hlsli"
 
 //==========================================
-//  ÇÑ º¯¼ö¸¦ µÑ·Î ³ª´©´Â ÀÛ¾÷ ½Ã¿¡´Â ¹Ýµå½Ã ¿£µð¾ÈÀ» °í·ÁÇÒ°Í
-//  HLSL = ¸®Æ² ¿£µð¾È
-//  ÀÌ ÇÔ¼ö¸¦ »ç¿ëÇÏ´Â °æ¿ì : ¿©·¯ °³ÀÇ µ¥ÀÌÅÍ¸¦ ¹¶ÃÄ¼­ Àü´ÞÇÏ´Â °æ¿ì(UINT8 4°³ ¹è¿­À» UINT32·Î Àü´ÞÇÏ´Â °æ¿ì)
+//  í•œ ë³€ìˆ˜ë¥¼ ë‘˜ë¡œ ë‚˜ëˆ„ëŠ” ìž‘ì—… ì‹œì—ëŠ” ë°˜ë“œì‹œ ì—”ë””ì•ˆì„ ê³ ë ¤í• ê²ƒ
+//  HLSL = ë¦¬í‹€ ì—”ë””ì•ˆ
+//  ì´ í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ëŠ” ê²½ìš° : ì—¬ëŸ¬ ê°œì˜ ë°ì´í„°ë¥¼ ë­‰ì³ì„œ ì „ë‹¬í•˜ëŠ” ê²½ìš°(UINT8 4ê°œ ë°°ì—´ì„ UINT32ë¡œ ì „ë‹¬í•˜ëŠ” ê²½ìš°)
 //  
 //==========================================
 
-//_uIdxinU16 ¹üÀ§ : 0 ~ 7
+//_uIdxinU16 ë²”ìœ„ : 0 ~ 7
 UINT32 UnpackUINT16FromUINT32_4(in UINT32_4 _u3_42Src, UINT32 _uIdxinU16)
 {
 	UINT32 result = 0u;
 	
-	//UINT32_4ÀÇ ¸î¹øÂ° °ªÀÎÁö¸¦ °è»ê(ºñÆ®¸¦ 1¸¸Å­ ¿ìÃøÀ¸·Î ¹Ð¾îÁÖ¸é /2 ¿Í °°Àº °á°úÀÌ´Ù)
+	//UINT32_4ì˜ ëª‡ë²ˆì§¸ ê°’ì¸ì§€ë¥¼ ê³„ì‚°(ë¹„íŠ¸ë¥¼ 1ë§Œí¼ ìš°ì¸¡ìœ¼ë¡œ ë°€ì–´ì£¼ë©´ /2 ì™€ ê°™ì€ ê²°ê³¼ì´ë‹¤)
 	UINT32 Idx = (_uIdxinU16 >> 1u) & 0x07;
 	
-	//ºñÆ®ÀÇ ¾ÕÂÊÀÎÁö µÚÂÊÀÎÁö¸¦ °è»ê. 2·Î ³ª´« ³ª¸ÓÁö¸¦ ±¸ÇØÁØ´Ù(1°ú ºñÆ® &¿¬»êÀ» ÇÏ¸é ³ª¸ÓÁö¸¦ ±¸ÇÒ¼ö ÀÖÀ½)
+	//ë¹„íŠ¸ì˜ ì•žìª½ì¸ì§€ ë’¤ìª½ì¸ì§€ë¥¼ ê³„ì‚°. 2ë¡œ ë‚˜ëˆˆ ë‚˜ë¨¸ì§€ë¥¼ êµ¬í•´ì¤€ë‹¤(1ê³¼ ë¹„íŠ¸ &ì—°ì‚°ì„ í•˜ë©´ ë‚˜ë¨¸ì§€ë¥¼ êµ¬í• ìˆ˜ ìžˆìŒ)
 	UINT32 FrontOrBack = _uIdxinU16 & 1u;
 	
 	result = _u3_42Src[Idx];
@@ -30,18 +30,18 @@ UINT32 UnpackUINT16FromUINT32_4(in UINT32_4 _u3_42Src, UINT32 _uIdxinU16)
 	return result;
 }
 
-//_uIdxInU16 ¹üÀ§ : 0 ~ 15
+//_uIdxInU16 ë²”ìœ„ : 0 ~ 15
 UINT32 UnpackUINT16FromUINT32_8(in UINT32_8 _u32_8Src, UINT32 _uIdxInU16)
 {
 	UINT32 result = 0u;
 	
-	//row == 8·Î ³ª´« °á°ú, 0 ¶Ç´Â 1
+	//row == 8ë¡œ ë‚˜ëˆˆ ê²°ê³¼, 0 ë˜ëŠ” 1
 	UINT32 row = (_uIdxInU16 >> 3u) & 0x1;
 	
-	//col == 8·Î ³ª´« ³ª¸ÓÁö¸¦ 2·Î ³ª´²ÁØ´Ù.
+	//col == 8ë¡œ ë‚˜ëˆˆ ë‚˜ë¨¸ì§€ë¥¼ 2ë¡œ ë‚˜ëˆ ì¤€ë‹¤.
 	UINT32 col = (_uIdxInU16 & 7u) >> 1u;
 	
-	//¾ÕºÎºÐÀÎÁö µÞºÎºÐÀÎÁö È®ÀÎ(2·Î ³ª´« ³ª¸ÓÁö)
+	//ì•žë¶€ë¶„ì¸ì§€ ë’·ë¶€ë¶„ì¸ì§€ í™•ì¸(2ë¡œ ë‚˜ëˆˆ ë‚˜ë¨¸ì§€)
 	UINT32 FrontOrBack = _uIdxInU16 & 0x1;
 	
 	result = (_u32_8Src[row][col] & g_SBuffer_InitSettings[0].u16BitPartInU32Pack[FrontOrBack]) >> g_SBuffer_InitSettings[0].u16BitShiftInU32Pack[FrontOrBack];
@@ -50,12 +50,12 @@ UINT32 UnpackUINT16FromUINT32_8(in UINT32_8 _u32_8Src, UINT32 _uIdxInU16)
 	return result;
 }
 
-//_uIdxInU16 ¹üÀ§ : 0 ~ 3
+//_uIdxInU16 ë²”ìœ„ : 0 ~ 3
 UINT32 UnpackUINT8FromUINT32(in UINT32 _u32Src, UINT32 _uIdxInU8)
 {
 	UINT32 result = 0u;
 	
-	//0~3 ±îÁöÀÇ ¹üÀ§·Î ÇÑÁ¤
+	//0~3 ê¹Œì§€ì˜ ë²”ìœ„ë¡œ í•œì •
 	_uIdxInU8 &= 0x03;
 	
 	result = (_u32Src & g_SBuffer_InitSettings[0].u8BitPartInU32Pack[_uIdxInU8]) >> g_SBuffer_InitSettings[0].u8BitShiftInU32Pack[_uIdxInU8];

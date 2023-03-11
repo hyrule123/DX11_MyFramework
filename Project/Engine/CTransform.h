@@ -7,7 +7,7 @@ class CTransform :
 {
 public:
     CTransform();
-    //´Ü¼ø Value¸¸ ÀúÀå ÁßÀÌ¹Ç·Î ±âº» º¹»ç »ý¼ºÀÚ·Îµµ ÃæºÐÇÔ.
+    //ë‹¨ìˆœ Valueë§Œ ì €ìž¥ ì¤‘ì´ë¯€ë¡œ ê¸°ë³¸ ë³µì‚¬ ìƒì„±ìžë¡œë„ ì¶©ë¶„í•¨.
     ~CTransform();
     CLONE(CTransform);
 
@@ -26,42 +26,42 @@ private:
 
     float m_fLongestDiagonalLen;
 
-    //¾Õ, À§, ¿À¸¥ÂÊÀ¸·Î ³ªÅ¸³»´Â Á÷°üÀûÀÎ ¹æÇâ Á¤º¸
-    //eDIR_TYPE ¿­°ÅÃ¼¸¦ »ç¿ë.
+    //ì•ž, ìœ„, ì˜¤ë¥¸ìª½ìœ¼ë¡œ ë‚˜íƒ€ë‚´ëŠ” ì§ê´€ì ì¸ ë°©í–¥ ì •ë³´
+    //eDIR_TYPE ì—´ê±°ì²´ë¥¼ ì‚¬ìš©.
     Vec3    m_vRelativeDir[(UINT)eDIR_TYPE::END];
 
-    //¿ùµå ¹æÇâ(¸ðµç È¸ÀüÁ¤º¸ ´©Àû)
+    //ì›”ë“œ ë°©í–¥(ëª¨ë“  íšŒì „ì •ë³´ ëˆ„ì )
     Vec3    m_vWorldDir[(UINT)eDIR_TYPE::END];
 
-    //ºÎ¸ð·ÎºÎÅÍ »ó¼Ó¹ÞÁö ¾ÊÀº »ó´ëÀû Çà·Ä
+    //ë¶€ëª¨ë¡œë¶€í„° ìƒì†ë°›ì§€ ì•Šì€ ìƒëŒ€ì  í–‰ë ¬
     Matrix  m_matRelative;
 
-    //ºÎ¸ð·ÎºÎÅÍ ´©ÀûµÈ Æ®·£½ºÆû Á¤º¸
+    //ë¶€ëª¨ë¡œë¶€í„° ëˆ„ì ëœ íŠ¸ëžœìŠ¤í¼ ì •ë³´
     Matrix  m_matParent;
 
     bool    m_bInheritScale;
     bool    m_bInheritRot;
-    bool    m_bLockRot; //ÀÚ½ÅÀÇ È¸Àü ¹æÁö
+    bool    m_bLockRot; //ìžì‹ ì˜ íšŒì „ ë°©ì§€
     
-    //ºÎ¸ð·ÎºÎÅÍ »ó¼Ó¹Þ¾Æ ÃÖÁ¾ÀûÀ¸·Î ¸¸µé¾îÁø ¿ùµåÇà·Ä
+    //ë¶€ëª¨ë¡œë¶€í„° ìƒì†ë°›ì•„ ìµœì¢…ì ìœ¼ë¡œ ë§Œë“¤ì–´ì§„ ì›”ë“œí–‰ë ¬
     Matrix  m_matWorld;
 
-    //»ó¼Ó ÇüÅÂ·Î ¾÷µ¥ÀÌÆ®°¡ ÇÊ¿äÇÑÁö ¿©ºÎ¸¦ ÀúÀå.
-    //À§Ä¡°¡ º¯ÇÏÁö ¾Ê¾Ò´Âµ¥ ±»ÀÌ ¿ùµåÇà·ÄÀ» ¾÷µ¥ÀÌÆ® ÇÒ ÇÊ¿ä°¡ ¾øÀ½.
-    //m_matRelative¸¦ ¾÷µ¥ÀÌÆ® ÇØ¾ßÇÏ´ÂÁö ¿©ºÎ°¡ ÀúÀåµÇ¾îÀÖÀ½.
-    //ÀÚ½ÅÀÇ Çà·ÄÀ» ¾÷µ¥ÀÌÆ® ÇØ¾ß ÇÑ´Ù¸é ¹Ýµå½Ã ºÎ¸ð Çà·ÄÀ» ¹Þ¾Æ¿Í¾ß ÇÏ±â ¶§¹®¿¡ m_bNeedParentUpdateµµ ¾÷µ¥ÀÌÆ® ÇØÁØ´Ù.
+    //ìƒì† í˜•íƒœë¡œ ì—…ë°ì´íŠ¸ê°€ í•„ìš”í•œì§€ ì—¬ë¶€ë¥¼ ì €ìž¥.
+    //ìœ„ì¹˜ê°€ ë³€í•˜ì§€ ì•Šì•˜ëŠ”ë° êµ³ì´ ì›”ë“œí–‰ë ¬ì„ ì—…ë°ì´íŠ¸ í•  í•„ìš”ê°€ ì—†ìŒ.
+    //m_matRelativeë¥¼ ì—…ë°ì´íŠ¸ í•´ì•¼í•˜ëŠ”ì§€ ì—¬ë¶€ê°€ ì €ìž¥ë˜ì–´ìžˆìŒ.
+    //ìžì‹ ì˜ í–‰ë ¬ì„ ì—…ë°ì´íŠ¸ í•´ì•¼ í•œë‹¤ë©´ ë°˜ë“œì‹œ ë¶€ëª¨ í–‰ë ¬ì„ ë°›ì•„ì™€ì•¼ í•˜ê¸° ë•Œë¬¸ì— m_bNeedParentUpdateë„ ì—…ë°ì´íŠ¸ í•´ì¤€ë‹¤.
     bool    m_bNeedMyUpdate;
 
-    //ÀÚ½ÅÀÌ ¾Æ´Ï¶ó ºÎ¸ð´ÔÀÇ Çà·ÄÀÌ ¾÷µ¥ÀÌÆ®µÇ¾úÀ» °æ¿ì - ÀÚ½ÅÀÇ ¿ùµåÇà·ÄÀº ¾÷µ¥ÀÌÆ®ÇÒ ÇÊ¿ä°¡ ¾ø´Ù.
+    //ìžì‹ ì´ ì•„ë‹ˆë¼ ë¶€ëª¨ë‹˜ì˜ í–‰ë ¬ì´ ì—…ë°ì´íŠ¸ë˜ì—ˆì„ ê²½ìš° - ìžì‹ ì˜ ì›”ë“œí–‰ë ¬ì€ ì—…ë°ì´íŠ¸í•  í•„ìš”ê°€ ì—†ë‹¤.
     bool    m_bNeedParentUpdate;
 
-    //Size´Â ÀÚ½Å¿¡°Ô¸¸ Àû¿ëµÇ´Â °íÀ¯°ªÀÌ¹Ç·Î Àç±ÍÇüÀ¸·Î Àü´ÞÇÒ ÇÊ¿ä ¾øÀ½.
+    //SizeëŠ” ìžì‹ ì—ê²Œë§Œ ì ìš©ë˜ëŠ” ê³ ìœ ê°’ì´ë¯€ë¡œ ìž¬ê·€í˜•ìœ¼ë¡œ ì „ë‹¬í•  í•„ìš” ì—†ìŒ.
     bool    m_bSizeUpdated;
 
 public:
     //inline Setter
 
-    //»çÀÌÁîÀÇ °æ¿ì ÀüÃ¼¸¦ °»½ÅÇÒ ÇÊ¿ä ¾øÀ½.
+    //ì‚¬ì´ì¦ˆì˜ ê²½ìš° ì „ì²´ë¥¼ ê°±ì‹ í•  í•„ìš” ì—†ìŒ.
     void SetSize(const Vec3& _vSize);
 
     void SetRelativePos(const Vec3& _vPos) { m_vRelativePos = _vPos; SetMyUpdate(); }
@@ -80,18 +80,18 @@ public:
     void SetScaleInheritance(bool _bInherit) { m_bInheritScale = _bInherit; SetMyUpdate(); }
     void SetRotInheritance(bool _bInherit) { m_bInheritRot = _bInherit; SetMyUpdate(); }
 
-    //»ó´ë È¸Àü°ªÀº º¯È­ÇÏÁö¸¸ ½ÇÁ¦·Î È¸ÀüÇÏÁö´Â ¾ÊÀ½.
+    //ìƒëŒ€ íšŒì „ê°’ì€ ë³€í™”í•˜ì§€ë§Œ ì‹¤ì œë¡œ íšŒì „í•˜ì§€ëŠ” ì•ŠìŒ.
     void SetLockRotation(bool _bLockRot) { m_bLockRot = _bLockRot; }
 
-    //ÀÌ¹ø Æ½¿¡ ¾÷µ¥ÀÌÆ®¸¦ ÇØ¾ßÇÑ´Ù°í ¼³Á¤. ÀÚ½ÅÀÇ ¿òÁ÷ÀÓ¿¡ ¿µÇâÀ» ¹Þ´Â ÀÚ½Ä ¿ÀºêÁ§Æ®µé¿¡°Ôµµ Àç±ÍÀûÀ¸·Î ¾Ë¸²
+    //ì´ë²ˆ í‹±ì— ì—…ë°ì´íŠ¸ë¥¼ í•´ì•¼í•œë‹¤ê³  ì„¤ì •. ìžì‹ ì˜ ì›€ì§ìž„ì— ì˜í–¥ì„ ë°›ëŠ” ìžì‹ ì˜¤ë¸Œì íŠ¸ë“¤ì—ê²Œë„ ìž¬ê·€ì ìœ¼ë¡œ ì•Œë¦¼
     void SetMyUpdate();
     void SetParentUpdate() { m_bNeedParentUpdate = true; }
 
 
-    //ÀÌ ±æÀÌ´Â Æ®·£½ºÆûÀ» Á¤»ç°¢Çü(¶Ç´Â Á¤À°¸éÃ¼)¶ó°í °¡Á¤ÇßÀ» ¶§ ÇÑ ¸ð¼­¸®±îÁöÀÇ ±æÀÌÀÌ´Ù.
-    //ÀÌ ±æÀÌ¸¦ °£ÀÌ Ãæµ¹Ã¼ ÇÑ º¯ÀÇ ¹ÝÀÇ ±æÀÌ·Î »ç¿ëÇÏ¸é, 
-    //¾î¶² µµÇüÀÌ´ø °£¿¡ ¾È¿¡ µé¾î¿À´Â ÇüÅÂÀÇ Á¤»ç°¢Çü ¶Ç´Â Á¤À°¸éÃ¼¸¦ ¸¸µé ¼ö ÀÖ´Ù.(°£ÀÌ Ãæµ¹Ã¼·Î ÀûÇÕ)
-    //»çÀÌÁî ¶Ç´Â ½ºÄÉÀÏ°ªÀÌ º¯ÇßÀ» °æ¿ì °£ÀÌ Ãæµ¹Ã¼ Á¤º¸¸¦ »õ·Î »ý¼º.
+    //ì´ ê¸¸ì´ëŠ” íŠ¸ëžœìŠ¤í¼ì„ ì •ì‚¬ê°í˜•(ë˜ëŠ” ì •ìœ¡ë©´ì²´)ë¼ê³  ê°€ì •í–ˆì„ ë•Œ í•œ ëª¨ì„œë¦¬ê¹Œì§€ì˜ ê¸¸ì´ì´ë‹¤.
+    //ì´ ê¸¸ì´ë¥¼ ê°„ì´ ì¶©ëŒì²´ í•œ ë³€ì˜ ë°˜ì˜ ê¸¸ì´ë¡œ ì‚¬ìš©í•˜ë©´, 
+    //ì–´ë–¤ ë„í˜•ì´ë˜ ê°„ì— ì•ˆì— ë“¤ì–´ì˜¤ëŠ” í˜•íƒœì˜ ì •ì‚¬ê°í˜• ë˜ëŠ” ì •ìœ¡ë©´ì²´ë¥¼ ë§Œë“¤ ìˆ˜ ìžˆë‹¤.(ê°„ì´ ì¶©ëŒì²´ë¡œ ì í•©)
+    //ì‚¬ì´ì¦ˆ ë˜ëŠ” ìŠ¤ì¼€ì¼ê°’ì´ ë³€í–ˆì„ ê²½ìš° ê°„ì´ ì¶©ëŒì²´ ì •ë³´ë¥¼ ìƒˆë¡œ ìƒì„±.
     float GetAABBSideLen() const { return m_fLongestDiagonalLen; }
 
     bool IsUpdated() const { return (m_bNeedMyUpdate || m_bNeedParentUpdate); }
@@ -116,14 +116,14 @@ public:
 
 
 
-    //È£Ãâ ½ÃÁ¡: CGameObject¿¡¼­ finaltick() ¼øÈ¸ ³¡³­ ÀÌÈÄ
-    //°»½Å ¿©ºÎ¸¦ ÀüºÎ ²û
+    //í˜¸ì¶œ ì‹œì : CGameObjectì—ì„œ finaltick() ìˆœíšŒ ëë‚œ ì´í›„
+    //ê°±ì‹  ì—¬ë¶€ë¥¼ ì „ë¶€ ë”
     void ClearUpdateState();
 
 private:
     void UpdateMyTransform();
 
-    //ºÎ¸ðÀÇ Æ®·£½ºÆû Çà·ÄÀ» ¹Þ¾Æ¼­ ÃÖÁ¾ÀûÀÎ ¿ùµåÇà·ÄÀ» ¾÷µ¥ÀÌÆ® ÇÑ´Ù.
+    //ë¶€ëª¨ì˜ íŠ¸ëžœìŠ¤í¼ í–‰ë ¬ì„ ë°›ì•„ì„œ ìµœì¢…ì ì¸ ì›”ë“œí–‰ë ¬ì„ ì—…ë°ì´íŠ¸ í•œë‹¤.
     void UpdateParentMatrix();
 
 };
@@ -144,7 +144,7 @@ inline void CTransform::SetRelativeScale(float _x, float _y, float _z)
 
 inline void CTransform::SetMyUpdate()
 {
-    //ÀÌ¹Ì ¼³Á¤ÀÌ µÇ¾î ÀÖ´Ù¸é return
+    //ì´ë¯¸ ì„¤ì •ì´ ë˜ì–´ ìžˆë‹¤ë©´ return
     if (true == m_bNeedMyUpdate)
         return;
     m_bNeedMyUpdate = true; 
