@@ -13,10 +13,10 @@ public:
     CGameObject* Instantiate();
 
 private:
-    virtual int Load(const wstring& _strFilePath) override { return 0; }
+    virtual bool Load(const wstring& _strFilePath) override { return 0; }
 
 public:
-    virtual int Save(const wstring& _strRelativePath) override { return 0; }
+    virtual bool Save(const wstring& _strRelativePath) override { return 0; }
 
 private:
     virtual void BindData() override {};

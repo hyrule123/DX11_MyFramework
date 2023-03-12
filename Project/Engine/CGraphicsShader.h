@@ -4,8 +4,6 @@
 #include "global.h"
 
 
-
-
 class CGraphicsShader :
     public CShader
 {
@@ -14,7 +12,10 @@ public:
     virtual ~CGraphicsShader();
 
 public:
-    virtual int Load(const wstring& _strFilePath) override;
+    //현재 CSO 파일만 로드 가능하므로 참고
+    //다른 
+    virtual bool Save(const wstring& _strFilePath) override;
+    virtual bool Load(const wstring& _strFilePath) override;
 
 private:
 
@@ -47,7 +48,7 @@ private:
 
 public://INITIALIZE, Setter
     void CreateDefaultInputLayout();
-    void CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType);
+    void CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, eSHADER_LOADTYPE _LoadType);
     void CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType);
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
     void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_RSType = _eRS_TYPE; }

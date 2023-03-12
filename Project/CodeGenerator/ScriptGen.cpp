@@ -8,7 +8,7 @@ constexpr const wchar_t* ScriptStandardSuffix = L".h";
 
 void CreateScriptCode()
 {
-	string ScriptPath = "Project\\Script\\";
+	string ScriptPath = "./Project/Script/";
 
 	//Key = strKey의 변수명, Value = 파일명
 	unordered_map<wstring, wstring> mapScripts;

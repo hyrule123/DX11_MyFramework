@@ -9,9 +9,15 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <map>
 
-#include "json-cpp/json.h"
+#include <UtilLib_DLL/json.h>
 
+#ifdef _DEBUG
+#pragma comment(lib, "UtilLib_DLL/UtilLib_DLL_Debug")
+#else
+#pragma comment(lib, "UtilLib_DLL/UtilLib_DLL_Release")
+#endif
 
 using namespace std;
 

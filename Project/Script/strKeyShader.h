@@ -16,6 +16,7 @@ namespace SHADERS
 		constexpr const char* TILEMAPATLAS = "TilemapAtlas";
 		constexpr const char* TILEMAPCOMPLETE = "TilemapComplete";
 	}
+
 	namespace COMPUTE
 	{
 		constexpr const char* INITALIZE = "Initalize";

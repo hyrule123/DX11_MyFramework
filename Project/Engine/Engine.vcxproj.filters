@@ -199,6 +199,12 @@
     <ClInclude Include="Precompiled.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CShaderLoader.h">
+      <Filter>_Source\03. Manager\05. ResMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="jsoncpp.h">
+      <Filter>_Source\00. Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -365,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="CCS_SCMapLoader.cpp">
       <Filter>HLSL\98. Compute\03. SCMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="CShaderLoader.cpp">
+      <Filter>_Source\03. Manager\05. ResMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

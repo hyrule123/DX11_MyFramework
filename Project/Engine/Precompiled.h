@@ -14,6 +14,7 @@
 #include <queue>
 #include <iterator>
 #include <filesystem>
+#include <fstream>
 
 using std::vector;
 using std::list;
@@ -22,7 +23,7 @@ using std::unordered_map;
 using std::make_pair;
 using std::wstring;
 using std::string;
-using std::wstring;
+using std::u8string;
 using std::queue;
 
 #include <typeinfo>
@@ -43,12 +44,12 @@ using namespace DirectX::PackedVector;
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "d3dcompiler")
 
-#include <DirectXTex\DirectXTex.h>
+#include <DirectXTex/DirectXTex.h>
 
 #ifdef _DEBUG
-#pragma comment(lib, "DirectXTex//DirectXTex_Debug")
+#pragma comment(lib, "DirectXTex/DirectXTex_Debug")
 #else 
-#pragma comment(lib, "DirectXTex//DirectXTex_Release")
+#pragma comment(lib, "DirectXTex/DirectXTex_Release")
 #endif
 
 #include "SimpleMath.h"

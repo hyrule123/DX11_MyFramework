@@ -5,6 +5,22 @@
 #include "CDevice.h"
 
 
+namespace SHADER_NAME_VERSION
+{
+	constexpr const char* VS = "vs_5_0";
+	constexpr const char* HS = "hs_5_0";
+	constexpr const char* DS = "ds_5_0";
+	constexpr const char* GS = "gs_5_0";
+	constexpr const char* PS = "ps_5_0";
+}
+
+namespace SHADER_EXTENSION
+{
+	constexpr const wchar_t* CSO = L".CSO";
+	constexpr const wchar_t* FX = L".FX";
+}
+
+
 CGraphicsShader::CGraphicsShader()
 	: CShader(eRES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
@@ -20,11 +36,36 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
-int CGraphicsShader::Load(const wstring& _strFilePath)
+bool CGraphicsShader::Save(const wstring& _strFilePath)
 {
 
 
-	return S_OK;
+	return false;
+}
+
+bool CGraphicsShader::Load(const wstring& _strFilePath)
+{
+	
+
+
+		std::ifstream fpShader(_strFilePath);
+		if (false == fpShader.is_open())
+			return false;
+
+		//플래그 설정 : 커서가 맨 뒤쪽부터 시작, 읽기 모드, 이진 데이터 모드
+		std::ios_base::openmode openflag = std::ios::ate | std::ios::in | std::ios::binary;
+
+		std::streampos fileSize = fpShader.tellg();
+
+		char* ByteCode = new char[fileSize];
+		memset(ByteCode, 0, fileSize);
+		fpShader.seekg(0, std::ios::beg);
+		fpShader.read(ByteCode, fileSize);
+
+		//CreateShader(ByteCode, fileSiz, eSHADER )
+
+
+	return true;
 }
 
 void CGraphicsShader::CreateDefaultInputLayout()
@@ -82,7 +123,9 @@ void CGraphicsShader::CreateDefaultInputLayout()
 
 		break;	
 
-	case eSHADER_LOADTYPE::BYTE_CODE:
+	//두 경우에는 같은 방식으로 로드함.
+	case eSHADER_LOADTYPE::BYTE_CODE_INCLUDED:
+	case eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE:
 		if (FAILED(DEVICE->CreateInputLayout(
 			LayoutDesc, 2,
 			m_ShaderData[(int)eSHADER_TYPE::__VERTEX].pByteCode,
@@ -101,9 +144,10 @@ void CGraphicsShader::CreateDefaultInputLayout()
 }
 
 
-void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType)
+void CGraphicsShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, eSHADER_LOADTYPE _LoadType)
 {
-	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::BYTE_CODE;
+	assert(eSHADER_LOADTYPE::RUNTIME_COMPILED != _LoadType);
+	m_ShaderData[(int)_ShaderType].LoadType = _LoadType;
 	m_ShaderData[(int)_ShaderType].pByteCode = _pShaderByteCode;
 	m_ShaderData[(int)_ShaderType].ByteCodeSize = _ShaderByteCodeSize;
 
@@ -155,11 +199,12 @@ void CGraphicsShader::CreateShader(void* _pShaderByteCode, size_t _ShaderByteCod
 void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType)
 {
 	// 1. Shader 파일 경로 받아옴
-	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
+	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();
 	strShaderFile += _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경
 	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::RUNTIME_COMPILED;
+
 
 
 	char ShaderNameVersion[32] = {};
@@ -167,23 +212,23 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 	switch (_ShaderType)
 	{
 	case eSHADER_TYPE::__VERTEX:
-		strcpy_s(ShaderNameVersion, 32u, "vs_5_0");
+		strcpy_s(ShaderNameVersion, 32u, SHADER_NAME_VERSION::VS);
 		break;
 
 	case eSHADER_TYPE::__HULL:
-		strcpy_s(ShaderNameVersion, 32u, "hs_5_0");
+		strcpy_s(ShaderNameVersion, 32u, SHADER_NAME_VERSION::HS);
 		break;
 
 	case eSHADER_TYPE::__DOMAIN:
-		strcpy_s(ShaderNameVersion, 32u, "ds_5_0");
+		strcpy_s(ShaderNameVersion, 32u, SHADER_NAME_VERSION::DS);
 		break;
 
 	case eSHADER_TYPE::__GEOMETRY:
-		strcpy_s(ShaderNameVersion, 32u, "gs_5_0");
+		strcpy_s(ShaderNameVersion, 32u, SHADER_NAME_VERSION::GS);
 		break;
 
 	case eSHADER_TYPE::__PIXEL:
-		strcpy_s(ShaderNameVersion, 32u, "ps_5_0");
+		strcpy_s(ShaderNameVersion, 32u, SHADER_NAME_VERSION::PS);
 		break;
 
 	default:
@@ -283,7 +328,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const string& _strFuncName)
 //{
 //	// Shader 파일 경로
-//	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
+//	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();
 //	strShaderFile += _strFileName;
 //
 //	// VertexShader Compile
@@ -305,7 +350,7 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 //void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string& _strFuncName)
 //{
 //	// Shader 파일 경로
-//	wstring strShaderFile = CPathMgr::GetInst()->GetContentPath();
+//	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();
 //	strShaderFile += _strFileName;
 //
 //

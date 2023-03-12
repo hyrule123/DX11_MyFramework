@@ -21,6 +21,7 @@
 #define FLT_MAX_NEG -FLT_MAX
 
 #define BITMASK(n) (1 << n)
+#define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, #_aStrMessage, NULL, MB_OK)
 
 extern const string g_voidStr;
 
@@ -176,30 +177,38 @@ enum class eSHADER_DOMAIN
 
 namespace JSON_SHADERINFO
 {
-	constexpr const char* JSONFilename = "ShaderInfo.json";
-	constexpr const wchar_t* W_JSONFilename = L"ShaderInfo.json";
-	constexpr const char* ShaderExtension = ".cso";
+	constexpr const char* strShaderExtension = ".cso";
 
-	constexpr const char* VertexShaderName = "_V_";
-	constexpr const char* HullShaderName = "_H_";
-	constexpr const char* DomainShaderName = "_D_";
-	constexpr const char* GeometryShaderName = "_G_";
-	constexpr const char* PixelShaderName = "_P_";
 
-	constexpr const char* ComputeShaderName = "_C_";
 
-	//대분류
-	constexpr const char* GraphicsShader = "GRAPHICS_SHADER";
-	constexpr const char* ComputeShader = "COMPUTE_SHADER";
+	
 
-	//각 쉐이더마다 들어가야할 설정값
-	constexpr const char* ShaderName = "SHADER_NAME";
-	constexpr const char* PipelineFlag = "eSHADER_PIPELINE_STAGE";
-	constexpr const char* Topology = "D3D_PRIMITIVE_TOPOLOGY";
-	constexpr const char* RSState = "eRASTERIZER_TYPE";
-	constexpr const char* DSState = "eDEPTHSTENCIL_TYPE";
-	constexpr const char* BState = "eBLENDSTATE_TYPE";
-	constexpr const char* ShaderDomain = "eSHADER_DOMAIN";
+	namespace COMMON_VAL
+	{
+		constexpr const char* strShaderName = "SHADER_NAME";
+		constexpr const char* ePipelineFlag = "eSHADER_PIPELINE_STAGE";
+	}
+
+	namespace GRAPHICS_SHADER
+	{
+		constexpr const char* arrName[(int)eSHADER_TYPE::END] =
+		{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
+
+		//각 쉐이더마다 들어가야할 설정값
+		
+		constexpr const char* eTopology = "D3D_PRIMITIVE_TOPOLOGY";
+		constexpr const char* eRSState = "eRASTERIZER_TYPE";
+		constexpr const char* eDSState = "eDEPTHSTENCIL_TYPE";
+		constexpr const char* eBState = "eBLENDSTATE_TYPE";
+		constexpr const char* eShaderDomain = "eSHADER_DOMAIN";
+	}
+
+	namespace COMPUTE_SHADER
+	{
+		constexpr const char* strName = "_C_";
+	}
+
+
 }
 
 

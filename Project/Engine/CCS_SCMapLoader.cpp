@@ -16,8 +16,7 @@
 //나중에 지우고 분산시킬것
 #include "CPathMgr.h"
 #include "CStructBuffer.h"
-
-
+#include "CTexture.h"
 
 #ifdef _DEBUG
 constexpr const wchar_t* strStormLibPath = L"StormLib_DLL_Debug.dll";
@@ -38,8 +37,8 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     , m_DebugData()
     
 {
-    //wstring Path = CPathMgr::GetInst()->GetContentPath();
-    wstring Path = RELATIVE_PATH::wContent;
+    //wstring Path = CPathMgr::GetInst()->GetContentAbsPathW();
+    wstring Path = RELATIVE_PATH::CONTENT::W;
     Path += L"Maps\\Tilesets\\";
 
 
@@ -187,7 +186,7 @@ CCS_SCMapLoader::~CCS_SCMapLoader()
 
 bool CCS_SCMapLoader::BindDataCS()
 {
-    //wstring MapPath = CPathMgr::GetInst()->GetContentPath();
+    //wstring MapPath = CPathMgr::GetInst()->GetContentAbsPathW();
 
     wstring MapPath = L"./";
     MapPath += L"Maps/";

@@ -42,7 +42,7 @@ private:
     UINT                        m_uNumGroupZ;
     
 public:
-    void CreateShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize);
+    void CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_LOADTYPE _eLoadType);
     void CreateShader(const wstring& _strFileName, const string& _strFuncName);
 
     void CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _ElemCountZ);

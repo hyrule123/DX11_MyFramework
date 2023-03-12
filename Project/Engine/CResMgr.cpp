@@ -2,6 +2,7 @@
 #include "CResMgr.h"
 
 #include "CPathMgr.h"
+#include "CShaderLoader.h"
 
 #include "strKeyDefaultRes.h"
 
@@ -14,17 +15,17 @@
 
 #include <fstream>
 
-#include <UtilLib_DLL/json.h>
-#pragma comment(lib, "UtilLib_DLL/UtilLib_DLL_Debug")
 
 CResMgr::CResMgr()
 	: m_bResUpdated(true)
+	, m_pShaderInfoMgr()
 {
 	
 }
 
 CResMgr::~CResMgr()
 {
+	DESTRUCTOR_DELETE(m_pShaderInfoMgr);
 }
 
 
@@ -222,307 +223,23 @@ void CResMgr::CreateDefaultMesh()
 
 void CResMgr::CreateDefaultShader()
 {
-	const wstring& ShaderPath = CPathMgr::GetInst()->GetContentPath();
-
-	wstring JsonFilePath = ShaderPath + JSON_SHADERINFO::W_JSONFilename;
-	std::ifstream fpJson(JsonFilePath);
-	Json::Value ShaderInfo;
-
-	if (false == fpJson.is_open())
+	m_pShaderInfoMgr = new CShaderLoader;
+	if (false == m_pShaderInfoMgr->LoadJsonFile())
 	{
-		MessageBoxA(nullptr, "Failed to load Shader Info", NULL, MB_OK);
-		assert(false);
+		MessageBoxA(nullptr, "ShaderInfo.json Load Failed!", NULL, MB_OK);
+		assert(nullptr);
 	}
 
-	fpJson >> ShaderInfo;
-	fpJson.close();
-
-	const Json::Value& GSTree = ShaderInfo[JSON_SHADERINFO::GraphicsShader];
-	CreateDefaultGraphicsShader(ShaderPath, GSTree);
-
-	const Json::Value& CSTree = ShaderInfo[JSON_SHADERINFO::ComputeShader];
-	CreateDefaultComputeShader(ShaderPath, CSTree);
-}
-
-void CResMgr::CreateDefaultGraphicsShader(const wstring& _wstrShaderBasePath, const Json::Value& _ShaderInfo)
-{
-	// ============
-	// Debug Shader
-	// Topology: LineStrip
-	// Rasterizer: No Culling
-	// Blend State: Default
-	// Shader Domain: Opaque
-	// ============
-
-	std::ios_base::openmode openflag = std::ios::ate | std::ios::in | std::ios::binary;
-
-	//auto iter = _ShaderInfo.begin();
-	//const auto& iterEnd = _ShaderInfo.end();
-	//for (iter; iter != iterEnd; ++iter)
-	//{
-	//	Ptr<CGraphicsShader> GS = new CGraphicsShader;
-
-	//	int ePipelineFlag = (*iter)[JSON_SHADERINFO::PipelineFlag].asInt();
-
-	//	int numShader = 0;
-	//	for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
-	//	{
-	//		//플래그값에 일치하는 쉐이더가 있을경우 이름을 만들어준다.
-	//		if (ePipelineFlag & (1 << i))
-	//		{
-	//			++numShader;
-	//			wstring shaderName = L"Content\\Shader\\S_";
-	//			shaderName += std::to_wstring(numShader);
-	//			switch ((eSHADER_TYPE)i)
-	//			{
-	//			case eSHADER_TYPE::__VERTEX:
-	//				shaderName += JSON_SHADERINFO::VertexShaderName;
-	//				break;
-	//			case eSHADER_TYPE::__HULL:
-	//				shaderName += JSON_SHADERINFO::HullShaderName;
-	//				break;
-	//			case eSHADER_TYPE::__DOMAIN:
-	//				shaderName += JSON_SHADERINFO::DomainShaderName;
-	//				break;
-	//			case eSHADER_TYPE::__GEOMETRY:
-	//				shaderName += JSON_SHADERINFO::GeometryShaderName;
-	//				break;
-	//			case eSHADER_TYPE::__PIXEL:
-	//				shaderName += JSON_SHADERINFO::PixelShaderName;
-	//				break;
-	//			case eSHADER_TYPE::END:
-	//				break;
-	//			default:
-	//				break;
-	//			}
-
-	//			shaderName += (*iter)[JSON_SHADERINFO::ShaderName].asString();
-	//			shaderName += JSON_SHADERINFO::ShaderExtension;
-
-
-	//			//만든 이름으로 파일을 로드한다.
-	//			std::ifstream fpShader(shaderName, openflag);
-
-	//			if (true == fpShader.is_open())
-	//			{
-	//				std::streampos fileSize = fpShader.tellg();
-
-	//				char* ByteCode = new char[fileSize];
-	//				memset(ByteCode, 0, fileSize);
-	//				fpShader.seekg(0, std::ios::beg);
-	//				fpShader.read(ByteCode, fileSize);
-
-	//				
-	//				GS->CreateShader(ByteCode, )
-
-	//				fpShader.close();
-	//				delete[] ByteCode;
-	//			}
-	//		}
-
-
-	//	}
-	//	
-
-	//	GS->SetKey(iter.key().asString());
-	//	AddRes<CGraphicsShader>(GS->GetKey(), GS);
-
-	//	string test = iter.key().asString();
-
-	//	int a = 0;
-	//}
-
-
-	//TODO : 여기 파일시스템 프로젝트로 다 긁어와서 알아서 컴파일하도록 하는 기능 추가하기
+	if (false == m_pShaderInfoMgr->LoadAllShaders())
 	{
-		
-
-
-		//Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-
-		//if (true == fpVS.is_open())
-		//{
-		//	std::streampos fileSize = fpVS.tellg();
-
-		//	char* VS = new char[fileSize];
-		//	memset(VS, 0, fileSize);
-
-		//	fpVS.seekg(0, std::ios::beg);
-		//	fpVS.read(VS, fileSize);
-
-		//	pShader->CreateShader((void*)VS, fileSize, eSHADER_TYPE::__VERTEX);
-
-
-		//	int a = 0;
-		//}
+		MessageBoxA(nullptr, "Failed to load Shader from file!", NULL, MB_OK);
+		assert(nullptr);
 	}
-		//{
-		//	pShader->SetKey(DEFAULT_RES::SHADER::DEBUG);
-		//	pShader->CreateShader((void*)g_VS_Debug, sizeof(g_VS_Debug), eSHADER_TYPE::__VERTEX);
-		//	pShader->CreateShader((void*)g_PS_Debug, sizeof(g_PS_Debug), eSHADER_TYPE::__PIXEL);
-		//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
-		//	pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_TEST_NO_WRITE);
-		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-		//	AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
-		//}
-	
-		//// ===========
-		//// Test Shader
-		//// =========== 
-		//{
-		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		//	pShader->SetKey(DEFAULT_RES::SHADER::TEST);
-		//	pShader->CreateShader((void*)g_VS_test, sizeof(g_VS_test), eSHADER_TYPE::__VERTEX);
-		//	pShader->CreateShader((void*)g_PS_test, sizeof(g_PS_test), eSHADER_TYPE::__PIXEL);
-		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		//	pShader->SetBlendState(eBLENDSTATE_TYPE::DEFAULT);
-		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-		//	AddRes(pShader->GetKey(), pShader);
-		//}
-	
-		//// ============
-		//// std2D Shader
-		//// ============
-		//{
-		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		//	pShader->SetKey(DEFAULT_RES::SHADER::STD2D);
-		//	pShader->CreateShader((void*)g_VS_std2D, sizeof(g_VS_std2D), eSHADER_TYPE::__VERTEX);
-		//	pShader->CreateShader((void*)g_PS_std2D, sizeof(g_PS_std2D), eSHADER_TYPE::__PIXEL);
-		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-		//	AddRes(pShader->GetKey(), pShader);
-		//}
-	
-	
-		//// ==================
-		//// std2D_Light Shader
-		//// ==================
-		//// 광원을 처리할 수 있는 2D 쉐이더
-		//{
-		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		//	pShader->SetKey(DEFAULT_RES::SHADER::STD2D_LIGHT);
-		//	pShader->CreateShader((void*)g_VS_std2D_Light, sizeof(g_VS_std2D_Light), eSHADER_TYPE::__VERTEX);
-		//	pShader->CreateShader((void*)g_PS_std2D_Light, sizeof(g_PS_std2D_Light), eSHADER_TYPE::__PIXEL);
-		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-		//	AddRes(pShader->GetKey(), pShader);
-		//}
-	
-	
-	
-		//// ===============================
-		//// Tilemap_Atlas
-		//// RS_TYPE : CULL_BACK
-		//// DS_TYPE : LESS(Default)
-		//// BS_TYPE : MASK
-	
-		//// Parameter
-		//// g_CBuffer_Mtrl_Scalar.INT_0 : Tile X Count
-		//// g_CBuffer_Mtrl_Scalar.int_1 : Tile Y Count
-		//// g_tex_0 : Tile Atlas Texture
-		////===============================
-		//{
-		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		//	pShader->SetKey(DEFAULT_RES::SHADER::TILEMAP_ATLAS);
-		//	pShader->CreateShader((void*)g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), eSHADER_TYPE::__VERTEX);
-		//	pShader->CreateShader((void*)g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), eSHADER_TYPE::__PIXEL);
-		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		//	pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
-		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
-		//	AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
-		//}
-	
-		//// ===============================
-		//// Tilemap_Atlas
-		//// RS_TYPE : CULL_BACK
-		//// DS_TYPE : LESS(Default)
-		//// BS_TYPE : MASK
-	
-		//// Parameter
-		//// g_tex_0 : Tile Atlas Texture
-		////===============================
-		//{
-		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		//	pShader->SetKey(DEFAULT_RES::SHADER::TILEMAP_COMPLETE);
-		//	pShader->CreateShader((void*)g_VS_Tilemap_Complete, sizeof(g_VS_Tilemap_Complete), eSHADER_TYPE::__VERTEX);
-		//	pShader->CreateShader((void*)g_PS_Tilemap_Complete, sizeof(g_PS_Tilemap_Complete), eSHADER_TYPE::__PIXEL);
-		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		//	pShader->SetBlendState(eBLENDSTATE_TYPE::MASK);
-		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_MASK);
-		//	AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
-		//}
-	
-	
-	
-	
-		//// ============================
-		//// ParticleRender
-		//// 
-		//// RS_TYPE : CULL_NONE
-		//// DS_TYPE : NO_WRITE
-		//// BS_TYPE : ALPHA_BLEND
-	
-		//// Parameter
-		//// g_CBuffer_Mtrl_Scalar.INT_0 : Particle Index
-		//// 
-		//// Domain : TRANSPARENT
-		//// ============================
-		//{
-		//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		//	pShader->SetKey(DEFAULT_RES::SHADER::PARTICLE_RENDER);
-		//
-		//	pShader->CreateShader((void*)g_VS_Particle, sizeof(g_VS_Particle), eSHADER_TYPE::__VERTEX);
-		//	pShader->CreateShader((void*)g_GS_Particle, sizeof(g_GS_Particle), eSHADER_TYPE::__GEOMETRY);
-		//	pShader->CreateShader((void*)g_PS_Particle, sizeof(g_PS_Particle), eSHADER_TYPE::__PIXEL);
-	
-		//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		//	pShader->SetDepthStencilState(eDEPTHSTENCIL_TYPE::NO_WRITE);
-		//	pShader->SetBlendState(eBLENDSTATE_TYPE::ALPHA_BLEND);
-		//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-		//	pShader->SetShaderDomain(eSHADER_DOMAIN::_TRANSPARENT); //알파 블렌딩을 사용하므로
-	
-	
-		//	AddRes(pShader->GetKey(), pShader);
-		//}
-	
-	
-	
+
+
 }
 
-void CResMgr::CreateDefaultComputeShader(const wstring& _wstrShaderBasePath, const Json::Value& _ShaderInfo)
-{
-	//Ptr<CComputeShader> pInitCS = new CCS_Initialize;
-	//pInitCS->CreateShader((void*)g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
-	//pInitCS->SetKey(DEFAULT_RES::SHADER::COMPUTE::INIT_SETTING);
-	//AddRes(pInitCS->GetKey(), pInitCS);
-	//pInitCS->Execute();
 
-	//Ptr<CComputeShader> pShader = new CCS_SetColor(32u, 32u, 1u);
-	//pShader->CreateShader((void*)g_CS_SetColor, sizeof(g_CS_SetColor));
-	//pShader->SetKey(DEFAULT_RES::SHADER::COMPUTE::SET_COLOR);
-	//AddRes(pShader->GetKey(), pShader);
-	//pShader = nullptr;
-
-	////기본 파티클 쉐이더
-	//pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
-	//pShader->CreateShader((void*)g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic));
-	//pShader->SetKey(DEFAULT_RES::SHADER::COMPUTE::PARTICLE_UPDATE_BASIC);
-	//AddRes(pShader->GetKey(), pShader);
-	//pShader = nullptr;
-
-	////비 효과 파티클 쉐이더
-	//pShader = new CCS_ParticleUpdate(128u, 1u, 1u);
-	//pShader->CreateShader((void*)g_CS_Particle_RainDrop, sizeof(g_CS_Particle_RainDrop));
-	//pShader->SetKey(DEFAULT_RES::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
-	//AddRes(pShader->GetKey(), pShader);
-	//pShader = nullptr;
-
-
-	//pShader = new CCS_SCMapLoader;
-	//pShader->CreateShader((void*)g_CS_SCMapLoader, sizeof(g_CS_SCMapLoader));
-	//pShader->SetKey(DEFAULT_RES::SHADER::COMPUTE::SC_MAP_LOADER);
-	//AddRes(pShader->GetKey(), pShader);
-	
-}
 
 
 void CResMgr::CreateDefaultMaterial()

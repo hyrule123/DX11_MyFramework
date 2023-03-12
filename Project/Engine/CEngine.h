@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CSingleton.h"
+
 class CEngine
 	: public CSingleton<CEngine>
 {

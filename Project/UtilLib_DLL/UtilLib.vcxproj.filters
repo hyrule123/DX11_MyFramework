@@ -7,30 +7,74 @@
     <Filter Include="Default">
       <UniqueIdentifier>{87ac9709-395d-4d28-ad5d-53d9fc13ddfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="JSON-CPP\Include">
+      <UniqueIdentifier>{4b832ed7-a60e-45b9-9248-7d9935c0938e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JSON-CPP\Src">
+      <UniqueIdentifier>{ceaeed0e-061d-46c6-8172-b7e05f9eb662}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="json-cpp\json.h">
-      <Filter>JSON-CPP</Filter>
-    </ClInclude>
-    <ClInclude Include="json-cpp\json-forwards.h">
-      <Filter>JSON-CPP</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="json\allocator.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\assertions.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\config.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\forwards.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\json.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\json_features.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\reader.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\value.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\version.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\writer.h">
+      <Filter>JSON-CPP\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json\src\json_tool.h">
+      <Filter>JSON-CPP\Src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="json-cpp\jsoncpp.cpp">
-      <Filter>JSON-CPP</Filter>
-    </ClCompile>
     <ClCompile Include="UtilLib.cpp">
       <Filter>Default</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
+    <ClCompile Include="json\src\json_reader.cpp">
+      <Filter>JSON-CPP\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="json\src\json_value.cpp">
+      <Filter>JSON-CPP\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="json\src\json_writer.cpp">
+      <Filter>JSON-CPP\Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="json\src\json_valueiterator.inl">
+      <Filter>JSON-CPP\Src</Filter>
+    </None>
   </ItemGroup>
 </Project>

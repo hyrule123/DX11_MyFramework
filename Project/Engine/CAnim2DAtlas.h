@@ -56,8 +56,8 @@ public:
     virtual ~CAnim2DAtlas();
 public:
     virtual void BindData() override {};
-    virtual int Load(const wstring& _strFilePath) override { return 0; };
-    virtual int Save(const wstring&) override { return 0; };
+    virtual bool Load(const wstring& _strFilePath) override { return 0; };
+    virtual bool Save(const wstring&) override { return 0; };
 
 private:
     //애니메이션의 대상이 되는 텍스처

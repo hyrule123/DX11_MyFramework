@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     {
         MessageBoxA(nullptr, "No Parameters sent.\nWork in Debug Mode.", "Notification", MB_OK);
         //MessageBoxA(nullptr, argv[0], "Test", MB_OK);
-        //CreateShaderCode();
+        CreateShaderCode();
         return 0;
     }
 

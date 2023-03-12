@@ -144,7 +144,7 @@ void CTexture::BindData_UAV(int _iRegisterNum)
 
 
 
-int CTexture::Load(const wstring& _strFilePath)
+bool CTexture::Load(const wstring& _strFilePath)
 {
 	wchar_t szExt[50] = L"";
 	//_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50);
@@ -172,7 +172,7 @@ int CTexture::Load(const wstring& _strFilePath)
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr, L"리소스 로딩 실패", L"텍스쳐 로딩 실패", MB_OK);
-		return E_FAIL;
+		return false;
 	}
 
 	hr = CreateShaderResourceView(DEVICE
@@ -184,17 +184,19 @@ int CTexture::Load(const wstring& _strFilePath)
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr, L"ShaderResourceView 생성 실패", L"텍스쳐 로딩 실패", MB_OK);
-		return E_FAIL;
+
+		return false;
 	}
 
 	m_SRV->GetResource((ID3D11Resource**)m_Tex2D.GetAddressOf());
 	m_Tex2D->GetDesc(&m_Desc);
 
-	return S_OK;
+
+	return true;
 }
 
 
-int CTexture::Save(const wstring& _strRelativePath)
+bool CTexture::Save(const wstring& _strRelativePath)
 {
 	return S_OK;
 }

@@ -32,7 +32,7 @@ CImGuiMgr::CImGuiMgr()
 
 CImGuiMgr::~CImGuiMgr()
 {
-    wstring origPath = CPathMgr::GetInst()->GetContentPath();
+    wstring origPath = CPathMgr::GetInst()->GetContentAbsPathW();
     origPath += L"SavedSettings/";
     wstring Path = origPath + L"imgui.ini";
     string utfpath = ::ConvertUnicodeToUTF8(Path);
@@ -171,7 +171,7 @@ void CImGuiMgr::init(HWND _hWnd)
 
 
     //설정 파일들 로드
-    wstring origPath = CPathMgr::GetInst()->GetContentPath();
+    wstring origPath = CPathMgr::GetInst()->GetContentAbsPathW();
     origPath += L"SavedSettings/";
     wstring path = origPath + L"imgui.ini";
     string utfpath = ::ConvertUnicodeToUTF8(path);
@@ -191,7 +191,7 @@ void CImGuiMgr::init(HWND _hWnd)
 
     
 
-    //wstring path = CPathMgr::GetInst()->GetContentPath();
+    //wstring path = CPathMgr::GetInst()->GetContentAbsPathW();
     //path += L"font/NotoSansKR-Regular.otf";
     //string fontpath;
     //::ConvertUnicodeToUTF8(path, fontpath);

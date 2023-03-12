@@ -17,8 +17,9 @@
 //1. define.h enum에 Res 타입 추가했는지 확인
 //2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
 
-#include <UtilLib_DLL/json-forwards.h>
 
+
+class CShaderLoader;
 class CResMgr :
     public CSingleton<CResMgr>
 {
@@ -34,12 +35,13 @@ private:
     //리소스 정보가 업데이트 되면 true로 변경
     bool    m_bResUpdated;
 
+    CShaderLoader* m_pShaderInfoMgr;
+
 private:
     void CreateResClassTypeIndex();
     void CreateDefaultMesh();
     void CreateDefaultShader();
-    void CreateDefaultGraphicsShader(const wstring& _wstrShaderBasePath, const Json::Value& _ShaderInfo);
-    void CreateDefaultComputeShader(const wstring& _wstrShaderBasePath, const Json::Value& _ShaderInfo);
+
     void CreateDefaultMaterial();
     void LoadDefaultTexture();
 
@@ -113,7 +115,7 @@ inline Ptr<T> CResMgr::Load(const string& _strKey, const wstring& _strRelativePa
     pRes->SetKey(_strKey);
     pRes->SetRelativePath(_strRelativePath);
 
-    wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+    wstring strFilePath = CPathMgr::GetInst()->GetContentAbsPathW();
     strFilePath += _strRelativePath;
 
     if (FAILED(pRes->Load(strFilePath)))
