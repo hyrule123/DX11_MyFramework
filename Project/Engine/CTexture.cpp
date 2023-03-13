@@ -144,29 +144,32 @@ void CTexture::BindData_UAV(int _iRegisterNum)
 
 
 
-bool CTexture::Load(const wstring& _strFilePath)
+bool CTexture::Load(const std::filesystem::path& _path)
 {
-	wchar_t szExt[50] = L"";
+	//wchar_t szExt[50] = L"";
 	//_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50);
-	wstring strExt = szExt;
+	//wstring strExt = szExt;
+		
+	string strExtension = _path.extension().string();
+	std::transform(strExtension.begin(), strExtension.end(), strExtension.begin(), ::tolower);
 
 	HRESULT hr = S_OK;
-	if (L".dds" == strExt || L".DDS" == strExt)
+	if (string::npos != strExtension.find(".dds"))
 	{
 		// dds, DDS
-		hr = LoadFromDDSFile(_strFilePath.c_str(), DDS_FLAGS::DDS_FLAGS_NONE, nullptr, m_Image);
+		hr = LoadFromDDSFile(_path.wstring().c_str(), DDS_FLAGS::DDS_FLAGS_NONE, nullptr, m_Image);
 	}
 
-	else if (L".tga" == strExt || L".TGA" == strExt)
+	else if (string::npos != strExtension.find(".tga"))
 	{
 		// tga, TGA
-		hr = LoadFromTGAFile(_strFilePath.c_str(), nullptr, m_Image);
+		hr = LoadFromTGAFile(_path.wstring().c_str(), nullptr, m_Image);
 	}
 
 	else
 	{
 		// png, jpg, jpeg, bmp
-		hr = LoadFromWICFile(_strFilePath.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, m_Image);
+		hr = LoadFromWICFile(_path.wstring().c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, m_Image);
 	}
 	
 	if (FAILED(hr))
@@ -196,9 +199,9 @@ bool CTexture::Load(const wstring& _strFilePath)
 }
 
 
-bool CTexture::Save(const wstring& _strRelativePath)
+bool CTexture::Save(const std::filesystem::path& _path)
 {
-	return S_OK;
+	return false;
 }
 
 int CTexture::Create(UINT _uWidth, UINT _uHeight, DXGI_FORMAT _pixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage)

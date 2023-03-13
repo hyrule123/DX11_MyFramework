@@ -40,6 +40,31 @@ CComputeShader::~CComputeShader()
 {
 }
 
+bool CComputeShader::Load(const std::filesystem::path& _path)
+{
+	std::ios_base::openmode openMode = std::ios::in | std::ios::ate | std::ios::binary;
+	std::ifstream CSFile(_path, openMode);
+
+	if (false == CSFile.is_open())
+		return false;
+
+	std::streampos fileSize = CSFile.tellg();
+	CSFile.seekg(0, std::ios::beg);
+
+	m_ShaderData.pByteCode = new char[fileSize];
+	memset(m_ShaderData.pByteCode, 0, fileSize);
+	m_ShaderData.ByteCodeSize = fileSize;
+	CSFile.read(m_ShaderData.pByteCode, fileSize);
+
+	CSFile.close();
+
+	CreateShader(m_ShaderData.pByteCode, m_ShaderData.ByteCodeSize, eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE);
+	
+	SetKey(_path.filename().string());
+
+	return true;
+}
+
 
 void CComputeShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_LOADTYPE _eLoadType)
 {

@@ -45,6 +45,7 @@ CLevelMgr::~CLevelMgr()
 }
 
 
+
 CGameObject* CLevelMgr::FindObjectByName(const string& _Name)
 {
 	return m_pCurLevel->FindObjectByName(_Name);

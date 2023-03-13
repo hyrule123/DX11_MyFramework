@@ -17,5 +17,13 @@ xcopy /d /s /y /i  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" "
 xcopy /d /s /y /i  /exclude:exclude_list.txt ".\OutputFile\Bin_Debug\Content\*" ".\OutputFile\Bin_Release\Content\"
 
 :: 파일 저장용 디렉토리가 없을 경우 새로 생성
-if not exist .\OutputFile\Bin_Debug\content\SavedSettings ( mkdir .\OutputFile\Bin_Debug\content\SavedSettings )
-if not exist .\OutputFile\Bin_Release\content\SavedSettings ( mkdir .\OutputFile\Bin_Release\content\SavedSettings )
+if not exist .\OutputFile\Bin_Debug\Content\SavedSettings ( mkdir .\OutputFile\Bin_Debug\Content\SavedSettings )
+if not exist .\OutputFile\Bin_Release\Content\SavedSettings ( mkdir .\OutputFile\Bin_Release\Content\SavedSettings )
+
+:: json 파일 백업
+if exist .\OutputFile\Bin_Debug\Content\Shader\Graphics\*.json (
+xcopy /d /s /y /i .\OutputFile\Bin_Debug\Content\Shader\Graphics\*.json .\JsonBackup\Debug\
+)
+if exist .\OutputFile\Bin_Release\Content\Shader\Graphics\*.json (
+xcopy /d /s /y /i .\OutputFile\Bin_Release\Content\Shader\Graphics\*.json .\JsonBackup\Release\
+)

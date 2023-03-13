@@ -177,11 +177,9 @@ enum class eSHADER_DOMAIN
 
 namespace JSON_SHADERINFO
 {
+	constexpr const char* strJsonExtension = ".json";
 	constexpr const char* strShaderExtension = ".cso";
 
-
-
-	
 
 	namespace COMMON_VAL
 	{

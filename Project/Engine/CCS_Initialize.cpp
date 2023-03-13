@@ -6,7 +6,6 @@
 #include "S_H_Struct.hlsli"
 
 
-
 CCS_Initialize::CCS_Initialize()
 	: CComputeShader(1u, 1u, 1u)
 	, m_pSBuffer_InitSetting()
@@ -66,3 +65,4 @@ void CCS_Initialize::UnBindCS()
 	if (static_cast<unsigned char>(1u) == IsLittleEndian)
 		g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
 }
+

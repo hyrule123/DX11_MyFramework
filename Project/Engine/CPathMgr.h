@@ -12,8 +12,8 @@ constexpr const wchar_t* W = L#_strPath;\
 
 namespace RELATIVE_PATH
 {
-	MAKE_RELATIVE_PATH(CONTENT, .\\Content\\);
-	MAKE_RELATIVE_PATH(SHADER, .\\Content\\Shader\\)
+	MAKE_RELATIVE_PATH(CONTENT, .\\Content);
+	MAKE_RELATIVE_PATH(SHADER, .\\Content\\Shader)
 }
 
 class CPathMgr

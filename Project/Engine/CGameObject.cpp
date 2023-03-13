@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "CGameObject.h"
 
-
 #include "components.h"
-
 
 //레이어 옮길 때 사용
 #include "CLevelMgr.h"
@@ -17,6 +15,7 @@
 #include "CTimeMgr.h"
 
 #include "CTransform.h"
+
 
 CGameObject::CGameObject()
 	: m_arrCom{}

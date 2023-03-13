@@ -4,6 +4,7 @@
 #include "CPathMgr.h"
 #include "CDevice.h"
 
+#include "jsoncpp.h"
 
 namespace SHADER_NAME_VERSION
 {
@@ -36,34 +37,78 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
-bool CGraphicsShader::Save(const wstring& _strFilePath)
+bool CGraphicsShader::Save(const std::filesystem::path& _path)
 {
 
 
 	return false;
 }
 
-bool CGraphicsShader::Load(const wstring& _strFilePath)
+bool CGraphicsShader::Load(const std::filesystem::path& _path)
 {
+	std::ifstream fpShader(_path);
+	if (false == fpShader.is_open())
+		return false;
+
+	Json::Value shaderInfo;
+	fpShader >> shaderInfo;
+
+	const string& strShaderNameBase = shaderInfo[JSON_SHADERINFO::COMMON_VAL::strShaderName].asString();
+	SetKey(strShaderNameBase);
+
+	m_BSType = (eBLENDSTATE_TYPE)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eBState].asInt();
+	m_DSType = (eDEPTHSTENCIL_TYPE)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eDSState].asInt();
+	m_RSType = (eRASTERIZER_TYPE)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eRSState].asInt();
+	m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eTopology].asInt();
+	m_ShaderDomain = (eSHADER_DOMAIN)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain].asInt();
+
+	if (eSHADER_DOMAIN::_UNDEFINED == m_ShaderDomain)
+	{
+		string errorMessage = "The shader domain value of "; 
+		errorMessage += strShaderNameBase;
+		errorMessage += " is Not set. May cause error.";
+		MessageBoxA(nullptr, errorMessage.c_str(), NULL, MB_OK);
+		assert(nullptr);
+	}
 	
 
+	int flagPipeline = shaderInfo[JSON_SHADERINFO::COMMON_VAL::ePipelineFlag].asInt();
+	int ShaderOrder = 0;
+	std::ios_base::openmode openFlag = std::ios_base::ate | std::ios_base::binary; std::ios_base::in;
+	for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
+	{
+		//특정 쉐이더 사용 설정이 되어있을 경우 쉐이더 로드 시행
+		if ((1 << i) & flagPipeline)
+		{
+			++ShaderOrder;
+			std::filesystem::path strShaderFile = _path.parent_path().string();
+			strShaderFile /= "S_";
+			strShaderFile += std::to_string(ShaderOrder);
+			strShaderFile += JSON_SHADERINFO::GRAPHICS_SHADER::arrName[i];
+			strShaderFile += strShaderNameBase;
+			
+			std::ifstream shaderCode(strShaderFile, openFlag);
+			
+			if (true == shaderCode.is_open())
+			{
+				//cso를 읽어올 공간 동적할당
+				std::streampos codeSize = shaderCode.tellg();
+				m_ShaderData[i].LoadType = eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE;
+				m_ShaderData[i].ByteCodeSize = codeSize;
+				m_ShaderData[i].pByteCode = new char[codeSize];
+				memset(m_ShaderData[i].pByteCode, 0, codeSize);
 
-		std::ifstream fpShader(_strFilePath);
-		if (false == fpShader.is_open())
-			return false;
+				//파일로부터 데이터를 읽어오고, 파일은 닫아준다.
+				shaderCode.seekg(0, std::ios_base::beg);
+				shaderCode.read(m_ShaderData[i].pByteCode, codeSize);
+				shaderCode.close();
 
-		//플래그 설정 : 커서가 맨 뒤쪽부터 시작, 읽기 모드, 이진 데이터 모드
-		std::ios_base::openmode openflag = std::ios::ate | std::ios::in | std::ios::binary;
-
-		std::streampos fileSize = fpShader.tellg();
-
-		char* ByteCode = new char[fileSize];
-		memset(ByteCode, 0, fileSize);
-		fpShader.seekg(0, std::ios::beg);
-		fpShader.read(ByteCode, fileSize);
-
-		//CreateShader(ByteCode, fileSiz, eSHADER )
-
+				//읽어온 바이트 코드로부터 쉐이더를 로딩해준다.
+				CreateShader(m_ShaderData[i].pByteCode, codeSize, (eSHADER_TYPE)i, eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE);
+			}
+		}
+	}
+	
 
 	return true;
 }

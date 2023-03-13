@@ -3,4 +3,6 @@
 
 void CreateTestLevel();
 
+bool CreateUserGraphicsShader();
+bool CreateUserComputeShader();
 

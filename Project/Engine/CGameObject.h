@@ -1,6 +1,7 @@
 #pragma once
 #include "CEntity.h"
 
+#include "global.h"
 
 class CComponent;
 class CTransform;
@@ -20,6 +21,7 @@ class CGameObject :
 {
     CLONE(CGameObject)
 public:
+
     CGameObject();
     CGameObject(const CGameObject& _other);
     ~CGameObject();

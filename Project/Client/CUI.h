@@ -6,7 +6,7 @@
 
 #include "ImGui/imgui.h"
 
-#include <UtilLib_DLL/json-forwards.h>
+#include <UtilLib_DLL/json/forwards.h>
 
 //uDataSize == 0 -> Class Pointer
 //uDataSize > 0 -> Data Start Point

@@ -17,9 +17,6 @@
 //1. define.h enum에 Res 타입 추가했는지 확인
 //2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
 
-
-
-class CShaderLoader;
 class CResMgr :
     public CSingleton<CResMgr>
 {
@@ -35,12 +32,15 @@ private:
     //리소스 정보가 업데이트 되면 true로 변경
     bool    m_bResUpdated;
 
-    CShaderLoader* m_pShaderInfoMgr;
 
-private:
+
+public:
     void CreateResClassTypeIndex();
     void CreateDefaultMesh();
+
     void CreateDefaultShader();
+    bool CreateDefaultGraphicsShader();
+    bool CreateDefaultComputeShader();
 
     void CreateDefaultMaterial();
     void LoadDefaultTexture();
@@ -60,7 +60,7 @@ public:
     void AddRes(const string& _strKey, Ptr<T>& _Res);
 
     template<typename T>
-    Ptr<T> Load(const string& _strKey, const wstring& _strRelativePath);
+    Ptr<T> Load(const string& _strKey, const std::filesystem::path& _path);
 
     const unordered_map<string, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
 
@@ -103,7 +103,7 @@ inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
 
 
 template<typename T>
-inline Ptr<T> CResMgr::Load(const string& _strKey, const wstring& _strRelativePath)
+inline Ptr<T> CResMgr::Load(const string& _strKey, const std::filesystem::path& _path)
 {
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     
@@ -113,15 +113,11 @@ inline Ptr<T> CResMgr::Load(const string& _strKey, const wstring& _strRelativePa
         
     pRes = new T;
     pRes->SetKey(_strKey);
-    pRes->SetRelativePath(_strRelativePath);
+    pRes->SetRelativePath(_path);
 
-    wstring strFilePath = CPathMgr::GetInst()->GetContentAbsPathW();
-    strFilePath += _strRelativePath;
 
-    if (FAILED(pRes->Load(strFilePath)))
-    {
-        assert(nullptr);
-    }
+    if (false == pRes->Load(_path))
+        return nullptr;
 
     eRES_TYPE type = GetResType<T>();
     m_arrRes[(UINT)type].insert(make_pair(_strKey, pRes));

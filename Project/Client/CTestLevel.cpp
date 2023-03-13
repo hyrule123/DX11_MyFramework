@@ -29,6 +29,28 @@
 
 void CreateTestLevel()
 {
+
+
+	//{
+	//	Ptr<CMaterial> pMtrl = nullptr;
+	//	pMtrl = new CMaterial();
+	//	pMtrl->SetInstancedRender(true);
+	//	pMtrl->SetShader(FindRes<CGraphicsShader>(SHADERS::GRAPHICS::STD2D));
+
+	//	pMtrl->SetKey(DEFAULT_RES::MATERIAL::CORSAIR);
+	//	AddRes(pMtrl->GetKey(), pMtrl);
+	//}
+
+	//{
+	//	Ptr<CMaterial> pMtrl = nullptr;
+	//	pMtrl = new CMaterial();
+	//	pMtrl->SetInstancedRender(true);
+	//	pMtrl->SetShader(FindRes<CGraphicsShader>(SHADERS::GRAPHICS::STD2D));
+
+	//	pMtrl->SetKey(DEFAULT_RES::MATERIAL::MARINE);
+	//	AddRes(pMtrl->GetKey(), pMtrl);
+	//}
+
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 
 	pLevel->SetLayerName(0, "DefaultLayer");
@@ -54,43 +76,43 @@ void CreateTestLevel()
 	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
 	// 오브젝트 생성
 
-	for (int i = 0; i < 5; ++i)
-	{
-		CGameObject* pPlayer = new CGameObject;
-		pPlayer->SetName("Player");
-		pPlayer->AddComponent(new CTransform);
-		pPlayer->Transform()->SetSize(Vec3(84.f, 84.f, 1.f));
-		pPlayer->Transform()->SetLockRotation(true);
-		pPlayer->AddComponent(new CMeshRender);
+	//for (int i = 0; i < 5; ++i)
+	//{
+	//	CGameObject* pPlayer = new CGameObject;
+	//	pPlayer->SetName("Player");
+	//	pPlayer->AddComponent(new CTransform);
+	//	pPlayer->Transform()->SetSize(Vec3(84.f, 84.f, 1.f));
+	//	pPlayer->Transform()->SetLockRotation(true);
+	//	pPlayer->AddComponent(new CMeshRender);
 
-		if (0 == i)
-			pPlayer->AddScript(CScriptMgr::GetInst()->GetNewScript(SCRIPTS::PLAYER));
-		
-		Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::MARINE);
+	//	if (0 == i)
+	//		pPlayer->AddScript(CScriptMgr::GetInst()->GetNewScript(SCRIPTS::PLAYER));
+	//	
+	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::MARINE);
 
-		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
-		pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
-		pPlayer->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
+	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
+	//	pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
+	//	pPlayer->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 
-		pPlayer->MeshRender()->SetMesh(RectMesh);
-		pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
+	//	pPlayer->MeshRender()->SetMesh(RectMesh);
+	//	pPlayer->MeshRender()->SetMaterial(PlayerMtrl);
 
-		//pPlayer->AddComponent(new CLight2D);
-		//pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
+	//	//pPlayer->AddComponent(new CLight2D);
+	//	//pPlayer->Light2D()->SetLightType(eLIGHT_TYPE::POINT);
 
-		pPlayer->AddComponent(new CAnimator2D);
+	//	pPlayer->AddComponent(new CAnimator2D);
 
-		Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::MARINE_ATLAS);
-		pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
-		pPlayer->Animator2D()->Play(DEFAULT_RES::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
+	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::MARINE_ATLAS);
+	//	pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
+	//	pPlayer->Animator2D()->Play(DEFAULT_RES::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
 
-		if (0 == i)
-			pPlayer->AddComponent(new CCollider2D_Point);
-		else
-			pPlayer->AddComponent(new CCollider2D_OBB);
+	//	if (0 == i)
+	//		pPlayer->AddComponent(new CCollider2D_Point);
+	//	else
+	//		pPlayer->AddComponent(new CCollider2D_OBB);
 
-		::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
-	}
+	//	::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
+	//}
 
 
 
@@ -335,7 +357,7 @@ void CreateTestLevel()
 	}
 
 
-	Ptr<CCS_SCMapLoader> pMapLoader = CResMgr::GetInst()->FindRes<CComputeShader>(DEFAULT_RES::SHADER::COMPUTE::SC_MAP_LOADER);
+	Ptr<CCS_SCMapLoader> pMapLoader = CResMgr::GetInst()->FindRes<CComputeShader>(DEFAULT_RES::SHADER::COMPUTE::SCMAPLOADER);
 
 	tMapData Data = {};
 	pMapLoader->LoadMap(L"(4)Fighting Sprit 1.3.scx", Data);
@@ -356,4 +378,15 @@ void CreateTestLevel()
 	pMesh->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::RECT));
 
 	::SpawnGameObject(MapObj, Vec3(0.f, 0.f, 1000.f), 0);
+}
+
+bool CreateUserGraphicsShader()
+{
+
+	return true;
+}
+
+bool CreateUserComputeShader()
+{
+	return false;
 }

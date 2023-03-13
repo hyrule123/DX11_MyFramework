@@ -38,8 +38,8 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     
 {
     //wstring Path = CPathMgr::GetInst()->GetContentAbsPathW();
-    wstring Path = RELATIVE_PATH::CONTENT::W;
-    Path += L"Maps\\Tilesets\\";
+    std::filesystem::path Path = RELATIVE_PATH::CONTENT::A;
+    Path /= "Maps\\Tilesets\\";
 
 
     //타일셋 데이터를 저장할 메모리공간 동적할당 
@@ -188,9 +188,9 @@ bool CCS_SCMapLoader::BindDataCS()
 {
     //wstring MapPath = CPathMgr::GetInst()->GetContentAbsPathW();
 
-    wstring MapPath = L"./";
-    MapPath += L"Maps/";
-    MapPath += m_tMapWorkSpace.wstrMapName;
+    std::filesystem::path MapPath = RELATIVE_PATH::CONTENT::A;
+    MapPath /= L"Maps";
+    MapPath /= m_tMapWorkSpace.wstrMapName;
 
     
 

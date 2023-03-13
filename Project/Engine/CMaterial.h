@@ -57,9 +57,9 @@ public:
     bool GetInstencedRender() const { return (nullptr != m_SBufferMtrlScalar); }
 
 private:
-    virtual bool Load(const wstring& _strFilePath) { return S_OK; }
+    virtual bool Load(const std::filesystem::path& _path) { return true; }
 public:
-    virtual bool Save(const wstring& _strRelativePath) { return S_OK; }
+    virtual bool Save(const std::filesystem::path& _path) { return true; }
     virtual void BindData() override;
 
 private:

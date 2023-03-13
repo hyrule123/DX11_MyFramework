@@ -14,6 +14,8 @@ public:
     virtual bool BindDataCS() override;
     virtual void UnBindCS() override;
 
+
+
 private:
     CStructBuffer* m_pSBuffer_InitSetting;
 

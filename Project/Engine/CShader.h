@@ -36,9 +36,9 @@ protected:
     ComPtr<ID3DBlob>    m_ErrBlob;
 
 public:
-    virtual bool Save(const wstring& _strRelativePath) { return S_OK; }
+    virtual bool Save(const std::filesystem::path& _path) { return false; }
 private:
-    virtual bool Load(const wstring& _strFilePath) { return S_OK; }
+    virtual bool Load(const std::filesystem::path& _path) { return false; }
 
 
 };

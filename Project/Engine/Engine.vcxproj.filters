@@ -185,22 +185,19 @@
       <Filter>HLSL</Filter>
     </ClInclude>
     <ClInclude Include="CCS_SetColor.h">
-      <Filter>HLSL\98. Compute\01. SetColor</Filter>
+      <Filter>HLSL\99. Compute\01. SetColor</Filter>
     </ClInclude>
     <ClInclude Include="CCS_ParticleUpdate.h">
-      <Filter>HLSL\98. Compute\02. ParticleUpdate</Filter>
+      <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
     </ClInclude>
     <ClInclude Include="CCS_Initialize.h">
-      <Filter>HLSL\98. Compute\00. Initialize</Filter>
+      <Filter>HLSL\99. Compute\00. Initialize</Filter>
     </ClInclude>
     <ClInclude Include="CCS_SCMapLoader.h">
-      <Filter>HLSL\98. Compute\03. SCMapLoader</Filter>
+      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClInclude>
     <ClInclude Include="Precompiled.h">
       <Filter>_Source\00. Header</Filter>
-    </ClInclude>
-    <ClInclude Include="CShaderLoader.h">
-      <Filter>_Source\03. Manager\05. ResMgr</Filter>
     </ClInclude>
     <ClInclude Include="jsoncpp.h">
       <Filter>_Source\00. Header</Filter>
@@ -361,19 +358,16 @@
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="CCS_SetColor.cpp">
-      <Filter>HLSL\98. Compute\01. SetColor</Filter>
+      <Filter>HLSL\99. Compute\01. SetColor</Filter>
     </ClCompile>
     <ClCompile Include="CCS_ParticleUpdate.cpp">
-      <Filter>HLSL\98. Compute\02. ParticleUpdate</Filter>
+      <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
     </ClCompile>
     <ClCompile Include="CCS_Initialize.cpp">
-      <Filter>HLSL\98. Compute\00. Initialize</Filter>
+      <Filter>HLSL\99. Compute\00. Initialize</Filter>
     </ClCompile>
     <ClCompile Include="CCS_SCMapLoader.cpp">
-      <Filter>HLSL\98. Compute\03. SCMapLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="CShaderLoader.cpp">
-      <Filter>_Source\03. Manager\05. ResMgr</Filter>
+      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,24 +385,6 @@
     </Filter>
     <Filter Include="HLSL\01. Test">
       <UniqueIdentifier>{847b22ce-0079-497b-84dd-2686cdecdae2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\99. Debug">
-      <UniqueIdentifier>{3964de6a-5569-49d3-84a2-49fbf7126a03}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\98. Compute">
-      <UniqueIdentifier>{32db0407-1029-4935-bd20-af2104ddee58}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\98. Compute\01. SetColor">
-      <UniqueIdentifier>{331293f5-72fc-4f40-8d18-862dff123db4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\98. Compute\02. ParticleUpdate">
-      <UniqueIdentifier>{6b416682-fb15-4520-9fa1-32a5f07bb67b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\98. Compute\00. Initialize">
-      <UniqueIdentifier>{4f9e5be7-6004-4164-a2a8-f66d39e88551}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\98. Compute\03. SCMapLoader">
-      <UniqueIdentifier>{36c6709e-97ed-477e-b686-406ee9c3ef75}</UniqueIdentifier>
     </Filter>
     <Filter Include="HLSL\05. Particle_Render">
       <UniqueIdentifier>{58580cd2-1a84-459b-887a-60873a309d25}</UniqueIdentifier>
@@ -542,6 +518,27 @@
     <Filter Include="_Default">
       <UniqueIdentifier>{bf35e007-92a1-401c-bb41-cafe9c4fd5e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HLSL\00. Debug">
+      <UniqueIdentifier>{3964de6a-5569-49d3-84a2-49fbf7126a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\99. Compute">
+      <UniqueIdentifier>{32db0407-1029-4935-bd20-af2104ddee58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\99. Compute\01. SetColor">
+      <UniqueIdentifier>{331293f5-72fc-4f40-8d18-862dff123db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\99. Compute\02. ParticleUpdate">
+      <UniqueIdentifier>{6b416682-fb15-4520-9fa1-32a5f07bb67b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\99. Compute\00. Initialize">
+      <UniqueIdentifier>{4f9e5be7-6004-4164-a2a8-f66d39e88551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\99. Compute\03. SCMapLoader">
+      <UniqueIdentifier>{36c6709e-97ed-477e-b686-406ee9c3ef75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\06. SCUnit">
+      <UniqueIdentifier>{5c312d34-64b3-4759-81d1-fa0f86253401}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -570,13 +567,16 @@
       <Filter>HLSL\01. Test</Filter>
     </None>
     <None Include="S_0_H_Debug.hlsli">
-      <Filter>HLSL\99. Debug</Filter>
+      <Filter>HLSL\00. Debug</Filter>
     </None>
     <None Include="S_0_H_SCMapLoader.hlsli">
-      <Filter>HLSL\98. Compute\03. SCMapLoader</Filter>
+      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </None>
     <None Include="S_0_H_Particle.hlsli">
       <Filter>HLSL\05. Particle_Render</Filter>
+    </None>
+    <None Include="S_0_H_SCUnit.hlsli">
+      <Filter>HLSL\06. SCUnit</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -611,25 +611,25 @@
       <Filter>HLSL\01. Test</Filter>
     </FxCompile>
     <FxCompile Include="S_1_V_Debug.hlsl">
-      <Filter>HLSL\99. Debug</Filter>
+      <Filter>HLSL\00. Debug</Filter>
     </FxCompile>
     <FxCompile Include="S_2_P_Debug.hlsl">
-      <Filter>HLSL\99. Debug</Filter>
+      <Filter>HLSL\00. Debug</Filter>
     </FxCompile>
     <FxCompile Include="S_C_SetColor.hlsl">
-      <Filter>HLSL\98. Compute\01. SetColor</Filter>
+      <Filter>HLSL\99. Compute\01. SetColor</Filter>
     </FxCompile>
     <FxCompile Include="S_C_ParticleRainDrop.hlsl">
-      <Filter>HLSL\98. Compute\02. ParticleUpdate</Filter>
+      <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
     </FxCompile>
     <FxCompile Include="S_C_ParticleBasic.hlsl">
-      <Filter>HLSL\98. Compute\02. ParticleUpdate</Filter>
+      <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
     </FxCompile>
     <FxCompile Include="S_C_Initalize.hlsl">
-      <Filter>HLSL\98. Compute\00. Initialize</Filter>
+      <Filter>HLSL\99. Compute\00. Initialize</Filter>
     </FxCompile>
     <FxCompile Include="S_1_C_SCMapLoader.hlsl">
-      <Filter>HLSL\98. Compute\03. SCMapLoader</Filter>
+      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </FxCompile>
     <FxCompile Include="S_2_G_Particle.hlsl">
       <Filter>HLSL\05. Particle_Render</Filter>
@@ -639,6 +639,12 @@
     </FxCompile>
     <FxCompile Include="S_1_V_Particle.hlsl">
       <Filter>HLSL\05. Particle_Render</Filter>
+    </FxCompile>
+    <FxCompile Include="S_2_P_SCUnit.hlsl">
+      <Filter>HLSL\06. SCUnit</Filter>
+    </FxCompile>
+    <FxCompile Include="S_1_V_SCUnit.hlsl">
+      <Filter>HLSL\06. SCUnit</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -33,28 +33,26 @@ namespace DEFAULT_RES
 
 	namespace SHADER
 	{
-		constexpr const char* DEBUG = "DebugShader";
-		constexpr const char* TEST = "TestShader";
-		constexpr const char* STD2D = "std2DShader";
-		constexpr const char* STD2D_LIGHT = "std2DLightShader";
-		
-		constexpr const char* TILEMAP_COMPLETE = "TilemapComplete";
-		constexpr const char* TILEMAP_ATLAS = "TilemapShader";
-
-
-		constexpr const char* PARTICLE_RENDER = "ParticleRenderShader";
-
+		namespace GRAPHICS
+		{
+			constexpr const char* DEBUG = "Debug.json";
+			constexpr const char* PARTICLE = "Particle.json";
+			constexpr const char* STD2D = "STD2D.json";
+			constexpr const char* STD2DLIGHT = "STD2DLight.json";
+			constexpr const char* TEST = "Test.json";
+			constexpr const char* TILEMAPATLAS = "TilemapAtlas.json";
+			constexpr const char* TILEMAPCOMPLETE = "TilemapComplete.json";
+		}
 
 		namespace COMPUTE
 		{
-			constexpr const char* INIT_SETTING = "CSInitSetting";
-			constexpr const char* SET_COLOR = "CSSetColor";
-			constexpr const char* PARTICLE_UPDATE_BASIC = "CSParticleUpdateBasic";
-			constexpr const char* PARTICLE_UPDATE_RAINDROP = "CSParticleUpdateRainDrop";
-			constexpr const char* SC_MAP_LOADER = "CS_SCMapLoader";
+			constexpr const char* SCMAPLOADER = "S_1_C_SCMapLoader.cso";
+			constexpr const char* INITALIZE = "S_C_Initalize.cso";
+			constexpr const char* PARTICLEBASIC = "S_C_ParticleBasic.cso";
+			constexpr const char* PARTICLERAINDROP = "S_C_ParticleRainDrop.cso";
+			constexpr const char* SETCOLOR = "S_C_SetColor.cso";
 		}
 	}
-
 	
 	namespace TEXTURE
 	{

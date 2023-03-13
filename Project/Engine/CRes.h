@@ -21,18 +21,18 @@ private:
     int             m_iRefCount;
 
     string         m_strKey;
-    wstring         m_strRelativePath;
+    std::filesystem::path         m_RelativePath;
 
 public:
     void SetKey(const string& _strKey) { m_strKey = _strKey; }
     const string& GetKey() { return m_strKey; }
-    const wstring& GetRelativePath() { return m_strRelativePath; }
+    const std::filesystem::path& GetRelativePath() { return m_RelativePath; }
 
     eRES_TYPE GetResType() const { return m_Type; }
 
 private:
     
-    void SetRelativePath(const wstring& _strPath) { m_strRelativePath = _strPath; }
+    void SetRelativePath(const std::filesystem::path& _path) { m_RelativePath = _path; }
 
     void AddRef() { ++m_iRefCount; }
     void Release();
@@ -42,11 +42,11 @@ private:
 
 private:
     // 파일로부터 로딩
-    virtual bool Load(const wstring& _strFilePath) = 0;
+    virtual bool Load(const std::filesystem::path& _path) = 0;
 
 public:
     // 파일로 저장
-    virtual bool Save(const wstring&) = 0;
+    virtual bool Save(const std::filesystem::path& _path) = 0;
 
     // 리소스는 Clone 을 구현하지 않는다.(Material 제외)
     virtual CRes* Clone() { return nullptr; assert(nullptr); }

@@ -47,9 +47,9 @@ public:
     ComPtr<ID3D11UnorderedAccessView>   GetUAV() { return m_UAV; }
 
 private:
-    virtual bool Load(const wstring& _strFilePath) override;
+    virtual bool Load(const std::filesystem::path& _path) override;
 public:
-    virtual bool Save(const wstring& _strRelativePath) override;
+    virtual bool Save(const std::filesystem::path& _path) override;
     
 public:
     int Create(UINT _uWidth, UINT _uHeight, DXGI_FORMAT _pixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);

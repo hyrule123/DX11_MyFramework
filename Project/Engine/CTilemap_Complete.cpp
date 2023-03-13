@@ -32,7 +32,7 @@ bool CTilemap_Complete::render()
 
 bool CTilemap_Complete::LoadMap(const wstring& _strMapName)
 {
-	static Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(DEFAULT_RES::SHADER::COMPUTE::SC_MAP_LOADER);
+	static Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(DEFAULT_RES::SHADER::COMPUTE::SCMAPLOADER);
 
 	m_bMapLoaded = pLoader->LoadMap(_strMapName, m_tMapData);
 

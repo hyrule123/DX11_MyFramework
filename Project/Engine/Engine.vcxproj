@@ -133,6 +133,8 @@
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -165,6 +167,8 @@ call Copy_Engine.bat</Command>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -228,7 +232,6 @@ call Copy_Engine.bat</Command>
     <ClInclude Include="CScript.h" />
     <ClInclude Include="CScriptHolder.h" />
     <ClInclude Include="CShader.h" />
-    <ClInclude Include="CShaderLoader.h" />
     <ClInclude Include="CSingleton.h" />
     <ClInclude Include="CStructBuffer.h" />
     <ClInclude Include="CTexture.h" />
@@ -298,7 +301,6 @@ call Copy_Engine.bat</Command>
     <ClCompile Include="CScript.cpp" />
     <ClCompile Include="CScriptHolder.cpp" />
     <ClCompile Include="CShader.cpp" />
-    <ClCompile Include="CShaderLoader.cpp" />
     <ClCompile Include="CStructBuffer.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTilemap.cpp" />
@@ -318,6 +320,7 @@ call Copy_Engine.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="S_0_H_SCUnit.hlsli" />
     <None Include="SimpleMath.inl" />
     <ClInclude Include="S_H_Struct.hlsli">
       <FileType>Document</FileType>
@@ -337,6 +340,18 @@ call Copy_Engine.bat</Command>
     <None Include="S_H_FuncBitwise.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="S_1_V_SCUnit.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_SCUnit</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_SCUnit</EntryPointName>
+    </FxCompile>
     <FxCompile Include="S_1_C_SCMapLoader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
@@ -351,9 +366,9 @@ call Copy_Engine.bat</Command>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CS_SCMapLoader</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CS_SCMapLoader</EntryPointName>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </HeaderFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -393,9 +408,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -423,9 +438,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -453,9 +468,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -483,9 +498,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -509,9 +524,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_test</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_test</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_test</EntryPointName>
@@ -535,9 +550,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_Tilemap_Atlas</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_Tilemap_Atlas</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_Tilemap_Atlas</EntryPointName>
@@ -565,9 +580,9 @@ call Copy_Engine.bat</Command>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </HeaderFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -595,9 +610,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">GS_Particle</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GS_Particle</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">GS_Particle</EntryPointName>
@@ -621,9 +636,9 @@ call Copy_Engine.bat</Command>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </HeaderFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -651,9 +666,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PS_std2D</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_std2D</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PS_std2D</EntryPointName>
@@ -689,9 +704,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -715,9 +730,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PS_test</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_test</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PS_test</EntryPointName>
@@ -749,9 +764,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -771,9 +786,9 @@ call Copy_Engine.bat</Command>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </HeaderFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -805,9 +820,9 @@ call Copy_Engine.bat</Command>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -835,9 +850,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -865,9 +880,9 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
@@ -887,9 +902,9 @@ call Copy_Engine.bat</Command>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CS_Particle_RainDrop</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CS_Particle_RainDrop</EntryPointName>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </HeaderFileOutput>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -925,13 +940,25 @@ call Copy_Engine.bat</Command>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </HeaderFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Shader\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Compute\%(Filename).cso</ObjectFileOutput>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/O0</AdditionalOptions>
+    </FxCompile>
+    <FxCompile Include="S_2_P_SCUnit.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_SCUnit</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS_SCUnit</EntryPointName>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
