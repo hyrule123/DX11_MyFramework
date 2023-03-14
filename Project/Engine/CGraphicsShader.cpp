@@ -37,16 +37,19 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
-bool CGraphicsShader::Save(const std::filesystem::path& _path)
+bool CGraphicsShader::Save(const std::filesystem::path& _fileName)
 {
 
 
 	return false;
 }
 
-bool CGraphicsShader::Load(const std::filesystem::path& _path)
+bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
 {
-	std::ifstream fpShader(_path);
+	std::filesystem::path shaderPath = RELATIVE_PATH::SHADER_GRAPHICS::A;
+	shaderPath /= _fileName;
+
+	std::ifstream fpShader(shaderPath);
 	if (false == fpShader.is_open())
 		return false;
 
@@ -54,7 +57,7 @@ bool CGraphicsShader::Load(const std::filesystem::path& _path)
 	fpShader >> shaderInfo;
 
 	const string& strShaderNameBase = shaderInfo[JSON_SHADERINFO::COMMON_VAL::strShaderName].asString();
-	SetKey(strShaderNameBase);
+	SetKey(_fileName.filename().string());
 
 	m_BSType = (eBLENDSTATE_TYPE)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eBState].asInt();
 	m_DSType = (eDEPTHSTENCIL_TYPE)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eDSState].asInt();
@@ -81,13 +84,14 @@ bool CGraphicsShader::Load(const std::filesystem::path& _path)
 		if ((1 << i) & flagPipeline)
 		{
 			++ShaderOrder;
-			std::filesystem::path strShaderFile = _path.parent_path().string();
-			strShaderFile /= "S_";
-			strShaderFile += std::to_string(ShaderOrder);
-			strShaderFile += JSON_SHADERINFO::GRAPHICS_SHADER::arrName[i];
-			strShaderFile += strShaderNameBase;
+			shaderPath = shaderPath.parent_path();
 			
-			std::ifstream shaderCode(strShaderFile, openFlag);
+			shaderPath /= "S_";
+			shaderPath += std::to_string(ShaderOrder);
+			shaderPath += JSON_SHADERINFO::GRAPHICS_SHADER::arrName[i];
+			shaderPath += strShaderNameBase;
+			
+			std::ifstream shaderCode(shaderPath, openFlag);
 			
 			if (true == shaderCode.is_open())
 			{
@@ -105,6 +109,14 @@ bool CGraphicsShader::Load(const std::filesystem::path& _path)
 
 				//읽어온 바이트 코드로부터 쉐이더를 로딩해준다.
 				CreateShader(m_ShaderData[i].pByteCode, codeSize, (eSHADER_TYPE)i, eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE);
+			}
+			else
+			{
+				string strErrMsg = "Shader File \n\"";
+				strErrMsg += shaderPath.filename().string() + "\"\n";
+				strErrMsg += "Load Failed!!";
+				MessageBoxA(nullptr, strErrMsg.c_str(), NULL, MB_OK);
+				assert(nullptr);
 			}
 		}
 	}
@@ -244,8 +256,8 @@ void CGraphicsShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCod
 void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType)
 {
 	// 1. Shader 파일 경로 받아옴
-	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();
-	strShaderFile += _strFileName;
+	std::filesystem::path shaderPath = RELATIVE_PATH::SHADER_GRAPHICS::W;
+	shaderPath /= _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경
 	m_ShaderData[(int)_ShaderType].LoadType = eSHADER_LOADTYPE::RUNTIME_COMPILED;
@@ -282,8 +294,8 @@ void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _s
 		break;
 	}
 
-	// 3. VertexShader Compile
-	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+	// Shader Compile
+	if (FAILED(D3DCompileFromFile(shaderPath.wstring().c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 		, _strFuncName.c_str(), ShaderNameVersion, 0, 0, m_ShaderData[(int)_ShaderType].Blob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
 	{
 		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()

@@ -3,79 +3,7 @@
 
 #include "CDevice.h"
 
-void CTexture::UnBind()
-{
-	if (eCURRENT_BOUND_VIEW::NONE == m_eCurBoundView)
-		return;
-
-	else if (eCURRENT_BOUND_VIEW::SRV == m_eCurBoundView)
-	{
-		assert(0 <= m_iCurBoundRegister);
-
-		ID3D11ShaderResourceView* pSrv = nullptr;
-
-		if (eSHADER_PIPELINE_STAGE::__VERTEX & m_flagCurBoundPipeline)
-		{
-			CONTEXT->VSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
-		}
-
-		if (eSHADER_PIPELINE_STAGE::__HULL & m_flagCurBoundPipeline)
-		{
-			CONTEXT->HSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
-		}
-
-		if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_flagCurBoundPipeline)
-		{
-			CONTEXT->DSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
-		}
-
-		if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_flagCurBoundPipeline)
-		{
-			CONTEXT->GSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
-		}
-
-		if (eSHADER_PIPELINE_STAGE::__PIXEL & m_flagCurBoundPipeline)
-		{
-			CONTEXT->PSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
-		}
-
-		if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_flagCurBoundPipeline)
-		{
-			CONTEXT->CSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
-		}
-
-		//현재 연결된 레지스터 번호와 파이프라인을 초기화
-		m_iCurBoundRegister = -1;
-		m_flagCurBoundPipeline = 0u;
-	}
-
-	else if (eCURRENT_BOUND_VIEW::UAV == m_eCurBoundView)
-	{
-		assert(0 <= m_iCurBoundRegister);
-
-		ID3D11UnorderedAccessView* pUAV = nullptr;
-		UINT u = -1;
-		CONTEXT->CSSetUnorderedAccessViews(m_iCurBoundRegister, 1, &pUAV, &u);
-
-		//현재 연결된 레지스터 번호와 파이프라인을 초기화
-		m_iCurBoundRegister = -1;
-		m_flagCurBoundPipeline = 0u;
-	}
-
-	else if (
-		eCURRENT_BOUND_VIEW::RTV == m_eCurBoundView
-		||
-		eCURRENT_BOUND_VIEW::DSV == m_eCurBoundView
-		)
-	{
-		ID3D11RenderTargetView* pRTV = nullptr;
-		ID3D11DepthStencilView* pDSV = nullptr;
-
-		CONTEXT->OMSetRenderTargets(1, &pRTV, pDSV);
-	}
-	
-	m_eCurBoundView = eCURRENT_BOUND_VIEW::NONE;
-}
+#include "CPathMgr.h"
 
 CTexture::CTexture()
 	: CRes(eRES_TYPE::TEXTURE)
@@ -89,92 +17,54 @@ CTexture::~CTexture()
 {
 }
 
-
-void CTexture::BindData_SRV(int _iRegisterNum, UINT _eSHADER_PIPELINE_STAGE)
+bool CTexture::Save(const std::filesystem::path& _fileName)
 {
-	//컴퓨트쉐이더와의 바인딩 해제
-	UnBind();
-
-	m_iCurBoundRegister = _iRegisterNum;
-	m_flagCurBoundPipeline = _eSHADER_PIPELINE_STAGE;
-	m_eCurBoundView = eCURRENT_BOUND_VIEW::SRV;
-
-	if (eSHADER_PIPELINE_STAGE::__VERTEX & _eSHADER_PIPELINE_STAGE)
-	{
-		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__HULL & _eSHADER_PIPELINE_STAGE)
-	{
-		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__DOMAIN & _eSHADER_PIPELINE_STAGE)
-	{
-		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & _eSHADER_PIPELINE_STAGE)
-	{
-		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__PIXEL & _eSHADER_PIPELINE_STAGE)
-	{
-		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__COMPUTE & _eSHADER_PIPELINE_STAGE)
-	{
-		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
-	}
+	return false;
 }
 
-void CTexture::BindData_UAV(int _iRegisterNum)
+bool CTexture::SaveJson(Json::Value* _pJson)
 {
-	UnBind();
-	
-	//바인딩한 Compute Shader 버퍼 번호를 기억
-	m_eCurBoundView = eCURRENT_BOUND_VIEW::UAV;
-	m_iCurBoundRegister = _iRegisterNum;
+	if (nullptr == _pJson)
+		return false;
+	else if (false == CRes::SaveJson(_pJson))
+		return false;
 
-	UINT i = -1;
-	CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, 1, m_UAV.GetAddressOf(), &i);
+
+
+	return true;
 }
 
 
-
-bool CTexture::Load(const std::filesystem::path& _path)
+bool CTexture::Load(const std::filesystem::path& _fileName)
 {
-	//wchar_t szExt[50] = L"";
-	//_wsplitpath_s(_strFilePath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 50);
-	//wstring strExt = szExt;
-		
-	string strExtension = _path.extension().string();
+	std::filesystem::path texPath(RELATIVE_PATH::TEXTURE::A);
+	texPath /= _fileName;
+
+	string strExtension = _fileName.extension().string();
 	std::transform(strExtension.begin(), strExtension.end(), strExtension.begin(), ::tolower);
 
 	HRESULT hr = S_OK;
 	if (string::npos != strExtension.find(".dds"))
 	{
 		// dds, DDS
-		hr = LoadFromDDSFile(_path.wstring().c_str(), DDS_FLAGS::DDS_FLAGS_NONE, nullptr, m_Image);
+		hr = LoadFromDDSFile(texPath.wstring().c_str(), DDS_FLAGS::DDS_FLAGS_NONE, nullptr, m_Image);
 	}
 
 	else if (string::npos != strExtension.find(".tga"))
 	{
 		// tga, TGA
-		hr = LoadFromTGAFile(_path.wstring().c_str(), nullptr, m_Image);
+		hr = LoadFromTGAFile(texPath.wstring().c_str(), nullptr, m_Image);
 	}
 
 	else
 	{
 		// png, jpg, jpeg, bmp
-		hr = LoadFromWICFile(_path.wstring().c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, m_Image);
+		hr = LoadFromWICFile(texPath.wstring().c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, m_Image);
 	}
-	
+
 	if (FAILED(hr))
 	{
-		MessageBox(nullptr, L"리소스 로딩 실패", L"텍스쳐 로딩 실패", MB_OK);
+		ERROR_MESSAGE(Texture Loading Failed);
 		return false;
 	}
 
@@ -186,8 +76,7 @@ bool CTexture::Load(const std::filesystem::path& _path)
 
 	if (FAILED(hr))
 	{
-		MessageBox(nullptr, L"ShaderResourceView 생성 실패", L"텍스쳐 로딩 실패", MB_OK);
-
+		ERROR_MESSAGE(Texture Loading Failed);
 		return false;
 	}
 
@@ -198,11 +87,22 @@ bool CTexture::Load(const std::filesystem::path& _path)
 	return true;
 }
 
-
-bool CTexture::Save(const std::filesystem::path& _path)
+bool CTexture::LoadJson(Json::Value* _pJson)
 {
-	return false;
+	if (nullptr == _pJson)
+		return false;
+	else if (false == CRes::LoadJson(_pJson))
+		return false;
+
+
+
+	return true;
 }
+
+
+
+
+
 
 int CTexture::Create(UINT _uWidth, UINT _uHeight, DXGI_FORMAT _pixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage)
 {
@@ -273,4 +173,131 @@ int CTexture::CreateView()
 	}
 
 	return S_OK;
+}
+
+void CTexture::BindData_SRV(int _iRegisterNum, UINT _eSHADER_PIPELINE_STAGE)
+{
+	//컴퓨트쉐이더와의 바인딩 해제
+	UnBind();
+
+	m_iCurBoundRegister = _iRegisterNum;
+	m_flagCurBoundPipeline = _eSHADER_PIPELINE_STAGE;
+	m_eCurBoundView = eCURRENT_BOUND_VIEW::SRV;
+
+	if (eSHADER_PIPELINE_STAGE::__VERTEX & _eSHADER_PIPELINE_STAGE)
+	{
+		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+	}
+
+	if (eSHADER_PIPELINE_STAGE::__HULL & _eSHADER_PIPELINE_STAGE)
+	{
+		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+	}
+
+	if (eSHADER_PIPELINE_STAGE::__DOMAIN & _eSHADER_PIPELINE_STAGE)
+	{
+		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+	}
+
+	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & _eSHADER_PIPELINE_STAGE)
+	{
+		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+	}
+
+	if (eSHADER_PIPELINE_STAGE::__PIXEL & _eSHADER_PIPELINE_STAGE)
+	{
+		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+	}
+
+	if (eSHADER_PIPELINE_STAGE::__COMPUTE & _eSHADER_PIPELINE_STAGE)
+	{
+		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+	}
+}
+
+void CTexture::BindData_UAV(int _iRegisterNum)
+{
+	UnBind();
+
+	//바인딩한 Compute Shader 버퍼 번호를 기억
+	m_eCurBoundView = eCURRENT_BOUND_VIEW::UAV;
+	m_iCurBoundRegister = _iRegisterNum;
+
+	UINT i = -1;
+	CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, 1, m_UAV.GetAddressOf(), &i);
+}
+
+
+void CTexture::UnBind()
+{
+	if (eCURRENT_BOUND_VIEW::NONE == m_eCurBoundView)
+		return;
+
+	else if (eCURRENT_BOUND_VIEW::SRV == m_eCurBoundView)
+	{
+		assert(0 <= m_iCurBoundRegister);
+
+		ID3D11ShaderResourceView* pSrv = nullptr;
+
+		if (eSHADER_PIPELINE_STAGE::__VERTEX & m_flagCurBoundPipeline)
+		{
+			CONTEXT->VSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__HULL & m_flagCurBoundPipeline)
+		{
+			CONTEXT->HSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_flagCurBoundPipeline)
+		{
+			CONTEXT->DSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_flagCurBoundPipeline)
+		{
+			CONTEXT->GSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__PIXEL & m_flagCurBoundPipeline)
+		{
+			CONTEXT->PSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_flagCurBoundPipeline)
+		{
+			CONTEXT->CSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
+		}
+
+		//현재 연결된 레지스터 번호와 파이프라인을 초기화
+		m_iCurBoundRegister = -1;
+		m_flagCurBoundPipeline = 0u;
+	}
+
+	else if (eCURRENT_BOUND_VIEW::UAV == m_eCurBoundView)
+	{
+		assert(0 <= m_iCurBoundRegister);
+
+		ID3D11UnorderedAccessView* pUAV = nullptr;
+		UINT u = -1;
+		CONTEXT->CSSetUnorderedAccessViews(m_iCurBoundRegister, 1, &pUAV, &u);
+
+		//현재 연결된 레지스터 번호와 파이프라인을 초기화
+		m_iCurBoundRegister = -1;
+		m_flagCurBoundPipeline = 0u;
+	}
+
+	else if (
+		eCURRENT_BOUND_VIEW::RTV == m_eCurBoundView
+		||
+		eCURRENT_BOUND_VIEW::DSV == m_eCurBoundView
+		)
+	{
+		ID3D11RenderTargetView* pRTV = nullptr;
+		ID3D11DepthStencilView* pDSV = nullptr;
+
+		CONTEXT->OMSetRenderTargets(1, &pRTV, pDSV);
+	}
+
+	m_eCurBoundView = eCURRENT_BOUND_VIEW::NONE;
 }

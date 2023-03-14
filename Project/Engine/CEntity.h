@@ -1,5 +1,7 @@
 #pragma once
 
+#include <UtilLib_DLL/json/forwards.h>
+
 class CEntity
 {
 public:
@@ -7,6 +9,14 @@ public:
 	CEntity(const string& _strName);
 	CEntity(const CEntity& _other);
 	virtual ~CEntity();
+
+public:
+	virtual bool Save(const std::filesystem::path _fileName) { return true; }
+	virtual bool SaveJson(Json::Value* _pJson);
+	
+protected:
+	virtual bool Load(const std::filesystem::path _fileName) { return true; }
+	virtual bool LoadJson(Json::Value* _pJson);
 
 private:
 	static UINT32 g_iNextID;

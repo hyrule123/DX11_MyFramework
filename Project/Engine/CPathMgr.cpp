@@ -19,8 +19,9 @@ void CPathMgr::init()
 {
     m_ContentPath = std::filesystem::current_path();
 
-    std::filesystem::path addPath(L"Content\\");
-    m_ContentPath /= addPath;
+	m_ContentPath /= "Content";
+
+	
 	
 	//CurrentDirectory는 비주얼스튜디오에서 디버그할때와 프로그램으로 실행시킬때 주소가 다르게 나옴
 	//GetCurrentDirectory(256, m_szContentPath);

@@ -5,14 +5,28 @@
 #include "CConstBuffer.h"
 #include "CStructBuffer.h"
 
+#include "jsoncpp.h"
+
+#include "CResMgr.h"
+
+namespace JSONKEY_CMaterial
+{
+	JSON_KEY(strKeyShader);
+	JSON_KEY(arrStrKeyTex);
+	JSON_KEY(bUseInstancing);
+}
+
+
+
 CMaterial::CMaterial()
 	: CRes(eRES_TYPE::MATERIAL)
 	, m_SBufferMtrlScalar()
 	, m_MtrlTex{}
 	, m_arrTex{}
 	, m_uRenderCount()
+	, m_bUseInstancing()
 {	
-	//기본 설정은 단일 드로우콜
+	//기본 설정은 단일 드로우콜(Non-Instancing)
 	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
 }
 
@@ -42,6 +56,8 @@ CMaterial::~CMaterial()
 
 void CMaterial::SetInstancedRender(bool _bEnable)
 {
+	m_bUseInstancing = _bEnable;
+
 	if(true == _bEnable)
 	{
 		//상수버퍼주소 제거하고
@@ -64,6 +80,76 @@ void CMaterial::SetInstancedRender(bool _bEnable)
 		m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
 	}
 }
+
+bool CMaterial::Save(const std::filesystem::path& _fileName)
+{
+	return false;
+}
+
+bool CMaterial::SaveJson(Json::Value* _pJson)
+{
+	if (nullptr == _pJson)
+		return false;
+	else if (false == CRes::SaveJson(_pJson))
+		return false;
+
+	if (nullptr == m_pShader)
+		return false;
+
+	(*_pJson)[JSONKEY_CMaterial::strKeyShader] = m_pShader->GetKey();
+	(*_pJson)[JSONKEY_CMaterial::bUseInstancing] = m_bUseInstancing;
+	(*_pJson)[JSONKEY_CMaterial::arrStrKeyTex] = Json::Value(Json::arrayValue);
+
+	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+	{
+		if (nullptr != m_arrTex[i])
+		{
+			(*_pJson)[JSONKEY_CMaterial::arrStrKeyTex].append(m_arrTex[i]->GetKey());
+		}
+		else
+		{
+			(*_pJson)[JSONKEY_CMaterial::arrStrKeyTex].append("");
+		}
+	}
+
+	return true;
+}
+
+bool CMaterial::Load(const std::filesystem::path& _fileName)
+{
+	return false;
+}
+
+bool CMaterial::LoadJson(Json::Value* _pJson)
+{
+	if (nullptr == _pJson)
+		return false;
+	else if (false == CRes::LoadJson(_pJson))
+		return false;
+
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	m_pShader = pResMgr->FindRes<CGraphicsShader>((*_pJson)[JSONKEY_CMaterial::strKeyShader].asString());
+
+	m_bUseInstancing = (*_pJson)[JSONKEY_CMaterial::bUseInstancing].asBool();
+	
+
+	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+	{
+		string strKeyTex = (*_pJson)[JSONKEY_CMaterial::arrStrKeyTex][i].asString();
+		if (false == strKeyTex.empty())
+		{
+			Ptr<CTexture> pTex = pResMgr->FindRes<CTexture>(strKeyTex);
+			if (nullptr == pTex)
+			{
+				//pResMgr->Load<CTexture>()
+			}
+		}
+	}
+
+	return true;
+}
+
 
 
 void CMaterial::BindData()

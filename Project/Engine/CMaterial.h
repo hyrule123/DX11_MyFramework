@@ -10,7 +10,6 @@
 //Texture Parameter : 이 재질을 사용하는 오브젝트 모두 공통적으로 사용하는 요소
 
 
-
 class CStructBuffer;
 class CConstBuffer;
 
@@ -39,6 +38,7 @@ private:
     //vector은 데이터를 구조화버퍼를 전달하면 싹 지워버리기 문에
     //별도의 변수를 둬서 사이즈를 따로 저장해 놔야 함
     UINT                    m_uRenderCount;
+    bool                    m_bUseInstancing;
 
 public:
     //Inline Setter
@@ -56,15 +56,16 @@ public:
     void SetInstancedRender(bool _bEnable);
     bool GetInstencedRender() const { return (nullptr != m_SBufferMtrlScalar); }
 
-private:
-    virtual bool Load(const std::filesystem::path& _path) { return true; }
+
 public:
-    virtual bool Save(const std::filesystem::path& _path) { return true; }
+    virtual bool Save(const std::filesystem::path& _fileName) override;
+    virtual bool SaveJson(Json::Value* _pJson) override;
     virtual void BindData() override;
 
 private:
+    virtual bool Load(const std::filesystem::path& _fileName) override;
+    virtual bool LoadJson(Json::Value* _pJson) override;
     bool IsTexture(eMTRLDATA_PARAM_TEX _Idx);
-
 };
 
 inline Ptr<CTexture> CMaterial::GetTexture(eMTRLDATA_PARAM_TEX _texIdx) const

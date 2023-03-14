@@ -23,6 +23,8 @@
 
 CImGuiMgr::CImGuiMgr()
     : m_hWnd()
+    , m_MainMenubar()
+    , m_OpenWindowsMenu()
     , m_clear_color(0.45f, 0.55f, 0.60f, 1.00f)
     , m_bShowDemoWindow1()
     , m_SavedUIData()
@@ -32,11 +34,11 @@ CImGuiMgr::CImGuiMgr()
 
 CImGuiMgr::~CImGuiMgr()
 {
-    wstring origPath = CPathMgr::GetInst()->GetContentAbsPathW();
-    origPath += L"SavedSettings/";
-    wstring Path = origPath + L"imgui.ini";
-    string utfpath = ::ConvertUnicodeToUTF8(Path);
-    ImGui::SaveIniSettingsToDisk(utfpath.c_str());
+
+    std::filesystem::path origDir = RELATIVE_PATH::CONTENT::A;
+    origDir /= "SavedSettings";
+    std::filesystem::path fullPath = origDir / "imgui.ini";
+    ImGui::SaveIniSettingsToDisk(fullPath.string().c_str());
 
     vector<CUI*> vecUI;
 
@@ -61,9 +63,9 @@ CImGuiMgr::~CImGuiMgr()
         DESTRUCTOR_DELETE(vecUI[i]);
     }
 
-    Path.clear();
-    Path = origPath + L"ImGuiSave.json";
-    std::ofstream fout(Path);
+    fullPath = origDir;
+    fullPath /= "ImGuiSave.json";
+    std::ofstream fout(fullPath);
     if (true == fout.is_open())
     {
         fout << m_SavedUIData;
@@ -171,25 +173,24 @@ void CImGuiMgr::init(HWND _hWnd)
 
 
     //설정 파일들 로드
-    wstring origPath = CPathMgr::GetInst()->GetContentAbsPathW();
-    origPath += L"SavedSettings/";
-    wstring path = origPath + L"imgui.ini";
-    string utfpath = ::ConvertUnicodeToUTF8(path);
+    std::filesystem::path origDir = RELATIVE_PATH::CONTENT::A;
+    origDir /= DIRECTORY_NAME::SAVED_SETTINGS::A;
+    std::filesystem::path fullPath = origDir / "imgui.ini";
     io.IniFilename = NULL;
 
-    ImGui::LoadIniSettingsFromDisk(utfpath.c_str());
+    ImGui::LoadIniSettingsFromDisk(fullPath.string().c_str());
 
-    path.clear();
-    path = origPath + L"ImGuiSave.json";
+    fullPath = origDir;
+    fullPath += "ImGuiSave.json";
 
-    std::ifstream loadfile(path);
+    std::ifstream loadfile(fullPath);
     if (true == loadfile.is_open())
     {
         loadfile >> m_SavedUIData;
         loadfile.close();
     }
 
-    
+  
 
     //wstring path = CPathMgr::GetInst()->GetContentAbsPathW();
     //path += L"font/NotoSansKR-Regular.otf";
@@ -203,9 +204,6 @@ void CImGuiMgr::init(HWND _hWnd)
     ImGui_ImplWin32_Init(_hWnd);
     CDevice* pDevice = CDevice::GetInst();
     ImGui_ImplDX11_Init(pDevice->GetDevice(), pDevice->GetDeviceContext());
-
-
-
 
     CreateDefaultUI();
 }

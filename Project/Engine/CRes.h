@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+#include <UtilLib_DLL/json/forwards.h>
+
 class CRes :
     public CEntity
 {
@@ -17,22 +19,24 @@ public:
     friend class Ptr;
 
 private:
-    const eRES_TYPE  m_Type;
     int             m_iRefCount;
 
+    const eRES_TYPE  m_eResType;
     string         m_strKey;
     std::filesystem::path         m_RelativePath;
+
+    
 
 public:
     void SetKey(const string& _strKey) { m_strKey = _strKey; }
     const string& GetKey() { return m_strKey; }
     const std::filesystem::path& GetRelativePath() { return m_RelativePath; }
 
-    eRES_TYPE GetResType() const { return m_Type; }
+    eRES_TYPE GetResType() const { return m_eResType; }
 
 private:
     
-    void SetRelativePath(const std::filesystem::path& _path) { m_RelativePath = _path; }
+    void SetRelativePath(const std::filesystem::path& _fileName) { m_RelativePath = _fileName; }
 
     void AddRef() { ++m_iRefCount; }
     void Release();
@@ -40,13 +44,15 @@ private:
     // 리소스 바인딩
     virtual void BindData() = 0;
 
-private:
+protected:
     // 파일로부터 로딩
-    virtual bool Load(const std::filesystem::path& _path) = 0;
+    virtual bool Load(const std::filesystem::path& _fileName) = 0;
+    virtual bool LoadJson(Json::Value* _pJson);
 
 public:
     // 파일로 저장
-    virtual bool Save(const std::filesystem::path& _path) = 0;
+    virtual bool Save(const std::filesystem::path& _fileName);
+    virtual bool SaveJson(Json::Value* _pJson);
 
     // 리소스는 Clone 을 구현하지 않는다.(Material 제외)
     virtual CRes* Clone() { return nullptr; assert(nullptr); }

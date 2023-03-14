@@ -3,12 +3,27 @@
 
 #include "global.h"
 
+#include <UtilLib_DLL/json/forwards.h>
+
 class CTexture :
     public CRes
 {
 public:
     CTexture();
     ~CTexture();
+
+public:
+    virtual bool Save(const std::filesystem::path& _fileName) override;
+    virtual bool SaveJson(Json::Value* _pJson) override;
+
+protected:
+    //_fileName == Texture 폴더 안쪽부터의 경로
+    virtual bool Load(const std::filesystem::path& _fileName) override;
+    virtual bool LoadJson(Json::Value* _pJson) override;
+
+private://별도의 BindData()를 사용해서 바인딩한다.
+    virtual void BindData() override {};
+
 
 private:
     ComPtr<ID3D11Texture2D>             m_Tex2D;    
@@ -46,10 +61,8 @@ public:
     ComPtr<ID3D11DepthStencilView>	    GetDSV() { return m_DSV; }
     ComPtr<ID3D11UnorderedAccessView>   GetUAV() { return m_UAV; }
 
-private:
-    virtual bool Load(const std::filesystem::path& _path) override;
-public:
-    virtual bool Save(const std::filesystem::path& _path) override;
+
+
     
 public:
     int Create(UINT _uWidth, UINT _uHeight, DXGI_FORMAT _pixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
@@ -67,8 +80,7 @@ public:
 
     void UnBind();
 
-private://별도의 BindData()를 사용해서 바인딩한다.
-    virtual void BindData() override {};
+
     
 
 

@@ -12,7 +12,7 @@ public:
     CLONE_DISABLE(CComputeShader);
 
 public:
-    virtual bool Load(const std::filesystem::path& _path) final;
+    virtual bool Load(const std::filesystem::path& _fileName) final;
 
 private://미사용
     virtual void BindData() final {};

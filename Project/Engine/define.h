@@ -23,6 +23,8 @@
 #define BITMASK(n) (1 << n)
 #define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, #_aStrMessage, NULL, MB_OK)
 
+
+
 extern const string g_voidStr;
 
 //새로운 컴포넌트를 만들어줄 경우

@@ -1,0 +1,18 @@
+{
+	"Contents" : 
+	{
+		"IsActive" : false
+	},
+	"Inspector" : 
+	{
+		"IsActive" : false
+	},
+	"MainMenu" : 
+	{
+		"IsActive" : true
+	},
+	"Outliner" : 
+	{
+		"IsActive" : false
+	}
+}

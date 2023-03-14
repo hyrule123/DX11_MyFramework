@@ -38,8 +38,8 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     
 {
     //wstring Path = CPathMgr::GetInst()->GetContentAbsPathW();
-    std::filesystem::path Path = RELATIVE_PATH::CONTENT::A;
-    Path /= "Maps\\Tilesets\\";
+    std::filesystem::path Path(RELATIVE_PATH::SCMAP::A);
+    Path /= "Tilesets";
 
 
     //타일셋 데이터를 저장할 메모리공간 동적할당 
@@ -48,44 +48,53 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     {
         //타일셋 데이터 초기화
         memset(Tileset, 0, sizeof(tTileSet));
-        wstring FullPath = Path;
+        std::filesystem::path FullPath = Path;
 
         switch ((eTILESET_INFO)TileSetIdx)
         {
         case eTILESET_INFO::BADLANDS:
-            FullPath += TEXT("badlands");
+            FullPath /= "badlands";
             break;
         case eTILESET_INFO::SPACE_PLATFORM:
-            FullPath += TEXT("platform");
+            FullPath /= "platform";
             break;
         case eTILESET_INFO::INSTALLATION:
-            FullPath += TEXT("install");
+            FullPath /= "install";
             break;
         case eTILESET_INFO::ASH_WORLD:
-            FullPath += TEXT("ashworld");
+            FullPath /= "ashworld";
             break;
         case eTILESET_INFO::JUNGLE:
-            FullPath += TEXT("jungle");
+            FullPath /= "jungle";
             break;
         case eTILESET_INFO::DESERT:
-            FullPath += TEXT("Desert");
+            FullPath /= "Desert";
             break;
         case eTILESET_INFO::ICE:
-            FullPath += TEXT("Ice");
+            FullPath /= "Ice";
             break;
         case eTILESET_INFO::TWILIGHT:
-            FullPath += TEXT("Twilight");
+            FullPath /= "Twilight";
             break;
         default:
             break;
         }
 
         FILE* fpCV5, * fpVX4, * fpVR4, * fpWPE, * fpVF4;
-        _wfopen_s(&fpCV5, (FullPath + TEXT(".CV5")).c_str(), TEXT("rb"));
-        _wfopen_s(&fpVX4, (FullPath + TEXT(".VX4")).c_str(), TEXT("rb"));
-        _wfopen_s(&fpVR4, (FullPath + TEXT(".VR4")).c_str(), TEXT("rb"));
-        _wfopen_s(&fpWPE, (FullPath + TEXT(".WPE")).c_str(), TEXT("rb"));
-        _wfopen_s(&fpVF4, (FullPath + TEXT(".VF4")).c_str(), TEXT("rb"));
+        FullPath += ".CV5";
+        _wfopen_s(&fpCV5, FullPath.wstring().c_str(), L"rb");
+
+        FullPath.replace_extension(".VX4");
+        _wfopen_s(&fpVX4, FullPath.wstring().c_str(), L"rb");
+
+        FullPath.replace_extension(".VR4");
+        _wfopen_s(&fpVR4, FullPath.wstring().c_str(), L"rb");
+
+        FullPath.replace_extension(".WPE");
+        _wfopen_s(&fpWPE, FullPath.wstring().c_str(), L"rb");
+
+        FullPath.replace_extension(".VF4");
+        _wfopen_s(&fpVF4, FullPath.wstring().c_str(), L"rb");
 
 
         if (fpCV5 == nullptr || fpVX4 == nullptr || fpVR4 == nullptr || fpWPE == nullptr || fpVF4 == nullptr)
@@ -188,9 +197,9 @@ bool CCS_SCMapLoader::BindDataCS()
 {
     //wstring MapPath = CPathMgr::GetInst()->GetContentAbsPathW();
 
-    std::filesystem::path MapPath = RELATIVE_PATH::CONTENT::A;
-    MapPath /= L"Maps";
-    MapPath /= m_tMapWorkSpace.wstrMapName;
+    static std::filesystem::path MapDir = RELATIVE_PATH::SCMAP::A;
+    
+    std::filesystem::path MapPath = MapDir / m_tMapWorkSpace.wstrMapName;
 
     
 

@@ -222,15 +222,6 @@ void CResMgr::CreateDefaultShader()
 {
 	CreateDefaultGraphicsShader();
 	CreateDefaultComputeShader();
-
-
-	//if (false == m_pShaderInfoMgr->LoadAllShaders())
-	//{
-	//	MessageBoxA(nullptr, "Failed to load Shader from file!", NULL, MB_OK);
-	//	assert(nullptr);
-	//}
-
-
 }
 
 
@@ -244,8 +235,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	// Shader Domain: Opaque
 	// ============
 
-	std::filesystem::path GSDir(RELATIVE_PATH::SHADER::A);
-	GSDir /= "Graphics";
+	std::filesystem::path GSDir(RELATIVE_PATH::SHADER_GRAPHICS::A);
 
 	//Shader 폴더 순회돌면서 전부 로드하는 코드
 	std::filesystem::directory_iterator GSDirIter(GSDir);
@@ -260,7 +250,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 			if (string::npos != fileName.find(JSON_SHADERINFO::strJsonExtension))
 			{
 				Ptr<CGraphicsShader> pGS = new CGraphicsShader;
-				pGS->Load(GSDirIter->path());
+				pGS->Load(GSDirIter->path().filename());
 
 				CResMgr::GetInst()->AddRes<CGraphicsShader>(pGS->GetKey(), pGS);
 			}
@@ -440,12 +430,8 @@ bool CResMgr::CreateDefaultComputeShader()
 
 	//컴퓨트쉐이더는 클래스에 종속적이므로 수동으로 로드해줘야 한다.
 
-	std::filesystem::path CSDir(RELATIVE_PATH::SHADER::A);
-	CSDir /= "Compute";
-
-	std::filesystem::path CSPath = CSDir / DEFAULT_RES::SHADER::COMPUTE::INITALIZE;
 	Ptr<CComputeShader> pCS = new CCS_Initialize;
-	if (true == pCS->Load(CSPath))
+	if (true == pCS->Load(DEFAULT_RES::SHADER::COMPUTE::INITALIZE))
 	{
 		AddRes(pCS->GetKey(), pCS);
 		pCS->Execute();
@@ -454,8 +440,8 @@ bool CResMgr::CreateDefaultComputeShader()
 
 
 	pCS = new CCS_SetColor(32u, 32u, 1u);
-	CSPath = CSDir / DEFAULT_RES::SHADER::COMPUTE::SETCOLOR;
-	if (true == pCS->Load(CSPath))
+
+	if (true == pCS->Load(DEFAULT_RES::SHADER::COMPUTE::SETCOLOR))
 	{
 		AddRes(pCS->GetKey(), pCS);
 	}
@@ -463,8 +449,8 @@ bool CResMgr::CreateDefaultComputeShader()
 
 	//기본 파티클 쉐이더
 	pCS = new CCS_ParticleUpdate(128u, 1u, 1u);
-	CSPath = CSDir / DEFAULT_RES::SHADER::COMPUTE::PARTICLEBASIC;
-	if (true == pCS->Load(CSPath))
+
+	if (true == pCS->Load(DEFAULT_RES::SHADER::COMPUTE::PARTICLEBASIC))
 	{
 		AddRes(pCS->GetKey(), pCS);
 	}
@@ -473,16 +459,16 @@ bool CResMgr::CreateDefaultComputeShader()
 	//비 효과 파티클 쉐이더
 	pCS = new CCS_ParticleUpdate(128u, 1u, 1u);
 	pCS = new CCS_ParticleUpdate(128u, 1u, 1u);
-	CSPath = CSDir / DEFAULT_RES::SHADER::COMPUTE::PARTICLERAINDROP;
-	if (true == pCS->Load(CSPath))
+	
+	if (true == pCS->Load(DEFAULT_RES::SHADER::COMPUTE::PARTICLERAINDROP))
 	{
 		AddRes(pCS->GetKey(), pCS);
 	}
 	pCS = nullptr;
 
 	pCS = new CCS_SCMapLoader;
-	CSPath = CSDir / DEFAULT_RES::SHADER::COMPUTE::SCMAPLOADER;
-	if (true == pCS->Load(CSPath))
+	
+	if (true == pCS->Load(DEFAULT_RES::SHADER::COMPUTE::SCMAPLOADER))
 	{
 		AddRes(pCS->GetKey(), pCS);
 	}
@@ -574,23 +560,19 @@ void CResMgr::CreateDefaultMaterial()
 
 void CResMgr::LoadDefaultTexture()
 {
-	std::filesystem::path strTexturePath = RELATIVE_PATH::CONTENT::A;
-	strTexturePath /= "Texture";
+	Load<CTexture>(DEFAULT_RES::TEXTURE::FIGHTER, "Fighter.bmp");
+	Load<CTexture>(DEFAULT_RES::TEXTURE::HOS,  "HOS.png");
 
-	Load<CTexture>(DEFAULT_RES::TEXTURE::FIGHTER, strTexturePath / "Fighter.bmp");
-	Load<CTexture>(DEFAULT_RES::TEXTURE::HOS, strTexturePath / "HOS.png");
+	Load<CTexture>(DEFAULT_RES::TEXTURE::BEHEADED_ATLAS,  "beheaded.png");
+	Load<CTexture>(DEFAULT_RES::TEXTURE::BEHEADED_ATLAS_NORMAL,  "beheaded_n.png");
 
-	Load<CTexture>(DEFAULT_RES::TEXTURE::BEHEADED_ATLAS, strTexturePath / "beheaded.png");
-	Load<CTexture>(DEFAULT_RES::TEXTURE::BEHEADED_ATLAS_NORMAL, strTexturePath / "beheaded_n.png");
+	Load<CTexture>(DEFAULT_RES::TEXTURE::TILE_ATLAS, "TILE.bmp");
+	Load<CTexture>(DEFAULT_RES::TEXTURE::LINK_ATLAS, "link.png");
 
-	Load<CTexture>(DEFAULT_RES::TEXTURE::TILE_ATLAS, strTexturePath / "TILE.bmp");
-	Load<CTexture>(DEFAULT_RES::TEXTURE::LINK_ATLAS, strTexturePath / "link.png");
-
-	Load<CTexture>(DEFAULT_RES::TEXTURE::MARINE_ATLAS, strTexturePath / "marine.bmp");
-
+	Load<CTexture>(DEFAULT_RES::TEXTURE::MARINE_ATLAS, "marine.bmp");
 
 	//노이즈텍스처
-	Load<CTexture>(DEFAULT_RES::TEXTURE::NOISE_TEXTURE_0, strTexturePath / "noise/noise_01.png");
+	Load<CTexture>(DEFAULT_RES::TEXTURE::NOISE_TEXTURE_0, "noise/noise_01.png");
 }
 
 void CResMgr::CreateDefaultAnimAtlas()

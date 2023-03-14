@@ -60,7 +60,7 @@ public:
     void AddRes(const string& _strKey, Ptr<T>& _Res);
 
     template<typename T>
-    Ptr<T> Load(const string& _strKey, const std::filesystem::path& _path);
+    Ptr<T> Load(const string& _strKey, const std::filesystem::path& _fileName);
 
     const unordered_map<string, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
 
@@ -103,7 +103,7 @@ inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
 
 
 template<typename T>
-inline Ptr<T> CResMgr::Load(const string& _strKey, const std::filesystem::path& _path)
+inline Ptr<T> CResMgr::Load(const string& _strKey, const std::filesystem::path& _fileName)
 {
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     
@@ -113,10 +113,10 @@ inline Ptr<T> CResMgr::Load(const string& _strKey, const std::filesystem::path& 
         
     pRes = new T;
     pRes->SetKey(_strKey);
-    pRes->SetRelativePath(_path);
+    pRes->SetRelativePath(_fileName);
 
 
-    if (false == pRes->Load(_path))
+    if (false == pRes->Load(_fileName))
         return nullptr;
 
     eRES_TYPE type = GetResType<T>();

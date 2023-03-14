@@ -40,10 +40,13 @@ CComputeShader::~CComputeShader()
 {
 }
 
-bool CComputeShader::Load(const std::filesystem::path& _path)
+bool CComputeShader::Load(const std::filesystem::path& _fileName)
 {
+	std::filesystem::path CSPath(RELATIVE_PATH::SHADER_COMPUTE::A);
+	CSPath /= _fileName;
+
 	std::ios_base::openmode openMode = std::ios::in | std::ios::ate | std::ios::binary;
-	std::ifstream CSFile(_path, openMode);
+	std::ifstream CSFile(CSPath, openMode);
 
 	if (false == CSFile.is_open())
 		return false;
@@ -60,7 +63,7 @@ bool CComputeShader::Load(const std::filesystem::path& _path)
 
 	CreateShader(m_ShaderData.pByteCode, m_ShaderData.ByteCodeSize, eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE);
 	
-	SetKey(_path.filename().string());
+	SetKey(_fileName.string());
 
 	return true;
 }
@@ -88,8 +91,8 @@ void CComputeShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCode
 void CComputeShader::CreateShader(const wstring& _strFileName, const string& _strFuncName)
 {
 	// 1. Shader 파일 경로 받아옴
-	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();
-	strShaderFile += _strFileName;
+	std::filesystem::path shaderPath(RELATIVE_PATH::SHADER_COMPUTE::W);
+	shaderPath /= _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경
 	m_ShaderData.LoadType = eSHADER_LOADTYPE::RUNTIME_COMPILED;
@@ -102,7 +105,7 @@ void CComputeShader::CreateShader(const wstring& _strFileName, const string& _st
 
 
 	// 3. VertexShader Compile
-	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+	if (FAILED(D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 		, _strFuncName.c_str(), ShaderNameVersion, 0, 0, m_ShaderData.Blob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
 	{
 		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
