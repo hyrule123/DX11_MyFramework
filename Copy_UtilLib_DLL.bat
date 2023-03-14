@@ -14,3 +14,4 @@ xcopy /d /s /y /i ".\External\Library\UtilLib_DLL\UtilLib_DLL_Release.dll" ".\"
 
 :: *.h 읽기 전용으로 변경
 attrib +r ".\External\Include\UtilLib_DLL\*.h"
+attrib +r ".\External\Include\UtilLib_DLL\json\*.h"
