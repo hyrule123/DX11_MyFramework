@@ -4,6 +4,7 @@
 
 CUI_Button::CUI_Button(const string& _strButtonName)
 	: CUI_Widget(_strButtonName, eWIDGET_TYPE::BUTTON)
+	, m_funcCallback()
 {
 }
 
@@ -18,8 +19,7 @@ bool CUI_Button::beginUI()
 
 void CUI_Button::render_update()
 {
+	if (nullptr != m_funcCallback)
+		m_funcCallback(GetUIData());
 }
 
-void CUI_Button::endUI()
-{
-}

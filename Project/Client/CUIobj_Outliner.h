@@ -3,15 +3,15 @@
 
 class CGameObject;
 class CUI_Tree;
-class CUI_Inspector;
+class CUIobj_Inspector;
 
 //현재 레벨에 존재하는 게임오브젝트의 계층구조를 일괄적으로 가져옴.
-class CUI_Outliner :
+class CUIobj_Outliner :
     public CUI_BasicWindow
 {
 public:
-    CUI_Outliner();
-    virtual ~CUI_Outliner();
+    CUIobj_Outliner();
+    virtual ~CUIobj_Outliner();
 
 public:
     virtual void init() override;
@@ -20,7 +20,7 @@ public:
 private:
     CUI_Tree* m_arrLayer[MAX_LAYER];
 
-    CUI_Inspector* m_pInspectorUI;
+    CUIobj_Inspector* m_pInspectorUI;
 
 public:
 

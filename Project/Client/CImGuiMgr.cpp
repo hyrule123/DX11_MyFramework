@@ -9,17 +9,18 @@
 
 #include "CUI.h"
 #include "CUI_BasicWIndow.h"
-#include "CUI_Inspector.h"
+#include "CUIobj_Inspector.h"
 #include "CUI_Menubar.h"
 #include "CUI_Menu.h"
 #include "CUI_MenuItem.h"
+#include "CUI_Button.h"
 
 #include <fstream>
 
 #include "JsonCPP.h"
 
-#include "CUI_Contents.h"
-#include "CUI_Outliner.h"
+#include "CUIobj_Contents.h"
+#include "CUIobj_Outliner.h"
 
 CImGuiMgr::CImGuiMgr()
     : m_hWnd()
@@ -34,9 +35,8 @@ CImGuiMgr::CImGuiMgr()
 
 CImGuiMgr::~CImGuiMgr()
 {
-
     std::filesystem::path origDir = RELATIVE_PATH::CONTENT::A;
-    origDir /= "SavedSettings";
+    origDir /= "SavedSetting";
     std::filesystem::path fullPath = origDir / "imgui.ini";
     ImGui::SaveIniSettingsToDisk(fullPath.string().c_str());
 
@@ -225,13 +225,11 @@ void CImGuiMgr::CreateDefaultUI()
     m_OpenWindowsMenu = m_MainMenubar->AddMenu("Open Windows");
     AddUI(m_MainMenubar);
 
-    m_TestWindow = new CUI_BasicWindow("TestWindow");
+    TestUIInit();
 
-    AddUI(m_TestWindow);
-
-    AddUI(new CUI_Inspector);
-    AddUI(new CUI_Contents);
-    //AddUI(new CUI_Outliner);
+    AddUI(new CUIobj_Inspector);
+    AddUI(new CUIobj_Contents);
+    //AddUI(new CUIobj_Outliner);
 }
 
 void CImGuiMgr::begin()
@@ -360,5 +358,29 @@ void CImGuiMgr::OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tPtrData _pData)
         return;
 
     pUI->SetActive(true);
+}
+
+void CImGuiMgr::TestUIInit()
+{
+    m_TestWindow = new CUI_BasicWindow("TestWindow");
+
+    m_TestWindow->SetSaveEnable(true);
+
+    m_TestWindow->AddChildUI(new CUI_Button("TestButton"));
+
+    CUI_Button* pButton = (CUI_Button*)m_TestWindow->FindChildUIByName("TestButton");
+
+    if (nullptr != pButton)
+    {
+        pButton->SetFuncCallback(std::bind(&CImGuiMgr::TestCallback, this, std::placeholders::_1));
+    }
+
+    AddUI(m_TestWindow);
+}
+
+void CImGuiMgr::TestCallback(const tUIData& _UIData)
+{
+
+    int a = 0;
 }
 

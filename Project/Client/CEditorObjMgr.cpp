@@ -2,7 +2,7 @@
 
 #include "CEditorObjMgr.h"
 #include "CImGuiMgr.h"
-#include "CUI_Inspector.h"
+#include "CUIobj_Inspector.h"
 
 #include <Engine/CGameObject.h>
 #include <Engine/CTimeMgr.h>
@@ -278,7 +278,7 @@ void CEditorObjMgr::CreateEditorCamera()
 
 void CEditorObjMgr::MouseLBTNCallback(CGameObject* _pObj)
 {
-	static CUI_Inspector* pInspector = static_cast<CUI_Inspector*>(CImGuiMgr::GetInst()->FindUI("Inspector"));
+	static CUIobj_Inspector* pInspector = static_cast<CUIobj_Inspector*>(CImGuiMgr::GetInst()->FindUI("Inspector"));
 
 	if (nullptr != pInspector)
 		pInspector->SetTarget(_pObj);

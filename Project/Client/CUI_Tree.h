@@ -21,7 +21,7 @@ public:
 private:
     ImGuiTreeNodeFlags m_flagTree;
 
-    std::function<void(tUIData)> m_funcCallback[(int)eUI_MOUSE_STATUS::END];
+    std::function<void(const tUIData&)> m_funcCallback[(int)eUI_MOUSE_STATUS::END];
 
 public:
     void SetTreeFlag(ImGuiTreeNodeFlags _ImGuiTreeNodeFlags) { m_flagTree = _ImGuiTreeNodeFlags; }
@@ -33,7 +33,7 @@ public:
     void AddChildNode(const string& _strName, tPtrData _pData);
     void AddChildNode(CUI_Tree* _pTree);
 
-    void SetFuncCallback(eUI_MOUSE_STATUS _eMouseStatus, std::function<void(tUIData)> _FuncCallback) { m_funcCallback[(int)_eMouseStatus] = _FuncCallback; }
+    void SetFuncCallback(eUI_MOUSE_STATUS _eMouseStatus, std::function<void(const tUIData&)> _FuncCallback) { m_funcCallback[(int)_eMouseStatus] = _FuncCallback; }
     
 private:
     void CheckCallback();

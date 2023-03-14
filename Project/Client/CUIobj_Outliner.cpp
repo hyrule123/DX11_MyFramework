@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "CUI_Outliner.h"
+#include "CUIobj_Outliner.h"
 
 #include "CUI_Tree.h"
 
 #include "CImGuiMgr.h"
-#include "CUI_Inspector.h"
+#include "CUIobj_Inspector.h"
 
 #include <Engine/CEventMgr.h>
 #include <Engine/CLevelMgr.h>
@@ -13,7 +13,7 @@
 #include <Engine/CGameObject.h>
 
 
-CUI_Outliner::CUI_Outliner()
+CUIobj_Outliner::CUIobj_Outliner()
 	: CUI_BasicWindow("Outliner")
 	, m_arrLayer{}
 	, m_pInspectorUI()
@@ -21,12 +21,12 @@ CUI_Outliner::CUI_Outliner()
 
 }
 
-CUI_Outliner::~CUI_Outliner()
+CUIobj_Outliner::~CUIobj_Outliner()
 {
 
 }
 
-void CUI_Outliner::init()
+void CUIobj_Outliner::init()
 {
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 
@@ -52,10 +52,10 @@ void CUI_Outliner::init()
 
 	
 
-	m_pInspectorUI = static_cast<CUI_Inspector*>(CImGuiMgr::GetInst()->FindUI("Inspector"));
+	m_pInspectorUI = static_cast<CUIobj_Inspector*>(CImGuiMgr::GetInst()->FindUI("Inspector"));
 }
 
-void CUI_Outliner::tick()
+void CUIobj_Outliner::tick()
 {
 	if (true == CEventMgr::GetInst()->IsLevelChanged())
 	{
@@ -63,7 +63,7 @@ void CUI_Outliner::tick()
 	}
 }
 
-void CUI_Outliner::UpdateObjectTree()
+void CUIobj_Outliner::UpdateObjectTree()
 {
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 
@@ -85,14 +85,14 @@ void CUI_Outliner::UpdateObjectTree()
 	}
 }
 
-void CUI_Outliner::LoadGameObjectHierarchy(CUI_Tree* _pUI, CGameObject* _pGameObject)
+void CUIobj_Outliner::LoadGameObjectHierarchy(CUI_Tree* _pUI, CGameObject* _pGameObject)
 {
 
 	CUI_Tree* pTree = new CUI_Tree(_pGameObject->GetName());
 	tPtrData ptrData{ _pGameObject, };
 
 	pTree->SetFuncCallback(eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED,
-		std::bind(&CUI_Outliner::CallbackLinkInspector, this, std::placeholders::_1));
+		std::bind(&CUIobj_Outliner::CallbackLinkInspector, this, std::placeholders::_1));
 	pTree->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
 
 	_pUI->AddChildUI(pTree);
@@ -108,7 +108,7 @@ void CUI_Outliner::LoadGameObjectHierarchy(CUI_Tree* _pUI, CGameObject* _pGameOb
 	}
 }
 
-void CUI_Outliner::CallbackLinkInspector(tUIData _UIData)
+void CUIobj_Outliner::CallbackLinkInspector(tUIData _UIData)
 {
 	if (nullptr == _UIData.tData.ptr)
 		return;

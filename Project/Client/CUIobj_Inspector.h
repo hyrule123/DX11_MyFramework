@@ -1,16 +1,16 @@
 #pragma once
 #include "CUI_BasicWindow.h"
 
-class CUI_Component;
+class CUIobj_Component;
 
 //특정 게임오브젝트의 현재 상태를 확인하는 클래스.
 
-class CUI_Inspector :
+class CUIobj_Inspector :
     public CUI_BasicWindow
 {
 public:
-    CUI_Inspector();
-    virtual ~CUI_Inspector();
+    CUIobj_Inspector();
+    virtual ~CUIobj_Inspector();
 
 public:
     void init() override;
@@ -18,7 +18,7 @@ public:
 
 private:
     CGameObject* m_pTarget;
-    CUI_Component* m_arrComUI[(UINT)eCOMPONENT_TYPE::END];
+    CUIobj_Component* m_arrComUI[(UINT)eCOMPONENT_TYPE::END];
 
 public:
     void SetTarget(CGameObject* _pTarget);

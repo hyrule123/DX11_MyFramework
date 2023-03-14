@@ -1,24 +1,26 @@
 #include "pch.h"
 
 
-#include "CUI_Contents.h"
+#include "CUIobj_Contents.h"
 #include "CUI_Tree.h"
 
 #include <Engine/CResMgr.h>
 
-CUI_Contents::CUI_Contents()
+CUIobj_Contents::CUIobj_Contents()
 	: CUI_BasicWindow("Contents")
 	, m_arrpResTypeSelected{}
 {
 }
 
-CUI_Contents::~CUI_Contents()
+CUIobj_Contents::~CUIobj_Contents()
 {
 }
 
 
-void CUI_Contents::init()
+void CUIobj_Contents::init()
 {
+	SetSaveEnable(true);
+
 	for (int i = 0; i < (int)eRES_TYPE::END; ++i)
 	{
 		m_arrpResTypeRoot[i] = new CUI_Tree(g_eRES_TYPE_strName[i]);
@@ -27,7 +29,7 @@ void CUI_Contents::init()
 	}
 }
 
-void CUI_Contents::tick()
+void CUIobj_Contents::tick()
 {
 	if (true == CResMgr::GetInst()->IsUpdated())
 	{
@@ -36,7 +38,7 @@ void CUI_Contents::tick()
 	}
 }
 
-void CUI_Contents::ChangeSelectedTreeNode(tUIData _tUIData)
+void CUIobj_Contents::ChangeSelectedTreeNode(tUIData _tUIData)
 {
 	if (nullptr == _tUIData.pUI || nullptr == _tUIData.tData.ptr)
 		return;
@@ -58,7 +60,7 @@ void CUI_Contents::ChangeSelectedTreeNode(tUIData _tUIData)
 	m_arrpResTypeSelected[iResTypeIdx]->SetSelected(true);
 }
 
-void CUI_Contents::UpdateResources()
+void CUIobj_Contents::UpdateResources()
 {
 	for (int i = 0; i < (int)eRES_TYPE::END; ++i)
 	{
@@ -69,7 +71,7 @@ void CUI_Contents::UpdateResources()
 		{
 			CUI_Tree* Node = new CUI_Tree(iter.first);
 			Node->SetDataPtr(tPtrData{ iter.second.Get(), });
-			Node->SetFuncCallback(eUI_MOUSE_STATUS::LBTN_CLICKED, std::bind(&CUI_Contents::ChangeSelectedTreeNode, this, std::placeholders::_1));
+			Node->SetFuncCallback(eUI_MOUSE_STATUS::LBTN_CLICKED, std::bind(&CUIobj_Contents::ChangeSelectedTreeNode, this, std::placeholders::_1));
 
 			m_arrpResTypeRoot[i]->AddChildNode(Node);
 		}

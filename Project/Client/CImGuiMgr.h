@@ -13,7 +13,7 @@
 
 //Delegate(함수 포인터
 class CUI;
-class CUI_Inspector;
+class CUIobj_Inspector;
 class CUI_Menubar;
 class CUI_Menu;
 class CUI_MenuItem;
@@ -74,5 +74,8 @@ private:
 
     void UpdateMainMenu();
     void OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tPtrData _pData);
+
+    void TestUIInit();
+    void TestCallback(const tUIData& _UIData);
 };
 

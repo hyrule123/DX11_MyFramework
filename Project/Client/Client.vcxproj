@@ -153,32 +153,32 @@
   <ItemGroup>
     <ClInclude Include="CTestLevel.h" />
     <ClInclude Include="CUI.h" />
-    <ClInclude Include="CUI_Animator2D.h" />
+    <ClInclude Include="CUIobj_Animator2D.h" />
     <ClInclude Include="CUI_Button.h" />
-    <ClInclude Include="CUI_Camera.h" />
+    <ClInclude Include="CUIobj_Camera.h" />
     <ClInclude Include="CUI_Child.h" />
-    <ClInclude Include="CUI_Collider2D.h" />
+    <ClInclude Include="CUIobj_Collider2D.h" />
     <ClInclude Include="CUI_ComboBox.h" />
-    <ClInclude Include="CUI_Component.h" />
+    <ClInclude Include="CUIobj_Component.h" />
     <ClInclude Include="CEditorObjMgr.h" />
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="CUI_DragNDrop.h" />
     <ClInclude Include="CUI_Image.h" />
-    <ClInclude Include="CUI_Inspector.h" />
+    <ClInclude Include="CUIobj_Inspector.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="CUI_Light2D.h" />
-    <ClInclude Include="CUI_MapViewer.h" />
+    <ClInclude Include="CUIobj_Light2D.h" />
+    <ClInclude Include="CUIobj_MapViewer.h" />
     <ClInclude Include="CUI_Menubar.h" />
     <ClInclude Include="CUI_Menu.h" />
     <ClInclude Include="CUI_MenuItem.h" />
-    <ClInclude Include="CUI_MeshRender.h" />
-    <ClInclude Include="CUI_Outliner.h" />
-    <ClInclude Include="CUI_ParticleSystem.h" />
+    <ClInclude Include="CUIobj_MeshRender.h" />
+    <ClInclude Include="CUIobj_Outliner.h" />
+    <ClInclude Include="CUIobj_ParticleSystem.h" />
     <ClInclude Include="CUI_PopupWIndow.h" />
-    <ClInclude Include="CUI_ScriptHolder.h" />
+    <ClInclude Include="CUIobj_ScriptHolder.h" />
     <ClInclude Include="CUI_Structs.h" />
-    <ClInclude Include="CUI_Tilemap.h" />
-    <ClInclude Include="CUI_Transform.h" />
+    <ClInclude Include="CUIobj_Tilemap.h" />
+    <ClInclude Include="CUIobj_Transform.h" />
     <ClInclude Include="CUI_BasicWIndow.h" />
     <ClInclude Include="CUI_Tree.h" />
     <ClInclude Include="CUI_Widget.h" />
@@ -192,35 +192,35 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="CUI_Contents.h" />
+    <ClInclude Include="CUIobj_Contents.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLevel.cpp" />
     <ClCompile Include="CUI.cpp" />
-    <ClCompile Include="CUI_Animator2D.cpp" />
+    <ClCompile Include="CUIobj_Animator2D.cpp" />
     <ClCompile Include="CUI_Button.cpp" />
-    <ClCompile Include="CUI_Camera.cpp" />
+    <ClCompile Include="CUIobj_Camera.cpp" />
     <ClCompile Include="CUI_Child.cpp" />
-    <ClCompile Include="CUI_Collider2D.cpp" />
+    <ClCompile Include="CUIobj_Collider2D.cpp" />
     <ClCompile Include="CUI_ComboBox.cpp" />
-    <ClCompile Include="CUI_Component.cpp" />
+    <ClCompile Include="CUIobj_Component.cpp" />
     <ClCompile Include="CEditorObjMgr.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
     <ClCompile Include="CUI_DragNDrop.cpp" />
     <ClCompile Include="CUI_Image.cpp" />
-    <ClCompile Include="CUI_Inspector.cpp" />
-    <ClCompile Include="CUI_Light2D.cpp" />
-    <ClCompile Include="CUI_MapViewer.cpp" />
+    <ClCompile Include="CUIobj_Inspector.cpp" />
+    <ClCompile Include="CUIobj_Light2D.cpp" />
+    <ClCompile Include="CUIobj_MapViewer.cpp" />
     <ClCompile Include="CUI_Menubar.cpp" />
     <ClCompile Include="CUI_Menu.cpp" />
     <ClCompile Include="CUI_MenuItem.cpp" />
-    <ClCompile Include="CUI_MeshRender.cpp" />
-    <ClCompile Include="CUI_Outliner.cpp" />
-    <ClCompile Include="CUI_ParticleSystem.cpp" />
+    <ClCompile Include="CUIobj_MeshRender.cpp" />
+    <ClCompile Include="CUIobj_Outliner.cpp" />
+    <ClCompile Include="CUIobj_ParticleSystem.cpp" />
     <ClCompile Include="CUI_PopupWIndow.cpp" />
-    <ClCompile Include="CUI_ScriptHolder.cpp" />
-    <ClCompile Include="CUI_Tilemap.cpp" />
-    <ClCompile Include="CUI_Transform.cpp" />
+    <ClCompile Include="CUIobj_ScriptHolder.cpp" />
+    <ClCompile Include="CUIobj_Tilemap.cpp" />
+    <ClCompile Include="CUIobj_Transform.cpp" />
     <ClCompile Include="CUI_BasicWindow.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
@@ -259,7 +259,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="CUI_Contents.cpp" />
+    <ClCompile Include="CUIobj_Contents.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

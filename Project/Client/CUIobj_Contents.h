@@ -4,12 +4,12 @@
 
 class CUI_Tree;
 
-class CUI_Contents :
+class CUIobj_Contents :
     public CUI_BasicWindow
 {
 public:
-    CUI_Contents();
-    virtual ~CUI_Contents();
+    CUIobj_Contents();
+    virtual ~CUIobj_Contents();
 
 public:
     virtual void init() override;

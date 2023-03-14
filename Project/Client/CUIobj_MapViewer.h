@@ -1,6 +1,6 @@
 #pragma once
 #include "CUI_BasicWIndow.h"
-class CUI_MapViewer :
+class CUIobj_MapViewer :
     public CUI_BasicWindow
 {
 };

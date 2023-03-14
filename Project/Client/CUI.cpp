@@ -11,6 +11,7 @@ CUI::CUI(const string& _Name)
 	, m_bActive(true)
 	, m_bNoChildUI()
 	, m_tData{ this, }
+	, m_bSaveEnable()
 {
 }
 
@@ -67,7 +68,8 @@ void CUI::finaltick()
 
 void CUI::SaveRecursive(Json::Value& _Node)
 {
-	Save(_Node);
+	if(true == m_bSaveEnable)
+		Save(_Node);
 
 	size_t size = m_vecChildUI.size();
 	for (size_t i = 0; i < size; ++i)

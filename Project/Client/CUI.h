@@ -57,22 +57,16 @@ private:
 
 	CUI*			m_ParentUI;		// 부모 UI
 	vector<CUI*>	m_vecChildUI;	// 자식 UI 목록
+
+	tUIData			m_tData;		// 필요시 들고있을 데이터 포인터 및 사이즈
+
 	bool			m_bActive;		// UI 활성화 체크
 	bool			m_bNoChildUI;	// 자식 노드가 들어갈 수 없는 노드로 설정
 	
-	tUIData			m_tData;
+	bool			m_bSaveEnable;
+	
 
 public:
-	void SetActive(bool _Active) { m_bActive = _Active; }
-	bool GetActive() { return m_bActive; }
-	bool* GetActivePtr() { return &m_bActive; }
-	bool ToggleActive() { m_bActive = !m_bActive; return m_bActive; }
-
-	const tUIData& GetUIData() const { return m_tData; }
-	tPtrData GetPtrData() const { return m_tData.tData; }
-	void SetDataPtr(tPtrData _tData) { m_tData.tData = _tData; }
-
-
 	//자신의 숫자 ID넘버를 뒤에 더해서 고유 ID 생성(ID는 창에 뜨지 않음)
 	void SetStrID(const string& _strID) { m_strID = _strID; }
 	const string& GetStrID() const { return m_strID; }
@@ -80,16 +74,30 @@ public:
 	void MakeUniqueID();
 	void MakeUniqueID(const string& _strUniqueIDSuffix);
 
-
 	CUI* GetParent() const { return m_ParentUI; }
-
 	void AddChildUI(CUI* _UI);
+
 	CUI* FindChildUIByName(const string& _Name);
 	size_t GetChildNum() const { return m_vecChildUI.size(); }
 
 	void ClearChildUI();
 
 	const vector<CUI*>& GetVecChildUI() { return m_vecChildUI; }
+
+
+	const tUIData& GetUIData() const { return m_tData; }
+	const tPtrData& GetPtrData() const { return m_tData.tData; }
+	void SetDataPtr(tPtrData _tData) { m_tData.tData = _tData; }
+
+
+	void SetActive(bool _Active) { m_bActive = _Active; }
+	bool GetActive() { return m_bActive; }
+	bool* GetActivePtr() { return &m_bActive; }
+	bool ToggleActive() { m_bActive = !m_bActive; return m_bActive; }
+
+	void SetSaveEnable(bool _bSave) { m_bSaveEnable = _bSave; }
+
+
 
 private:
 	virtual void Save(Json::Value& _Save) {};

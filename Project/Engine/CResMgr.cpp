@@ -238,7 +238,16 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	std::filesystem::path GSDir(RELATIVE_PATH::SHADER_GRAPHICS::A);
 
 	//Shader 폴더 순회돌면서 전부 로드하는 코드
-	std::filesystem::directory_iterator GSDirIter(GSDir);
+	std::filesystem::directory_iterator GSDirIter;
+	try
+	{
+		GSDirIter = std::filesystem::directory_iterator(GSDir);
+	}
+	catch (const std::filesystem::filesystem_error&)
+	{
+		return false;
+	}
+	
 
 	for (; false == GSDirIter._At_end(); ++GSDirIter)
 	{

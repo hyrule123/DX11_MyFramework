@@ -11,10 +11,13 @@ public:
 public:
     virtual bool beginUI() override;
     virtual void render_update() override;
-    virtual void endUI() override;
+    virtual void endUI() override {};
 
 private:
-    //std::function<void();
+    std::function<void(const tUIData&)> m_funcCallback;
+
+public:
+    void SetFuncCallback(std::function<void(const tUIData&)> _funcCallback) { m_funcCallback = _funcCallback; }
 
 };
 

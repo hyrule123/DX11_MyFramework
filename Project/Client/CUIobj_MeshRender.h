@@ -1,13 +1,13 @@
 #pragma once
-#include "CUI_Component.h"
+#include "CUIobj_Component.h"
 
 class CUI_ComboBox;
-class CUI_MeshRender :
-    public CUI_Component
+class CUIobj_MeshRender :
+    public CUIobj_Component
 {
 public:
-    CUI_MeshRender();
-    virtual ~CUI_MeshRender();
+    CUIobj_MeshRender();
+    virtual ~CUIobj_MeshRender();
 
 private:
     CUI_ComboBox* m_pComboBoxMesh;

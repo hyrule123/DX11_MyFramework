@@ -1,21 +1,21 @@
 #include "pch.h"
-#include "CUI_Component.h"
+#include "CUIobj_Component.h"
 
 #include <Engine/CGameObject.h>
 #include <Engine/func.h>
 
-CUI_Component::CUI_Component(const string& _strName, eCOMPONENT_TYPE _Type)
+CUIobj_Component::CUIobj_Component(const string& _strName, eCOMPONENT_TYPE _Type)
 	: CUI_BasicWindow(_strName)
 	, m_pTarget()
 	, m_Type(_Type)
 {
 }
 
-CUI_Component::~CUI_Component()
+CUIobj_Component::~CUIobj_Component()
 {
 }
 
-void CUI_Component::SetTarget(CGameObject* _pTarget)
+void CUIobj_Component::SetTarget(CGameObject* _pTarget)
 {
 	//타겟을 우선 대입
 	m_pTarget = _pTarget;
@@ -28,7 +28,7 @@ void CUI_Component::SetTarget(CGameObject* _pTarget)
 
 }
 
-const string& CUI_Component::GetResKey(Ptr<CRes> _Res)
+const string& CUIobj_Component::GetResKey(Ptr<CRes> _Res)
 {
 	//Res 주소가 없다면 return
 	if (nullptr == _Res)
@@ -37,13 +37,13 @@ const string& CUI_Component::GetResKey(Ptr<CRes> _Res)
 	return _Res->GetKey();
 }
 
-void CUI_Component::tick()
+void CUIobj_Component::tick()
 {
 	if (nullptr != m_pTarget && nullptr != m_pTarget->GetComponent(m_Type))
 		SetActive(true);
 }
 
-bool CUI_Component::beginUI()
+bool CUIobj_Component::beginUI()
 {
 	//타겟 게임오브젝트가 존재하기 않거나 자신의 담당 컴포넌트가 존재하지 않을 시 출력하지 않는다.
 	if (nullptr == m_pTarget || nullptr == m_pTarget->GetComponent(m_Type))
@@ -64,12 +64,12 @@ bool CUI_Component::beginUI()
 	return true;
 }
 
-void CUI_Component::render_update()
+void CUIobj_Component::render_update()
 {
 
 }
 
-void CUI_Component::endUI()
+void CUIobj_Component::endUI()
 {
 	CUI_BasicWindow::endUI();
 }

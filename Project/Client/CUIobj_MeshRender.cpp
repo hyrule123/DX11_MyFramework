@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CUI_MeshRender.h"
+#include "CUIobj_MeshRender.h"
 
 #include <Engine/CGameObject.h>
 #include <Engine/CMeshRender.h>
@@ -7,8 +7,8 @@
 
 #include "CUI_ComboBox.h"
 
-CUI_MeshRender::CUI_MeshRender()
-	: CUI_Component("MeshRender", eCOMPONENT_TYPE::COLLIDER2D)
+CUIobj_MeshRender::CUIobj_MeshRender()
+	: CUIobj_Component("MeshRender", eCOMPONENT_TYPE::COLLIDER2D)
 {
 	m_pComboBoxMesh = new CUI_ComboBox("MeshComboBox");
 	AddChildUI(m_pComboBoxMesh);
@@ -17,11 +17,11 @@ CUI_MeshRender::CUI_MeshRender()
 	AddChildUI(m_pComboBoxMtrl);
 }
 
-CUI_MeshRender::~CUI_MeshRender()
+CUIobj_MeshRender::~CUIobj_MeshRender()
 {
 }
 
-void CUI_MeshRender::UpdateMeshListCallback()
+void CUIobj_MeshRender::UpdateMeshListCallback()
 {
 	//원래는 메쉬의 갯수 자체만으로 새로 목록을 갱신해야할지 여부를 판단하는것은 좋지 않음.
 	const auto& map = CResMgr::GetInst()->GetResMap(eRES_TYPE::MESH);
@@ -39,7 +39,7 @@ void CUI_MeshRender::UpdateMeshListCallback()
 }
 
 //메쉬 콤보박스에서 특정 메쉬가 클릭되었을 때 호출될 함수
-void CUI_MeshRender::ChangeMeshCallback()
+void CUIobj_MeshRender::ChangeMeshCallback()
 {
 	const tComboItem& sel = m_pComboBoxMesh->GetCurrentSelected();
 	if (true == sel.strName.empty())
@@ -51,7 +51,7 @@ void CUI_MeshRender::ChangeMeshCallback()
 	GetTarget()->MeshRender()->SetMesh(static_cast<CMesh*>(sel.pData.ptr));
 }
 
-void CUI_MeshRender::UpdateMtrlListCallback()
+void CUIobj_MeshRender::UpdateMtrlListCallback()
 {
 	//원래는 메쉬의 갯수 자체만으로 새로 목록을 갱신해야할지 여부를 판단하는것은 좋지 않음.
 	const auto& map = CResMgr::GetInst()->GetResMap(eRES_TYPE::MATERIAL);
@@ -67,7 +67,7 @@ void CUI_MeshRender::UpdateMtrlListCallback()
 	}
 }
 
-void CUI_MeshRender::ChangeMtrlCallback()
+void CUIobj_MeshRender::ChangeMtrlCallback()
 {
 	const tComboItem& sel = m_pComboBoxMtrl->GetCurrentSelected();
 	if (true == sel.strName.empty())
@@ -81,15 +81,15 @@ void CUI_MeshRender::ChangeMtrlCallback()
 	GetTarget()->MeshRender()->SetMaterial(mtrl);
 }
 
-void CUI_MeshRender::init()
+void CUIobj_MeshRender::init()
 {
-	m_pComboBoxMesh->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUI_MeshRender::UpdateMeshListCallback), eCALLBACK_TYPE::ONCLICK);
-	m_pComboBoxMesh->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUI_MeshRender::ChangeMeshCallback)
+	m_pComboBoxMesh->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUIobj_MeshRender::UpdateMeshListCallback), eCALLBACK_TYPE::ONCLICK);
+	m_pComboBoxMesh->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUIobj_MeshRender::ChangeMeshCallback)
 	, eCALLBACK_TYPE::ONSELECT);
 
-	m_pComboBoxMtrl->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUI_MeshRender::UpdateMtrlListCallback)
+	m_pComboBoxMtrl->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUIobj_MeshRender::UpdateMtrlListCallback)
 		, eCALLBACK_TYPE::ONCLICK);
-	m_pComboBoxMtrl->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUI_MeshRender::ChangeMtrlCallback)
+	m_pComboBoxMtrl->AddClickCallback(this, static_cast<UI_DELEGATE_0>(&CUIobj_MeshRender::ChangeMtrlCallback)
 		, eCALLBACK_TYPE::ONSELECT);
 
 	//일단 기본적으로 메쉬와 리스트의 이름을 한번 받아온다.
@@ -109,7 +109,7 @@ void CUI_MeshRender::init()
 	}
 }
 
-void CUI_MeshRender::tick()
+void CUIobj_MeshRender::tick()
 {
 	//나중에 게임오브젝트를 선택해서 가져오는 기능 구현하면 아래코드는 지울것,.
 	if (nullptr != GetTarget() && nullptr != GetTarget()->MeshRender())

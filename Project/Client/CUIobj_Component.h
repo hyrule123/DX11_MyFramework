@@ -6,14 +6,14 @@
 
 class CGameObject;
 
-class CUI_Component :
+class CUIobj_Component :
     public CUI_BasicWindow
 {
 private:
-    CUI_Component() = delete;
+    CUIobj_Component() = delete;
 public:
-    CUI_Component(const string& _ID, eCOMPONENT_TYPE _Type);
-    virtual ~CUI_Component();
+    CUIobj_Component(const string& _ID, eCOMPONENT_TYPE _Type);
+    virtual ~CUIobj_Component();
 
 private:
     CGameObject* m_pTarget;

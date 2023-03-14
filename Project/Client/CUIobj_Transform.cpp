@@ -1,20 +1,20 @@
 #include "pch.h"
-#include "CUI_Transform.h"
+#include "CUIobj_Transform.h"
 
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
 
-CUI_Transform::CUI_Transform()
-    : CUI_Component("Transform", eCOMPONENT_TYPE::TRANSFORM)
+CUIobj_Transform::CUIobj_Transform()
+    : CUIobj_Component("Transform", eCOMPONENT_TYPE::TRANSFORM)
 {
 }
 
-CUI_Transform::~CUI_Transform()
+CUIobj_Transform::~CUIobj_Transform()
 {
 }
 
 
-void CUI_Transform::render_update()
+void CUIobj_Transform::render_update()
 {
     CTransform* pTransform = GetTarget()->Transform();
     assert(nullptr != pTransform);
