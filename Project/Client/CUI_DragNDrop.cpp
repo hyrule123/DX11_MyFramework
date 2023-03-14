@@ -8,7 +8,6 @@
 CUI_DragNDropSender::CUI_DragNDropSender()
 	: CUI_Widget("DragNDrop", eWIDGET_TYPE::DRAG_N_DROP_SENDER)
 	, m_flag()
-	, m_tData{}
 {
 }
 
@@ -23,7 +22,8 @@ bool CUI_DragNDropSender::beginUI()
 
 void CUI_DragNDropSender::render_update()
 {
-	ImGui::SetDragDropPayload(m_strKeySend.c_str(), m_tData.pData, m_tData.uDataSize);
+	const tPtrData& pData = GetPtrData();
+	ImGui::SetDragDropPayload(m_strKeySend.c_str(), pData.ptr, pData.size);
 
 	//위젯 Child를 넣을 경우 드래그 앤 드랍을 할 때 Description을 보여줄 수 있음. 
 }

@@ -88,9 +88,11 @@ void CUI_Outliner::UpdateObjectTree()
 void CUI_Outliner::LoadGameObjectHierarchy(CUI_Tree* _pUI, CGameObject* _pGameObject)
 {
 
-	CUI_Tree* pTree = new CUI_Tree(_pGameObject->GetName(), tDataPtr{(void*)_pGameObject, });
+	CUI_Tree* pTree = new CUI_Tree(_pGameObject->GetName());
+	tPtrData ptrData{ _pGameObject, };
+
 	pTree->SetFuncCallback(eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED,
-		std::bind(&CUI_Outliner::CallbackLinkInspector, this, std::placeholders::_1, std::placeholders::_2));
+		std::bind(&CUI_Outliner::CallbackLinkInspector, this, std::placeholders::_1));
 	pTree->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
 
 	_pUI->AddChildUI(pTree);
@@ -106,10 +108,10 @@ void CUI_Outliner::LoadGameObjectHierarchy(CUI_Tree* _pUI, CGameObject* _pGameOb
 	}
 }
 
-void CUI_Outliner::CallbackLinkInspector(CUI_Tree* _pUI, tDataPtr _pData)
+void CUI_Outliner::CallbackLinkInspector(tUIData _UIData)
 {
-	if (nullptr == _pData.pData)
+	if (nullptr == _UIData.tData.ptr)
 		return;
 
-	m_pInspectorUI->SetTarget(static_cast<CGameObject*>(_pData.pData));
+	m_pInspectorUI->SetTarget(static_cast<CGameObject*>(_UIData.tData.ptr));
 }

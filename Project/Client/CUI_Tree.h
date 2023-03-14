@@ -9,7 +9,7 @@ class CUI_Tree :
 private:
     CUI_Tree() = delete;
 public:
-    CUI_Tree(const string& _strName, tDataPtr _pData = tDataPtr{});
+    CUI_Tree(const string& _strName);
     virtual ~CUI_Tree();
 
 public:
@@ -21,9 +21,7 @@ public:
 private:
     ImGuiTreeNodeFlags m_flagTree;
 
-    tDataPtr          m_pData;
-
-    std::function<void(CUI_Tree*, tDataPtr)> m_funcCallback[(int)eUI_MOUSE_STATUS::END];
+    std::function<void(tUIData)> m_funcCallback[(int)eUI_MOUSE_STATUS::END];
 
 public:
     void SetTreeFlag(ImGuiTreeNodeFlags _ImGuiTreeNodeFlags) { m_flagTree = _ImGuiTreeNodeFlags; }
@@ -32,10 +30,10 @@ public:
 
     void SetSelected(bool _bIsSet);
 
-    void AddChildNode(const string& _strName, tDataPtr _pData);
+    void AddChildNode(const string& _strName, tPtrData _pData);
     void AddChildNode(CUI_Tree* _pTree);
 
-    void SetFuncCallback(eUI_MOUSE_STATUS _eMouseStatus, std::function<void(CUI_Tree*, tDataPtr)> _FuncCallback) { m_funcCallback[(int)_eMouseStatus] = _FuncCallback; }
+    void SetFuncCallback(eUI_MOUSE_STATUS _eMouseStatus, std::function<void(tUIData)> _FuncCallback) { m_funcCallback[(int)_eMouseStatus] = _FuncCallback; }
     
 private:
     void CheckCallback();

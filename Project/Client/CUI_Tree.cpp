@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "CUI_Tree.h"
 
-CUI_Tree::CUI_Tree(const string& _strName, tDataPtr _pData)
+CUI_Tree::CUI_Tree(const string& _strName)
     : CUI_Widget(_strName, eWIDGET_TYPE::TREE)
     , m_flagTree()
-    , m_pData(_pData)
     , m_funcCallback{}
 {
     m_flagTree |= ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_FramePadding;
@@ -46,9 +45,10 @@ void CUI_Tree::endUI()
 }
 
 
-void CUI_Tree::AddChildNode(const string& _strName, tDataPtr _pData)
+void CUI_Tree::AddChildNode(const string& _strName, tPtrData _pData)
 {
-    CUI_Tree* pTree = new CUI_Tree(_strName, _pData);
+    CUI_Tree* pTree = new CUI_Tree(_strName);
+    pTree->SetDataPtr(_pData);
 
     pTree->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Leaf);
 
@@ -71,18 +71,18 @@ void CUI_Tree::CheckCallback()
         if (nullptr != m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED]
             && true == ImGui::IsMouseDoubleClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
         {
-            m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED](this, m_pData);
+            m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED](GetUIData());
         }
 
         else if (nullptr != m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_CLICKED]
             && true == ImGui::IsMouseClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
         {
-            m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_CLICKED](this, m_pData);
+            m_funcCallback[(int)eUI_MOUSE_STATUS::LBTN_CLICKED](GetUIData());
         }
 
         else if (nullptr != m_funcCallback[(int)eUI_MOUSE_STATUS::HOVERED])
         {
-            m_funcCallback[(int)eUI_MOUSE_STATUS::HOVERED](this, m_pData);
+            m_funcCallback[(int)eUI_MOUSE_STATUS::HOVERED](GetUIData());
         }
     }
 }

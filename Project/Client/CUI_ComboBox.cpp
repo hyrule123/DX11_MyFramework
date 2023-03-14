@@ -13,12 +13,7 @@ CUI_ComboBox::~CUI_ComboBox()
 {
 }
 
-void CUI_ComboBox::tick()
-{
-	//인덱스가 유효하지 않은지 검사하고 유효하지 않을 시 -1로 변경
-	if (false == IsIndexValid())
-		m_iCurrentSelected = -1;
-}
+
 
 bool CUI_ComboBox::beginUI()
 {
@@ -68,6 +63,13 @@ void CUI_ComboBox::render_update()
 void CUI_ComboBox::endUI()
 {
 	ImGui::EndCombo();
+}
+
+void CUI_ComboBox::tick()
+{
+	//인덱스가 유효하지 않은지 검사하고 유효하지 않을 시 -1로 변경
+	if (false == IsIndexValid())
+		m_iCurrentSelected = -1;
 }
 
 void CUI_ComboBox::SetCurrentSelected(const string& _SelectedName)

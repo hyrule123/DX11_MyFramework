@@ -21,7 +21,7 @@ private:
 
 public:
     //선택된 리소스를 하이라이팅 해주는 콜백함수
-    void ChangeSelectedTreeNode(CUI_Tree* _pTree, tDataPtr _pData);
+    void ChangeSelectedTreeNode(tUIData _tUIData);
 
 private:
     void UpdateResources();

@@ -60,6 +60,7 @@ private:
 	bool			m_bActive;		// UI 활성화 체크
 	bool			m_bNoChildUI;	// 자식 노드가 들어갈 수 없는 노드로 설정
 	
+	tUIData			m_tData;
 
 public:
 	void SetActive(bool _Active) { m_bActive = _Active; }
@@ -67,12 +68,18 @@ public:
 	bool* GetActivePtr() { return &m_bActive; }
 	bool ToggleActive() { m_bActive = !m_bActive; return m_bActive; }
 
+	const tUIData& GetUIData() const { return m_tData; }
+	tPtrData GetPtrData() const { return m_tData.tData; }
+	void SetDataPtr(tPtrData _tData) { m_tData.tData = _tData; }
+
+
 	//자신의 숫자 ID넘버를 뒤에 더해서 고유 ID 생성(ID는 창에 뜨지 않음)
 	void SetStrID(const string& _strID) { m_strID = _strID; }
 	const string& GetStrID() const { return m_strID; }
 	void AddStrID(const string& _strID) { m_strID += _strID; }
 	void MakeUniqueID();
 	void MakeUniqueID(const string& _strUniqueIDSuffix);
+
 
 	CUI* GetParent() const { return m_ParentUI; }
 

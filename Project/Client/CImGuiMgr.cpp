@@ -77,8 +77,6 @@ CImGuiMgr::~CImGuiMgr()
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
-
-
 }
 
 CUI* CImGuiMgr::FindUI(const string& _UIName)
@@ -135,6 +133,20 @@ void CImGuiMgr::AddUI(CUI* _pUI)
 
 void CImGuiMgr::init(HWND _hWnd)
 {
+    ImGuiInit(_hWnd);
+    CreateDefaultUI();
+}
+
+void CImGuiMgr::progress()
+{
+	begin();
+	tick();
+	finaltick();
+	render();
+}
+
+void CImGuiMgr::ImGuiInit(HWND _hWnd)
+{
     m_hWnd = _hWnd;
     //
     // 
@@ -190,7 +202,7 @@ void CImGuiMgr::init(HWND _hWnd)
         loadfile.close();
     }
 
-  
+
 
     //wstring path = CPathMgr::GetInst()->GetContentAbsPathW();
     //path += L"font/NotoSansKR-Regular.otf";
@@ -205,15 +217,6 @@ void CImGuiMgr::init(HWND _hWnd)
     CDevice* pDevice = CDevice::GetInst();
     ImGui_ImplDX11_Init(pDevice->GetDevice(), pDevice->GetDeviceContext());
 
-    CreateDefaultUI();
-}
-
-void CImGuiMgr::progress()
-{
-	begin();
-	tick();
-	finaltick();
-	render();
 }
 
 void CImGuiMgr::CreateDefaultUI()
@@ -221,6 +224,10 @@ void CImGuiMgr::CreateDefaultUI()
     m_MainMenubar = new CUI_Menubar("MainMenu", true);
     m_OpenWindowsMenu = m_MainMenubar->AddMenu("Open Windows");
     AddUI(m_MainMenubar);
+
+    m_TestWindow = new CUI_BasicWindow("TestWindow");
+
+    AddUI(m_TestWindow);
 
     AddUI(new CUI_Inspector);
     AddUI(new CUI_Contents);
@@ -338,16 +345,16 @@ void CImGuiMgr::UpdateMainMenu()
                 continue;
 
             CUI_MenuItem* pMenuItem = m_OpenWindowsMenu->AddMenuItem(UIName,
-                tDataPtr{ iter.second, } );
+                tPtrData{ iter.second, } );
             pMenuItem->SetCallback(std::bind(&CImGuiMgr::OpenWindowsCallback, this,
                 std::placeholders::_1, std::placeholders::_2));
         }
     }
 }
 
-void CImGuiMgr::OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tDataPtr _pData)
+void CImGuiMgr::OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tPtrData _pData)
 {
-    CUI* pUI = static_cast<CUI*>(_pData.pData);
+    CUI* pUI = static_cast<CUI*>(_pData.ptr);
 
     if (nullptr == _pMenuItem || nullptr == pUI)
         return;

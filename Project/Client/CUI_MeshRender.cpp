@@ -45,10 +45,10 @@ void CUI_MeshRender::ChangeMeshCallback()
 	if (true == sel.strName.empty())
 		return;
 
-	if (nullptr == sel.pData.pData)
+	if (nullptr == sel.pData.ptr)
 		return;
 
-	GetTarget()->MeshRender()->SetMesh(static_cast<CMesh*>(sel.pData.pData));
+	GetTarget()->MeshRender()->SetMesh(static_cast<CMesh*>(sel.pData.ptr));
 }
 
 void CUI_MeshRender::UpdateMtrlListCallback()
@@ -73,7 +73,7 @@ void CUI_MeshRender::ChangeMtrlCallback()
 	if (true == sel.strName.empty())
 		return;
 
-	Ptr<CMaterial> mtrl = static_cast<CMaterial*>(sel.pData.pData);
+	Ptr<CMaterial> mtrl = static_cast<CMaterial*>(sel.pData.ptr);
 
 	if (nullptr == mtrl)
 		return;

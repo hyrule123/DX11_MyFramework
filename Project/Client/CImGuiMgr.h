@@ -17,6 +17,7 @@ class CUI_Inspector;
 class CUI_Menubar;
 class CUI_Menu;
 class CUI_MenuItem;
+class CUI_BasicWindow;
 
 
 typedef void (CUI::* UI_DELEGATE_0)(void);
@@ -33,6 +34,8 @@ private:
 
     CUI_Menubar* m_MainMenubar;
     CUI_Menu* m_OpenWindowsMenu;
+
+    CUI_BasicWindow* m_TestWindow;
 
     // ImGui state
     ImVec4 m_clear_color;
@@ -61,6 +64,7 @@ public:
     
 
 private:
+    void ImGuiInit(HWND _hWnd);
     void CreateDefaultUI();
     
     void begin();
@@ -69,6 +73,6 @@ private:
     void render();
 
     void UpdateMainMenu();
-    void OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tDataPtr _pData);
+    void OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tPtrData _pData);
 };
 

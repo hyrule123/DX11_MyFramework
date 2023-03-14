@@ -22,6 +22,6 @@ private:
 	bool m_bEnable;
 
 public:
-	CUI_MenuItem* AddMenuItem(const string& _strName, tDataPtr _pData = tDataPtr{});
+	CUI_MenuItem* AddMenuItem(const string& _strName, tPtrData _pData = tPtrData{});
 };
 

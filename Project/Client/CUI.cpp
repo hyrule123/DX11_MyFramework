@@ -10,6 +10,7 @@ CUI::CUI(const string& _Name)
 	, m_strID(_Name)
 	, m_bActive(true)
 	, m_bNoChildUI()
+	, m_tData{ this, }
 {
 }
 

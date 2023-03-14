@@ -213,6 +213,9 @@
     <ClInclude Include="CUI_MapViewer.h">
       <Filter>ImGui\02. UI_Instance\05. UI_MapViewer</Filter>
     </ClInclude>
+    <ClInclude Include="CUI_Button.h">
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -337,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="CUI_MapViewer.cpp">
       <Filter>ImGui\02. UI_Instance\05. UI_MapViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI_Button.cpp">
+      <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

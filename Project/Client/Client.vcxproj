@@ -154,6 +154,7 @@
     <ClInclude Include="CTestLevel.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUI_Animator2D.h" />
+    <ClInclude Include="CUI_Button.h" />
     <ClInclude Include="CUI_Camera.h" />
     <ClInclude Include="CUI_Child.h" />
     <ClInclude Include="CUI_Collider2D.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="CTestLevel.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUI_Animator2D.cpp" />
+    <ClCompile Include="CUI_Button.cpp" />
     <ClCompile Include="CUI_Camera.cpp" />
     <ClCompile Include="CUI_Child.cpp" />
     <ClCompile Include="CUI_Collider2D.cpp" />

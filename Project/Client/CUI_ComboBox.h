@@ -14,7 +14,7 @@ enum class eCALLBACK_TYPE
 struct tComboItem
 {
 	string strName;
-	tDataPtr pData;
+	tPtrData pData;
 };
 
 class CUI_ComboBox 
@@ -26,11 +26,11 @@ public:
 	virtual ~CUI_ComboBox();
 
 public:
-	virtual void tick() override;
-
 	virtual bool beginUI() override;
 	virtual void render_update() override;
 	virtual void endUI() override;
+
+	virtual void tick() override;
 
 private:
 	vector<tComboItem> m_vecItem;

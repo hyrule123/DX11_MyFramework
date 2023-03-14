@@ -22,6 +22,6 @@ private:
 
 public:
 	CUI_Menu* AddMenu(const string& _strName);
-	CUI_MenuItem* AddMenuItem(const string& _MenuName, const string& _MenuItemName, tDataPtr _pData);
+	CUI_MenuItem* AddMenuItem(const string& _MenuName, const string& _MenuItemName, tPtrData _pData);
 };
 
