@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CTilemap_Atlas.h"
+#include "CTilemapAtlas.h"
 
 #include "CStructBuffer.h"
 
@@ -9,7 +9,7 @@
 
 #include "strKeyDefaultRes.h"
 
-CTilemap_Atlas::CTilemap_Atlas()
+CTilemapAtlas::CTilemapAtlas()
 	: CTilemap(eTILE_TYPE::ATLAS)
 	, m_vSliceSize()
 	, m_vecTile()
@@ -22,17 +22,17 @@ CTilemap_Atlas::CTilemap_Atlas()
 	m_SBuffer->Create(sizeof(tTile), GetTileCountX() * GetTileCountY(), nullptr, 0u);
 }
 
-CTilemap_Atlas::~CTilemap_Atlas()
+CTilemapAtlas::~CTilemapAtlas()
 {
 	DESTRUCTOR_DELETE(m_SBuffer);
 }
 
 
-void CTilemap_Atlas::finaltick()
+void CTilemapAtlas::finaltick()
 {
 }
 
-bool CTilemap_Atlas::render()
+bool CTilemapAtlas::render()
 {
 	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == GetMesh() || nullptr == GetCurMaterial())
@@ -65,13 +65,13 @@ bool CTilemap_Atlas::render()
 	return true;
 }
 
-void CTilemap_Atlas::BindData()
+void CTilemapAtlas::BindData()
 {
 	m_SBuffer->UploadData(m_vecTile.data(), (UINT)(sizeof(tTile) * m_vecTile.size()));
 	m_SBuffer->BindBufferSRV();
 }
 
-void CTilemap_Atlas::SetTileCount(UINT _iXCount, UINT _iYCount)
+void CTilemapAtlas::SetTileCount(UINT _iXCount, UINT _iYCount)
 {
 	CTilemap::SetTileCount(_iXCount, _iYCount);
 

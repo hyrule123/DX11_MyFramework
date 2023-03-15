@@ -51,9 +51,10 @@ private:
 
 
 public:
-    
+    eTILE_TYPE GetTileType() const { return m_eTileType; }
     UINT GetTileCountX() const { return m_uTileCountX; }
     UINT GetTileCountY() const { return m_uTileCountY; }
+
     
 };
 

@@ -3,13 +3,13 @@
 
 #include "SCMapDefine.h"
 
-class CTilemap_Complete :
+class CTilemapComplete :
     public CTilemap
 {
 public:
-    CTilemap_Complete();
-    virtual ~CTilemap_Complete();
-    CLONE(CTilemap_Complete);
+    CTilemapComplete();
+    virtual ~CTilemapComplete();
+    CLONE(CTilemapComplete);
 
 public:
     virtual void init() override {};
@@ -22,6 +22,6 @@ private:
     bool    m_bMapLoaded;
 
 public:
-    bool LoadMap(const wstring& _strMapName);
+    bool LoadMap(const string& _strMapName);
 };
 

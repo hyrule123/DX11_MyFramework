@@ -52,7 +52,7 @@ void CTransform::finaltick()
 	}
 
 	//둘중에 하나라도 업데이트 되었을 경우 월드행렬을 새로 계산한다.
-	if (m_bNeedMyUpdate || m_bNeedParentUpdate)
+	if (m_bNeedMyUpdate || m_bNeedParentUpdate || m_bSizeUpdated)
 	{
 		m_matWorld = m_matRelative * m_matParent;
 

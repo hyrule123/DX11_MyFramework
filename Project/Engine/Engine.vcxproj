@@ -236,8 +236,8 @@ call Copy_Engine.bat</Command>
     <ClInclude Include="CStructBuffer.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTilemap.h" />
-    <ClInclude Include="CTilemap_Atlas.h" />
-    <ClInclude Include="CTilemap_Complete.h" />
+    <ClInclude Include="CTilemapAtlas.h" />
+    <ClInclude Include="CTilemapComplete.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="define.h" />
@@ -304,8 +304,8 @@ call Copy_Engine.bat</Command>
     <ClCompile Include="CStructBuffer.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTilemap.cpp" />
-    <ClCompile Include="CTilemap_Atlas.cpp" />
-    <ClCompile Include="CTilemap_Complete.cpp" />
+    <ClCompile Include="CTilemapAtlas.cpp" />
+    <ClCompile Include="CTilemapComplete.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="Engine.cpp" />

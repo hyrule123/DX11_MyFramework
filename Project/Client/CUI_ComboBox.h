@@ -11,6 +11,8 @@ enum class eCALLBACK_TYPE
 	END
 };
 
+
+//string strName, tPtrData pData
 struct tComboItem
 {
 	string strName;
@@ -62,7 +64,7 @@ public://Setter/Getter
 	void SetCurrentSelected(const string& _SelectedName);
 	const tComboItem& GetCurrentSelected() const;
 
-	void AddClickCallback(CUI_BasicWindow* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type);
+	void AddClickCallback(std::function<void(const tComboItem&)> _pFunc, eCALLBACK_TYPE _Type);
 	void ClearClickCallback(eCALLBACK_TYPE _Type);
 
 	void SetWidth(float _fWidth) { m_fWidth = _fWidth; m_bWidthSet = true; }
@@ -88,9 +90,9 @@ inline const tComboItem& CUI_ComboBox::GetCurrentSelected() const
 		return voidItem;
 }
 
-inline void CUI_ComboBox::AddClickCallback(CUI_BasicWindow* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type)
+inline void CUI_ComboBox::AddClickCallback(std::function<void(const tComboItem&)> _pFunc, eCALLBACK_TYPE _Type)
 {
-	m_vecCallback[(UINT)_Type].push_back(std::bind(_pCallbackfunc, _pInst));
+	m_vecCallback[(UINT)_Type].push_back(_pFunc);
 }
 
 inline void CUI_ComboBox::ClearClickCallback(eCALLBACK_TYPE _Type)

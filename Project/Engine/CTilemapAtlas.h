@@ -1,12 +1,12 @@
 #pragma once
 #include "CTilemap.h"
-class CTilemap_Atlas :
+class CTilemapAtlas :
     public CTilemap
 {
 public:
-    CTilemap_Atlas();
-    virtual ~CTilemap_Atlas();
-    CLONE(CTilemap_Atlas);
+    CTilemapAtlas();
+    virtual ~CTilemapAtlas();
+    CLONE(CTilemapAtlas);
 
 public:
     virtual void init() override {};

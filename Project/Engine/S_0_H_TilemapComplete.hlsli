@@ -9,6 +9,7 @@
 
 #endif
 
+
 struct VS_IN
 {
 	float3 vLocalPos SEMANTIC(POSITION);

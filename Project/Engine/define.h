@@ -60,6 +60,8 @@ extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 
 enum class eRES_TYPE
 {
+	UNKNOWN = -1,
+
 	MESH,			// 형태
 	MESHDATA,
 	MATERIAL,

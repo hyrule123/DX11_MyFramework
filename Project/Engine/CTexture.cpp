@@ -15,6 +15,7 @@ CTexture::CTexture()
 
 CTexture::~CTexture()
 {
+	UnBind();
 }
 
 bool CTexture::Save(const std::filesystem::path& _fileName)

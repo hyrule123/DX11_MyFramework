@@ -14,11 +14,11 @@ private:
     CUI_ComboBox* m_pComboBoxMtrl;
 
 private:
-    void UpdateMeshListCallback();
-    void ChangeMeshCallback();
+    void UpdateMeshListCallback(const tComboItem& _tComboItem);
+    void ChangeMeshCallback(const tComboItem& _tComboItem);
 
-    void UpdateMtrlListCallback();
-    void ChangeMtrlCallback();
+    void UpdateMtrlListCallback(const tComboItem& _tComboItem);
+    void ChangeMtrlCallback(const tComboItem& _tComboItem);
 
 
 public:

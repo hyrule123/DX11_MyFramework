@@ -35,7 +35,8 @@ private:
     tMtrlScalarData* m_DebugData;
 
 public:
-    bool LoadMap(const wstring& _wstrMapName, __out tMapData& _tMapData);
+    //Map 폴더 안의 맵 이름을 인자로 받아서 맵을 로드함.
+    bool LoadMap(const string& _strMapName, __out tMapData& _tMapData);
 
 private:
     bool ReadMapData(char* Data, DWORD Size);

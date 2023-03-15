@@ -56,6 +56,11 @@ public:
     template<typename T>
     Ptr<T> FindRes(const string& _strKey);
 
+    //map에서 데이터를 제거한다. 
+    //레퍼런스 카운트가 0이 되지 않으면 실제로 데이터가 제거되지 않으므로 주의할 것.
+    template<typename T>
+    void DeleteRes(const string& _strKey);
+
     template<typename T>
     void AddRes(const string& _strKey, Ptr<T>& _Res);
 
@@ -70,23 +75,43 @@ public:
 template<typename T>
 inline eRES_TYPE CResMgr::GetResType()
 {
-    return m_umapResClassTypeIndex[std::type_index(typeid(T))];
+    const auto& iter = m_umapResClassTypeIndex.find(std::type_index(typeid(T)));
+
+    if (iter == m_umapResClassTypeIndex.end())
+        return eRES_TYPE::UNKNOWN;
+
+    return iter->second;
 }
 
 
 template<typename T>
 inline Ptr<T> CResMgr::FindRes(const string& _strKey)
 {
-    eRES_TYPE type = CResMgr::GetInst()->GetResType<T>();
+    eRES_TYPE resType = CResMgr::GetInst()->GetResType<T>();
+
+    if (eRES_TYPE::UNKNOWN == resType)
+        return nullptr;
       
-    auto iter = m_arrRes[(UINT)type].find(_strKey);
-    if (iter == m_arrRes[(UINT)type].end())
+    auto iter = m_arrRes[(UINT)resType].find(_strKey);
+    if (iter == m_arrRes[(UINT)resType].end())
         return nullptr;
 
-    //if (type == eRES_TYPE::MATERIAL)
-    //    return (T*)iter->second.Get()->Clone();
-
     return iter->second;    
+}
+
+template<typename T>
+inline void CResMgr::DeleteRes(const string& _strKey)
+{
+    eRES_TYPE Type = GetResType<T>();
+
+    if (eRES_TYPE::UNKNOWN == Type)
+        return;
+
+    const auto& iter = m_arrRes[(int)Type].find(_strKey);
+    if (m_arrRes[(int)Type].end() != iter)
+    {
+        m_arrRes[(int)Type].erase(iter);
+    }
 }
 
 
@@ -97,6 +122,8 @@ inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
     assert( ! FindRes<T>(_strKey).Get() );
 
     eRES_TYPE type = GetResType<T>();
+
+
     m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
     _Res->SetKey(_strKey);
 }

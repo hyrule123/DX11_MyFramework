@@ -199,7 +199,7 @@ bool CCS_SCMapLoader::BindDataCS()
 
     static std::filesystem::path MapDir = RELATIVE_PATH::SCMAP::A;
     
-    std::filesystem::path MapPath = MapDir / m_tMapWorkSpace.wstrMapName;
+    std::filesystem::path MapPath = MapDir / m_tMapWorkSpace.strMapName;
 
     
 
@@ -355,11 +355,10 @@ void CCS_SCMapLoader::Debug()
     //}
 }
 
-bool CCS_SCMapLoader::LoadMap(const wstring& _wstrMapName, __out tMapData& _tMapData)
+bool CCS_SCMapLoader::LoadMap(const string& _strMapName, __out tMapData& _tMapData)
 {
     _tMapData = tMapData();
-
-    m_tMapWorkSpace.wstrMapName = _wstrMapName;
+    m_tMapWorkSpace.strMapName = _strMapName;
 
     //로드 실패 시 들어온 레퍼런스를 초기화하고 false 반환
     if (false == Execute())
@@ -515,6 +514,10 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
     m_tMapWorkSpace.pMapTex->Create(32u * m_tMapWorkSpace.uMapSizeX, 32u * m_tMapWorkSpace.uMapSizeY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
     m_tMapWorkSpace.pMapTex->BindData_UAV(e_u_TEXTURERW_TARGET);
+
+    //맵 이름으로 키를 설정한다.
+    m_tMapWorkSpace.pMapTex->SetKey(m_tMapWorkSpace.strMapName);
+
 
 
     //필요한 그룹의 수 계산
