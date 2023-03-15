@@ -14,6 +14,7 @@
 #include "CUI_Menu.h"
 #include "CUI_MenuItem.h"
 #include "CUI_Button.h"
+#include "CUIobj_TestWindow.h"
 
 #include <fstream>
 
@@ -225,7 +226,8 @@ void CImGuiMgr::CreateDefaultUI()
     m_OpenWindowsMenu = m_MainMenubar->AddMenu("Open Windows");
     AddUI(m_MainMenubar);
 
-    TestUIInit();
+    m_TestWindow = new CUIobj_TestWindow;
+    AddUI(m_TestWindow);
 
     AddUI(new CUIobj_Inspector);
     AddUI(new CUIobj_Contents);
@@ -359,28 +361,3 @@ void CImGuiMgr::OpenWindowsCallback(CUI_MenuItem* _pMenuItem, tPtrData _pData)
 
     pUI->SetActive(true);
 }
-
-void CImGuiMgr::TestUIInit()
-{
-    m_TestWindow = new CUI_BasicWindow("TestWindow");
-
-    m_TestWindow->SetSaveEnable(true);
-
-    m_TestWindow->AddChildUI(new CUI_Button("TestButton"));
-
-    CUI_Button* pButton = (CUI_Button*)m_TestWindow->FindChildUIByName("TestButton");
-
-    if (nullptr != pButton)
-    {
-        pButton->SetFuncCallback(std::bind(&CImGuiMgr::TestCallback, this, std::placeholders::_1));
-    }
-
-    AddUI(m_TestWindow);
-}
-
-void CImGuiMgr::TestCallback(const tUIData& _UIData)
-{
-
-    int a = 0;
-}
-

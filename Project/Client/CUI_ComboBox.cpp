@@ -6,6 +6,8 @@ CUI_ComboBox::CUI_ComboBox(const string& _Name)
 	: CUI_Widget(_Name, eWIDGET_TYPE::COMBO_BOX)
 	, m_iCurrentSelected(-1)
 	, m_ComboFlags()
+	, m_fLeftLabelWidth(100.f)
+	, m_fWidth(0.f)
 {
 }
 
@@ -17,12 +19,19 @@ CUI_ComboBox::~CUI_ComboBox()
 
 bool CUI_ComboBox::beginUI()
 {
-	CUI_Widget::beginUI();
 
 	string Label;
-	if (true == GetLeftLabel())
+	if (true == m_bLeftLabel)
+	{
+		ImGui::Text(GetStrID().data());
+		ImGui::SameLine(m_fLeftLabelWidth);
+
 		Label += "##";
-	Label += GetStrID();
+	}
+	Label += GetName();
+
+	if (true == m_bWidthSet)
+		ImGui::PushItemWidth(m_fWidth);
 
 	string Preview;
 	if (true == IsIndexValid())
@@ -34,7 +43,6 @@ bool CUI_ComboBox::beginUI()
 
 void CUI_ComboBox::render_update()
 {
-
 	//콤보박스를 클릭했다면 BeginCombo에서 true가 반환되므로
 	CallCallbackFunc(eCALLBACK_TYPE::ONCLICK);
 
@@ -63,6 +71,9 @@ void CUI_ComboBox::render_update()
 void CUI_ComboBox::endUI()
 {
 	ImGui::EndCombo();
+
+	if (true == m_bWidthSet)
+		ImGui::PopItemWidth();
 }
 
 void CUI_ComboBox::tick()

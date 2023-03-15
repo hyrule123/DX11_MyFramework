@@ -180,6 +180,7 @@
     <ClInclude Include="CUIobj_Tilemap.h" />
     <ClInclude Include="CUIobj_Transform.h" />
     <ClInclude Include="CUI_BasicWIndow.h" />
+    <ClInclude Include="CUIobj_TestWindow.h" />
     <ClInclude Include="CUI_Tree.h" />
     <ClInclude Include="CUI_Widget.h" />
     <ClInclude Include="framework.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="CUI_BasicWindow.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="CUIobj_TestWindow.cpp" />
     <ClCompile Include="CUI_Tree.cpp" />
     <ClCompile Include="CUI_Widget.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">

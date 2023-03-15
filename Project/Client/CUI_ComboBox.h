@@ -40,6 +40,12 @@ private:
 	//함수 호출 대상
 	vector<std::function<void(const tComboItem&)>> m_vecCallback[(UINT)eCALLBACK_TYPE::END];
 
+	bool m_bWidthSet;
+	float m_fWidth;
+
+	bool m_bLeftLabel;
+	float m_fLeftLabelWidth;
+	
 
 public://Setter/Getter
 	void SetImguiComboFlag(ImGuiComboFlags _Flags) { m_ComboFlags = _Flags; }
@@ -58,6 +64,14 @@ public://Setter/Getter
 
 	void AddClickCallback(CUI_BasicWindow* _pInst, UI_DELEGATE_0 _pCallbackfunc, eCALLBACK_TYPE _Type);
 	void ClearClickCallback(eCALLBACK_TYPE _Type);
+
+	void SetWidth(float _fWidth) { m_fWidth = _fWidth; m_bWidthSet = true; }
+
+	void SetLeftLabel(bool _b) { m_bLeftLabel = _b; }
+
+	void SetLeftLabelWidth(float _Width) { m_fLeftLabelWidth = _Width; }
+	float GetLeftLabelWidth() const { return m_fLeftLabelWidth; }
+
 
 private:
 	bool IsIndexValid() const;

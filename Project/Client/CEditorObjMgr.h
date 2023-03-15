@@ -7,6 +7,7 @@
 class CGameObject;
 class CCamera;
 
+
 class CEditorObjMgr :
     public CSingleton<CEditorObjMgr>
 {

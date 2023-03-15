@@ -92,6 +92,9 @@
     <Filter Include="ImGui\02. UI_Object\05. UI_MapViewer">
       <UniqueIdentifier>{eb760aa2-374d-4a24-a0f8-35549acd5047}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\02. UI_Object\00. UI_TestWindow">
+      <UniqueIdentifier>{d7654dbd-ee67-4461-9975-a67ba4e235bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -215,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="CUI_Button.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIobj_TestWindow.h">
+      <Filter>ImGui\02. UI_Object\00. UI_TestWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="CUI_Button.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIobj_TestWindow.cpp">
+      <Filter>ImGui\02. UI_Object\00. UI_TestWindow</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

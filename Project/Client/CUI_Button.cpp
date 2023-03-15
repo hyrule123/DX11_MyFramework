@@ -14,7 +14,7 @@ CUI_Button::~CUI_Button()
 
 bool CUI_Button::beginUI()
 {
-	return ImGui::Button(GetName().c_str(), GetSize());
+	return ImGui::Button(GetName().c_str(), m_vSize);
 }
 
 void CUI_Button::render_update()
