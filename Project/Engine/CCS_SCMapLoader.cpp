@@ -17,11 +17,14 @@
 #include "CPathMgr.h"
 #include "CStructBuffer.h"
 #include "CTexture.h"
+#include "CResMgr.h"
 
 #ifdef _DEBUG
-constexpr const wchar_t* strStormLibPath = L"StormLib_DLL_Debug.dll";
+constexpr const wchar_t* strStormLibPathW = L"StormLib_DLL_Debug.dll";
+constexpr const char* strStormLibPathA = "StormLib_DLL_Debug.dll";
 #else
-constexpr const wchar_t* strStormLibPath = L"StormLib_DLL_Release.dll";
+constexpr const wchar_t* strStormLibPathW = L"StormLib_DLL_Release.dll";
+constexpr const char* strStormLibPathA = "StormLib_DLL_Release.dll";
 #endif
 
 //맵 정보 읽기용
@@ -208,7 +211,7 @@ bool CCS_SCMapLoader::BindDataCS()
     //HANDLE handle = NULL;          // Disk file handle
 
     //DLL 로드
-    HMODULE DLLModule = LoadLibraryW(strStormLibPath);
+    HMODULE DLLModule = LoadLibraryA(strStormLibPathA);
     if (nullptr == DLLModule)
         return false;
 
@@ -269,6 +272,8 @@ bool CCS_SCMapLoader::BindDataCS()
     //파일 연결 해제
     funcCloseFile(hFile);
     funcCloseArchive(hMpq);
+    
+    
     
     //라이브러리 연결 해제
     FreeLibrary(DLLModule);
@@ -333,12 +338,13 @@ void CCS_SCMapLoader::UnBindCS()
 {
     for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
     {
-        m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].UnBindSRV();
+        m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].UnBind();
     }
-    
-    
+ 
     //맵 정보는 제거
     SAFE_DELETE(m_pSBuffer_MXTM);
+
+    m_tMapWorkSpace.pMapTex->UnBind();
 
     Debug();
 }
@@ -366,6 +372,7 @@ bool CCS_SCMapLoader::LoadMap(const string& _strMapName, __out tMapData& _tMapDa
             
     //성공 시 작업 정보를 넘겨주고 자신의 작업 영역은 초기화한다.
     _tMapData = m_tMapWorkSpace;
+    CResMgr::GetInst()->AddRes<CTexture>(_tMapData.strMapName, m_tMapWorkSpace.pMapTex);
     m_tMapWorkSpace = tMapData();
     return true;
 }
@@ -525,15 +532,15 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
 
 
     //디버그용 쉐이더 바인딩
-    tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SRV_NONE, e_u_SBUFFERRW_DEBUG };
-    m_pSBuffer_Debug = new CStructBuffer(SDesc);
+    //tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SRV_NONE, e_u_SBUFFERRW_DEBUG };
+    //m_pSBuffer_Debug = new CStructBuffer(SDesc);
 
-    int mapsize = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;
-    m_DebugData = new tMtrlScalarData[mapsize];
-    size_t bytesize = sizeof(tMtrlScalarData) * mapsize;
-    memset(m_DebugData, 0, bytesize);
-    m_pSBuffer_Debug->Create(sizeof(tMtrlScalarData), mapsize, m_DebugData, mapsize);
-    m_pSBuffer_Debug->BindBufferUAV();
+    //int mapsize = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;
+    //m_DebugData = new tMtrlScalarData[mapsize];
+    //size_t bytesize = sizeof(tMtrlScalarData) * mapsize;
+    //memset(m_DebugData, 0, bytesize);
+    //m_pSBuffer_Debug->Create(sizeof(tMtrlScalarData), mapsize, m_DebugData, mapsize);
+    //m_pSBuffer_Debug->BindBufferUAV();
 
     return true;
 }

@@ -1,5 +1,5 @@
 targetver.h
 pch.h
 framework.h
-Shader\
+Shader\*.cso
 src\

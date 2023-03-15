@@ -196,8 +196,12 @@
     <ClInclude Include="jsoncpp.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
-    <ClInclude Include="CTilemapAtlas.h" />
-    <ClInclude Include="CTilemapComplete.h" />
+    <ClInclude Include="CTilemapComplete.h">
+      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="CTilemapAtlas.h">
+      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -359,8 +363,12 @@
     <ClCompile Include="CCS_SCMapLoader.cpp">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClCompile>
-    <ClCompile Include="CTilemapAtlas.cpp" />
-    <ClCompile Include="CTilemapComplete.cpp" />
+    <ClCompile Include="CTilemapComplete.cpp">
+      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="CTilemapAtlas.cpp">
+      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">

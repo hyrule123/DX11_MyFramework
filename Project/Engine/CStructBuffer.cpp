@@ -45,6 +45,7 @@ CStructBuffer::CStructBuffer(tSBufferDesc&& _tDesc)
 
 CStructBuffer::~CStructBuffer()
 {
+	UnBind();
 }
 
 
@@ -60,17 +61,7 @@ void CStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 	assert(_uElemCapacity >= _uElemCount);
 
 	//재할당 하기 전 바인딩된 리소스가 있다면 unbind
-	switch (m_eCurBoundView)
-	{
-	case eCURRENT_BOUND_VIEW::SRV:
-		UnBindSRV();
-		break;
-	case eCURRENT_BOUND_VIEW::UAV:
-		UnBindUAV();
-		break;
-	default:
-		break;
-	}
+	UnBind();
 
 	//상수버퍼와는 다르게 버퍼 재할당이 가능함. 먼저 기존 버퍼의 할당을 해제한다.(ComPtr을 통해 관리가 이루어지므로 nullptr로 바꿔주면 됨.)
 	m_uElementStride = _uElemStride;
@@ -266,9 +257,7 @@ void CStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
 
 void CStructBuffer::BindBufferSRV()
 {
-	//UAV와 바인딩 되어있을 경우 바인딩을 해제
-	if (eCURRENT_BOUND_VIEW::UAV == m_eCurBoundView)
-		UnBindUAV();
+	UnBind();
 
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::SRV;
 
@@ -311,8 +300,8 @@ void CStructBuffer::BindBufferUAV()
 	//읽기 쓰기 다 가능한 상태가 아닐경우 assert
 	assert(eSTRUCT_BUFFER_BIND_TYPE::READ_WRITE == m_tSBufferDesc.eSBufferType);
 
-	if (eCURRENT_BOUND_VIEW::SRV == m_eCurBoundView)
-		UnBindSRV();
+	UnBind();
+
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::UAV;
 
 	//m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV |= eSHADER_PIPELINE_STAGE::__COMPUTE;
@@ -413,47 +402,52 @@ void CStructBuffer::CreateUAV()
 		assert(nullptr);
 }
 
-void CStructBuffer::UnBindSRV()
+void CStructBuffer::UnBind()
 {
-	ID3D11ShaderResourceView* pView = nullptr;
+	if (eCURRENT_BOUND_VIEW::NONE == m_eCurBoundView)
+		return;
 
-	if (eSHADER_PIPELINE_STAGE::__VERTEX & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
+	else if (eCURRENT_BOUND_VIEW::SRV == m_eCurBoundView)
 	{
-		CONTEXT->VSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
+		ID3D11ShaderResourceView* pView = nullptr;
+
+		if (eSHADER_PIPELINE_STAGE::__VERTEX & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
+		{
+			CONTEXT->VSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__HULL & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
+		{
+			CONTEXT->HSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
+		{
+			CONTEXT->DSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
+		{
+			CONTEXT->GSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__PIXEL & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
+		{
+			CONTEXT->PSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
+		}
+
+		if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
+		{
+			CONTEXT->CSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
+		}
+	}
+	else if (eCURRENT_BOUND_VIEW::UAV == m_eCurBoundView)
+	{
+		static const UINT Offset = -1;
+		ID3D11UnorderedAccessView* pUAV = nullptr;
+		CONTEXT->CSSetUnorderedAccessViews(m_tSBufferDesc.i_e_u_UAVIdx, 1, &pUAV, &Offset);
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__HULL & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
-	{
-		CONTEXT->HSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
-	}
 
-	if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
-	{
-		CONTEXT->DSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
-	{
-		CONTEXT->GSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__PIXEL & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
-	{
-		CONTEXT->PSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
-	}
-
-	if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV)
-	{
-		CONTEXT->CSSetShaderResources(m_tSBufferDesc.i_e_t_SRVIdx, 1, &pView);
-	}
-
-	m_eCurBoundView = eCURRENT_BOUND_VIEW::NONE;
-}
-
-void CStructBuffer::UnBindUAV()
-{
-	static const UINT Offset = -1;
-	ID3D11UnorderedAccessView* pUAV = nullptr;
-	CONTEXT->CSSetUnorderedAccessViews(m_tSBufferDesc.i_e_u_UAVIdx, 1, &pUAV, &Offset);
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::NONE;
 }

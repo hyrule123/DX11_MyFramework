@@ -2,6 +2,8 @@
 
 #include "CEntity.h"
 
+#include "define.h"
+
 struct tSBufferDesc
 {
     //자신의 공유정보를 담고있는 상수버퍼 내부에서의 인덱스
@@ -79,11 +81,12 @@ public:
 
     //데이터를 특정 레지스터에 바인딩. SRV에 바인딩할것인지 UAV에 바인딩할것인지를 지정
     void BindBufferSRV();
-    void UnBindSRV();
+   
 
     //Bind buffer with UAV Mode to Compute shader 
     void BindBufferUAV();
-    void UnBindUAV();
+
+    void UnBind();
 
 private:
     void SetDefaultDesc();

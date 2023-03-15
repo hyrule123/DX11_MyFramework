@@ -56,7 +56,7 @@ void CCS_Initialize::UnBindCS()
 
 
 	//UNBIND하고 SRV와 바인딩 걸어준다.
-	m_pSBuffer_InitSetting->UnBindUAV();
+	m_pSBuffer_InitSetting->UnBind();
 	m_pSBuffer_InitSetting->BindBufferSRV();
 
 	//C++에서도 endianness 테스트

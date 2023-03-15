@@ -128,7 +128,7 @@
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <ModuleDefinitionFile>.\src\DllMain.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\src\DllMain_$(Configuration).def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -177,7 +177,7 @@ call Copy_StormLib_DLL.bat</Command>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <ModuleDefinitionFile>.\src\DllMain.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\src\DllMain_$(Configuration).def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>

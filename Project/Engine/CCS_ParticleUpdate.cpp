@@ -67,8 +67,8 @@ bool CCS_ParticleUpdate::BindDataCS()
 void CCS_ParticleUpdate::UnBindCS()
 {
 	//계산 후 UAV 바인딩을 해제.
-	m_pSBuffer_Transform->UnBindUAV();
-	m_pSBufferRW_Shared->UnBindUAV();
+	m_pSBuffer_Transform->UnBind();
+	m_pSBufferRW_Shared->UnBind();
 
 	//에러 방지를 위해 nullptr로 변경
 	m_pBufferOwner = nullptr;

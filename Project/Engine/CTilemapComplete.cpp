@@ -64,6 +64,9 @@ bool CTilemapComplete::render()
 
 bool CTilemapComplete::LoadMap(const string& _strMapName)
 {
+	if (true == m_bMapLoaded && _strMapName == m_tMapData.strMapName)
+		return true;
+
 	Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(DEFAULT_RES::SHADER::COMPUTE::SCMAPLOADER);
 
 	//기존 리소스가 있을 시 제거 요청

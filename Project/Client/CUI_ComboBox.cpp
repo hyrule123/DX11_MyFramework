@@ -64,16 +64,17 @@ void CUI_ComboBox::render_update()
 		{
 			ImGui::SetItemDefaultFocus();
 		}
-				
 	}
-}
 
-void CUI_ComboBox::endUI()
-{
 	ImGui::EndCombo();
 
 	if (true == m_bWidthSet)
 		ImGui::PopItemWidth();
+}
+
+void CUI_ComboBox::endUI()
+{
+
 }
 
 void CUI_ComboBox::tick()
