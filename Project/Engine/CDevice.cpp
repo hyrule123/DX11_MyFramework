@@ -240,43 +240,43 @@ void CDevice::CreateConstBuffer()
 {
     //Vertex Shader에만 상수버퍼를 전달 + Light 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
     UINT CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
-    m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES] = new CConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
-    m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES]->Create(sizeof(tCamMatrices), (int)eCAMERA_INDEX::END);
-    m_arrConstBuffer[e_b_CBUFFER_CAM_MATIRCES]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[idx_b_CBUFFER_CAM_MATIRCES] = new CConstBuffer(idx_b_CBUFFER_CAM_MATIRCES);
+    m_arrConstBuffer[idx_b_CBUFFER_CAM_MATIRCES]->Create(sizeof(tCamMatrices), (int)eCAMERA_INDEX::END);
+    m_arrConstBuffer[idx_b_CBUFFER_CAM_MATIRCES]->SetPipelineTarget(CBufferTarget);
 
     //Vertex + Pixel Shader에만 상수버퍼를 전달
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
-    m_arrConstBuffer[e_b_CBUFFER_MTRL_SCALAR] = new CConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
-    m_arrConstBuffer[e_b_CBUFFER_MTRL_SCALAR]->Create(sizeof(tMtrlScalarData), 1);
-    m_arrConstBuffer[e_b_CBUFFER_MTRL_SCALAR]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[idx_b_CBUFFER_MTRL_SCALAR] = new CConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
+    m_arrConstBuffer[idx_b_CBUFFER_MTRL_SCALAR]->Create(sizeof(tMtrlScalarData), 1);
+    m_arrConstBuffer[idx_b_CBUFFER_MTRL_SCALAR]->SetPipelineTarget(CBufferTarget);
 
     CBufferTarget = eSHADER_PIPELINE_STAGE::__PIXEL;
-    m_arrConstBuffer[e_b_CBUFFER_MTRL_TEX] = new CConstBuffer(e_b_CBUFFER_MTRL_TEX);
-    m_arrConstBuffer[e_b_CBUFFER_MTRL_TEX]->Create(sizeof(tMtrlTexData), 1);
-    m_arrConstBuffer[e_b_CBUFFER_MTRL_TEX]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[idx_b_CBUFFER_MTRL_TEX] = new CConstBuffer(idx_b_CBUFFER_MTRL_TEX);
+    m_arrConstBuffer[idx_b_CBUFFER_MTRL_TEX]->Create(sizeof(tMtrlTexData), 1);
+    m_arrConstBuffer[idx_b_CBUFFER_MTRL_TEX]->SetPipelineTarget(CBufferTarget);
 
 
     //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
-    m_arrConstBuffer[e_b_CBUFFER_GLOBAL] = new CConstBuffer(e_b_CBUFFER_GLOBAL);
-    m_arrConstBuffer[e_b_CBUFFER_GLOBAL]->Create(sizeof(tGlobalValue), 1);
-    m_arrConstBuffer[e_b_CBUFFER_GLOBAL]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[idx_b_CBUFFER_GLOBAL] = new CConstBuffer(idx_b_CBUFFER_GLOBAL);
+    m_arrConstBuffer[idx_b_CBUFFER_GLOBAL]->Create(sizeof(tGlobalValue), 1);
+    m_arrConstBuffer[idx_b_CBUFFER_GLOBAL]->SetPipelineTarget(CBufferTarget);
 
 
     //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
     //이 값을 전달할 버퍼 데이터는 g_arrSBufferShareData(extern.cpp)이다.
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
-    m_arrConstBuffer[e_b_CBUFFER_SBUFFER_SHAREDATA] = new CConstBuffer(e_b_CBUFFER_SBUFFER_SHAREDATA);
-    m_arrConstBuffer[e_b_CBUFFER_SBUFFER_SHAREDATA]->Create(sizeof(tSBufferInfo), (UINT)eCBUFFER_SBUFFER_SHAREDATA_IDX::END);
-    m_arrConstBuffer[e_b_CBUFFER_SBUFFER_SHAREDATA]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[idx_b_CBUFFER_SBUFFER_SHAREDATA] = new CConstBuffer(idx_b_CBUFFER_SBUFFER_SHAREDATA);
+    m_arrConstBuffer[idx_b_CBUFFER_SBUFFER_SHAREDATA]->Create(sizeof(tSBufferInfo), (UINT)eCBUFFER_SBUFFER_SHAREDATA_IDX::END);
+    m_arrConstBuffer[idx_b_CBUFFER_SBUFFER_SHAREDATA]->SetPipelineTarget(CBufferTarget);
 
     
     //파티클 모듈 데이터를 전달할 상수 버퍼
     CBufferTarget = eSHADER_PIPELINE_STAGE::__COMPUTE;
-    m_arrConstBuffer[e_b_CBUFFER_PARTICLE_MODULEDATA] = new CConstBuffer(e_b_CBUFFER_PARTICLE_MODULEDATA);
+    m_arrConstBuffer[idx_b_CBUFFER_PARTICLE_MODULEDATA] = new CConstBuffer(idx_b_CBUFFER_PARTICLE_MODULEDATA);
 
-    m_arrConstBuffer[e_b_CBUFFER_PARTICLE_MODULEDATA]->Create(sizeof(tParticleModule), 1);
-    m_arrConstBuffer[e_b_CBUFFER_PARTICLE_MODULEDATA]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[idx_b_CBUFFER_PARTICLE_MODULEDATA]->Create(sizeof(tParticleModule), 1);
+    m_arrConstBuffer[idx_b_CBUFFER_PARTICLE_MODULEDATA]->SetPipelineTarget(CBufferTarget);
 }
 
 

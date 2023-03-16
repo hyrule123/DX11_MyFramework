@@ -64,7 +64,7 @@ void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 void CRenderMgr::init()
 {
     //광원정보는 픽셀에서만 필요, 8번 텍스처 레지스터에 바인딩 되어있음.
-    m_pLight2DStructBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__PIXEL, eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D, e_t_SBUFFER_LIGHT2D, e_u_UAV_NONE
+    m_pLight2DStructBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__PIXEL, eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D, idx_t_SBUFFER_LIGHT2D, idx_u_UAV_NONE
         });
     m_pLight2DStructBuffer->Create((UINT)sizeof(tLightInfo), 10, nullptr, 0u);
 }
@@ -99,7 +99,7 @@ void CRenderMgr::render()
 void CRenderMgr::UpdateBuffer()
 {
     //글로벌 정보를 tGlobalValue 상수버퍼로 업데이트
-    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_GLOBAL);
+    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_GLOBAL);
     pConstBuffer->UploadData((void*)(&g_GlobalVal), sizeof(tGlobalValue));
     pConstBuffer->BindBuffer();
 
@@ -135,7 +135,7 @@ void CRenderMgr::render_play()
 void CRenderMgr::renderAll()
 {
     //카메라의 행렬을 상수버퍼에 업로드
-    static CConstBuffer* const pBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_CAM_MATIRCES);
+    static CConstBuffer* const pBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_CAM_MATIRCES);
     pBuffer->UploadData(&g_matCam);
     pBuffer->BindBuffer();
 

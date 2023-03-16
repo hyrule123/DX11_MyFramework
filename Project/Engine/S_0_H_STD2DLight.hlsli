@@ -64,7 +64,7 @@ ENUM_END
 
 #else
 
-StructuredBuffer<tLightInfo> g_SBuffer_Light2D : register(e_t_SBUFFER_LIGHT2D);
+StructuredBuffer<tLightInfo> g_SBuffer_Light2D : register(idx_t_SBUFFER_LIGHT2D);
 
 #endif
 

@@ -21,7 +21,7 @@ struct tTile
 
 #else
 
-StructuredBuffer<tTile> g_SBuffer_Tile : register(e_t_SBUFFER_TILE);
+StructuredBuffer<tTile> g_SBuffer_Tile : register(idx_t_SBUFFER_TILE);
 
 #endif
 

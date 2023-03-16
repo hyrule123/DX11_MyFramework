@@ -3,6 +3,9 @@
 //맵 로딩용 컴퓨트쉐이더 및 Tilemap 컴퓨트쉐이더에서 공유하는 구조체들을 저장해놓는 용도의 헤더
 
 #include "ptr.h"
+#include "S_0_H_SCMapLoader.hlsli"
+
+
 
 class CTexture;
 struct tMapData
@@ -12,6 +15,7 @@ struct tMapData
     UINT uMapSizeY;
     eTILESET_INFO eTileSet;
     Ptr<CTexture> pMapTex;
+    vector<tWalkability> vecWalkabilityMap;
 
     tMapData() : strMapName(), uMapSizeX(), uMapSizeY(), eTileSet()
     {}

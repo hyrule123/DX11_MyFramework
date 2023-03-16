@@ -34,9 +34,9 @@ struct CV5
 
 //단위크기: 2 byte(비트 플래그) * 16(미니타일의 갯수) = 32byte, 통과가능여부, 높이
 //총 갯수 : 65536개
-//HLSL에서는 4byte * 8개로 패킹해서 가져올 예정 -> 갯수 = 65536 / 16 = 4096
+//HLSL에서는 4byte * 8개로 패킹해서 가져올 예정 -> 갯수 = 65536
 #define VF4_PACK 16u
-#define VF4_MAX 4096u
+#define VF4_MAX 65536u
 struct VF4
 {
 	//32 byte length
@@ -49,6 +49,7 @@ struct VF4
 #define VX4_MAX 65536u
 struct VX4
 {
+	//VR4에서의 인덱스를 저장함(변수명 틀린거 아님)
 	UINT32_8 VR4Index;
 };
 
@@ -74,21 +75,28 @@ struct WPE
 	UINT32_4 RGBAPack;
 };
 
+struct tWalkability
+{
+	UINT32	uFloor;
+    BOOL	bWalkable;
+	float2	Padding;
+};
+
 
 //0~5까지 데이터는 현재 CCS_SCMapLoader에서 enum 번호로 사용 중이므로 함부로 변경하지 말것
-#define e_t_SBUFFER_CV5 REGISTER_IDX(t, 0)
-#define e_t_SBUFFER_VX4 REGISTER_IDX(t, 1)
-#define e_t_SBUFFER_VF4 REGISTER_IDX(t, 2)
-#define e_t_SBUFFER_VR4 REGISTER_IDX(t, 3)
-#define e_t_SBUFFER_WPE REGISTER_IDX(t, 4)
+#define idx_t_SBUFFER_CV5 REGISTER_IDX(t, 0)
+#define idx_t_SBUFFER_VX4 REGISTER_IDX(t, 1)
+#define idx_t_SBUFFER_VF4 REGISTER_IDX(t, 2)
+#define idx_t_SBUFFER_VR4 REGISTER_IDX(t, 3)
+#define idx_t_SBUFFER_WPE REGISTER_IDX(t, 4)
 
 
-#define e_t_SBUFFER_MXTM REGISTER_IDX(t, 5)
+#define idx_t_SBUFFER_MXTM REGISTER_IDX(t, 5)
 
-#define e_t_TEXTURE_TARGET REGISTER_IDX(t, 6)
-#define e_u_TEXTURERW_TARGET REGISTER_IDX(u, 0)
+#define idx_t_TEXTURE_TARGET REGISTER_IDX(t, 6)
+#define idx_u_TEXTURERW_TARGET REGISTER_IDX(u, 0)
 
-#define e_u_SBUFFERRW_DEBUG REGISTER_IDX(u, 1)
+#define idx_u_SBUFFERRW_WALKABILITY REGISTER_IDX(u, 1)
 
 
 #ifdef __cplusplus
@@ -97,16 +105,16 @@ struct WPE
 
 
 
-StructuredBuffer<MXTM> g_SBuffer_MXTM : register(e_t_SBUFFER_MXTM);
+StructuredBuffer<MXTM> g_SBuffer_MXTM : register(idx_t_SBUFFER_MXTM);
 
-StructuredBuffer<CV5> g_SBuffer_CV5 : register(e_t_SBUFFER_CV5);
-StructuredBuffer<VX4> g_SBuffer_VX4 : register(e_t_SBUFFER_VX4);
-StructuredBuffer<VR4> g_SBuffer_VR4 : register(e_t_SBUFFER_VR4);
-StructuredBuffer<WPE> g_SBuffer_WPE : register(e_t_SBUFFER_WPE);
-StructuredBuffer<VX4> g_SBuffer_VF4 : register(e_t_SBUFFER_VF4);
+StructuredBuffer<CV5> g_SBuffer_CV5 : register(idx_t_SBUFFER_CV5);
+StructuredBuffer<VX4> g_SBuffer_VX4 : register(idx_t_SBUFFER_VX4);
+StructuredBuffer<VR4> g_SBuffer_VR4 : register(idx_t_SBUFFER_VR4);
+StructuredBuffer<WPE> g_SBuffer_WPE : register(idx_t_SBUFFER_WPE);
+StructuredBuffer<VF4> g_SBuffer_VF4 : register(idx_t_SBUFFER_VF4);
 
-RWStructuredBuffer<tMtrlScalarData> g_SBufferRW_Debug : register(e_u_SBUFFERRW_DEBUG);
-RWTexture2D<float4> g_TexRW_SCMap : register(e_u_TEXTURERW_TARGET);
+RWStructuredBuffer<tWalkability> g_SBufferRW_Walkability : register(idx_u_SBUFFERRW_WALKABILITY);
+RWTexture2D<float4> g_TexRW_SCMap : register(idx_u_TEXTURERW_TARGET);
 	
 #endif
 

@@ -204,7 +204,7 @@ bool CComputeShader::Execute()
 		return false;
 
 	//컴퓨트쉐이더 관련 공유 데이터를 상수버퍼를 통해서 전달
-	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
+	CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
 	pCBuffer->UploadData(&m_CBuffer_CSShared, sizeof(tMtrlScalarData));
 	pCBuffer->BindBuffer();
 

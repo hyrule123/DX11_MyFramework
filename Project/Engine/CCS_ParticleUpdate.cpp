@@ -59,7 +59,7 @@ bool CCS_ParticleUpdate::BindDataCS()
 
 	m_pCBuffer_ModuleData->BindBuffer(eSHADER_PIPELINE_STAGE::__COMPUTE);
 
-	m_Tex_Noise->BindData_SRV(e_t_TEXUTRE_NOISE, eSHADER_PIPELINE_STAGE::__COMPUTE);
+	m_Tex_Noise->BindData_SRV(idx_t_TEXUTRE_NOISE, eSHADER_PIPELINE_STAGE::__COMPUTE);
 
 	return true;
 }

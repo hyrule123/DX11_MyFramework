@@ -27,7 +27,7 @@ CMaterial::CMaterial()
 	, m_bUseInstancing()
 {	
 	//기본 설정은 단일 드로우콜(Non-Instancing)
-	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
+	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
 }
 
 CMaterial::CMaterial(const CMaterial& _Clone)
@@ -43,7 +43,7 @@ CMaterial::CMaterial(const CMaterial& _Clone)
 		m_arrTex[i] = _Clone.m_arrTex[i];
 	}
 
-	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
+	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
 }
 
 
@@ -68,8 +68,8 @@ void CMaterial::SetInstancedRender(bool _bEnable)
 			eSTRUCT_BUFFER_TYPE::READ_ONLY,
 			eSHADER_PIPELINE_STAGE::__ALL,
 			eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR
-			, e_t_SBUFFER_MTRL_SCALAR,
-			e_u_UAV_NONE }
+			, idx_t_SBUFFER_MTRL_SCALAR,
+			idx_u_UAV_NONE }
 		);
 		m_SBufferMtrlScalar->Create((UINT)sizeof(tMtrlScalarData), 100u, nullptr, 0u);
 	}
@@ -77,7 +77,7 @@ void CMaterial::SetInstancedRender(bool _bEnable)
 	{
 		SAFE_DELETE(m_SBufferMtrlScalar);
 
-		m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_SCALAR);
+		m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
 	}
 }
 
@@ -171,7 +171,7 @@ void CMaterial::BindData()
 	{
 		//1개를 그릴지 여러개를 그릴지(인스턴싱) 여부는 SBUFFER SHAREDATA 담아서 보냄.
 		//여기에 만약 인스턴싱 인덱스 카운트값이 0이 있을 경우 CBuffer을 활용해서 렌더링하는 방식
-		CConstBuffer* CShareDataBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_SBUFFER_SHAREDATA);
+		CConstBuffer* CShareDataBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_SBUFFER_SHAREDATA);
 
 		//SBuffer에 그릴것이 없으므로 0을 담아서 보내준다.
 		g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR] = {};
@@ -206,7 +206,7 @@ void CMaterial::BindData()
 			m_arrTex[i]->BindData_SRV(i, eSHADER_PIPELINE_STAGE::__PIXEL);
 	}
 	//Texture Const Buffer Update
-	CConstBuffer* CMtrlTexBuffer = CDevice::GetInst()->GetConstBuffer(e_b_CBUFFER_MTRL_TEX);
+	CConstBuffer* CMtrlTexBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_TEX);
 	CMtrlTexBuffer->UploadData(&m_MtrlTex);
 	CMtrlTexBuffer->BindBuffer();
 }

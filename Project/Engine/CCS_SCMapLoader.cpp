@@ -129,8 +129,8 @@ CCS_SCMapLoader::CCS_SCMapLoader()
         tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY,
         eSHADER_PIPELINE_STAGE::__COMPUTE,
         eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,
-        e_t_SRV_NONE,
-        e_u_UAV_NONE
+        idx_t_SRV_NONE,
+        idx_u_UAV_NONE
         };
         //타일셋 일괄적으로 동적 할당
         
@@ -139,7 +139,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
         for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
         {
             //0 ~ 5번까지 일치시켜 놓았음.
-            SDesc.i_e_t_SRVIdx = i;
+            SDesc.i_idx_t_SRVIdx = i;
 
             //Desc 설정
             m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].SetDesc(SDesc);
@@ -336,6 +336,7 @@ bool CCS_SCMapLoader::BindDataCS()
 
 void CCS_SCMapLoader::UnBindCS()
 {
+    //타일셋 Unbind
     for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
     {
         m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].UnBind();
@@ -343,6 +344,11 @@ void CCS_SCMapLoader::UnBindCS()
  
     //맵 정보는 제거
     SAFE_DELETE(m_pSBuffer_MXTM);
+
+    //Walkability 데이터 가져온 뒤 제거
+    UINT numMinitile = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY * 16;
+    m_pSBufferRW_Walkability->GetData(m_tMapWorkSpace.vecWalkabilityMap.data(), sizeof(tWalkability) * numMinitile);
+    SAFE_DELETE(m_pSBufferRW_Walkability);
 
     m_tMapWorkSpace.pMapTex->UnBind();
 
@@ -479,7 +485,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
     //MXTM(TILEMAP_ATLAS) 생성 및 전송
     SAFE_DELETE(m_pSBuffer_MXTM);
-    tSBufferDesc SBufferDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SBUFFER_MXTM, e_u_UAV_NONE };
+    tSBufferDesc SBufferDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, idx_t_SBUFFER_MXTM, idx_u_UAV_NONE };
    
     m_pSBuffer_MXTM = new CStructBuffer(SBufferDesc);
     UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS].length / 16u;
@@ -514,17 +520,36 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     {
         m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].BindBufferSRV();
     }
+
+    //Walkability map을 보내고 받아올 구조화 버퍼를 생성한다.
+    tSBufferDesc Desc = {};
+    Desc.eCBufferIdx = eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE;
+    Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_WRITE;
+    Desc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV = eSHADER_PIPELINE_STAGE::__COMPUTE;
+    Desc.i_idx_t_SRVIdx = idx_t_SRV_NONE;
+    Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_WALKABILITY;
+
+
+    SAFE_DELETE(m_pSBufferRW_Walkability);
+    m_pSBufferRW_Walkability = new CStructBuffer(Desc);
+
+    //메가타일 하나당 16개의 미니타일이 존재
+    UINT numMinitile = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY * 16;
+    m_pSBufferRW_Walkability->Create(sizeof(tWalkability), numMinitile, nullptr, 0u);
+    m_pSBufferRW_Walkability->BindBufferUAV();
+
+    //데이터를 받아올 vector도 리사이즈 미리 해놓음.
+    m_tMapWorkSpace.vecWalkabilityMap.resize(numMinitile);
     
 
     //타겟이 될 텍스처를 동적할당하고, UAV에 바인딩
     m_tMapWorkSpace.pMapTex = new CTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
     m_tMapWorkSpace.pMapTex->Create(32u * m_tMapWorkSpace.uMapSizeX, 32u * m_tMapWorkSpace.uMapSizeY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-    m_tMapWorkSpace.pMapTex->BindData_UAV(e_u_TEXTURERW_TARGET);
+    m_tMapWorkSpace.pMapTex->BindData_UAV(idx_u_TEXTURERW_TARGET);
 
     //맵 이름으로 키를 설정한다.
     m_tMapWorkSpace.pMapTex->SetKey(m_tMapWorkSpace.strMapName);
-
 
 
     //필요한 그룹의 수 계산
@@ -532,7 +557,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
 
 
     //디버그용 쉐이더 바인딩
-    //tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, e_t_SRV_NONE, e_u_SBUFFERRW_DEBUG };
+    //tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, idx_t_SRV_NONE, idx_u_SBUFFERRW_DEBUG };
     //m_pSBuffer_Debug = new CStructBuffer(SDesc);
 
     //int mapsize = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;

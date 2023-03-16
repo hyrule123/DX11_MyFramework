@@ -26,14 +26,35 @@ uint3 _uGroupID : SV_GroupID)
 	
 	uint megatile = UnpackUINT16FromUINT32_8(g_SBuffer_CV5[group].MegaTileIndex, index);
 	
+	
 	//자신이 메가타일에서 어느 미니타일인지를 계산한다.
 	uint MyGTIdIdx = (_uGTID.y / 8u) * 4u + _uGTID.x / 8u;
+	
+	
+	//자신이 나눠떨어지는 미니타일일 경우(== 미니타일의 시작지점)자신의 Walkability를 계산 해준다.
+	BOOL Walkability = FALSE;	//For Debug
+	if (all(uint2(0u, 0u) == (_uGTID.xy % 8u)))
+	{
+		uint UnpackedVF4 = UnpackUINT16FromUINT32_8(g_SBuffer_VF4[megatile].MiniTileFlags, MyGTIdIdx);
+		
+		BOOL Walkable = UnpackedVF4 & 0x1;
+
+		Walkability = Walkable;
+			
+		
+		//자신의 전체 맵에서의 미니타일 인덱스를 1차원으로 계산한 뒤 해당하는 구조화버퍼에 데이터를 집어넣는다.
+		//미니타일의 갯수 = 맵사이즈 xy * 8
+		uint2 MinitileIdxInMap = _uDTID.xy / 8u;
+		g_SBufferRW_Walkability[u2MapSize.x * 8u * MinitileIdxInMap.y + MinitileIdxInMap.x].bWalkable = Walkable;
+	}
+	
+	
 	uint UnpackedVX4 = UnpackUINT16FromUINT32_8(g_SBuffer_VX4[megatile].VR4Index, MyGTIdIdx);
 	
 	uint minitileindex = UnpackedVX4 >> 1u;
 	bool flipped = (UnpackedVX4 & 1u == 1u);
 	
-	//VF4는 일단 보류(전달할 데이터 버퍼가 없음)
+
 	
 	//미니타일의 8 * 8을 순회돌면서 렌더링
 	//자신의 인덱스 번호를 구한다.
@@ -50,34 +71,24 @@ uint3 _uGroupID : SV_GroupID)
 	f4Color /= 255.f;
 	
 	g_TexRW_SCMap[_uDTID.xy] = f4Color;
+	
+	if(TRUE == Walkability)	//For Debug
+		g_TexRW_SCMap[_uDTID.xy] = float4(1.f, 0.f, 1.f, 1.f);
 
-	//if (all(_uDTID == _uGroupID * 32u))
+
+	//if(all(_uDTID == uint3(0, 32, 0)))
 	//{
 	//	uint originalval = 0u;
-	//	InterlockedExchange(g_SBufferRW_Debug[_uGroupID.y * u2MapSize.x + _uGroupID.x].INT_0, (int) group, originalval);
-	
-	//	InterlockedExchange(g_SBufferRW_Debug[_uGroupID.y * u2MapSize.x + _uGroupID.x].INT_1, (int) index, originalval);
-	
-	//	InterlockedExchange(g_SBufferRW_Debug[_uGroupID.y * u2MapSize.x + _uGroupID.x].INT_2, (int) GroupAndIndex, originalval);
+	//	InterlockedExchange(g_SBufferRW_Debug[0].INT_0, (int) u4Color.x, originalval);
+	//	InterlockedExchange(g_SBufferRW_Debug[0].INT_1, (int) u4Color.y, originalval);
+	//	InterlockedExchange(g_SBufferRW_Debug[0].INT_2, (int) u4Color.z, originalval);
+	//	InterlockedExchange(g_SBufferRW_Debug[0].INT_3, (int) u4Color.w, originalval);
 		
-		
-		
-	//	//InterlockedExchange(g_SBufferRW_Debug[_uGroupID.y * u2MapSize.x + _uGroupID.x].INT_3, (int) megatile, originalval);
+	//	InterlockedExchange(g_SBufferRW_Debug[0].FLOAT_0, (float) f4Color.x, originalval);
+	//	InterlockedExchange(g_SBufferRW_Debug[0].FLOAT_1, (float) f4Color.y, originalval);
+	//	InterlockedExchange(g_SBufferRW_Debug[0].FLOAT_2, (float) f4Color.z, originalval);
+	//	InterlockedExchange(g_SBufferRW_Debug[0].FLOAT_3, (float) f4Color.w, originalval);
 	//}
-
-	if(all(_uDTID == uint3(0, 32, 0)))
-	{
-		uint originalval = 0u;
-		InterlockedExchange(g_SBufferRW_Debug[0].INT_0, (int) u4Color.x, originalval);
-		InterlockedExchange(g_SBufferRW_Debug[0].INT_1, (int) u4Color.y, originalval);
-		InterlockedExchange(g_SBufferRW_Debug[0].INT_2, (int) u4Color.z, originalval);
-		InterlockedExchange(g_SBufferRW_Debug[0].INT_3, (int) u4Color.w, originalval);
-		
-		InterlockedExchange(g_SBufferRW_Debug[0].FLOAT_0, (float) f4Color.x, originalval);
-		InterlockedExchange(g_SBufferRW_Debug[0].FLOAT_1, (float) f4Color.y, originalval);
-		InterlockedExchange(g_SBufferRW_Debug[0].FLOAT_2, (float) f4Color.z, originalval);
-		InterlockedExchange(g_SBufferRW_Debug[0].FLOAT_3, (float) f4Color.w, originalval);
-	}
 	
 	
 

@@ -38,7 +38,7 @@ UINT32 UnpackUINT16FromUINT32_8(in UINT32_8 _u32_8Src, UINT32 _uIdxInU16)
 	//row == 8로 나눈 결과, 0 또는 1
 	UINT32 row = (_uIdxInU16 >> 3u) & 0x1;
 	
-	//col == 8로 나눈 나머지를 2로 나눠준다.
+	//col == 8로 나눈 나머지를 2로 나눠준다.(비트 연산)
 	UINT32 col = (_uIdxInU16 & 7u) >> 1u;
 	
 	//앞부분인지 뒷부분인지 확인(2로 나눈 나머지)

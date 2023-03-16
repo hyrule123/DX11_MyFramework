@@ -29,7 +29,7 @@ private:
 
 
 	//Constant Buffer
-	CConstBuffer* m_arrConstBuffer[e_b_END];
+	CConstBuffer* m_arrConstBuffer[idx_b_END];
 
 
 	//Depth Stencil View
@@ -77,7 +77,7 @@ private:
 public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }
 	ID3D11DeviceContext* GetDeviceContext() { return m_Context.Get(); }
-	CConstBuffer* GetConstBuffer(int _e_b_RegisterIdx) { return m_arrConstBuffer[_e_b_RegisterIdx]; }
+	CConstBuffer* GetConstBuffer(int _idx_b_RegisterIdx) { return m_arrConstBuffer[_idx_b_RegisterIdx]; }
 	const Vec2& GetRenderResolution() { return m_vRenderResolution; }
 	ID3D11RasterizerState* GetRSState(eRASTERIZER_TYPE _Type) { return m_arrRSState[(UINT)_Type].Get(); }
 	ID3D11DepthStencilState* GetDSState(eDEPTHSTENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }

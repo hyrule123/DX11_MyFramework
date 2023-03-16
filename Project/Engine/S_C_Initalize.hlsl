@@ -1,6 +1,6 @@
 #include "S_H_Register.hlsli"
 
-RWStructuredBuffer<tInitSetting> g_SBufferRW_InitSetting : register(e_u_INIT_SETTING);
+RWStructuredBuffer<tInitSetting> g_SBufferRW_InitSetting : register(idx_u_INIT_SETTING);
 
 [numthreads(1, 1, 1)]
 void CS_HLSL_Init(uint3 DTID : SV_DispatchThreadID)

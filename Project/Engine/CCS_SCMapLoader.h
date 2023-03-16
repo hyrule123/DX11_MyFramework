@@ -27,6 +27,9 @@ private:
     //Map의 tMapDataChunk 파일 아래의 지형정보
     CStructBuffer* m_pSBuffer_MXTM;
 
+    //이동 가능 여부를 보내고 받아올 구조화 버퍼
+    CStructBuffer* m_pSBufferRW_Walkability;
+
     //============맵 정보=============
     tMapData m_tMapWorkSpace;
 
