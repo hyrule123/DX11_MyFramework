@@ -169,9 +169,6 @@
     <ClInclude Include="CAnim2DAtlas.h">
       <Filter>_Source\07. Resource\04. Animation</Filter>
     </ClInclude>
-    <ClInclude Include="SCMapDefine.h">
-      <Filter>_Source\00. Header</Filter>
-    </ClInclude>
     <ClInclude Include="S_H_Struct.hlsli">
       <Filter>HLSL</Filter>
     </ClInclude>
@@ -201,6 +198,9 @@
     </ClInclude>
     <ClInclude Include="CTilemapAtlas.h">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="SCMapDefine.h">
+      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

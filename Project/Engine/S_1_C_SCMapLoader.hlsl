@@ -27,25 +27,65 @@ uint3 _uGroupID : SV_GroupID)
 	uint megatile = UnpackUINT16FromUINT32_8(g_SBuffer_CV5[group].MegaTileIndex, index);
 	
 	
+	//각 메가타일의 시작점일경우 자신의 Buildability를 확인한 후 저장
+	if(all(uint2(0u, 0u) == _uGTID.xy))
+	{	
+		//자신의 메가타일 인덱스에 Buildability를 저장
+		if (0x0080 & g_SBuffer_CV5[group].Flags)
+		{
+			g_SBufferRW_MegaTile[u2MapSize.x * _uGroupID.y + _uGroupID.x].bBuildUnable = TRUE;
+			
+			//g_TexRW_SCMap[_uDTID.xy] = float4(1.f, 0.f, 1.f, 1.f);
+			//return;
+		}
+	}
+	
+
 	//자신이 메가타일에서 어느 미니타일인지를 계산한다.
 	uint MyGTIdIdx = (_uGTID.y / 8u) * 4u + _uGTID.x / 8u;
 	
 	
 	//자신이 나눠떨어지는 미니타일일 경우(== 미니타일의 시작지점)자신의 Walkability를 계산 해준다.
-	BOOL Walkability = FALSE;	//For Debug
 	if (all(uint2(0u, 0u) == (_uGTID.xy % 8u)))
 	{
-		uint UnpackedVF4 = UnpackUINT16FromUINT32_8(g_SBuffer_VF4[megatile].MiniTileFlags, MyGTIdIdx);
-		
-		BOOL Walkable = UnpackedVF4 & 0x1;
-
-		Walkability = Walkable;
-			
-		
-		//자신의 전체 맵에서의 미니타일 인덱스를 1차원으로 계산한 뒤 해당하는 구조화버퍼에 데이터를 집어넣는다.
+		//자신의 전체 맵에서의 미니타일 인덱스를 1차원으로 계산한다.
 		//미니타일의 갯수 = 맵사이즈 xy * 8
 		uint2 MinitileIdxInMap = _uDTID.xy / 8u;
-		g_SBufferRW_Walkability[u2MapSize.x * 8u * MinitileIdxInMap.y + MinitileIdxInMap.x].bWalkable = Walkable;
+		
+		uint UnpackedVF4 = UnpackUINT16FromUINT32_8(g_SBuffer_VF4[megatile].MiniTileFlags, MyGTIdIdx);
+		
+		if(0x0001 & UnpackedVF4)
+		{
+			g_SBufferRW_MiniTile[u2MapSize.x * 8u * MinitileIdxInMap.y + MinitileIdxInMap.x].bWalkable = TRUE;
+		}
+
+		if(0x0002 & UnpackedVF4)
+		{
+			//Mid Floor
+			g_SBufferRW_MiniTile[u2MapSize.x * 8u * MinitileIdxInMap.y + MinitileIdxInMap.x].uFloor = 1u;
+
+		}
+		else if (0x0004 & UnpackedVF4)
+		{
+			//High Floor
+			g_SBufferRW_MiniTile[u2MapSize.x * 8u * MinitileIdxInMap.y + MinitileIdxInMap.x].uFloor = 2u;
+			
+
+		}
+		
+		//언덕 입구
+		if(0x0010 & UnpackedVF4)
+		{
+			g_SBufferRW_MiniTile[u2MapSize.x * 8u * MinitileIdxInMap.y + MinitileIdxInMap.x].bIsRamp = TRUE;
+			
+			////특정 타일의 속성을 시각화하고 싶을 경우 이값을 넣어주면됨.
+			//g_TexRW_SCMap[_uDTID.xy] = float4(1.f, 0.f, 1.f, 1.f);
+			//return;
+		}
+
+		
+
+		
 	}
 	
 	
@@ -72,8 +112,6 @@ uint3 _uGroupID : SV_GroupID)
 	
 	g_TexRW_SCMap[_uDTID.xy] = f4Color;
 	
-	if(TRUE == Walkability)	//For Debug
-		g_TexRW_SCMap[_uDTID.xy] = float4(1.f, 0.f, 1.f, 1.f);
 
 
 	//if(all(_uDTID == uint3(0, 32, 0)))

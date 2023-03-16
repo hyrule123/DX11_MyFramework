@@ -44,140 +44,200 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     std::filesystem::path Path(RELATIVE_PATH::SCMAP::A);
     Path /= "Tilesets";
 
-
     //타일셋 데이터를 저장할 메모리공간 동적할당 
     tTileSet* Tileset = new tTileSet;
-    for (UINT8 TileSetIdx = (UINT8)0u; TileSetIdx < (UINT8)eTILESET_INFO::END; ++TileSetIdx)
+
+    try
     {
-        //타일셋 데이터 초기화
-        memset(Tileset, 0, sizeof(tTileSet));
-        std::filesystem::path FullPath = Path;
-
-        switch ((eTILESET_INFO)TileSetIdx)
+        for (UINT8 TileSetIdx = (UINT8)0u; TileSetIdx < (UINT8)eTILESET_INFO::END; ++TileSetIdx)
         {
-        case eTILESET_INFO::BADLANDS:
-            FullPath /= "badlands";
-            break;
-        case eTILESET_INFO::SPACE_PLATFORM:
-            FullPath /= "platform";
-            break;
-        case eTILESET_INFO::INSTALLATION:
-            FullPath /= "install";
-            break;
-        case eTILESET_INFO::ASH_WORLD:
-            FullPath /= "ashworld";
-            break;
-        case eTILESET_INFO::JUNGLE:
-            FullPath /= "jungle";
-            break;
-        case eTILESET_INFO::DESERT:
-            FullPath /= "Desert";
-            break;
-        case eTILESET_INFO::ICE:
-            FullPath /= "Ice";
-            break;
-        case eTILESET_INFO::TWILIGHT:
-            FullPath /= "Twilight";
-            break;
-        default:
-            break;
-        }
 
-        FILE* fpCV5, * fpVX4, * fpVR4, * fpWPE, * fpVF4;
-        FullPath += ".CV5";
-        _wfopen_s(&fpCV5, FullPath.wstring().c_str(), L"rb");
+            //타일셋 데이터 초기화
+            memset(Tileset, 0, sizeof(tTileSet));
+            std::filesystem::path FullPath = Path;
 
-        FullPath.replace_extension(".VX4");
-        _wfopen_s(&fpVX4, FullPath.wstring().c_str(), L"rb");
-
-        FullPath.replace_extension(".VR4");
-        _wfopen_s(&fpVR4, FullPath.wstring().c_str(), L"rb");
-
-        FullPath.replace_extension(".WPE");
-        _wfopen_s(&fpWPE, FullPath.wstring().c_str(), L"rb");
-
-        FullPath.replace_extension(".VF4");
-        _wfopen_s(&fpVF4, FullPath.wstring().c_str(), L"rb");
-
-
-        if (fpCV5 == nullptr || fpVX4 == nullptr || fpVR4 == nullptr || fpWPE == nullptr || fpVF4 == nullptr)
-        {
-            _fcloseall();
-            delete Tileset;
-            MessageBoxA(nullptr, "Tileset Load Failed", nullptr, MB_OK);
-            assert(nullptr);
-        }
-
-
-
-        for (int i = 0; i < CV5_MAX; ++i)
-        {
-            //매회 20만큼 이동해서 더미 데이터를 버리고 필요한 32(sizeof(CV5))만큼 가져옴.
-            fseek(fpCV5, 20, SEEK_CUR);
-            size_t BytesRead = fread(&(Tileset->cv5[i]), sizeof(CV5), 1, fpCV5);
-
-            if ((size_t)0u == BytesRead)
-                break;
-        }
-
-        fread(Tileset->vx4, sizeof(VX4), VX4_MAX, fpVX4);
-        fread(Tileset->vr4, sizeof(VR4), VR4_MAX, fpVR4);
-        fread(Tileset->wpe, sizeof(WPE), WPE_MAX, fpWPE);
-        fread(Tileset->vf4, sizeof(VF4), VF4_MAX, fpVF4);
-
-        //Desc 작성해서 SBuffer 생성
-        tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY,
-        eSHADER_PIPELINE_STAGE::__COMPUTE,
-        eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,
-        idx_t_SRV_NONE,
-        idx_u_UAV_NONE
-        };
-        //타일셋 일괄적으로 동적 할당
-        
-
-        m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)eTILESET_MEMBER::END];
-        for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
-        {
-            //0 ~ 5번까지 일치시켜 놓았음.
-            SDesc.i_idx_t_SRVIdx = i;
-
-            //Desc 설정
-            m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].SetDesc(SDesc);
-
-            //각자에게 맞는 구조화버퍼 공간 생성
-            switch ((eTILESET_MEMBER)i)
+            switch ((eTILESET_INFO)TileSetIdx)
             {
-            case eTILESET_MEMBER::CV5:
-                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(CV5), (UINT)CV5_MAX, Tileset->cv5, (UINT)CV5_MAX);
-                
+            case eTILESET_INFO::BADLANDS:
+                FullPath /= "badlands";
                 break;
-            case eTILESET_MEMBER::VX4:
-                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VX4), (UINT)VX4_MAX, Tileset->vx4, (UINT)VX4_MAX);
-
+            case eTILESET_INFO::SPACE_PLATFORM:
+                FullPath /= "platform";
                 break;
-            case eTILESET_MEMBER::VF4:
-                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VF4), (UINT)VF4_MAX, Tileset->vf4, (UINT)VF4_MAX);
-
+            case eTILESET_INFO::INSTALLATION:
+                FullPath /= "install";
                 break;
-            case eTILESET_MEMBER::VR4:
-                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VR4), (UINT)VR4_MAX, Tileset->vr4, (UINT)VR4_MAX);
-
+            case eTILESET_INFO::ASH_WORLD:
+                FullPath /= "ashworld";
                 break;
-            case eTILESET_MEMBER::WPE:
-                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(WPE), (UINT)WPE_MAX, Tileset->wpe, (UINT)WPE_MAX);
-
+            case eTILESET_INFO::JUNGLE:
+                FullPath /= "jungle";
                 break;
-
+            case eTILESET_INFO::DESERT:
+                FullPath /= "Desert";
+                break;
+            case eTILESET_INFO::ICE:
+                FullPath /= "Ice";
+                break;
+            case eTILESET_INFO::TWILIGHT:
+                FullPath /= "Twilight";
+                break;
             default:
                 break;
             }
+
+            FullPath += ".CV5";
+            std::ios::openmode mode = std::ios::beg | std::ios::binary | std::ios::in;
+            std::ifstream fpCV5(FullPath, mode);
+            //_wfopen_s(&fpCV5, FullPath.wstring().c_str(), L"rb");
+
+            FullPath.replace_extension(".VX4");
+            std::ifstream fpVX4(FullPath, mode);
+            //_wfopen_s(&fpVX4, FullPath.wstring().c_str(), L"rb");
+
+            FullPath.replace_extension(".VR4");
+            std::ifstream fpVR4(FullPath, mode);
+            //_wfopen_s(&fpVR4, FullPath.wstring().c_str(), L"rb");
+
+            FullPath.replace_extension(".WPE");
+            std::ifstream fpWPE(FullPath, mode);
+            //_wfopen_s(&fpWPE, FullPath.wstring().c_str(), L"rb");
+
+            FullPath.replace_extension(".VF4");
+            std::ifstream fpVF4(FullPath, mode);
+            //_wfopen_s(&fpVF4, FullPath.wstring().c_str(), L"rb");
+
+            if (
+                false == fpCV5.is_open() ||
+                false == fpVX4.is_open() ||
+                false == fpVR4.is_open() ||
+                false == fpWPE.is_open() ||
+                false == fpVF4.is_open()
+                )
+            {
+                fpCV5.close();
+                fpVX4.close();
+                fpVR4.close();
+                fpWPE.close();
+                fpVF4.close();
+
+                throw(std::runtime_error("Tileset Data load failed!!"));
+            }
+
+                //if (fpCV5 == nullptr || fpVX4 == nullptr || fpVR4 == nullptr || fpWPE == nullptr || fpVF4 == nullptr)
+                //{
+                //    _fcloseall();
+                //    delete Tileset;
+                //    MessageBoxA(nullptr, "Tileset Load Failed", nullptr, MB_OK);
+                //    assert(nullptr);
+                //}
+
+
+            UINT16 cpy = (UINT16)0;
+            for (int i = 0; i < CV5_MAX; ++i)
+            {
+                //각각 2바이트씩 읽어와서 캐스트해서 구조체에 넣어준다.
+                fpCV5.read((char*)&cpy, sizeof(UINT16));
+                Tileset->cv5[i].TerrainType = (UINT32)cpy;
+                cpy = 0;
+                
+                fpCV5.read((char*)&cpy, sizeof(UINT16));
+                Tileset->cv5[i].Flags = (UINT32)cpy;
+                cpy = 0;
+
+                //커서를 16만큼 앞으로 이동한뒤
+                fpCV5.seekg(16, std::ios::cur);
+
+                //다시 32바이트를 읽는다.
+                fpCV5.read((char*)&(Tileset->cv5[i].MegaTileIndex), sizeof(UINT16) * (size_t)16);
+
+                if (true == fpCV5.eof())
+                    break;
+
+                    //매회 20만큼 이동해서 더미 데이터를 버리고 필요한 32(sizeof(CV5))만큼 가져옴.
+                //fseek(fpCV5, 20, SEEK_CUR);
+                //size_t BytesRead = fread(&(Tileset->cv5[i].MegaTileIndex), sizeof(CV5), 1, fpCV5);
+
+                //if ((size_t)0u == BytesRead)
+                //    break;
+            }
+
+            fpVX4.read((char*)&(Tileset->vx4), sizeof(VX4) * VX4_MAX);
+            fpVR4.read((char*)&(Tileset->vr4), sizeof(VR4) * VR4_MAX);
+            fpWPE.read((char*)&(Tileset->wpe), sizeof(WPE) * WPE_MAX);
+            fpVF4.read((char*)&(Tileset->vf4), sizeof(VF4) * VF4_MAX);
+            //fread(Tileset->vx4, sizeof(VX4), VX4_MAX, fpVX4);
+            //fread(Tileset->vr4, sizeof(VR4), VR4_MAX, fpVR4);
+            //fread(Tileset->wpe, sizeof(WPE), WPE_MAX, fpWPE);
+            //fread(Tileset->vf4, sizeof(VF4), VF4_MAX, fpVF4);
+
+            //Desc 작성해서 SBuffer 생성
+            tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY,
+            eSHADER_PIPELINE_STAGE::__COMPUTE,
+            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,
+            idx_t_SRV_NONE,
+            idx_u_UAV_NONE
+            };
+            //타일셋 일괄적으로 동적 할당
+
+
+            m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)eTILESET_MEMBER::END];
+            for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
+            {
+                //0 ~ 5번까지 일치시켜 놓았음.
+                SDesc.i_idx_t_SRVIdx = i;
+
+                //Desc 설정
+                m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].SetDesc(SDesc);
+
+                //각자에게 맞는 구조화버퍼 공간 생성
+                switch ((eTILESET_MEMBER)i)
+                {
+                case eTILESET_MEMBER::CV5:
+                    m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(CV5), (UINT)CV5_MAX, Tileset->cv5, (UINT)CV5_MAX);
+
+                    break;
+                case eTILESET_MEMBER::VX4:
+                    m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VX4), (UINT)VX4_MAX, Tileset->vx4, (UINT)VX4_MAX);
+
+                    break;
+                case eTILESET_MEMBER::VF4:
+                    m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VF4), (UINT)VF4_MAX, Tileset->vf4, (UINT)VF4_MAX);
+
+                    break;
+                case eTILESET_MEMBER::VR4:
+                    m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VR4), (UINT)VR4_MAX, Tileset->vr4, (UINT)VR4_MAX);
+
+                    break;
+                case eTILESET_MEMBER::WPE:
+                    m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(WPE), (UINT)WPE_MAX, Tileset->wpe, (UINT)WPE_MAX);
+
+                    break;
+
+                default:
+                    break;
+                }
+            }
+
+            fpCV5.close();
+            fpVX4.close();
+            fpVR4.close();
+            fpWPE.close();
+            fpVF4.close();
+            //_fcloseall();
+
         }
-
-
-        _fcloseall();
     }
-
+    catch (const std::runtime_error& error)
+    {
+        MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+        throw(std::runtime_error("Program Terminate"));
+    }
+    
+    //데이터 저장용 힙 영역을 제거
     delete Tileset;
+
+    
 }
 
 CCS_SCMapLoader::~CCS_SCMapLoader()
@@ -345,18 +405,29 @@ void CCS_SCMapLoader::UnBindCS()
     //맵 정보는 제거
     SAFE_DELETE(m_pSBuffer_MXTM);
 
+    UINT numTile = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;
+    m_tMapWorkSpace.vecMegaTile.resize(numTile);
+    m_pSBufferRW_Megatile->GetData(m_tMapWorkSpace.vecMegaTile.data(), sizeof(tMegaTile) * numTile);
+    SAFE_DELETE(m_pSBufferRW_Megatile);
+
+
     //Walkability 데이터 가져온 뒤 제거
-    UINT numMinitile = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY * 16;
-    m_pSBufferRW_Walkability->GetData(m_tMapWorkSpace.vecWalkabilityMap.data(), sizeof(tWalkability) * numMinitile);
-    SAFE_DELETE(m_pSBufferRW_Walkability);
+    numTile *= 16;
+    m_tMapWorkSpace.vecMiniTile.resize(numTile);
+    m_pSBufferRW_Minitile->GetData(m_tMapWorkSpace.vecMiniTile.data(), sizeof(tMiniTile) * numTile);
+    SAFE_DELETE(m_pSBufferRW_Minitile);
 
     m_tMapWorkSpace.pMapTex->UnBind();
 
     Debug();
 }
 
+
+
 void CCS_SCMapLoader::Debug()
 {
+
+
     //m_pSBuffer_Debug->GetData(m_DebugData, sizeof(tMtrlScalarData) * m_MapSizeX * m_MapSizeY);
 
     //for (int i = 0; i < m_MapSizeX * m_MapSizeY; ++i)
@@ -521,25 +592,33 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
         m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].BindBufferSRV();
     }
 
-    //Walkability map을 보내고 받아올 구조화 버퍼를 생성한다.
     tSBufferDesc Desc = {};
     Desc.eCBufferIdx = eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE;
     Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_WRITE;
     Desc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV = eSHADER_PIPELINE_STAGE::__COMPUTE;
     Desc.i_idx_t_SRVIdx = idx_t_SRV_NONE;
-    Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_WALKABILITY;
+    
 
 
-    SAFE_DELETE(m_pSBufferRW_Walkability);
-    m_pSBufferRW_Walkability = new CStructBuffer(Desc);
+    //Megatile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
+    Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_MEGATILE;
+    SAFE_DELETE(m_pSBufferRW_Megatile);
+    m_pSBufferRW_Megatile = new CStructBuffer(Desc);
+
+    UINT numTile = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;
+    m_pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);
+    m_pSBufferRW_Megatile->BindBufferUAV();
+
+
+    //Minitile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
+    Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_MINITILE;
+    SAFE_DELETE(m_pSBufferRW_Minitile);
+    m_pSBufferRW_Minitile = new CStructBuffer(Desc);
 
     //메가타일 하나당 16개의 미니타일이 존재
-    UINT numMinitile = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY * 16;
-    m_pSBufferRW_Walkability->Create(sizeof(tWalkability), numMinitile, nullptr, 0u);
-    m_pSBufferRW_Walkability->BindBufferUAV();
-
-    //데이터를 받아올 vector도 리사이즈 미리 해놓음.
-    m_tMapWorkSpace.vecWalkabilityMap.resize(numMinitile);
+    numTile *= 16;
+    m_pSBufferRW_Minitile->Create(sizeof(tMiniTile), numTile, nullptr, 0u);
+    m_pSBufferRW_Minitile->BindBufferUAV();
     
 
     //타겟이 될 텍스처를 동적할당하고, UAV에 바인딩

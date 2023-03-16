@@ -24,9 +24,15 @@ struct MXTM
 //총 갯수 : 4096개
 //HLSL에서는 더미 데이터는 버리고 메가타일 정보가 들어있는 나머지 정보만 추출해서 들여올 예정
 //2byte * 16 = 32 byte
-#define CV5_MAX 4096u
+#define CV5_MAX 2048u
 struct CV5
 {
+	UINT32 TerrainType;
+	UINT32 Flags;
+	float2 Padding;
+	
+	
+	
 	//Megatile
 	UINT32_8 MegaTileIndex;
 };
@@ -75,11 +81,19 @@ struct WPE
 	UINT32_4 RGBAPack;
 };
 
-struct tWalkability
+struct tMegaTile
 {
+	BOOL bBuildUnable;
+	float3 Padding;
+};
+
+struct tMiniTile
+{
+	//0 = Low, 1 = Mid, 2 = High
+	BOOL bWalkable;
 	UINT32	uFloor;
-    BOOL	bWalkable;
-	float2	Padding;
+    BOOL bIsRamp;
+	float	Padding;
 };
 
 
@@ -94,9 +108,10 @@ struct tWalkability
 #define idx_t_SBUFFER_MXTM REGISTER_IDX(t, 5)
 
 #define idx_t_TEXTURE_TARGET REGISTER_IDX(t, 6)
-#define idx_u_TEXTURERW_TARGET REGISTER_IDX(u, 0)
 
-#define idx_u_SBUFFERRW_WALKABILITY REGISTER_IDX(u, 1)
+#define idx_u_TEXTURERW_TARGET REGISTER_IDX(u, 0)
+#define idx_u_SBUFFERRW_MEGATILE REGISTER_IDX(u, 1)
+#define idx_u_SBUFFERRW_MINITILE REGISTER_IDX(u, 2)
 
 
 #ifdef __cplusplus
@@ -113,8 +128,11 @@ StructuredBuffer<VR4> g_SBuffer_VR4 : register(idx_t_SBUFFER_VR4);
 StructuredBuffer<WPE> g_SBuffer_WPE : register(idx_t_SBUFFER_WPE);
 StructuredBuffer<VF4> g_SBuffer_VF4 : register(idx_t_SBUFFER_VF4);
 
-RWStructuredBuffer<tWalkability> g_SBufferRW_Walkability : register(idx_u_SBUFFERRW_WALKABILITY);
+RWStructuredBuffer<tMegaTile> g_SBufferRW_MegaTile : register(idx_u_SBUFFERRW_MEGATILE);
+RWStructuredBuffer<tMiniTile> g_SBufferRW_MiniTile : register(idx_u_SBUFFERRW_MINITILE);
+
 RWTexture2D<float4> g_TexRW_SCMap : register(idx_u_TEXTURERW_TARGET);
+
 	
 #endif
 
