@@ -194,7 +194,7 @@ void CImGuiMgr::ImGuiInit(HWND _hWnd)
     ImGui::LoadIniSettingsFromDisk(fullPath.string().c_str());
 
     fullPath = origDir;
-    fullPath += "ImGuiSave.json";
+    fullPath /= "ImGuiSave.json";
 
     std::ifstream loadfile(fullPath);
     if (true == loadfile.is_open())

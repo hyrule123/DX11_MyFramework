@@ -37,13 +37,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodeGenerator", "Project\Co
 		{7E0E511C-FB50-47F0-B655-99DC30AB0FE5} = {7E0E511C-FB50-47F0-B655-99DC30AB0FE5}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnginePart", "EnginePart", "{C4358EC1-14E5-4F29-83DA-77709F7C0F66}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. EnginePart", "0. EnginePart", "{C4358EC1-14E5-4F29-83DA-77709F7C0F66}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{E7E0319C-E552-4862-A946-ACB38E161153}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Other", "2. Other", "{E7E0319C-E552-4862-A946-ACB38E161153}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MyProject", "MyProject", "{2CC8B428-346D-4481-B91F-5B4DE69D1848}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{CF66AB94-0296-42F9-9F8B-DF09FC4800E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Batch", "Batch", "{B8645D11-22A5-4AAD-87A8-54BBF5CAFDF8}"
+	ProjectSection(SolutionItems) = preProject
+		Copy_DirectXTex.bat = Copy_DirectXTex.bat
+		Copy_Engine.bat = Copy_Engine.bat
+		Copy_Script.bat = Copy_Script.bat
+		Copy_StormLib_DLL.bat = Copy_StormLib_DLL.bat
+		Copy_UtilLib_DLL.bat = Copy_UtilLib_DLL.bat
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,6 +162,7 @@ Global
 		{9AEDA5B3-B43F-455A-A407-1887680E4866} = {2CC8B428-346D-4481-B91F-5B4DE69D1848}
 		{2CC8B428-346D-4481-B91F-5B4DE69D1848} = {E7E0319C-E552-4862-A946-ACB38E161153}
 		{CF66AB94-0296-42F9-9F8B-DF09FC4800E5} = {E7E0319C-E552-4862-A946-ACB38E161153}
+		{B8645D11-22A5-4AAD-87A8-54BBF5CAFDF8} = {E7E0319C-E552-4862-A946-ACB38E161153}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99FB076F-5F14-456E-93AF-D0FC51B85372}

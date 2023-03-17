@@ -1,15 +1,15 @@
 {
 	"Contents" : 
 	{
-		"IsActive" : true
+		"IsActive" : false
 	},
 	"Inspector" : 
 	{
-		"IsActive" : true
+		"IsActive" : false
 	},
 	"MainMenu" : null,
 	"TestWindow" : 
 	{
-		"IsActive" : true
+		"IsActive" : false
 	}
 }
