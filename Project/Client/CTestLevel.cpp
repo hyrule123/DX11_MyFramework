@@ -11,7 +11,7 @@
 #include <Engine/ptr.h>
 #include <Engine/CTexture.h>
 #include <Engine/CResMgr.h>
-#include <Engine/strKeyDefaultRes.h>
+#include <Engine/strKeyDefault.h>
 #include <Engine/CGameObject.h>
 #include <Engine/components.h>
 #include <Engine/CCollisionMgr.h>
@@ -27,8 +27,54 @@
 #include <Script/CScript_Bullet.h>
 #include <Script/CScript_Debug.h>
 
+#include <Engine/CResMgr.h>
+
 void CreateTestLevel()
 {
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	{
+	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(DEFAULT_RES::TEXTURE::REAVER_ATLAS));
+
+	Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
+	Atlas->AddAnim2D_SC_Redundant(DEFAULT_RES::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
+
+	pResMgr->AddRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::REAVER_ATLAS, Atlas);
+}
+
+{
+	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(DEFAULT_RES::TEXTURE::CORSAIR_ATLAS));
+
+	Atlas->SetNewAnimUV(17u, 5u, 0u, 17u, 0u, 5u);
+	Atlas->AddAnim2D(DEFAULT_RES::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
+
+	pResMgr->AddRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::CORSAIR_ATLAS, Atlas);
+}
+
+{
+	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(DEFAULT_RES::TEXTURE::MARINE_ATLAS));
+
+	Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
+	Atlas->AddAnim2D_SC_Redundant(DEFAULT_RES::ANIM2D::MARINE_IDLE, 0u, 1u, 1.f);
+	Atlas->AddAnim2D_SC_Redundant(DEFAULT_RES::ANIM2D::MARINE_ATTACKSTART, 1u, 2u, 0.5f);
+
+	Atlas->AddAnim2D_SC_Redundant(DEFAULT_RES::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
+
+	vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
+	Atlas->AddAnim2D_vecRowIndex(DEFAULT_RES::ANIM2D::MARINE_ATTACK, row, 0.6f);
+
+	row.clear();
+	
+	row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
+	Atlas->AddAnim2D(DEFAULT_RES::ANIM2D::MARINE_DEATH, row, 1.f);
+	
+
+	pResMgr->AddRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::MARINE_ATLAS, Atlas);
+}
+
 
 
 	//{

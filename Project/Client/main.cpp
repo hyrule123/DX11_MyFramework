@@ -116,6 +116,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.lpszClassName  = L"MyWindow";
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
+
+
     return RegisterClassExW(&wcex);
 }
 

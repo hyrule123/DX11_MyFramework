@@ -4,13 +4,15 @@
 #include "CUI_Button.h"
 #include "CUI_ComboBox.h"
 
+#include <Engine/strKeyDefault.h>
+
 #include <Engine/CPathMgr.h>
 #include <Engine/CResMgr.h>
 #include <Engine/CCS_SCMapLoader.h>
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
 #include <Engine/CMeshRender.h>
-#include <Engine/strKeyDefaultRes.h>
+#include <Engine/strKeyDefault.h>
 #include <Engine/CTilemapComplete.h>
 #include <Script/strKeyShader.h>
 
@@ -18,6 +20,7 @@
 
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
+	, m_pTestObj()
 {
 	SetSaveEnable(true);
 }
@@ -57,6 +60,16 @@ void CUIobj_TestWindow::init()
 	{
 		if (true == MapDirIter->is_directory())
 			continue;
+		else
+		{
+			string extension = MapDirIter->path().extension().string();
+			std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+
+			//확장자가 일치하지 않을 경우 읽어오지 않는다.
+			if (RES_EXTENSION::SCMAP::SCX != extension && RES_EXTENSION::SCMAP::SCM != extension)
+				continue;
+		}
+		
 
 		tComboItem item{ MapDirIter->path().filename().string(), };
 		pCombo->AddItem(item);

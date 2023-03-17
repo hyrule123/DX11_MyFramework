@@ -7,6 +7,7 @@
 #include "S_0_H_SCMapLoader.hlsli"
 
 
+
 class CTexture;
 struct tMapData
 {

@@ -51,7 +51,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     {
         for (UINT8 TileSetIdx = (UINT8)0u; TileSetIdx < (UINT8)eTILESET_INFO::END; ++TileSetIdx)
         {
-
+            
             //타일셋 데이터 초기화
             memset(Tileset, 0, sizeof(tTileSet));
             std::filesystem::path FullPath = Path;

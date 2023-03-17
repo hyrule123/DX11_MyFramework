@@ -95,6 +95,9 @@
     <Filter Include="ImGui\02. UI_Object\00. UI_TestWindow">
       <UniqueIdentifier>{d7654dbd-ee67-4461-9975-a67ba4e235bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\02. UI_Object\06. UI_AnimEditor">
+      <UniqueIdentifier>{dd7fc370-697c-4547-af8c-7902d66ade1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -221,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="CUIobj_TestWindow.h">
       <Filter>ImGui\02. UI_Object\00. UI_TestWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIobj_AnimEditor.h">
+      <Filter>ImGui\02. UI_Object\06. UI_AnimEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="CUIobj_TestWindow.cpp">
       <Filter>ImGui\02. UI_Object\00. UI_TestWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIobj_AnimEditor.cpp">
+      <Filter>ImGui\02. UI_Object\06. UI_AnimEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

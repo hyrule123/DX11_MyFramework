@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Precompiled.h"
 
 #define DEVICE  CDevice::GetInst()->GetDevice()
 #define CONTEXT CDevice::GetInst()->GetDeviceContext()
@@ -58,6 +59,7 @@ extern const eCOMPONENT_TYPE g_RenderComIdxStart;
 extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 
 
+
 enum class eRES_TYPE
 {
 	UNKNOWN = -1,
@@ -75,33 +77,33 @@ enum class eRES_TYPE
 	GRAPHICS_SHADER,
 	COMPUTE_SHADER,
 
-	END,
+	END
 };
 
-constexpr const char* g_eRES_TYPE_strName[(int)eCOMPONENT_TYPE::END]
+constexpr std::string_view g_eRES_TYPE_strName[(int)eRES_TYPE::END]
 {
+	"MESH",
 	"MESHDATA",
 	"MATERIAL",
-	"PREFAB",
-	"MESH",
 	"TEXTURE",
+	"ANIM2D_ATLAS",
 	"SOUND",
+	"PREFAB",
 	"GRAPHICS_SHADER",
-	"COMPUTE_SHADER",
-	"END"
+	"COMPUTE_SHADER"
 };
 
-constexpr const wchar_t* g_eRES_TYPE_lstrName[(int)eCOMPONENT_TYPE::END]
+constexpr std::wstring_view g_eRES_TYPE_lstrName[(int)eRES_TYPE::END]
 {
+	L"MESH",
 	L"MESHDATA",
 	L"MATERIAL",
-	L"PREFAB",
-	L"MESH",
 	L"TEXTURE",
+	L"ANIM2D_ATLAS",
 	L"SOUND",
+	L"PREFAB",
 	L"GRAPHICS_SHADER",
-	L"COMPUTE_SHADER",
-	L"END"
+	L"COMPUTE_SHADER"
 };
 
 enum class eKEY_STATE
@@ -181,33 +183,33 @@ enum class eSHADER_DOMAIN
 
 namespace JSON_SHADERINFO
 {
-	constexpr const char* strJsonExtension = ".json";
-	constexpr const char* strShaderExtension = ".cso";
+	constexpr std::string_view strJsonExtension = ".json";
+	constexpr std::string_view strShaderExtension = ".cso";
 
 
 	namespace COMMON_VAL
 	{
-		constexpr const char* strShaderName = "SHADER_NAME";
-		constexpr const char* ePipelineFlag = "eSHADER_PIPELINE_STAGE";
+		constexpr std::string_view strShaderName = "SHADER_NAME";
+		constexpr std::string_view ePipelineFlag = "eSHADER_PIPELINE_STAGE";
 	}
 
 	namespace GRAPHICS_SHADER
 	{
-		constexpr const char* arrName[(int)eSHADER_TYPE::END] =
+		constexpr std::string_view arrName[(int)eSHADER_TYPE::END] =
 		{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
 
 		//각 쉐이더마다 들어가야할 설정값
 		
-		constexpr const char* eTopology = "D3D_PRIMITIVE_TOPOLOGY";
-		constexpr const char* eRSState = "eRASTERIZER_TYPE";
-		constexpr const char* eDSState = "eDEPTHSTENCIL_TYPE";
-		constexpr const char* eBState = "eBLENDSTATE_TYPE";
-		constexpr const char* eShaderDomain = "eSHADER_DOMAIN";
+		constexpr std::string_view eTopology = "D3D_PRIMITIVE_TOPOLOGY";
+		constexpr std::string_view eRSState = "eRASTERIZER_TYPE";
+		constexpr std::string_view eDSState = "eDEPTHSTENCIL_TYPE";
+		constexpr std::string_view eBState = "eBLENDSTATE_TYPE";
+		constexpr std::string_view eShaderDomain = "eSHADER_DOMAIN";
 	}
 
 	namespace COMPUTE_SHADER
 	{
-		constexpr const char* strName = "_C_";
+		constexpr std::string_view strName = "_C_";
 	}
 
 

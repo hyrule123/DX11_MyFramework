@@ -56,14 +56,14 @@ bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
 	Json::Value shaderInfo;
 	fpShader >> shaderInfo;
 
-	const string& strShaderNameBase = shaderInfo[JSON_SHADERINFO::COMMON_VAL::strShaderName].asString();
+	const string& strShaderNameBase = shaderInfo[string(JSON_SHADERINFO::COMMON_VAL::strShaderName)].asString();
 	SetKey(_fileName.filename().string());
 
-	m_BSType = (eBLENDSTATE_TYPE)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eBState].asInt();
-	m_DSType = (eDEPTHSTENCIL_TYPE)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eDSState].asInt();
-	m_RSType = (eRASTERIZER_TYPE)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eRSState].asInt();
-	m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eTopology].asInt();
-	m_ShaderDomain = (eSHADER_DOMAIN)shaderInfo[JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain].asInt();
+	m_BSType = (eBLENDSTATE_TYPE)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eBState)].asInt();
+	m_DSType = (eDEPTHSTENCIL_TYPE)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eDSState)].asInt();
+	m_RSType = (eRASTERIZER_TYPE)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eRSState)].asInt();
+	m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eTopology)].asInt();
+	m_ShaderDomain = (eSHADER_DOMAIN)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain)].asInt();
 
 	if (eSHADER_DOMAIN::_UNDEFINED == m_ShaderDomain)
 	{
@@ -75,7 +75,7 @@ bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
 	}
 	
 
-	int flagPipeline = shaderInfo[JSON_SHADERINFO::COMMON_VAL::ePipelineFlag].asInt();
+	int flagPipeline = shaderInfo[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)].asInt();
 	int ShaderOrder = 0;
 	std::ios_base::openmode openFlag = std::ios_base::ate | std::ios_base::binary; std::ios_base::in;
 	for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)

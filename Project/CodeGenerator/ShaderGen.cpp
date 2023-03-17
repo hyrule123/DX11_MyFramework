@@ -117,7 +117,7 @@ void CreateShaderCode()
 			InitializeShaderInfoJson(JsonInfo);
 
 			//이름 삽입
-			JsonInfo[JSON_SHADERINFO::COMMON_VAL::strShaderName] = mapIter.second.strShaderName;
+			JsonInfo[string(JSON_SHADERINFO::COMMON_VAL::strShaderName)] = mapIter.second.strShaderName;
 
 			//또한 새로운 쉐이더 파일이 발견되었을경우 값을 설정할수 있도록 MessageBox를 띄워준다.
 			bNewShaderDetected = true;
@@ -125,14 +125,14 @@ void CreateShaderCode()
 
 		//데이터 확인 후 쉐이더 파이프라인 단계에 차이점이 있을 경우 파이프라인 단계값을 갱신하고 파일로 내보낸다.
 		//변경점이 없으면 파일로 내보내지 않는다.
-		int origFlag = JsonInfo[JSON_SHADERINFO::COMMON_VAL::ePipelineFlag].asInt();
+		int origFlag = JsonInfo[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)].asInt();
 		
 		if (mapIter.second.flagPipelineStage != origFlag)
 		{
 			ofstream fpJsonOut(JsonPath);
 			if (true == fpJsonOut.is_open())
 			{
-				JsonInfo[JSON_SHADERINFO::COMMON_VAL::ePipelineFlag] = mapIter.second.flagPipelineStage;
+				JsonInfo[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)] = mapIter.second.flagPipelineStage;
 				fpJsonOut << JsonInfo;
 				fpJsonOut.close();
 			}
@@ -171,7 +171,7 @@ namespace SHADERS
 				codeLine += " = \"";
 
 				//CSO 파일 명
-				codeLine += GSIter.first + JSON_SHADERINFO::strJsonExtension + "\";";
+				codeLine += GSIter.first + string(JSON_SHADERINFO::strJsonExtension) + "\";";
 
 				WriteCodeA(fpStrKeyShader, codeLine);
 			}
@@ -242,13 +242,13 @@ void InitializeShaderInfoJson(Json::Value& _jVal)
 	string comment = "//Enumeration Values are at define.h of Engine project";
 	_jVal.setComment(comment, Json::CommentPlacement::commentBefore);
 
-	_jVal[JSON_SHADERINFO::COMMON_VAL::strShaderName] = "";
+	_jVal[string(JSON_SHADERINFO::COMMON_VAL::strShaderName)] = "";
 
-	_jVal[JSON_SHADERINFO::COMMON_VAL::ePipelineFlag] = eSHADER_PIPELINE_STAGE::__NONE;
+	_jVal[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)] = eSHADER_PIPELINE_STAGE::__NONE;
 
-	_jVal[JSON_SHADERINFO::GRAPHICS_SHADER::eTopology] = (int)D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	_jVal[JSON_SHADERINFO::GRAPHICS_SHADER::eRSState] = (int)eRASTERIZER_TYPE::CULL_BACK;
-	_jVal[JSON_SHADERINFO::GRAPHICS_SHADER::eDSState] = (int)eDEPTHSTENCIL_TYPE::LESS;
-	_jVal[JSON_SHADERINFO::GRAPHICS_SHADER::eBState] = (int)eBLENDSTATE_TYPE::DEFAULT;
-	_jVal[JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain] = (int)eSHADER_DOMAIN::_UNDEFINED;
+	_jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eTopology)] = (int)D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	_jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eRSState)] = (int)eRASTERIZER_TYPE::CULL_BACK;
+	_jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eDSState)] = (int)eDEPTHSTENCIL_TYPE::LESS;
+	_jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eBState)] = (int)eBLENDSTATE_TYPE::DEFAULT;
+	_jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain)] = (int)eSHADER_DOMAIN::_UNDEFINED;
 }

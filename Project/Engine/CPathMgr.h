@@ -2,32 +2,9 @@
 
 #include "global.h"
 
-#define MAKE_RELATIVE_PATH(_NameSpace, _strPath) \
-namespace _NameSpace \
-{ \
-constexpr const char8_t* U8 = u8#_strPath;\
-constexpr const char* A = #_strPath;\
-constexpr const wchar_t* W = L#_strPath;\
-}
+#include "strKeyDefault.h"
 
-namespace RELATIVE_PATH
-{
-	MAKE_RELATIVE_PATH(CONTENT, .\\Content);
-	MAKE_RELATIVE_PATH(SHADER_GRAPHICS, .\\Content\\Shader\\Graphics);
-	MAKE_RELATIVE_PATH(SHADER_COMPUTE, .\\Content\\Shader\\Compute);
-	MAKE_RELATIVE_PATH(TEXTURE, .\\Content\\Texture);
-	MAKE_RELATIVE_PATH(SCMAP, .\\Content\\Maps);
-}
-namespace DIRECTORY_NAME
-{
-	MAKE_RELATIVE_PATH(CONTENT, Content);
-	MAKE_RELATIVE_PATH(SHADER, Shader);
-	MAKE_RELATIVE_PATH(GRAPHICS, Graphics);
-	MAKE_RELATIVE_PATH(COMPUTE, Compute);
-	MAKE_RELATIVE_PATH(TEXTURE, Texture);
-	MAKE_RELATIVE_PATH(SCMAP, Maps);
-	MAKE_RELATIVE_PATH(SAVED_SETTINGS, SavedSetting)
-}
+
 
 class CPathMgr
 	: public CSingleton<CPathMgr>

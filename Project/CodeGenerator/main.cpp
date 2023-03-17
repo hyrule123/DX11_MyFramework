@@ -3,6 +3,9 @@
 #include "pch.h"
 #include "CodeGenFunc.h"
 
+#include <Engine/strKeyDefault.h>
+
+int g_iIndentation = 0;
 
 //한글 경로 지원 안함.(어차피 여기서 지원해도 Unity Build에서 지원 안됨)
 //argv[1] = 처리해야할 작업의 종류(ex. Script)
@@ -14,8 +17,16 @@ int main(int argc, char* argv[])
     if (1 == argc)
     {
         MessageBoxA(nullptr, "No Parameters sent.\nWork in Debug Mode.", "Notification", MB_OK);
+
+        vector<string> vecExtension;
+        for (size_t i = 0; i < (int)RESOURCE_INFO::TEXTURE::eTEX_TYPE::END; ++i)
+        {
+            vecExtension.push_back(string(RESOURCE_INFO::TEXTURE::arrExt[i]));
+        }
+        CreateStrKey(RESOURCE_INFO::TEXTURE::Dir, "strKeyTexture.h", vecExtension);
+
         //MessageBoxA(nullptr, argv[0], "Test", MB_OK);
-        CreateShaderCode();
+        //CreateShaderCode();
         return 0;
     }
 
@@ -26,10 +37,16 @@ int main(int argc, char* argv[])
         MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
         CreateScriptCode();
         CreateShaderCode();
+
+
+        vector<string> vecExtension;
+        for (size_t i = 0; i < (int)RESOURCE_INFO::TEXTURE::eTEX_TYPE::END; ++i)
+        {
+            vecExtension.push_back(string(RESOURCE_INFO::TEXTURE::arrExt[i]));
+        }
+        CreateStrKey(RESOURCE_INFO::TEXTURE::Dir, "strKeyTexture.h", vecExtension);
     }
         
-
-
 
     return 0;
 }

@@ -2,7 +2,7 @@
 #include "CTilemapComplete.h"
 
 #include "CResMgr.h"
-#include "strKeyDefaultRes.h"
+#include "strKeyDefault.h"
 #include "CCS_SCMapLoader.h"
 
 
@@ -13,7 +13,7 @@ CTilemapComplete::CTilemapComplete()
 	, m_tMapData()
 {
 	//메쉬는 부모 클래스에서 설정했음.
-	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::TILEMAP_COMPLETE);
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(DEFAULT_RES::MATERIAL::TILEMAP_COMPLETE));
 	SetMaterial(pMtrl);
 }
 
@@ -67,7 +67,7 @@ bool CTilemapComplete::LoadMap(const string& _strMapName)
 	if (true == m_bMapLoaded && _strMapName == m_tMapData.strMapName)
 		return true;
 
-	Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(DEFAULT_RES::SHADER::COMPUTE::SCMAPLOADER);
+	Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(string(DEFAULT_RES::SHADER::COMPUTE::SCMAPLOADER));
 
 	//기존 리소스가 있을 시 제거 요청
 	if (nullptr != m_tMapData.pMapTex)

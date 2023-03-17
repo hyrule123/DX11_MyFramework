@@ -1,6 +1,8 @@
 #pragma once
 #include "CSingleton.h"
 
+#include "define.h"
+
 #include "ptr.h"
 #include "CPathMgr.h"
 
@@ -64,8 +66,9 @@ public:
     template<typename T>
     void AddRes(const string& _strKey, Ptr<T>& _Res);
 
+    //파일명을 Key로 쓰고자 한다면 Key에는 값을 집어넣지 않아도 됨.
     template<typename T>
-    Ptr<T> Load(const string& _strKey, const std::filesystem::path& _fileName);
+    Ptr<T> Load(const std::filesystem::path& _fileName, const string& _strKey = "");
 
     const unordered_map<string, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
 
@@ -129,8 +132,10 @@ inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
 }
 
 
+
+//path.filename()을 key로 사용할것.
 template<typename T>
-inline Ptr<T> CResMgr::Load(const string& _strKey, const std::filesystem::path& _fileName)
+inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string& _strKey)
 {
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     
@@ -147,8 +152,12 @@ inline Ptr<T> CResMgr::Load(const string& _strKey, const std::filesystem::path& 
         return nullptr;
 
     eRES_TYPE type = GetResType<T>();
-    m_arrRes[(UINT)type].insert(make_pair(_strKey, pRes));
 
+    if (true == _strKey.empty())
+        m_arrRes[(UINT)type].insert(make_pair(_fileName.filename().string(), pRes));
+    else
+        m_arrRes[(UINT)type].insert(make_pair(_strKey, pRes));
+        
     m_bResUpdated = true;
 
     return (T*)pRes.Get();

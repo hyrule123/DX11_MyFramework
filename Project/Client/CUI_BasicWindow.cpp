@@ -24,7 +24,7 @@ CUI_BasicWindow::~CUI_BasicWindow()
 
 bool CUI_BasicWindow::beginUI()
 {
-	//理???UI(李?蹂몄껜 - Begin)
+	
 	if (nullptr == GetParent())
 	{
 		if (false == ImGui::Begin(GetStrID().c_str(), GetActivePtr(), m_WindowFlag))
@@ -36,7 +36,7 @@ bool CUI_BasicWindow::beginUI()
 			return true;
 	}
 
-	//遺紐④? ?? ?? UI??寃쎌?- BeginChild
+	
 	return ImGui::BeginChild(GetStrID().c_str(), m_vSize, m_bBorder, m_WindowFlag);
 }
 
@@ -57,7 +57,6 @@ void CUI_BasicWindow::Save(Json::Value& _Save)
 		return;
 
 	_Save[GetStrID()]["IsActive"] = GetActive();
-	
 }
 
 void CUI_BasicWindow::Load(Json::Value& _Load)

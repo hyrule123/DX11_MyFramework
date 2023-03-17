@@ -154,6 +154,7 @@
     <ClInclude Include="CTestLevel.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIobj_Animator2D.h" />
+    <ClInclude Include="CUIobj_AnimEditor.h" />
     <ClInclude Include="CUI_Button.h" />
     <ClInclude Include="CUIobj_Camera.h" />
     <ClInclude Include="CUI_Child.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="CTestLevel.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIobj_Animator2D.cpp" />
+    <ClCompile Include="CUIobj_AnimEditor.cpp" />
     <ClCompile Include="CUI_Button.cpp" />
     <ClCompile Include="CUIobj_Camera.cpp" />
     <ClCompile Include="CUI_Child.cpp" />

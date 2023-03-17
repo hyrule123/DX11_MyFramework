@@ -3,7 +3,7 @@
 
 #include "CResMgr.h"
 
-#include "strKeyDefaultRes.h"
+#include "strKeyDefault.h"
 #include "CStructBuffer.h"
 #include "CConstBuffer.h"
 #include "CGameObject.h"
@@ -27,7 +27,7 @@ bool CCS_ParticleUpdate::BindDataCS()
 {
 	if (nullptr == m_Tex_Noise)
 	{
-		m_Tex_Noise = CResMgr::GetInst()->FindRes<CTexture>(DEFAULT_RES::TEXTURE::NOISE_TEXTURE_0);
+		m_Tex_Noise = CResMgr::GetInst()->FindRes<CTexture>(string(DEFAULT_RES::TEXTURE::NOISE_1));
 
 
 		assert(nullptr != m_Tex_Noise);

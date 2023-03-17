@@ -34,8 +34,6 @@ public:
 	virtual void Save(Json::Value& _Save) override;
 	virtual void Load(Json::Value& _Load) override;
 
-
-
 private:
 	ImGuiWindowFlags m_WindowFlag;
 
