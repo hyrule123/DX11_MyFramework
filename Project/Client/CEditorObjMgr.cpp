@@ -225,8 +225,8 @@ void CEditorObjMgr::CreateDebugShape()
 		{
 			CMeshRender* pMesh = new CMeshRender;
 			//월드행렬을 직접 받아서 쉐이더에 보낼 것이기 떄문에 Transform은 필요하지 않음.
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::DEBUG_RECT);
-			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::DEBUG_RECT);
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(string(DEFAULT_RES::MESH::DEBUG_RECT));
+			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(DEFAULT_RES::MATERIAL::DEBUG_RECT));
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
 			m_arrDebugShape[i]->AddComponent(pMesh);
@@ -237,8 +237,8 @@ void CEditorObjMgr::CreateDebugShape()
 		case eDEBUGSHAPE_TYPE::CIRCLE:
 		{
 			CMeshRender* pMesh = new CMeshRender;
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::DEBUG_CIRCLE);
-			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::DEBUG_CIRCLE);
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(string(DEFAULT_RES::MESH::DEBUG_CIRCLE));
+			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(DEFAULT_RES::MATERIAL::DEBUG_CIRCLE));
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
 			m_arrDebugShape[i]->AddComponent(pMesh);

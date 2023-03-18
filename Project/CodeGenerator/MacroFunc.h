@@ -12,7 +12,7 @@ extern int g_iIndentation;
 void WriteCodeA(ofstream& _pFile, const string& _strCode = "");
 void WriteCodeW(wofstream& _pFile, const wstring& _wstrCode = L"");
 
-inline void WriteBracketBeginA(ofstream& _pFile)
+inline void WriteBracketOpenA(ofstream& _pFile)
 {
 	//먼저 중괄호를 추가한뒤
 	WriteCodeA(_pFile, "{");
@@ -21,7 +21,7 @@ inline void WriteBracketBeginA(ofstream& _pFile)
 	++g_iIndentation;
 }
 
-inline void WriteBracketEndA(ofstream& _pFile)
+inline void WriteBracketCloseA(ofstream& _pFile)
 {
 	//먼저 들여쓰기를 뺴준뒤
 	--g_iIndentation;
@@ -29,7 +29,43 @@ inline void WriteBracketEndA(ofstream& _pFile)
 		g_iIndentation = 0;
 
 	//WriteCode 호출
-	WriteCodeA(_pFile, "{");
+	WriteCodeA(_pFile, "}");
+}
+
+inline void WriteBracketCloseAllA(ofstream& _pFile)
+{
+	while (0 < g_iIndentation)
+	{
+		WriteBracketCloseA(_pFile);
+	}
+}
+
+inline void WriteBracketOpenA(wofstream& _pFile)
+{
+	//먼저 중괄호를 추가한뒤
+	WriteCodeW(_pFile, L"{");
+
+	//들여쓰기 값을 늘려준다.
+	++g_iIndentation;
+}
+
+inline void WriteBracketCloseW(wofstream& _pFile)
+{
+	//먼저 들여쓰기를 뺴준뒤
+	--g_iIndentation;
+	if (g_iIndentation < 0)
+		g_iIndentation = 0;
+
+	//WriteCode 호출
+	WriteCodeW(_pFile, L"}");
+}
+
+inline void WriteBracketCloseAllW(wofstream& _pFile)
+{
+	while (0 < g_iIndentation)
+	{
+		WriteBracketCloseW(_pFile);
+	}
 }
 
 

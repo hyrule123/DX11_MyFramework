@@ -155,9 +155,9 @@ namespace SHADERS
 )";
 			fpStrKeyShader << RawLiteral;
 
-			WriteCodeA(fpStrKeyShader, "{");
+			WriteBracketOpenA(fpStrKeyShader);
 			WriteCodeA(fpStrKeyShader, "namespace GRAPHICS");
-			WriteCodeA(fpStrKeyShader, "{");
+			WriteBracketOpenA(fpStrKeyShader);
 			
 			for(const auto& GSIter : mapShaderInfo)
 			{
@@ -175,12 +175,12 @@ namespace SHADERS
 
 				WriteCodeA(fpStrKeyShader, codeLine);
 			}
-			WriteCodeA(fpStrKeyShader, "}");
+			WriteBracketCloseA(fpStrKeyShader);
 			WriteCodeA(fpStrKeyShader);
 
 
 			WriteCodeA(fpStrKeyShader, "namespace COMPUTE");
-			WriteCodeA(fpStrKeyShader, "{");
+			WriteBracketOpenA(fpStrKeyShader);
 
 
 			filesystem::path CSShaderDir(ShaderDir);
@@ -219,9 +219,9 @@ namespace SHADERS
 					WriteCodeA(fpStrKeyShader, codeLine);
 				}
 			}
-			WriteCodeA(fpStrKeyShader, "}");
+			WriteBracketCloseA(fpStrKeyShader);
 
-			WriteCodeA(fpStrKeyShader, "}");
+			WriteBracketCloseA(fpStrKeyShader);
 			WriteCodeA(fpStrKeyShader);
 
 			fpStrKeyShader.close();

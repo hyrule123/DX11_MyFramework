@@ -66,8 +66,11 @@ void CUIobj_TestWindow::init()
 			std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
 
 			//확장자가 일치하지 않을 경우 읽어오지 않는다.
-			if (RES_EXTENSION::SCMAP::SCX != extension && RES_EXTENSION::SCMAP::SCM != extension)
-				continue;
+			for (int i = 0; i < (int)RESOURCE_INFO::SCMAP::eSCMAP_TYPE::END; ++i)
+			{
+				if (RESOURCE_INFO::SCMAP::arrExt[i] != extension)
+					continue;
+			}
 		}
 		
 

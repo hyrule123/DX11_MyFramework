@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
     //작업 타입을 비교 후 대응되는 함수를 호출한다.
     if (0 == strcmp("Script", argv[1]))
     {
-        MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
+        //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
         CreateScriptCode();
         CreateShaderCode();
 
