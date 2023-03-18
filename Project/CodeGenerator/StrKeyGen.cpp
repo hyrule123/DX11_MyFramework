@@ -54,39 +54,44 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 			dirIter = filesystem::recursive_directory_iterator(FullPath);
 			const filesystem::recursive_directory_iterator& dirIterEnd = filesystem::end(dirIter);
 
-			//폴더구조가 변경되었는지 확인하기 위한 반복자
-			filesystem::path prevPath("");
-			int numDirPrev = 0;
 			for (dirIter; dirIter != dirIterEnd; ++dirIter)
 			{
-				//폴더가 아닐 경우에만 진행
+				//폴더가 아닐 경우에만 진행. Map을 통해서 전부 넣어준다.
 				if (false == dirIter->is_directory())
 				{
 					const filesystem::path& curPath = dirIter->path();
 
-					
+					//불러올 리소스 확장자와 일치하는지 확인한다.
+					bool bMatchingExtension = false;
+					for (size_t i = (size_t)0; i < _vecExtension.size(); ++i)
+					{
+						string Extension = curPath.filename().extension().string();
+						transform(Extension.begin(), Extension.end(), Extension.begin(), ::tolower);
+
+						if (_vecExtension[i] == Extension)
+						{
+							bMatchingExtension = true;
+							break;
+						}
+					}
+
+					if (false == bMatchingExtension)
+						continue;
+
+
+					const filesystem::path& ValuePath = curPath.lexically_relative(FullPath);
+
+					umapFile[curPath.parent_path()].push_back(ValuePath);
 				}
 			}
+
+			
+			
 		}
 	
+		
 
 
-			//		//리소스 확장자가 일치하는지 확인.
-			//		bool bMatchingExtension = false;
-			//		for (size_t i = (size_t)0; i < _vecExtension.size(); ++i)
-			//		{
-			//			string Extension = curPath.filename().extension().string();
-			//			transform(Extension.begin(), Extension.end(), Extension.begin(), ::tolower);
-
-			//			if (_vecExtension[i] == Extension)
-			//			{
-			//				bMatchingExtension = true;
-			//				break;
-			//			}
-			//		}
-
-			//		if (false == bMatchingExtension)
-			//			continue;
 
 
 			//		int iComp = curPath.parent_path().compare(prevPath);

@@ -13,6 +13,7 @@ namespace PresetStr
 	constexpr const std::string_view NameSpace = "namespace ";
 	constexpr const std::string_view ConstexprStringView = "constexpr const std::string_view ";
 	constexpr const std::string_view EqualDoubleQuotation = " = \"";
+	constexpr const std::string_view EnumClass = "enum class ";
 
 	constexpr const std::string_view Head = R"(
 #pragma once
