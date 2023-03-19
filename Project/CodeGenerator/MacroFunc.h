@@ -21,7 +21,7 @@ inline void WriteBracketOpenA(ofstream& _pFile)
 	++g_iIndentation;
 }
 
-inline void WriteBracketCloseA(ofstream& _pFile)
+inline void WriteBracketCloseA(ofstream& _pFile, bool _bAddSemiColon = false)
 {
 	//먼저 들여쓰기를 뺴준뒤
 	--g_iIndentation;
@@ -29,7 +29,10 @@ inline void WriteBracketCloseA(ofstream& _pFile)
 		g_iIndentation = 0;
 
 	//WriteCode 호출
-	WriteCodeA(_pFile, "}");
+	if (true == _bAddSemiColon)
+		WriteCodeA(_pFile, "};");
+	else
+		WriteCodeA(_pFile, "}");
 }
 
 inline void WriteBracketCloseAllA(ofstream& _pFile)
@@ -40,7 +43,7 @@ inline void WriteBracketCloseAllA(ofstream& _pFile)
 	}
 }
 
-inline void WriteBracketOpenA(wofstream& _pFile)
+inline void WriteBracketOpenW(wofstream& _pFile)
 {
 	//먼저 중괄호를 추가한뒤
 	WriteCodeW(_pFile, L"{");
@@ -75,4 +78,15 @@ inline void IncludeFile(std::wofstream& _pFile, const wstring& _strIncludeFileNa
 	include += _strIncludeFileName + L'\"';
 
 	WriteCodeW(_pFile, include);
+}
+
+
+inline void UpperCaseA(string& _str)
+{
+	transform(_str.begin(), _str.end(), _str.begin(), ::toupper);
+}
+
+inline void UpperCaseW(wstring& _str)
+{
+	transform(_str.begin(), _str.end(), _str.begin(), ::towupper);
 }

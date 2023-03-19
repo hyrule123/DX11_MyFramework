@@ -45,6 +45,9 @@ int main(int argc, char* argv[])
             vecExtension.push_back(string(RESOURCE_INFO::TEXTURE::arrExt[i]));
         }
         CreateStrKey(RESOURCE_INFO::TEXTURE::Dir, "strKeyTexture.h", vecExtension);
+
+        vecExtension.clear();
+        for(size_t i = 0; i < (int) RESOURCE_INFO::)
     }
         
 

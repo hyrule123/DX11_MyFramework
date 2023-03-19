@@ -30,12 +30,12 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 	std::filesystem::path HeaderPath(PresetStr::ScriptProjPath);
 	HeaderPath /= _HeaderFilename;
 
-	std::ofstream fpStrKeyHeader(HeaderPath);
-	if (true == fpStrKeyHeader.is_open())
+	std::ofstream fp(HeaderPath);
+	if (true == fp.is_open())
 	{
 
 		string CodeLine = string(PresetStr::Head);
-		fpStrKeyHeader << CodeLine;
+		fp << CodeLine;
 
 		unordered_map<filesystem::path, vector<filesystem::path>> umapFile;
 
@@ -75,10 +75,12 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 						}
 					}
 
+					//등록하고자 하는 확장자와 일치하지 않을 경우 등록 취소.
 					if (false == bMatchingExtension)
 						continue;
 
-
+					//Fullpath에서 자신의 위치 경로를 제외한 값만 생성해준다.
+					//
 					const filesystem::path& ValuePath = curPath.lexically_relative(FullPath);
 
 					umapFile[curPath.parent_path()].push_back(ValuePath);
@@ -86,13 +88,83 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 			}
 
 			
+			//순회가 끝났으면 코드를 생성해준다.
+			//enum class부터 생성
+			CodeLine = string(PresetStr::NameSpace);
+			string UpperCase = _PathFromContent.string();
+			UpperCaseA(UpperCase);
+			CodeLine += UpperCase;
+
+			WriteCodeA(fp, CodeLine);
+			WriteBracketOpenA(fp);
+
+			CodeLine = string(PresetStr::EnumClass);
+			CodeLine += "Idx";
+			WriteCodeA(fp, CodeLine);
+			WriteBracketOpenA(fp);
+
+			//for문으로 순회를 돌아주면서 enum에 값을 추가해준다.
+			for (const auto& iter : umapFile)
+			{
+				size_t size = iter.second.size();
+				for (size_t i = 0; i < size; ++i)
+				{
+					//파일명을 가져와서 확장자를 제거하고, 대문자로 변환한 뒤 (, )를 제거한다.
+					CodeLine = iter.second[i].filename().replace_extension("").string();
+					UpperCaseA(CodeLine);
+					std::replace_if(CodeLine.begin(), CodeLine.end(),
+						[](char c)->bool { return ('(' == c || ')' == c); },
+						'_'
+					);
+					CodeLine += ',';
+					WriteCodeA(fp, CodeLine);
+				}
+			}
+
+			//enum에는 순회를 돌 떄를 생각해서 END 값도 추가
+			WriteCodeA(fp, "END");
+			//순회 다 돌았으면 괄호를 닫아준다.
+			WriteBracketCloseA(fp, true);
+
+
+			//다시 순회를 돌면서 이번엔 배열 형태로 작성한다.
+			CodeLine = string(PresetStr::ConstexprStringView);
+			CodeLine += "arrKey";
+			CodeLine += "[] = ";
+			WriteCodeA(fp, CodeLine);
+			WriteBracketOpenA(fp);
+
+			auto iter = umapFile.begin();
+			const auto iterEnd = umapFile.end();
+			while (iter != iterEnd)
+			{
+				size_t size = iter->second.size();
+				for (size_t i = 0; i < size; ++i)
+				{
+					CodeLine = "\"";
+					CodeLine += iter->second[i].string();
+					CodeLine += "\"";
+					std::replace(CodeLine.begin(), CodeLine.end(), '\\', '/');
+
+					//순회가 끝나지 않았을 경우에는 쉽표를 추가
+					//if (i + 1 != size || std::next(iter) != iterEnd)
+					CodeLine += ',';
+
+					WriteCodeA(fp, CodeLine);
+				}
+
+				++iter;
+			}
+
 			
+			WriteBracketCloseA(fp, true);
+			WriteBracketCloseAllA(fp);
+
+
+			
+
+			fp.close();
 		}
-	
-		
-
-
-
 
 			//		int iComp = curPath.parent_path().compare(prevPath);
 
@@ -110,7 +182,7 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 			//			//괄호를 닫아 준다.
 			//			if (numDirPrev >= numDirCur)
 			//			{
-			//				WriteBracketCloseA(fpStrKeyHeader);
+			//				WriteBracketCloseA(fp);
 			//			}
 
 			//			//두 조건 모두 같을 때(==) 조건도 확인해 주어야 한다.
@@ -121,15 +193,15 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 			//			//폴더만 바뀌었을 경우에는 괄호를 닫아 주어야 한다.
 			//			if (numDirPrev <= numDirCur)
 			//			{
-			//				WriteCodeA(fpStrKeyHeader);
+			//				WriteCodeA(fp);
 			//				CodeLine = PresetStr::NameSpace;
 
 			//				string UpperCase = curPath.parent_path().filename().string();
 			//				transform(UpperCase.begin(), UpperCase.end(), UpperCase.begin(), ::toupper);
 
 			//				CodeLine += UpperCase;							
-			//				WriteCodeA(fpStrKeyHeader, CodeLine);
-			//				WriteBracketOpenA(fpStrKeyHeader);
+			//				WriteCodeA(fp, CodeLine);
+			//				WriteBracketOpenA(fp);
 			//			}
 
 
@@ -168,7 +240,7 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 			//		CodeLine += PathString;
 			//		CodeLine += "\";";
 
-			//		WriteCodeA(fpStrKeyHeader, CodeLine);
+			//		WriteCodeA(fp, CodeLine);
 
 			//	}
 
@@ -176,7 +248,7 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 
 
 			////재귀 순회가 끝났을 경우 중괄호를 닫아준다.
-			//WriteBracketCloseAllA(fpStrKeyHeader);
+			//WriteBracketCloseAllA(fp);
 			//}
 		catch (const std::filesystem::filesystem_error& error)
 		{
@@ -185,7 +257,7 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 		}
 
 		//작성이 완료되었으면 파일을 저장한다.
-		fpStrKeyHeader.close();
+		fp.close();
 	}
 
 

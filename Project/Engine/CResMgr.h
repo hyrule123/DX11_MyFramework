@@ -66,7 +66,8 @@ public:
     template<typename T>
     void AddRes(const string& _strKey, Ptr<T>& _Res);
 
-    //파일명을 Key로 쓰고자 한다면 Key에는 값을 집어넣지 않아도 됨.
+    //파일명 규칙 : 특정 리소스 폴더 아래부터의 주소
+    //ex) Content/Texture/Marine/Marine.bmp -> Marine/Marine.bmp
     template<typename T>
     Ptr<T> Load(const std::filesystem::path& _fileName, const string& _strKey = "");
 
@@ -133,7 +134,7 @@ inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
 
 
 
-//path.filename()을 key로 사용할것.
+
 template<typename T>
 inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string& _strKey)
 {

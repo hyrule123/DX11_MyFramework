@@ -31,7 +31,13 @@
 
 void CreateTestLevel()
 {
-//	CResMgr* pResMgr = CResMgr::GetInst();
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
+	//텍스처 로드
+	std::filesystem::recursive_directory_iterator()
+	//pResMgr->Load()
+
 //
 //	{
 //	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;

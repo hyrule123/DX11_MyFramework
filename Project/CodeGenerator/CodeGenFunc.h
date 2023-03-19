@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine/strKeyDefault.h>
+
 namespace PresetStr
 {
 	constexpr const std::string_view ScriptProjPath = "./Project/Script";
