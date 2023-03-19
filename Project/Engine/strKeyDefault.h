@@ -91,7 +91,7 @@ namespace DEFAULT_RES
 	namespace TEXTURE
 	{
 		constexpr const std::string_view DEFAULT = "Default.png";
-		constexpr const std::string_view NOISE_1 = "noise_01.png";
+		constexpr const std::string_view NOISE_1 = "Noise/noise_01.png";
 	}
 }
 
@@ -108,14 +108,14 @@ namespace RESOURCE_INFO
 			BMP,
 			END
 		};
-		constexpr const std::string_view Dir = "Texture";
+		constexpr const std::string_view DirName = "Texture";
 		constexpr const std::string_view arrExt[(int)eTEX_TYPE::END] = { ".png", ".bmp" };
 	}
 
 	namespace SHADER
 	{
-		constexpr const std::string_view Dir_Graphics = "Graphics";
-		constexpr const std::string_view Dir_Compute = "Compute";
+		constexpr const std::string_view DirName_Graphics = "Graphics";
+		constexpr const std::string_view DirName_Compute = "Compute";
 		
 		constexpr const std::string_view SHADER_CODE = ".cso";
 		constexpr const std::string_view SHADER_INFO = ".json";
@@ -124,7 +124,7 @@ namespace RESOURCE_INFO
 
 	namespace SCMAP
 	{
-		constexpr const std::string_view Dir = "SCMap";
+		constexpr const std::string_view DirName = "SCMap";
 
 		enum class eSCMAP_TYPE
 		{

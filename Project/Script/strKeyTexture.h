@@ -37,6 +37,6 @@ namespace TEXTURE
 		"marine.bmp",
 		"TILE.bmp",
 		"trilob(Reaver).bmp",
-		"noise/noise_01.png",
+		"Noise/noise_01.png",
 	};
 }

@@ -23,7 +23,7 @@ void CUIobj_Contents::init()
 
 	for (int i = 0; i < (int)eRES_TYPE::END; ++i)
 	{
-		m_arrpResTypeRoot[i] = new CUI_Tree(g_eRES_TYPE_strName[i]);
+		m_arrpResTypeRoot[i] = new CUI_Tree(string(g_eRES_TYPE_strName[i]));
 		m_arrpResTypeRoot[i]->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
 		AddChildUI(m_arrpResTypeRoot[i]);
 	}

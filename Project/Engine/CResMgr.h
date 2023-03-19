@@ -66,10 +66,14 @@ public:
     template<typename T>
     void AddRes(const string& _strKey, Ptr<T>& _Res);
 
+    //파일명 = 키일떄 사용
+    template<typename T>
+    Ptr<T>Load(const std::filesystem::path& _fileName);
+
     //파일명 규칙 : 특정 리소스 폴더 아래부터의 주소
     //ex) Content/Texture/Marine/Marine.bmp -> Marine/Marine.bmp
     template<typename T>
-    Ptr<T> Load(const std::filesystem::path& _fileName, const string& _strKey = "");
+    Ptr<T> Load(const std::filesystem::path& _fileName, const string& _strKey);
 
     const unordered_map<string, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
 
@@ -132,12 +136,20 @@ inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
     _Res->SetKey(_strKey);
 }
 
+template<typename T>
+inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName)
+{
+    return Load<T>(_fileName, _fileName.string());
+}
+
 
 
 
 template<typename T>
 inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string& _strKey)
 {
+
+
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     
     // 이미 해당 키로 리소스가 있다면, 반환
@@ -154,10 +166,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
 
     eRES_TYPE type = GetResType<T>();
 
-    if (true == _strKey.empty())
-        m_arrRes[(UINT)type].insert(make_pair(_fileName.filename().string(), pRes));
-    else
-        m_arrRes[(UINT)type].insert(make_pair(_strKey, pRes));
+    m_arrRes[(UINT)type].insert(make_pair(_strKey, pRes));
         
     m_bResUpdated = true;
 
