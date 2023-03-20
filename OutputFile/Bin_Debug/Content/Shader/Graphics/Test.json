@@ -1,10 +1,12 @@
-//Enumeration Values are at define.h of Engine project
 {
 	"D3D_PRIMITIVE_TOPOLOGY" : 4,
-	"SHADER_NAME" : "Test.cso",
-	"eBLENDSTATE_TYPE": 0,
+	"RelativePath" : "Test.json",
+	"eBLENDSTATE_TYPE" : 0,
 	"eDEPTHSTENCIL_TYPE" : 0,
 	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : 0,
-	"eSHADER_PIPELINE_STAGE" : 17
+	"eSHADER_DOMAIN" : -1,
+	"eSHADER_PIPELINE_STAGE" : 17,
+	"strKey" : "Test.json",
+	"strName" : "Test.cso"
 }
+//Enumeration Values are at define.h of Engine project

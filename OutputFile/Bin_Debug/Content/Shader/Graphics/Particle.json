@@ -1,10 +1,12 @@
-//Enumeration Values are at define.h of Engine project
 {
-	"D3D_PRIMITIVE_TOPOLOGY" : 1,
-	"SHADER_NAME" : "Particle.cso",
-	"eBLENDSTATE_TYPE": 2,
-	"eDEPTHSTENCIL_TYPE" : 4,
+	"D3D_PRIMITIVE_TOPOLOGY" : 4,
+	"RelativePath" : "Particle.json",
+	"eBLENDSTATE_TYPE" : 0,
+	"eDEPTHSTENCIL_TYPE" : 0,
 	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : 2,
-	"eSHADER_PIPELINE_STAGE" : 25
+	"eSHADER_DOMAIN" : -1,
+	"eSHADER_PIPELINE_STAGE" : 25,
+	"strKey" : "Particle.json",
+	"strName" : "Particle.cso"
 }
+//Enumeration Values are at define.h of Engine project

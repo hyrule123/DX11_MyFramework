@@ -1,10 +1,12 @@
-//Enumeration Values are at define.h of Engine project
 {
 	"D3D_PRIMITIVE_TOPOLOGY" : 4,
-	"SHADER_NAME" : "STD2DLight.cso",
-	"eBLENDSTATE_TYPE": 0,
+	"RelativePath" : "STD2DLight.json",
+	"eBLENDSTATE_TYPE" : 0,
 	"eDEPTHSTENCIL_TYPE" : 0,
 	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : 0,
-	"eSHADER_PIPELINE_STAGE" : 17
+	"eSHADER_DOMAIN" : -1,
+	"eSHADER_PIPELINE_STAGE" : 17,
+	"strKey" : "STD2DLight.json",
+	"strName" : "STD2DLight.cso"
 }
+//Enumeration Values are at define.h of Engine project

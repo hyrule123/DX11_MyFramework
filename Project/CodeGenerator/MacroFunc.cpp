@@ -33,7 +33,7 @@ void WriteCodeW(std::wofstream& _pFile, const wstring& _wstrCode)
 		return;
 
 	//닫는 중괄호가 있으면 먼저 값을 내려준다.
-	if (std::wstring::npos != _wstrCode.find(BracketEnd))
+	if (std::wstring::npos != _wstrCode.find('}'))
 	{
 		--g_iIndentation;
 		if (g_iIndentation < 0)
@@ -45,7 +45,7 @@ void WriteCodeW(std::wofstream& _pFile, const wstring& _wstrCode)
 		_pFile << L"\t";
 
 	//중괄호가 있을 경우 indentation 증가
-	if (std::wstring::npos != _wstrCode.find(BracketStart))
+	if (std::wstring::npos != _wstrCode.find('{'))
 	{
 		++g_iIndentation;
 	}

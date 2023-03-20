@@ -1,10 +1,12 @@
-//Enumeration Values are at define.h of Engine project
 {
 	"D3D_PRIMITIVE_TOPOLOGY" : 4,
-	"SHADER_NAME" : "TilemapComplete.cso",
-	"eBLENDSTATE_TYPE": 1,
+	"RelativePath" : "TilemapComplete.json",
+	"eBLENDSTATE_TYPE" : 0,
 	"eDEPTHSTENCIL_TYPE" : 0,
 	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : 1,
-	"eSHADER_PIPELINE_STAGE" : 17
+	"eSHADER_DOMAIN" : -1,
+	"eSHADER_PIPELINE_STAGE" : 17,
+	"strKey" : "TilemapComplete.json",
+	"strName" : "TilemapComplete.cso"
 }
+//Enumeration Values are at define.h of Engine project

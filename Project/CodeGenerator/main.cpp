@@ -18,10 +18,15 @@ int main(int argc, char* argv[])
     {
         MessageBoxA(nullptr, "No Parameters sent.\nWork in Debug Mode.", "Notification", MB_OK);
 
+        //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
+        CreateScriptCode();
+        CreateShaderCode();
+
+
         vector<string> vecExtension;
         for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
         {
-            vecExtension.push_back(string(RES_INFO::TEXTURE::arrExt[i]));
+            vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
         }
         CreateStrKey(RES_INFO::TEXTURE::DirName, "strKeyTexture.h", vecExtension);
 
@@ -42,7 +47,7 @@ int main(int argc, char* argv[])
         vector<string> vecExtension;
         for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
         {
-            vecExtension.push_back(string(RES_INFO::TEXTURE::arrExt[i]));
+            vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
         }
         CreateStrKey(RES_INFO::TEXTURE::DirName, "strKeyTexture.h", vecExtension);
     }

@@ -130,7 +130,7 @@ namespace RES_INFO
 			{
 				//쉐이더 파일의 '이름'만 추출
 				//ex) S_1_V_Debug : Debug
-				constexpr std::string_view ShaderBaseName = "ShaderBaseName";
+				//이름 : CEntity의 Name을 사용
 				constexpr std::string_view ePipelineFlag = "eSHADER_PIPELINE_STAGE";
 				constexpr std::string_view eTopology = "D3D_PRIMITIVE_TOPOLOGY";
 				constexpr std::string_view eRSState = "eRASTERIZER_TYPE";

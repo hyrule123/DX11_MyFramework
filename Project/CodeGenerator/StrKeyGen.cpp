@@ -27,7 +27,7 @@
 
 void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension)
 {
-	std::filesystem::path HeaderPath(PresetStr::ScriptProjPath);
+	std::filesystem::path HeaderPath(PresetPath::ScriptProj);
 	HeaderPath /= _HeaderFilename;
 
 	std::ofstream fp(HeaderPath);
@@ -44,7 +44,7 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 		try
 		{
 			//현재 작업 영역 $(SolutionDir)로부터의 경로를 만들어준다.
-			filesystem::path FullPath(PresetStr::ContentPath);
+			filesystem::path FullPath(PresetPath::Content);
 
 			//Fullpath = ~/Content/(리소스 폴더)
 			//ex)Fullpath == ~/Content/Texture

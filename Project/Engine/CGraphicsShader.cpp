@@ -62,8 +62,6 @@ bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 	string comment = "//Enumeration Values are at define.h of Engine project";
 	jVal.setComment(comment, Json::CommentPlacement::commentAfter);
 
-	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ShaderBaseName)] = GetName();
-
 	//순회를 돌면서 비트마스크를 만들어준뒤 json 파일에 저장한다.
 	int flagPipeline = 0;
 	for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
@@ -114,12 +112,14 @@ bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 
 bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 {
+	if (false == CShader::LoadJson(_jsonVal))
+		return false;
+
 	const Json::Value& jVal = *_jsonVal;
 
-	const string& strShaderNameBase = jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ShaderBaseName)].asString();
 
-	//쉐이더의 베이스 명칭을 CEntity::Name에 저장한다.
-	SetName(strShaderNameBase);
+	//쉐이더의 베이스 명칭은 CEntity::Name에서 로드되었을 것임.
+
 
 	m_eBSType = (eBLENDSTATE_TYPE)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eBState)].asInt();
 	m_eDSType = (eDEPTHSTENCIL_TYPE)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eDSState)].asInt();
@@ -130,7 +130,7 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 	if (eSHADER_DOMAIN::_UNDEFINED == m_eShaderDomain)
 	{
 		string errorMessage = "The shader domain value of ";
-		errorMessage += strShaderNameBase;
+		errorMessage += GetName();
 		errorMessage += " is Not set. May cause error.";
 		MessageBoxA(nullptr, errorMessage.c_str(), NULL, MB_OK);
 		assert(nullptr);
@@ -154,7 +154,7 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 			shaderPath /= "S_";
 			shaderPath += std::to_string(ShaderOrder);
 			shaderPath += RES_INFO::SHADER::GRAPHICS::PrefixArr[i];
-			shaderPath += strShaderNameBase;
+			shaderPath += GetName();
 
 			std::ifstream shaderCode(shaderPath, openFlag);
 

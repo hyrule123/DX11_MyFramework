@@ -101,6 +101,9 @@ bool CComputeShader::SaveJson(Json::Value* _jsonVal)
 
 bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 {
+	if (false == CShader::LoadJson(_jsonVal))
+		return false;
+
 	std::filesystem::path ShaderPath = RELATIVE_PATH::SHADER_COMPUTE::A;
 	ShaderPath /= GetRelativePath();
 	ShaderPath.replace_extension(RES_INFO::SHADER::Extension_ShaderSetting);
