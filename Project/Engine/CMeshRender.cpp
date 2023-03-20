@@ -92,9 +92,9 @@ bool CMeshRender::render()
 		pmtrl->BindData();
 
 		// 메쉬 그리기 명령
-		UINT InstancingCount = pmtrl->GetInstancingCount();
+		//UINT InstancingCount = pmtrl->GetInstancingCount();
 
-		pmesh->renderInstanced(InstancingCount);
+		pmesh->render();
 		
 		//true를 반환해서 인스턴싱이 필요하지 않다고 전달
 		return true;

@@ -34,7 +34,7 @@ namespace DIRECTORY_NAME
 
 
 
-namespace DEFAULT_RES
+namespace RES_DEFAULT
 {
 
 
@@ -52,17 +52,17 @@ namespace DEFAULT_RES
 
 	namespace MATERIAL
 	{
-		constexpr const std::string_view DEBUG_RECT = "DebugMtrlRect";
-		constexpr const std::string_view DEBUG_CIRCLE = "DebugMtrlCircle";
+		constexpr const std::string_view DEBUG_RECT = "DebugRect.mtrl";
+		constexpr const std::string_view DEBUG_CIRCLE = "DebugCircle.mtrl";
 
-		constexpr const std::string_view TEST = "TestMtrl";
-		constexpr const std::string_view STD2D = "std2DMtrl";
-		constexpr const std::string_view STD2D_LIGHT = "std2DLightMtrl";
+		constexpr const std::string_view TEST = "Test.mtrl";
+		constexpr const std::string_view STD2D = "std2D.mtrl";
+		constexpr const std::string_view STD2D_LIGHT = "std2DLight.mtrl";
 		
-		constexpr const std::string_view TILEMAP_COMPLETE = "TilemapCompleteMtrl";
-		constexpr const std::string_view TILEMAP_ATLAS = "TilemapAtlasMtrl";
+		constexpr const std::string_view TILEMAP_COMPLETE = "TilemapComplete.mtrl";
+		constexpr const std::string_view TILEMAP_ATLAS = "TilemapAtlas.mtrl";
 
-		constexpr const std::string_view PARTICLE_RENDER = "ParticleRenderMtrl";
+		constexpr const std::string_view PARTICLE_RENDER = "ParticleRender.mtrl";
 	}
 
 	namespace SHADER
@@ -96,7 +96,7 @@ namespace DEFAULT_RES
 }
 
 
-namespace RESOURCE_INFO
+namespace RES_INFO
 {
 	
 	//순회 돌 떄 편하게 돌수있도록 배열 형태로 사용
@@ -135,6 +135,10 @@ namespace RESOURCE_INFO
 		constexpr const std::string_view arrExt[(int)eSCMAP_TYPE::END] = { ".scm", ".scx" };
 	}
 
-	constexpr const std::string_view MATERIAL = ".json";
+	namespace MATERIAL
+	{
+		constexpr const std::string_view DirName = "Material";
+		constexpr const std::string_view Ext = ".json";
+	}
 }
 

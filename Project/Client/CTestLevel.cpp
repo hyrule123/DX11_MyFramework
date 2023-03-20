@@ -21,6 +21,9 @@
 #include <Engine/CCS_SetColor.h>
 #include <Engine/CCS_SCMapLoader.h>
 
+#include <Script/strKeyTexture.h>
+#include <Script/strKeyShader.h>
+
 #include <Script/CScriptMgr.h>
 #include <Script/CScript_Player.h>
 #include <Script/CScript_MouseCursor.h>
@@ -29,77 +32,97 @@
 
 #include <Engine/CResMgr.h>
 
+#include <UtilLib_DLL/json/json.h>
+
 void CreateTestLevel()
 {
+	LoadAllTexture();
+
 	CResMgr* pResMgr = CResMgr::GetInst();
 
-	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
-	//텍스처 로드
-	std::filesystem::path ResPath(RELATIVE_PATH::CONTENT::A);
-	ResPath /= RESOURCE_INFO::TEXTURE::DirName;
+	Ptr<CMaterial> SCUnitMtrl = new CMaterial;
 
-	std::filesystem::recursive_directory_iterator RIter;
-	try
+	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(RES_TEXTURE::arrKey[(int)RES_TEXTURE::Idx::MARINE_BMP]));
+
+
+	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(RES_SHADER::GRAPHICS::SCUNIT);
+	SCUnitMtrl->SetShader(pSCUnitShader);
+	SCUnitMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTexMarine);
+	SCUnitMtrl->SetKey("SCUnitMtrl.json");
+
+	Json::Value SaveFile;
+	SCUnitMtrl->SaveJson(&SaveFile);
+
+
+	std::ofstream TestSave(RES_INFO::);
+	if (TestSave.is_open())
 	{
-		RIter = std::filesystem::recursive_directory_iterator(ResPath);
-		
-		for (RIter; RIter != std::filesystem::end(RIter); ++RIter)
-		{
-			if (true == RIter->is_directory())
-				continue;
-			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
-			pResMgr->Load<CTexture>(RelativePath);
-		}
-	}
-	catch (const std::filesystem::filesystem_error& error)
-	{
-		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
-		throw(error);
+		TestSave << SaveFile;
+		TestSave.close();
 	}
 
-	
+	{
+		const Vec2& vTexSize = pTexMarine->GetSize();
+
+		CGameObject* TestObj = new CGameObject;
+		TestObj->SetName("TestObj");
+		TestObj->AddComponent(new CTransform);
+		TestObj->Transform()->SetSize(Vec3(vTexSize, 0.f));
+		TestObj->AddComponent(new CMeshRender);
+		TestObj->MeshRender()->SetMaterial(SCUnitMtrl);
+		TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
+
+
+		TestObj->MeshRender()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTexMarine);
+
+
+		::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
+	}
+
+
+
 
 //
 //	{
 //	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(DEFAULT_RES::TEXTURE::REAVER_ATLAS));
+//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(RES_DEFAULT::TEXTURE::REAVER_ATLAS));
 //
 //	Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
-//	Atlas->AddAnim2D_SC_Redundant(DEFAULT_RES::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
+//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
 //
-//	pResMgr->AddRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::REAVER_ATLAS, Atlas);
+//	pResMgr->AddRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::REAVER_ATLAS, Atlas);
 //}
 //
 //{
 //	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(DEFAULT_RES::TEXTURE::CORSAIR_ATLAS));
+//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(RES_DEFAULT::TEXTURE::CORSAIR_ATLAS));
 //
 //	Atlas->SetNewAnimUV(17u, 5u, 0u, 17u, 0u, 5u);
-//	Atlas->AddAnim2D(DEFAULT_RES::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
+//	Atlas->AddAnim2D(RES_DEFAULT::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
 //
-//	pResMgr->AddRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::CORSAIR_ATLAS, Atlas);
+//	pResMgr->AddRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::CORSAIR_ATLAS, Atlas);
 //}
 //
 //{
 //	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(DEFAULT_RES::TEXTURE::MARINE_ATLAS));
+//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(RES_DEFAULT::TEXTURE::MARINE_ATLAS));
 //
 //	Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
-//	Atlas->AddAnim2D_SC_Redundant(DEFAULT_RES::ANIM2D::MARINE_IDLE, 0u, 1u, 1.f);
-//	Atlas->AddAnim2D_SC_Redundant(DEFAULT_RES::ANIM2D::MARINE_ATTACKSTART, 1u, 2u, 0.5f);
+//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_IDLE, 0u, 1u, 1.f);
+//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_ATTACKSTART, 1u, 2u, 0.5f);
 //
-//	Atlas->AddAnim2D_SC_Redundant(DEFAULT_RES::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
+//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
 //
 //	vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
-//	Atlas->AddAnim2D_vecRowIndex(DEFAULT_RES::ANIM2D::MARINE_ATTACK, row, 0.6f);
+//	Atlas->AddAnim2D_vecRowIndex(RES_DEFAULT::ANIM2D::MARINE_ATTACK, row, 0.6f);
 //
 //	row.clear();
 //	
 //	row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
-//	Atlas->AddAnim2D(DEFAULT_RES::ANIM2D::MARINE_DEATH, row, 1.f);
+//	Atlas->AddAnim2D(RES_DEFAULT::ANIM2D::MARINE_DEATH, row, 1.f);
 //	
 //
-//	pResMgr->AddRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::MARINE_ATLAS, Atlas);
+//	pResMgr->AddRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::MARINE_ATLAS, Atlas);
 //}
 
 
@@ -110,7 +133,7 @@ void CreateTestLevel()
 	//	pMtrl->SetInstancedRender(true);
 	//	pMtrl->SetShader(FindRes<CGraphicsShader>(SHADERS::GRAPHICS::STD2D));
 
-	//	pMtrl->SetKey(DEFAULT_RES::MATERIAL::CORSAIR);
+	//	pMtrl->SetKey(RES_DEFAULT::MATERIAL::CORSAIR);
 	//	AddRes(pMtrl->GetKey(), pMtrl);
 	//}
 
@@ -120,7 +143,7 @@ void CreateTestLevel()
 	//	pMtrl->SetInstancedRender(true);
 	//	pMtrl->SetShader(FindRes<CGraphicsShader>(SHADERS::GRAPHICS::STD2D));
 
-	//	pMtrl->SetKey(DEFAULT_RES::MATERIAL::MARINE);
+	//	pMtrl->SetKey(RES_DEFAULT::MATERIAL::MARINE);
 	//	AddRes(pMtrl->GetKey(), pMtrl);
 	//}
 
@@ -161,7 +184,7 @@ void CreateTestLevel()
 	//	if (0 == i)
 	//		pPlayer->AddScript(CScriptMgr::GetInst()->GetNewScript(SCRIPTS::PLAYER));
 	//	
-	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::MARINE);
+	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RES_DEFAULT::MATERIAL::MARINE);
 
 	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 	//	pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
@@ -175,9 +198,9 @@ void CreateTestLevel()
 
 	//	pPlayer->AddComponent(new CAnimator2D);
 
-	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::MARINE_ATLAS);
+	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::MARINE_ATLAS);
 	//	pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
-	//	pPlayer->Animator2D()->Play(DEFAULT_RES::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
+	//	pPlayer->Animator2D()->Play(RES_DEFAULT::ANIM2D::MARINE_ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
 
 	//	if (0 == i)
 	//		pPlayer->AddComponent(new CCollider2D_Point);
@@ -204,7 +227,7 @@ void CreateTestLevel()
 	//	//if(1 == i)
 	//	pPlayer->AddScript(new CScript_Player);
 
-	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::STD2D_LIGHT);
+	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RES_DEFAULT::MATERIAL::STD2D_LIGHT);
 
 	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 	//	pPlayer->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
@@ -214,9 +237,9 @@ void CreateTestLevel()
 
 	//	pPlayer->AddComponent(new CAnimator2D);
 
-	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(DEFAULT_RES::TEXTURE::CORSAIR_ATLAS);
+	//	Ptr<CAnim2DAtlas> pAnimAtlas = CResMgr::GetInst()->FindRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::CORSAIR_ATLAS);
 	//	pPlayer->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAnimAtlas);
-	//	pPlayer->Animator2D()->Play(DEFAULT_RES::ANIM2D::CORSAIRMOVE, eANIM_LOOPMODE::NORMAL_LOOP, false);
+	//	pPlayer->Animator2D()->Play(RES_DEFAULT::ANIM2D::CORSAIRMOVE, eANIM_LOOPMODE::NORMAL_LOOP, false);
 
 
 	//	::SpawnGameObject(pPlayer, Vec3(-600.f + 1200.f * CTimeMgr::GetInst()->GetRandomNorm(), -300.f + 600.f * CTimeMgr::GetInst()->GetRandomNorm(), 1.f), 1);
@@ -247,8 +270,8 @@ void CreateTestLevel()
 	//	pTestObj1->AddComponent(new CTransform);
 	//	pTestObj1->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 	//	pTestObj1->AddComponent(new CMeshRender);
-	//	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(DEFAULT_RES::MESH::RECT));
-	//	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(DEFAULT_RES::MATERIAL::TEST);
+	//	pTestObj1->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(RES_DEFAULT::MESH::RECT));
+	//	Ptr<CMaterial> TestMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RES_DEFAULT::MATERIAL::TEST);
 	//	TestMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Fighter);
 	//	//pTestObj1->SetMtrlScalarParam((eMTRLDATA_PARAM_SCALAR)MTRL_SCALAR_STD2D_COLORKEY, ColorKey);
 	//	pTestObj1->MeshRender()->SetMaterial(TestMtrl);
@@ -350,9 +373,9 @@ void CreateTestLevel()
 	//	pParticleObj->Transform()->SetSize(Vec3(100.f, 100.f, 1.f));
 
 	//	CParticleSystem* pParticle = new CParticleSystem;
-	//	pParticle->SetParticleCS(DEFAULT_RES::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
+	//	pParticle->SetParticleCS(RES_DEFAULT::SHADER::COMPUTE::PARTICLE_UPDATE_RAINDROP);
 
-	//	Ptr<CTexture> pHOSTEX = CResMgr::GetInst()->FindRes<CTexture>(DEFAULT_RES::TEXTURE::HOS);
+	//	Ptr<CTexture> pHOSTEX = CResMgr::GetInst()->FindRes<CTexture>(RES_DEFAULT::TEXTURE::HOS);
 	//	pParticle->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pHOSTEX);
 	//	pParticle->CreateParticle();
 	//	pParticleObj->AddComponent(pParticle);
@@ -375,14 +398,14 @@ void CreateTestLevel()
 	//{//Tilemap
 
 	//	CGameObject* pTilemap = new CGameObject;
-	//	pTilemap->SetName(DEFAULT_RES::TEXTURE::TILE_ATLAS);
+	//	pTilemap->SetName(RES_DEFAULT::TEXTURE::TILE_ATLAS);
 
 	//	pTilemap->AddComponent(new CTransform);
 	//	pTilemap->AddComponent(new CTilemap);
 
 	//	pTilemap->Transform()->SetSize(Vec3(500.f, 500.f, 1.f));
 
-	//	pTilemap->Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>(DEFAULT_RES::TEXTURE::TILE_ATLAS));
+	//	pTilemap->Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, CResMgr::GetInst()->FindRes<CTexture>(RES_DEFAULT::TEXTURE::TILE_ATLAS));
 	//	pTilemap->Tilemap()->SetSliceSize(Vec2(0.125f, 0.166f));
 	//	pTilemap->Tilemap()->SetTileCount(8, 8);
 
@@ -403,8 +426,6 @@ void CreateTestLevel()
 
 		SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), 1);
 		//pLevel->AddGameObject(pObj, 1);
-
-		
 	}
 
 	{//Prefab
@@ -427,6 +448,34 @@ void CreateTestLevel()
 		//pResPrefab->RegisterPrefab(pPrefab);
 
 		//CResMgr::GetInst()->AddRes("Bullet", pResPrefab);
+	}
+}
+
+void LoadAllTexture()
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
+	//텍스처 로드
+	std::filesystem::path ResPath(RELATIVE_PATH::CONTENT::A);
+	ResPath /= RES_INFO::TEXTURE::DirName;
+
+	std::filesystem::recursive_directory_iterator RIter;
+	try
+	{
+		RIter = std::filesystem::recursive_directory_iterator(ResPath);
+
+		for (RIter; RIter != std::filesystem::end(RIter); ++RIter)
+		{
+			if (true == RIter->is_directory())
+				continue;
+			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
+			pResMgr->Load<CTexture>(RelativePath);
+		}
+	}
+	catch (const std::filesystem::filesystem_error& error)
+	{
+		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+		throw(error);
 	}
 }
 

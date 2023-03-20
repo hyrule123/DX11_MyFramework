@@ -91,7 +91,7 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 			//순회가 끝났으면 코드를 생성해준다.
 			//enum class부터 생성
 			CodeLine = string(PresetStr::NameSpace);
-			string UpperCase = _PathFromContent.string();
+			string UpperCase = string("RES_") + _PathFromContent.string();
 			UpperCaseA(UpperCase);
 			CodeLine += UpperCase;
 
@@ -109,11 +109,11 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 				size_t size = iter.second.size();
 				for (size_t i = 0; i < size; ++i)
 				{
-					//파일명을 가져와서 확장자를 제거하고, 대문자로 변환한 뒤 (, )를 제거한다.
-					CodeLine = iter.second[i].filename().replace_extension("").string();
+					//파일명을 대문자로 변환한 뒤 소괄호()와 . 문자를 제거한다.
+					CodeLine = iter.second[i].filename().string();
 					UpperCaseA(CodeLine);
 					std::replace_if(CodeLine.begin(), CodeLine.end(),
-						[](char c)->bool { return ('(' == c || ')' == c); },
+						[](char c)->bool { return ('(' == c || ')' == c || '.' == c); },
 						'_'
 					);
 					CodeLine += ',';

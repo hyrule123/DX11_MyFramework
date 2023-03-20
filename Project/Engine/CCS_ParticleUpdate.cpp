@@ -27,7 +27,7 @@ bool CCS_ParticleUpdate::BindDataCS()
 {
 	if (nullptr == m_Tex_Noise)
 	{
-		m_Tex_Noise = CResMgr::GetInst()->FindRes<CTexture>(string(DEFAULT_RES::TEXTURE::NOISE_1));
+		m_Tex_Noise = CResMgr::GetInst()->FindRes<CTexture>(string(RES_DEFAULT::TEXTURE::NOISE_1));
 
 
 		assert(nullptr != m_Tex_Noise);

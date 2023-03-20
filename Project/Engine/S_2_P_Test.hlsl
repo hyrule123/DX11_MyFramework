@@ -4,7 +4,7 @@
 
 
 // pixel shader
-float4 PS_test(VS_OUT _in) : SV_Target
+float4 PS_Test(VS_OUT _in) : SV_Target
 {
     float4 vColor = (float4) 0.f;
     
@@ -24,6 +24,8 @@ float4 PS_test(VS_OUT _in) : SV_Target
 		else if (g_SBuffer_Mtrl_Scalar[_in.uInstID].INT_0 == 1)
 			vColor = g_tex_0.Sample(g_Sampler_1, _in.vOutUV);
 	}
+	
+	vColor = g_tex_0.Sample(g_Sampler_0, _in.vOutUV);
   
 	return vColor;
 }

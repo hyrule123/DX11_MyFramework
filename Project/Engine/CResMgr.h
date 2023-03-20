@@ -50,10 +50,12 @@ public:
     void CreateDefaultAnimAtlas();
 
 public:
+    bool IsUpdated() const { return m_bResUpdated; }
+
+    void Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName);
+
     template <typename T>
     eRES_TYPE GetResType();
-
-    bool IsUpdated() const { return m_bResUpdated; }
 
     template<typename T>
     Ptr<T> FindRes(const string& _strKey);
@@ -65,6 +67,9 @@ public:
 
     template<typename T>
     void AddRes(const string& _strKey, Ptr<T>& _Res);
+
+    
+
 
     //파일명 = 키일떄 사용
     template<typename T>
@@ -143,13 +148,9 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName)
 }
 
 
-
-
 template<typename T>
 inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string& _strKey)
 {
-
-
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     
     // 이미 해당 키로 리소스가 있다면, 반환
@@ -172,6 +173,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
 
     return (T*)pRes.Get();
 }
+
 
 inline const unordered_map<string, Ptr<CRes>>& CResMgr::GetResMap(eRES_TYPE _ResType)
 {

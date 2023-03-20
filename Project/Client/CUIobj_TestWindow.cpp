@@ -66,9 +66,9 @@ void CUIobj_TestWindow::init()
 			std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
 
 			//확장자가 일치하지 않을 경우 읽어오지 않는다.
-			for (int i = 0; i < (int)RESOURCE_INFO::SCMAP::eSCMAP_TYPE::END; ++i)
+			for (int i = 0; i < (int)RES_INFO::SCMAP::eSCMAP_TYPE::END; ++i)
 			{
-				if (RESOURCE_INFO::SCMAP::arrExt[i] != extension)
+				if (RES_INFO::SCMAP::arrExt[i] != extension)
 					continue;
 			}
 		}
@@ -101,7 +101,7 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 		try
 		{
 			Ptr<CCS_SCMapLoader> pMapLoader;
-			pMapLoader = pResMgr->FindRes<CComputeShader>(SHADERS::COMPUTE::SCMAPLOADER);
+			pMapLoader = pResMgr->FindRes<CComputeShader>(RES_SHADER::COMPUTE::SCMAPLOADER);
 			if (nullptr == pMapLoader)
 				throw std::runtime_error("Cannot find Map Loader!!");
 			

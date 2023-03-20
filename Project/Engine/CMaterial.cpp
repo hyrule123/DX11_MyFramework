@@ -169,6 +169,8 @@ void CMaterial::BindData()
 	//인스턴싱을 사용하지 않을 경우(구조화버퍼 없을 경우) 상수버퍼에 묶어서 바로 렌더링
 	else if(nullptr == m_SBufferMtrlScalar)
 	{
+		m_uRenderCount = 1;
+
 		//1개를 그릴지 여러개를 그릴지(인스턴싱) 여부는 SBUFFER SHAREDATA 담아서 보냄.
 		//여기에 만약 인스턴싱 인덱스 카운트값이 0이 있을 경우 CBuffer을 활용해서 렌더링하는 방식
 		CConstBuffer* CShareDataBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_SBUFFER_SHAREDATA);
@@ -181,15 +183,18 @@ void CMaterial::BindData()
 		m_CBufferMtrlScalar->UploadData(&(m_vecMtrlScalar[0]));
 		m_CBufferMtrlScalar->BindBuffer();
 
-		m_uRenderCount = 1;
 	}
 	else//구조화버퍼 주소가 있을 경우(인스턴싱을 할 경우) 
 	{
+		//인스턴싱할 객체의 갯수를 받아놓는다.
+		m_uRenderCount = (UINT)m_vecMtrlScalar.size();
+
+		//g_arrSBufferShareData에 수동으로 데이터를 보낼 필요 없음(CStructBuffer에서 전달함.)
+
+
 		//여긴 SBuffer만 바인딩 걸어주면 된다.
 		m_SBufferMtrlScalar->UploadData(m_vecMtrlScalar.data(), m_uRenderCount);
 		m_SBufferMtrlScalar->BindBufferSRV();
-
-		m_uRenderCount = (UINT)m_vecMtrlScalar.size();
 	}
 
 	//바인딩한 데이터는 전부 제거
