@@ -100,7 +100,7 @@ inline eRES_TYPE CResMgr::GetResType()
 template<typename T>
 inline Ptr<T> CResMgr::FindRes(const string& _strKey)
 {
-    eRES_TYPE resType = CResMgr::GetInst()->GetResType<T>();
+    eRES_TYPE resType = GetResType<T>();
 
     if (eRES_TYPE::UNKNOWN == resType)
         return nullptr;
@@ -160,7 +160,6 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
     pRes = new T;
     pRes->SetKey(_strKey);
     pRes->SetRelativePath(_fileName);
-
 
     if (false == pRes->Load(_fileName))
         return nullptr;

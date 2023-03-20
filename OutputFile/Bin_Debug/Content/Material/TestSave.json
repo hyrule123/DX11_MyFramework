@@ -1,0 +1,18 @@
+{
+	"RelativePath" : "",
+	"arrStrKeyTex" : 
+	[
+		"marine.bmp",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		""
+	],
+	"bUseInstancing" : false,
+	"strKey" : "SCUnitMtrl",
+	"strKeyShader" : "SCUnit.json",
+	"strName" : ""
+}

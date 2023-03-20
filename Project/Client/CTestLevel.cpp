@@ -37,6 +37,7 @@
 void CreateTestLevel()
 {
 	LoadAllTexture();
+	LoadUserMtrl();
 
 	CResMgr* pResMgr = CResMgr::GetInst();
 
@@ -53,13 +54,6 @@ void CreateTestLevel()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-
-	std::ofstream TestSave(RES_INFO::);
-	if (TestSave.is_open())
-	{
-		TestSave << SaveFile;
-		TestSave.close();
-	}
 
 	{
 		const Vec2& vTexSize = pTexMarine->GetSize();
@@ -470,6 +464,34 @@ void LoadAllTexture()
 				continue;
 			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
 			pResMgr->Load<CTexture>(RelativePath);
+		}
+	}
+	catch (const std::filesystem::filesystem_error& error)
+	{
+		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+		throw(error);
+	}
+}
+
+void LoadUserMtrl()
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
+	//텍스처 로드
+	std::filesystem::path ResPath(RELATIVE_PATH::CONTENT::A);
+	ResPath /= RES_INFO::MATERIAL::DirName;
+
+	std::filesystem::recursive_directory_iterator RIter;
+	try
+	{
+		RIter = std::filesystem::recursive_directory_iterator(ResPath);
+
+		for (RIter; RIter != std::filesystem::end(RIter); ++RIter)
+		{
+			if (true == RIter->is_directory())
+				continue;
+			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
+			pResMgr->Load<CMaterial>(RelativePath);
 		}
 	}
 	catch (const std::filesystem::filesystem_error& error)

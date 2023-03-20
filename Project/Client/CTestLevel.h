@@ -4,6 +4,7 @@
 void CreateTestLevel();
 
 void LoadAllTexture();
+void LoadUserMtrl();
 
 bool CreateUserGraphicsShader();
 bool CreateUserComputeShader();

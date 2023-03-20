@@ -117,6 +117,22 @@ bool CMaterial::SaveJson(Json::Value* _pJson)
 
 bool CMaterial::Load(const std::filesystem::path& _fileName)
 {
+	std::filesystem::path LoadPath(RELATIVE_PATH::CONTENT::A);
+	LoadPath /= RES_INFO::MATERIAL::DirName;
+	LoadPath /= _fileName;
+
+	std::ifstream LoadFile(LoadPath);
+	if (LoadFile.is_open())
+	{
+		Json::Value JsonVal;
+
+		LoadFile >> JsonVal;
+
+		LoadFile.close();
+
+		return LoadJson(&JsonVal);
+	}
+
 	return false;
 }
 
