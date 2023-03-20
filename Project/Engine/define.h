@@ -115,6 +115,10 @@ enum class eKEY_STATE
 
 };
 
+
+//================
+//	Shader Flags
+//================
 namespace eSHADER_PIPELINE_STAGE
 {
 	enum FLAG : UINT
@@ -130,6 +134,10 @@ namespace eSHADER_PIPELINE_STAGE
 		__ALL  = UINT8_MAX
 	};
 }
+
+//
+enum D3D_PRIMITIVE_TOPOLOGY;
+
 
 enum class eSHADER_TYPE
 {
@@ -283,6 +291,8 @@ enum class eCOLLIDER_TYPE_2D
 	POINT,
 	END
 };
+
+
 
 enum class eCOLLIDER_TYPE_3D
 {

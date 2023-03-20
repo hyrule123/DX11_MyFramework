@@ -55,6 +55,7 @@ void CEditorObjMgr::init()
 
 	{//커서 생성
 		m_pMousePicker = new CGameObject;
+		m_pMousePicker->SetName("Cursor");
 		m_pMousePicker->AddComponent(new CTransform);
 		m_pMousePicker->AddComponent(new CCollider2D_Point);
 
@@ -103,7 +104,6 @@ void CEditorObjMgr::render()
 	CCamera* pCam = CRenderMgr::GetInst()->GetCurCamera();
 	//카메라의 데이터를 업로드
 	
-
 
 	size_t size = m_vecDebugShapeInfo.size();
 	for (size_t i = 0; i < size; ++i)

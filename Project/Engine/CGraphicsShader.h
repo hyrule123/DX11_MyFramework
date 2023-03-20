@@ -3,7 +3,6 @@
 
 #include "global.h"
 
-
 class CGraphicsShader :
     public CShader
 {
@@ -15,7 +14,11 @@ public:
     //현재 CSO 파일만 로드 가능하므로 참고
     //다른 
     virtual bool Save(const std::filesystem::path& _fileName) override;
+    
     virtual bool Load(const std::filesystem::path& _fileName) override;
+
+    virtual bool SaveJson(Json::Value* _jsonVal) override;
+    virtual bool LoadJson(Json::Value* _jsonVal) override;
 
 private:
 

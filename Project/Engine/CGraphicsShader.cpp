@@ -39,44 +39,65 @@ CGraphicsShader::~CGraphicsShader()
 
 bool CGraphicsShader::Save(const std::filesystem::path& _fileName)
 {
+	std::ifstream FileOpen(_fileName);
+	if (FileOpen.is_open())
+	{
+		Json::Value jsonVal;
+		FileOpen >> jsonVal;
+		FileOpen.close();
+
+		return SaveJson(&jsonVal);
+	}
+
+	return false;
+}
+
+bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
+{
+	string comment = "//Enumeration Values are at define.h of Engine project";
+	(*_jsonVal).setComment(comment, Json::CommentPlacement::commentBefore);
+
+	(*_jsonVal)[string(JSON_SHADERINFO::COMMON_VAL::strShaderName)] = "";
+
+	(*_jsonVal)[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)] = eSHADER_PIPELINE_STAGE::__NONE;
+
+	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eTopology)] = (int)D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eRSState)] = (int)eRASTERIZER_TYPE::CULL_BACK;
+	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eDSState)] = (int)eDEPTHSTENCIL_TYPE::LESS;
+	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eBState)] = (int)eBLENDSTATE_TYPE::DEFAULT;
+	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain)] = (int)eSHADER_DOMAIN::_UNDEFINED;
 
 
 	return false;
 }
 
-bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
+bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 {
-	std::filesystem::path shaderPath = RELATIVE_PATH::SHADER_GRAPHICS::A;
-	shaderPath /= _fileName;
+	const Json::Value& jVal = *_jsonVal;
 
-	std::ifstream fpShader(shaderPath);
-	if (false == fpShader.is_open())
-		return false;
+	const string& strShaderNameBase = jVal[string(JSON_SHADERINFO::COMMON_VAL::strShaderName)].asString();
 
-	Json::Value shaderInfo;
-	fpShader >> shaderInfo;
 
-	const string& strShaderNameBase = shaderInfo[string(JSON_SHADERINFO::COMMON_VAL::strShaderName)].asString();
-	SetKey(_fileName.filename().string());
-
-	m_BSType = (eBLENDSTATE_TYPE)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eBState)].asInt();
-	m_DSType = (eDEPTHSTENCIL_TYPE)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eDSState)].asInt();
-	m_RSType = (eRASTERIZER_TYPE)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eRSState)].asInt();
-	m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eTopology)].asInt();
-	m_ShaderDomain = (eSHADER_DOMAIN)shaderInfo[string(JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain)].asInt();
+	m_BSType = (eBLENDSTATE_TYPE)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eBState)].asInt();
+	m_DSType = (eDEPTHSTENCIL_TYPE)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eDSState)].asInt();
+	m_RSType = (eRASTERIZER_TYPE)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eRSState)].asInt();
+	m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eTopology)].asInt();
+	m_ShaderDomain = (eSHADER_DOMAIN)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain)].asInt();
 
 	if (eSHADER_DOMAIN::_UNDEFINED == m_ShaderDomain)
 	{
-		string errorMessage = "The shader domain value of "; 
+		string errorMessage = "The shader domain value of ";
 		errorMessage += strShaderNameBase;
 		errorMessage += " is Not set. May cause error.";
 		MessageBoxA(nullptr, errorMessage.c_str(), NULL, MB_OK);
 		assert(nullptr);
 	}
-	
 
-	int flagPipeline = shaderInfo[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)].asInt();
+
+	int flagPipeline = jVal[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)].asInt();
 	int ShaderOrder = 0;
+
+
 	std::ios_base::openmode openFlag = std::ios_base::ate | std::ios_base::binary; std::ios_base::in;
 	for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
 	{
@@ -84,15 +105,16 @@ bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
 		if ((1 << i) & flagPipeline)
 		{
 			++ShaderOrder;
-			shaderPath = shaderPath.parent_path();
-			
+
+			std::filesystem::path shaderPath(RELATIVE_PATH::SHADER_GRAPHICS::A);
+
 			shaderPath /= "S_";
 			shaderPath += std::to_string(ShaderOrder);
 			shaderPath += JSON_SHADERINFO::GRAPHICS_SHADER::arrName[i];
 			shaderPath += strShaderNameBase;
-			
+
 			std::ifstream shaderCode(shaderPath, openFlag);
-			
+
 			if (true == shaderCode.is_open())
 			{
 				//cso를 읽어올 공간 동적할당
@@ -120,9 +142,28 @@ bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
 			}
 		}
 	}
-	
 
-	return true;
+	return false;
+}
+
+bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
+{
+	std::filesystem::path shaderPath = RELATIVE_PATH::SHADER_GRAPHICS::A;
+	shaderPath /= _fileName;
+
+	std::ifstream fpShader(shaderPath);
+	if (fpShader.is_open())
+	{
+		SetKey(_fileName.filename().string());
+		SetRelativePath(_fileName);
+
+		Json::Value shaderInfo;
+		fpShader >> shaderInfo;
+
+		return LoadJson(&shaderInfo);
+	}
+	
+	return false;
 }
 
 void CGraphicsShader::CreateDefaultInputLayout()
