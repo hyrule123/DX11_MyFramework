@@ -109,16 +109,54 @@ namespace RES_INFO
 			END
 		};
 		constexpr const std::string_view DirName = "Texture";
-		constexpr const std::string_view arrExt[(int)eTEX_TYPE::END] = { ".png", ".bmp" };
+		constexpr const std::string_view ExtensionArr[(int)eTEX_TYPE::END] = { ".png", ".bmp" };
 	}
 
 	namespace SHADER
 	{
-		constexpr const std::string_view DirName_Graphics = "Graphics";
-		constexpr const std::string_view DirName_Compute = "Compute";
+		constexpr std::string_view DirNameRoot = "Shader";
+		constexpr std::string_view Extension_ShaderSetting = ".json";
+		constexpr std::string_view Extension_ShaderCode = ".cso";
+
+		namespace GRAPHICS
+		{
+			constexpr const std::string_view DirName = "Graphics";
+			constexpr std::string_view PrefixArr[(int)eSHADER_TYPE::END] =
+			{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
+
+			//각 쉐이더마다 들어가야할 설정값
+
+			namespace Setting
+			{
+				//쉐이더 파일의 '이름'만 추출
+				//ex) S_1_V_Debug : Debug
+				constexpr std::string_view ShaderBaseName = "ShaderBaseName";
+				constexpr std::string_view ePipelineFlag = "eSHADER_PIPELINE_STAGE";
+				constexpr std::string_view eTopology = "D3D_PRIMITIVE_TOPOLOGY";
+				constexpr std::string_view eRSState = "eRASTERIZER_TYPE";
+				constexpr std::string_view eDSState = "eDEPTHSTENCIL_TYPE";
+				constexpr std::string_view eBState = "eBLENDSTATE_TYPE";
+				constexpr std::string_view eShaderDomain = "eSHADER_DOMAIN";
+			}
+		}
+
+		namespace COMPUTE
+		{
+			constexpr const std::string_view DirName = "Compute";
+			constexpr std::string_view Prefix = "_C_";
+
+			namespace Setting
+			{
+				//쉐이더와 json 파일이 공유하는 파일 이름. 확장자 제외
+				//ex) S_C_SCMapLoader.json : S_C_SCMapLoader
+				constexpr const std::string_view ShaderFileName = "ShaderFileName";
+				constexpr const std::string_view iNumThreadArr = "NumThreadArr";
+			}
+		}
+
 		
-		constexpr const std::string_view SHADER_CODE = ".cso";
-		constexpr const std::string_view SHADER_INFO = ".json";
+		
+	
 	}
 
 
@@ -132,7 +170,7 @@ namespace RES_INFO
 			SCX,
 			END
 		};
-		constexpr const std::string_view arrExt[(int)eSCMAP_TYPE::END] = { ".scm", ".scx" };
+		constexpr const std::string_view arrExtension[(int)eSCMAP_TYPE::END] = { ".scm", ".scx" };
 	}
 
 	namespace MATERIAL

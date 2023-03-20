@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+//참고 - CEntity의 'Name' 변수에 쉐이더의 BaseName을 저장함.
+
 class CGraphicsShader :
     public CShader
 {
@@ -36,15 +38,15 @@ private:
 
 
     //Rasterizer
-    eRASTERIZER_TYPE                m_RSType;       //Rasterizer Type
+    eRASTERIZER_TYPE                m_eRSType;       //Rasterizer Type
     
     //Output Merger
     ////Depth & Stencil
-    eDEPTHSTENCIL_TYPE              m_DSType;      //DepthStencil Type
+    eDEPTHSTENCIL_TYPE              m_eDSType;      //DepthStencil Type
     ////Blend State
-    eBLENDSTATE_TYPE                m_BSType;
+    eBLENDSTATE_TYPE                m_eBSType;
 
-    eSHADER_DOMAIN                  m_ShaderDomain;
+    eSHADER_DOMAIN                  m_eShaderDomain;
 
 private:
 
@@ -54,13 +56,13 @@ public://INITIALIZE, Setter
     void CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, eSHADER_LOADTYPE _LoadType);
     void CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType);
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
-    void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_RSType = _eRS_TYPE; }
-    void SetDepthStencilState(eDEPTHSTENCIL_TYPE _eDS_TYPE) { m_DSType = _eDS_TYPE; }
-    void SetBlendState(eBLENDSTATE_TYPE _eBS_TYPE) { m_BSType = _eBS_TYPE; }
-    void SetShaderDomain(eSHADER_DOMAIN _eSD_TYPE) { m_ShaderDomain = _eSD_TYPE; }
+    void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_eRSType = _eRS_TYPE; }
+    void SetDepthStencilState(eDEPTHSTENCIL_TYPE _eDS_TYPE) { m_eDSType = _eDS_TYPE; }
+    void SetBlendState(eBLENDSTATE_TYPE _eBS_TYPE) { m_eBSType = _eBS_TYPE; }
+    void SetShaderDomain(eSHADER_DOMAIN _eSD_TYPE) { m_eShaderDomain = _eSD_TYPE; }
 
     //Getter
-    eSHADER_DOMAIN GetShaderDomain() const { return m_ShaderDomain; }
+    eSHADER_DOMAIN GetShaderDomain() const { return m_eShaderDomain; }
 
 public:
     virtual void BindData() override;

@@ -10,34 +10,50 @@
 //상수버퍼
 #include "CConstBuffer.h"
 
+#include <UtilLib_DLL/json/json.h>
+
 CComputeShader::CComputeShader()
 	: CShader(eRES_TYPE::COMPUTE_SHADER)
-	, m_uNumGroupX()
-	, m_uNumGroupY()
-	, m_uNumGroupZ()
-	, m_uNumThreadsPerGroupX()
-	, m_uNumThreadsPerGroupY()
-	, m_uNumThreadsPerGroupZ()
+	, m_uNumGroupArr{}
+	, m_uNumThreadPerGroupArr{1u, 1u, 1u}
 	, m_CBuffer_CSShared{}
 {
 }
 
-CComputeShader::CComputeShader(UINT _uThreadsX, UINT _uThreadsY, UINT _uThreadsZ)
+CComputeShader::CComputeShader(UINT _uThreadX, UINT _uThreadY, UINT _uThreadZ)
 	: CShader(eRES_TYPE::COMPUTE_SHADER)
-	, m_uNumThreadsPerGroupX(_uThreadsX)
-	, m_uNumThreadsPerGroupY(_uThreadsY)
-	, m_uNumThreadsPerGroupZ(_uThreadsZ)
-	, m_uNumGroupX()
-	, m_uNumGroupY()
-	, m_uNumGroupZ()
+	, m_uNumThreadPerGroupArr{_uThreadX, _uThreadY, _uThreadZ}
+	, m_uNumGroupArr{}
 	, m_CBuffer_CSShared{}
 {
 	//이 스레드 수는 분모로 사용되어야 하므로 스레드값이 0이 들어오면 에러 발생
-	assert(0u != _uThreadsX && 0u != _uThreadsY && 0u != _uThreadsZ);
+	assert(0u != _uThreadX && 0u != _uThreadY && 0u != _uThreadZ);
 }
+
 
 CComputeShader::~CComputeShader()
 {
+}
+
+bool CComputeShader::Save(const std::filesystem::path& _fileName)
+{
+	std::filesystem::path _path(RELATIVE_PATH::SHADER_COMPUTE::A);
+	_path /= _fileName;
+	std::ofstream fp(_path);
+
+	if (fp.is_open())
+	{
+		Json::Value jVal;
+
+		if (true == SaveJson(&jVal))
+		{
+			fp << jVal;
+		}
+
+		fp.close();
+	}
+
+	return false;
 }
 
 bool CComputeShader::Load(const std::filesystem::path& _fileName)
@@ -45,8 +61,52 @@ bool CComputeShader::Load(const std::filesystem::path& _fileName)
 	std::filesystem::path CSPath(RELATIVE_PATH::SHADER_COMPUTE::A);
 	CSPath /= _fileName;
 
+	std::ifstream fp(CSPath);
+
+	if (fp.is_open())
+	{
+		Json::Value jVal;
+
+		fp >> jVal;
+		fp.close();
+
+		SetRelativePath(_fileName);
+		SetKey(_fileName.string());
+
+		return LoadJson(&jVal);
+	}
+
+
+
+	return false;
+}
+
+bool CComputeShader::SaveJson(Json::Value* _jsonVal)
+{
+	if (false == CShader::SaveJson(_jsonVal))
+		return false;
+
+	Json::Value& jVal = *_jsonVal;
+
+	jVal[string(RES_INFO::SHADER::COMPUTE::Setting::ShaderFileName)] = GetRelativePath().string();
+	jVal[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)] = Json::Value(Json::arrayValue);
+
+	for (int i = 0; i < ThreadAxis::NumAxis; ++i)
+	{
+		jVal[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)].append(m_uNumThreadPerGroupArr[i]);
+	}
+
+	return true;
+}
+
+bool CComputeShader::LoadJson(Json::Value* _jsonVal)
+{
+	std::filesystem::path ShaderPath = RELATIVE_PATH::SHADER_COMPUTE::A;
+	ShaderPath /= GetRelativePath();
+	ShaderPath.replace_extension(RES_INFO::SHADER::Extension_ShaderSetting);
+
 	std::ios_base::openmode openMode = std::ios::in | std::ios::ate | std::ios::binary;
-	std::ifstream CSFile(CSPath, openMode);
+	std::ifstream CSFile(ShaderPath, openMode);
 
 	if (false == CSFile.is_open())
 		return false;
@@ -62,8 +122,6 @@ bool CComputeShader::Load(const std::filesystem::path& _fileName)
 	CSFile.close();
 
 	CreateShader(m_ShaderData.pByteCode, m_ShaderData.ByteCodeSize, eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE);
-	
-	SetKey(_fileName.string());
 
 	return true;
 }
@@ -133,9 +191,10 @@ void CComputeShader::CreateShader(const wstring& _strFileName, const string& _st
 
 void CComputeShader::CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _ElemCountZ)
 {
-	m_uNumGroupX = (UINT)ceilf((float)_ElemCountX / (float)m_uNumThreadsPerGroupX);
-	m_uNumGroupY = (UINT)ceilf((float)_ElemCountY / (float)m_uNumThreadsPerGroupY);
-	m_uNumGroupZ = (UINT)ceilf((float)_ElemCountZ / (float)m_uNumThreadsPerGroupZ);
+
+	m_uNumGroupArr[X] = (UINT)ceilf((float)_ElemCountX / (float)m_uNumThreadPerGroupArr[X]);
+	m_uNumGroupArr[Y] = (UINT)ceilf((float)_ElemCountY / (float)m_uNumThreadPerGroupArr[Y]);
+	m_uNumGroupArr[Z] = (UINT)ceilf((float)_ElemCountZ / (float)m_uNumThreadPerGroupArr[Z]);
 	
 
 	//쓰레드가 쓰레드 갯수와 맞아떨어지지 않을 수도 있다.
@@ -210,7 +269,7 @@ bool CComputeShader::Execute()
 
 	//처리해줄 쉐이더를 지정하고 계산 진행.
 	CONTEXT->CSSetShader(m_CS.Get(), nullptr, 0);
-	CONTEXT->Dispatch(m_uNumGroupX, m_uNumGroupY, m_uNumGroupZ);
+	CONTEXT->Dispatch(m_uNumGroupArr[X], m_uNumGroupArr[Y], m_uNumGroupArr[Z]);
 	
 	//처리가 완료되었으면 재정의된 UnBind를 통해 데이터 바인딩을 해제.
 	UnBindCS();

@@ -47,12 +47,12 @@ public:
     void CreateDefaultMaterial();
     void LoadDefaultTexture();
 
-    void CreateDefaultAnimAtlas();
+
 
 public:
     bool IsUpdated() const { return m_bResUpdated; }
 
-    void Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName);
+    Ptr<CRes> Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName);
 
     template <typename T>
     eRES_TYPE GetResType();

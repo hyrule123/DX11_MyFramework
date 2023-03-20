@@ -7,12 +7,17 @@ class CComputeShader :
 {
 public:
     CComputeShader();
-    CComputeShader(UINT _uThreadsX, UINT _uThreadsY, UINT _uThreadsZ);
+    CComputeShader(UINT _uThreadX, UINT _uThreadY, UINT _uThreadZ);
+
     virtual ~CComputeShader();
     CLONE_DISABLE(CComputeShader);
 
 public:
-    virtual bool Load(const std::filesystem::path& _fileName) final;
+    virtual bool Save(const std::filesystem::path& _fileName) override;
+    virtual bool Load(const std::filesystem::path& _fileName) override;
+
+    virtual bool SaveJson(Json::Value* _jsonVal) override;
+    virtual bool LoadJson(Json::Value* _jsonVal) override;
 
 private://미사용
     virtual void BindData() final {};
@@ -38,14 +43,10 @@ private:
     tMtrlScalarData                  m_CBuffer_CSShared;
 
     //그룹당 쓰레드 갯수. 생성자에서 초기화
-    UINT                        m_uNumThreadsPerGroupX;
-    UINT                        m_uNumThreadsPerGroupY;
-    UINT                        m_uNumThreadsPerGroupZ;
+    UINT                        m_uNumThreadPerGroupArr[NumAxis];
 
     //그룹 갯수.  쓰레드 갯수를 통해서 계산
-    UINT                        m_uNumGroupX;
-    UINT                        m_uNumGroupY;
-    UINT                        m_uNumGroupZ;
+    UINT                        m_uNumGroupArr[NumAxis];
     
 public:
     void CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_LOADTYPE _eLoadType);

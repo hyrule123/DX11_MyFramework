@@ -189,40 +189,6 @@ enum class eSHADER_DOMAIN
 	_END
 };
 
-namespace JSON_SHADERINFO
-{
-	constexpr std::string_view strJsonExtension = ".json";
-	constexpr std::string_view strShaderExtension = ".cso";
-
-
-	namespace COMMON_VAL
-	{
-		constexpr std::string_view strShaderName = "SHADER_NAME";
-		constexpr std::string_view ePipelineFlag = "eSHADER_PIPELINE_STAGE";
-	}
-
-	namespace GRAPHICS_SHADER
-	{
-		constexpr std::string_view arrName[(int)eSHADER_TYPE::END] =
-		{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
-
-		//각 쉐이더마다 들어가야할 설정값
-		
-		constexpr std::string_view eTopology = "D3D_PRIMITIVE_TOPOLOGY";
-		constexpr std::string_view eRSState = "eRASTERIZER_TYPE";
-		constexpr std::string_view eDSState = "eDEPTHSTENCIL_TYPE";
-		constexpr std::string_view eBState = "eBLENDSTATE_TYPE";
-		constexpr std::string_view eShaderDomain = "eSHADER_DOMAIN";
-	}
-
-	namespace COMPUTE_SHADER
-	{
-		constexpr std::string_view strName = "_C_";
-	}
-
-
-}
-
 
 enum class eAXIS2D : UINT
 {

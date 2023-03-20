@@ -11,6 +11,7 @@
 #include "CCS_Initialize.h"
 
 #include "CAnim2DAtlas.h"
+#include "CGameObject.h"
 
 #include <fstream>
 
@@ -41,7 +42,7 @@ void CResMgr::init()
 
 	LoadDefaultTexture();
 
-	CreateDefaultAnimAtlas();
+	
 }
 
 void CResMgr::CreateResClassTypeIndex()
@@ -259,7 +260,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 			const string& fileName = GSDirIter->path().extension().string();
 
 			//.json 파일일 경우 동적할당하고 로드한다.
-			if (string::npos != fileName.find(JSON_SHADERINFO::strJsonExtension))
+			if (string::npos != fileName.find(RES_INFO::SHADER::Extension_ShaderSetting))
 			{
 				Ptr<CGraphicsShader> pGS = new CGraphicsShader;
 				pGS->Load(GSDirIter->path().filename());
@@ -576,12 +577,48 @@ void CResMgr::LoadDefaultTexture()
 	Load<CTexture>(string(RES_DEFAULT::TEXTURE::NOISE_1));
 }
 
-void CResMgr::CreateDefaultAnimAtlas()
-{
 
-}
-
-void CResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName)
+Ptr<CRes> CResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName)
 {
+	Ptr<CRes> pRes;
+
+	switch (_eResType)
+	{
+	case eRES_TYPE::MESH:
+		pRes = new CMesh;
+		break;
+	case eRES_TYPE::MESHDATA:
+		pRes = new CMesh;
+		break;
+	case eRES_TYPE::MATERIAL:
+		pRes = new CMaterial;
+		break;
+	case eRES_TYPE::TEXTURE:
+		pRes = new CTexture;
+		break;
+	case eRES_TYPE::ANIM2D_ATLAS:
+		pRes = new CAnim2DAtlas;
+		break;
+	case eRES_TYPE::SOUND:
+		//아직 클래스가 없음
+		break;
+	case eRES_TYPE::PREFAB:
+		//TODO : 프리팹 저장 기능 나중에 구현해야 됨
+		//pRes = new CGameObject;
+		break;
+	case eRES_TYPE::GRAPHICS_SHADER:
+		pRes = new CGraphicsShader;
+		break;
+	case eRES_TYPE::COMPUTE_SHADER:
+		//TODO : 여기 마저 채우기
+		//pRes = new CComputeShader;
+		break;
+
+	default:
+		ERROR_MESSAGE(Unknown Resource Type!);
+		break;
+	}
+
+	return pRes;
 }
 

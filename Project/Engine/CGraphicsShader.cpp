@@ -25,10 +25,10 @@ namespace SHADER_EXTENSION
 CGraphicsShader::CGraphicsShader()
 	: CShader(eRES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
-	, m_RSType(eRASTERIZER_TYPE::CULL_BACK)
-	, m_DSType(eDEPTHSTENCIL_TYPE::LESS)
-	, m_BSType(eBLENDSTATE_TYPE::DEFAULT)
-	, m_ShaderDomain(eSHADER_DOMAIN::_UNDEFINED)
+	, m_eRSType(eRASTERIZER_TYPE::CULL_BACK)
+	, m_eDSType(eDEPTHSTENCIL_TYPE::LESS)
+	, m_eBSType(eBLENDSTATE_TYPE::DEFAULT)
+	, m_eShaderDomain(eSHADER_DOMAIN::_UNDEFINED)
 	, m_ShaderData{}
 {
 }
@@ -54,37 +54,80 @@ bool CGraphicsShader::Save(const std::filesystem::path& _fileName)
 
 bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 {
+	if (false == CShader::SaveJson(_jsonVal))
+		return false;
+
+	Json::Value& jVal = *_jsonVal;
+
 	string comment = "//Enumeration Values are at define.h of Engine project";
-	(*_jsonVal).setComment(comment, Json::CommentPlacement::commentBefore);
+	jVal.setComment(comment, Json::CommentPlacement::commentAfter);
 
-	(*_jsonVal)[string(JSON_SHADERINFO::COMMON_VAL::strShaderName)] = "";
+	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ShaderBaseName)] = GetName();
 
-	(*_jsonVal)[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)] = eSHADER_PIPELINE_STAGE::__NONE;
+	//순회를 돌면서 비트마스크를 만들어준뒤 json 파일에 저장한다.
+	int flagPipeline = 0;
+	for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
+	{
+		bool bExist = false;
 
-	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eTopology)] = (int)D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eRSState)] = (int)eRASTERIZER_TYPE::CULL_BACK;
-	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eDSState)] = (int)eDEPTHSTENCIL_TYPE::LESS;
-	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eBState)] = (int)eBLENDSTATE_TYPE::DEFAULT;
-	(*_jsonVal)[string(JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain)] = (int)eSHADER_DOMAIN::_UNDEFINED;
+		switch ((eSHADER_TYPE)i)
+		{
+		case eSHADER_TYPE::__VERTEX:
+			if (nullptr != m_VS.Get())
+				bExist = true;
+			break;
+		case eSHADER_TYPE::__HULL:
+			if(nullptr != m_HS.Get())
+				bExist = true;
+			break;
+		case eSHADER_TYPE::__DOMAIN:
+			if (nullptr != m_DS.Get())
+				bExist = true;
+			break;
+		case eSHADER_TYPE::__GEOMETRY:
+			if (nullptr != m_GS.Get())
+				bExist = true;
+			break;
+		case eSHADER_TYPE::__PIXEL:
+			if (nullptr != m_PS.Get())
+				bExist = true;
+			break;
 
+		default:
+			break;
+		}
 
-	return false;
+		if (true == bExist)
+			flagPipeline |= 1 << i;
+	}
+	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ePipelineFlag)] = flagPipeline;
+
+	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eTopology)] = (int)m_eTopology;
+
+	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eRSState)] = (int)m_eRSType;
+	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eDSState)] = (int)m_eDSType;
+	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eBState)] = (int)m_eBSType;
+	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eShaderDomain)] = (int)m_eShaderDomain;
+
+	return true;
 }
 
 bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 {
 	const Json::Value& jVal = *_jsonVal;
 
-	const string& strShaderNameBase = jVal[string(JSON_SHADERINFO::COMMON_VAL::strShaderName)].asString();
+	const string& strShaderNameBase = jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ShaderBaseName)].asString();
 
+	//쉐이더의 베이스 명칭을 CEntity::Name에 저장한다.
+	SetName(strShaderNameBase);
 
-	m_BSType = (eBLENDSTATE_TYPE)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eBState)].asInt();
-	m_DSType = (eDEPTHSTENCIL_TYPE)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eDSState)].asInt();
-	m_RSType = (eRASTERIZER_TYPE)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eRSState)].asInt();
-	m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eTopology)].asInt();
-	m_ShaderDomain = (eSHADER_DOMAIN)jVal[string(JSON_SHADERINFO::GRAPHICS_SHADER::eShaderDomain)].asInt();
+	m_eBSType = (eBLENDSTATE_TYPE)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eBState)].asInt();
+	m_eDSType = (eDEPTHSTENCIL_TYPE)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eDSState)].asInt();
+	m_eRSType = (eRASTERIZER_TYPE)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eRSState)].asInt();
+	m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eTopology)].asInt();
+	m_eShaderDomain = (eSHADER_DOMAIN)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eShaderDomain)].asInt();
 
-	if (eSHADER_DOMAIN::_UNDEFINED == m_ShaderDomain)
+	if (eSHADER_DOMAIN::_UNDEFINED == m_eShaderDomain)
 	{
 		string errorMessage = "The shader domain value of ";
 		errorMessage += strShaderNameBase;
@@ -94,7 +137,7 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 	}
 
 
-	int flagPipeline = jVal[string(JSON_SHADERINFO::COMMON_VAL::ePipelineFlag)].asInt();
+	int flagPipeline = jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ePipelineFlag)].asInt();
 	int ShaderOrder = 0;
 
 
@@ -110,7 +153,7 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 
 			shaderPath /= "S_";
 			shaderPath += std::to_string(ShaderOrder);
-			shaderPath += JSON_SHADERINFO::GRAPHICS_SHADER::arrName[i];
+			shaderPath += RES_INFO::SHADER::GRAPHICS::PrefixArr[i];
 			shaderPath += strShaderNameBase;
 
 			std::ifstream shaderCode(shaderPath, openFlag);
@@ -536,11 +579,11 @@ void CGraphicsShader::BindData()
 
 
 	//Set Rasterizer
-	pContext->RSSetState(CDevice::GetInst()->GetRSState(m_RSType));
+	pContext->RSSetState(CDevice::GetInst()->GetRSState(m_eRSType));
 
 	//Set Output Merger(Depth Stencil, Blend)
-	pContext->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType), 0);
-	pContext->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType), Vec4(0.f, 0.f, 0.f, 0.f), UINT_MAX);
+	pContext->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_eDSType), 0);
+	pContext->OMSetBlendState(CDevice::GetInst()->GetBSState(m_eBSType), Vec4(0.f, 0.f, 0.f, 0.f), UINT_MAX);
 }
 
 
