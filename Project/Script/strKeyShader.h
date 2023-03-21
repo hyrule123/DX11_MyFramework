@@ -8,7 +8,7 @@
 //=========================================================
 
 
-namespace SHADER
+namespace RES_SHADER
 {
 	namespace GRAPHICS
 	{

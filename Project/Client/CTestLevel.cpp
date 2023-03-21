@@ -47,7 +47,7 @@ void CreateTestLevel()
 
 	Ptr<CMaterial> SCUnitMtrl = new CMaterial;
 
-	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(RES_TEXTURE::arrKey[(int)RES_TEXTURE::Idx::MARINE_BMP]));
+	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(RES_TEXTURE::MARINE_BMP));
 
 
 	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(RES_SHADER::GRAPHICS::SCUNIT);

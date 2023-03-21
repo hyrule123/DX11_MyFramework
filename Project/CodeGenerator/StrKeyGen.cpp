@@ -265,6 +265,9 @@ void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const
 						{
 							CodeLine = PresetStr::NameSpace;
 
+							if (prevPath.empty())
+								CodeLine += string("RES_");
+
 							string UpperCase = curPath.parent_path().filename().string();
 							transform(UpperCase.begin(), UpperCase.end(), UpperCase.begin(), ::toupper);
 

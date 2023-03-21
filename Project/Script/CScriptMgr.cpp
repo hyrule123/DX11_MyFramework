@@ -27,12 +27,12 @@ CScriptMgr::~CScriptMgr()
 
 void CScriptMgr::init()
 {
-	m_umapScript[SCRIPTS::BULLET] = new CScript_Bullet;
-	m_umapScript[SCRIPTS::CAMERAMOVE] = new CScript_CameraMove;
-	m_umapScript[SCRIPTS::PLAYER] = new CScript_Player;
-	m_umapScript[SCRIPTS::DEBUG] = new CScript_Debug;
-	m_umapScript[SCRIPTS::MOUSECURSOR] = new CScript_MouseCursor;
-	m_umapScript[SCRIPTS::TESTOBJ] = new CScript_TestObj;
+m_umapScript[SCRIPTS::BULLET] = new CScript_Bullet;
+m_umapScript[SCRIPTS::CAMERAMOVE] = new CScript_CameraMove;
+m_umapScript[SCRIPTS::PLAYER] = new CScript_Player;
+m_umapScript[SCRIPTS::DEBUG] = new CScript_Debug;
+m_umapScript[SCRIPTS::MOUSECURSOR] = new CScript_MouseCursor;
+m_umapScript[SCRIPTS::TESTOBJ] = new CScript_TestObj;
 }
 
 CScript* CScriptMgr::GetNewScript(const string& _strKey)
