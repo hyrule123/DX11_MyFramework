@@ -5,6 +5,9 @@
 
 #include <Engine/strKeyDefault.h>
 
+
+#include "MacroFunc.h"
+
 int g_iIndentation = 0;
 
 //한글 경로 지원 안함.(어차피 여기서 지원해도 Unity Build에서 지원 안됨)
@@ -13,45 +16,50 @@ int g_iIndentation = 0;
 //시작 지점 = $(SolutionDir) : 상대 경로로 작업해주면 된다.
 int main(int argc, char* argv[])
 {
-    //argument가 만족되지 않으면 디버그 모드로 작동
-    if (1 == argc)
+    //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
+    CreateScriptCode();
+
+    CreateShaderCode();
+
+
+    vector<string> vecExtension;
+    for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
     {
-        MessageBoxA(nullptr, "No Parameters sent.\nWork in Debug Mode.", "Notification", MB_OK);
-
-        //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
-        CreateScriptCode();
-        CreateShaderCode();
-
-
-        vector<string> vecExtension;
-        for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
-        {
-            vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
-        }
-        CreateStrKey(RES_INFO::TEXTURE::DirName, "strKeyTexture.h", vecExtension);
-
-        //MessageBoxA(nullptr, argv[0], "Test", MB_OK);
-        //CreateShaderCode();
-        return 0;
+        vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
     }
+    CreateStrKey_Hierarchy(RES_INFO::TEXTURE::DirName, PresetPath::strKeyTexture, vecExtension);
+
+
+
+    ////argument가 만족되지 않으면 디버그 모드로 작동
+    //if (1 == argc)
+    //{
+    //    MessageBoxA(nullptr, "No Parameters sent.\nWork in Debug Mode.", "Notification", MB_OK);
+
+
+
+    //    //MessageBoxA(nullptr, argv[0], "Test", MB_OK);
+    //    //CreateShaderCode();
+    //    return 0;
+    //}
 
 
     //작업 타입을 비교 후 대응되는 함수를 호출한다.
-    if (0 == strcmp("Script", argv[1]))
-    {
-        //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
-        CreateScriptCode();
-        CreateShaderCode();
+    //if (0 == strcmp("Script", argv[1]))
+    //{
+    //    //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
+    //    CreateScriptCode();
+    //    CreateShaderCode();
 
 
-        vector<string> vecExtension;
-        for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
-        {
-            vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
-        }
-        CreateStrKey(RES_INFO::TEXTURE::DirName, "strKeyTexture.h", vecExtension);
-    }
-        
+    //    vector<string> vecExtension;
+    //    for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
+    //    {
+    //        vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
+    //    }
+    //    //CreateStrKey(RES_INFO::TEXTURE::DirName, "strKeyTexture.h", vecExtension);
+    //}
+    //    
 
     return 0;
 }

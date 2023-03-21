@@ -8,37 +8,726 @@
 //=========================================================
 
 
-namespace RES_TEXTURE
+namespace TEXTURE
 {
-	enum class Idx
+	constexpr const std::string_view BEHEADED_PNG = "beheaded.png";
+	constexpr const std::string_view BEHEADED_N_PNG = "beheaded_n.png";
+	constexpr const std::string_view CORSAIR_BMP = "corsair.bmp";
+	constexpr const std::string_view DEFAULT_PNG = "Default.png";
+	constexpr const std::string_view FIGHTER_BMP = "Fighter.bmp";
+	constexpr const std::string_view HOS_BMP = "HOS.bmp";
+	constexpr const std::string_view HOS_PNG = "HOS.png";
+	constexpr const std::string_view LINK_PNG = "link.png";
+	constexpr const std::string_view MARINE_BMP = "marine.bmp";
+	namespace NOISE
 	{
-		BEHEADED_PNG,
-		BEHEADED_N_PNG,
-		CORSAIR_BMP,
-		DEFAULT_PNG,
-		FIGHTER_BMP,
-		HOS_BMP,
-		HOS_PNG,
-		LINK_PNG,
-		MARINE_BMP,
-		TILE_BMP,
-		TRILOB_REAVER__BMP,
-		NOISE_01_PNG,
-		END
-	};
-	constexpr const std::string_view arrKey[] = 
+		constexpr const std::string_view NOISE_01_PNG = "Noise/noise_01.png";
+	}
+	namespace SC
 	{
-		"beheaded.png",
-		"beheaded_n.png",
-		"corsair.bmp",
-		"Default.png",
-		"Fighter.bmp",
-		"HOS.bmp",
-		"HOS.png",
-		"link.png",
-		"marine.bmp",
-		"TILE.bmp",
-		"trilob(Reaver).bmp",
-		"noise/noise_01.png",
-	};
+		constexpr const std::string_view BLINK_BMP = "SC/blink.bmp";
+		namespace CURSOR
+		{
+			constexpr const std::string_view CURSORDRAG_BMP = "SC/Cursor/CursorDrag.bmp";
+			constexpr const std::string_view CURSORILLEGAL_BMP = "SC/Cursor/CursorIllegal.bmp";
+			constexpr const std::string_view CURSORMAGG_BMP = "SC/Cursor/CursorMagG.bmp";
+			constexpr const std::string_view CURSORMAGR_BMP = "SC/Cursor/CursorMagR.bmp";
+			constexpr const std::string_view CURSORMAGY_BMP = "SC/Cursor/CursorMagY.bmp";
+			constexpr const std::string_view CURSORMAIN_BMP = "SC/Cursor/CursorMain.bmp";
+			constexpr const std::string_view CURSORSCROLLDOWN_BMP = "SC/Cursor/CursorScrollDown.bmp";
+			constexpr const std::string_view CURSORSCROLLDOWNLEFT_BMP = "SC/Cursor/CursorScrollDownLeft.bmp";
+			constexpr const std::string_view CURSORSCROLLDOWNRIGHT_BMP = "SC/Cursor/CursorScrollDownRight.bmp";
+			constexpr const std::string_view CURSORSCROLLLEFT_BMP = "SC/Cursor/CursorScrollLeft.bmp";
+			constexpr const std::string_view CURSORSCROLLRIGHT_BMP = "SC/Cursor/CursorScrollRight.bmp";
+			constexpr const std::string_view CURSORSCROLLUP_BMP = "SC/Cursor/CursorScrollUp.bmp";
+			constexpr const std::string_view CURSORSCROLLUPLEFT_BMP = "SC/Cursor/CursorScrollUpLeft.bmp";
+			constexpr const std::string_view CURSORSCROLLUPRIGHT_BMP = "SC/Cursor/CursorScrollUpRight.bmp";
+			constexpr const std::string_view CURSORTARGETG_BMP = "SC/Cursor/CursorTargetG.bmp";
+			constexpr const std::string_view CURSORTARGETN_BMP = "SC/Cursor/CursorTargetN.bmp";
+			constexpr const std::string_view CURSORTARGETR_BMP = "SC/Cursor/CursorTargetR.bmp";
+			constexpr const std::string_view CURSORTARGETY_BMP = "SC/Cursor/CursorTargetY.bmp";
+		}
+		namespace DLGS
+		{
+			constexpr const std::string_view PROTOSS_BMP = "SC/dlgs/protoss.bmp";
+			constexpr const std::string_view TERRAN_BMP = "SC/dlgs/terran.bmp";
+			constexpr const std::string_view TILE_BMP = "SC/dlgs/tile.bmp";
+			constexpr const std::string_view ZERG_BMP = "SC/dlgs/zerg.bmp";
+		}
+		namespace GAME
+		{
+			constexpr const std::string_view ICON_BMP = "SC/Game/icon.bmp";
+			namespace BULLET
+			{
+				constexpr const std::string_view BLASTSCAN_BMP = "SC/Unit/Bullet/BlastScan.bmp";
+				constexpr const std::string_view CIRCLE14_BMP = "SC/Unit/Bullet/Circle14.bmp";
+				constexpr const std::string_view DRAGBULL_BMP = "SC/Unit/Bullet/DragBull.bmp";
+				constexpr const std::string_view EPBBUL_BMP = "SC/Unit/Bullet/EPBBul.bmp";
+				constexpr const std::string_view EPHFILE_UNKNOWN__BMP = "SC/Unit/Bullet/EPHFile(Unknown).bmp";
+				constexpr const std::string_view EPHFIRE_UNKNOWN__BMP = "SC/Unit/Bullet/ephFire(Unknown).bmp";
+				constexpr const std::string_view EXPLO1_BMP = "SC/Unit/Bullet/Explo1.bmp";
+				constexpr const std::string_view EYCBULL_YAMATO__BMP = "SC/Unit/Bullet/EYCBull(Yamato).bmp";
+				constexpr const std::string_view GEMINI_BMP = "SC/Unit/Bullet/Gemini.bmp";
+				constexpr const std::string_view GRENADES_BMP = "SC/Unit/Bullet/Grenades.bmp";
+				constexpr const std::string_view HKS_BMP = "SC/Unit/Bullet/HKS.bmp";
+				constexpr const std::string_view MISSILE_BMP = "SC/Unit/Bullet/Missile.bmp";
+				constexpr const std::string_view PARASITE_BMP = "SC/Unit/Bullet/Parasite.bmp";
+				constexpr const std::string_view PRRIPHIT_BMP = "SC/Unit/Bullet/PRRIPHIT.bmp";
+				constexpr const std::string_view PSIBEAM_BMP = "SC/Unit/Bullet/PSIBeam.bmp";
+				constexpr const std::string_view PSPARK_SCOUT__BMP = "SC/Unit/Bullet/PSpark(Scout).bmp";
+				constexpr const std::string_view SCVSPARK_BMP = "SC/Unit/Bullet/SCVSpark.bmp";
+				constexpr const std::string_view SHOCKBOMB_BMP = "SC/Unit/Bullet/ShockBomb.bmp";
+				constexpr const std::string_view SMMISSLE_VALKIRYE__BMP = "SC/Unit/Bullet/smmissle(Valkirye).bmp";
+				constexpr const std::string_view SPIKE_LURKER__BMP = "SC/Unit/Bullet/Spike(Lurker).bmp";
+				constexpr const std::string_view SPORE2_BMP = "SC/Unit/Bullet/Spore2.bmp";
+				constexpr const std::string_view SPORES_MUTALISK__BMP = "SC/Unit/Bullet/Spores(Mutalisk).bmp";
+				constexpr const std::string_view SQUIB1_BMP = "SC/Unit/Bullet/Squib1.bmp";
+				constexpr const std::string_view SQUIP2_BMP = "SC/Unit/Bullet/Squip2.bmp";
+				constexpr const std::string_view TENTACLE_SUNKEN__BMP = "SC/Unit/Bullet/Tentacle(Sunken).bmp";
+				constexpr const std::string_view TSPARK_TERRANSPARK__BMP = "SC/Unit/Bullet/TSpark(TerranSpark).bmp";
+				constexpr const std::string_view ZSPARK_ZERGSPARK__BMP = "SC/Unit/Bullet/ZSpark(ZergSpark).bmp";
+			}
+			namespace CMDBUTTONS
+			{
+				constexpr const std::string_view CMDICONS_BMP = "SC/Unit/CmdButtons/cmdicons.bmp";
+				constexpr const std::string_view PCMDBTNS_BMP = "SC/Unit/CmdButtons/pcmdbtns.bmp";
+				constexpr const std::string_view TCMDBTNS_BMP = "SC/Unit/CmdButtons/tcmdbtns.bmp";
+				constexpr const std::string_view ZCMDBTNS_BMP = "SC/Unit/CmdButtons/zcmdbtns.bmp";
+			}
+			namespace NEUTRAL
+			{
+				constexpr const std::string_view ACRITTER_BMP = "SC/Unit/Neutral/acritter.bmp";
+				constexpr const std::string_view BCRITTER_BMP = "SC/Unit/Neutral/bcritter.bmp";
+				constexpr const std::string_view CBASHAD_CBATTLESHADOW__BMP = "SC/Unit/Neutral/cbashad(CBattleShadow).bmp";
+				constexpr const std::string_view CBATTLE_CRASHEDBATTLE__BMP = "SC/Unit/Neutral/CBattle(CrashedBattle).bmp";
+				constexpr const std::string_view CIVILIAN_BMP = "SC/Unit/Neutral/Civilian.bmp";
+				constexpr const std::string_view DATADISK_BMP = "SC/Unit/Neutral/datadisk.bmp";
+				constexpr const std::string_view FLAG_BMP = "SC/Unit/Neutral/flag.bmp";
+				constexpr const std::string_view GASORB_BMP = "SC/Unit/Neutral/gasorb.bmp";
+				constexpr const std::string_view GASSAC_BMP = "SC/Unit/Neutral/gassac.bmp";
+				constexpr const std::string_view GASTANK_BMP = "SC/Unit/Neutral/gastank.bmp";
+				constexpr const std::string_view GENERATE_GENERATOR__BMP = "SC/Unit/Neutral/Generate(Generator).bmp";
+				constexpr const std::string_view GEYSER_BMP = "SC/Unit/Neutral/geyser.bmp";
+				constexpr const std::string_view GEYSHAD_BMP = "SC/Unit/Neutral/geyshad.bmp";
+				constexpr const std::string_view ICRITTER_BMP = "SC/Unit/Neutral/ICritter.bmp";
+				constexpr const std::string_view ION_BMP = "SC/Unit/Neutral/ion.bmp";
+				constexpr const std::string_view JCRITTER_BMP = "SC/Unit/Neutral/jcritter.bmp";
+				constexpr const std::string_view KCRITTER_BMP = "SC/Unit/Neutral/KCritter.bmp";
+				constexpr const std::string_view KERRCHRY_BMP = "SC/Unit/Neutral/kerrchry.bmp";
+				constexpr const std::string_view KERREGG_BMP = "SC/Unit/Neutral/kerregg.bmp";
+				constexpr const std::string_view KHALIS_BMP = "SC/Unit/Neutral/Khalis.bmp";
+				constexpr const std::string_view KHCHUNK_BMP = "SC/Unit/Neutral/khchunk.bmp";
+				constexpr const std::string_view KHYAD01_BMP = "SC/Unit/Neutral/khyad01.bmp";
+				constexpr const std::string_view MAPREV_BMP = "SC/Unit/Neutral/maprev.bmp";
+				constexpr const std::string_view MIN01_BMP = "SC/Unit/Neutral/min01.bmp";
+				constexpr const std::string_view MIN01SHA_BMP = "SC/Unit/Neutral/min01sha.bmp";
+				constexpr const std::string_view MIN02_BMP = "SC/Unit/Neutral/min02.bmp";
+				constexpr const std::string_view MIN02SHA_BMP = "SC/Unit/Neutral/min02sha.bmp";
+				constexpr const std::string_view MIN03_BMP = "SC/Unit/Neutral/min03.bmp";
+				constexpr const std::string_view MIN03SHA_BMP = "SC/Unit/Neutral/min03sha.bmp";
+				constexpr const std::string_view NACSHAD_BMP = "SC/Unit/Neutral/nacshad.bmp";
+				constexpr const std::string_view NBCSHAD_BMP = "SC/Unit/Neutral/nbcshad.bmp";
+				constexpr const std::string_view NCICSHAD_BMP = "SC/Unit/Neutral/ncicShad.bmp";
+				constexpr const std::string_view NCISHAD_BMP = "SC/Unit/Neutral/ncishad.bmp";
+				constexpr const std::string_view NCKSHAD_BMP = "SC/Unit/Neutral/nckShad.bmp";
+				constexpr const std::string_view NDDSHA2_BMP = "SC/Unit/Neutral/nddsha2.bmp";
+				constexpr const std::string_view NDDSHAD_BMP = "SC/Unit/Neutral/nddShad.bmp";
+				constexpr const std::string_view NFLSHA2_BMP = "SC/Unit/Neutral/nflsha2.bmp";
+				constexpr const std::string_view NFLSHAD_BMP = "SC/Unit/Neutral/nflshad.bmp";
+				constexpr const std::string_view NGCSHAD_BMP = "SC/Unit/Neutral/ngcshad.bmp";
+				constexpr const std::string_view NGOSHAD_BMP = "SC/Unit/Neutral/ngoshad.bmp";
+				constexpr const std::string_view NGSSHAD_BMP = "SC/Unit/Neutral/ngsshad.bmp";
+				constexpr const std::string_view NJCSHAD_BMP = "SC/Unit/Neutral/njcshad.bmp";
+				constexpr const std::string_view NKESHA2_BMP = "SC/Unit/Neutral/nkesha2.bmp";
+				constexpr const std::string_view NKESHAD_BMP = "SC/Unit/Neutral/nkeShad.bmp";
+				constexpr const std::string_view NKHSHA2_BMP = "SC/Unit/Neutral/nkhsha2.bmp";
+				constexpr const std::string_view NKHSHAD_BMP = "SC/Unit/Neutral/nkhShad.bmp";
+				constexpr const std::string_view NKOSHAD_BMP = "SC/Unit/Neutral/nkoshad.bmp";
+				constexpr const std::string_view NORSHAD_BMP = "SC/Unit/Neutral/norshad.bmp";
+				constexpr const std::string_view NPSSHA2_BMP = "SC/Unit/Neutral/npssha2.bmp";
+				constexpr const std::string_view NPSSHAD_BMP = "SC/Unit/Neutral/npsshad.bmp";
+				constexpr const std::string_view NRCDEATH_BMP = "SC/Unit/Neutral/NrcDeath.bmp";
+				constexpr const std::string_view ORECHUNK_BMP = "SC/Unit/Neutral/orechunk.bmp";
+				constexpr const std::string_view PSIDISR_BMP = "SC/Unit/Neutral/PsiDisr.bmp";
+				constexpr const std::string_view PSIEMIT_BMP = "SC/Unit/Neutral/psiemit.bmp";
+				constexpr const std::string_view SCRITTER_BMP = "SC/Unit/Neutral/SCritter.bmp";
+				constexpr const std::string_view STARBASE_BMP = "SC/Unit/Neutral/starbase.bmp";
+				constexpr const std::string_view STASIS_BMP = "SC/Unit/Neutral/stasis.bmp";
+				constexpr const std::string_view TEMPLE_BMP = "SC/Unit/Neutral/temple.bmp";
+				constexpr const std::string_view TGNSHAD_BMP = "SC/Unit/Neutral/tgnShad.bmp";
+				constexpr const std::string_view TPDSHAD_BMP = "SC/Unit/Neutral/tpdShad.bmp";
+				constexpr const std::string_view URAJ_BMP = "SC/Unit/Neutral/Uraj.bmp";
+			}
+			namespace PROTOSS
+			{
+				constexpr const std::string_view ARBITER_BMP = "SC/Unit/Protoss/arbiter.bmp";
+				constexpr const std::string_view ARCHIVES_BMP = "SC/Unit/Protoss/archives.bmp";
+				constexpr const std::string_view ARCHON_BMP = "SC/Unit/Protoss/archon.bmp";
+				constexpr const std::string_view ARCHONT_BMP = "SC/Unit/Protoss/archont.bmp";
+				constexpr const std::string_view ARCHONT2_BMP = "SC/Unit/Protoss/archont2.bmp";
+				constexpr const std::string_view ASSIM_BMP = "SC/Unit/Protoss/assim.bmp";
+				constexpr const std::string_view BICCON_OBSERVERATORY__BMP = "SC/Unit/Protoss/biccon(observeratory).bmp";
+				constexpr const std::string_view CARRIER_BMP = "SC/Unit/Protoss/carrier.bmp";
+				constexpr const std::string_view CITADEL_BMP = "SC/Unit/Protoss/citadel.bmp";
+				constexpr const std::string_view CORSAIR_BMP = "SC/Unit/Protoss/corsair.bmp";
+				constexpr const std::string_view DARCHN_BMP = "SC/Unit/Protoss/darchn.bmp";
+				constexpr const std::string_view DARCHNT_BMP = "SC/Unit/Protoss/darchnT.bmp";
+				constexpr const std::string_view DARCHNT2_BMP = "SC/Unit/Protoss/darchnT2.bmp";
+				constexpr const std::string_view DRAGOON_BMP = "SC/Unit/Protoss/dragoon.bmp";
+				constexpr const std::string_view DTEMPLAR_BMP = "SC/Unit/Protoss/dtemplar.bmp";
+				constexpr const std::string_view FORGE_BMP = "SC/Unit/Protoss/forge.bmp";
+				constexpr const std::string_view FORGET_BMP = "SC/Unit/Protoss/forget.bmp";
+				constexpr const std::string_view GATEWAY_BMP = "SC/Unit/Protoss/gateway.bmp";
+				constexpr const std::string_view GENCORE_BMP = "SC/Unit/Protoss/gencore.bmp";
+				constexpr const std::string_view GENCORET_BMP = "SC/Unit/Protoss/gencoret.bmp";
+				constexpr const std::string_view INTERCEP_BMP = "SC/Unit/Protoss/intercep.bmp";
+				namespace LOWM
+				{
+					constexpr const std::string_view ARBITER_BMP = "SC/Unit/Protoss/lowm/arbiter.bmp";
+					constexpr const std::string_view SCOUT_BMP = "SC/Unit/Protoss/lowm/scout.bmp";
+					constexpr const std::string_view SHUTTLE_BMP = "SC/Unit/Protoss/lowm/shuttle.bmp";
+					constexpr const std::string_view TEXTURE_BUILDCOMPLETE__BMP = "SC/Unit/Protoss/lowm/texture(BuildComplete).bmp";
+					constexpr const std::string_view WITNESS_OBSERVER__BMP = "SC/Unit/Protoss/lowm/witness(observer).bmp";
+				}
+				constexpr const std::string_view NEXUS_BMP = "SC/Unit/Protoss/nexus.bmp";
+				constexpr const std::string_view PACSHAD_BMP = "SC/Unit/Protoss/pacshad.bmp";
+				constexpr const std::string_view PASSHAD_BMP = "SC/Unit/Protoss/passhad.bmp";
+				constexpr const std::string_view PAUSHAD_BMP = "SC/Unit/Protoss/paushad.bmp";
+				constexpr const std::string_view PB1GLOW_BMP = "SC/Unit/Protoss/pb1glow.bmp";
+				constexpr const std::string_view PBAGLOW_MAYBESHIELDBATTERY__BMP = "SC/Unit/Protoss/pbaglow(maybeShieldBattery).bmp";
+				constexpr const std::string_view PBAGLOW_BMP = "SC/Unit/Protoss/pbaglow.bmp";
+				constexpr const std::string_view PBASHAD_BMP = "SC/Unit/Protoss/pbashad.bmp";
+				constexpr const std::string_view PBESHAD_BMP = "SC/Unit/Protoss/pbeshad.bmp";
+				constexpr const std::string_view PCIRGLOW_BMP = "SC/Unit/Protoss/pcirglow.bmp";
+				constexpr const std::string_view PCISHAD_BMP = "SC/Unit/Protoss/pcishad.bmp";
+				constexpr const std::string_view PDADEATH_BMP = "SC/Unit/Protoss/PdaDeath.bmp";
+				constexpr const std::string_view PDRDEATH_DRAGOONDEATH__BMP = "SC/Unit/Protoss/pdrdeath(DragoonDeath).bmp";
+				constexpr const std::string_view PDRSHAD_BMP = "SC/Unit/Protoss/pdrShad.bmp";
+				constexpr const std::string_view PFOSHAD_BMP = "SC/Unit/Protoss/pfoshad.bmp";
+				constexpr const std::string_view PGASHAD_GATEWAY__BMP = "SC/Unit/Protoss/pgashad(Gateway).bmp";
+				constexpr const std::string_view PGASHAD_BMP = "SC/Unit/Protoss/pgaShad.bmp";
+				constexpr const std::string_view PGCSHAD_BMP = "SC/Unit/Protoss/pgcShad.bmp";
+				constexpr const std::string_view PHOTON_BMP = "SC/Unit/Protoss/photon.bmp";
+				constexpr const std::string_view PMARKER_BMP = "SC/Unit/Protoss/pmarker.bmp";
+				constexpr const std::string_view PNEGLOW_NEXUS__BMP = "SC/Unit/Protoss/pneglow(Nexus).bmp";
+				constexpr const std::string_view PNESHAD_NEXUS__BMP = "SC/Unit/Protoss/pneshad(Nexus).bmp";
+				constexpr const std::string_view PNESHAD_BMP = "SC/Unit/Protoss/pneShad.bmp";
+				constexpr const std::string_view PPBSHAD_BMP = "SC/Unit/Protoss/ppbShad.bmp";
+				constexpr const std::string_view PPYSHAD_PYLON__BMP = "SC/Unit/Protoss/ppyshad(Pylon).bmp";
+				constexpr const std::string_view PRISM_ARBITERTRIBUNAL__BMP = "SC/Unit/Protoss/prism(ArbiterTribunal).bmp";
+				constexpr const std::string_view PROBE_BMP = "SC/Unit/Protoss/probe.bmp";
+				constexpr const std::string_view PROSHAD_UNKNOWN__BMP = "SC/Unit/Protoss/proshad(unknown).bmp";
+				constexpr const std::string_view PSGGLOW_STARGATEGLOW__BMP = "SC/Unit/Protoss/psgglow(StargateGlow).bmp";
+				constexpr const std::string_view PSGSHAD_STARGATE__BMP = "SC/Unit/Protoss/psgshad(Stargate).bmp";
+				constexpr const std::string_view PSGSHAD_BMP = "SC/Unit/Protoss/psgShad.bmp";
+				constexpr const std::string_view PSTSHAD_ROBOTICSSUPPORTBAY__BMP = "SC/Unit/Protoss/pstshad(RoboticsSupportBay).bmp";
+				constexpr const std::string_view PSTSHAD_BMP = "SC/Unit/Protoss/pstShad.bmp";
+				constexpr const std::string_view PTESHAD_PROBE__BMP = "SC/Unit/Protoss/pteshad(Probe).bmp";
+				constexpr const std::string_view PTRSHAD_UNKNOWN__BMP = "SC/Unit/Protoss/ptrshad(Unknown).bmp";
+				constexpr const std::string_view PWASHAD_UNKNOWN__BMP = "SC/Unit/Protoss/pwashad(Unknown).bmp";
+				constexpr const std::string_view PWASHAD_BMP = "SC/Unit/Protoss/pwaShad.bmp";
+				constexpr const std::string_view PWGSHAD_BMP = "SC/Unit/Protoss/pwgShad.bmp";
+				constexpr const std::string_view PXTSHAD_BMP = "SC/Unit/Protoss/pxtShad.bmp";
+				constexpr const std::string_view PYLON_BMP = "SC/Unit/Protoss/pylon.bmp";
+				constexpr const std::string_view PZESHAD_BMP = "SC/Unit/Protoss/pzeshad.bmp";
+				constexpr const std::string_view ROBOTIC_BMP = "SC/Unit/Protoss/robotic.bmp";
+				constexpr const std::string_view SAPPER_SCARAB__BMP = "SC/Unit/Protoss/sapper(Scarab).bmp";
+				constexpr const std::string_view SBATTERY_BMP = "SC/Unit/Protoss/sbattery.bmp";
+				constexpr const std::string_view SCOUT_BMP = "SC/Unit/Protoss/scout.bmp";
+				constexpr const std::string_view SHUTTLE_BMP = "SC/Unit/Protoss/shuttle.bmp";
+				constexpr const std::string_view STARGATE_BMP = "SC/Unit/Protoss/stargate.bmp";
+				constexpr const std::string_view STASIS_ROBOTICSSUPPORTBAY__BMP = "SC/Unit/Protoss/stasis(RoboticsSupportBay).bmp";
+				constexpr const std::string_view TEMPLAR_BMP = "SC/Unit/Protoss/templar.bmp";
+				constexpr const std::string_view TEXTURE_BUILDINGCOMPLETE__BMP = "SC/Unit/Protoss/texture(BuildingComplete).bmp";
+				constexpr const std::string_view TRILOB_REAVER__BMP = "SC/Unit/Protoss/trilob(Reaver).bmp";
+				constexpr const std::string_view WARP_FLEETBEACON__BMP = "SC/Unit/Protoss/warp(FleetBeacon).bmp";
+				constexpr const std::string_view WITNESS_OBSERVER__BMP = "SC/Unit/Protoss/witness(Observer).bmp";
+				constexpr const std::string_view XELTEMPL_BMP = "SC/Unit/Protoss/XelTempl.bmp";
+				constexpr const std::string_view XWARPFIR_BMP = "SC/Unit/Protoss/XWarpFir.bmp";
+				constexpr const std::string_view XWARPGAT_BMP = "SC/Unit/Protoss/XWarpGat.bmp";
+				constexpr const std::string_view ZEALOT_BMP = "SC/Unit/Protoss/zealot.bmp";
+			}
+			namespace TERRAN
+			{
+				constexpr const std::string_view ACADEMY_BMP = "SC/Unit/Terran/academy.bmp";
+				constexpr const std::string_view ACADEMYT_BMP = "SC/Unit/Terran/academyt.bmp";
+				constexpr const std::string_view BATTLECR_BMP = "SC/Unit/Terran/battlecr.bmp";
+				constexpr const std::string_view BOMBER_VALKYRIE__BMP = "SC/Unit/Terran/Bomber(Valkyrie).bmp";
+				constexpr const std::string_view CHEMLAB_ARMORY__BMP = "SC/Unit/Terran/chemlab(Armory).bmp";
+				constexpr const std::string_view CHEMLABT_ARMORY__BMP = "SC/Unit/Terran/chemlabt(Armory).bmp";
+				constexpr const std::string_view COMSAT_BMP = "SC/Unit/Terran/comsat.bmp";
+				constexpr const std::string_view COMSATC_INIT__BMP = "SC/Unit/Terran/comsatc(Init).bmp";
+				constexpr const std::string_view COMSATT_BMP = "SC/Unit/Terran/comsatt.bmp";
+				constexpr const std::string_view CONTROL_COMMANDCENTER__BMP = "SC/Unit/Terran/control(CommandCenter).bmp";
+				constexpr const std::string_view CONTROLT_COMMANDCENTER__BMP = "SC/Unit/Terran/controlt(CommandCenter).bmp";
+				constexpr const std::string_view DEPOT_BMP = "SC/Unit/Terran/depot.bmp";
+				constexpr const std::string_view DEPOTT_BMP = "SC/Unit/Terran/depott.bmp";
+				constexpr const std::string_view DRYDOCKC_CONTROLTOWER__BMP = "SC/Unit/Terran/drydockc(ControlTower).bmp";
+				constexpr const std::string_view DRYDOCKS_CONTROLTOWER__BMP = "SC/Unit/Terran/drydocks(ControlTower).bmp";
+				constexpr const std::string_view DRYDOCKT_CONTROLTOWER__BMP = "SC/Unit/Terran/drydockt(ControlTower).bmp";
+				constexpr const std::string_view FACTORY_BMP = "SC/Unit/Terran/factory.bmp";
+				constexpr const std::string_view FACTORYT_BMP = "SC/Unit/Terran/factoryt.bmp";
+				constexpr const std::string_view FIREBAT_BMP = "SC/Unit/Terran/firebat.bmp";
+				constexpr const std::string_view GENELAB_COVERTOPS__BMP = "SC/Unit/Terran/genelab(CovertOps).bmp";
+				constexpr const std::string_view GENELABC_COVERTOPS__BMP = "SC/Unit/Terran/genelabc(CovertOps).bmp";
+				constexpr const std::string_view GENELABT_COVERTOPS__BMP = "SC/Unit/Terran/genelabt(CovertOps).bmp";
+				constexpr const std::string_view GHOST_BMP = "SC/Unit/Terran/ghost.bmp";
+				constexpr const std::string_view GOLIATH_BMP = "SC/Unit/Terran/goliath.bmp";
+				constexpr const std::string_view GOLIATHT_BMP = "SC/Unit/Terran/goliatht.bmp";
+				namespace LOWM
+				{
+					constexpr const std::string_view DROPSHIP_BMP = "SC/Unit/Terran/lowm/Dropship.bmp";
+					constexpr const std::string_view PHOENIX_WRAITH__BMP = "SC/Unit/Terran/lowm/Phoenix(Wraith).bmp";
+				}
+				constexpr const std::string_view MACHINEC_BMP = "SC/Unit/Terran/machinec.bmp";
+				constexpr const std::string_view MACHINES_BMP = "SC/Unit/Terran/machines.bmp";
+				constexpr const std::string_view MARINE_BMP = "SC/Unit/Terran/marine.bmp";
+				constexpr const std::string_view MEDIC_BMP = "SC/Unit/Terran/medic.bmp";
+				constexpr const std::string_view MISSILE_BMP = "SC/Unit/Terran/missile.bmp";
+				constexpr const std::string_view MISSILET_BMP = "SC/Unit/Terran/missilet.bmp";
+				constexpr const std::string_view NUKEMISS_BMP = "SC/Unit/Terran/nukemiss.bmp";
+				constexpr const std::string_view NUKESILC_BMP = "SC/Unit/Terran/nukesilc.bmp";
+				constexpr const std::string_view NUKESILO_BMP = "SC/Unit/Terran/nukesilo.bmp";
+				constexpr const std::string_view NUKESILT_BMP = "SC/Unit/Terran/nukesilt.bmp";
+				constexpr const std::string_view PHOENIX_WRAITH__BMP = "SC/Unit/Terran/phoenix(Wraith).bmp";
+				constexpr const std::string_view PHYSICS_BMP = "SC/Unit/Terran/physics.bmp";
+				constexpr const std::string_view PHYSICSC_BMP = "SC/Unit/Terran/physicsc.bmp";
+				constexpr const std::string_view PILLBOX_BUNKER__BMP = "SC/Unit/Terran/pillbox(Bunker).bmp";
+				constexpr const std::string_view PILLBOXT_BUNKER__BMP = "SC/Unit/Terran/pillboxt(Bunker).bmp";
+				constexpr const std::string_view REFINERY_BMP = "SC/Unit/Terran/refinery.bmp";
+				constexpr const std::string_view RESEARCH_SCIENCEFACILITY__BMP = "SC/Unit/Terran/research(ScienceFacility).bmp";
+				constexpr const std::string_view RESEARCT_SCIENCEFACILITY_BMP = "SC/Unit/Terran/researct(ScienceFacility.bmp";
+				constexpr const std::string_view SCV_BMP = "SC/Unit/Terran/scv.bmp";
+				constexpr const std::string_view SPIDER_BMP = "SC/Unit/Terran/spider.bmp";
+				constexpr const std::string_view STANK_BMP = "SC/Unit/Terran/stank.bmp";
+				constexpr const std::string_view STANKT_BMP = "SC/Unit/Terran/stankt.bmp";
+				constexpr const std::string_view STARPORT_BMP = "SC/Unit/Terran/starport.bmp";
+				constexpr const std::string_view STARPORTT_BMP = "SC/Unit/Terran/starportt.bmp";
+				constexpr const std::string_view TACSHAD_BMP = "SC/Unit/Terran/tacshad.bmp";
+				constexpr const std::string_view TANK_BMP = "SC/Unit/Terran/tank.bmp";
+				constexpr const std::string_view TANKT_BMP = "SC/Unit/Terran/tankt.bmp";
+				constexpr const std::string_view TB1SHAD_BMP = "SC/Unit/Terran/tb1shad.bmp";
+				constexpr const std::string_view TB2SHAD_BMP = "SC/Unit/Terran/tb2shad.bmp";
+				constexpr const std::string_view TB3SHAD_BMP = "SC/Unit/Terran/tb3shad.bmp";
+				constexpr const std::string_view TBARRACK_BMP = "SC/Unit/Terran/tbarrack.bmp";
+				constexpr const std::string_view TBLDLRG_INCONSTRUCTION__BMP = "SC/Unit/Terran/tbldlrg(InConstruction).bmp";
+				constexpr const std::string_view TBLDLRG_BMP = "SC/Unit/Terran/tbldlrg.bmp";
+				constexpr const std::string_view TBLDMED_INCONSTRUCTION2__BMP = "SC/Unit/Terran/tbldmed(InConstruction2).bmp";
+				constexpr const std::string_view TBLDSML_INCONSTRUCTION3__BMP = "SC/Unit/Terran/tbldsml(InConstruction3).bmp";
+				constexpr const std::string_view TBRSHAD_BARRCKS__BMP = "SC/Unit/Terran/tbrshad(Barrcks).bmp";
+				constexpr const std::string_view TCCSHAD_COMMANDCENTER__BMP = "SC/Unit/Terran/tccshad(CommandCenter).bmp";
+				constexpr const std::string_view TCIRGLOW_BEACON__BMP = "SC/Unit/Terran/tcirglow(Beacon).bmp";
+				constexpr const std::string_view TCLSHAD_BMP = "SC/Unit/Terran/tclshad.bmp";
+				constexpr const std::string_view TCSSHAD_BMP = "SC/Unit/Terran/tcsshad.bmp";
+				constexpr const std::string_view TDDSHAD_BMP = "SC/Unit/Terran/tddshad.bmp";
+				constexpr const std::string_view TDESHAD_SUPPLYDEPOT__BMP = "SC/Unit/Terran/tdeshad(SupplyDepot).bmp";
+				constexpr const std::string_view TFASHAD_FACTORY__BMP = "SC/Unit/Terran/tfashad(Factory).bmp";
+				constexpr const std::string_view TFBSHAD_BMP = "SC/Unit/Terran/tfbshad.bmp";
+				constexpr const std::string_view TGHDEATH_BMP = "SC/Unit/Terran/tghdeath.bmp";
+				constexpr const std::string_view TGHSHAD_BMP = "SC/Unit/Terran/tghshad.bmp";
+				constexpr const std::string_view TGLSHAD_BMP = "SC/Unit/Terran/tglshad.bmp";
+				constexpr const std::string_view TGOSHAD_BMP = "SC/Unit/Terran/tgoshad.bmp";
+				constexpr const std::string_view TMADEATH_BMP = "SC/Unit/Terran/tmadeath.bmp";
+				constexpr const std::string_view TMARKER_BMP = "SC/Unit/Terran/tmarker.bmp";
+				constexpr const std::string_view TMASHAD_BMP = "SC/Unit/Terran/tmashad.bmp";
+				constexpr const std::string_view TMEDEATH_BMP = "SC/Unit/Terran/tmeDeath.bmp";
+				constexpr const std::string_view TMESHAD_BMP = "SC/Unit/Terran/tmeshad.bmp";
+				constexpr const std::string_view TMISHAD_BMP = "SC/Unit/Terran/tmishad.bmp";
+				constexpr const std::string_view TMSSHAD_BMP = "SC/Unit/Terran/tmsshad.bmp";
+				constexpr const std::string_view TNSSHAD_BMP = "SC/Unit/Terran/tnsshad.bmp";
+				constexpr const std::string_view TPBSHAD_BMP = "SC/Unit/Terran/tpbshad.bmp";
+				constexpr const std::string_view TPLSHAD_BMP = "SC/Unit/Terran/tplshad.bmp";
+				constexpr const std::string_view TRESHAD_BMP = "SC/Unit/Terran/treshad.bmp";
+				constexpr const std::string_view TRLSHAD_BMP = "SC/Unit/Terran/trlshad.bmp";
+				constexpr const std::string_view TSMSHAD_BMP = "SC/Unit/Terran/tsmshad.bmp";
+				constexpr const std::string_view TSPSHAD_BMP = "SC/Unit/Terran/tspshad.bmp";
+				constexpr const std::string_view TSTSHAD_BMP = "SC/Unit/Terran/tstshad.bmp";
+				constexpr const std::string_view TTASHAD_BMP = "SC/Unit/Terran/ttashad.bmp";
+				constexpr const std::string_view TVESHAD_SCIENCEVESSEL__BMP = "SC/Unit/Terran/tveshad(ScienceVessel).bmp";
+				constexpr const std::string_view TWPSHAD_ENGINEERINGBAY__BMP = "SC/Unit/Terran/twpshad(EngineeringBay).bmp";
+				constexpr const std::string_view UGHOST_KERRIGAN__BMP = "SC/Unit/Terran/ughost(Kerrigan).bmp";
+				constexpr const std::string_view UGHSHAD_KERRIGAN__BMP = "SC/Unit/Terran/ughshad(Kerrigan).bmp";
+				constexpr const std::string_view VULTURE_BMP = "SC/Unit/Terran/vulture.bmp";
+				constexpr const std::string_view WEAPONPL_ENGINEERINGBAY__BMP = "SC/Unit/Terran/weaponpl(EngineeringBay).bmp";
+				constexpr const std::string_view WEAPONPT_BMP = "SC/Unit/Terran/weaponpt.bmp";
+				constexpr const std::string_view WESSEL_SCIENCEVESSEL__BMP = "SC/Unit/Terran/wessel(ScienceVessel).bmp";
+				constexpr const std::string_view WESSELT_SCIENCEVESSEL__BMP = "SC/Unit/Terran/wesselt(ScienceVessel).bmp";
+			}
+			namespace THINGY
+			{
+				constexpr const std::string_view BBLOOD01_BMP = "SC/Unit/thingy/bblood01.bmp";
+				constexpr const std::string_view BBLOOD02_BMP = "SC/Unit/thingy/bblood02.bmp";
+				constexpr const std::string_view BBLOOD03_BMP = "SC/Unit/thingy/bblood03.bmp";
+				constexpr const std::string_view BBLOOD04_BMP = "SC/Unit/thingy/bblood04.bmp";
+				constexpr const std::string_view BDUST_BMP = "SC/Unit/thingy/bdust.bmp";
+				constexpr const std::string_view BLACKX_CURSORCLICK__BMP = "SC/Unit/thingy/blackx(CursorClick).bmp";
+				constexpr const std::string_view BLOOD01_BMP = "SC/Unit/thingy/blood01.bmp";
+				constexpr const std::string_view BLOOD02_BMP = "SC/Unit/thingy/blood02.bmp";
+				constexpr const std::string_view BSMOKE_BMP = "SC/Unit/thingy/bsmoke.bmp";
+				constexpr const std::string_view CONSUME_BMP = "SC/Unit/thingy/consume.bmp";
+				constexpr const std::string_view DBL_EXP_BMP = "SC/Unit/thingy/dbl_exp.bmp";
+				constexpr const std::string_view DISRUPT_CORSAIR__BMP = "SC/Unit/thingy/disrupt(Corsair).bmp";
+				constexpr const std::string_view DSWARM_BMP = "SC/Unit/thingy/dswarm.bmp";
+				constexpr const std::string_view DUST01_BMP = "SC/Unit/thingy/dust01.bmp";
+				constexpr const std::string_view DUST02_BMP = "SC/Unit/thingy/dust02.bmp";
+				constexpr const std::string_view DUST03_BMP = "SC/Unit/thingy/dust03.bmp";
+				constexpr const std::string_view DUST04_BMP = "SC/Unit/thingy/dust04.bmp";
+				constexpr const std::string_view DUST05_BMP = "SC/Unit/thingy/dust05.bmp";
+				constexpr const std::string_view DUST06_BMP = "SC/Unit/thingy/dust06.bmp";
+				constexpr const std::string_view DUST07_BMP = "SC/Unit/thingy/dust07.bmp";
+				constexpr const std::string_view DUST08_BMP = "SC/Unit/thingy/dust08.bmp";
+				constexpr const std::string_view DUST09_BMP = "SC/Unit/thingy/dust09.bmp";
+				constexpr const std::string_view EBBCLOUD_PLAGUE__BMP = "SC/Unit/thingy/ebbcloud(Plague).bmp";
+				constexpr const std::string_view EBBHITL_PLAGUE__BMP = "SC/Unit/thingy/ebbhitl(Plague).bmp";
+				constexpr const std::string_view EBBHITM_PLAGUE__BMP = "SC/Unit/thingy/ebbhitm(Plague).bmp";
+				constexpr const std::string_view EBBHITS_PLAGUE__BMP = "SC/Unit/thingy/ebbhits(Plague).bmp";
+				constexpr const std::string_view ECAHIT_WRAITHGEMINIMISSILEHIT__BMP = "SC/Unit/thingy/ecahit(WraithGeminiMissileHit).bmp";
+				constexpr const std::string_view EDMBACKL_SCIENCEVESSEL__BMP = "SC/Unit/thingy/edmbackl(ScienceVessel).bmp";
+				constexpr const std::string_view EDMBACKM_SCIENCEVESSEL__BMP = "SC/Unit/thingy/edmbackm(ScienceVessel).bmp";
+				constexpr const std::string_view EDMBACKS_SCIENCEVESSEL__BMP = "SC/Unit/thingy/edmbacks(ScienceVessel).bmp";
+				constexpr const std::string_view EDMFRONL_SCIENCEVESSEL__BMP = "SC/Unit/thingy/edmfronl(ScienceVessel).bmp";
+				constexpr const std::string_view EDMFRONM_SCIENCEVESSEL__BMP = "SC/Unit/thingy/edmfronm(ScienceVessel).bmp";
+				constexpr const std::string_view EDMFRONS_SCIENCEVESSEL__BMP = "SC/Unit/thingy/edmfrons(ScienceVessel).bmp";
+				constexpr const std::string_view EDMHITL_BMP = "SC/Unit/thingy/edmhitl.bmp";
+				constexpr const std::string_view EDMHITM_BMP = "SC/Unit/thingy/edmhitm.bmp";
+				constexpr const std::string_view EDMHITS_BMP = "SC/Unit/thingy/edmhits.bmp";
+				constexpr const std::string_view EFGHIT_VULTURE__BMP = "SC/Unit/thingy/efghit(Vulture).bmp";
+				constexpr const std::string_view EHAMED_HALLUCINATIONDEATH__BMP = "SC/Unit/thingy/ehamed(HallucinationDeath).bmp";
+				constexpr const std::string_view ELBBAT_BATTLECRUISER__BMP = "SC/Unit/thingy/elbbat(BattleCruiser).bmp";
+				constexpr const std::string_view ELBFIRE_BATTLECRUISER__BMP = "SC/Unit/thingy/elbfire(BattleCruiser).bmp";
+				constexpr const std::string_view ELBFIREC_CORSAIR__BMP = "SC/Unit/thingy/elbfireC(Corsair).bmp";
+				constexpr const std::string_view ELBFIREW_WRAITH__BMP = "SC/Unit/thingy/elbfirew(Wraith).bmp";
+				constexpr const std::string_view ELBHIT_WRAITH__BMP = "SC/Unit/thingy/elbhit(Wraith).bmp";
+				constexpr const std::string_view ELBMUZZ_UNKNOWN__BMP = "SC/Unit/thingy/elbmuzz(Unknown).bmp";
+				constexpr const std::string_view ELDFIRE_GHOST__BMP = "SC/Unit/thingy/eldfire(Ghost).bmp";
+				constexpr const std::string_view ELDLARGE_GHOST__BMP = "SC/Unit/thingy/eldlarge(Ghost).bmp";
+				constexpr const std::string_view ELDMED_GHOST__BMP = "SC/Unit/thingy/eldmed(Ghost).bmp";
+				constexpr const std::string_view ELDSMALL_GHOST__BMP = "SC/Unit/thingy/eldsmall(Ghost).bmp";
+				constexpr const std::string_view ELECT02_HIGHTEMPLAR__BMP = "SC/Unit/thingy/elect02(HighTemplar).bmp";
+				constexpr const std::string_view ELECT02A_HIGHTEMPLAR__BMP = "SC/Unit/thingy/elect02a(HighTemplar).bmp";
+				constexpr const std::string_view EMP_BMP = "SC/Unit/thingy/emp.bmp";
+				constexpr const std::string_view EMPL_BMP = "SC/Unit/thingy/empl.bmp";
+				constexpr const std::string_view EMSBEAM_ARCHON__BMP = "SC/Unit/thingy/emsbeam(Archon).bmp";
+				constexpr const std::string_view EMSHIT_ARCHON__BMP = "SC/Unit/thingy/emshit(Archon).bmp";
+				constexpr const std::string_view ENSGOOL_QUEEN__BMP = "SC/Unit/thingy/ensgool(Queen).bmp";
+				constexpr const std::string_view ENSGOOM_QUEEN__BMP = "SC/Unit/thingy/ensgoom(Queen).bmp";
+				constexpr const std::string_view ENSGOOS_QUEEN__BMP = "SC/Unit/thingy/ensgoos(Queen).bmp";
+				constexpr const std::string_view ENSNARE_QUEEN__BMP = "SC/Unit/thingy/ensnare(Queen).bmp";
+				constexpr const std::string_view EP2FIRE_UNKNOWN__BMP = "SC/Unit/thingy/ep2fire(Unknown).bmp";
+				constexpr const std::string_view EP3BURST_GUARDIAN__BMP = "SC/Unit/thingy/ep3burst(Guardian).bmp";
+				constexpr const std::string_view EP3SHOT_GURARDIAN__BMP = "SC/Unit/thingy/ep3shot(Gurardian).bmp";
+				constexpr const std::string_view EPLMUZZ_GUARDIAN__BMP = "SC/Unit/thingy/eplmuzz(Guardian).bmp";
+				constexpr const std::string_view ERADLRG_SCIENCEVESSEL__BMP = "SC/Unit/thingy/eradlrg(ScienceVessel).bmp";
+				constexpr const std::string_view ESFHIT_ARBITER__BMP = "SC/Unit/thingy/esfhit(Arbiter).bmp";
+				constexpr const std::string_view ESFHIT_DARKARCHON__BMP = "SC/Unit/thingy/esfhit(DarkArchon).bmp";
+				constexpr const std::string_view ESFLARGE_ARBITER__BMP = "SC/Unit/thingy/esflarge(Arbiter).bmp";
+				constexpr const std::string_view ESFSMALL_ARBITER__BMP = "SC/Unit/thingy/esfsmall(Arbiter).bmp";
+				constexpr const std::string_view ESIFIRE_SIEGEMODE__BMP = "SC/Unit/thingy/esifire(SiegeMode).bmp";
+				constexpr const std::string_view ETGHIT_UNKNOWN__BMP = "SC/Unit/thingy/etghit(Unknown).bmp";
+				constexpr const std::string_view ETTFLASH_SIEGETANK__BMP = "SC/Unit/thingy/ettflash(SiegeTank).bmp";
+				constexpr const std::string_view EVECAST_MEDIC__BMP = "SC/Unit/thingy/evecast(Medic).bmp";
+				constexpr const std::string_view EXPLO2_UNKNOWN__BMP = "SC/Unit/thingy/explo2(Unknown).bmp";
+				constexpr const std::string_view EYCBLAST_BATTLECRUISER__BMP = "SC/Unit/thingy/eycblast(BattleCruiser).bmp";
+				constexpr const std::string_view EYCHIT_BATTLECRUISER__BMP = "SC/Unit/thingy/eychit(BattleCruiser).bmp";
+				constexpr const std::string_view FLAMER_FIREBAT__BMP = "SC/Unit/thingy/flamer(FireBat).bmp";
+				constexpr const std::string_view GEYSMOK1_VESPENEGEYSER__BMP = "SC/Unit/thingy/geysmok1(VespeneGeyser).bmp";
+				constexpr const std::string_view GEYSMOK2_VESPENEGEYSER__BMP = "SC/Unit/thingy/geysmok2(VespeneGeyser).bmp";
+				constexpr const std::string_view GEYSMOK3_VESPENEGEYSER__BMP = "SC/Unit/thingy/geysmok3(VespeneGeyser).bmp";
+				constexpr const std::string_view GEYSMOK4_VESPENEGEYSER__BMP = "SC/Unit/thingy/geysmok4(VespeneGeyser).bmp";
+				constexpr const std::string_view GEYSMOK5_VESPENEGEYSER__BMP = "SC/Unit/thingy/geysmok5(VespeneGeyser).bmp";
+				constexpr const std::string_view GEYSMOS1_VESPENEGEYSER__BMP = "SC/Unit/thingy/geysmos1(VespeneGeyser).bmp";
+				constexpr const std::string_view GRESMOKE_VULTURE__BMP = "SC/Unit/thingy/gresmoke(Vulture).bmp";
+				constexpr const std::string_view GSMOKE_SPORECOLONY__BMP = "SC/Unit/thingy/gsmoke(SporeColony).bmp";
+				constexpr const std::string_view HALMIND_HIGHTEMPLAR__BMP = "SC/Unit/thingy/halmind(HighTemplar).bmp";
+				constexpr const std::string_view HKEXPLOD_DRAGOON__BMP = "SC/Unit/thingy/hkexplod(Dragoon).bmp";
+				constexpr const std::string_view HKTRAIL_REAVER__BMP = "SC/Unit/thingy/hktrail(Reaver).bmp";
+				constexpr const std::string_view JUICE01_PYLON__BMP = "SC/Unit/thingy/juice01(Pylon).bmp";
+				constexpr const std::string_view JUICE02_PYLON__BMP = "SC/Unit/thingy/juice02(Pylon).bmp";
+				namespace LOWM
+				{
+					constexpr const std::string_view BBLOOD01_BMP = "SC/Unit/thingy/lowm/bblood01.bmp";
+					constexpr const std::string_view BBLOOD02_BMP = "SC/Unit/thingy/lowm/bblood02.bmp";
+					constexpr const std::string_view BBLOOD03_BMP = "SC/Unit/thingy/lowm/bblood03.bmp";
+					constexpr const std::string_view BBLOOD04_BMP = "SC/Unit/thingy/lowm/bblood04.bmp";
+					constexpr const std::string_view CONSUME_BMP = "SC/Unit/thingy/lowm/consume.bmp";
+					constexpr const std::string_view DISRUPT_BMP = "SC/Unit/thingy/lowm/disrupt.bmp";
+					constexpr const std::string_view DSWARM_BMP = "SC/Unit/thingy/lowm/dswarm.bmp";
+					constexpr const std::string_view DUST01_BMP = "SC/Unit/thingy/lowm/dust01.bmp";
+					constexpr const std::string_view DUST02_BMP = "SC/Unit/thingy/lowm/dust02.bmp";
+					constexpr const std::string_view DUST03_BMP = "SC/Unit/thingy/lowm/dust03.bmp";
+					constexpr const std::string_view DUST04_BMP = "SC/Unit/thingy/lowm/dust04.bmp";
+					constexpr const std::string_view DUST05_BMP = "SC/Unit/thingy/lowm/dust05.bmp";
+					constexpr const std::string_view DUST06_BMP = "SC/Unit/thingy/lowm/dust06.bmp";
+					constexpr const std::string_view DUST07_BMP = "SC/Unit/thingy/lowm/dust07.bmp";
+					constexpr const std::string_view DUST08_BMP = "SC/Unit/thingy/lowm/dust08.bmp";
+					constexpr const std::string_view DUST09_BMP = "SC/Unit/thingy/lowm/dust09.bmp";
+					constexpr const std::string_view EBBCLOUD_PLAGUE__BMP = "SC/Unit/thingy/lowm/ebbcloud(Plague).bmp";
+					constexpr const std::string_view ECAHIT_BMP = "SC/Unit/thingy/lowm/ecahit.bmp";
+					constexpr const std::string_view EFGHIT_BMP = "SC/Unit/thingy/lowm/efghit.bmp";
+					constexpr const std::string_view EHAMED_BMP = "SC/Unit/thingy/lowm/ehamed.bmp";
+					constexpr const std::string_view ELBBAT_YAMATOGUN__BMP = "SC/Unit/thingy/lowm/elbbat(YamatoGun).bmp";
+					constexpr const std::string_view ELBMUZZ_BMP = "SC/Unit/thingy/lowm/elbmuzz.bmp";
+					constexpr const std::string_view ELDLARGE_LOCKDOWN__BMP = "SC/Unit/thingy/lowm/eldlarge(LockDown).bmp";
+					constexpr const std::string_view ELDMED_LOCKDOWN__BMP = "SC/Unit/thingy/lowm/eldmed(LockDown).bmp";
+					constexpr const std::string_view ELDSMALL_LOCKDOWN__BMP = "SC/Unit/thingy/lowm/eldsmall(LockDown).bmp";
+					constexpr const std::string_view EMSBEAM_ARCHONATTACK__BMP = "SC/Unit/thingy/lowm/emsbeam(ArchonAttack).bmp";
+					constexpr const std::string_view EMSHIT_BMP = "SC/Unit/thingy/lowm/emshit.bmp";
+					constexpr const std::string_view ENSNARE_BMP = "SC/Unit/thingy/lowm/ensnare.bmp";
+					constexpr const std::string_view EP3BURST_GUARDIAN__BMP = "SC/Unit/thingy/lowm/ep3burst(Guardian).bmp";
+					constexpr const std::string_view EPLMUZZ_BMP = "SC/Unit/thingy/lowm/eplmuzz.bmp";
+					constexpr const std::string_view ESFHIT_MAELSTROM__BMP = "SC/Unit/thingy/lowm/esfhit(Maelstrom).bmp";
+					constexpr const std::string_view ESFHIT_STASISFIELD__BMP = "SC/Unit/thingy/lowm/esfhit(StasisField).bmp";
+					constexpr const std::string_view ESFLARGE_STASISFIELD__BMP = "SC/Unit/thingy/lowm/esflarge(StasisField).bmp";
+					constexpr const std::string_view ESFSMALL_BMP = "SC/Unit/thingy/lowm/esfsmall.bmp";
+					constexpr const std::string_view ESIFIRE_SIEGEMODETURRETOVERLAY_BMP = "SC/Unit/thingy/lowm/esifire_SiegeModeTurretOverlay.bmp";
+					constexpr const std::string_view ETGHIT_LETHALEJECTORHIT__BMP = "SC/Unit/thingy/lowm/etghit(LethalEjectorHit).bmp";
+					constexpr const std::string_view ETGHIT_SIEGETANKHIT__BMP = "SC/Unit/thingy/lowm/etghit(SiegeTankHit).bmp";
+					constexpr const std::string_view EYCBLAST_YAMATO__BMP = "SC/Unit/thingy/lowm/eycblast(Yamato).bmp";
+					constexpr const std::string_view EYCHIT_YAMATO__BMP = "SC/Unit/thingy/lowm/eychit(Yamato).bmp";
+					constexpr const std::string_view HKEXPLOD_DRAGOONHIT__BMP = "SC/Unit/thingy/lowm/hkexplod(DragoonHit).bmp";
+					constexpr const std::string_view NUKEHIT_BMP = "SC/Unit/thingy/lowm/nukehit.bmp";
+					constexpr const std::string_view OFIREC_TERRANBUILDINGBURNING__BMP = "SC/Unit/thingy/lowm/ofirec(TerranBuildingBurning).bmp";
+					constexpr const std::string_view OFIREF_TERRANBUILDINGBURNING__BMP = "SC/Unit/thingy/lowm/ofiref(TerranBuildingBurning).bmp";
+					constexpr const std::string_view OFIREV_TERRANBUILDINGBURNING__BMP = "SC/Unit/thingy/lowm/ofirev(TerranBuildingBurning).bmp";
+					constexpr const std::string_view PABGLOW_ARBITER__BMP = "SC/Unit/thingy/lowm/pabglow(Arbiter).bmp";
+					constexpr const std::string_view PSCGLOW_SCOUT__BMP = "SC/Unit/thingy/lowm/pscglow(Scout).bmp";
+					constexpr const std::string_view PSHGLOW_SHUTTLE__BMP = "SC/Unit/thingy/lowm/pshglow(Shuttle).bmp";
+					constexpr const std::string_view RECALL_BMP = "SC/Unit/thingy/lowm/recall.bmp";
+					constexpr const std::string_view TBANGL_TERRANEXPLOSION__BMP = "SC/Unit/thingy/lowm/tbangl(TerranExplosion).bmp";
+					constexpr const std::string_view TBANGS_EXPLOSION__BMP = "SC/Unit/thingy/lowm/tbangs(Explosion).bmp";
+					constexpr const std::string_view TBANGX_EXPLOSION__BMP = "SC/Unit/thingy/lowm/tbangx(Explosion).bmp";
+					constexpr const std::string_view TDRGLOW_DROPSHIP__BMP = "SC/Unit/thingy/lowm/tdrglow(DropShip).bmp";
+					constexpr const std::string_view TPHGLOW_WRAITH__BMP = "SC/Unit/thingy/lowm/tphglow(Wraith).bmp";
+					constexpr const std::string_view ZBLDDTHS_ZERGBUILDINGDESTROY__BMP = "SC/Unit/thingy/lowm/zblddths(ZergBuildingDestroy).bmp";
+				}
+				constexpr const std::string_view MAELHIT_BMP = "SC/Unit/thingy/MaelHit.bmp";
+				constexpr const std::string_view MUSHROOM_SIEGEMODE__BMP = "SC/Unit/thingy/mushroom(SiegeMode).bmp";
+				constexpr const std::string_view NUKEBEAM_GHOST__BMP = "SC/Unit/thingy/nukebeam(Ghost).bmp";
+				constexpr const std::string_view NUKEHIT_GHOST__BMP = "SC/Unit/thingy/nukehit(Ghost).bmp";
+				constexpr const std::string_view NUKETARG_GHOST__BMP = "SC/Unit/thingy/nuketarg(Ghost).bmp";
+				constexpr const std::string_view O022_BMP = "SC/Unit/thingy/o022.bmp";
+				constexpr const std::string_view O032_BMP = "SC/Unit/thingy/o032.bmp";
+				constexpr const std::string_view O048_BMP = "SC/Unit/thingy/o048.bmp";
+				constexpr const std::string_view O062_BMP = "SC/Unit/thingy/o062.bmp";
+				constexpr const std::string_view O072_BMP = "SC/Unit/thingy/o072.bmp";
+				constexpr const std::string_view O094_BMP = "SC/Unit/thingy/o094.bmp";
+				constexpr const std::string_view O110_BMP = "SC/Unit/thingy/o110.bmp";
+				constexpr const std::string_view O122_BMP = "SC/Unit/thingy/o122.bmp";
+				constexpr const std::string_view O146_BMP = "SC/Unit/thingy/o146.bmp";
+				constexpr const std::string_view O224_BMP = "SC/Unit/thingy/o224.bmp";
+				constexpr const std::string_view OD022_BMP = "SC/Unit/thingy/od022.bmp";
+				constexpr const std::string_view OD032_BMP = "SC/Unit/thingy/od032.bmp";
+				constexpr const std::string_view OD048_BMP = "SC/Unit/thingy/od048.bmp";
+				constexpr const std::string_view OD062_BMP = "SC/Unit/thingy/od062.bmp";
+				constexpr const std::string_view OD072_BMP = "SC/Unit/thingy/od072.bmp";
+				constexpr const std::string_view OD094_BMP = "SC/Unit/thingy/od094.bmp";
+				constexpr const std::string_view OD110_BMP = "SC/Unit/thingy/od110.bmp";
+				constexpr const std::string_view OD122_BMP = "SC/Unit/thingy/od122.bmp";
+				constexpr const std::string_view OD146_BMP = "SC/Unit/thingy/od146.bmp";
+				constexpr const std::string_view OD224_BMP = "SC/Unit/thingy/od224.bmp";
+				constexpr const std::string_view OFIREC_BMP = "SC/Unit/thingy/ofirec.bmp";
+				constexpr const std::string_view OFIREF_BMP = "SC/Unit/thingy/ofiref.bmp";
+				constexpr const std::string_view OFIREV_BMP = "SC/Unit/thingy/ofirev.bmp";
+				constexpr const std::string_view PABGLOW_ARBITER__BMP = "SC/Unit/thingy/pabglow(Arbiter).bmp";
+				constexpr const std::string_view PCAGLOW_BMP = "SC/Unit/thingy/pcaglow.bmp";
+				constexpr const std::string_view PCSGLOW_CORSAIR__BMP = "SC/Unit/thingy/pcsglow(Corsair).bmp";
+				constexpr const std::string_view PCSSPLSH_CORSAIR__BMP = "SC/Unit/thingy/pcsSplsh(Corsair).bmp";
+				constexpr const std::string_view PDAMNDLG_DARKARCHON__BMP = "SC/Unit/thingy/PdaMndLg(DarkArchon).bmp";
+				constexpr const std::string_view PDAMNDMD_DARKARCHON__BMP = "SC/Unit/thingy/PdaMndMd(DarkArchon).bmp";
+				constexpr const std::string_view PDAMNDSM_DARKARCHON__BMP = "SC/Unit/thingy/PdaMndSm(DarkArchon).bmp";
+				constexpr const std::string_view PDAMYOLG_DARKARCHON__BMP = "SC/Unit/thingy/PdaMyoLg(DarkArchon).bmp";
+				constexpr const std::string_view PDAMYOMD_DARKARCHON__BMP = "SC/Unit/thingy/PdaMyoMd(DarkArchon).bmp";
+				constexpr const std::string_view PDAMYOSM_DARKARCHON__BMP = "SC/Unit/thingy/PdaMyoSm(DarkArchon).bmp";
+				constexpr const std::string_view PDAPARLG_DARKARCHON__BMP = "SC/Unit/thingy/PdaParLg(DarkArchon).bmp";
+				constexpr const std::string_view PDAPARMD_DARKARCHON__BMP = "SC/Unit/thingy/PdaParMd(DarkArchon).bmp";
+				constexpr const std::string_view PDAPARSM_DARKARCHON__BMP = "SC/Unit/thingy/PdaParSm(DarkArchon).bmp";
+				constexpr const std::string_view PDAPSYLG_DARKARCHON__BMP = "SC/Unit/thingy/PdaPsyLg(DarkArchon).bmp";
+				constexpr const std::string_view PDAPSYMD_DARKARCHON__BMP = "SC/Unit/thingy/PdaPsyMd(DarkArchon).bmp";
+				constexpr const std::string_view PDAPSYSM_BMP = "SC/Unit/thingy/PdaPsySm.bmp";
+				constexpr const std::string_view PEXPLODE_UNKNOWN__BMP = "SC/Unit/thingy/pexplode(Unknown).bmp";
+				constexpr const std::string_view PHOHIT_BMP = "SC/Unit/thingy/phohit.bmp";
+				constexpr const std::string_view PLASDRIP_MAYBEARCHON__BMP = "SC/Unit/thingy/plasdrip(MaybeArchon).bmp";
+				constexpr const std::string_view PLASMA_UNKNOWN__BMP = "SC/Unit/thingy/plasma(Unknown).bmp";
+				constexpr const std::string_view PRUBBLEL_PROTOSSDEBRIS__BMP = "SC/Unit/thingy/prubblel(ProtossDebris).bmp";
+				constexpr const std::string_view PRUBBLES_PROTOSSDEBRIS__BMP = "SC/Unit/thingy/prubbles(ProtossDebris).bmp";
+				constexpr const std::string_view PSAEXPLO_REAVER__BMP = "SC/Unit/thingy/psaexplo(Reaver).bmp";
+				constexpr const std::string_view PSCGLOW_SCOUT__BMP = "SC/Unit/thingy/pscglow(Scout).bmp";
+				constexpr const std::string_view PSHGLOW_SHUTTLE__BMP = "SC/Unit/thingy/pshglow(Shuttle).bmp";
+				constexpr const std::string_view PSHIELD_PROTOSSSHIELD__BMP = "SC/Unit/thingy/pshield(ProtossShield).bmp";
+				constexpr const std::string_view PSISTORM_HIGHTEMPLAR__BMP = "SC/Unit/thingy/psistorm(HighTemplar).bmp";
+				constexpr const std::string_view PTEGLOW_HIGHTEMPLAR__BMP = "SC/Unit/thingy/pteglow(HighTemplar).bmp";
+				constexpr const std::string_view RECALL_ARBITER__BMP = "SC/Unit/thingy/recall(Arbiter).bmp";
+				constexpr const std::string_view RUBBLEL_TERRANDEBRIS__BMP = "SC/Unit/thingy/rubblel(TerranDebris).bmp";
+				constexpr const std::string_view RUBBLES_TERRANDEBRIS__BMP = "SC/Unit/thingy/rubbles(TerranDebris).bmp";
+				constexpr const std::string_view SBALARGE_SHIELDBATTERY__BMP = "SC/Unit/thingy/sbalarge(ShieldBattery).bmp";
+				constexpr const std::string_view SBASMALL_SHIELDBATTERY__BMP = "SC/Unit/thingy/sbasmall(ShieldBattery).bmp";
+				constexpr const std::string_view SMALL_UNKNOWN__BMP = "SC/Unit/thingy/small(Unknown).bmp";
+				constexpr const std::string_view SMOKE_WRAITH,MISSILETRAIL__BMP = "SC/Unit/thingy/smoke(Wraith,MissileTrail).bmp";
+				constexpr const std::string_view SPOOGE_HYDRARISK,DRONE__BMP = "SC/Unit/thingy/spooge(HydraRisk,Drone).bmp";
+				constexpr const std::string_view SPOREHIT_SPORECOLONY__BMP = "SC/Unit/thingy/sporehit(SporeColony).bmp";
+				constexpr const std::string_view SPOTRAIL_SPORECOLONY__BMP = "SC/Unit/thingy/spotrail(SporeColony).bmp";
+				constexpr const std::string_view STARTLOC_EDITOR__BMP = "SC/Unit/thingy/startloc(Editor).bmp";
+				constexpr const std::string_view TBAGLOW_BATTLECRUISER__BMP = "SC/Unit/thingy/tbaglow(BattleCruiser).bmp";
+				constexpr const std::string_view TBANGL_EXPLOSION__BMP = "SC/Unit/thingy/tbangl(Explosion).bmp";
+				constexpr const std::string_view TBANGS_EXPLOSION__BMP = "SC/Unit/thingy/tbangs(Explosion).bmp";
+				constexpr const std::string_view TBANGX_EXPLOSION__BMP = "SC/Unit/thingy/tbangx(Explosion).bmp";
+				constexpr const std::string_view TBMAFTER_VALKIRYE__BMP = "SC/Unit/thingy/tbmafter(Valkirye).bmp";
+				constexpr const std::string_view TBMGLOW_VALKYRIE__BMP = "SC/Unit/thingy/tbmglow(Valkyrie).bmp";
+				constexpr const std::string_view TCURELRG_MEDIC__BMP = "SC/Unit/thingy/tCureLrg(Medic).bmp";
+				constexpr const std::string_view TCUREMED_MEDIC__BMP = "SC/Unit/thingy/tCureMed(Medic).bmp";
+				constexpr const std::string_view TCURESML_MEDIC__BMP = "SC/Unit/thingy/tCureSml(Medic).bmp";
+				constexpr const std::string_view TDRGLOW_DROPSHIP__BMP = "SC/Unit/thingy/tdrglow(DropShip).bmp";
+				constexpr const std::string_view TMEFLSHL_MEDIC__BMP = "SC/Unit/thingy/tmeFlshL(Medic).bmp";
+				constexpr const std::string_view TMEFLSHM_MEDIC__BMP = "SC/Unit/thingy/tmeFlshM(Medic).bmp";
+				constexpr const std::string_view TMEFLSHS_MEDIC__BMP = "SC/Unit/thingy/tmeFlshS(Medic).bmp";
+				constexpr const std::string_view TMEHEALL_MEDIC__BMP = "SC/Unit/thingy/tmeHealL(Medic).bmp";
+				constexpr const std::string_view TMEHEALM_MEDIC__BMP = "SC/Unit/thingy/tmeHealM(Medic).bmp";
+				constexpr const std::string_view TMEHEALS_MEDIC__BMP = "SC/Unit/thingy/tmeHealS(Medic).bmp";
+				constexpr const std::string_view TMNEXPLO_VULTURE__BMP = "SC/Unit/thingy/tmnexplo(Vulture).bmp";
+				constexpr const std::string_view TPHGLOW_WRAITH__BMP = "SC/Unit/thingy/tphglow(Wraith).bmp";
+				constexpr const std::string_view TSCGLOW_SCV__BMP = "SC/Unit/thingy/tscglow(SCV).bmp";
+				constexpr const std::string_view TVEGLOWB_SCIENCEVESSEL__BMP = "SC/Unit/thingy/tveglowb(ScienceVessel).bmp";
+				constexpr const std::string_view TVEGLOWO_BMP = "SC/Unit/thingy/tveglowo.bmp";
+				constexpr const std::string_view TVEGLOWW_BMP = "SC/Unit/thingy/tvegloww.bmp";
+				constexpr const std::string_view ZAIRDTHL_ZERGAIRUNITDEATH__BMP = "SC/Unit/thingy/zairdthl(ZergAirUnitDeath).bmp";
+				constexpr const std::string_view ZAIRDTHS_ZERGAIRUNITDEATH__BMP = "SC/Unit/thingy/zairdths(ZergAirUnitDeath).bmp";
+				constexpr const std::string_view ZBGEXPLO_INFESTEDTERRAN__BMP = "SC/Unit/thingy/zbgexplo(InfestedTerran).bmp";
+				constexpr const std::string_view ZBLDDTHS_ZERGBUILDINGDEATH__BMP = "SC/Unit/thingy/zblddths(ZergBuildingDeath).bmp";
+				constexpr const std::string_view ZDVBIRTH_DEVOURER__BMP = "SC/Unit/thingy/zdvBirth(Devourer).bmp";
+				constexpr const std::string_view ZDVGOOL_DEVOURER__BMP = "SC/Unit/thingy/ZdvGooL(Devourer).bmp";
+				constexpr const std::string_view ZDVGOOM_DEVOURER__BMP = "SC/Unit/thingy/ZdvGooM(Devourer).bmp";
+				constexpr const std::string_view ZDVGOOS_DEVOURER__BMP = "SC/Unit/thingy/ZdvGooS(Devourer).bmp";
+				constexpr const std::string_view ZDVHIT_DEVOURER__BMP = "SC/Unit/thingy/zdvHit(Devourer).bmp";
+				constexpr const std::string_view ZDVPUKE_DEVOURER__BMP = "SC/Unit/thingy/zdvPuke(Devourer).bmp";
+				constexpr const std::string_view ZRUBBLEL_ZERGBUILDINGDEBRIS__BMP = "SC/Unit/thingy/zrubblel(ZergBuildingDebris).bmp";
+				constexpr const std::string_view ZRUBBLES_ZERGBUILDINGDEBRIS__BMP = "SC/Unit/thingy/zrubbles(ZergBuildingDebris).bmp";
+			}
+			namespace WIREFRAM
+			{
+				constexpr const std::string_view GRPWIRE_BMP = "SC/Unit/wirefram/grpwire.bmp";
+				constexpr const std::string_view TRANWIRE_BMP = "SC/Unit/wirefram/tranwire.bmp";
+				constexpr const std::string_view WIREFRAM_BMP = "SC/Unit/wirefram/wirefram.bmp";
+			}
+			namespace ZERG
+			{
+				constexpr const std::string_view AVENGER_SCOURGE__BMP = "SC/Unit/zerg/avenger(Scourge).bmp";
+				constexpr const std::string_view BROOD_BROODLING__BMP = "SC/Unit/zerg/brood(BroodLing).bmp";
+				constexpr const std::string_view BUGGUY_INFESTEDTERRAN__BMP = "SC/Unit/zerg/bugguy(InfestedTerran).bmp";
+				constexpr const std::string_view CEREBRAT_EVOLUTIONCHAMBER__BMP = "SC/Unit/zerg/cerebrat(EvolutionChamber).bmp";
+				constexpr const std::string_view CHRYSAL_SPAWNINGPOOL__BMP = "SC/Unit/zerg/chrysal(SpawningPool).bmp";
+				constexpr const std::string_view COCOON_BMP = "SC/Unit/zerg/cocoon.bmp";
+				constexpr const std::string_view DEFILER_BMP = "SC/Unit/zerg/defiler.bmp";
+				constexpr const std::string_view DEVOUR_DEVOURER__BMP = "SC/Unit/zerg/devour(Devourer).bmp";
+				constexpr const std::string_view DRONE_BMP = "SC/Unit/zerg/drone.bmp";
+				constexpr const std::string_view EGG_BMP = "SC/Unit/zerg/egg.bmp";
+				constexpr const std::string_view EPBBUL_PHOTONCANNON__BMP = "SC/Unit/zerg/epbBul(PhotonCannon).bmp";
+				constexpr const std::string_view EXTRACT_BMP = "SC/Unit/zerg/extract.bmp";
+				constexpr const std::string_view FCOLONY_CREEPCOLONY__BMP = "SC/Unit/zerg/fcolony(CreepColony).bmp";
+				constexpr const std::string_view GUARDIAN_BMP = "SC/Unit/zerg/guardian.bmp";
+				constexpr const std::string_view HATCHERY_BMP = "SC/Unit/zerg/hatchery.bmp";
+				constexpr const std::string_view HIVE_BMP = "SC/Unit/zerg/hive.bmp";
+				constexpr const std::string_view HYDRA_BMP = "SC/Unit/zerg/hydra.bmp";
+				constexpr const std::string_view INFEST03_INFESTEDCOMMANDCENTER__BMP = "SC/Unit/zerg/infest03(InfestedCommandCenter).bmp";
+				constexpr const std::string_view LAIR_BMP = "SC/Unit/zerg/lair.bmp";
+				constexpr const std::string_view LARVA_BMP = "SC/Unit/zerg/larva.bmp";
+				namespace LOWM
+				{
+					constexpr const std::string_view OVERLORD_BMP = "SC/Unit/zerg/lowm/overlord.bmp";
+				}
+				constexpr const std::string_view LURKBURR_LURKER__BMP = "SC/Unit/zerg/lurkburr(Lurker).bmp";
+				constexpr const std::string_view LURKEGG_LURKER__BMP = "SC/Unit/zerg/LurkEgg(Lurker).bmp";
+				constexpr const std::string_view LURKER_SUNKENCOLONY__BMP = "SC/Unit/zerg/lurker(SunkenColony).bmp";
+				constexpr const std::string_view LURKNORM_LURKER__BMP = "SC/Unit/zerg/lurknorm(Lurker).bmp";
+				constexpr const std::string_view MUTACHAM_GREATERSPIRE__BMP = "SC/Unit/zerg/mutacham(GreaterSpire).bmp";
+				constexpr const std::string_view MUTALID_MUTALISK__BMP = "SC/Unit/zerg/mutalid(Mutalisk).bmp";
+				constexpr const std::string_view MUTAPIT_DEFILERMOUND__BMP = "SC/Unit/zerg/mutapit(DefilerMound).bmp";
+				constexpr const std::string_view MUTATE_LURKER__BMP = "SC/Unit/zerg/Mutate(Lurker).bmp";
+				constexpr const std::string_view NEST_QUEENSNEST__BMP = "SC/Unit/zerg/nest(QueensNest).bmp";
+				constexpr const std::string_view NYDUSPIT_NYDUSCANAL__BMP = "SC/Unit/zerg/nyduspit(NydusCanal).bmp";
+				constexpr const std::string_view OVER1_OVERMIND__BMP = "SC/Unit/zerg/over1(OverMind).bmp";
+				constexpr const std::string_view OVER2_OVERMIND__BMP = "SC/Unit/zerg/over2(OverMind).bmp";
+				constexpr const std::string_view OVERLORD_BMP = "SC/Unit/zerg/overlord.bmp";
+				constexpr const std::string_view QUEEN_BMP = "SC/Unit/zerg/queen.bmp";
+				constexpr const std::string_view RCLUSTER_ULTRALISKDEN__BMP = "SC/Unit/zerg/rcluster(UltraliskDen).bmp";
+				constexpr const std::string_view SCOLONY_SPORECOLONY__BMP = "SC/Unit/zerg/scolony(SporeColony).bmp";
+				constexpr const std::string_view SNAKEY_HYDRALISKDEN__BMP = "SC/Unit/zerg/snakey(HydraliskDen).bmp";
+				constexpr const std::string_view SPIRE_BMP = "SC/Unit/zerg/spire.bmp";
+				constexpr const std::string_view UCEREB_CEREBRATE__BMP = "SC/Unit/zerg/ucereb(Cerebrate).bmp";
+				constexpr const std::string_view UIKERR_KERRIGAN__BMP = "SC/Unit/zerg/uikerr(Kerrigan).bmp";
+				constexpr const std::string_view UIKSHAD_BMP = "SC/Unit/zerg/uikShad.bmp";
+				constexpr const std::string_view ULTRA_ULTRALISK__BMP = "SC/Unit/zerg/ultra(Ultralisk).bmp";
+				constexpr const std::string_view XOVERMND_BMP = "SC/Unit/zerg/XOvermnd.bmp";
+				constexpr const std::string_view ZAVBIRTH_SCOURGE__BMP = "SC/Unit/zerg/zavbirth(Scourge).bmp";
+				constexpr const std::string_view ZAVDEATH_SCOURGE__BMP = "SC/Unit/zerg/zavdeath(Scourge).bmp";
+				constexpr const std::string_view ZAVEXPLO_SCOURGE__BMP = "SC/Unit/zerg/zavexplo(Scourge).bmp";
+				constexpr const std::string_view ZBGSHAD_BMP = "SC/Unit/zerg/zbgshad.bmp";
+				constexpr const std::string_view ZBRDEATH_BROODLING__BMP = "SC/Unit/zerg/zbrdeath(Broodling).bmp";
+				constexpr const std::string_view ZBRSHAD_BMP = "SC/Unit/zerg/zbrshad.bmp";
+				constexpr const std::string_view ZBSHAD_BMP = "SC/Unit/zerg/zbshad.bmp";
+				constexpr const std::string_view ZBUILD_DRONE__BMP = "SC/Unit/zerg/zbuild(Drone).bmp";
+				constexpr const std::string_view ZCESHAD_BMP = "SC/Unit/zerg/zceshad.bmp";
+				constexpr const std::string_view ZCHSHAD_BMP = "SC/Unit/zerg/zchshad.bmp";
+				constexpr const std::string_view ZCIRGLOW_BEACON__BMP = "SC/Unit/zerg/zcirglow(Beacon).bmp";
+				constexpr const std::string_view ZDEBIRTH_DEFILER__BMP = "SC/Unit/zerg/zdebirth(Defiler).bmp";
+				constexpr const std::string_view ZDEDEATH_DEFILER__BMP = "SC/Unit/zerg/zdedeath(Defiler).bmp";
+				constexpr const std::string_view ZDRBIRTH_DRONE__BMP = "SC/Unit/zerg/zdrbirth(Drone).bmp";
+				constexpr const std::string_view ZDRDEATH_DRONE__BMP = "SC/Unit/zerg/zdrdeath(Drone).bmp";
+				constexpr const std::string_view ZDVDEATH_DEVOURER__BMP = "SC/Unit/zerg/zdvDeath(Devourer).bmp";
+				constexpr const std::string_view ZEGDEATH_EGG__BMP = "SC/Unit/zerg/zegdeath(Egg).bmp";
+				constexpr const std::string_view ZEGSHAD_EGG__BMP = "SC/Unit/zerg/zegshad(Egg).bmp";
+				constexpr const std::string_view ZEGSPAWN_EGG__BMP = "SC/Unit/zerg/zegspawn(Egg).bmp";
+				constexpr const std::string_view ZERGLING_BMP = "SC/Unit/zerg/zergling.bmp";
+				constexpr const std::string_view ZFCSHAD_BMP = "SC/Unit/zerg/zfcshad.bmp";
+				constexpr const std::string_view ZGUDEATH_GUARDIAN__BMP = "SC/Unit/zerg/zgudeath(Guardian).bmp";
+				constexpr const std::string_view ZHASHAD_BMP = "SC/Unit/zerg/zhashad.bmp";
+				constexpr const std::string_view ZHISHAD_BMP = "SC/Unit/zerg/zhishad.bmp";
+				constexpr const std::string_view ZHYBIRTH_HYDRA__BMP = "SC/Unit/zerg/zhybirth(Hydra).bmp";
+				constexpr const std::string_view ZHYDEATH_HYDRALISK__BMP = "SC/Unit/zerg/zhydeath(Hydralisk).bmp";
+				constexpr const std::string_view ZHYSHAD_HYDRALISK__BMP = "SC/Unit/zerg/zhyshad(Hydralisk).bmp";
+				constexpr const std::string_view ZLADEATH_LARVA__BMP = "SC/Unit/zerg/zladeath(Larva).bmp";
+				constexpr const std::string_view ZLRSHAD_LAIR__BMP = "SC/Unit/zerg/zlrshad(Lair).bmp";
+				constexpr const std::string_view ZLUBIRTH_LURKER__BMP = "SC/Unit/zerg/ZluBirth(Lurker).bmp";
+				constexpr const std::string_view ZLUBSHAD_BMP = "SC/Unit/zerg/zlubShad.bmp";
+				constexpr const std::string_view ZLUDEATH_BMP = "SC/Unit/zerg/ZluDeath.bmp";
+				constexpr const std::string_view ZLURKER_LURKER__BMP = "SC/Unit/zerg/Zlurker(Lurker).bmp";
+				constexpr const std::string_view ZLURSHAD_BMP = "SC/Unit/zerg/zlurShad.bmp";
+				constexpr const std::string_view ZLUSHAD_BMP = "SC/Unit/zerg/zlushad.bmp";
+				constexpr const std::string_view ZMARKER_BEACON__BMP = "SC/Unit/zerg/zmarker(Beacon).bmp";
+				constexpr const std::string_view ZMCSHAD_BMP = "SC/Unit/zerg/zmcshad.bmp";
+				constexpr const std::string_view ZMHSHAD_BMP = "SC/Unit/zerg/zmhshad.bmp";
+				constexpr const std::string_view ZMUBIRTH_MUTALISK__BMP = "SC/Unit/zerg/zmubirth(Mutalisk).bmp";
+				constexpr const std::string_view ZMUDEATH_MUTALISK__BMP = "SC/Unit/zerg/zmudeath(Mutalisk).bmp";
+				constexpr const std::string_view ZNESHAD_BMP = "SC/Unit/zerg/zneshad.bmp";
+				constexpr const std::string_view ZNYSHAD_BMP = "SC/Unit/zerg/znyshad.bmp";
+				constexpr const std::string_view ZO1SHAD_OVERMIND__BMP = "SC/Unit/zerg/zo1shad(OverMind).bmp";
+				constexpr const std::string_view ZO1SHAD_BMP = "SC/Unit/zerg/zo1Shad.bmp";
+				constexpr const std::string_view ZO2SHAD_BMP = "SC/Unit/zerg/zo2shad.bmp";
+				constexpr const std::string_view ZOVBIRTH_OVERLORD__BMP = "SC/Unit/zerg/zovbirth(Overlord).bmp";
+				constexpr const std::string_view ZOVDEATH_OVERLORD__BMP = "SC/Unit/zerg/zovdeath(Overlord).bmp";
+				constexpr const std::string_view ZOVSHAD_BMP = "SC/Unit/zerg/ZovShad.bmp";
+				constexpr const std::string_view ZQUBIRTH_QUEEN__BMP = "SC/Unit/zerg/zqubirth(Queen).bmp";
+				constexpr const std::string_view ZQUDEATH_QUEEN__BMP = "SC/Unit/zerg/zqudeath(Queen).bmp";
+				constexpr const std::string_view ZRCSHAD_BMP = "SC/Unit/zerg/zrcshad.bmp";
+				constexpr const std::string_view ZRESHAD_BMP = "SC/Unit/zerg/zreshad.bmp";
+				constexpr const std::string_view ZSBSHAD_BMP = "SC/Unit/zerg/zsbshad.bmp";
+				constexpr const std::string_view ZSCSHAD_BMP = "SC/Unit/zerg/zscshad.bmp";
+				constexpr const std::string_view ZSPAWN01_BMP = "SC/Unit/zerg/zspawn01.bmp";
+				constexpr const std::string_view ZSPAWN02_BMP = "SC/Unit/zerg/zspawn02.bmp";
+				constexpr const std::string_view ZSPAWN03_BMP = "SC/Unit/zerg/zspawn03.bmp";
+				constexpr const std::string_view ZSPSHAD_BMP = "SC/Unit/zerg/zspshad.bmp";
+				constexpr const std::string_view ZUCSHAD_BMP = "SC/Unit/zerg/zucshad.bmp";
+				constexpr const std::string_view ZULBIRTH_ULTRALISK__BMP = "SC/Unit/zerg/zulbirth(Ultralisk).bmp";
+				constexpr const std::string_view ZULDEATH_ULTRALISK__BMP = "SC/Unit/zerg/zuldeath(Ultralisk).bmp";
+				constexpr const std::string_view ZULSHAD_ULTRALISK__BMP = "SC/Unit/zerg/zulshad(Ultralisk).bmp";
+				constexpr const std::string_view ZULSHAD_BMP = "SC/Unit/zerg/zulShad.bmp";
+				constexpr const std::string_view ZZEBIRTH_ZERGLING__BMP = "SC/Unit/zerg/zzebirth(Zergling).bmp";
+				constexpr const std::string_view ZZEDEATH_ZERGLING__BMP = "SC/Unit/zerg/zzedeath(Zergling).bmp";
+				constexpr const std::string_view ZZESHAD_ZERGLING__BMP = "SC/Unit/zerg/zzeshad(Zergling).bmp";
+				constexpr const std::string_view ZZESHAD_BMP = "SC/Unit/zerg/zzeShad.bmp";
+				constexpr const std::string_view ZZLUSHAD_BMP = "SC/Unit/zerg/zzluShad.bmp";
+			}
+			constexpr const std::string_view TILE_BMP = "TILE.bmp";
+			constexpr const std::string_view TRILOB_REAVER__BMP = "trilob(Reaver).bmp";
+		}
+	}
 }

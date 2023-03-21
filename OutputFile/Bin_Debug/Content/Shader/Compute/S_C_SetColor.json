@@ -1,0 +1,12 @@
+{
+	"NumThreadArr" : 
+	[
+		1,
+		1,
+		1
+	],
+	"RelativePath" : "S_C_SetColor.json",
+	"ShaderFileName" : "S_C_SetColor.json",
+	"strKey" : "S_C_SetColor.json",
+	"strName" : "S_C_SetColor.cso"
+}

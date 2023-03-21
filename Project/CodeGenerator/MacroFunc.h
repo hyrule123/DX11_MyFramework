@@ -11,6 +11,8 @@ namespace PresetPath
 #endif
 
 	constexpr const std::string_view strKeyScript = "strKeyScript.h";
+	constexpr const std::string_view strKeyShader = "strKeyShader.h";
+	constexpr const std::string_view strKeyTexture = "strKeyTexture.h";
 }
 
 namespace PresetStr
@@ -34,7 +36,8 @@ namespace PresetStr
 
 
 
-constexpr const wchar_t* IncludeBegin = L"#include \"";
+constexpr std::string_view IncludeBeginA = "#include \"";
+constexpr std::wstring_view IncludeBeginW = L"#include \"";
 
 extern int g_iIndentation;
 
@@ -103,10 +106,17 @@ inline void WriteBracketCloseAllW(wofstream& _pFile)
 	}
 }
 
-
-inline void IncludeFile(std::wofstream& _pFile, const wstring& _strIncludeFileName)
+inline void IncludeFileA(std::ofstream& _pFile, const string& _strIncludeFileName)
 {
-	wstring include = IncludeBegin;
+	string include = string(IncludeBeginA);
+	include += _strIncludeFileName + '\"';
+
+	WriteCodeA(_pFile, include);
+}
+
+inline void IncludeFileW(std::wofstream& _pFile, const wstring& _strIncludeFileName)
+{
+	wstring include = wstring(IncludeBeginW);
 	include += _strIncludeFileName + L'\"';
 
 	WriteCodeW(_pFile, include);

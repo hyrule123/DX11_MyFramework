@@ -1,0 +1,12 @@
+{
+	"NumThreadArr" : 
+	[
+		1,
+		1,
+		1
+	],
+	"RelativePath" : "S_C_Initalize.json",
+	"ShaderFileName" : "S_C_Initalize.json",
+	"strKey" : "S_C_Initalize.json",
+	"strName" : "S_C_Initalize.cso"
+}

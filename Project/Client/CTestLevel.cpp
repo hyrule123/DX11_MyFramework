@@ -36,6 +36,10 @@
 
 void CreateTestLevel()
 {
+	//for(int i = 0; i < (int)RES_TEXTURE_ARRAY::)
+
+
+
 	LoadAllTexture();
 	LoadUserMtrl();
 

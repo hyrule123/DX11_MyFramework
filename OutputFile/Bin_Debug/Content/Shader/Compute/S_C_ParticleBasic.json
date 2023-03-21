@@ -1,0 +1,12 @@
+{
+	"NumThreadArr" : 
+	[
+		1,
+		1,
+		1
+	],
+	"RelativePath" : "S_C_ParticleBasic.json",
+	"ShaderFileName" : "S_C_ParticleBasic.json",
+	"strKey" : "S_C_ParticleBasic.json",
+	"strName" : "S_C_ParticleBasic.cso"
+}

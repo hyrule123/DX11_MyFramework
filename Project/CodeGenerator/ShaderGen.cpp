@@ -163,7 +163,7 @@ void CreateShaderCode()
 
 
 	filesystem::path filePath(PresetPath::ScriptProj);
-	filePath /= PresetPath::strKeyScript;
+	filePath /= PresetPath::strKeyShader;
 	std::ofstream fpStrKeyShader(filePath);
 	if (true == fpStrKeyShader.is_open())
 	{
@@ -190,7 +190,7 @@ void CreateShaderCode()
 			codeLine += " = \"";
 
 			//CSO 파일 명
-			codeLine += GSIter.second.ShaderCodeName + "\";";
+			codeLine += GSIter.first + "\";";
 
 			WriteCodeA(fpStrKeyShader, codeLine);
 		}
@@ -247,17 +247,12 @@ void CreateShaderCode()
 
 
 
-					string Key = (*dirIter).path().filename().string();
+					string Key = (*dirIter).path().filename().replace_extension().string();
 
 					string Value = Key;
 
-					//앞의 _와 뒤의 확장자를 지우고 대문자로 만들어서 키값으로 변환해준다.
-					size_t strPos = Key.find(RES_INFO::SHADER::Extension_ShaderCode);
-					if (string::npos != strPos)
-					{
-						Key.erase(strPos, string::npos);
-					}
-					strPos = Key.find_last_of("_");
+
+					size_t strPos = Key.find_last_of("_");
 					if (string::npos != strPos)
 					{
 						Key.erase((size_t)0, strPos + (size_t)1);
@@ -267,7 +262,7 @@ void CreateShaderCode()
 
 					codeLine += Key;
 					codeLine += " = \"";
-					codeLine += Value + "\";";
+					codeLine += Value + string(RES_INFO::SHADER::Extension_ShaderSetting) + "\";";
 
 					WriteCodeA(fpStrKeyShader, codeLine);
 				}
