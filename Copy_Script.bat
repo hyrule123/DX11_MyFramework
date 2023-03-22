@@ -1,3 +1,8 @@
+set Mode=%1
+if "%Mode%"=="" set Mode=Debug
+echo Running %0... 
+echo Mode: %Mode%
+
 :: *.h 파일 복사(라이브러리 참조용)
 xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Script\*.h" ".\External\Include\Script\"
 

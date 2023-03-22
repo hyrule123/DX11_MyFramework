@@ -1,6 +1,8 @@
 #pragma once
 #include "CShader.h"
 
+
+
 //컴퓨트쉐이더는 MtrlConst 상수버퍼를 같이 사용한다.
 class CComputeShader :
     public CShader
@@ -24,7 +26,7 @@ private://미사용
 
 
 
-protected://아래의 두 함수만 재정의해서 사용해주면 됨.
+protected://아래의 함수만 재정의해서 사용해주면 됨.
     //BindDataCS에서 true를 반환 시에만 나머지 과정이 진행됨.
     virtual bool BindDataCS() = 0;
     virtual void UnBindCS() = 0;

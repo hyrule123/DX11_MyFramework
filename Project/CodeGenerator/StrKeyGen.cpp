@@ -208,7 +208,7 @@ void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const
 			const filesystem::recursive_directory_iterator& dirIterEnd = filesystem::end(dirIter);
 
 			//폴더구조가 변경되었는지 확인하기 위한 반복자
-			filesystem::path prevPath("");
+			filesystem::path prevPath;
 			int numDirPrev = 0;
 			for (dirIter; dirIter != dirIterEnd; ++dirIter)
 			{

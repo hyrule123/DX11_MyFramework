@@ -440,53 +440,60 @@ bool CResMgr::CreateDefaultGraphicsShader()
 
 bool CResMgr::CreateDefaultComputeShader()
 {
-
 	//컴퓨트쉐이더는 클래스에 종속적이므로 수동으로 로드해줘야 한다.
-
-	Ptr<CComputeShader> pCS = new CCS_Initialize;
-	if (true == pCS->Load(RES_DEFAULT::SHADER::COMPUTE::INITALIZE))
+	try
 	{
+		Ptr<CComputeShader> pCS = new CCS_Initialize;
+
+		//Initialize 컴퓨트쉐이더는 초기화와 동시에 한번 실행시켜서 초기 데이터를 등록한다.
 		AddRes(pCS->GetKey(), pCS);
 		pCS->Execute();
 	}
-	pCS = nullptr;
-
-
-	pCS = new CCS_SetColor(32u, 32u, 1u);
-
-	if (true == pCS->Load(RES_DEFAULT::SHADER::COMPUTE::SETCOLOR))
+	catch (const std::runtime_error& error)
 	{
+		ERROR_RUNTIME(error);
+	}
+
+	try
+	{
+		Ptr<CComputeShader>pCS = new CCS_SetColor;
 		AddRes(pCS->GetKey(), pCS);
 	}
-	pCS = nullptr;
-
-	//기본 파티클 쉐이더
-	pCS = new CCS_ParticleUpdate(128u, 1u, 1u);
-
-	if (true == pCS->Load(RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC))
+	catch (const std::runtime_error& error)
 	{
+		ERROR_RUNTIME(error);
+	}
+
+	//ParticleUpdate 클래스는 여러개의 파티클 쉐이더를 처리해야 하므로 생성자로 기본 이름을 받고 있음.
+	try
+	{
+		Ptr<CComputeShader> pCS = new CCS_ParticleUpdate(string(RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC));
 		AddRes(pCS->GetKey(), pCS);
 	}
-	pCS = nullptr;
-
-	//비 효과 파티클 쉐이더
-	pCS = new CCS_ParticleUpdate(128u, 1u, 1u);
-	pCS = new CCS_ParticleUpdate(128u, 1u, 1u);
-	
-	if (true == pCS->Load(RES_DEFAULT::SHADER::COMPUTE::PARTICLERAINDROP))
+	catch (const std::runtime_error& error)
 	{
+		ERROR_RUNTIME(error);
+	}
+
+	try
+	{
+		Ptr<CComputeShader> pCS = new CCS_ParticleUpdate(string(RES_DEFAULT::SHADER::COMPUTE::PARTICLERAINDROP));
 		AddRes(pCS->GetKey(), pCS);
 	}
-	pCS = nullptr;
-
-	pCS = new CCS_SCMapLoader;
-	
-	if (true == pCS->Load(string(RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER)))
+	catch (const std::runtime_error& error)
 	{
+		ERROR_RUNTIME(error);
+	}
+
+	try
+	{
+		Ptr<CComputeShader> pCS = new CCS_SCMapLoader;
 		AddRes(pCS->GetKey(), pCS);
 	}
-	pCS = nullptr;
-
+	catch (const std::runtime_error& error)
+	{
+		ERROR_RUNTIME(error);
+	}
 
 	return true;
 }

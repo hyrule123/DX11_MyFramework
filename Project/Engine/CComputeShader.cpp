@@ -70,14 +70,8 @@ bool CComputeShader::Load(const std::filesystem::path& _fileName)
 		fp >> jVal;
 		fp.close();
 
-		SetRelativePath(_fileName);
-		SetKey(_fileName.string());
-
 		return LoadJson(&jVal);
 	}
-
-
-
 	return false;
 }
 
@@ -88,7 +82,6 @@ bool CComputeShader::SaveJson(Json::Value* _jsonVal)
 
 	Json::Value& jVal = *_jsonVal;
 
-	jVal[string(RES_INFO::SHADER::COMPUTE::Setting::ShaderFileName)] = GetRelativePath().string();
 	jVal[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)] = Json::Value(Json::arrayValue);
 
 	for (int i = 0; i < ThreadAxis::NumAxis; ++i)
@@ -104,8 +97,21 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 	if (false == CShader::LoadJson(_jsonVal))
 		return false;
 
+	if (true == _jsonVal->isMember(string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)))
+	{
+		if (NumAxis == (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)].size())
+		{
+			for (int i = 0; i < NumAxis; ++i)
+			{
+				m_uNumThreadPerGroupArr[i] = (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)][i].asInt();
+			}
+		}
+
+	}
+		
+
 	std::filesystem::path ShaderPath = RELATIVE_PATH::SHADER_COMPUTE::A;
-	ShaderPath /= GetRelativePath();
+	ShaderPath /= GetName();
 	ShaderPath.replace_extension(RES_INFO::SHADER::Extension_ShaderSetting);
 
 	std::ios_base::openmode openMode = std::ios::in | std::ios::ate | std::ios::binary;

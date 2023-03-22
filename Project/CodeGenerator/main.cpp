@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
     CreateShaderCode();
 
-
+    
     vector<string> vecExtension;
     for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
     {

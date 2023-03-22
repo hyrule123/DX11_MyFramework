@@ -14,6 +14,8 @@
 #include "CCollider2D_OBB.h"
 #include "CCollider2D_Point.h"
 
+#include "struct.h"
+
 CCollisionMgr::CCollisionMgr()
 	: m_iNum2DGridX()
 	, m_iNum2DGridY()
@@ -21,8 +23,6 @@ CCollisionMgr::CCollisionMgr()
 	, m_arrFlagLayerInteraction{}
 {
 	RegisterCollisionFunc();
-
-
 
 
 	AddLayerInteraction2D(1, 1);

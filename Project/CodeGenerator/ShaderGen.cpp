@@ -301,7 +301,6 @@ void InitShaderSettingGraphics(Json::Value& _jVal, const pair<string, tShaderSet
 
 	//파이프라인 정보는 바깥에서 지정할 예정(값을 전달할 방법이 없음)
 	dummy.SetName(_mapPair.second.ShaderCodeName);
-	dummy.SetRelativePath(_mapPair.first);
 	dummy.SetKey(_mapPair.first);
 
 	//이쪽 코드에서 추가로 설정작업을 해줘야 하기 때문에 포인터를 통해 값을 받아오는 방식을 사용
@@ -317,7 +316,6 @@ void InitShaderSettingCompute(Json::Value& _jVal, const filesystem::path& _fileP
 	CDummyCompute dummy;
 
 	dummy.SetName(CodeFileName.string());
-	dummy.SetRelativePath(_filePath);
 	dummy.SetKey(_filePath.string());
 
 

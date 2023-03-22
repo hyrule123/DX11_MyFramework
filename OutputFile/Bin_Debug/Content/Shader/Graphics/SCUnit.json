@@ -4,7 +4,7 @@
 	"eBLENDSTATE_TYPE" : 0,
 	"eDEPTHSTENCIL_TYPE" : 0,
 	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : -1,
+	"eSHADER_DOMAIN" : 0,
 	"eSHADER_PIPELINE_STAGE" : 17,
 	"strKey" : "SCUnit.json",
 	"strName" : "SCUnit.cso"

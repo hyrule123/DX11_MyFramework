@@ -140,7 +140,7 @@
     </Link>
     <PostBuildEvent>
       <Command>cd $(SolutionDIr)
-call Copy_Script.bat</Command>
+"$(SolutionDir)Copy_Script.bat" $(Configuration)</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
@@ -172,7 +172,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     </Link>
     <PostBuildEvent>
       <Command>cd $(SolutionDIr)
-call Copy_Script.bat</Command>
+"$(SolutionDir)Copy_Script.bat" $(Configuration)</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)

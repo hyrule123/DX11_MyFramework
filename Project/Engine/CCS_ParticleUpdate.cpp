@@ -10,6 +10,25 @@
 #include "CParticleSystem.h"
 #include "CTransform.h"
 
+
+
+CCS_ParticleUpdate::CCS_ParticleUpdate()
+	: m_pBufferOwner()
+	, m_pSBuffer_Transform()
+	, m_pSBufferRW_Shared()
+	, m_pCBuffer_ModuleData()
+{
+}
+
+CCS_ParticleUpdate::CCS_ParticleUpdate(const string& _strFileKey)
+	: CCS_ParticleUpdate()
+{
+	std::filesystem::path FilePath(RELATIVE_PATH::SHADER_COMPUTE::A);
+	FilePath /= _strFileKey;
+	if (false == Load(FilePath))
+		throw(std::runtime_error(string("Compute Shader\n") + _strFileKey + string("\nLoad Failed")));
+}
+
 CCS_ParticleUpdate::CCS_ParticleUpdate(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ)
 	: CComputeShader(_uNumThreadsX, _uNumThreadsY, _uNumThreadsZ)
 	, m_pBufferOwner()
@@ -17,6 +36,7 @@ CCS_ParticleUpdate::CCS_ParticleUpdate(UINT _uNumThreadsX, UINT _uNumThreadsY, U
 	, m_pSBufferRW_Shared()
 	, m_pCBuffer_ModuleData()
 {
+	
 }
 
 CCS_ParticleUpdate::~CCS_ParticleUpdate()

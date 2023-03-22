@@ -10,7 +10,10 @@ class CTexture;
 class CCS_ParticleUpdate :
     public CComputeShader
 {
+private:
+    CCS_ParticleUpdate();
 public:
+    CCS_ParticleUpdate(const string& _strFileKey);
     CCS_ParticleUpdate(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ);
     virtual ~CCS_ParticleUpdate();
 

@@ -5,9 +5,17 @@
 
 #include "CStructBuffer.h"
 
-CCS_SetColor::CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ)
-	: CComputeShader(_iGroupPerThreadX, _iGroupPerThreadY, _iGroupPerThreadZ)
+#include "strKeyDefault.h"
+
+constexpr const std::string_view CSFileName_SetColor = "S_C_SetColor";
+
+CCS_SetColor::CCS_SetColor()
 {
+	std::filesystem::path FilePath = CSFileName_SetColor;
+	FilePath += RES_INFO::SHADER::Extension_ShaderSetting;
+	if (false == Load(FilePath))
+		throw(std::runtime_error("Compute Shader\n\"S_C_SetColor\"\nCompile Failed!!"));
+
 	UINT Target = eSHADER_PIPELINE_STAGE::__ALL;
 	m_StructBufferTest = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::SETCOLOR, idx_t_SBUFFER_SETCOLOR, idx_u_SETCOLOR_SBUFFERRW });
 

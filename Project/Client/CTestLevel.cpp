@@ -50,7 +50,7 @@ void CreateTestLevel()
 	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(RES_TEXTURE::MARINE_BMP));
 
 
-	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(RES_SHADER::GRAPHICS::SCUNIT);
+	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(string(RES_SHADER::GRAPHICS::SCUNIT));
 	SCUnitMtrl->SetShader(pSCUnitShader);
 	SCUnitMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTexMarine);
 	SCUnitMtrl->SetKey("SCUnitMtrl.json");

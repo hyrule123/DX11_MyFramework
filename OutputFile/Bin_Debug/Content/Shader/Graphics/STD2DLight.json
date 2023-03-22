@@ -1,10 +1,10 @@
 {
 	"D3D_PRIMITIVE_TOPOLOGY" : 4,
 	"RelativePath" : "STD2DLight.json",
-	"eBLENDSTATE_TYPE" : 0,
+	"eBLENDSTATE_TYPE": 0,
 	"eDEPTHSTENCIL_TYPE" : 0,
 	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : -1,
+	"eSHADER_DOMAIN" : 0,
 	"eSHADER_PIPELINE_STAGE" : 17,
 	"strKey" : "STD2DLight.json",
 	"strName" : "STD2DLight.cso"

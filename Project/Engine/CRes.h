@@ -21,18 +21,15 @@ public:
 private:
     int             m_iRefCount;
 
-    const eRES_TYPE  m_eResType;
+    eRES_TYPE  m_eResType;
     string         m_strKey;
-    std::filesystem::path         m_RelativePath;
+    //std::filesystem::path         m_RelativePath;
 
     
 
 public:
     void SetKey(const string& _strKey) { m_strKey = _strKey; }
     const string& GetKey() { return m_strKey; }
-
-    void SetRelativePath(const std::filesystem::path& _fileName) { m_RelativePath = _fileName; }
-    const std::filesystem::path& GetRelativePath() { return m_RelativePath; }
 
     eRES_TYPE GetResType() const { return m_eResType; }
 

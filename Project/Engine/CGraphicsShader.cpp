@@ -119,13 +119,25 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 
 
 	//쉐이더의 베이스 명칭은 CEntity::Name에서 로드되었을 것임.
+	string strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eBState);
+	if(jVal.isMember(strKey))
+		m_eBSType = (eBLENDSTATE_TYPE)jVal[strKey].asInt();
 
+	strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eDSState);
+	if (jVal.isMember(strKey))
+		m_eDSType = (eDEPTHSTENCIL_TYPE)jVal[strKey].asInt();
 
-	m_eBSType = (eBLENDSTATE_TYPE)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eBState)].asInt();
-	m_eDSType = (eDEPTHSTENCIL_TYPE)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eDSState)].asInt();
-	m_eRSType = (eRASTERIZER_TYPE)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eRSState)].asInt();
-	m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eTopology)].asInt();
-	m_eShaderDomain = (eSHADER_DOMAIN)jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eShaderDomain)].asInt();
+	strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eRSState);
+	if (jVal.isMember(strKey))
+		m_eRSType = (eRASTERIZER_TYPE)jVal[strKey].asInt();
+
+	strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eTopology);
+	if(jVal.isMember(strKey))
+		m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)jVal[strKey].asInt();
+		
+	strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eShaderDomain);
+	if(jVal.isMember(strKey))
+		m_eShaderDomain = (eSHADER_DOMAIN)jVal[strKey].asInt();
 
 	if (eSHADER_DOMAIN::_UNDEFINED == m_eShaderDomain)
 	{
@@ -134,12 +146,11 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 		errorMessage += " is Not set. May cause error.";
 		MessageBoxA(nullptr, errorMessage.c_str(), NULL, MB_OK);
 		assert(nullptr);
+		return false;
 	}
-
 
 	int flagPipeline = jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ePipelineFlag)].asInt();
 	int ShaderOrder = 0;
-
 
 	std::ios_base::openmode openFlag = std::ios_base::ate | std::ios_base::binary; std::ios_base::in;
 	for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
@@ -182,11 +193,12 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 				strErrMsg += "Load Failed!!";
 				MessageBoxA(nullptr, strErrMsg.c_str(), NULL, MB_OK);
 				assert(nullptr);
+				return false;
 			}
 		}
 	}
 
-	return false;
+	return true;
 }
 
 bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
@@ -197,9 +209,6 @@ bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
 	std::ifstream fpShader(shaderPath);
 	if (fpShader.is_open())
 	{
-		SetKey(_fileName.filename().string());
-		SetRelativePath(_fileName);
-
 		Json::Value shaderInfo;
 		fpShader >> shaderInfo;
 

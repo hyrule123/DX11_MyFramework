@@ -1,10 +1,10 @@
 {
-	"D3D_PRIMITIVE_TOPOLOGY" : 4,
+	"D3D_PRIMITIVE_TOPOLOGY" : 1,
 	"RelativePath" : "Particle.json",
-	"eBLENDSTATE_TYPE" : 0,
-	"eDEPTHSTENCIL_TYPE" : 0,
+	"eBLENDSTATE_TYPE": 2,
+	"eDEPTHSTENCIL_TYPE" : 4,
 	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : -1,
+	"eSHADER_DOMAIN" : 2,
 	"eSHADER_PIPELINE_STAGE" : 25,
 	"strKey" : "Particle.json",
 	"strName" : "Particle.cso"

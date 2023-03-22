@@ -8,6 +8,7 @@ void SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
 	_pNewObject->Transform()->SetRelativePos(_vWorldPos);
 
+
 	tEvent evn = {};
 	evn.Type = eEVENT_TYPE::CREATE_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pNewObject);

@@ -1,11 +1,10 @@
 #pragma once
 
 // 여기에 미리 컴파일하려는 헤더 추가
+#define WIN32_LEAN_AND_MEAN
 
-
-#include <stdlib.h>
 #include <Windows.h>
-
+#include <stdlib.h>
 #include <vector>
 #include <list>
 #include <map>
@@ -21,10 +20,16 @@ using std::list;
 using std::map;
 using std::unordered_map;
 using std::make_pair;
+
 using std::wstring;
 using std::string;
 using std::u8string;
+using std::string_view;
+using std::wstring_view;
+using std::u8string_view;
+
 using std::queue;
+
 
 #include <typeinfo>
 #include <typeindex>

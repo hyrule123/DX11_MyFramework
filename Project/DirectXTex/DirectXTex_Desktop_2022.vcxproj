@@ -189,7 +189,7 @@
     </Manifest>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_DirectXTex.bat</Command>
+"$(SolutionDir)Copy_DirectXTex.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -247,7 +247,7 @@ call Copy_DirectXTex.bat</Command>
     </Manifest>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_DirectXTex.bat</Command>
+"$(SolutionDir)Copy_DirectXTex.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
@@ -305,7 +305,7 @@ call Copy_DirectXTex.bat</Command>
     </Manifest>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_DirectXTex.bat</Command>
+"$(SolutionDir)Copy_DirectXTex.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

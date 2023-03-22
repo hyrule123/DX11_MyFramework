@@ -60,9 +60,6 @@ public:
     ComPtr<ID3D11RenderTargetView>	    GetRTV() { return m_RTV; }
     ComPtr<ID3D11DepthStencilView>	    GetDSV() { return m_DSV; }
     ComPtr<ID3D11UnorderedAccessView>   GetUAV() { return m_UAV; }
-
-
-
     
 public:
     int Create(UINT _uWidth, UINT _uHeight, DXGI_FORMAT _pixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
@@ -79,11 +76,6 @@ public:
     void BindData_UAV(int _iRegisterNum);
 
     void UnBind();
-
-
-    
-
-
 };
 
 inline Vec2 CTexture::GetSize()

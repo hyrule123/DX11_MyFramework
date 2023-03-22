@@ -12,7 +12,7 @@ class CCS_SetColor :
     public CComputeShader
 {
 public:
-    CCS_SetColor(UINT _iGroupPerThreadX, UINT _iGroupPerThreadY, UINT _iGroupPerThreadZ);
+    CCS_SetColor();
     virtual ~CCS_SetColor();
 
 protected:

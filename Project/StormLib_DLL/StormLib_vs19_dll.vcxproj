@@ -137,7 +137,7 @@
     </Link>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_StormLib_DLL.bat</Command>
+"$(SolutionDir)Copy_StormLib_DLL.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -188,7 +188,7 @@ call Copy_StormLib_DLL.bat</Command>
     </Link>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_StormLib_DLL.bat</Command>
+"$(SolutionDir)Copy_StormLib_DLL.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

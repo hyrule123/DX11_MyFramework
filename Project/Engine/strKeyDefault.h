@@ -80,11 +80,11 @@ namespace RES_DEFAULT
 
 		namespace COMPUTE
 		{
-			constexpr const std::string_view SCMAPLOADER = "S_1_C_SCMapLoader.cso";
-			constexpr const std::string_view INITALIZE = "S_C_Initalize.cso";
-			constexpr const std::string_view PARTICLEBASIC = "S_C_ParticleBasic.cso";
-			constexpr const std::string_view PARTICLERAINDROP = "S_C_ParticleRainDrop.cso";
-			constexpr const std::string_view SETCOLOR = "S_C_SetColor.cso";
+			constexpr const std::string_view SCMAPLOADER = "S_1_C_SCMapLoader.json";
+			constexpr const std::string_view INITALIZE = "S_C_Initalize.json";
+			constexpr const std::string_view PARTICLEBASIC = "S_C_ParticleBasic.json";
+			constexpr const std::string_view PARTICLERAINDROP = "S_C_ParticleRainDrop.json";
+			constexpr const std::string_view SETCOLOR = "S_C_SetColor.json";
 		}
 	}
 	

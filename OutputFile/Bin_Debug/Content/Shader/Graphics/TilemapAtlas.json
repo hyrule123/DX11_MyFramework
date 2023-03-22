@@ -1,10 +1,10 @@
 {
 	"D3D_PRIMITIVE_TOPOLOGY" : 4,
 	"RelativePath" : "TilemapAtlas.json",
-	"eBLENDSTATE_TYPE" : 0,
+	"eBLENDSTATE_TYPE": 1,
 	"eDEPTHSTENCIL_TYPE" : 0,
 	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : -1,
+	"eSHADER_DOMAIN" : 1,
 	"eSHADER_PIPELINE_STAGE" : 17,
 	"strKey" : "TilemapAtlas.json",
 	"strName" : "TilemapAtlas.cso"

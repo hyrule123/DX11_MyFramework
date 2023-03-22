@@ -170,7 +170,7 @@
     </Lib>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_UtilLib_DLL.bat</Command>
+"$(SolutionDir)Copy_UtilLib_DLL.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -197,7 +197,7 @@ call Copy_UtilLib_DLL.bat</Command>
     </Link>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_UtilLib_DLL.bat</Command>
+"$(SolutionDir)Copy_UtilLib_DLL.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

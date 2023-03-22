@@ -33,13 +33,18 @@ constexpr const char* MapSizeChunk = "DIM";
 constexpr const char* TileMapChunk = "MTXM";
 
 CCS_SCMapLoader::CCS_SCMapLoader()
-	: CComputeShader(32u, 32u, 1u)	//메가타일 사이즈 = 32 * 32
-    , m_arrpSBufferTileSet{}
+    : m_arrpSBufferTileSet{}
     , m_pSBuffer_MXTM()
     , m_pSBuffer_Debug()
     , m_DebugData()
     
 {
+    std::filesystem::path FilePath(RELATIVE_PATH::SHADER_COMPUTE::A);
+    FilePath /= RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER;
+    if (false == Load(FilePath))
+        throw(std::runtime_error("Compute Shader\n\"S_1_C_SCMapLoader\"\nLoad Failed!!"));
+
+
     //wstring Path = CPathMgr::GetInst()->GetContentAbsPathW();
     std::filesystem::path Path(RELATIVE_PATH::SCMAP::A);
     Path /= "Tilesets";

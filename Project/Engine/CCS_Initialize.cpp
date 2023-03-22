@@ -5,11 +5,18 @@
 
 #include "S_H_Struct.hlsli"
 
+#include "strKeyDefault.h"
+
+constexpr const std::string_view CSFileName_Initialize = "S_C_Initalize";
 
 CCS_Initialize::CCS_Initialize()
 	: CComputeShader(1u, 1u, 1u)
 	, m_pSBuffer_InitSetting()
 {
+	std::filesystem::path CSPath = CSFileName_Initialize;
+	CSPath /= RES_INFO::SHADER::Extension_ShaderSetting;
+	if (false == Load(CSPath))
+		throw(std::runtime_error("Compute Shader(Initalize) Load Failed!"));
 }
 
 CCS_Initialize::~CCS_Initialize()
@@ -21,7 +28,6 @@ bool CCS_Initialize::BindDataCS()
 {
 	////INT64에 1을 넣어서 전달한다. HLSL에서는 이 값을 INT32형태로 읽어들인다.
 	g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
-
 
 	m_pSBuffer_InitSetting = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__ALL, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, idx_t_INIT_SETTING, idx_u_INIT_SETTING });
 	m_pSBuffer_InitSetting->Create(sizeof(tInitSetting), 1u, &g_InitSetting, 1u);

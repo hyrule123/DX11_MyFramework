@@ -1,11 +1,11 @@
 {
-	"D3D_PRIMITIVE_TOPOLOGY" : 4,
+	"D3D_PRIMITIVE_TOPOLOGY" : 3,
 	"RelativePath" : "Debug.json",
-	"eBLENDSTATE_TYPE" : 0,
-	"eDEPTHSTENCIL_TYPE" : 0,
-	"eRASTERIZER_TYPE" : 0,
-	"eSHADER_DOMAIN" : -1,
-	"eSHADER_PIPELINE_STAGE" : 17,
+	"eBLENDSTATE_TYPE": 1,
+	"eDEPTHSTENCIL_TYPE": 5,
+	"eRASTERIZER_TYPE": 2,
+	"eSHADER_DOMAIN": 4,
+	"eSHADER_PIPELINE_STAGE": 17,
 	"strKey" : "Debug.json",
 	"strName" : "Debug.cso"
 }

@@ -147,7 +147,7 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_Engine.bat</Command>
+"$(SolutionDir)Copy_Engine.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -183,7 +183,7 @@ call Copy_Engine.bat</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-call Copy_Engine.bat</Command>
+"$(SolutionDir)Copy_Engine.bat" $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
