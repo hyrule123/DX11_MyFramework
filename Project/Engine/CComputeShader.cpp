@@ -35,45 +35,45 @@ CComputeShader::~CComputeShader()
 {
 }
 
-bool CComputeShader::Save(const std::filesystem::path& _fileName)
-{
-	std::filesystem::path _path(RELATIVE_PATH::SHADER_COMPUTE::A);
-	_path /= _fileName;
-	std::ofstream fp(_path);
+//bool CComputeShader::Save(const std::filesystem::path& _fileName)
+//{
+//	std::filesystem::path _path(RELATIVE_PATH::SHADER_COMPUTE::A);
+//	_path /= _fileName;
+//	std::ofstream fp(_path);
+//
+//	if (fp.is_open())
+//	{
+//		Json::Value jVal;
+//
+//		if (true == SaveJson(&jVal))
+//		{
+//			fp << jVal;
+//		}
+//
+//		fp.close();
+//	}
+//
+//	return false;
+//}
 
-	if (fp.is_open())
-	{
-		Json::Value jVal;
-
-		if (true == SaveJson(&jVal))
-		{
-			fp << jVal;
-		}
-
-		fp.close();
-	}
-
-	return false;
-}
-
-bool CComputeShader::Load(const std::filesystem::path& _fileName)
-{
-	std::filesystem::path CSPath(RELATIVE_PATH::SHADER_COMPUTE::A);
-	CSPath /= _fileName;
-
-	std::ifstream fp(CSPath);
-
-	if (fp.is_open())
-	{
-		Json::Value jVal;
-
-		fp >> jVal;
-		fp.close();
-
-		return LoadJson(&jVal);
-	}
-	return false;
-}
+//bool CComputeShader::Load(const std::filesystem::path& _fileName)
+//{
+//	std::filesystem::path CSPath(RELATIVE_PATH::SHADER_COMPUTE::A);
+//	CSPath /= _fileName;
+//
+//	std::ifstream fp(CSPath);
+//
+//	if (fp.is_open())
+//	{
+//		Json::Value jVal;
+//
+//		fp >> jVal;
+//		fp.close();
+//
+//		return LoadJson(&jVal);
+//	}
+//	return false;
+//}
 
 bool CComputeShader::SaveJson(Json::Value* _jsonVal)
 {
@@ -110,9 +110,8 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 	}
 		
 
-	std::filesystem::path ShaderPath = RELATIVE_PATH::SHADER_COMPUTE::A;
+	std::filesystem::path ShaderPath = CPathMgr::GetInst()->GetPathRel_Resource(GetResType());
 	ShaderPath /= GetName();
-	ShaderPath.replace_extension(RES_INFO::SHADER::Extension_ShaderSetting);
 
 	std::ios_base::openmode openMode = std::ios::in | std::ios::ate | std::ios::binary;
 	std::ifstream CSFile(ShaderPath, openMode);
@@ -158,7 +157,7 @@ void CComputeShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCode
 void CComputeShader::CreateShader(const wstring& _strFileName, const string& _strFuncName)
 {
 	// 1. Shader 파일 경로 받아옴
-	std::filesystem::path shaderPath(RELATIVE_PATH::SHADER_COMPUTE::W);
+	std::filesystem::path shaderPath(CPathMgr::GetInst()->GetPathRel_Resource(GetResType()).wstring());
 	shaderPath /= _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경

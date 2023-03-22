@@ -6,6 +6,8 @@
 
 #include "CStructBuffer.h"
 
+#include <UtilLib_DLL/json/json.h>
+
 CAnim2DAtlas::CAnim2DAtlas()
 	: CRes(eRES_TYPE::ANIM2D_ATLAS)
 	, m_uColTotal()
@@ -16,6 +18,49 @@ CAnim2DAtlas::CAnim2DAtlas()
 CAnim2DAtlas::~CAnim2DAtlas()
 {
 }
+
+//bool CAnim2DAtlas::Save(const std::filesystem::path& _fileName)
+//{
+//	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
+//	std::filesystem::path FilePath = RELATIVE_PATH::RES_ARR[(int)GetResType()];
+//	FilePath /= _fileName;
+//	
+//	std::ofstream outFile(FilePath);
+//	if (outFile.is_open())
+//	{
+//		Json::Value SaveVal;
+//
+//		bool Suc = SaveJson(&SaveVal);
+//		if (true == Suc)
+//		{
+//			outFile << SaveVal;
+//		}
+//		outFile.close();
+//
+//		return Suc;
+//	}
+//
+//	return false;
+//}
+//
+//bool CAnim2DAtlas::Load(const std::filesystem::path& _fileName)
+//{
+//
+//}
+
+//TODO : 여기 작성
+bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
+{
+
+	return true;
+}
+
+bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
+{
+
+	return true;
+}
+
 
 void CAnim2DAtlas::SetAtlasTexture(Ptr<CTexture> _AtlasTex)
 {

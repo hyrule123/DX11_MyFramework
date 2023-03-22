@@ -3,6 +3,8 @@
 
 #include "ptr.h"
 
+#include <UtilLib_DLL/json/forwards.h>
+
 enum class eANIM_TYPE
 {
     SEQUENTIAL,         //순차 재생
@@ -55,9 +57,14 @@ public:
     CAnim2DAtlas();
     virtual ~CAnim2DAtlas();
 public:
+    //virtual bool Save(const std::filesystem::path& _fileName) override;
+    //virtual bool Load(const std::filesystem::path& _fileName) override;
+    
+    virtual bool SaveJson(Json::Value* _jVal) override;
+    virtual bool LoadJson(Json::Value* _jVal) override;
+
     virtual void BindData() override {};
-    virtual bool Load(const std::filesystem::path& _fileName) override { return false; };
-    virtual bool Save(const std::filesystem::path& _fileName) override { return false; };
+    
 
 private:
     //애니메이션의 대상이 되는 텍스처
@@ -107,7 +114,6 @@ public:
 
 
     const tAnimFrameIdx* FindAnim2D(const string& _AnimIdxStrKey);
-
     Ptr<CTexture> GetAtlasTex() { return m_AtlasTex; }
     const tAnimFrameUV& GetFrameUVData(int _iIdx) { return m_vecFrameUV[_iIdx]; }
 };

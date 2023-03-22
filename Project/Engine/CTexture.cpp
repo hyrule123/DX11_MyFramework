@@ -23,17 +23,6 @@ bool CTexture::Save(const std::filesystem::path& _fileName)
 	return false;
 }
 
-bool CTexture::SaveJson(Json::Value* _pJson)
-{
-	if (nullptr == _pJson)
-		return false;
-	else if (false == CRes::SaveJson(_pJson))
-		return false;
-
-
-
-	return true;
-}
 
 
 bool CTexture::Load(const std::filesystem::path& _fileName)
@@ -88,17 +77,6 @@ bool CTexture::Load(const std::filesystem::path& _fileName)
 	return true;
 }
 
-bool CTexture::LoadJson(Json::Value* _pJson)
-{
-	if (nullptr == _pJson)
-		return false;
-	else if (false == CRes::LoadJson(_pJson))
-		return false;
-
-
-
-	return true;
-}
 
 
 

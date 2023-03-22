@@ -3,6 +3,8 @@
 
 #include "jsoncpp.h"
 
+#include "strKeyDefault.h"
+
 namespace JSONKEY_CRes
 {
 	JSON_KEY(eRES_TYPE);
@@ -38,9 +40,30 @@ void CRes::Release()
 	}
 }
 
+bool CRes::Load(const std::filesystem::path& _fileName)
+{
+	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
+	std::filesystem::path FilePath = RELATIVE_PATH::RES_ARR[(int)GetResType()];
+	FilePath /= _fileName;
+
+	std::ifstream inFile(FilePath);
+	if (inFile.is_open())
+	{
+		Json::Value LoadVal;
+		inFile >> LoadVal;
+		inFile.close();
+
+		return LoadJson(&LoadVal);
+	}
+
+	return false;
+}
+
 bool CRes::LoadJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
+		return false;
+	else if (false == CEntity::LoadJson(_pJson))
 		return false;
 
 	//m_eResType = (eRES_TYPE)(*_pJson)[JSONKEY_CRes::eRES_TYPE].asInt();
@@ -55,6 +78,25 @@ bool CRes::LoadJson(Json::Value* _pJson)
 
 bool CRes::Save(const std::filesystem::path& _fileName)
 {
+	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
+	std::filesystem::path FilePath = RELATIVE_PATH::RES_ARR[(int)GetResType()];
+	FilePath /= _fileName;
+
+	std::ofstream outFile(FilePath);
+	if (outFile.is_open())
+	{
+		Json::Value SaveVal;
+
+		bool Suc = SaveJson(&SaveVal);
+		if (true == Suc)
+		{
+			outFile << SaveVal;
+		}
+		outFile.close();
+
+		return Suc;
+	}
+
 	return false;
 }
 

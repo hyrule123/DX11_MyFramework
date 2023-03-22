@@ -1,44 +1,30 @@
 #pragma once
 
-
-#define MAKE_RELATIVE_PATH(_NameSpace, _strPath) \
-namespace _NameSpace \
-{ \
-constexpr const std::u8string_view U8 = u8#_strPath;\
-constexpr const std::string_view A = #_strPath;\
-constexpr const std::wstring_view W = L#_strPath;\
-}
-
-namespace RELATIVE_PATH
+enum class eRES_TYPE
 {
-	MAKE_RELATIVE_PATH(CONTENT, ./Content);
-	MAKE_RELATIVE_PATH(SHADER_GRAPHICS, ./Content/Shader/Graphics);
-	MAKE_RELATIVE_PATH(SHADER_COMPUTE, ./Content/Shader/Compute);
-	MAKE_RELATIVE_PATH(TEXTURE, ./Content/Texture);
-	MAKE_RELATIVE_PATH(SCMAP, ./Content/SCMap);
-	MAKE_RELATIVE_PATH(MATERIAL, ./Material);
-}
+	UNKNOWN = -1,
 
-namespace DIRECTORY_NAME
-{
-	MAKE_RELATIVE_PATH(CONTENT, Content);
-	MAKE_RELATIVE_PATH(SHADER, Shader);
-	MAKE_RELATIVE_PATH(GRAPHICS, Graphics);
-	MAKE_RELATIVE_PATH(COMPUTE, Compute);
-	MAKE_RELATIVE_PATH(TEXTURE, Texture);
-	MAKE_RELATIVE_PATH(SCMAP, Maps);
-	MAKE_RELATIVE_PATH(SAVED_SETTINGS, SavedSetting);
-	MAKE_RELATIVE_PATH(MATERIAL, Material);
+	MESH,			// 형태
+	MESHDATA,
+	MATERIAL,
 
-}
+	TEXTURE,		// 이미지
+	ANIM2D_ATLAS,
+	SCMAP,
 
+	SOUND,
+
+	PREFAB,
+
+	GRAPHICS_SHADER,
+	COMPUTE_SHADER,
+
+	END
+};
 
 
 namespace RES_DEFAULT
 {
-
-
-
 	namespace MESH
 	{
 		constexpr const std::string_view POINT = "PointMesh";
@@ -52,17 +38,17 @@ namespace RES_DEFAULT
 
 	namespace MATERIAL
 	{
-		constexpr const std::string_view DEBUG_RECT = "DebugRect.mtrl";
-		constexpr const std::string_view DEBUG_CIRCLE = "DebugCircle.mtrl";
+		constexpr const std::string_view DEBUG_RECT = "DebugRect.json";
+		constexpr const std::string_view DEBUG_CIRCLE = "DebugCircle.json";
 
-		constexpr const std::string_view TEST = "Test.mtrl";
-		constexpr const std::string_view STD2D = "std2D.mtrl";
-		constexpr const std::string_view STD2D_LIGHT = "std2DLight.mtrl";
+		constexpr const std::string_view TEST = "Test.json";
+		constexpr const std::string_view STD2D = "std2D.json";
+		constexpr const std::string_view STD2D_LIGHT = "std2DLight.json";
 		
-		constexpr const std::string_view TILEMAP_COMPLETE = "TilemapComplete.mtrl";
-		constexpr const std::string_view TILEMAP_ATLAS = "TilemapAtlas.mtrl";
+		constexpr const std::string_view TILEMAP_COMPLETE = "TilemapComplete.json";
+		constexpr const std::string_view TILEMAP_ATLAS = "TilemapAtlas.json";
 
-		constexpr const std::string_view PARTICLE_RENDER = "ParticleRender.mtrl";
+		constexpr const std::string_view PARTICLE_RENDER = "ParticleRender.json";
 	}
 
 	namespace SHADER
@@ -98,30 +84,77 @@ namespace RES_DEFAULT
 
 namespace RES_INFO
 {
+	namespace MESHDATA
+	{
+		enum class eEXT_TYPE
+		{
+			FBX,
+			END
+		};
+
+		constexpr const std::string_view arrExt[(int)eEXT_TYPE::END] = { ".fbx" };
+
+		constexpr const std::string_view DirName = DIRECTORY_NAME::RES_ARR[(int)eRES_TYPE::MESH];
+	}
+
+	namespace MATERIAL
+	{
+		constexpr const std::string_view Ext = ".json";
+
+		constexpr const std::string_view DirName = DIRECTORY_NAME::MATERIAL;
+	}
 	
 	//순회 돌 떄 편하게 돌수있도록 배열 형태로 사용
 	namespace TEXTURE
 	{
-		enum class eTEX_TYPE
+		enum class eEXT_TYPE
 		{
 			PNG,
 			BMP,
 			END
 		};
-		constexpr const std::string_view DirName = "Texture";
-		constexpr const std::string_view ExtensionArr[(int)eTEX_TYPE::END] = { ".png", ".bmp" };
+		
+		constexpr const std::string_view arrExt[(int)eEXT_TYPE::END] = { ".png", ".bmp" };
+		constexpr const std::string_view DirName = DIRECTORY_NAME::TEXTURE;
 	}
+
+	namespace ANIM2D
+	{
+		constexpr const std::string_view Ext = ".json";
+	}
+
+	namespace SOUND
+	{
+		enum class eEXT_TYPE
+		{
+			MP3,
+			OGG,
+			END
+		};
+
+		constexpr const std::string_view arrExt[(int)eEXT_TYPE::END] = { ".mp3", ".ogg" };
+
+		constexpr const std::string_view DirName = DIRECTORY_NAME::SOUND;
+	}
+
+	namespace PREFAB
+	{
+		constexpr const std::string_view Ext = ".json";
+
+		constexpr const std::string_view DirName = DIRECTORY_NAME::PREFAB;
+	}
+
 
 	namespace SHADER
 	{
 		constexpr std::string_view DirNameRoot = "Shader";
-		constexpr std::string_view Extension_ShaderSetting = ".json";
-		constexpr std::string_view Extension_ShaderCode = ".cso";
+		constexpr std::string_view Ext_ShaderSetting = ".json";
+		constexpr std::string_view Ext_ShaderCode = ".cso";
 
 		namespace GRAPHICS
 		{
-			constexpr const std::string_view DirName = "Graphics";
-			constexpr std::string_view PrefixArr[(int)eSHADER_TYPE::END] =
+			constexpr const std::string_view DirName = DIRECTORY_NAME::SHADER_GRAPHICS;
+			constexpr std::string_view arrPrefix[(int)eSHADER_TYPE::END] =
 			{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
 
 			//각 쉐이더마다 들어가야할 설정값
@@ -153,10 +186,6 @@ namespace RES_INFO
 				constexpr const std::string_view iNumThreadArr = "NumThreadArr";
 			}
 		}
-
-		
-		
-	
 	}
 
 
@@ -170,13 +199,7 @@ namespace RES_INFO
 			SCX,
 			END
 		};
-		constexpr const std::string_view arrExtension[(int)eSCMAP_TYPE::END] = { ".scm", ".scx" };
-	}
-
-	namespace MATERIAL
-	{
-		constexpr const std::string_view DirName = "Material";
-		constexpr const std::string_view Ext = ".json";
+		constexpr const std::string_view arrExt[(int)eSCMAP_TYPE::END] = { ".scm", ".scx" };
 	}
 }
 

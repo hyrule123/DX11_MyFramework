@@ -14,12 +14,14 @@ public:
 
 public:
     virtual bool Save(const std::filesystem::path& _fileName) override;
-    virtual bool SaveJson(Json::Value* _pJson) override;
+
+    //json 사용 X
+    virtual bool SaveJson(Json::Value* _pJson) override { return false; }
 
 protected:
     //_fileName == Texture 폴더 안쪽부터의 경로
     virtual bool Load(const std::filesystem::path& _fileName) override;
-    virtual bool LoadJson(Json::Value* _pJson) override;
+    virtual bool LoadJson(Json::Value* _pJson) override { return false; }
 
 private://별도의 BindData()를 사용해서 바인딩한다.
     virtual void BindData() override {};

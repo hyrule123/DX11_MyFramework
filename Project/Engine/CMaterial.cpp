@@ -81,10 +81,10 @@ void CMaterial::SetInstancedRender(bool _bEnable)
 	}
 }
 
-bool CMaterial::Save(const std::filesystem::path& _fileName)
-{
-	return false;
-}
+//bool CMaterial::Save(const std::filesystem::path& _fileName)
+//{
+//	return false;
+//}
 
 bool CMaterial::SaveJson(Json::Value* _pJson)
 {
@@ -115,26 +115,26 @@ bool CMaterial::SaveJson(Json::Value* _pJson)
 	return true;
 }
 
-bool CMaterial::Load(const std::filesystem::path& _fileName)
-{
-	std::filesystem::path LoadPath(RELATIVE_PATH::CONTENT::A);
-	LoadPath /= RES_INFO::MATERIAL::DirName;
-	LoadPath /= _fileName;
-
-	std::ifstream LoadFile(LoadPath);
-	if (LoadFile.is_open())
-	{
-		Json::Value JsonVal;
-
-		LoadFile >> JsonVal;
-
-		LoadFile.close();
-
-		return LoadJson(&JsonVal);
-	}
-
-	return false;
-}
+//bool CMaterial::Load(const std::filesystem::path& _fileName)
+//{
+//	std::filesystem::path LoadPath(RELATIVE_PATH::CONTENT::A);
+//	LoadPath /= RES_INFO::MATERIAL::DirName;
+//	LoadPath /= _fileName;
+//
+//	std::ifstream LoadFile(LoadPath);
+//	if (LoadFile.is_open())
+//	{
+//		Json::Value JsonVal;
+//
+//		LoadFile >> JsonVal;
+//
+//		LoadFile.close();
+//
+//		return LoadJson(&JsonVal);
+//	}
+//
+//	return false;
+//}
 
 bool CMaterial::LoadJson(Json::Value* _pJson)
 {

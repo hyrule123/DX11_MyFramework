@@ -38,10 +38,9 @@ void CreateTestLevel()
 {
 	//for(int i = 0; i < (int)RES_TEXTURE_ARRAY::)
 
-
-
 	LoadAllTexture();
 	LoadUserMtrl();
+	LoadAnim();
 
 	CResMgr* pResMgr = CResMgr::GetInst();
 
@@ -60,69 +59,32 @@ void CreateTestLevel()
 
 
 	{
-		const Vec2& vTexSize = pTexMarine->GetSize();
+		
 
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
 		TestObj->AddComponent(new CTransform);
-		TestObj->Transform()->SetSize(Vec3(vTexSize, 0.f));
+		
 		TestObj->AddComponent(new CMeshRender);
 		TestObj->MeshRender()->SetMaterial(SCUnitMtrl);
 		TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
+		//const Vec2& vTexSize = pTexMarine->GetSize();
+		//TestObj->Transform()->SetSize(Vec3(vTexSize, 0.f));
+		//TestObj->MeshRender()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTexMarine);
 
+		TestObj->AddComponent(new CAnimator2D);
 
-		TestObj->MeshRender()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTexMarine);
+		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(RES_TEXTURE::TRILOB_REAVER__BMP));
+		
+		TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
 
+		TestObj->Animator2D()->Play("ReaverMove", eANIM_LOOPMODE::NORMAL_LOOP, false);
+		
+
+		TestObj->Transform()->SetSize(Vec3(TestObj->Animator2D()->GetCurFrameSize(), 1.f));
 
 		::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
 	}
-
-
-
-
-//
-//	{
-//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(RES_DEFAULT::TEXTURE::REAVER_ATLAS));
-//
-//	Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
-//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::REAVERMOVE, 0u, 9u, 3.f);
-//
-//	pResMgr->AddRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::REAVER_ATLAS, Atlas);
-//}
-//
-//{
-//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(RES_DEFAULT::TEXTURE::CORSAIR_ATLAS));
-//
-//	Atlas->SetNewAnimUV(17u, 5u, 0u, 17u, 0u, 5u);
-//	Atlas->AddAnim2D(RES_DEFAULT::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
-//
-//	pResMgr->AddRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::CORSAIR_ATLAS, Atlas);
-//}
-//
-//{
-//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(RES_DEFAULT::TEXTURE::MARINE_ATLAS));
-//
-//	Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
-//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_IDLE, 0u, 1u, 1.f);
-//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_ATTACKSTART, 1u, 2u, 0.5f);
-//
-//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
-//
-//	vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
-//	Atlas->AddAnim2D_vecRowIndex(RES_DEFAULT::ANIM2D::MARINE_ATTACK, row, 0.6f);
-//
-//	row.clear();
-//	
-//	row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
-//	Atlas->AddAnim2D(RES_DEFAULT::ANIM2D::MARINE_DEATH, row, 1.f);
-//	
-//
-//	pResMgr->AddRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::MARINE_ATLAS, Atlas);
-//}
-
 
 
 	//{
@@ -503,6 +465,52 @@ void LoadUserMtrl()
 		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
 		throw(error);
 	}
+}
+
+void LoadAnim()
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+	{
+		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(RES_TEXTURE::TRILOB_REAVER__BMP)));
+
+		Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
+		Atlas->AddAnim2D_SC_Redundant("ReaverMove", 0u, 9u, 1.f);
+
+		pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::TRILOB_REAVER__BMP), Atlas);
+	}
+
+	//{
+	//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(RES_DEFAULT::TEXTURE::CORSAIR_ATLAS));
+	//
+	//	Atlas->SetNewAnimUV(17u, 5u, 0u, 17u, 0u, 5u);
+	//	Atlas->AddAnim2D(RES_DEFAULT::ANIM2D::CORSAIRMOVE, 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
+	//
+	//	pResMgr->AddRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::CORSAIR_ATLAS, Atlas);
+	//}
+	//
+	//{
+	//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(RES_DEFAULT::TEXTURE::MARINE_ATLAS));
+	//
+	//	Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
+	//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_IDLE, 0u, 1u, 1.f);
+	//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_ATTACKSTART, 1u, 2u, 0.5f);
+	//
+	//	Atlas->AddAnim2D_SC_Redundant(RES_DEFAULT::ANIM2D::MARINE_MOVE, 4u, 9u, 1.f);
+	//
+	//	vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
+	//	Atlas->AddAnim2D_vecRowIndex(RES_DEFAULT::ANIM2D::MARINE_ATTACK, row, 0.6f);
+	//
+	//	row.clear();
+	//	
+	//	row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
+	//	Atlas->AddAnim2D(RES_DEFAULT::ANIM2D::MARINE_DEATH, row, 1.f);
+	//	
+	//
+	//	pResMgr->AddRes<CAnim2DAtlas>(RES_DEFAULT::TEXTURE::MARINE_ATLAS, Atlas);
+	//}
 }
 
 bool CreateUserGraphicsShader()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Precompiled.h"
+#include "strKeyDefault.h"
 
 #define DEVICE  CDevice::GetInst()->GetDevice()
 #define CONTEXT CDevice::GetInst()->GetDeviceContext()
@@ -61,51 +62,33 @@ extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 
 
 
-enum class eRES_TYPE
-{
-	UNKNOWN = -1,
 
-	MESH,			// 형태
-	MESHDATA,
-	MATERIAL,
-	
-	TEXTURE,		// 이미지
-	ANIM2D_ATLAS,
-	SOUND,
 
-	PREFAB,
-
-	GRAPHICS_SHADER,
-	COMPUTE_SHADER,
-
-	END
-};
-
-constexpr std::string_view g_eRES_TYPE_strName[(int)eRES_TYPE::END]
-{
-	"MESH",
-	"MESHDATA",
-	"MATERIAL",
-	"TEXTURE",
-	"ANIM2D_ATLAS",
-	"SOUND",
-	"PREFAB",
-	"GRAPHICS_SHADER",
-	"COMPUTE_SHADER"
-};
-
-constexpr std::wstring_view g_eRES_TYPE_lstrName[(int)eRES_TYPE::END]
-{
-	L"MESH",
-	L"MESHDATA",
-	L"MATERIAL",
-	L"TEXTURE",
-	L"ANIM2D_ATLAS",
-	L"SOUND",
-	L"PREFAB",
-	L"GRAPHICS_SHADER",
-	L"COMPUTE_SHADER"
-};
+//constexpr std::string_view g_eRES_TYPE_strName[(int)eRES_TYPE::END]
+//{
+//	"MESH",
+//	"MESHDATA",
+//	"MATERIAL",
+//	"TEXTURE",
+//	"ANIM2D_ATLAS",
+//	"SOUND",
+//	"PREFAB",
+//	"GRAPHICS_SHADER",
+//	"COMPUTE_SHADER"
+//};
+//
+//constexpr std::wstring_view g_eRES_TYPE_lstrName[(int)eRES_TYPE::END]
+//{
+//	L"MESH",
+//	L"MESHDATA",
+//	L"MATERIAL",
+//	L"TEXTURE",
+//	L"ANIM2D_ATLAS",
+//	L"SOUND",
+//	L"PREFAB",
+//	L"GRAPHICS_SHADER",
+//	L"COMPUTE_SHADER"
+//};
 
 enum class eKEY_STATE
 {

@@ -65,7 +65,7 @@ void CreateShaderCode()
 			filesystem::path SFileName = file.path().lexically_relative(GSShaderDir);
 
 			//확장자가 .cso로 끝나는지 확인한다. 확장자가 cso가 아닐 경우 쉐이더가 아니므로 continue;
-			if (SFileName.extension() != RES_INFO::SHADER::Extension_ShaderCode)
+			if (SFileName.extension() != RES_INFO::SHADER::Ext_ShaderCode)
 				continue;
 
 			SFileName.replace_extension("");
@@ -76,7 +76,7 @@ void CreateShaderCode()
 			int flagPipeline = (int)eSHADER_PIPELINE_STAGE::__NONE;
 			for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
 			{
-				if (string::npos != SFileNameBase.find(RES_INFO::SHADER::GRAPHICS::PrefixArr[i]))
+				if (string::npos != SFileNameBase.find(RES_INFO::SHADER::GRAPHICS::arrPrefix[i]))
 				{
 					flagPipeline |= 1 << i;
 					break;
@@ -93,13 +93,13 @@ void CreateShaderCode()
 			}
 
 			std::filesystem::path FileName = SFileNameBase;
-			FileName.replace_extension(RES_INFO::SHADER::Extension_ShaderSetting);
+			FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderSetting);
 			string strFileName = FileName.string();
 			//처음 발견한 쉐이더 이름일 경우 NONE 값을 넣고 초기화해준다.
 			auto mapIter = mapShaderInfo.find(strFileName);
 			if (mapIter == mapShaderInfo.end())
 			{
-				string CodeFileName = FileName.replace_extension(RES_INFO::SHADER::Extension_ShaderCode).string();
+				string CodeFileName = FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderCode).string();
 
 				mapShaderInfo[strFileName] = tShaderSetting{CodeFileName, eSHADER_PIPELINE_STAGE::__NONE};
 
@@ -213,10 +213,10 @@ void CreateShaderCode()
 				{
 					//cso 파일을 읽었을 때만 진행.
 					filesystem::path FileName = dirIter->path();
-					if (0 != FileName.extension().compare(RES_INFO::SHADER::Extension_ShaderCode))
+					if (0 != FileName.extension().compare(RES_INFO::SHADER::Ext_ShaderCode))
 						continue;
 
-					FileName.replace_extension(RES_INFO::SHADER::Extension_ShaderSetting);
+					FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderSetting);
 
 					//파일이 존재하면 스킵
 					ifstream ifpSetting(FileName);
@@ -262,7 +262,7 @@ void CreateShaderCode()
 
 					codeLine += Key;
 					codeLine += " = \"";
-					codeLine += Value + string(RES_INFO::SHADER::Extension_ShaderSetting) + "\";";
+					codeLine += Value + string(RES_INFO::SHADER::Ext_ShaderSetting) + "\";";
 
 					WriteCodeA(fpStrKeyShader, codeLine);
 				}
@@ -311,7 +311,7 @@ void InitShaderSettingGraphics(Json::Value& _jVal, const pair<string, tShaderSet
 void InitShaderSettingCompute(Json::Value& _jVal, const filesystem::path& _filePath)
 {
 	filesystem::path CodeFileName = _filePath;
-	CodeFileName.replace_extension(RES_INFO::SHADER::Extension_ShaderCode);
+	CodeFileName.replace_extension(RES_INFO::SHADER::Ext_ShaderCode);
 
 	CDummyCompute dummy;
 

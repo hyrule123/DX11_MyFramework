@@ -71,6 +71,11 @@ public:
     void AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex);
     void Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
 
+    //TODO : 임시
+    const Vec2  GetCurFrameSize() ;
+
+    const tAnimFrameIdx* GetCurAnim() const { return m_pCurAnim; }
+
     
 private:
     void Stop() { m_iCurAtlasTexIdx = -1; m_pCurAnim = nullptr; };

@@ -37,20 +37,20 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
-bool CGraphicsShader::Save(const std::filesystem::path& _fileName)
-{
-	std::ifstream FileOpen(_fileName);
-	if (FileOpen.is_open())
-	{
-		Json::Value jsonVal;
-		FileOpen >> jsonVal;
-		FileOpen.close();
-
-		return SaveJson(&jsonVal);
-	}
-
-	return false;
-}
+//bool CGraphicsShader::Save(const std::filesystem::path& _fileName)
+//{
+//	std::ifstream FileOpen(_fileName);
+//	if (FileOpen.is_open())
+//	{
+//		Json::Value jsonVal;
+//		FileOpen >> jsonVal;
+//		FileOpen.close();
+//
+//		return SaveJson(&jsonVal);
+//	}
+//
+//	return false;
+//}
 
 bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 {
@@ -164,7 +164,7 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 
 			shaderPath /= "S_";
 			shaderPath += std::to_string(ShaderOrder);
-			shaderPath += RES_INFO::SHADER::GRAPHICS::PrefixArr[i];
+			shaderPath += RES_INFO::SHADER::GRAPHICS::arrPrefix[i];
 			shaderPath += GetName();
 
 			std::ifstream shaderCode(shaderPath, openFlag);
@@ -201,22 +201,22 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 	return true;
 }
 
-bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
-{
-	std::filesystem::path shaderPath = RELATIVE_PATH::SHADER_GRAPHICS::A;
-	shaderPath /= _fileName;
-
-	std::ifstream fpShader(shaderPath);
-	if (fpShader.is_open())
-	{
-		Json::Value shaderInfo;
-		fpShader >> shaderInfo;
-
-		return LoadJson(&shaderInfo);
-	}
-	
-	return false;
-}
+//bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
+//{
+//	std::filesystem::path shaderPath = RELATIVE_PATH::SHADER_GRAPHICS::A;
+//	shaderPath /= _fileName;
+//
+//	std::ifstream fpShader(shaderPath);
+//	if (fpShader.is_open())
+//	{
+//		Json::Value shaderInfo;
+//		fpShader >> shaderInfo;
+//
+//		return LoadJson(&shaderInfo);
+//	}
+//	
+//	return false;
+//}
 
 void CGraphicsShader::CreateDefaultInputLayout()
 {

@@ -12,7 +12,7 @@ constexpr const std::string_view CSFileName_SetColor = "S_C_SetColor";
 CCS_SetColor::CCS_SetColor()
 {
 	std::filesystem::path FilePath = CSFileName_SetColor;
-	FilePath += RES_INFO::SHADER::Extension_ShaderSetting;
+	FilePath += RES_INFO::SHADER::Ext_ShaderSetting;
 	if (false == Load(FilePath))
 		throw(std::runtime_error("Compute Shader\n\"S_C_SetColor\"\nCompile Failed!!"));
 

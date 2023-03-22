@@ -39,8 +39,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     , m_DebugData()
     
 {
-    std::filesystem::path FilePath(RELATIVE_PATH::SHADER_COMPUTE::A);
-    FilePath /= RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER;
+    std::filesystem::path FilePath(RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER);
     if (false == Load(FilePath))
         throw(std::runtime_error("Compute Shader\n\"S_1_C_SCMapLoader\"\nLoad Failed!!"));
 

@@ -14,7 +14,7 @@ CCS_Initialize::CCS_Initialize()
 	, m_pSBuffer_InitSetting()
 {
 	std::filesystem::path CSPath = CSFileName_Initialize;
-	CSPath /= RES_INFO::SHADER::Extension_ShaderSetting;
+	CSPath += RES_INFO::SHADER::Ext_ShaderSetting;
 	if (false == Load(CSPath))
 		throw(std::runtime_error("Compute Shader(Initalize) Load Failed!"));
 }

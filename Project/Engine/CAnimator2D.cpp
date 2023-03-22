@@ -264,6 +264,18 @@ void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
 
 }
 
+const Vec2 CAnimator2D::GetCurFrameSize() 
+{
+    Vec2 size;
+    if (m_pCurAnim && m_arrAtlasTex[0].Get())
+    {
+        const Vec2& TexSize = m_arrAtlasTex[0]->GetAtlasTex()->GetSize();
+        const Vec2& SliceSize = m_arrAtlasTex[0]->GetFrameUVData(m_pCurAnim->vecFrame[0].uIdxInVecFrameUV).SliceUV;
+        size = TexSize * SliceSize;
+    }
+    return size;
+}
+
 
 
 

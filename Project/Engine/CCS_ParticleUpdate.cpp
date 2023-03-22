@@ -23,8 +23,8 @@ CCS_ParticleUpdate::CCS_ParticleUpdate()
 CCS_ParticleUpdate::CCS_ParticleUpdate(const string& _strFileKey)
 	: CCS_ParticleUpdate()
 {
-	std::filesystem::path FilePath(RELATIVE_PATH::SHADER_COMPUTE::A);
-	FilePath /= _strFileKey;
+	std::filesystem::path FilePath = _strFileKey;
+
 	if (false == Load(FilePath))
 		throw(std::runtime_error(string("Compute Shader\n") + _strFileKey + string("\nLoad Failed")));
 }

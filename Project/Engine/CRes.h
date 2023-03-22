@@ -43,9 +43,9 @@ private:
     // 리소스 바인딩
     virtual void BindData() = 0;
 
-protected:
+public:
     // 파일로부터 로딩
-    virtual bool Load(const std::filesystem::path& _fileName) = 0;
+    virtual bool Load(const std::filesystem::path& _fileName);
     virtual bool LoadJson(Json::Value* _pJson);
 
 public:

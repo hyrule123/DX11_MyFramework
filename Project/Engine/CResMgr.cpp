@@ -247,8 +247,9 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	{
 		GSDirIter = std::filesystem::directory_iterator(GSDir);
 	}
-	catch (const std::filesystem::filesystem_error&)
+	catch (const std::filesystem::filesystem_error& error)
 	{
+		ERROR_RUNTIME(error);
 		return false;
 	}
 	
@@ -260,7 +261,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 			const string& fileName = GSDirIter->path().extension().string();
 
 			//.json 파일일 경우 동적할당하고 로드한다.
-			if (string::npos != fileName.find(RES_INFO::SHADER::Extension_ShaderSetting))
+			if (string::npos != fileName.find(RES_INFO::SHADER::Ext_ShaderSetting))
 			{
 				Ptr<CGraphicsShader> pGS = new CGraphicsShader;
 				pGS->Load(GSDirIter->path().filename());

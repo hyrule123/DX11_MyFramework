@@ -58,12 +58,12 @@ public:
 
 
 public:
-    virtual bool Save(const std::filesystem::path& _fileName) override;
+    //virtual bool Save(const std::filesystem::path& _fileName) override;
     virtual bool SaveJson(Json::Value* _pJson) override;
     virtual void BindData() override;
 
 private:
-    virtual bool Load(const std::filesystem::path& _fileName) override;
+    //virtual bool Load(const std::filesystem::path& _fileName) override;
     virtual bool LoadJson(Json::Value* _pJson) override;
     bool IsTexture(eMTRLDATA_PARAM_TEX _Idx);
 };

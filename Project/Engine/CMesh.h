@@ -24,9 +24,9 @@ public:
 	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
 
 private:
-	virtual bool Load(const std::filesystem::path& _fileName) { return true; }
+	//virtual bool Load(const std::filesystem::path& _fileName) { return true; }
 public:
-	virtual bool Save(const std::filesystem::path& _fileName) { return true; }
+	//virtual bool Save(const std::filesystem::path& _fileName) { return true; }
 
 
 	void render();
