@@ -26,8 +26,8 @@ CGraphicsShader::CGraphicsShader()
 	: CShader(eRES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, m_eRSType(eRASTERIZER_TYPE::CULL_BACK)
-	, m_eDSType(eDEPTHSTENCIL_TYPE::LESS)
-	, m_eBSType(eBLENDSTATE_TYPE::DEFAULT)
+	, m_eDSType(eDEPTH_STENCIL_TYPE::LESS)
+	, m_eBSType(eBLEND_STATE_TYPE::DEFAULT)
 	, m_eShaderDomain(eSHADER_DOMAIN::_UNDEFINED)
 	, m_ShaderData{}
 {
@@ -98,14 +98,17 @@ bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 		if (true == bExist)
 			flagPipeline |= 1 << i;
 	}
-	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ePipelineFlag)] = flagPipeline;
 
-	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eTopology)] = (int)m_eTopology;
+	
 
-	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eRSState)] = (int)m_eRSType;
-	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eDSState)] = (int)m_eDSType;
-	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eBState)] = (int)m_eBSType;
-	jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::eShaderDomain)] = (int)m_eShaderDomain;
+	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eSHADER_PIPELINE_STAGE)] = flagPipeline;
+
+	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::D3D_PRIMITIVE_TOPOLOGY)] = (int)m_eTopology;
+
+	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eRASTERIZER_TYPE)] = (int)m_eRSType;
+	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eDEPTH_STENCIL_TYPE)] = (int)m_eDSType;
+	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eBLEND_STATE_TYPE)] = (int)m_eBSType;
+	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eSHADER_DOMAIN)] = (int)m_eShaderDomain;
 
 	return true;
 }
@@ -119,23 +122,23 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 
 
 	//쉐이더의 베이스 명칭은 CEntity::Name에서 로드되었을 것임.
-	string strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eBState);
+	string strKey = string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eBLEND_STATE_TYPE);
 	if(jVal.isMember(strKey))
-		m_eBSType = (eBLENDSTATE_TYPE)jVal[strKey].asInt();
+		m_eBSType = (eBLEND_STATE_TYPE)jVal[strKey].asInt();
 
-	strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eDSState);
+	strKey = string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eDEPTH_STENCIL_TYPE);
 	if (jVal.isMember(strKey))
-		m_eDSType = (eDEPTHSTENCIL_TYPE)jVal[strKey].asInt();
+		m_eDSType = (eDEPTH_STENCIL_TYPE)jVal[strKey].asInt();
 
-	strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eRSState);
+	strKey = string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eRASTERIZER_TYPE);
 	if (jVal.isMember(strKey))
 		m_eRSType = (eRASTERIZER_TYPE)jVal[strKey].asInt();
 
-	strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eTopology);
+	strKey = string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::D3D_PRIMITIVE_TOPOLOGY);
 	if(jVal.isMember(strKey))
 		m_eTopology = (D3D11_PRIMITIVE_TOPOLOGY)jVal[strKey].asInt();
 		
-	strKey = string(RES_INFO::SHADER::GRAPHICS::Setting::eShaderDomain);
+	strKey = string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eSHADER_DOMAIN);
 	if(jVal.isMember(strKey))
 		m_eShaderDomain = (eSHADER_DOMAIN)jVal[strKey].asInt();
 
@@ -149,7 +152,7 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 		return false;
 	}
 
-	int flagPipeline = jVal[string(RES_INFO::SHADER::GRAPHICS::Setting::ePipelineFlag)].asInt();
+	int flagPipeline = jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eSHADER_PIPELINE_STAGE)].asInt();
 	int ShaderOrder = 0;
 
 	std::ios_base::openmode openFlag = std::ios_base::ate | std::ios_base::binary; std::ios_base::in;
@@ -160,7 +163,7 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 		{
 			++ShaderOrder;
 
-			std::filesystem::path shaderPath(RELATIVE_PATH::SHADER_GRAPHICS::A);
+			std::filesystem::path shaderPath = GETRESPATH;
 
 			shaderPath /= "S_";
 			shaderPath += std::to_string(ShaderOrder);
@@ -349,7 +352,7 @@ void CGraphicsShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCod
 void CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType)
 {
 	// 1. Shader 파일 경로 받아옴
-	std::filesystem::path shaderPath = RELATIVE_PATH::SHADER_GRAPHICS::W;
+	std::filesystem::path shaderPath = GETRESPATH;
 	shaderPath /= _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경

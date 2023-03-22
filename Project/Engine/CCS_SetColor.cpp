@@ -7,7 +7,7 @@
 
 #include "strKeyDefault.h"
 
-constexpr const std::string_view CSFileName_SetColor = "S_C_SetColor";
+constexpr std::string_view CSFileName_SetColor = "S_C_SetColor";
 
 CCS_SetColor::CCS_SetColor()
 {

@@ -27,7 +27,7 @@ bool CTexture::Save(const std::filesystem::path& _fileName)
 
 bool CTexture::Load(const std::filesystem::path& _fileName)
 {
-	std::filesystem::path texPath(RELATIVE_PATH::TEXTURE::A);
+	std::filesystem::path texPath(GETRESPATH);
 	texPath /= _fileName;
 
 	string strExtension = _fileName.extension().string();

@@ -5,12 +5,7 @@
 
 #include "strKeyDefault.h"
 
-namespace JSONKEY_CRes
-{
-	JSON_KEY(eRES_TYPE);
-	JSON_KEY(strKey);
-	//JSON_KEY(RelativePath);
-}
+#include "CPathMgr.h"
 
 
 CRes::CRes(eRES_TYPE _type)
@@ -43,7 +38,7 @@ void CRes::Release()
 bool CRes::Load(const std::filesystem::path& _fileName)
 {
 	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
-	std::filesystem::path FilePath = RELATIVE_PATH::RES_ARR[(int)GetResType()];
+	std::filesystem::path FilePath = GETRESPATH;
 	FilePath /= _fileName;
 
 	std::ifstream inFile(FilePath);

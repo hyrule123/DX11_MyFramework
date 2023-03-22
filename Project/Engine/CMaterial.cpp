@@ -9,12 +9,7 @@
 
 #include "CResMgr.h"
 
-namespace JSONKEY_CMaterial
-{
-	JSON_KEY(strKeyShader);
-	JSON_KEY(arrStrKeyTex);
-	JSON_KEY(bUseInstancing);
-}
+
 
 
 
@@ -96,19 +91,21 @@ bool CMaterial::SaveJson(Json::Value* _pJson)
 	if (nullptr == m_pShader)
 		return false;
 
-	(*_pJson)[JSONKEY_CMaterial::strKeyShader] = m_pShader->GetKey();
-	(*_pJson)[JSONKEY_CMaterial::bUseInstancing] = m_bUseInstancing;
-	(*_pJson)[JSONKEY_CMaterial::arrStrKeyTex] = Json::Value(Json::arrayValue);
+	Json::Value& jVal = *_pJson;
+
+	jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKeyShader)] = m_pShader->GetKey();
+	jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)] = m_bUseInstancing;
+	jVal[string(RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex)] = Json::Value(Json::arrayValue);
 
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{
 		if (nullptr != m_arrTex[i])
 		{
-			(*_pJson)[JSONKEY_CMaterial::arrStrKeyTex].append(m_arrTex[i]->GetKey());
+			(*_pJson)[string(RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex)].append(m_arrTex[i]->GetKey());
 		}
 		else
 		{
-			(*_pJson)[JSONKEY_CMaterial::arrStrKeyTex].append("");
+			(*_pJson)[string(RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex)].append("");
 		}
 	}
 
@@ -143,26 +140,27 @@ bool CMaterial::LoadJson(Json::Value* _pJson)
 	else if (false == CRes::LoadJson(_pJson))
 		return false;
 
+	const Json::Value& jVal = *_pJson;
+
 	CResMgr* pResMgr = CResMgr::GetInst();
+	
+	m_pShader = pResMgr->FindRes<CGraphicsShader>(jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKeyShader)].asString());
 
-	m_pShader = pResMgr->FindRes<CGraphicsShader>((*_pJson)[JSONKEY_CMaterial::strKeyShader].asString());
-
-	m_bUseInstancing = (*_pJson)[JSONKEY_CMaterial::bUseInstancing].asBool();
+	m_bUseInstancing = jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)].asBool();
 	
 
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{
-		string strKeyTex = (*_pJson)[JSONKEY_CMaterial::arrStrKeyTex][i].asString();
+		string strKeyTex = jVal[string(RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex)][i].asString();
 		if (false == strKeyTex.empty())
 		{
 			Ptr<CTexture> pTex = pResMgr->FindRes<CTexture>(strKeyTex);
 			if (nullptr == pTex)
 			{
-				//pResMgr->Load<CTexture>()
+				SetTexParam((eMTRLDATA_PARAM_TEX)i, pResMgr->Load<CTexture>(strKeyTex));
 			}
 		}
 	}
-
 	return true;
 }
 

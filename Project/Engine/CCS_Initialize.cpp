@@ -7,7 +7,7 @@
 
 #include "strKeyDefault.h"
 
-constexpr const std::string_view CSFileName_Initialize = "S_C_Initalize";
+constexpr std::string_view CSFileName_Initialize = "S_C_Initalize";
 
 CCS_Initialize::CCS_Initialize()
 	: CComputeShader(1u, 1u, 1u)

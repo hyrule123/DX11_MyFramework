@@ -20,17 +20,15 @@
 #include "CResMgr.h"
 
 #ifdef _DEBUG
-constexpr const wchar_t* strStormLibPathW = L"StormLib_DLL_Debug.dll";
-constexpr const char* strStormLibPathA = "StormLib_DLL_Debug.dll";
+constexpr std::string_view strPath_StormLib = "StormLib_DLL_Debug.dll";
 #else
-constexpr const wchar_t* strStormLibPathW = L"StormLib_DLL_Release.dll";
-constexpr const char* strStormLibPathA = "StormLib_DLL_Release.dll";
+constexpr std::string_view strPath_StormLib = "StormLib_DLL_Release.dll";
 #endif
 
 //맵 정보 읽기용
-constexpr const char* TerrainChunk = "ERA";
-constexpr const char* MapSizeChunk = "DIM";
-constexpr const char* TileMapChunk = "MTXM";
+constexpr std::string_view TerrainChunk = "ERA";
+constexpr std::string_view MapSizeChunk = "DIM";
+constexpr std::string_view TileMapChunk = "MTXM";
 
 CCS_SCMapLoader::CCS_SCMapLoader()
     : m_arrpSBufferTileSet{}
@@ -45,7 +43,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
 
 
     //wstring Path = CPathMgr::GetInst()->GetContentAbsPathW();
-    std::filesystem::path Path(RELATIVE_PATH::SCMAP::A);
+    std::filesystem::path Path(CPathMgr::GetInst()->GetPathRel_Resource(GetResType()));
     Path /= "Tilesets";
 
     //타일셋 데이터를 저장할 메모리공간 동적할당 
@@ -264,18 +262,17 @@ bool CCS_SCMapLoader::BindDataCS()
 {
     //wstring MapPath = CPathMgr::GetInst()->GetContentAbsPathW();
 
-    static std::filesystem::path MapDir = RELATIVE_PATH::SCMAP::A;
+    std::filesystem::path MapDir = GETRESPATH;
     
     std::filesystem::path MapPath = MapDir / m_tMapWorkSpace.strMapName;
 
-    
 
     HANDLE hMpq = NULL;          // Open archive handle
     HANDLE hFile = NULL;          // Archived file handle
     //HANDLE handle = NULL;          // Disk file handle
 
     //DLL 로드
-    HMODULE DLLModule = LoadLibraryA(strStormLibPathA);
+    HMODULE DLLModule = LoadLibraryW(std::filesystem::path(strPath_StormLib).wstring().c_str());
     if (nullptr == DLLModule)
         return false;
 
@@ -354,48 +351,6 @@ bool CCS_SCMapLoader::BindDataCS()
         bLoaded = UploadMapDataToCS();
 
 	return bLoaded;
-
-
-
-    //암시적 링킹 코드
-//        // Open an archive, e.g. "d2music.mpq"
-//    if (nError == ERROR_SUCCESS)
-//    {
-//        if (!SFileOpenArchive(MapPath.c_str(), 0, 0, &hMpq))
-//            nError = GetLastError();
-//    }
-//
-//    typedef  bool (WINAPI* SFileOpenIndex)(HANDLE, const char*, DWORD, HANDLE);
-//
-//    // Open a file in the archive, e.g. "data\global\music\Act1\tristram.wav"
-//    if (nError == ERROR_SUCCESS)
-//    {
-//        //맵 파일의 scenario.chk 데이터를 찾는다.
-//        if (!SFileOpenFileEx(hMpq, "staredit\\scenario.chk", 0, &hFile))
-//            nError = GetLastError();
-//    }
-//
-//    if (nError != ERROR_SUCCESS)
-//        return false;
-//
-//    // Read the file from the archive
-//    char* szBuffer;
-//    DWORD dwBytes = 1;
-//
-//    //찾은 scenario.chk 파일로부터 정보를 읽어온다.
-//    DWORD FileSize = SFileGetFileSize(hFile, NULL);
-//
-//    szBuffer = new char[FileSize];
-//
-//    SFileReadFile(hFile, szBuffer, FileSize, &dwBytes, NULL);
-//
-//    // Cleanup and exit
-////if (handle != NULL)
-////    CloseHandle(handle);
-//    if (hFile != NULL)
-//        SFileCloseFile(hFile);
-//    if (hMpq != NULL)
-//        SFileCloseArchive(hMpq);
 }
 
 void CCS_SCMapLoader::UnBindCS()

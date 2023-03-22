@@ -2,8 +2,13 @@
 #include "CEntity.h"
 
 #include "global.h"
+#include "strKeyDefault.h"
+
 
 #include <UtilLib_DLL/json/forwards.h>
+
+//각자 리소스 타입에 맞는 경로를 받아옴.
+#define GETRESPATH CPathMgr::GetInst()->GetPathRel_Resource(GetResType())
 
 class CRes :
     public CEntity
@@ -21,7 +26,7 @@ public:
 private:
     int             m_iRefCount;
 
-    eRES_TYPE  m_eResType;
+    eRES_TYPE       m_eResType;
     string         m_strKey;
     //std::filesystem::path         m_RelativePath;
 

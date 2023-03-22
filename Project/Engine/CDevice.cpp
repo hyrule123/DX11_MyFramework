@@ -312,48 +312,48 @@ HRESULT CDevice::CreateDepthStencilState()
 {
     HRESULT Result = S_OK;
 
-    for (UINT i = 0; i < (UINT)eDEPTHSTENCIL_TYPE::END; ++i)
+    for (UINT i = 0; i < (UINT)eDEPTH_STENCIL_TYPE::END; ++i)
     {
         D3D11_DEPTH_STENCIL_DESC Desc = {};
 
-        switch ((eDEPTHSTENCIL_TYPE)i)
+        switch ((eDEPTH_STENCIL_TYPE)i)
         {
-        case eDEPTHSTENCIL_TYPE::LESS:
+        case eDEPTH_STENCIL_TYPE::LESS:
 
             //이건 기본값이므로 nullptr을 준다.
             m_arrDSState[i] = nullptr;
             continue;
             break;
 
-        case eDEPTHSTENCIL_TYPE::LESS_EQUAL:
+        case eDEPTH_STENCIL_TYPE::LESS_EQUAL:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case eDEPTHSTENCIL_TYPE::GREATER:
+        case eDEPTH_STENCIL_TYPE::GREATER:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_GREATER;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case eDEPTHSTENCIL_TYPE::GREATER_EQUAL:
+        case eDEPTH_STENCIL_TYPE::GREATER_EQUAL:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_GREATER_EQUAL;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case eDEPTHSTENCIL_TYPE::NO_WRITE:
+        case eDEPTH_STENCIL_TYPE::NO_WRITE:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_LESS;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
             Desc.StencilEnable = false;
             break;
 
-        case eDEPTHSTENCIL_TYPE::NO_TEST_NO_WRITE:
+        case eDEPTH_STENCIL_TYPE::NO_TEST_NO_WRITE:
             Desc.DepthEnable = false;
             Desc.DepthFunc = D3D11_COMPARISON_NEVER;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
@@ -375,18 +375,18 @@ HRESULT CDevice::CreateBlendState()
 {
     HRESULT Result = S_OK;
 
-    for (int i = 0; i < (UINT)eBLENDSTATE_TYPE::END; ++i)
+    for (int i = 0; i < (UINT)eBLEND_STATE_TYPE::END; ++i)
     {
         D3D11_BLEND_DESC Desc = {};
 
-        switch ((eBLENDSTATE_TYPE)i)
+        switch ((eBLEND_STATE_TYPE)i)
         {
-        case eBLENDSTATE_TYPE::DEFAULT:
+        case eBLEND_STATE_TYPE::DEFAULT:
             m_arrBSState[i] = nullptr;
             continue;
             break;
 
-        case eBLENDSTATE_TYPE::MASK:
+        case eBLEND_STATE_TYPE::MASK:
             //Alpha-To-Coverage 기능을 활성화한다.
             //Alpha-To-Coverage 기능은 
             Desc.AlphaToCoverageEnable = true;
@@ -412,7 +412,7 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
             break;
 
-        case eBLENDSTATE_TYPE::ALPHA_BLEND:
+        case eBLEND_STATE_TYPE::ALPHA_BLEND:
             Desc.AlphaToCoverageEnable = false;
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;
@@ -439,7 +439,7 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
             break;
-        case eBLENDSTATE_TYPE::ONE_ONE: 
+        case eBLEND_STATE_TYPE::ONE_ONE: 
             Desc.AlphaToCoverageEnable = true;
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;

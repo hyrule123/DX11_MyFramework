@@ -42,9 +42,9 @@ private:
     
     //Output Merger
     ////Depth & Stencil
-    eDEPTHSTENCIL_TYPE              m_eDSType;      //DepthStencil Type
+    eDEPTH_STENCIL_TYPE              m_eDSType;      //DepthStencil Type
     ////Blend State
-    eBLENDSTATE_TYPE                m_eBSType;
+    eBLEND_STATE_TYPE                m_eBSType;
 
     eSHADER_DOMAIN                  m_eShaderDomain;
 
@@ -57,8 +57,8 @@ public://INITIALIZE, Setter
     void CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType);
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
     void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_eRSType = _eRS_TYPE; }
-    void SetDepthStencilState(eDEPTHSTENCIL_TYPE _eDS_TYPE) { m_eDSType = _eDS_TYPE; }
-    void SetBlendState(eBLENDSTATE_TYPE _eBS_TYPE) { m_eBSType = _eBS_TYPE; }
+    void SetDepthStencilState(eDEPTH_STENCIL_TYPE _eDS_TYPE) { m_eDSType = _eDS_TYPE; }
+    void SetBlendState(eBLEND_STATE_TYPE _eBS_TYPE) { m_eBSType = _eBS_TYPE; }
     void SetShaderDomain(eSHADER_DOMAIN _eSD_TYPE) { m_eShaderDomain = _eSD_TYPE; }
 
     //Getter

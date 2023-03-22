@@ -157,7 +157,7 @@ void CComputeShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCode
 void CComputeShader::CreateShader(const wstring& _strFileName, const string& _strFuncName)
 {
 	// 1. Shader 파일 경로 받아옴
-	std::filesystem::path shaderPath(CPathMgr::GetInst()->GetPathRel_Resource(GetResType()).wstring());
+	std::filesystem::path shaderPath(CPathMgr::GetInst()->GetPathRel_Resource(GetResType()));
 	shaderPath /= _strFileName;
 
 	//1-1. 쉐이더 로드 타입 변경

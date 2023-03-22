@@ -45,10 +45,10 @@ private:
 
 	//Output Merger
 	////Depth Stencil State
-	ComPtr<ID3D11DepthStencilState>	m_arrDSState[(UINT)eDEPTHSTENCIL_TYPE::END];
+	ComPtr<ID3D11DepthStencilState>	m_arrDSState[(UINT)eDEPTH_STENCIL_TYPE::END];
 
 	////Blend State
-	ComPtr<ID3D11BlendState>		m_arrBSState[(UINT)eBLENDSTATE_TYPE::END];
+	ComPtr<ID3D11BlendState>		m_arrBSState[(UINT)eBLEND_STATE_TYPE::END];
 
 
 
@@ -80,8 +80,8 @@ public:
 	CConstBuffer* GetConstBuffer(int _idx_b_RegisterIdx) { return m_arrConstBuffer[_idx_b_RegisterIdx]; }
 	const Vec2& GetRenderResolution() { return m_vRenderResolution; }
 	ID3D11RasterizerState* GetRSState(eRASTERIZER_TYPE _Type) { return m_arrRSState[(UINT)_Type].Get(); }
-	ID3D11DepthStencilState* GetDSState(eDEPTHSTENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }
-	ID3D11BlendState* GetBSState(eBLENDSTATE_TYPE _Type) { return m_arrBSState[(UINT)_Type].Get(); }
+	ID3D11DepthStencilState* GetDSState(eDEPTH_STENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }
+	ID3D11BlendState* GetBSState(eBLEND_STATE_TYPE _Type) { return m_arrBSState[(UINT)_Type].Get(); }
 
 
 public:

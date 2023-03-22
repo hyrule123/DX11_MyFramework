@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Precompiled.h"
-#include "strKeyDefault.h"
 
 #define DEVICE  CDevice::GetInst()->GetDevice()
 #define CONTEXT CDevice::GetInst()->GetDeviceContext()
@@ -142,7 +141,7 @@ enum class eRASTERIZER_TYPE
 	END
 };
 
-enum class eDEPTHSTENCIL_TYPE
+enum class eDEPTH_STENCIL_TYPE
 {
 	LESS,
 	LESS_EQUAL,
@@ -153,7 +152,7 @@ enum class eDEPTHSTENCIL_TYPE
 	END
 };
 
-enum class eBLENDSTATE_TYPE
+enum class eBLEND_STATE_TYPE
 {
 	DEFAULT,
 	MASK,

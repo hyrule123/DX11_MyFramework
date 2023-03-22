@@ -1,6 +1,6 @@
 #pragma once
 
-#define JSON_KEY(_keyName) constexpr const char* _keyName = #_keyName
+
 
 #include <UtilLib_DLL/json/json.h>
 
