@@ -3,12 +3,12 @@
 
 #include "jsoncpp.h"
 
-namespace JSONKEY_CEntity
+#include "strKeyDefault.h"
+
+namespace JSON_KEY
 {
-	JSON_KEY(strName);
+	JSONKEY(strName);
 }
-
-
 
 UINT CEntity::g_iNextID = 0;
 
@@ -39,7 +39,9 @@ bool CEntity::SaveJson(Json::Value* _pJson)
 	if (nullptr == _pJson)
 		return false;
 
-	(*_pJson)[JSONKEY_CEntity::strName] = m_strName;
+	Json::Value& jVal = *_pJson;
+
+	jVal[string(JSON_KEY::strName)] = m_strName;
 
 	return true;
 }
@@ -49,7 +51,9 @@ bool CEntity::LoadJson(Json::Value* _pJson)
 	if (nullptr == _pJson)
 		return false;
 
-	m_strName = (*_pJson)[JSONKEY_CEntity::strName].asString();
+	const Json::Value& jVal = *_pJson;
+
+	m_strName = jVal[string(JSON_KEY::strName)].asString();
 
 	return true;
 }

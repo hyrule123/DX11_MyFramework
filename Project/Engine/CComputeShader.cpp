@@ -82,11 +82,11 @@ bool CComputeShader::SaveJson(Json::Value* _jsonVal)
 
 	Json::Value& jVal = *_jsonVal;
 
-	jVal[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)] = Json::Value(Json::arrayValue);
+	jVal[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)] = Json::Value(Json::arrayValue);
 
 	for (int i = 0; i < ThreadAxis::NumAxis; ++i)
 	{
-		jVal[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)].append(m_uNumThreadPerGroupArr[i]);
+		jVal[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)].append(m_uNumThreadPerGroupArr[i]);
 	}
 
 	return true;
@@ -97,13 +97,13 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 	if (false == CShader::LoadJson(_jsonVal))
 		return false;
 
-	if (true == _jsonVal->isMember(string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)))
+	if (true == _jsonVal->isMember(string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)))
 	{
-		if (NumAxis == (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)].size())
+		if (NumAxis == (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)].size())
 		{
 			for (int i = 0; i < NumAxis; ++i)
 			{
-				m_uNumThreadPerGroupArr[i] = (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::Setting::iNumThreadArr)][i].asInt();
+				m_uNumThreadPerGroupArr[i] = (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)][i].asInt();
 			}
 		}
 

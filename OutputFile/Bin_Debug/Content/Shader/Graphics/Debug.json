@@ -1,7 +1,6 @@
 {
 	"D3D_PRIMITIVE_TOPOLOGY" : 3,
-	"RelativePath" : "Debug.json",
-	"eBLENDSTATE_TYPE": 1,
+	"eBLEND_STATE_TYPE": 1,
 	"eDEPTH_STENCIL_TYPE": 5,
 	"eRASTERIZER_TYPE": 2,
 	"eSHADER_DOMAIN": 4,

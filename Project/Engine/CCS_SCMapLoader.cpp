@@ -43,8 +43,9 @@ CCS_SCMapLoader::CCS_SCMapLoader()
 
 
     //wstring Path = CPathMgr::GetInst()->GetContentAbsPathW();
-    std::filesystem::path Path(CPathMgr::GetInst()->GetPathRel_Resource(GetResType()));
-    Path /= "Tilesets";
+    std::filesystem::path Path(CPathMgr::GetInst()->GetPathRel_Content());
+    Path /= DIRECTORY_NAME::SCMAP;
+    Path /= DIRECTORY_NAME::SCMAP_TILESET;
 
     //타일셋 데이터를 저장할 메모리공간 동적할당 
     tTileSet* Tileset = new tTileSet;
@@ -262,7 +263,9 @@ bool CCS_SCMapLoader::BindDataCS()
 {
     //wstring MapPath = CPathMgr::GetInst()->GetContentAbsPathW();
 
-    std::filesystem::path MapDir = GETRESPATH;
+    std::filesystem::path MapDir = CPathMgr::GetInst()->GetPathRel_Content();
+
+    MapDir /= DIRECTORY_NAME::SCMAP;
     
     std::filesystem::path MapPath = MapDir / m_tMapWorkSpace.strMapName;
 

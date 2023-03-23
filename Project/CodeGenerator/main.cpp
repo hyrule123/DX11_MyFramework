@@ -23,9 +23,9 @@ int main(int argc, char* argv[])
 
     
     vector<string> vecExtension;
-    for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
+    for (size_t i = 0; i < (int)RES_INFO::TEXTURE::Ext::idx::END; ++i)
     {
-        vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
+        vecExtension.push_back(string(RES_INFO::TEXTURE::Ext::arr[i]));
     }
     CreateStrKey_Hierarchy(RES_INFO::TEXTURE::DirName, PresetPath::strKeyTexture, vecExtension);
 

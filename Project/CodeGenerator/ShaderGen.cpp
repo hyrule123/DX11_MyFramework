@@ -47,69 +47,79 @@ void CreateShaderCode()
 	//first(Key) = json파일의 이름
 	map<string, tShaderSetting> mapShaderInfo;
 
-	filesystem::path ShaderDir(PresetPath::Content);
-	ShaderDir /= RES_INFO::SHADER::DirNameRoot;
-
-	filesystem::path GSShaderDir = ShaderDir / RES_INFO::SHADER::GRAPHICS::DirName;
+	filesystem::path ContentDir(PresetPath::Content);
+	filesystem::path GSShaderDir = ContentDir / RES_INFO::SHADER::GRAPHICS::DirName;
 
 	//Content/Shader/Graphics 폴더 안의 파일을 순회돌아준다.
-	filesystem::directory_iterator dirIter(GSShaderDir);
-	filesystem::directory_iterator dirIterEnd = std::filesystem::end(dirIter);
-	for (dirIter; dirIter != dirIterEnd; ++dirIter)
+	filesystem::directory_iterator dirIter;
+	try
 	{
-		const filesystem::directory_entry& file = *dirIter;
+		dirIter = filesystem::directory_iterator(GSShaderDir);
 
-		if (false == file.is_directory())
+
+		filesystem::directory_iterator dirIterEnd = std::filesystem::end(dirIter);
+		for (dirIter; dirIter != dirIterEnd; ++dirIter)
 		{
-			//파일명을 받아온다.
-			filesystem::path SFileName = file.path().lexically_relative(GSShaderDir);
+			const filesystem::directory_entry& file = *dirIter;
 
-			//확장자가 .cso로 끝나는지 확인한다. 확장자가 cso가 아닐 경우 쉐이더가 아니므로 continue;
-			if (SFileName.extension() != RES_INFO::SHADER::Ext_ShaderCode)
-				continue;
-
-			SFileName.replace_extension("");
-
-			string SFileNameBase = SFileName.string();
-
-			//이름을 통해서 어떤 파이프라인인지를 유추한다.
-			int flagPipeline = (int)eSHADER_PIPELINE_STAGE::__NONE;
-			for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
+			if (false == file.is_directory())
 			{
-				if (string::npos != SFileNameBase.find(RES_INFO::SHADER::GRAPHICS::arrPrefix[i]))
+				//파일명을 받아온다.
+				filesystem::path SFileName = file.path().lexically_relative(GSShaderDir);
+
+				//확장자가 .cso로 끝나는지 확인한다. 확장자가 cso가 아닐 경우 쉐이더가 아니므로 continue;
+				if (SFileName.extension() != RES_INFO::SHADER::Ext_ShaderCode)
+					continue;
+
+				SFileName.replace_extension("");
+
+				string SFileNameBase = SFileName.string();
+
+				//이름을 통해서 어떤 파이프라인인지를 유추한다.
+				int flagPipeline = (int)eSHADER_PIPELINE_STAGE::__NONE;
+				for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
 				{
-					flagPipeline |= 1 << i;
-					break;
+					if (string::npos != SFileNameBase.find(RES_INFO::SHADER::GRAPHICS::arrPrefix[i]))
+					{
+						flagPipeline |= 1 << i;
+						break;
+					}
 				}
+
+				//마지막 "_" 위치를 찾아서 쉐이더 관련 정보를 지우고, 이름만 남겨준다.
+				//Key 및 Value로 사용할 예정임.
+				size_t strPos = SFileNameBase.find_last_of("_");
+				if (string::npos != strPos)
+				{
+					//마지막 _ 위치까지 지워준다.(쉐이더의 이름만 남겨 준다.)
+					SFileNameBase.erase((size_t)0, strPos + (size_t)1);
+				}
+
+				std::filesystem::path FileName = SFileNameBase;
+				FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderSetting);
+				string strFileName = FileName.string();
+				//처음 발견한 쉐이더 이름일 경우 NONE 값을 넣고 초기화해준다.
+				auto mapIter = mapShaderInfo.find(strFileName);
+				if (mapIter == mapShaderInfo.end())
+				{
+					string CodeFileName = FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderCode).string();
+
+					mapShaderInfo[strFileName] = tShaderSetting{ CodeFileName, eSHADER_PIPELINE_STAGE::__NONE };
+
+					//새로 생성한 값을 iterator에 등록해준다.(아래에서도 사용함)
+					mapIter = mapShaderInfo.find(strFileName);
+				}
+
+				//발견한 쉐이더 파일의 파이프라인단계를 플래그값에 추가한다.
+				mapIter->second.flagPipelineStage |= flagPipeline;
 			}
-
-			//마지막 "_" 위치를 찾아서 쉐이더 관련 정보를 지우고, 이름만 남겨준다.
-			//Key 및 Value로 사용할 예정임.
-			size_t strPos = SFileNameBase.find_last_of("_");
-			if (string::npos != strPos)
-			{
-				//마지막 _ 위치까지 지워준다.(쉐이더의 이름만 남겨 준다.)
-				SFileNameBase.erase((size_t)0, strPos + (size_t)1);
-			}
-
-			std::filesystem::path FileName = SFileNameBase;
-			FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderSetting);
-			string strFileName = FileName.string();
-			//처음 발견한 쉐이더 이름일 경우 NONE 값을 넣고 초기화해준다.
-			auto mapIter = mapShaderInfo.find(strFileName);
-			if (mapIter == mapShaderInfo.end())
-			{
-				string CodeFileName = FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderCode).string();
-
-				mapShaderInfo[strFileName] = tShaderSetting{CodeFileName, eSHADER_PIPELINE_STAGE::__NONE};
-
-				//새로 생성한 값을 iterator에 등록해준다.(아래에서도 사용함)
-				mapIter = mapShaderInfo.find(strFileName);
-			}
-
-			//발견한 쉐이더 파일의 파이프라인단계를 플래그값에 추가한다.
-			mapIter->second.flagPipelineStage |= flagPipeline;
 		}
+
+	}
+	catch (const filesystem::filesystem_error& error)
+	{
+		MessageBoxA(nullptr, "Unable to Iterate Directory.", nullptr, MB_OK);
+		throw(error);
 	}
 	//생성된 HLSL 파일 순회 끝
 
@@ -144,14 +154,14 @@ void CreateShaderCode()
 
 		//데이터 확인 후 쉐이더 파이프라인 단계에 차이점이 있을 경우 파이프라인 단계값을 갱신하고 파일로 내보낸다.
 		//변경점이 없으면 파일로 내보내지 않는다.
-		int origFlag = JsonInfo[string(RES_INFO::SHADER::GRAPHICS::Setting::ePipelineFlag)].asInt();
+		int origFlag = JsonInfo[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eSHADER_PIPELINE_STAGE)].asInt();
 
 		if (mapIter.second.flagPipelineStage != origFlag)
 		{
 			ofstream fpJsonOut(JsonPath);
 			if (true == fpJsonOut.is_open())
 			{
-				JsonInfo[string(RES_INFO::SHADER::GRAPHICS::Setting::ePipelineFlag)] = mapIter.second.flagPipelineStage;
+				JsonInfo[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eSHADER_PIPELINE_STAGE)] = mapIter.second.flagPipelineStage;
 				fpJsonOut << JsonInfo;
 				fpJsonOut.close();
 			}
@@ -202,8 +212,8 @@ void CreateShaderCode()
 		WriteBracketOpenA(fpStrKeyShader);
 
 
-		filesystem::path CSShaderDir(ShaderDir);
-		CSShaderDir /= "Compute";
+		filesystem::path CSShaderDir(ContentDir);
+		CSShaderDir /= DIRECTORY_NAME::SHADER_COMPUTE;
 		try
 		{
 			dirIter = filesystem::directory_iterator(CSShaderDir);

@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "define.h"
 
 enum class eRES_TYPE
 {
@@ -12,7 +12,6 @@ enum class eRES_TYPE
 
 	TEXTURE,		// 이미지
 	ANIM2D_ATLAS,
-	SCMAP,
 
 	SOUND,
 
@@ -85,6 +84,7 @@ namespace RES_DEFAULT
 namespace DIRECTORY_NAME
 {
 	//인덱스는 eRES_TYPE를 사용
+	//ResMgr에서 관리되는 리소스의 키 및 폴더 이름으로 사용
 	constexpr std::string_view RES_ARR[(int)eRES_TYPE::END] =
 	{
 "MeshData",
@@ -92,7 +92,6 @@ namespace DIRECTORY_NAME
 "Material",
 "Texture",
 "Anim2D",
-"SCMap",
 "Sound",
 "Prefab",
 "Shader/Graphics",
@@ -111,13 +110,18 @@ namespace DIRECTORY_NAME
 	constexpr std::string_view MATERIAL = RES_ARR[(int)eRES_TYPE::MATERIAL];
 	constexpr std::string_view TEXTURE = RES_ARR[(int)eRES_TYPE::TEXTURE];
 	constexpr std::string_view ANIM2D = RES_ARR[(int)eRES_TYPE::ANIM2D_ATLAS];
-	constexpr std::string_view SCMAP = RES_ARR[(int)eRES_TYPE::SCMAP];
 	constexpr std::string_view SOUND = RES_ARR[(int)eRES_TYPE::SOUND];
 	constexpr std::string_view PREFAB = RES_ARR[(int)eRES_TYPE::PREFAB];
 
 	constexpr std::string_view SHADER_ROOT = "Shader";
 	constexpr std::string_view SHADER_GRAPHICS = RES_ARR[(int)eRES_TYPE::GRAPHICS_SHADER];
 	constexpr std::string_view SHADER_COMPUTE = RES_ARR[(int)eRES_TYPE::COMPUTE_SHADER];
+
+	constexpr std::string_view SCMAP = "SCMap";
+	constexpr std::string_view SCMAP_TILESET = "Tileset";
+
+	//각종 세팅값 저장하는 폴더
+	constexpr std::string_view SAVED_SETTING = "SavedSetting";
 }
 
 
@@ -241,8 +245,7 @@ namespace RES_INFO
 			{
 				//쉐이더와 json 파일이 공유하는 파일 이름. 확장자 제외
 				//ex) S_C_SCMapLoader.json : S_C_SCMapLoader
-				JSONKEY(ShaderFileName);
-				JSONKEY(NumThreadArr);
+				JSONKEY(uarrNumThreadXYZ);
 			}
 		}
 	}

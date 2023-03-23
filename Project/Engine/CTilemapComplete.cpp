@@ -22,8 +22,6 @@ CTilemapComplete::~CTilemapComplete()
 	
 }
 
-
-
 bool CTilemapComplete::render()
 {
 	if (false == m_bMapLoaded)

@@ -61,12 +61,14 @@ bool CRes::LoadJson(Json::Value* _pJson)
 	else if (false == CEntity::LoadJson(_pJson))
 		return false;
 
-	//m_eResType = (eRES_TYPE)(*_pJson)[JSONKEY_CRes::eRES_TYPE].asInt();
-	if(_pJson->isMember(JSONKEY_CRes::strKey))
-		m_strKey = (*_pJson)[JSONKEY_CRes::strKey].asString();
+	const Json::Value& jVal = *_pJson;
 
-	if (_pJson->isMember(JSONKEY_CRes::eRES_TYPE))
-		m_eResType = (eRES_TYPE)(*_pJson)[JSONKEY_CRes::eRES_TYPE].asInt();
+	//m_eResType = (eRES_TYPE)(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE].asInt();
+	if(jVal.isMember(string(RES_INFO::JSON_KEY::strKey)))
+		m_strKey = jVal[string(RES_INFO::JSON_KEY::strKey)].asString();
+
+	if (jVal.isMember(string(RES_INFO::JSON_KEY::eRES_TYPE)))
+		m_eResType = (eRES_TYPE)jVal[string(RES_INFO::JSON_KEY::eRES_TYPE)].asInt();
 	
 	return true;
 }
@@ -74,7 +76,7 @@ bool CRes::LoadJson(Json::Value* _pJson)
 bool CRes::Save(const std::filesystem::path& _fileName)
 {
 	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
-	std::filesystem::path FilePath = RELATIVE_PATH::RES_ARR[(int)GetResType()];
+	std::filesystem::path FilePath = GETRESPATH;
 	FilePath /= _fileName;
 
 	std::ofstream outFile(FilePath);
@@ -103,9 +105,9 @@ bool CRes::SaveJson(Json::Value* _pJson)
 	else if (false == CEntity::SaveJson(_pJson))
 		return false;
 
-	//(*_pJson)[JSONKEY_CRes::eRES_TYPE] = (int)m_eResType;
-	(*_pJson)[JSONKEY_CRes::strKey] = m_strKey;
-	(*_pJson)[JSONKEY_CRes::eRES_TYPE] = (int)m_eResType;
+	//(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE] = (int)m_eResType;
+	(*_pJson)[string(RES_INFO::JSON_KEY::strKey)] = m_strKey;
+	(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE)] = (int)m_eResType;
 
 	return true;
 }

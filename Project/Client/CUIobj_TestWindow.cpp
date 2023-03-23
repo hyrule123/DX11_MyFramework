@@ -47,7 +47,9 @@ void CUIobj_TestWindow::init()
 	std::filesystem::directory_iterator MapDirIter;
 	try 
 	{
-		MapDirIter = std::filesystem::directory_iterator(RELATIVE_PATH::SCMAP::A);
+		std::filesystem::path MapPath = CPathMgr::GetInst()->GetPathRel_Content();
+		MapPath /= DIRECTORY_NAME::SCMAP;
+		MapDirIter = std::filesystem::directory_iterator(MapPath);
 	}
 	catch(const std::filesystem::filesystem_error& error)
 	{
@@ -65,12 +67,18 @@ void CUIobj_TestWindow::init()
 			string extension = MapDirIter->path().extension().string();
 			std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
 
-			//확장자가 일치하지 않을 경우 읽어오지 않는다.
-			for (int i = 0; i < (int)RES_INFO::SCMAP::eSCMAP_TYPE::END; ++i)
+			bool bContinue = true;
+			//확장자가 일치하는지 확인한다.
+			for (int i = 0; i < (int)RES_INFO::SCMAP::Ext::idx::END; ++i)
 			{
-				if (RES_INFO::SCMAP::arrExtension[i] != extension)
-					continue;
+				if (RES_INFO::SCMAP::Ext::arr[i] == extension)
+				{
+					bContinue = false;
+					break;
+				}
 			}
+			if (bContinue)
+				continue;
 		}
 		
 

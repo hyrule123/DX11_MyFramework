@@ -23,6 +23,8 @@
 #include "CUIobj_Contents.h"
 #include "CUIobj_Outliner.h"
 
+
+
 CImGuiMgr::CImGuiMgr()
     : m_hWnd()
     , m_MainMenubar()
@@ -36,8 +38,8 @@ CImGuiMgr::CImGuiMgr()
 
 CImGuiMgr::~CImGuiMgr()
 {
-    std::filesystem::path origDir = RELATIVE_PATH::CONTENT::A;
-    origDir /= "SavedSetting";
+    std::filesystem::path origDir = CPathMgr::GetInst()->GetPathRel_Content();
+    origDir /= DIRECTORY_NAME::SAVED_SETTING;
     std::filesystem::path fullPath = origDir / "imgui.ini";
     ImGui::SaveIniSettingsToDisk(fullPath.string().c_str());
 
@@ -186,8 +188,8 @@ void CImGuiMgr::ImGuiInit(HWND _hWnd)
 
 
     //설정 파일들 로드
-    std::filesystem::path origDir = RELATIVE_PATH::CONTENT::A;
-    origDir /= DIRECTORY_NAME::SAVED_SETTINGS::A;
+    std::filesystem::path origDir = CPathMgr::GetInst()->GetPathRel_Content();
+    origDir /= DIRECTORY_NAME::SAVED_SETTING;
     std::filesystem::path fullPath = origDir / "imgui.ini";
     io.IniFilename = NULL;
 

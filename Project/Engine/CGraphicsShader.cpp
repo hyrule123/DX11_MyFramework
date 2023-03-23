@@ -342,7 +342,7 @@ void CGraphicsShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCod
 		break;
 	}
 
-	if (true == FAILED(result))
+	if (FAILED(result))
 	{
 		MessageBoxA(nullptr, "Shader Loading Failed!!", NULL, MB_OK);
 		assert(SUCCEEDED(result));

@@ -416,8 +416,7 @@ void LoadAllTexture()
 	CResMgr* pResMgr = CResMgr::GetInst();
 	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
 	//텍스처 로드
-	std::filesystem::path ResPath(RELATIVE_PATH::CONTENT::A);
-	ResPath /= RES_INFO::TEXTURE::DirName;
+	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::TEXTURE);
 
 	std::filesystem::recursive_directory_iterator RIter;
 	try
@@ -444,8 +443,7 @@ void LoadUserMtrl()
 	CResMgr* pResMgr = CResMgr::GetInst();
 	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
 	//텍스처 로드
-	std::filesystem::path ResPath(RELATIVE_PATH::CONTENT::A);
-	ResPath /= RES_INFO::MATERIAL::DirName;
+	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::MATERIAL);
 
 	std::filesystem::recursive_directory_iterator RIter;
 	try
