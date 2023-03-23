@@ -30,8 +30,6 @@ private:
     string         m_strKey;
     //std::filesystem::path         m_RelativePath;
 
-    
-
 public:
     void SetKey(const string& _strKey) { m_strKey = _strKey; }
     const string& GetKey() { return m_strKey; }
@@ -39,9 +37,6 @@ public:
     eRES_TYPE GetResType() const { return m_eResType; }
 
 private:
-    
-    
-
     void AddRef() { ++m_iRefCount; }
     void Release();
 
@@ -60,8 +55,5 @@ public:
 
     // 리소스는 Clone 을 구현하지 않는다.(Material 제외)
     virtual CRes* Clone() { return nullptr; assert(nullptr); }
-
-
-
 };
 

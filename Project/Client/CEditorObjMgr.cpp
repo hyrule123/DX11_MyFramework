@@ -20,6 +20,8 @@
 #include <Script/CScript_CameraMove.h>
 #include <Script/CScript_MouseCursor.h>
 
+#include <Script/strKeyScript.h>
+#include <Script/CScriptMgr.h>
 
 
 //테스트용 레벨
@@ -59,7 +61,8 @@ void CEditorObjMgr::init()
 		m_pMousePicker->AddComponent(new CTransform);
 		m_pMousePicker->AddComponent(new CCollider2D_Point);
 
-		m_pMousePicker->AddScript(new CScript_MouseCursor);
+		CScript* Script = CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MOUSECURSOR));
+		m_pMousePicker->AddScript(Script);
 
 		CScript_MouseCursor* pScript = m_pMousePicker->ScriptHolder()->GetScript<CScript_MouseCursor>();
 		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));

@@ -18,7 +18,7 @@
 
 CScript_Player::CScript_Player()
 	: CScript(TYPE_INDEX(CScript_Player))
-	, m_ColorKey(1.f, 1.f, 1.f, 1.f)
+	, m_ColorKey(0.f, 0.f, 0.f, 0.f)
 	, m_MoveSpeed(400.f)
 	, m_TurningForceRad(XM_PI / 2.f)
 {
@@ -30,8 +30,10 @@ CScript_Player::~CScript_Player()
 
 void CScript_Player::init()
 {
+	GetOwner()->Transform()->SetLockRotation(true);
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
-	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
+	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
+	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 }
 
 void CScript_Player::tick()
@@ -112,14 +114,14 @@ void CScript_Player::tick()
 
 void CScript_Player::Shoot()
 {
-	CGameObject* Bullet = CResMgr::GetInst()->FindRes<CPrefab>("Bullet")->Instantiate();
+	//CGameObject* Bullet = CResMgr::GetInst()->FindRes<CPrefab>("Bullet")->Instantiate();
 
-	const Vec3& vPos = GetOwner()->Transform()->GetWorldPos();
-	const Vec3& vDir = GetOwner()->Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
+	//const Vec3& vPos = GetOwner()->Transform()->GetWorldPos();
+	//const Vec3& vDir = GetOwner()->Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 
-	Bullet->ScriptHolder()->GetScript<CScript_Bullet>()->SetDefaultVal(vPos, vDir);
+	//Bullet->ScriptHolder()->GetScript<CScript_Bullet>()->SetDefaultVal(vPos, vDir);
 
-	tEvent event = { eEVENT_TYPE::CREATE_OBJECT, (DWORD_PTR)Bullet, (DWORD_PTR)1 };
+	//tEvent event = { eEVENT_TYPE::CREATE_OBJECT, (DWORD_PTR)Bullet, (DWORD_PTR)1 };
 
-	CEventMgr::GetInst()->AddEvent(event);
+	//CEventMgr::GetInst()->AddEvent(event);
 }

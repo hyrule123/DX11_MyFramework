@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Script">
-      <UniqueIdentifier>{03344e37-971f-437d-9e43-79f328581b79}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Default">
       <UniqueIdentifier>{c7e28112-20dc-47a9-a86e-f6c3dca4836e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptCode">
+      <UniqueIdentifier>{03344e37-971f-437d-9e43-79f328581b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated">
+      <UniqueIdentifier>{49cc538f-0539-450f-b504-36a1bdf1e9d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CScript_Bullet.h">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="CScript_CameraMove.h">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="CScript_MouseCursor.h">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="CScript_Player.h">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="CScript_TestObj.h">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Default</Filter>
@@ -31,35 +34,45 @@
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="CScript_Debug.h">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClInclude>
-    <ClInclude Include="CScriptMgr.h" />
-    <ClInclude Include="strKeyShader.h" />
-    <ClInclude Include="strKeyTexture.h" />
-    <ClInclude Include="strKeyScript.h" />
+    <ClInclude Include="strKeyTexture.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="strKeyShader.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="strKeyScript.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="CScriptMgr.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_Bullet.cpp">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClCompile>
     <ClCompile Include="CScript_CameraMove.cpp">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClCompile>
     <ClCompile Include="CScript_MouseCursor.cpp">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClCompile>
     <ClCompile Include="CScript_Player.cpp">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClCompile>
     <ClCompile Include="CScript_TestObj.cpp">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
     <ClCompile Include="CScript_Debug.cpp">
-      <Filter>Script</Filter>
+      <Filter>ScriptCode</Filter>
     </ClCompile>
-    <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CScriptMgr.cpp">
+      <Filter>Generated</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

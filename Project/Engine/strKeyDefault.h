@@ -2,6 +2,8 @@
 
 #include "define.h"
 
+//이 열거체 중간에 값을 추가하거나 수정할 경우 반드시 밑의 경로 정보도 수정할 것
+//이 열거체를 배열의 인덱스로 사용하고 있음.
 enum class eRES_TYPE
 {
 	UNKNOWN = -1,
@@ -181,9 +183,50 @@ namespace RES_INFO
 		constexpr std::string_view DirName = DIRECTORY_NAME::TEXTURE;
 	}
 
+
+	//struct tAnimFrameUV
+	//{
+	//	Vec2 LeftTopUV;
+	//	Vec2 SliceUV;
+
+	//	Vec2 Offset;
+	//	Vec2 Padding;
+	//};
+
+	//struct tAnimFrame
+	//{
+	//	//애니메이션의 프레임별 인덱스
+	//	UINT uIdxInVecFrameUV;
+
+	//	vector<std::function<void()>> pfuncCallback;
+	//};
+
+	//struct tAnimFrameIdx
+	//{
+	//	string strAnimName;
+	//	vector<tAnimFrame> vecFrame;
+
+
+	//	//vecFrame.size()와 이 값은 다를 수 있음. 방향 정보에 따라 같은 프레임에 이미지를 보여줘야 할 경우 등등
+	//	UINT                uNumFrame;
+	//	float               fFullPlayTime;
+
+	//	//위의 전체 재생시간 / 프레임 수 한것(한 프레임당 시간) 
+	//	//자동 계산
+	//	float               fTimePerFrame;
+
+	//	eANIM_TYPE          eAnimType;
+	//	Vec2 vPivot;
+
+	//	UINT                uColTotal;
+	//	UINT                uRowTotal;
+	//};
+
 	namespace ANIM2D
 	{
 		constexpr std::string_view Ext = ".json";
+
+		//namespace
 	}
 
 	namespace SOUND

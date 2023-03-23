@@ -5,10 +5,10 @@
 
 namespace SCRIPTS
 {
-constexpr const char* BULLET = "CScript_Bullet.h";
-constexpr const char* CAMERAMOVE = "CScript_CameraMove.h";
-constexpr const char* PLAYER = "CScript_Player.h";
-constexpr const char* DEBUG = "CScript_Debug.h";
-constexpr const char* MOUSECURSOR = "CScript_MouseCursor.h";
-constexpr const char* TESTOBJ = "CScript_TestObj.h";
+constexpr const std::string_view BULLET = "CScript_Bullet.h";
+constexpr const std::string_view CAMERAMOVE = "CScript_CameraMove.h";
+constexpr const std::string_view PLAYER = "CScript_Player.h";
+constexpr const std::string_view DEBUG = "CScript_Debug.h";
+constexpr const std::string_view MOUSECURSOR = "CScript_MouseCursor.h";
+constexpr const std::string_view TESTOBJ = "CScript_TestObj.h";
 }

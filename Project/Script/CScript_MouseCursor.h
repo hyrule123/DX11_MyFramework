@@ -15,6 +15,8 @@ private:
     std::function<void(CGameObject*)> m_arrpFuncLBTNCallback[(int)eKEY_STATE::END];
     std::function<void(CGameObject*)> m_arrpFuncRBTNCallback[(int)eKEY_STATE::END];
 
+    CGameObject* m_pSelectedGameObject;
+
 public:
     void AddFuncLBTNCallback(eKEY_STATE _eMouseAction, std::function<void(CGameObject*)> _pFunc) { m_arrpFuncLBTNCallback[(int)_eMouseAction] = _pFunc; }
 

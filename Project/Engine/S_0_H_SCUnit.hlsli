@@ -20,6 +20,17 @@
 //인스턴싱 : 사용
 //알파 블렌딩 : ON
 
+//=================================================
+//Mtrl Data
+//INT_0 : Cam Index
+//INT_1 : Flag
+
+//VEC2_3 : PIVOT
+
+//VEC4_0 : COLOR KEY
+
+//MAT_0 : World-View-Projection Matrix(Flag에서 USEVP값이 전달되었을 떄에는 0, 0, 0이 전달됨)
+//MAT_1 : World Translation Matrix(Flag에서 USEVP값이 전달되었을 떄 사용함.)
 
 
 
