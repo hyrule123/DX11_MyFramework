@@ -307,8 +307,8 @@ void CStructBuffer::BindBufferUAV()
 	//m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV |= eSHADER_PIPELINE_STAGE::__COMPUTE;
 	BindConstBuffer(eSHADER_PIPELINE_STAGE::__COMPUTE);
 
-	static const UINT Offset = -1;
-	CONTEXT->CSSetUnorderedAccessViews(m_tSBufferDesc.i_idx_u_UAVIdx, 1, m_UAV.GetAddressOf(), &Offset);
+	static const UINT v2_Offset = -1;
+	CONTEXT->CSSetUnorderedAccessViews(m_tSBufferDesc.i_idx_u_UAVIdx, 1, m_UAV.GetAddressOf(), &v2_Offset);
 	
 }
 
@@ -443,9 +443,9 @@ void CStructBuffer::UnBind()
 	}
 	else if (eCURRENT_BOUND_VIEW::UAV == m_eCurBoundView)
 	{
-		static const UINT Offset = -1;
+		static const UINT v2_Offset = -1;
 		ID3D11UnorderedAccessView* pUAV = nullptr;
-		CONTEXT->CSSetUnorderedAccessViews(m_tSBufferDesc.i_idx_u_UAVIdx, 1, &pUAV, &Offset);
+		CONTEXT->CSSetUnorderedAccessViews(m_tSBufferDesc.i_idx_u_UAVIdx, 1, &pUAV, &v2_Offset);
 	}
 
 

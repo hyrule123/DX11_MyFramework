@@ -200,9 +200,9 @@ void CAnimator2D::UpdateData()
     //애니메이션의 UV 정보를 받아옴.
     const tAnimFrameUV& frameuv = m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameUVData(m_uCalculatedIdx);
 
-    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP, &(frameuv.LeftTopUV));
-    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_SLICE, &(frameuv.SliceUV));
-    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_OFFSET, &(frameuv.Offset));
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP, &(frameuv.v2_UVLeftTop));
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_SLICE, &(frameuv.v2_UVSlice));
+    pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_UV_OFFSET, &(frameuv.v2_Offset));
     pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_PIVOT, &(m_pCurAnim->vPivot));
 }
 
@@ -271,7 +271,7 @@ const Vec2 CAnimator2D::GetCurFrameSize()
     if (m_pCurAnim && m_arrAtlasTex[0].Get())
     {
         const Vec2& TexSize = m_arrAtlasTex[0]->GetAtlasTex()->GetSize();
-        const Vec2& SliceSize = m_arrAtlasTex[0]->GetFrameUVData(m_pCurAnim->vecFrame[0]).SliceUV;
+        const Vec2& SliceSize = m_arrAtlasTex[0]->GetFrameUVData(m_pCurAnim->vecFrame[0]).v2_UVSlice;
         size = TexSize * SliceSize;
     }
     return size;
@@ -302,7 +302,7 @@ void CAnimator2D::UpdateAtlasTexToMtrl()
 
 void CAnimator2D::CalculateDirectionalColHalfFlipAtlas()
 {
-    //방향의 갯수를 구한다. 12시 방향과 6시 방향은 flip할 시 중복되므로 2를 弧娩?
+    //방향의 갯수를 구한다. 12시 방향과 6시 방향은 flip할 시 중복되므로 2를 빼준다.
     int NumDirection = m_pCurAnim->uColTotal * 2 - 2;
     
     ////라디안 기준 한바퀴(2PI)에서 방향의 갯수만큼 나눠준다. 한 방향당 각도이다.

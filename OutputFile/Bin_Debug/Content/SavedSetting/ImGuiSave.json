@@ -10,6 +10,6 @@
 	"MainMenu" : null,
 	"TestWindow" : 
 	{
-		"IsActive" : true
+		"IsActive" : false
 	}
 }

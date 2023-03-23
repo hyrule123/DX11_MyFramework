@@ -8,6 +8,7 @@
 
 #include <UtilLib_DLL/json/json.h>
 
+
 CAnim2DAtlas::CAnim2DAtlas()
 	: CRes(eRES_TYPE::ANIM2D_ATLAS)
 	, m_uColTotal()
@@ -48,15 +49,156 @@ CAnim2DAtlas::~CAnim2DAtlas()
 //
 //}
 
+union v2Pack
+{
+	Vec2 v2;
+	UINT64 Pack;
+
+	v2Pack(const Vec2 _v2) : v2(_v2)
+	{}
+};
+
 //TODO : 여기 작성
 bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
 {
+	if (nullptr == _jVal)
+		return false;
+	else if (false == CRes::SaveJson(_jVal))
+		return false;
+
+	Json::Value& jVal = *_jVal;
+
+	if (nullptr != m_AtlasTex)
+		jVal[string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)] = m_AtlasTex->GetKey();
+
+	
+
+
+	jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)] = Json::Value(Json::ValueType::objectValue);
+	Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
+	FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)] = Json::Value(Json::arrayValue);
+	FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)] = Json::Value(Json::arrayValue);
+	FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)] = Json::Value(Json::arrayValue);
+	for (size_t i = 0; i < m_vecFrameUV.size(); ++i)
+	{
+		const tAnimFrameUV& Frame = m_vecFrameUV[i];
+		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(v2Pack(Frame.v2_UVLeftTop).Pack);
+
+		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(v2Pack(Frame.v2_UVSlice).Pack);
+
+		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(v2Pack(Frame.v2_Offset).Pack);
+
+		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Frame.v2_UVLeftTop.x);
+		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Frame.v2_UVLeftTop.y);
+
+		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Frame.v2_UVSlice.x);
+		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Frame.v2_UVSlice.y);
+
+		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Frame.v2_Offset.x);
+		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Frame.v2_Offset.y);
+	}
+
+	jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)] = Json::Value(Json::objectValue);
+	Json::Value& mapAnim = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
+
+	for (const auto& iter : m_mapAnim)
+	{
+		mapAnim[iter.first] = Json::Value(Json::objectValue);
+		Json::Value& loopVal = mapAnim[iter.first];
+		
+		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::strKeyAnim2D)] = iter.first;
+		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)] = (int)iter.second.eAnimType;
+		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)] = iter.second.uColTotal;
+		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal)] = iter.second.uRowTotal;
+		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)] = iter.second.uNumFrame;
+
+		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)] = Json::Value(Json::ValueType::arrayValue);
+		Json::Value& vecFrame = loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)];
+		
+		for (size_t i = 0; i < iter.second.vecFrame.size(); ++i)
+		{
+			vecFrame.append(iter.second.vecFrame[i]);
+		}
+	}
 
 	return true;
 }
 
 bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 {
+	if (nullptr == _jVal)
+		return false;
+	else if (false == CRes::LoadJson(_jVal))
+		return false;
+
+	const Json::Value& jVal = *_jVal;
+
+	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)))
+	{
+		const string& strKey = jVal[string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)].asString();
+		m_AtlasTex = CResMgr::GetInst()->Load<CTexture>(strKey);
+	}
+
+	//if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)))
+	//{
+	//	const Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
+	//	if (
+	//		jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop))
+	//		&&
+	//		jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice))
+	//		&&
+	//		jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset))
+	//		)
+	//	{
+	//		Json::ValueConstIterator LTIter = jVal[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].begin();
+	//		Json::ValueConstIterator SliceIter = jVal[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].begin();
+	//		Json::ValueConstIterator OffsetIter = jVal[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].begin();
+
+	//	
+
+
+
+
+	//	}
+	//	for (size_t i = 0; i < m_vecFrameUV.size(); ++i)
+	//	{
+	//		const tAnimFrameUV& Frame = m_vecFrameUV[i];
+	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Frame.v2_UVLeftTop.x);
+	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Frame.v2_UVLeftTop.y);
+
+	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Frame.v2_UVSlice.x);
+	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Frame.v2_UVSlice.y);
+
+	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Frame.v2_Offset.x);
+	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Frame.v2_Offset.y);
+	//	}
+	//}
+	//
+
+
+	//jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)] = Json::Value(Json::objectValue);
+	//Json::Value& mapAnim = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
+
+	//for (const auto& iter : m_mapAnim)
+	//{
+	//	mapAnim[iter.first] = Json::Value(Json::objectValue);
+	//	Json::Value& loopVal = mapAnim[iter.first];
+
+	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::strKeyAnim2D)] = iter.first;
+	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)] = (int)iter.second.eAnimType;
+	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)] = iter.second.uColTotal;
+	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal)] = iter.second.uRowTotal;
+	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)] = iter.second.uNumFrame;
+
+	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)] = Json::Value(Json::ValueType::arrayValue);
+	//	Json::Value& vecFrame = loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)];
+
+	//	for (size_t i = 0; i < iter.second.vecFrame.size(); ++i)
+	//	{
+	//		vecFrame.append(iter.second.vecFrame[i]);
+	//	}
+	//}
+
 
 	return true;
 }
@@ -92,10 +234,10 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal)
 		for (UINT Row = 0; Row < _uRowTotal; ++Row)
 		{
 			tAnimFrameUV uv = {};
-			uv.LeftTopUV.x = ColSliceUV * Col;
-			uv.LeftTopUV.y = RowSliceUV * Row;
+			uv.v2_UVLeftTop.x = ColSliceUV * Col;
+			uv.v2_UVLeftTop.y = RowSliceUV * Row;
 
-			uv.SliceUV = Vec2(ColSliceUV, RowSliceUV);
+			uv.v2_UVSlice = Vec2(ColSliceUV, RowSliceUV);
 
 			m_vecFrameUV.push_back(uv);
 		}
@@ -135,10 +277,10 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStar
 		for (UINT Row = _uRowStart; Row < rowend; ++Row)
 		{
 			tAnimFrameUV uv = {};
-			uv.LeftTopUV.x = ColSliceUV * Col;
-			uv.LeftTopUV.y = RowSliceUV * Row;
+			uv.v2_UVLeftTop.x = ColSliceUV * Col;
+			uv.v2_UVLeftTop.y = RowSliceUV * Row;
 
-			uv.SliceUV = Vec2(ColSliceUV, RowSliceUV);
+			uv.v2_UVSlice = Vec2(ColSliceUV, RowSliceUV);
 
 			m_vecFrameUV.push_back(uv);
 		}
@@ -175,10 +317,10 @@ void CAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, U
 		for (UINT Row = _uRowStart; Row < rowend; ++Row)
 		{
 			tAnimFrameUV uv = {};
-			uv.LeftTopUV.x = ColSliceUV * Col;
-			uv.LeftTopUV.y = RowSliceUV * Row;
+			uv.v2_UVLeftTop.x = ColSliceUV * Col;
+			uv.v2_UVLeftTop.y = RowSliceUV * Row;
 
-			uv.SliceUV = Vec2(ColSliceUV, RowSliceUV);
+			uv.v2_UVSlice = Vec2(ColSliceUV, RowSliceUV);
 
 			m_vecFrameUV.push_back(uv);
 		}
@@ -206,7 +348,7 @@ tAnim2D* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnim2D& _vecA
 	Anim.fFullPlayTime = _fFullPlayTime;
 	Anim.eAnimType = _eAnimType;
 	Anim.vPivot = _vPivot;
-	Anim.strAnimName = _strAnimKey;
+	Anim.strKeyAnim2D = _strAnimKey;
 
 	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
 
@@ -233,7 +375,7 @@ tAnim2D* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const vector<UINT>& 
 	Anim.fFullPlayTime = _fFullPlayTime;
 	Anim.eAnimType = _eAnimType;
 	Anim.vPivot = _vPivot;
-	Anim.strAnimName = _strAnimKey;
+	Anim.strKeyAnim2D = _strAnimKey;
 
 	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
 
@@ -273,7 +415,7 @@ tAnim2D* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStart, UIN
 	Anim.fFullPlayTime = _fFullPlayTime;
 	Anim.eAnimType = _eAnimType; 
 	Anim.vPivot = _vPivot;
-	Anim.strAnimName = _strAnimKey;
+	Anim.strKeyAnim2D = _strAnimKey;
 
 	switch (Anim.eAnimType)
 	{
@@ -320,7 +462,7 @@ tAnim2D* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, UINT _u
 	Anim.fFullPlayTime = _fFullPlayTime;
 	Anim.eAnimType = eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP;
 	Anim.vPivot = _vPivot;
-	Anim.strAnimName = _strAnimKey;
+	Anim.strKeyAnim2D = _strAnimKey;
 
 	switch (Anim.eAnimType)
 	{
@@ -360,7 +502,7 @@ tAnim2D* CAnim2DAtlas::AddAnim2D_vecRowIndex(const string& _strAnimKey, const ve
 	Anim.fFullPlayTime = _fFullPlayTime;
 	Anim.eAnimType = eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP;
 	Anim.vPivot = _vPivot;
-	Anim.strAnimName = _strAnimKey;
+	Anim.strKeyAnim2D = _strAnimKey;
 
 	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
 

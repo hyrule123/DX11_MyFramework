@@ -30,7 +30,7 @@
 #include <Script/CScript_Bullet.h>
 #include <Script/CScript_Debug.h>
 
-
+#include <Engine/CTimeMgr.h>
 
 #include <Engine/CResMgr.h>
 
@@ -59,7 +59,7 @@ void CreateTestLevel()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-
+	for(int i = 0; i < 1; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -74,6 +74,7 @@ void CreateTestLevel()
 
 		TestObj->AddComponent(new CCollider2D_OBB);
 	
+		
 		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP));
 		
 		TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
@@ -82,9 +83,16 @@ void CreateTestLevel()
 		
 		TestObj->Transform()->SetSize(Vec3(TestObj->Animator2D()->GetCurFrameSize(), 1.f));
 
-		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::PLAYER)));
+		if(i == 0)
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::PLAYER)));
 
-		::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
+		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
+		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
+		TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
+
+		float x = CTimeMgr::GetInst()->GetRandomNorm() * 1280.f;
+		float y = CTimeMgr::GetInst()->GetRandomNorm() * 640.f;
+		::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
 	}
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
@@ -472,8 +480,10 @@ void LoadAnim()
 		pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::CORSAIR_BMP), Atlas);
 	}
 	
+
 	{
 		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		//Atlas->Load("TestSave.json");
 		Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(RES_TEXTURE::MARINE_BMP)));
 	
 		Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
@@ -492,6 +502,8 @@ void LoadAnim()
 		
 	
 		pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP), Atlas);
+
+		Atlas->Save("TestSave.json");
 	}
 }
 

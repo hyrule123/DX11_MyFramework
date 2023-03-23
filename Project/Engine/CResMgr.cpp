@@ -627,6 +627,9 @@ Ptr<CRes> CResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileN
 		break;
 	}
 
+	if (false == pRes->Load(_fileName))
+		pRes = nullptr;
+
 	return pRes;
 }
 

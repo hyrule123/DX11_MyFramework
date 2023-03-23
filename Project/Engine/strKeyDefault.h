@@ -183,50 +183,61 @@ namespace RES_INFO
 		constexpr std::string_view DirName = DIRECTORY_NAME::TEXTURE;
 	}
 
+	//string strKeyAnim2D;
+	//vector<UINT> vecFrame;
 
-	//struct tAnimFrameUV
-	//{
-	//	Vec2 LeftTopUV;
-	//	Vec2 SliceUV;
-
-	//	Vec2 Offset;
-	//	Vec2 Padding;
-	//};
-
-	//struct tAnimFrame
-	//{
-	//	//애니메이션의 프레임별 인덱스
-	//	UINT uIdxInVecFrameUV;
-
-	//	vector<std::function<void()>> pfuncCallback;
-	//};
-
-	//struct tAnim2D
-	//{
-	//	string strAnimName;
-	//	vector<tAnimFrame> vecFrame;
+	////1차원: 프레임 번호, 2차원: 벡터 내부 콜백 함수
+	//vector<vector<std::function<void()>>> vec2D_pFuncCallback;
 
 
-	//	//vecFrame.size()와 이 값은 다를 수 있음. 방향 정보에 따라 같은 프레임에 이미지를 보여줘야 할 경우 등등
-	//	UINT                uNumFrame;
-	//	float               fFullPlayTime;
+	////vecFrame.size()와 이 값은 다를 수 있음. 방향 정보에 따라 같은 프레임에 이미지를 보여줘야 할 경우 등등
+	//UINT                uNumFrame;
+	//float               fFullPlayTime;
 
-	//	//위의 전체 재생시간 / 프레임 수 한것(한 프레임당 시간) 
-	//	//자동 계산
-	//	float               fTimePerFrame;
+	////위의 전체 재생시간 / 프레임 수 한것(한 프레임당 시간) 
+	////자동 계산
+	//float               fTimePerFrame;
 
-	//	eANIM_TYPE          eAnimType;
-	//	Vec2 vPivot;
+	//eANIM_TYPE          eAnimType;
+	//Vec2 vPivot;
 
-	//	UINT                uColTotal;
-	//	UINT                uRowTotal;
-	//};
+	//UINT                uColTotal;
+	//UINT                uRowTotal;
+
+	//tAnim2D() : vec2D_pFuncCallback(0), uNumFrame(), fFullPlayTime(), fTimePerFrame(), eAnimType(), uColTotal(), uRowTotal()
+	//{}
 
 	namespace ANIM2D
 	{
 		constexpr std::string_view Ext = ".json";
 
-		//namespace
+		namespace JSON_KEY
+		{
+			JSONKEY(strKeyAtlasTex);
+			JSONKEY(vecFrameUV);
+			namespace AnimFrameUV
+			{
+				JSONKEY(v2_UVLeftTop);
+				JSONKEY(v2_UVSlice);
+				JSONKEY(v2_Offset);
+				JSONKEY(fFullPlayTime);
+			}
+			
+			JSONKEY(mapAnim);
+			namespace Anim2D
+			{
+				JSONKEY(strKeyAnim2D);
+				JSONKEY(vecFrame);
+				JSONKEY(uNumFrame);
+				JSONKEY(eAnimType);
+				JSONKEY(uColTotal);
+				JSONKEY(uRowTotal);
+			}
+
+			JSONKEY(uRowTotal);
+			JSONKEY(uColTotal);
+		}
+		
 	}
 
 	namespace SOUND
@@ -276,6 +287,8 @@ namespace RES_INFO
 				JSONKEY(eDEPTH_STENCIL_TYPE);
 				JSONKEY(eBLEND_STATE_TYPE);
 				JSONKEY(eSHADER_DOMAIN);
+
+				
 			}
 		}
 

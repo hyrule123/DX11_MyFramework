@@ -13,10 +13,10 @@ enum class eANIM_TYPE
 
 struct tAnimFrameUV
 {
-    Vec2 LeftTopUV;
-    Vec2 SliceUV;
+    Vec2 v2_UVLeftTop;
+    Vec2 v2_UVSlice;
 
-    Vec2 Offset;
+    Vec2 v2_Offset;
     Vec2 Padding;
 };
 
@@ -31,7 +31,7 @@ struct tAnimFrameUV
 //실제 애니메이션 정보가 저장되어있는 구조체.
 struct tAnim2D
 {
-    string strAnimName;
+    string strKeyAnim2D;
     vector<UINT> vecFrame;
 
     //1차원: 프레임 번호, 2차원: 벡터 내부 콜백 함수

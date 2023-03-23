@@ -94,7 +94,7 @@ namespace DirectX
             bool Intersects(const Rectangle& r) const { return (r.x < (x + width)) && (x < (r.x + r.width)) && (r.y < (y + height)) && (y < (r.y + r.height)); }
             bool Intersects(const RECT& rct) const { return (rct.left < (x + width)) && (x < rct.right) && (rct.top < (y + height)) && (y < rct.bottom); }
 
-            void Offset(long ox, long oy) { x += ox; y += oy; }
+            void v2_Offset(long ox, long oy) { x += ox; y += oy; }
 
             // Static functions
             static Rectangle Intersect(const Rectangle& ra, const Rectangle& rb);
