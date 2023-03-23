@@ -20,18 +20,22 @@ struct tAnimFrameUV
     Vec2 Padding;
 };
 
-struct tAnimFrame
-{
-    //애니메이션의 프레임별 인덱스
-    UINT uIdxInVecFrameUV;
+//struct tAnimFrame
+//{
+//    //애니메이션의 프레임별 인덱스
+//    UINT uIdxInVecFrameUV;
+//
+//    vector<std::function<void()>> pfuncCallback;
+//};
 
-    vector<std::function<void()>> pfuncCallback;
-};
-
-struct tAnimFrameIdx
+//실제 애니메이션 정보가 저장되어있는 구조체.
+struct tAnim2D
 {
     string strAnimName;
-    vector<tAnimFrame> vecFrame;
+    vector<UINT> vecFrame;
+
+    //1차원: 프레임 번호, 2차원: 벡터 내부 콜백 함수
+    vector<vector<std::function<void()>>> vec2D_pFuncCallback;
 
     
     //vecFrame.size()와 이 값은 다를 수 있음. 방향 정보에 따라 같은 프레임에 이미지를 보여줘야 할 경우 등등
@@ -47,6 +51,9 @@ struct tAnimFrameIdx
 
     UINT                uColTotal;
     UINT                uRowTotal;
+
+    tAnim2D() : vec2D_pFuncCallback(0), uNumFrame(), fFullPlayTime(), fTimePerFrame(), eAnimType(), uColTotal(), uRowTotal()
+    {}
 };
 
 class CTexture;
@@ -57,9 +64,6 @@ public:
     CAnim2DAtlas();
     virtual ~CAnim2DAtlas();
 public:
-    //virtual bool Save(const std::filesystem::path& _fileName) override;
-    //virtual bool Load(const std::filesystem::path& _fileName) override;
-    
     virtual bool SaveJson(Json::Value* _jVal) override;
     virtual bool LoadJson(Json::Value* _jVal) override;
 
@@ -75,7 +79,7 @@ private:
 
     //개별 애니메이션의 프레임 번호가 저장되어있는 벡터를 들고있는 변수
     //실제 애니메이션이 저장되는 장소
-    unordered_map<string, tAnimFrameIdx> m_mapAnim;
+    unordered_map<string, tAnim2D> m_mapAnim;
 
     //그리드 형태의 애니메이션일 경우 사용
     UINT m_uRowTotal;
@@ -92,28 +96,28 @@ public:
 
     //애니메이션 생성 메소드
     //================================================================================================================
-    tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx, 
+    tAnim2D* AddAnim2D(const string& _strAnimKey, const tAnim2D& _vecAnimFrameIdx, 
          float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
 
-    tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f));
+    tAnim2D* AddAnim2D(const string& _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f));
 
     //애니메이션을 만들때는 전체 열의 갯수만 받음. 나머지는 안에서 계산함
-    tAnimFrameIdx* AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
+    tAnim2D* AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
     
-    tAnimFrameIdx* AddAnim2D_SC_Redundant(
+    tAnim2D* AddAnim2D_SC_Redundant(
         const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
 
     //각 스프라이트가 연속된 정수가 아닌 떨어진 숫자일 경우 사용
-    tAnimFrameIdx* AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f));
+    tAnim2D* AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f));
     //=================================================================================================================
 
 
-    const tAnimFrameIdx* FindAnim2D(const string& _AnimIdxStrKey);
+    const tAnim2D* FindAnim2D(const string& _AnimIdxStrKey);
     Ptr<CTexture> GetAtlasTex() { return m_AtlasTex; }
     const tAnimFrameUV& GetFrameUVData(int _iIdx) { return m_vecFrameUV[_iIdx]; }
 };

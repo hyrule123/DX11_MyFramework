@@ -201,7 +201,7 @@ namespace RES_INFO
 	//	vector<std::function<void()>> pfuncCallback;
 	//};
 
-	//struct tAnimFrameIdx
+	//struct tAnim2D
 	//{
 	//	string strAnimName;
 	//	vector<tAnimFrame> vecFrame;

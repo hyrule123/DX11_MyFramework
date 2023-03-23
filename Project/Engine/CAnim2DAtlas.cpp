@@ -191,13 +191,13 @@ void CAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, U
 
 
 
-tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFrameIdx& _vecAnimFrameIdx,
+tAnim2D* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnim2D& _vecAnimFrameIdx,
 	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
 )
 {
 	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, _vecAnimFrameIdx));
 
-	tAnimFrameIdx& Anim = pair.first->second;
+	tAnim2D& Anim = pair.first->second;
 	Anim.uColTotal = 0u;
 	Anim.uRowTotal = 0u;
 
@@ -213,18 +213,18 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const tAnimFra
 	return &(pair.first->second);
 }
 
-tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot)
+tAnim2D* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot)
 {
-	tAnimFrameIdx frameIdx = {};
+	tAnim2D frameIdx = {};
 	size_t size = _vecFrame.size();
 	for (size_t i = 0; i < size; i++)
 	{
-		frameIdx.vecFrame.push_back(tAnimFrame{ _vecFrame[i], });
+		frameIdx.vecFrame.push_back(_vecFrame[i]);
 	}
 
 	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, frameIdx));
 
-	tAnimFrameIdx& Anim = pair.first->second;
+	tAnim2D& Anim = pair.first->second;
 	Anim.uColTotal = 0u;
 	Anim.uRowTotal = 0u;
 
@@ -240,7 +240,7 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, const vector<U
 	return &(pair.first->second);
 }
 
-tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
+tAnim2D* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
 	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
 )
 {
@@ -256,14 +256,14 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStar
 		&& _uRowStart <= rowend
 	);
 
-	tAnimFrameIdx Anim = {};
+	tAnim2D Anim = {};
 
 
 	for (UINT Col = _uColStart; Col < colend; Col++)
 	{
 		for (UINT Row = _uRowStart; Row < rowend; Row++)
 		{
-			Anim.vecFrame.push_back(tAnimFrame{ (Col * m_uRowTotal + Row) , });
+			Anim.vecFrame.push_back((Col * m_uRowTotal + Row));
 		}
 	}
 
@@ -294,7 +294,7 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D(const string& _strAnimKey, UINT _uColStar
 	return &(pair.first->second);
 }
 
-tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch, float _fFullPlayTime, Vec2 _vPivot)
+tAnim2D* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch, float _fFullPlayTime, Vec2 _vPivot)
 {
 	assert(
 		0 < _uRowPitch 
@@ -302,7 +302,7 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, U
 		&& 9u == m_uColTotal
 	);
 
-	tAnimFrameIdx Anim = {};
+	tAnim2D Anim = {};
 
 	UINT _uRowEnd = _uRowStart + _uRowPitch;
 
@@ -310,7 +310,7 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, U
 	{
 		for (UINT Row = _uRowStart; Row < _uRowEnd; Row++)
 		{
-			Anim.vecFrame.push_back(tAnimFrame{ (Col * m_uRowTotal + Row) , });
+			Anim.vecFrame.push_back((Col * m_uRowTotal + Row));
 		}
 	}
 
@@ -340,16 +340,16 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, U
 	return &(pair.first->second);
 }
 
-tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot)
+tAnim2D* CAnim2DAtlas::AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot)
 {
-	tAnimFrameIdx Anim = {};
+	tAnim2D Anim = {};
 
 	size_t rowsize = _vecRow.size();
 	for (UINT col = 0; col < m_uColTotal; ++col)
 	{
 		for (size_t row = 0; row < rowsize; row++)
 		{
-			Anim.vecFrame.push_back(tAnimFrame{ (UINT)(col * m_uRowTotal + _vecRow[row]) ,});
+			Anim.vecFrame.push_back((UINT)(col * m_uRowTotal + _vecRow[row]));
 		}
 	}
 
@@ -368,7 +368,7 @@ tAnimFrameIdx* CAnim2DAtlas::AddAnim2D_vecRowIndex(const string& _strAnimKey, co
 	return &(pair.first->second);
 }
 
-const tAnimFrameIdx* CAnim2DAtlas::FindAnim2D(const string& _AnimIdxStrKey)
+const tAnim2D* CAnim2DAtlas::FindAnim2D(const string& _AnimIdxStrKey)
 {
 	const auto& iter = m_mapAnim.find(_AnimIdxStrKey);
 

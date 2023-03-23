@@ -25,6 +25,9 @@
 //INT_0 : Cam Index
 //INT_1 : Flag
 
+//VEC2_0 : Anim2D, LeftTop UV
+//Vec2_1 : Anim2D, Slice
+//Vec2_2 : Anim2D, Offset
 //VEC2_3 : PIVOT
 
 //VEC4_0 : COLOR KEY

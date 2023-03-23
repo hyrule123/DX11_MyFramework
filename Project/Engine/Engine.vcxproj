@@ -323,7 +323,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-    <None Include="S_0_H_SCUnit.hlsli" />
+    <None Include="S_0_H_SCUnitGround.hlsli" />
     <None Include="SimpleMath.inl" />
     <ClInclude Include="S_H_Struct.hlsli">
       <FileType>Document</FileType>
@@ -343,7 +343,7 @@
     <None Include="S_H_FuncBitwise.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="S_1_V_SCUnit.hlsl">
+    <FxCompile Include="S_1_V_SCUnitGround.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -951,7 +951,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/O0</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/O0</AdditionalOptions>
     </FxCompile>
-    <FxCompile Include="S_2_P_SCUnit.hlsl">
+    <FxCompile Include="S_2_P_SCUnitGround.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

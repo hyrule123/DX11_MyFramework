@@ -1,5 +1,4 @@
-#include "S_0_H_SCUnit.hlsli"
-
+#include "S_0_H_SCUnitGround.hlsli"
 
 #include "S_H_Func.hlsli"
 
@@ -53,8 +52,11 @@ float4 PS_SCUnit(VS_OUT _in) : SV_TARGET
 	//ColorKey Check
 	if (eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY & Data.MTRL_SCALAR_STD2D_FLAG)
 	{
-		if (all(vOutColor.rgb == Data.MTRL_SCALAR_STD2D_COLORKEY.rgb))
+		if (all(FLT_EPSILON > abs(vOutColor.rgb - Data.MTRL_SCALAR_STD2D_COLORKEY.rgb)))
 			discard;
+		
+		//if (all(vOutColor.rgb == Data.MTRL_SCALAR_STD2D_COLORKEY.rgb))
+		//	discard;
 	}
 	
 

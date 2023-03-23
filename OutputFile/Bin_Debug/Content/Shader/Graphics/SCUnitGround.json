@@ -5,7 +5,7 @@
 	"eRASTERIZER_TYPE" : 0,
 	"eSHADER_DOMAIN" : 0,
 	"eSHADER_PIPELINE_STAGE" : 17,
-	"strKey" : "SCUnit.json",
-	"strName" : "SCUnit.cso"
+	"strKey" : "SCUnitGround.json",
+	"strName" : "SCUnitGround.cso"
 }
 //Enumeration Values are at define.h of Engine project

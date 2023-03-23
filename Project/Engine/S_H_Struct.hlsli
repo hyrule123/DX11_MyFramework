@@ -1,6 +1,7 @@
 #ifndef S_H_STRUCT
 #define S_H_STRUCT
 
+
 //상수버퍼 또는
 //두 개 이상의 쉐이더에서 참조하는 구조체들.
 //하나의 쉐이더에서 고유하게 쓰이는 구조체의 경우 해당 쉐이더의 헤더파일에서 선언할것.
@@ -31,6 +32,7 @@ typedef Matrix      MATRIX;
 
 #else
 
+#define FLT_EPSILON 1.192092896e-07F
 
 #define INT32   int
 #define INT32_2 int2

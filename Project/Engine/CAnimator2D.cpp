@@ -79,7 +79,7 @@ void CAnimator2D::finaltick()
             //프레임당 재생시간을 넘어갔을 경우
             if (m_fTimePerFrame < m_fCurTime)
             {
-                //ftime에서 한프레임별 시간을 弧沫?
+                //ftime에서 한프레임별 시간을 계산
                 m_fCurTime -= m_fTimePerFrame;
 
                 //다음 프레임으로 진행한다.
@@ -123,7 +123,6 @@ void CAnimator2D::finaltick()
             }
         }
 
-
         //실제 애니메이션 프레임을 계산한다.
         //역재생인지 여부를 먼저 계산
         if (true == m_bReverse)
@@ -139,18 +138,20 @@ void CAnimator2D::finaltick()
         }
         else if (eANIM_TYPE::SEQUENTIAL == m_pCurAnim->eAnimType)
         {
-            m_uCalculatedIdx = m_pCurAnim->vecFrame[m_uCurFrameIdx].uIdxInVecFrameUV;
+            m_uCalculatedIdx = m_pCurAnim->vecFrame[m_uCurFrameIdx];
         }
 
-
         //프레임에 등록된 콜백함수가 있을 경우 콜백함수 호출
-        size_t size = m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback.size();
-        if ((size_t)0 != size)
+        //vector의 사이즈를 확인하고 현재 프레임 넘어서 인덱스가 존재할 경우에만 확인(최적화)
+        size_t size = m_pCurAnim->vec2D_pFuncCallback.size();
+        if (size > m_uCurFrameIdx)
         {
-            for (size_t i = 0; i < size; i++)
+            size = m_pCurAnim->vec2D_pFuncCallback[m_uCurFrameIdx].size();
+            for (size_t i = 0; i < size; ++i)
             {
-                //콜백함수를 호출
-                m_pCurAnim->vecFrame[m_uCurFrameIdx].pfuncCallback[i]();
+                //함수 호출
+                if(nullptr != m_pCurAnim->vec2D_pFuncCallback[m_uCurFrameIdx][i])
+                    m_pCurAnim->vec2D_pFuncCallback[m_uCurFrameIdx][i]();
             }
         }
     }
@@ -218,7 +219,7 @@ void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
 {
     if (nullptr != m_arrAtlasTex[m_iCurAtlasTexIdx])
     {
-        const tAnimFrameIdx* curanim = m_arrAtlasTex[m_iCurAtlasTexIdx]->FindAnim2D(_strAnimName);
+        const tAnim2D* curanim = m_arrAtlasTex[m_iCurAtlasTexIdx]->FindAnim2D(_strAnimName);
 
         //같은 애니메이션일 경우 바꾸지 않음
         if (curanim == m_pCurAnim)
@@ -270,7 +271,7 @@ const Vec2 CAnimator2D::GetCurFrameSize()
     if (m_pCurAnim && m_arrAtlasTex[0].Get())
     {
         const Vec2& TexSize = m_arrAtlasTex[0]->GetAtlasTex()->GetSize();
-        const Vec2& SliceSize = m_arrAtlasTex[0]->GetFrameUVData(m_pCurAnim->vecFrame[0].uIdxInVecFrameUV).SliceUV;
+        const Vec2& SliceSize = m_arrAtlasTex[0]->GetFrameUVData(m_pCurAnim->vecFrame[0]).SliceUV;
         size = TexSize * SliceSize;
     }
     return size;
@@ -344,5 +345,5 @@ void CAnimator2D::CalculateDirectionalColHalfFlipAtlas()
         m_bFlipX = false;
     }
 
-    m_uCalculatedIdx = m_pCurAnim->vecFrame[idx * m_pCurAnim->uRowTotal + m_uCurFrameIdx].uIdxInVecFrameUV;
+    m_uCalculatedIdx = m_pCurAnim->vecFrame[idx * m_pCurAnim->uRowTotal + m_uCurFrameIdx];
 }

@@ -6,7 +6,7 @@
 
 class CAnim2DAtlas;
 class CTexture;
-struct tAnimFrameIdx;
+struct tAnim2D;
 
 class CAnimator2D :
     public CComponent
@@ -31,7 +31,7 @@ private:
     //0부터 체크되는 프레임 번호
     UINT                m_uCurFrame;
 
-    //벡터에서 찾을 현재 프레임의 인덱스 번호
+    //벡터에서 찾을 현재 프레임의 인덱스 번호(역재생 여부에 따라 계산된 실제 인덱스)
     UINT                m_uCurFrameIdx;
 
     //실제로 계산된 vecFrameUV 안에서의 인덱스
@@ -46,7 +46,7 @@ private:
     //애니메이션 전환 시 바뀌는 변수
 
     int                     m_iCurAtlasTexIdx;
-    const tAnimFrameIdx*    m_pCurAnim;
+    const tAnim2D*          m_pCurAnim;
     UINT                    m_uMaxFrameCount;
     float                   m_fTimePerFrame;
     float                   m_fFullPlayTime;
@@ -74,7 +74,7 @@ public:
     //TODO : 임시
     const Vec2  GetCurFrameSize() ;
 
-    const tAnimFrameIdx* GetCurAnim() const { return m_pCurAnim; }
+    const tAnim2D* GetCurAnim() const { return m_pCurAnim; }
 
     
 private:

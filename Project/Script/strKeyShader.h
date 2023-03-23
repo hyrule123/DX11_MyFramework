@@ -14,7 +14,7 @@ namespace RES_SHADER
 	{
 		constexpr const std::string_view DEBUG = "Debug.json";
 		constexpr const std::string_view PARTICLE = "Particle.json";
-		constexpr const std::string_view SCUNIT = "SCUnit.json";
+		constexpr const std::string_view SCUNITGROUND = "SCUnitGround.json";
 		constexpr const std::string_view STD2D = "STD2D.json";
 		constexpr const std::string_view STD2DLIGHT = "STD2DLight.json";
 		constexpr const std::string_view TEST = "Test.json";
