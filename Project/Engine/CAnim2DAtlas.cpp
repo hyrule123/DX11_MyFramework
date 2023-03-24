@@ -49,14 +49,55 @@ CAnim2DAtlas::~CAnim2DAtlas()
 //
 //}
 
-union v2Pack
+union v2_i64Pack
 {
 	Vec2 v2;
-	UINT64 Pack;
+	INT64 i64;
 
-	v2Pack(const Vec2 _v2) : v2(_v2)
+	v2_i64Pack(Vec2 _v2) : v2(_v2)
+	{}
+
+	v2_i64Pack(INT64 _i64) : i64(_i64)
 	{}
 };
+
+union f_i32Pack
+{
+	float f;
+	INT32 i;
+
+	f_i32Pack(float _f) : f(_f)
+	{}
+	f_i32Pack(INT32 _i) : i(_i)
+	{}
+};
+
+bool CAnim2DAtlas::Save(const std::filesystem::path& _fileName)
+{
+	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
+	std::filesystem::path FilePath = GETRESPATH;
+	FilePath /= _fileName;
+
+	std::ofstream outFile(FilePath);
+	if (outFile.is_open())
+	{
+		Json::Value SaveVal;
+
+		bool Suc = SaveJson(&SaveVal);
+		if (true == Suc)
+		{
+			Json::StreamWriterBuilder builder;
+			builder["indentation"] = ""; //The JSON document is written in a single line
+			std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+			writer->write(SaveVal, &outFile);
+		}
+		outFile.close();
+
+		return Suc;
+	}
+
+	return false;
+}
 
 //TODO : 여기 작성
 bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
@@ -68,56 +109,57 @@ bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
 
 	Json::Value& jVal = *_jVal;
 
-	if (nullptr != m_AtlasTex)
-		jVal[string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)] = m_AtlasTex->GetKey();
+	//텍스처가 없으면 false를 리턴
+	if (nullptr == m_AtlasTex)
+		return false;
 
-	
+	jVal[string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)] = m_AtlasTex->GetKey();
 
 
 	jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)] = Json::Value(Json::ValueType::objectValue);
-	Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
-	FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)] = Json::Value(Json::arrayValue);
-	FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)] = Json::Value(Json::arrayValue);
-	FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)] = Json::Value(Json::arrayValue);
-	for (size_t i = 0; i < m_vecFrameUV.size(); ++i)
 	{
-		const tAnimFrameUV& Frame = m_vecFrameUV[i];
-		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(v2Pack(Frame.v2_UVLeftTop).Pack);
+		Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
+		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)] = Json::Value(Json::arrayValue);
+		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)] = Json::Value(Json::arrayValue);
+		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)] = Json::Value(Json::arrayValue);
+		for (size_t i = 0; i < m_vecFrameUV.size(); ++i)
+		{
+			const tAnimFrameUV& Frame = m_vecFrameUV[i];
 
-		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(v2Pack(Frame.v2_UVSlice).Pack);
+			//vec2는 float 2개(4byte * 2) -> union으로 묶은뒤 UINT64(8byte)에 묶어서 저장한다.
+			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(v2_i64Pack(Frame.v2_UVLeftTop).i64);
 
-		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(v2Pack(Frame.v2_Offset).Pack);
+			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(v2_i64Pack(Frame.v2_UVSlice).i64);
 
-		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Frame.v2_UVLeftTop.x);
-		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Frame.v2_UVLeftTop.y);
-
-		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Frame.v2_UVSlice.x);
-		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Frame.v2_UVSlice.y);
-
-		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Frame.v2_Offset.x);
-		//FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Frame.v2_Offset.y);
+			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(v2_i64Pack(Frame.v2_Offset).i64);
+		}
 	}
 
-	jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)] = Json::Value(Json::objectValue);
-	Json::Value& mapAnim = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
-
-	for (const auto& iter : m_mapAnim)
 	{
-		mapAnim[iter.first] = Json::Value(Json::objectValue);
-		Json::Value& loopVal = mapAnim[iter.first];
-		
-		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::strKeyAnim2D)] = iter.first;
-		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)] = (int)iter.second.eAnimType;
-		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)] = iter.second.uColTotal;
-		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal)] = iter.second.uRowTotal;
-		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)] = iter.second.uNumFrame;
+		jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)] = Json::Value(Json::objectValue);
+		Json::Value& mapAnim = jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
 
-		loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)] = Json::Value(Json::ValueType::arrayValue);
-		Json::Value& vecFrame = loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)];
-		
-		for (size_t i = 0; i < iter.second.vecFrame.size(); ++i)
+		for (const auto& iter : m_mapAnim)
 		{
-			vecFrame.append(iter.second.vecFrame[i]);
+			mapAnim[iter.first] = Json::Value(Json::objectValue);
+			Json::Value& anim2dVal = mapAnim[iter.first];
+
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)] = (int)iter.second.eAnimType;
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)] = iter.second.uColTotal;
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal)] = iter.second.uRowTotal;
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)] = iter.second.uNumFrame;
+
+			//float은 int 값으로 변환해서 저장한다.
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime)] = f_i32Pack(iter.second.fFullPlayTime).i;
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot)] = v2_i64Pack(iter.second.vPivot).i64;
+
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)] = Json::Value(Json::ValueType::arrayValue);
+			Json::Value& vecFrame = anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)];
+
+			for (size_t i = 0; i < iter.second.vecFrame.size(); ++i)
+			{
+				vecFrame.append(iter.second.vecFrame[i]);
+			}
 		}
 	}
 
@@ -139,66 +181,93 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 		m_AtlasTex = CResMgr::GetInst()->Load<CTexture>(strKey);
 	}
 
-	//if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)))
-	//{
-	//	const Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
-	//	if (
-	//		jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop))
-	//		&&
-	//		jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice))
-	//		&&
-	//		jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset))
-	//		)
-	//	{
-	//		Json::ValueConstIterator LTIter = jVal[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].begin();
-	//		Json::ValueConstIterator SliceIter = jVal[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].begin();
-	//		Json::ValueConstIterator OffsetIter = jVal[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].begin();
+	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)))
+	{
+		const Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
+		if (
+			FrameUV.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop))
+			&&
+			FrameUV.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice))
+			&&
+			FrameUV.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset))
+			)
+		{
+			const Json::Value& v2_UVLeftTop = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)];
+			const Json::Value& v2_UVSlice = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)];
+			const Json::Value& v2_Offset = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)];
+			if (v2_UVLeftTop.size()
+				!=
+				v2_UVSlice.size()
+				&&
+				v2_UVSlice.size()
+				!=
+				v2_Offset.size()
+				)
+			{
+				string ErrorMessage(string_view("AnimFrameUV Data in\n"));
+				ErrorMessage += GetKey();
+				ErrorMessage += string_view("is corrupted!!");
+				MessageBoxA(nullptr, ErrorMessage.c_str(), nullptr, MB_OK);
+				return false;
+			}
+			Json::ValueConstIterator LTIter = v2_UVLeftTop.begin();
+			Json::ValueConstIterator SliceIter = v2_UVSlice.begin();
+			Json::ValueConstIterator OffsetIter = v2_Offset.begin();
 
-	//	
+			size_t size = v2_UVLeftTop.size();
+			for (size_t i = 0; i < size; ++i)
+			{
+				tAnimFrameUV FrameUV = {};
+				FrameUV.v2_UVLeftTop = v2_i64Pack(LTIter->asInt64()).v2;
+				FrameUV.v2_UVSlice = v2_i64Pack(SliceIter->asInt64()).v2;
+				FrameUV.v2_Offset = v2_i64Pack(OffsetIter->asInt64()).v2;
 
+				m_vecFrameUV.push_back(FrameUV);
 
+				++LTIter;
+				++SliceIter;
+				++OffsetIter;
+			}
+		}
+	}
 
+	{
+		if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)))
+		{
+			const Json::Value& mapAnim = jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
 
-	//	}
-	//	for (size_t i = 0; i < m_vecFrameUV.size(); ++i)
-	//	{
-	//		const tAnimFrameUV& Frame = m_vecFrameUV[i];
-	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Frame.v2_UVLeftTop.x);
-	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Frame.v2_UVLeftTop.y);
+			const Json::ValueConstIterator& mapIterEnd = mapAnim.end();
+			for (Json::ValueConstIterator mapIter = mapAnim.begin(); mapIter != mapIterEnd; ++mapIter)
+			{
+				tAnim2D anim = {};
+				const Json::Value& animVal = *mapIter;
+				anim.eAnimType = (eANIM_TYPE)animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)].asInt();
+				anim.uColTotal = animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)].asUInt();
+				anim.uRowTotal = animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal)].asUInt();
 
-	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Frame.v2_UVSlice.x);
-	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Frame.v2_UVSlice.y);
+				anim.uNumFrame = animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)].asUInt();
+				if (anim.uNumFrame == 0u)
+				{
+					MessageBoxA(nullptr, "Total number of Animation2D frame is 0.", nullptr, MB_OK);
+					return false;
+				}
 
-	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Frame.v2_Offset.x);
-	//		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Frame.v2_Offset.y);
-	//	}
-	//}
-	//
+				anim.fFullPlayTime = f_i32Pack(animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime)].asInt()).f;
+				anim.fTimePerFrame = anim.fFullPlayTime / (float)anim.uNumFrame;
+				anim.vPivot = v2_i64Pack(animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot)].asInt64()).v2;
 
+				if (animVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)))
+				{
+					for (const auto& vecFrmIter : animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)])
+					{
+						anim.vecFrame.emplace_back(vecFrmIter.asUInt());
+					}
+				}
 
-	//jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)] = Json::Value(Json::objectValue);
-	//Json::Value& mapAnim = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
-
-	//for (const auto& iter : m_mapAnim)
-	//{
-	//	mapAnim[iter.first] = Json::Value(Json::objectValue);
-	//	Json::Value& loopVal = mapAnim[iter.first];
-
-	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::strKeyAnim2D)] = iter.first;
-	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)] = (int)iter.second.eAnimType;
-	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)] = iter.second.uColTotal;
-	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal)] = iter.second.uRowTotal;
-	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)] = iter.second.uNumFrame;
-
-	//	loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)] = Json::Value(Json::ValueType::arrayValue);
-	//	Json::Value& vecFrame = loopVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)];
-
-	//	for (size_t i = 0; i < iter.second.vecFrame.size(); ++i)
-	//	{
-	//		vecFrame.append(iter.second.vecFrame[i]);
-	//	}
-	//}
-
+				m_mapAnim.insert(make_pair(mapIter.key().asString(), anim));
+			}
+		}
+	}
 
 	return true;
 }
@@ -482,6 +551,7 @@ tAnim2D* CAnim2DAtlas::AddAnim2D_SC_Redundant(const string& _strAnimKey, UINT _u
 	return &(pair.first->second);
 }
 
+//
 tAnim2D* CAnim2DAtlas::AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot)
 {
 	tAnim2D Anim = {};

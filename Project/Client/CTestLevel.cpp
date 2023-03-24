@@ -483,27 +483,31 @@ void LoadAnim()
 
 	{
 		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-		//Atlas->Load("TestSave.json");
-		Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(RES_TEXTURE::MARINE_BMP)));
-	
-		Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
-		Atlas->AddAnim2D_SC_Redundant("Marine_Idle", 0u, 1u, 1.f);
-		Atlas->AddAnim2D_SC_Redundant("Marine_AttackStart", 1u, 2u, 0.5f);
-	
-		Atlas->AddAnim2D_SC_Redundant("Marine_Move", 4u, 9u, 1.f);
-	
-		vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
-		Atlas->AddAnim2D_vecRowIndex("Marine_Attack", row, 0.6f);
-	
-		row.clear();
-		
-		row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
-		Atlas->AddAnim2D("Marine_Death", row, 1.f);
-		
-	
-		pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP), Atlas);
 
-		Atlas->Save("TestSave.json");
+		//Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(RES_TEXTURE::MARINE_BMP)));
+	
+		//Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
+		//Atlas->AddAnim2D_SC_Redundant("Marine_Idle", 0u, 1u, 1.f);
+		//Atlas->AddAnim2D_SC_Redundant("Marine_AttackStart", 1u, 2u, 0.5f);
+	
+		//Atlas->AddAnim2D_SC_Redundant("Marine_Move", 4u, 9u, 1.f);
+	
+		//vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
+		//Atlas->AddAnim2D_vecRowIndex("Marine_Attack", row, 0.6f);
+	
+		//row.clear();
+		//
+		//row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
+		//Atlas->AddAnim2D("Marine_Death", row, 1.f);
+		//
+		//pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP), Atlas);
+
+		//Atlas->Save("TestSave.json");
+
+		if (true == Atlas->Load("TestSave.json"))
+		{
+			pResMgr->AddRes<CAnim2DAtlas>(Atlas->GetKey(), Atlas);
+		}
 	}
 }
 

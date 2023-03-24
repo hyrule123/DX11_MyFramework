@@ -68,7 +68,14 @@ bool CRes::LoadJson(Json::Value* _pJson)
 		m_strKey = jVal[string(RES_INFO::JSON_KEY::strKey)].asString();
 
 	if (jVal.isMember(string(RES_INFO::JSON_KEY::eRES_TYPE)))
-		m_eResType = (eRES_TYPE)jVal[string(RES_INFO::JSON_KEY::eRES_TYPE)].asInt();
+	{
+		if ((eRES_TYPE)jVal[string(RES_INFO::JSON_KEY::eRES_TYPE)].asInt() != m_eResType)
+		{
+			MessageBoxA(nullptr, "Resource Type Seems not matching.\nMay cause error.", nullptr, MB_OK);
+		}
+		//m_eResType = (eRES_TYPE)jVal[string(RES_INFO::JSON_KEY::eRES_TYPE)].asInt();
+	}
+		
 	
 	return true;
 }
@@ -87,13 +94,12 @@ bool CRes::Save(const std::filesystem::path& _fileName)
 		bool Suc = SaveJson(&SaveVal);
 		if (true == Suc)
 		{
-			//TODO : 여기 테스트용으로 만들어놨음.
 			Json::StreamWriterBuilder builder;
 			builder["indentation"] = ""; //The JSON document is written in a single line
 			std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
 			writer->write(SaveVal, &outFile);
 
-			//outFile << SaveVal;
+			outFile << SaveVal;
 		}
 		outFile.close();
 

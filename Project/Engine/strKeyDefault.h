@@ -229,7 +229,9 @@ namespace RES_INFO
 				JSONKEY(strKeyAnim2D);
 				JSONKEY(vecFrame);
 				JSONKEY(uNumFrame);
+				JSONKEY(fFullPlayTime);
 				JSONKEY(eAnimType);
+				JSONKEY(vPivot);
 				JSONKEY(uColTotal);
 				JSONKEY(uRowTotal);
 			}
