@@ -9,7 +9,7 @@
 
 
 CCollider3D::CCollider3D(eCOLLIDER_TYPE_3D _eColType)
-	: CCollider(eCOMPONENT_TYPE::COLLIDER3D)
+	: CCollider(eCOMPONENT_TYPE::COLLIDER3D, eDIMENSION_TYPE::_3D)
 	, m_eColType(_eColType)
 {
 }

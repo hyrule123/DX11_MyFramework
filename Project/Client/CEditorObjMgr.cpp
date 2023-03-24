@@ -12,6 +12,8 @@
 #include <Engine/CCamera.h>
 #include <Engine/CTransform.h>
 #include <Engine/strKeyDefault.h>
+
+#include <Engine/CCollisionMgr.h>
 #include <Engine/CCollider2D_Point.h>
 
 #include <Engine/S_0_H_Debug.hlsli>
@@ -27,6 +29,7 @@
 //테스트용 레벨
 #include "CTestLevel.h"
 
+#include <Script/defineUser.h>
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}
@@ -54,7 +57,6 @@ void CEditorObjMgr::init()
 
 	CreateEditorCamera();
 
-
 	{//커서 생성
 		m_pMousePicker = new CGameObject;
 		m_pMousePicker->SetName("Cursor");
@@ -67,7 +69,14 @@ void CEditorObjMgr::init()
 		CScript_MouseCursor* pScript = m_pMousePicker->ScriptHolder()->GetScript<CScript_MouseCursor>();
 		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
-		::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), 0);
+		//TODO : 임시로 마우스 오브젝트를 20번 레이어에 생성함
+		::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
+
+		CCollisionMgr* pMgr = CCollisionMgr::GetInst();
+		for (int i = 0; i < 32; ++i)
+		{
+			pMgr->AddLayerInteraction2D(iLayerCursor, i);
+		}
 	}
 }
 

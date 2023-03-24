@@ -12,6 +12,11 @@ public:
     CLONE(CScript_MouseCursor);
 
 private:
+    Vec2 m_v2CursorPos;
+
+    //Z축 체크용
+    CGameObject* m_pObj_ZCheck;
+
     std::function<void(CGameObject*)> m_arrpFuncLBTNCallback[(int)eKEY_STATE::END];
     std::function<void(CGameObject*)> m_arrpFuncRBTNCallback[(int)eKEY_STATE::END];
 
@@ -25,4 +30,7 @@ public:
 public:
     virtual void tick() override;
     virtual void OnCollision(CCollider* _Collider) override;
+
+private:
+    void CalcPos();
 };

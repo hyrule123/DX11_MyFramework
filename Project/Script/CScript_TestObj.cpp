@@ -37,7 +37,7 @@ void CScript_TestObj::tick()
 	Vec3 Scale = Transform()->GetRelativeScale();
 	Vec3 Rot = Transform()->GetRelativeRot();
 
-	if (KEY_PRESSED(KEY::E))
+	if (KEY_PRESSED(eKEY::E))
 	{
 		Scale += Vec3(1.f, 1.f, 0.f) * DELTA_TIME;
 		Rot += Vec3(0.f, 0.f, 1.f) * DELTA_TIME;

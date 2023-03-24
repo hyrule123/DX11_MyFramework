@@ -48,6 +48,12 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>Generated</Filter>
     </ClInclude>
+    <ClInclude Include="defineUser.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript_SCGroundUnitMove.h">
+      <Filter>ScriptCode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_Bullet.cpp">
@@ -73,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript_SCGroundUnitMove.cpp">
+      <Filter>ScriptCode</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

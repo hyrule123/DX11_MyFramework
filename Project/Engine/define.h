@@ -8,15 +8,15 @@
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) public: virtual type* Clone() { return nullptr; assert(nullptr); }
 
-#define KEY_TAP(Key) CKeyMgr::GetInst()->GetKeyState(Key) == eKEY_STATE::TAP		
-#define KEY_RELEASE(Key) CKeyMgr::GetInst()->GetKeyState(Key) == eKEY_STATE::RELEASE
-#define KEY_PRESSED(Key) CKeyMgr::GetInst()->GetKeyState(Key) == eKEY_STATE::PRESSED
+#define KEY_TAP(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::TAP		
+#define KEY_RELEASE(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::RELEASE
+#define KEY_PRESSED(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::PRESSED
 
 #define DELTA_TIME CTimeMgr::GetInst()->GetDeltaTime()
 
 #define MAX_LAYER 32
 
-#define SINGLETON(type) private: type(); ~type(); friend class CSingleton<type>;
+
 #define TYPE_INDEX(Type) std::type_index(typeid(Type))
 
 #define FLT_MAX_NEG -FLT_MAX
@@ -248,10 +248,10 @@ enum class eCOLLIDER_TYPE_3D
 	LINE
 };
 
-enum eDIMENSION_TYPE : UINT
+enum class eDIMENSION_TYPE : UINT
 {
-	eDIMENSION_2D = 2u,
-	eDIMENSION_3D = 3u
+	_2D = 2u,
+	_3D = 3u
 };
 
 enum class eSTRUCT_BUFFER_TYPE
@@ -300,4 +300,4 @@ enum class eTILESET_INFO : UINT8
 	END = 0x08
 };
 
-
+#include "S_H_Struct.hlsli"

@@ -16,11 +16,16 @@
 
 #include <Engine/CScriptHolder.h>
 
+#include <Engine/CCollider.h>
+#include "defineUser.h"
+#include <Engine/define.h>
+
 CScript_Player::CScript_Player()
 	: CScript(TYPE_INDEX(CScript_Player))
 	, m_ColorKey(0.f, 0.f, 0.f, 0.f)
 	, m_MoveSpeed(400.f)
 	, m_TurningForceRad(XM_PI / 2.f)
+	, m_eState()
 {
 }
 
@@ -44,20 +49,20 @@ void CScript_Player::tick()
 	bool RotUpdated = false;
 	bool PosUpdated = false;
 	//회전 먼저 적용하고
-	if (KEY_PRESSED(KEY::LEFT))
+	if (KEY_PRESSED(eKEY::LEFT))
 	{
 		vCurRot.z += DELTA_TIME * m_TurningForceRad;
 		RotUpdated = true;
 	}
 
-	if (KEY_PRESSED(KEY::RIGHT))
+	if (KEY_PRESSED(eKEY::RIGHT))
 	{
 		vCurRot.z -= DELTA_TIME * m_TurningForceRad;
 		RotUpdated = true;
 	}
 
 	//회전한 방향으로 전진
-	if (KEY_PRESSED(KEY::UP))
+	if (KEY_PRESSED(eKEY::UP))
 	{
 		//Vec3 Dir = Transform()->GetWorldDir(eDIR_TYPE::RIGHT);
 		//vCurPos += DELTA_TIME * m_MoveSpeed * Dir;
@@ -68,7 +73,7 @@ void CScript_Player::tick()
 		vCurPos.y += DELTA_TIME * m_MoveSpeed * sinf(CurRot);
 	}
 
-	if (KEY_PRESSED(KEY::DOWN))
+	if (KEY_PRESSED(eKEY::DOWN))
 	{
 		//Vec3 Dir = Transform()->GetWorldDir(eDIR_TYPE::RIGHT);
 		//vCurPos -= DELTA_TIME * m_MoveSpeed * Dir;
@@ -85,7 +90,7 @@ void CScript_Player::tick()
 		Transform()->SetRelativeRot(vCurRot);
 
 
-	if (KEY_PRESSED(KEY::Q))
+	if (KEY_PRESSED(eKEY::Q))
 	{
 		Vec3 Scale = Transform()->GetRelativeScale();
 		Scale += Vec3(DELTA_TIME);
@@ -93,22 +98,37 @@ void CScript_Player::tick()
 	}
 
 			
-	if (KEY_TAP(KEY::_1))
+	if (KEY_TAP(eKEY::_1))
 	{
 		int a = 0;
 		GetOwner()->SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
 	}
 
-	else if (KEY_TAP(KEY::_2))
+	else if (KEY_TAP(eKEY::_2))
 	{
 		int a = 1;
 		GetOwner()->SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::INT_0, &a);
 	}
 
-	if (KEY_TAP(KEY::SPACE))
+	if (KEY_TAP(eKEY::SPACE))
 	{
 		Shoot();
 	}
+
+}
+
+void CScript_Player::OnCollision(CCollider* _pCol)
+{
+	//커서가 자신과 충돌중임을 확인했을 경우
+	if (iLayerCursor == _pCol->GetOwner()->GetLayer())
+	{
+		//마우스 커서가 한번 클릭됐을 경우
+		if (KEY_TAP(eKEY::LBTN))
+		{
+			m_bSelected = true;
+		}
+	}
+
 
 }
 

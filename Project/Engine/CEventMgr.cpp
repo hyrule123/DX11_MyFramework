@@ -34,7 +34,7 @@ void CEventMgr::DestroyObject(const tEvent& _event)
 
 	//이미 삭제 대기 상태에 들어가 있는 경우 추가로 등록하지 않음.
 	//중복 삭제 방지(댕글링 포인터 위험)
-	if (true == _pObj->GetDestroyed())
+	if (true == _pObj->IsDestroyed())
 		return;
 
 	_pObj->DestroyForEventMgr();

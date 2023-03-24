@@ -250,7 +250,7 @@ namespace DirectX
             Vector3& operator=(Vector3&&) = default;
 
 
-            Vector2 XY() { return Vector2(x, y); }
+            Vector2 XY() const { return Vector2(x, y); }
             operator XMVECTOR() const { return XMLoadFloat3(this); }
 
             typedef float(&f3)[3];
@@ -378,6 +378,7 @@ namespace DirectX
 
         // Binary operators
         Vector3 operator+ (const Vector3& V1, const Vector3& V2);
+        Vector3 operator+ (const Vector3& V1, const Vector2& V2);
         Vector3 operator- (const Vector3& V1, const Vector3& V2);
         Vector3 operator* (const Vector3& V1, const Vector3& V2);
         Vector3 operator* (const Vector3& V, float S);

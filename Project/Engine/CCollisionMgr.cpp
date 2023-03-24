@@ -127,11 +127,18 @@ void CCollisionMgr::tick()
 			for (int m = l + 1; m < size; ++m)
 			{
 				//두 레이어가 충돌하도록 설정되어 있는지 여부를 검사한다. 충돌하지 않는 레이어일 경우 충돌 검사 X
-				if (false == (m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColl[l]->GetLayerIndex()]
+				if (false == 
+					(m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColl[l]->GetLayerIndex()]
 					&
 					(UINT32)1 << m_vec2DGrid[i].vecColl[m]->GetLayerIndex())
 					)
 					continue;
+
+				//만약 삭제 대기 상태일 경우 - CGameObject에서 tick과 finaltick을 돌리지 않음
+				//->충돌체 정보가 공간분할 그리드에 등록되지 않음
+				//->여기서 감사되지 않음
+				//->혹시나 충돌중인 충돌체가 있었을 경우 아래의 충돌하지 않은 충돌체 제거 단계에서
+				//제거되므로 문제가 발생하지 않음.
 
 				//위에서 ID순 오름차순으로 정렬했으므로 ID를 굳이 비교할 필요가 없다.
 				CollisionID ID = {}; 

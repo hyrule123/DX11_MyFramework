@@ -90,7 +90,7 @@ public:
 
     CGameObject* GetParent() const { return m_Parent; }
     int          GetLayer() const { return m_iLayerIdx; }
-    bool         GetDestroyed() const { return m_bDestroy; }
+    bool         IsDestroyed() const { return m_bDestroy; }
     
     //Master GameObject만 LevelMgr에서 tick()를 호출한다.
     bool                IsMaster()  const { return (nullptr == m_Parent); }

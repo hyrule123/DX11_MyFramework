@@ -1,9 +1,11 @@
 #include "pch.h"
-#include "CKeyMgr.h"
 
+#include "define.h"
+#include "CKeyMgr.h"
 #include "CEngine.h"
 
-int g_arrVK[(UINT)KEY::END]
+
+int g_arrVK[(UINT)eKEY::END]
 =
 {
 	 VK_UP, 
@@ -67,9 +69,9 @@ CKeyMgr::~CKeyMgr()
 
 void CKeyMgr::init()
 {
-	for (int i = 0; i < (int)KEY::END; ++i)
+	for (int i = 0; i < (int)eKEY::END; ++i)
 	{
-		m_vecKey.push_back(tKeyInfo{ (KEY)i  , eKEY_STATE::NONE });
+		m_vecKey.push_back(tKeyInfo{ (eKEY)i , eKEY_STATE::NONE });
 	}
 }
 

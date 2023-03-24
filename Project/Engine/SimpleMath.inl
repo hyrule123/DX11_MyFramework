@@ -921,6 +921,18 @@ inline Vector3 operator+ (const Vector3& V1, const Vector3& V2)
     return R;
 }
 
+inline Vector3 DirectX::SimpleMath::operator+(const Vector3& V1, const Vector2& V2)
+{
+    using namespace DirectX;
+    XMVECTOR v1 = XMLoadFloat3(&V1);
+    XMVECTOR v2 = XMLoadFloat2(&V2);
+    XMVECTOR X = XMVectorAdd(v1, v2);
+    Vector3 R;
+    XMStoreFloat3(&R, X);
+    return R;
+}
+
+
 inline Vector3 operator- (const Vector3& V1, const Vector3& V2)
 {
     using namespace DirectX;

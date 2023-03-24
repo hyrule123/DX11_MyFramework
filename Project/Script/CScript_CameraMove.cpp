@@ -27,42 +27,42 @@ void CScript_CameraMove::Camera2DMove()
 
 	float DT = DELTA_TIME;
 
-	if (KEY_PRESSED(KEY::W))
+	if (KEY_PRESSED(eKEY::W))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::UP);
 
 		CamPos += DT * m_CamSpeed * Dir;
 	}
-	if (KEY_PRESSED(KEY::S))
+	if (KEY_PRESSED(eKEY::S))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::UP);
 
 		CamPos -= DT * m_CamSpeed * Dir;
 	}
-	if (KEY_PRESSED(KEY::A))
+	if (KEY_PRESSED(eKEY::A))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos -= DT * m_CamSpeed * Dir;
 	}
-	if (KEY_PRESSED(KEY::D))
+	if (KEY_PRESSED(eKEY::D))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos += DT * m_CamSpeed * Dir;
 	}
 
-	if (KEY_PRESSED(KEY::C))
+	if (KEY_PRESSED(eKEY::C))
 	{
 		Camera()->Zoom2D(1.0f + 0.5f * DT);
 	}
-	else if (KEY_PRESSED(KEY::X))
+	else if (KEY_PRESSED(eKEY::X))
 	{
 		Camera()->Zoom2D(1.0f - 0.5f * DT);
 	}
 
 
-	if (KEY_PRESSED(KEY::Z))
+	if (KEY_PRESSED(eKEY::Z))
 	{
 		CamRot.x += DT * XM_PI;
 		CamRot.y += DT * XM_PI;
@@ -79,25 +79,25 @@ void CScript_CameraMove::Camera3DMove()
 	Vec3 CamRot = pTransform->GetRelativeRot();
 
 
-	if (KEY_PRESSED(KEY::W))
+	if (KEY_PRESSED(eKEY::W))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::FRONT);
 
 		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
-	if (KEY_PRESSED(KEY::S))
+	if (KEY_PRESSED(eKEY::S))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::FRONT);
 
 		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
-	if (KEY_PRESSED(KEY::A))
+	if (KEY_PRESSED(eKEY::A))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
-	if (KEY_PRESSED(KEY::D))
+	if (KEY_PRESSED(eKEY::D))
 	{
 		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
 
@@ -105,7 +105,7 @@ void CScript_CameraMove::Camera3DMove()
 	}
 
 	//우클릭시 시점 전환
-	if (KEY_PRESSED(KEY::RBTN))
+	if (KEY_PRESSED(eKEY::RBTN))
 	{
 		Vec2 MouseDir = CKeyMgr::GetInst()->GetMouseDir();
 
@@ -124,7 +124,7 @@ void CScript_CameraMove::tick()
 {
 	ePROJ_TYPE ProjType = Camera()->GetProjType();
 	bool VTapped = false;
-	if (KEY_TAP(KEY::V))
+	if (KEY_TAP(eKEY::V))
 		VTapped = true;
 
 	switch (ProjType)

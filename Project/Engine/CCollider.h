@@ -1,16 +1,18 @@
 #pragma once
 #include "CComponent.h"
 
+
 class CCollider :
     public CComponent
 {
 private:
     CCollider() = delete;
 public:
-    CCollider(eCOMPONENT_TYPE _ComType);
+    CCollider(eCOMPONENT_TYPE _ComType, eDIMENSION_TYPE _eDim);
     virtual ~CCollider();
 
 private:
+    const eDIMENSION_TYPE     m_eCollDimension;
 
     Matrix              m_matCollider;      // Collider 의 월드행렬
 
@@ -27,7 +29,7 @@ private:
 
 
 public:
-    //inline Getter
+    eDIMENSION_TYPE GetDimensionType() const { return m_eCollDimension; }
     
     const Vec3&            GetOffsetPos()      const { return m_vOffsetPos; }
     const Vec3&            GetOffsetScale()    const { return m_vOffsetScale; }

@@ -71,7 +71,7 @@ void CRenderMgr::init()
 
 void CRenderMgr::tick()
 {
-    if (KEY_PRESSED(KEY::LCTRL) && KEY_TAP(KEY::E))
+    if (KEY_PRESSED(eKEY::LCTRL) && KEY_TAP(eKEY::E))
     {
         m_bEditorCamMode = !m_bEditorCamMode;
     }

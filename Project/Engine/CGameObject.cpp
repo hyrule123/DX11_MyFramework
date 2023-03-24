@@ -246,7 +246,7 @@ void CGameObject::cleanup()
 	//만약 자신의 부모 오브젝트가 존재하고, 해당 오브젝트는 삭제 대기 상태가 아닐 경우
 	//※부모 오브젝트도 삭제 대기 상태일 경우에는 부모 오브젝트도 어차피 이번 프레임 마지막에 삭제가 될 것이므로
 	//굳이 자신의 주소를 정리해달라고 요청하지 않아도 된다.
-	if (nullptr != m_Parent && false == m_Parent->GetDestroyed())
+	if (nullptr != m_Parent && false == m_Parent->IsDestroyed())
 	{
 		m_Parent->RemoveChild(this);
 		m_Parent = nullptr;

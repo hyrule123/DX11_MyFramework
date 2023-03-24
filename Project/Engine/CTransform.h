@@ -65,6 +65,7 @@ public:
     void SetSize(const Vec3& _vSize);
 
     void SetRelativePos(const Vec3& _vPos) { m_vRelativePos = _vPos; SetMyUpdate(); }
+    void SetRelativePosXY(const Vec2& _vPos) { m_vRelativePos.x = _vPos.x; m_vRelativePos.y = _vPos.y; SetMyUpdate(); }
     void SetRelativePos(float _x, float _y, float _z) { m_vRelativePos = Vec3(_x, _y, _z); SetMyUpdate(); }
 
     void SetRelativeScale(const Vec3& _vScale) { m_vRelativeScale = _vScale; SetMyUpdate(); m_bSizeUpdated = true; }

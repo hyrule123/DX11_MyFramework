@@ -1,5 +1,7 @@
 #pragma once
 
+#define SINGLETON(type) private: type(); ~type(); friend class CSingleton<type>;
+
 typedef void (*EXIT)(void);
 
 template<typename T>

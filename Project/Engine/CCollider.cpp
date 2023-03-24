@@ -4,9 +4,15 @@
 #include "CScriptHolder.h"
 #include "CScript.h"
 
-CCollider::CCollider(eCOMPONENT_TYPE _ComType)
+CCollider::CCollider(eCOMPONENT_TYPE _ComType, eDIMENSION_TYPE _eDim)
 	: CComponent(_ComType)
+	, m_eCollDimension(_eDim)
 	, m_vOffsetScale(Vec3::One)
+	, m_bFixSize()
+	, m_iCollisionCount()
+	, m_bNeedPosUpdate(true)
+	, m_bNeedRotUpdate(true)
+	, m_bNeedScaleSizeUpdate(true)
 {
 }
 

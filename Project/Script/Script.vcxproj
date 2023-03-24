@@ -187,7 +187,9 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CScript_Debug.h" />
     <ClInclude Include="CScript_MouseCursor.h" />
     <ClInclude Include="CScript_Player.h" />
+    <ClInclude Include="CScript_SCGroundUnitMove.h" />
     <ClInclude Include="CScript_TestObj.h" />
+    <ClInclude Include="defineUser.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="strKeyScript.h" />
@@ -201,6 +203,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClCompile Include="CScript_Debug.cpp" />
     <ClCompile Include="CScript_MouseCursor.cpp" />
     <ClCompile Include="CScript_Player.cpp" />
+    <ClCompile Include="CScript_SCGroundUnitMove.cpp" />
     <ClCompile Include="CScript_TestObj.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -94,7 +94,7 @@ CGameObject* CLevel::FindObjectByName(const string& _Name)
 		{
 			if (_Name == vecObj[j]->GetName())
 			{
-				if (true == vecObj[j]->GetDestroyed())
+				if (true == vecObj[j]->IsDestroyed())
 					continue;
 				return vecObj[j];
 			}
@@ -116,7 +116,7 @@ void CLevel::FindObjectALLByName(const string& _Name, vector<CGameObject*>& _out
 		size_t size = vecObj.size();
 		for (size_t j = 0; j < size; ++j)
 		{
-			if (true == vecObj[j]->GetDestroyed())
+			if (true == vecObj[j]->IsDestroyed())
 				continue;
 
 			if (_Name == vecObj[j]->GetName())

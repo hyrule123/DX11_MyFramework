@@ -13,7 +13,7 @@
 #include "CTransform.h"
 
 CCollider2D::CCollider2D(eCOLLIDER_TYPE_2D _eColType)
-	: CCollider(eCOMPONENT_TYPE::COLLIDER2D)
+	: CCollider(eCOMPONENT_TYPE::COLLIDER2D, eDIMENSION_TYPE::_2D)
 	, m_eColType(_eColType)
 	, m_vecGridIdxInfo{}
 {

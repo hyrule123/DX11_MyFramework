@@ -83,8 +83,12 @@ void CreateTestLevel()
 		
 		TestObj->Transform()->SetSize(Vec3(TestObj->Animator2D()->GetCurFrameSize(), 1.f));
 
-		if(i == 0)
+		if (i == 0)
+		{
 			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::PLAYER)));
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITMOVE)));
+		}
+			
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);

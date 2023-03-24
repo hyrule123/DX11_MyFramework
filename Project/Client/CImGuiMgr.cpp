@@ -312,7 +312,7 @@ void CImGuiMgr::finaltick()
     }
 
     //엔터키를 누를 시 IMGUI 윈도우에 대한 포커스 해제
-    if (KEY_TAP(KEY::ENTER))
+    if (KEY_TAP(eKEY::ENTER))
         ImGui::SetWindowFocus(nullptr);
 }
 

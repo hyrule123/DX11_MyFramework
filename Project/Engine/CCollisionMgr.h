@@ -1,5 +1,6 @@
 #pragma once
 #include "CSingleton.h"
+#include "define.h"
 
 //**********************************************
 // 충돌체가 그리드 하나 크기보다 커질 경우 에러 나므로 주의할 것
@@ -46,7 +47,7 @@ class CCollisionMgr :
     public CSingleton<CCollisionMgr>
 {
     SINGLETON(CCollisionMgr)
-
+       
 private:
     //우선 논리적으로만 충돌정보를 저장. 나중에 필요해지면 따로 만들것.
     vector<tGrid2D> m_vec2DGrid;

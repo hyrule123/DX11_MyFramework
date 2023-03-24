@@ -11,6 +11,7 @@
 #include "CScript_Player.h"
 #include "CScript_Debug.h"
 #include "CScript_MouseCursor.h"
+#include "CScript_SCGroundUnitMove.h"
 #include "CScript_TestObj.h"
 
 
@@ -32,6 +33,7 @@ void CScriptMgr::init()
 	m_umapScript[std::string(SCRIPTS::PLAYER)] = new CScript_Player;
 	m_umapScript[std::string(SCRIPTS::DEBUG)] = new CScript_Debug;
 	m_umapScript[std::string(SCRIPTS::MOUSECURSOR)] = new CScript_MouseCursor;
+	m_umapScript[std::string(SCRIPTS::SCGROUNDUNITMOVE)] = new CScript_SCGroundUnitMove;
 	m_umapScript[std::string(SCRIPTS::TESTOBJ)] = new CScript_TestObj;
 }
 

@@ -1,6 +1,8 @@
 #pragma once
 
-enum class KEY
+#include "define.h"
+
+enum class eKEY
 {
 	UP,		// VK_UP
 	DOWN,
@@ -52,7 +54,7 @@ enum class KEY
 
 struct tKeyInfo
 {
-	KEY			key;
+	eKEY			key;
 	eKEY_STATE	state;
 	bool		bPrev;
 };
@@ -76,7 +78,7 @@ public:
 
 
 public:
-	eKEY_STATE GetKeyState(KEY _key) { return m_vecKey[(UINT)_key].state; }
+	eKEY_STATE GetKeyState(eKEY _key) { return m_vecKey[(UINT)_key].state; }
 	Vec2 GetMousePos() { return m_vMousePos; }
 	Vec2 GetMouseDir() { return m_vMouseDir; }
 };
