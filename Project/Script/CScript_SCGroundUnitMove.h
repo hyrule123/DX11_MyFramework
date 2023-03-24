@@ -17,6 +17,7 @@ public:
 
 private:
     float m_fSpeed;
+    float m_fTurnSpeed;
     
     bool m_bArrived;
     Vec2 m_v2Destination;
