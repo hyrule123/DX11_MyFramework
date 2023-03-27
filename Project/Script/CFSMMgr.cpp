@@ -21,6 +21,7 @@ CFSMMgr::~CFSMMgr()
 	DESTRUCTOR_DELETE_ARRAY(m_arr_pFSM);
 }
 
+
 void CFSMMgr::tick()
 {
 	if (nullptr != m_arr_pFSM[m_eCurState])
