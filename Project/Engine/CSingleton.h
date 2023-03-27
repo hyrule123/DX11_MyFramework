@@ -1,6 +1,10 @@
 #pragma once
 
-#define SINGLETON(type) private: type(); ~type(); friend class CSingleton<type>;
+#define SINGLETON(type) \
+friend class CSingleton<type>;\
+private:\
+type();\
+~type()
 
 typedef void (*EXIT)(void);
 

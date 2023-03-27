@@ -12,6 +12,7 @@
 #include "CCS_ParticleUpdate.h"
 
 #include "CTimeMgr.h"
+#include "CRandMgr.h"
 
 //상수버퍼 생성용
 #include "CDevice.h"
@@ -69,7 +70,10 @@ void CParticleSystem::finaltick()
 
 		m_AccTime = fSpawnCountPerTime * (fData - floor(fData));
 
-		tParticleShareData rwbuffer = { (int)fData, CTimeMgr::GetInst()->GetRandom(), CTimeMgr::GetInst()->GetRandom(), };
+		CRandMgr* pRandMgr = CRandMgr::GetInst();
+
+		//GPU에서 사용할 시드값을 전달
+		tParticleShareData rwbuffer = { (int)fData, pRandMgr->GetRand<UINT>(0u, UINT_MAX), pRandMgr->GetRand<UINT>(0u, UINT_MAX), };
 
 		m_pSBufferRW_Shared->UploadData(&rwbuffer, 1u);
 	}
@@ -165,7 +169,8 @@ void CParticleSystem::CreateParticle()
 
 
 	//공유 데이터 구조화 버퍼 생성
-	tParticleShareData rwbuffer = { (int)0, CTimeMgr::GetInst()->GetRandom(), CTimeMgr::GetInst()->GetRandom(), };
+	CRandMgr* pRandMgr = CRandMgr::GetInst();
+	tParticleShareData rwbuffer = { (int)0, pRandMgr->GetRand<UINT>(0u, UINT_MAX), pRandMgr->GetRand<UINT>(0u, UINT_MAX), };
 
 
 	m_pSBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &rwbuffer, 1u);

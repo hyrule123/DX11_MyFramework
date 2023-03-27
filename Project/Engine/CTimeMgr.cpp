@@ -1,9 +1,10 @@
 #include "pch.h"
+
 #include "CTimeMgr.h"
 
 #include "CEngine.h"
 
-#include <random>
+#include "define.h"
 
 CTimeMgr::CTimeMgr()
 	: m_llPrevCount{}
@@ -13,12 +14,10 @@ CTimeMgr::CTimeMgr()
 	, m_fDeltaTime(0.f)
 	, m_fTime(0.f)
 {
-	m_RandomEngine.seed((unsigned int)time(0));
 }
 
 CTimeMgr::~CTimeMgr()
 {
-
 }
 
 
@@ -38,7 +37,6 @@ void CTimeMgr::tick()
 
 	// tick 간격 시간
 	m_fDeltaTime = (float)(m_llCurCount.QuadPart - m_llPrevCount.QuadPart) / (float)m_llFrequency.QuadPart;
-
 
 
 	// 누적 시간

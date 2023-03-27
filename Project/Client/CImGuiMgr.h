@@ -28,7 +28,7 @@ typedef void (CUI::* UI_DELEGATE_2)(DWORD_PTR, DWORD_PTR);
 class CImGuiMgr :
     public CSingleton<CImGuiMgr>
 {
-    SINGLETON(CImGuiMgr)
+    SINGLETON(CImGuiMgr);
 private:
     HWND                m_hWnd;
     map<string, CUI*>   m_mapUI;

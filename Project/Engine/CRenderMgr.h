@@ -21,7 +21,7 @@ struct tRenderInfo
 
 class CRenderMgr : public CSingleton<CRenderMgr>
 {
-	SINGLETON(CRenderMgr)
+	SINGLETON(CRenderMgr);
 
 public:
 	void init();

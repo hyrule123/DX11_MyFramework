@@ -202,6 +202,9 @@
     <ClInclude Include="strKeyDefault.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CRandMgr.h">
+      <Filter>_Source\03. Manager\09. RandMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -368,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="CTilemapAtlas.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="CRandMgr.cpp">
+      <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -544,6 +550,9 @@
     </Filter>
     <Filter Include="HLSL\04. Tilemap\Complete">
       <UniqueIdentifier>{4b69cd83-ba81-495e-9e5c-977b8dd6a0b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Source\03. Manager\09. RandMgr">
+      <UniqueIdentifier>{5aea2cf4-799a-4c50-9422-eb7b85e28049}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

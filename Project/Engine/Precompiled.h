@@ -14,6 +14,7 @@
 #include <iterator>
 #include <filesystem>
 #include <fstream>
+#include <random>
 
 using std::vector;
 using std::list;
@@ -63,6 +64,4 @@ using namespace DirectX::SimpleMath;
 typedef Vector2 Vec2;
 typedef Vector3 Vec3;
 typedef Vector4 Vec4;
-
-
 

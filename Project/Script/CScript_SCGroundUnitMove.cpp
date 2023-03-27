@@ -29,6 +29,17 @@ void CScript_SCGroundUnitMove::tick()
 		
 		Vec2 Move = PrevDist;
 		Move.Normalize();
+
+		//노멀라이즈 된 값을 활용해서 현재 각도를 구해준다.
+		float acos = atan2f(Move.x, Move.y);	
+		//if(Move.y < 0.f)
+
+		float CurAngle = Transform()->GetRelativeRot().z;
+
+		pTransform->SetRelativeRotZ(acos);
+
+		
+
 		Move *= m_fSpeed * DELTA_TIME;
 
 		//이동 후 거리 계산

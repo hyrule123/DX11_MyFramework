@@ -1,6 +1,6 @@
 #pragma once
 
-#include <random>
+#include "CSingleton.h"
 
 class CTimeMgr
 	: public CSingleton<CTimeMgr>
@@ -20,16 +20,10 @@ private:
 	UINT			m_iCallCount;
 	float			m_fDeltaTime;
 	float			m_fTime;
-
-	std::mt19937	m_RandomEngine;
 	
 	
 public:
 	float GetDeltaTime() { return m_fDeltaTime; }
 	LONGLONG GetCurCount() { return m_llCurCount.QuadPart; }
-
-	UINT32 GetRandom() { return m_RandomEngine(); }
-	float GetRandomNorm() { return ((float)m_RandomEngine() / (float)UINT_MAX); }
-	
 };
 

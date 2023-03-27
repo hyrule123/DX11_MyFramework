@@ -36,9 +36,10 @@
 
 #include <UtilLib_DLL/json/json.h>
 
+#include <Engine/CRandMgr.h>
+
 void CreateTestLevel()
 {
-	//for(int i = 0; i < (int)RES_TEXTURE_ARRAY::)
 
 	LoadAllTexture();
 	LoadUserMtrl();
@@ -59,7 +60,7 @@ void CreateTestLevel()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	for(int i = 0; i < 1; ++i)
+	for(int i = 0; i < 100; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -94,8 +95,8 @@ void CreateTestLevel()
 		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
 		TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 
-		float x = CTimeMgr::GetInst()->GetRandomNorm() * 1280.f;
-		float y = CTimeMgr::GetInst()->GetRandomNorm() * 640.f;
+		float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
+		float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
 		::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
 	}
 

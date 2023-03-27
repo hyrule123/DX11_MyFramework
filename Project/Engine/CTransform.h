@@ -73,6 +73,9 @@ public:
 
     void SetRelativeRot(const Vec3& _vRot) { m_vRelativeRot = _vRot; SetMyUpdate(); }
     void SetRelativeRot(float _x, float _y, float _z) { m_vRelativeRot = Vec3(_x, _y, _z); SetMyUpdate(); }
+    void SetRelativeRotX(float _x) { m_vRelativeRot.x = _x; SetMyUpdate(); }
+    void SetRelativeRotY(float _y) { m_vRelativeRot.y = _y; SetMyUpdate(); }
+    void SetRelativeRotZ(float _z) { m_vRelativeRot.z = _z; SetMyUpdate(); }
 
     void SetRelativePosX(float _x) { m_vRelativePos.x = _x; SetMyUpdate(); }
     void SetRelativePosY(float _y) { m_vRelativePos.y = _y; SetMyUpdate(); }

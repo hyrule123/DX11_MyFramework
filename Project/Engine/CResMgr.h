@@ -22,7 +22,7 @@
 class CResMgr :
     public CSingleton<CResMgr>
 {
-    SINGLETON(CResMgr)
+    SINGLETON(CResMgr);
 public:
     void init();
     void cleartick() { m_bResUpdated = false; }

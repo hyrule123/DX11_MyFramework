@@ -7,6 +7,8 @@
 class CEventMgr :
     public CSingleton<CEventMgr>
 {
+    SINGLETON(CEventMgr);
+
 private:
     vector<tEvent> m_vecEvent;
 
@@ -29,6 +31,6 @@ public:
     void tick();
     void cleartick() { m_bLevelModified = false; }
 
-    SINGLETON(CEventMgr)
+    
 };
 

@@ -10,6 +10,7 @@
 #include "CRenderMgr.h"
 #include "CEventMgr.h"
 #include "CCollisionMgr.h"
+#include "CRandMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -44,10 +45,11 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	}
 
 
-	// Manager 초기화
+	// Manager 생성 및 초기화
 	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
+	CTimeMgr::GetInst();
 	CResMgr::GetInst()->init();
 
 	CLevelMgr::GetInst()->init();		

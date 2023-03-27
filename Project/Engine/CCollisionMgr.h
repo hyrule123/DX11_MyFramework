@@ -46,7 +46,7 @@ struct tCollisionInfo
 class CCollisionMgr :
     public CSingleton<CCollisionMgr>
 {
-    SINGLETON(CCollisionMgr)
+    SINGLETON(CCollisionMgr);
        
 private:
     //우선 논리적으로만 충돌정보를 저장. 나중에 필요해지면 따로 만들것.
