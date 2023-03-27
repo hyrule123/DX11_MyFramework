@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CSingleton.h"
+
 #include <random>
 
 class CRandMgr :
@@ -15,7 +16,7 @@ public:
     template <typename T>
     T GetRand(T _tMin, T _tMax)
     {
-        static_assert(std::is_arithmetic<T>::value, "Template argument data must be a arithmetic type");
+        static_assert(std::is_arithmetic<T>::value, "Variable Type is not arithmetic!!");
 
         //들어온 T값이 int일 경우: int 타입 분포를 사용
         //들어온 T값이 float일 경우: float 타입 분포를 사용

@@ -7,9 +7,10 @@ namespace SCRIPTS
 {
 constexpr const std::string_view BULLET = "CScript_Bullet.h";
 constexpr const std::string_view CAMERAMOVE = "CScript_CameraMove.h";
-constexpr const std::string_view PLAYER = "CScript_Player.h";
 constexpr const std::string_view DEBUG = "CScript_Debug.h";
 constexpr const std::string_view MOUSECURSOR = "CScript_MouseCursor.h";
 constexpr const std::string_view SCGROUNDUNITMOVE = "CScript_SCGroundUnitMove.h";
+constexpr const std::string_view SCGROUNDUNITBASE = "CScript_SCGroundUnitBase.h";
+constexpr const std::string_view SCGROUNDUNITIDLE = "CScript_SCGroundUnitIdle.h";
 constexpr const std::string_view TESTOBJ = "CScript_TestObj.h";
 }

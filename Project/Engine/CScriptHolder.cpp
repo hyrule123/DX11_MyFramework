@@ -10,8 +10,6 @@ CScriptHolder::CScriptHolder()
 {
 }
 
-
-
 CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	: CComponent(_other)
 {
@@ -32,8 +30,7 @@ CScriptHolder::~CScriptHolder()
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		if (nullptr != m_vecScript[i])
-			delete m_vecScript[i];
+		DESTRUCTOR_DELETE(m_vecScript[i]);
 	}
 }
 
@@ -46,18 +43,26 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 	std::type_index type = _pScript->GetTypeIndex();
 
 	//스크립트 중복 방지
-	size_t size = m_vecScript.size();
-	for (size_t i = 0; i < size; ++i)
+	if (m_umapScript.find(type) != m_umapScript.end())
 	{
-		if (type == m_vecScript[i]->GetTypeIndex())
-		{
-			delete _pScript;
-			return false;
-		}
+		delete _pScript;
+		return false;
 	}
+	//size_t size = m_vecScript.size();
+	//for (size_t i = 0; i < size; ++i)
+	//{
+	//	if (type == m_vecScript[i]->GetTypeIndex())
+	//	{
+	//		delete _pScript;
+	//		return false;
+	//	}
+	//}
 
 	m_vecScript.push_back(_pScript);
+	m_umapScript[type] = _pScript;
+
 	_pScript->SetOwner(GetOwner());
+	_pScript->SetHolder(this);
 	if (true == GetOwner()->IsInitialized())
 		_pScript->init();
 

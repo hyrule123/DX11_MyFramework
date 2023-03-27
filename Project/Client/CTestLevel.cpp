@@ -25,7 +25,7 @@
 #include <Script/strKeyShader.h>
 
 #include <Script/CScriptMgr.h>
-#include <Script/CScript_Player.h>
+#include <Script/CScript_SCGroundUnitBase.h>
 #include <Script/CScript_MouseCursor.h>
 #include <Script/CScript_Bullet.h>
 #include <Script/CScript_Debug.h>
@@ -60,7 +60,7 @@ void CreateTestLevel()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	for(int i = 0; i < 100; ++i)
+	for(int i = 0; i < 1; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -80,14 +80,13 @@ void CreateTestLevel()
 		
 		TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
 
-		TestObj->Animator2D()->Play("Marine_Move", eANIM_LOOPMODE::NORMAL_LOOP, false);
+		//TestObj->Animator2D()->Play("Marine_Move", eANIM_LOOPMODE::NORMAL_LOOP, false);
 		
 		TestObj->Transform()->SetSize(Vec3(TestObj->Animator2D()->GetCurFrameSize(), 1.f));
 
 		if (i == 0)
 		{
-			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::PLAYER)));
-			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITMOVE)));
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITBASE)));
 		}
 			
 
@@ -182,7 +181,7 @@ void CreateTestLevel()
 	//	pPlayer->AddComponent(new CMeshRender);
 
 	//	//if(1 == i)
-	//	pPlayer->AddScript(new CScript_Player);
+	//	pPlayer->AddScript(new CScript_SCGroundUnitBase);
 
 	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RES_DEFAULT::MATERIAL::STD2D_LIGHT);
 
@@ -337,7 +336,7 @@ void CreateTestLevel()
 	//	pParticle->CreateParticle();
 	//	pParticleObj->AddComponent(pParticle);
 
-	//	pParticleObj->AddScript(new CScript_Player);
+	//	pParticleObj->AddScript(new CScript_SCGroundUnitBase);
 
 	//	SpawnGameObject(pParticleObj, Vec3(-100.f, -100.f, 10.f), 1);
 	//}
@@ -470,7 +469,7 @@ void LoadAnim()
 		Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(RES_TEXTURE::TRILOB_REAVER__BMP)));
 
 		Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
-		Atlas->AddAnim2D_SC_Redundant("ReaverMove", 0u, 9u, 1.f);
+		Atlas->AddAnim2D_SC_Redundant("MOVE", 0u, 9u, 1.f);
 
 		pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::TRILOB_REAVER__BMP), Atlas);
 	}
@@ -480,7 +479,7 @@ void LoadAnim()
 		Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(RES_TEXTURE::CORSAIR_BMP)));
 	
 		Atlas->SetNewAnimUV(17u, 5u, 0u, 17u, 0u, 5u);
-		Atlas->AddAnim2D("Corsair_Move", 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
+		Atlas->AddAnim2D("MOVE", 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
 	
 		pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::CORSAIR_BMP), Atlas);
 	}

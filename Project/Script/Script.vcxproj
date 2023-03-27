@@ -181,28 +181,35 @@ call "CodeGenerator_$(Configuration).exe" Script
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CFSM.h" />
+    <ClInclude Include="CFSMMgr.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CScript_Bullet.h" />
     <ClInclude Include="CScript_CameraMove.h" />
     <ClInclude Include="CScript_Debug.h" />
     <ClInclude Include="CScript_MouseCursor.h" />
-    <ClInclude Include="CScript_Player.h" />
+    <ClInclude Include="CScript_SCGroundUnitBase.h" />
+    <ClInclude Include="CScript_SCGroundUnitIdle.h" />
     <ClInclude Include="CScript_SCGroundUnitMove.h" />
     <ClInclude Include="CScript_TestObj.h" />
     <ClInclude Include="defineUser.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SCGroundUnit.h" />
     <ClInclude Include="strKeyScript.h" />
     <ClInclude Include="strKeyShader.h" />
     <ClInclude Include="strKeyTexture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CFSM.cpp" />
+    <ClCompile Include="CFSMMgr.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CScript_Bullet.cpp" />
     <ClCompile Include="CScript_CameraMove.cpp" />
     <ClCompile Include="CScript_Debug.cpp" />
     <ClCompile Include="CScript_MouseCursor.cpp" />
-    <ClCompile Include="CScript_Player.cpp" />
+    <ClCompile Include="CScript_SCGroundUnitBase.cpp" />
+    <ClCompile Include="CScript_SCGroundUnitIdle.cpp" />
     <ClCompile Include="CScript_SCGroundUnitMove.cpp" />
     <ClCompile Include="CScript_TestObj.cpp" />
     <ClCompile Include="pch.cpp">

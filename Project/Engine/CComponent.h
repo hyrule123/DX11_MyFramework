@@ -6,8 +6,6 @@
 class CTransform;
 class CMeshRender;
 class CCamera;
-
-
 class CCollider3D;
 
 class CComponent :

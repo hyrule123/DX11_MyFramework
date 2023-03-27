@@ -10,6 +10,12 @@
     <Filter Include="Generated">
       <UniqueIdentifier>{49cc538f-0539-450f-b504-36a1bdf1e9d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScriptCode\FSM">
+      <UniqueIdentifier>{42520fd7-fb75-4a17-82d2-2ca2acb4ac4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptCode\CScript_SCGroundUnit">
+      <UniqueIdentifier>{5370364f-2a10-46f5-816d-ab403a39c31b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CScript_Bullet.h">
@@ -19,9 +25,6 @@
       <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="CScript_MouseCursor.h">
-      <Filter>ScriptCode</Filter>
-    </ClInclude>
-    <ClInclude Include="CScript_Player.h">
       <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="CScript_TestObj.h">
@@ -51,8 +54,23 @@
     <ClInclude Include="defineUser.h">
       <Filter>Generated</Filter>
     </ClInclude>
+    <ClInclude Include="CFSMMgr.h">
+      <Filter>ScriptCode\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="CFSM.h">
+      <Filter>ScriptCode\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript_SCGroundUnitBase.h">
+      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
+    </ClInclude>
     <ClInclude Include="CScript_SCGroundUnitMove.h">
-      <Filter>ScriptCode</Filter>
+      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="SCGroundUnit.h">
+      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript_SCGroundUnitIdle.h">
+      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +81,6 @@
       <Filter>ScriptCode</Filter>
     </ClCompile>
     <ClCompile Include="CScript_MouseCursor.cpp">
-      <Filter>ScriptCode</Filter>
-    </ClCompile>
-    <ClCompile Include="CScript_Player.cpp">
       <Filter>ScriptCode</Filter>
     </ClCompile>
     <ClCompile Include="CScript_TestObj.cpp">
@@ -80,8 +95,20 @@
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
+    <ClCompile Include="CFSMMgr.cpp">
+      <Filter>ScriptCode\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="CFSM.cpp">
+      <Filter>ScriptCode\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript_SCGroundUnitBase.cpp">
+      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
+    </ClCompile>
     <ClCompile Include="CScript_SCGroundUnitMove.cpp">
-      <Filter>ScriptCode</Filter>
+      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript_SCGroundUnitIdle.cpp">
+      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
