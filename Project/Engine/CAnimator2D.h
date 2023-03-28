@@ -70,6 +70,8 @@ public:
     void AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex);
     void Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
 
+    bool IsFinished() const { return m_bFinish; }
+
     //TODO : 임시
     const Vec2  GetCurFrameSize() ;
 
