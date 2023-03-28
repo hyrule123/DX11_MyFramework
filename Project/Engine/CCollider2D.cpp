@@ -26,6 +26,9 @@ CCollider2D::~CCollider2D()
 
 bool CCollider2D::SaveJson(Json::Value* _pJVal)
 {
+
+
+
 	return false;
 }
 
