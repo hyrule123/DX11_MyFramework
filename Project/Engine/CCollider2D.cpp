@@ -24,6 +24,16 @@ CCollider2D::~CCollider2D()
 {
 }
 
+bool CCollider2D::SaveJson(Json::Value* _pJVal)
+{
+	return false;
+}
+
+bool CCollider2D::LoadJson(Json::Value* _pJVal)
+{
+	return false;
+}
+
 void CCollider2D::finaltick()
 {
 	CTransform* pTransform = Transform();

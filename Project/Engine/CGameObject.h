@@ -21,7 +21,6 @@ class CGameObject :
 {
     CLONE(CGameObject)
 public:
-
     CGameObject();
     CGameObject(const CGameObject& _other);
     ~CGameObject();
@@ -35,6 +34,10 @@ public:
     //제거되기 전 기존 오브젝트들과의 관계를 제거
     //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 cleanup() 함수만 호출한다.
     void cleanup();
+
+public:
+    virtual bool SaveJson(Json::Value* _pJson) override;
+    virtual bool LoadJson(Json::Value* _pJson) override;
 
 private:
     //Components

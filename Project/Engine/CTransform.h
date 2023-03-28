@@ -16,13 +16,19 @@ public:
     virtual void cleanup() override {};
     //void UpdateData();
 
+public:
+    bool SaveJson(Json::Value* _pJson) override;
+    bool LoadJson(Json::Value* _pJson) override;
+
+public:
+
 
 private:
     Matrix    m_matSize;
 
-    Vec3    m_vRelativePos;
-    Vec3    m_vRelativeScale;
-    Vec3    m_vRelativeRot;
+    Vec3    m_v3RelativeScale;
+    Vec3    m_v3RelativePos;
+    Vec3    m_v3RelativeRot;
 
     float m_fLongestDiagonalLen;
 
@@ -64,22 +70,22 @@ public:
     //사이즈의 경우 전체를 갱신할 필요 없음.
     void SetSize(const Vec3& _vSize);
 
-    void SetRelativePos(const Vec3& _vPos) { m_vRelativePos = _vPos; SetMyUpdate(); }
-    void SetRelativePosXY(const Vec2& _vPos) { m_vRelativePos.x = _vPos.x; m_vRelativePos.y = _vPos.y; SetMyUpdate(); }
-    void SetRelativePos(float _x, float _y, float _z) { m_vRelativePos = Vec3(_x, _y, _z); SetMyUpdate(); }
+    void SetRelativePos(const Vec3& _vPos) { m_v3RelativePos = _vPos; SetMyUpdate(); }
+    void SetRelativePosXY(const Vec2& _vPos) { m_v3RelativePos.x = _vPos.x; m_v3RelativePos.y = _vPos.y; SetMyUpdate(); }
+    void SetRelativePos(float _x, float _y, float _z) { m_v3RelativePos = Vec3(_x, _y, _z); SetMyUpdate(); }
 
-    void SetRelativeScale(const Vec3& _vScale) { m_vRelativeScale = _vScale; SetMyUpdate(); m_bSizeUpdated = true; }
+    void SetRelativeScale(const Vec3& _vScale) { m_v3RelativeScale = _vScale; SetMyUpdate(); m_bSizeUpdated = true; }
     void SetRelativeScale(float _x, float _y, float _z);
 
-    void SetRelativeRot(const Vec3& _vRot) { m_vRelativeRot = _vRot; SetMyUpdate(); }
-    void SetRelativeRot(float _x, float _y, float _z) { m_vRelativeRot = Vec3(_x, _y, _z); SetMyUpdate(); }
-    void SetRelativeRotX(float _x) { m_vRelativeRot.x = _x; SetMyUpdate(); }
-    void SetRelativeRotY(float _y) { m_vRelativeRot.y = _y; SetMyUpdate(); }
-    void SetRelativeRotZ(float _z) { m_vRelativeRot.z = _z; SetMyUpdate(); }
+    void SetRelativeRot(const Vec3& _vRot) { m_v3RelativeRot = _vRot; SetMyUpdate(); }
+    void SetRelativeRot(float _x, float _y, float _z) { m_v3RelativeRot = Vec3(_x, _y, _z); SetMyUpdate(); }
+    void SetRelativeRotX(float _x) { m_v3RelativeRot.x = _x; SetMyUpdate(); }
+    void SetRelativeRotY(float _y) { m_v3RelativeRot.y = _y; SetMyUpdate(); }
+    void SetRelativeRotZ(float _z) { m_v3RelativeRot.z = _z; SetMyUpdate(); }
 
-    void SetRelativePosX(float _x) { m_vRelativePos.x = _x; SetMyUpdate(); }
-    void SetRelativePosY(float _y) { m_vRelativePos.y = _y; SetMyUpdate(); }
-    void SetRelativePosZ(float _z) { m_vRelativePos.z = _z; SetMyUpdate(); }
+    void SetRelativePosX(float _x) { m_v3RelativePos.x = _x; SetMyUpdate(); }
+    void SetRelativePosY(float _y) { m_v3RelativePos.y = _y; SetMyUpdate(); }
+    void SetRelativePosZ(float _z) { m_v3RelativePos.z = _z; SetMyUpdate(); }
 
     void SetScaleInheritance(bool _bInherit) { m_bInheritScale = _bInherit; SetMyUpdate(); }
     void SetRotInheritance(bool _bInherit) { m_bInheritRot = _bInherit; SetMyUpdate(); }
@@ -105,11 +111,11 @@ public:
     ////Inline methods don't need to return the value by const reference
     Vec3 GetSize() const { return Vec3(m_matSize._11, m_matSize._22, m_matSize._33); }
     const Matrix& GetMatSize() const { return m_matSize; }
-    const Vec3& GetRelativePos() const { return m_vRelativePos; }
+    const Vec3& GetRelativePos() const { return m_v3RelativePos; }
     Vec3 GetWorldPos() const { return Vec3(m_matWorld.m[3]); }
-    const Vec3& GetRelativeScale() const { return m_vRelativeScale; }
+    const Vec3& GetRelativeScale() const { return m_v3RelativeScale; }
     Vec3 GetWorldScale() const;
-    const Vec3& GetRelativeRot() const { return m_vRelativeRot; }
+    const Vec3& GetRelativeRot() const { return m_v3RelativeRot; }
         
     Matrix GetWorldRotMat() const;  
     Vec3 GetWorldRot(eAXIS3D _eAxis) const;
@@ -129,7 +135,6 @@ private:
 
     //부모의 트랜스폼 행렬을 받아서 최종적인 월드행렬을 업데이트 한다.
     void UpdateParentMatrix();
-
 };
 
 
@@ -141,7 +146,7 @@ inline void CTransform::SetSize(const Vec3& _vSize)
 
 inline void CTransform::SetRelativeScale(float _x, float _y, float _z)
 {
-    m_vRelativeScale = Vec3(_x, _y, _z); 
+    m_v3RelativeScale = Vec3(_x, _y, _z); 
     SetMyUpdate(); 
     m_bSizeUpdated = true;
 }

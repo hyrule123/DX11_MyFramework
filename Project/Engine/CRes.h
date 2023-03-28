@@ -27,7 +27,7 @@ private:
     int             m_iRefCount;
 
     eRES_TYPE       m_eResType;
-    string         m_strKey;
+    string          m_strKey;
     //std::filesystem::path         m_RelativePath;
 
 public:

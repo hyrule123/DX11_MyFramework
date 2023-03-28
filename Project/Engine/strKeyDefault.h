@@ -263,6 +263,125 @@ namespace RES_INFO
 	{
 		constexpr std::string_view Ext = ".json";
 		constexpr std::string_view DirName = DIRECTORY_NAME::PREFAB;
+
+		namespace JSON_KEY
+		{
+
+			
+		}
+
+		namespace COMPONENT
+		{
+			namespace JSON_KEY
+			{
+				JSONKEY(eComponentType);
+			}
+			
+
+			namespace TRANSFORM
+			{
+				JSONKEY(TRANSFORM);
+
+				//Matrix    m_matSize;
+				JSONKEY(v3MatSize);
+
+				//Vec3    m_v3RelativeScale;
+				JSONKEY(v3RelativeScale);
+
+				//Vec3    m_v3RelativePos;
+				JSONKEY(v3RelativePos);
+
+				//Vec3    m_v3RelativeRot;
+				JSONKEY(v3RelativeRot);
+
+				//float m_fLongestDiagonalLen;
+
+				//Vec3    m_vRelativeDir[(UINT)eDIR_TYPE::END];
+
+				//Vec3    m_vWorldDir[(UINT)eDIR_TYPE::END]; 
+
+				//Matrix  m_matRelative;
+
+				//Matrix  m_matParent;
+
+				//bool    m_bInheritScale;
+				JSONKEY(bInheritScale);
+
+				//bool    m_bInheritRot;
+				JSONKEY(bInheritRot);
+
+				//bool    m_bLockRot;
+				JSONKEY(bLockRot);
+
+				//Matrix  m_matWorld;
+
+				//bool    m_bNeedMyUpdate;
+
+				//bool    m_bNeedParentUpdate;
+
+				//bool    m_bSizeUpdated;
+			}
+
+			namespace COLLIDER2D
+			{
+
+			}
+
+			namespace COLLIDER3D
+			{
+
+			}
+
+			namespace ANIMATOR2D
+			{
+
+			}
+
+			namespace ANIMATOR3D
+			{
+
+			}
+
+			namespace LIGHT2D
+			{
+
+			}
+
+			namespace CAMERA
+			{
+
+			}
+
+			namespace MESHRENDER
+			{
+
+			}
+
+			namespace PARTICLESYSTEM
+			{
+
+			}
+
+			namespace TILEMAP
+			{
+
+			}
+
+			namespace LANDSCAPE
+			{
+
+			}
+
+			namespace DECAL
+			{
+
+			}
+
+			namespace SCRIPT_HOLDER
+			{
+
+			}
+		}
 	}
 
 
@@ -325,7 +444,10 @@ namespace RES_INFO
 			};
 			constexpr std::string_view arr[(int)idx::END] = { ".scm", ".scx" };
 		}
-
 	}
+
+
+
+
 }
 

@@ -253,6 +253,24 @@ void CGameObject::cleanup()
 	}
 }
 
+bool CGameObject::SaveJson(Json::Value* _pJson)
+{
+	if (nullptr == _pJson)
+		return false;
+	else if (false == CEntity::SaveJson(_pJson))
+		return false;
+
+
+	return false;
+}
+
+bool CGameObject::LoadJson(Json::Value* _pJson)
+{
+	return false;
+}
+
+
+
 void CGameObject::AddComponent(CComponent* _Component)
 {
 	UINT ComType = (UINT)_Component->GetType();

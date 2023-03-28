@@ -11,9 +11,15 @@ class CCollider3D;
 class CComponent :
     public CEntity
 {
+public:
+    CComponent(eCOMPONENT_TYPE _Type);
+    CComponent(const CComponent& _other);
+    virtual ~CComponent();
+    friend class CGameObject;
+
 private:
     CGameObject*         m_pOwner;
-    const eCOMPONENT_TYPE m_Type;
+    const eCOMPONENT_TYPE m_eComponentType;
 
 public:
     //inline Setter
@@ -21,8 +27,12 @@ public:
     virtual void SetOwner(CGameObject* _pOwner) { m_pOwner = _pOwner; }
 
     //inline Getter
-    eCOMPONENT_TYPE GetType() { return m_Type; }
+    eCOMPONENT_TYPE GetType() { return m_eComponentType; }
     CGameObject* GetOwner() { return m_pOwner ; }
+
+public:
+    virtual bool SaveJson(Json::Value* _pJson) override;
+    virtual bool LoadJson(Json::Value* _pJson) override;
 
 public:
     //특정 변수에서 초기 설정을 해야 할 경우 이 메소드를 오버라이딩해서 사용할 것.
@@ -45,10 +55,5 @@ public:
 
 
 
-public:
-    CComponent(eCOMPONENT_TYPE _Type);
-    CComponent(const CComponent& _other);
-    virtual ~CComponent();
-    friend class CGameObject;
 };
 

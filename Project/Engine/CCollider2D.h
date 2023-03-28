@@ -1,6 +1,8 @@
 #pragma once
 #include "CCollider.h"
 
+#include <UtilLib_DLL/json/forwards.h>
+
 class CCollider2D_Rect;
 class CCollider2D_Circle;
 class CCollider2D_OBB;
@@ -17,6 +19,22 @@ private:
 public:
     CCollider2D(eCOLLIDER_TYPE_2D _eColType);
     virtual ~CCollider2D();
+
+public:
+    virtual bool SaveJson(Json::Value* _pJVal) override;
+    virtual bool LoadJson(Json::Value* _pJVal) override;
+
+public:
+    virtual void finaltick() final;
+    virtual void UpdateCollider() = 0;
+
+    //기본 설정으로 transform에서 받아온 변의 길이로 간이 충돌체를 계산함.
+    //더 간단한 충돌체는 이걸 재정의
+    virtual void UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos);
+    virtual void DebugRender() = 0;
+    virtual void cleanup() override {};
+
+
 
 private:
     eCOLLIDER_TYPE_2D      m_eColType;
@@ -42,14 +60,6 @@ public:
 
     Vec2 GetCenterPos() const { return m_vCenterPos; }
 
-public:
-    virtual void finaltick() final;
-    virtual void UpdateCollider() = 0;
-    
-    //기본 설정으로 transform에서 받아온 변의 길이로 간이 충돌체를 계산함.
-    //더 간단한 충돌체는 이걸 재정의
-    virtual void UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos);
-    virtual void DebugRender() = 0;
-    virtual void cleanup() override {};
+
 };
 
