@@ -76,7 +76,7 @@ private:
 public:
 	T* Get() const { return m_Res; }
 
-	T* operator -> ()
+	T* operator -> () const
 	{
 		return m_Res;
 	}

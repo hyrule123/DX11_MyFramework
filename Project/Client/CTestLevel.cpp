@@ -87,6 +87,13 @@ void CreateTestLevel()
 		if (i == 0)
 		{
 			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITBASE)));
+			::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
+		}
+		else
+		{
+			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
+			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
+			::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
 		}
 			
 
@@ -94,9 +101,7 @@ void CreateTestLevel()
 		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
 		TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 
-		float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
-		float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
-		::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
+
 	}
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();

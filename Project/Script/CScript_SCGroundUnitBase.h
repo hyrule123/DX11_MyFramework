@@ -18,6 +18,7 @@ public:
 public:
     virtual void init() override;
 
+
 public:
     virtual void OnCollision(CCollider* _pCol) override;
 
@@ -25,13 +26,14 @@ private:
     Vec4 m_ColorKey;
     float m_MoveSpeed;
     float m_TurningForceRad;
-    eSTATE_SCGroundUnit m_eCurState;
-    eSTATE_SCGroundUnit m_ePrevState;
+    SCGroundUnit::eSTATE m_eCurState;
+    SCGroundUnit::eSTATE m_ePrevState;
 
     //TODO : 마우스 클릭 확인을 위한 임시 변수
     bool m_bSelected;
 
 public:
+    bool IsSelected() const { return m_bSelected; }
 
 
 private:

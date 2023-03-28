@@ -52,9 +52,9 @@ private:
 
 public:
     //returns 0, 0 if no texture registered.
-    Vec2 GetSize();
-    float GetWidth() { return (float)m_Desc.Width; }
-    float GetHeight() { return (float)m_Desc.Height; }
+    Vec2 GetSize() const;
+    float GetWidth() const { return (float)m_Desc.Width; }
+    float GetHeight() const { return (float)m_Desc.Height; }
 
 
     ComPtr<ID3D11Texture2D>             GetTex2D() { return m_Tex2D; }
@@ -80,7 +80,7 @@ public:
     void UnBind();
 };
 
-inline Vec2 CTexture::GetSize()
+inline Vec2 CTexture::GetSize() const 
 {
     return Vec2(m_Desc.Width, m_Desc.Height);
 }

@@ -29,7 +29,7 @@
 
 
 CScript_SCGroundUnitBase::CScript_SCGroundUnitBase()
-	: CFSMMgr(TYPE_INDEX(CScript_SCGroundUnitBase), (UINT)eSTATE_SCGroundUnit::END)
+	: CFSMMgr(TYPE_INDEX(CScript_SCGroundUnitBase), (UINT)SCGroundUnit::eSTATE::END)
 	, m_ColorKey(0.f, 0.f, 0.f, 0.f)
 	, m_MoveSpeed(400.f)
 	, m_TurningForceRad(XM_PI / 2.f)
@@ -48,22 +48,24 @@ void CScript_SCGroundUnitBase::init()
 	{
 		CScript_SCGroundUnitMove* pMoveScript = new CScript_SCGroundUnitMove;
 		GetHolder()->AddScript(pMoveScript);
-		AddFSM((UINT)eSTATE_SCGroundUnit::MOVE, pMoveScript);
+		AddFSM((UINT)SCGroundUnit::eSTATE::MOVE, pMoveScript);
 	}
 
 	{
 		CScript_SCGroundUnitIdle* pIdleScript = new CScript_SCGroundUnitIdle;
 		GetHolder()->AddScript(pIdleScript);
-		AddFSM((UINT)eSTATE_SCGroundUnit::IDLE, pIdleScript);
+		AddFSM((UINT)SCGroundUnit::eSTATE::IDLE, pIdleScript);
 	}
 
-
+	Transition((UINT)SCGroundUnit::eSTATE::IDLE);
 
 	GetOwner()->Transform()->SetLockRotation(true);
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
 	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 }
+
+
 
 //void CScript_SCGroundUnitBase::tick()
 //{

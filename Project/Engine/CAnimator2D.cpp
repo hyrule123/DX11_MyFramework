@@ -29,6 +29,7 @@ CAnimator2D::CAnimator2D()
     , m_pCurAnim()
     , m_uMaxFrameCount()
     , m_bNeedUpdateMtrl(true)
+    , m_uCalculatedIdx()
     
     
 {
@@ -261,6 +262,12 @@ void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
         m_uMaxFrameCount = m_pCurAnim->uNumFrame;
         m_fTimePerFrame = m_pCurAnim->fTimePerFrame;
         m_fFullPlayTime = m_pCurAnim->fFullPlayTime;
+        
+        if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
+        {
+            Transform()->SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
+        }
+            
     }
 
 }

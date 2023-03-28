@@ -68,7 +68,7 @@ class CKeyMgr
 	SINGLETON(CKeyMgr);
 private:
 	vector<tKeyInfo>	m_vecKey;
-	Vec2				m_vMousePos;
+	Vec2				m_vMouseLocalPos;
 	Vec2				m_vPrevMousePos;
 	Vec2				m_vMouseDir;
 
@@ -79,7 +79,7 @@ public:
 
 public:
 	eKEY_STATE GetKeyState(eKEY _key) { return m_vecKey[(UINT)_key].state; }
-	Vec2 GetMousePos() { return m_vMousePos; }
+	Vec2 GetMouseLocalPos() { return m_vMouseLocalPos; }
 	Vec2 GetMouseDir() { return m_vMouseDir; }
 };
 

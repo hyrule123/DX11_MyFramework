@@ -44,7 +44,6 @@ private:
 
 //============ 재생중인 애니메이션의 데이터 ================
     //애니메이션 전환 시 바뀌는 변수
-
     int                     m_iCurAtlasTexIdx;
     const tAnim2D*          m_pCurAnim;
     UINT                    m_uMaxFrameCount;

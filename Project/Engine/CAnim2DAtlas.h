@@ -87,10 +87,20 @@ private:
     UINT m_uRowTotal;
     UINT m_uColTotal;
 
+    //모든 프레임이 같은 사이즈를 가지고있는지 여부 및 그 사이즈
+    bool m_bRegularFrameSize;
+    Vec2 m_v2FrameSize;
+
 public:
+    //1. 아틀라스 텍스처 등록
     void SetAtlasTexture(Ptr<CTexture> _AtlasTex);
 
+    //2. 프레임별 UV 값 등록
+
+    //수동으로 계산해서 등록
     void SetNewAnimUV(vector<tAnimFrameUV>& _vecFrameUV);
+
+    //규칙적인 사이즈일 경우 등분해서 등록
     void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal);
     void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch);
     void SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, UINT _uRowPitch);
@@ -122,4 +132,7 @@ public:
     const tAnim2D* FindAnim2D(const string& _AnimIdxStrKey);
     Ptr<CTexture> GetAtlasTex() { return m_AtlasTex; }
     const tAnimFrameUV& GetFrameUVData(int _iIdx) { return m_vecFrameUV[_iIdx]; }
+
+    bool IsFrameSizeRegular() const { return m_bRegularFrameSize; }
+    Vec2 GetFrameSize(UINT _uIdxFrameUV) const;
 };

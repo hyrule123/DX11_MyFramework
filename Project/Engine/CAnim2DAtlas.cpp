@@ -13,6 +13,7 @@ CAnim2DAtlas::CAnim2DAtlas()
 	: CRes(eRES_TYPE::ANIM2D_ATLAS)
 	, m_uColTotal()
 	, m_uRowTotal()
+	, m_bRegularFrameSize()
 {
 }
 
@@ -114,6 +115,8 @@ bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
 		return false;
 
 	jVal[string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)] = m_AtlasTex->GetKey();
+	jVal[string(RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize)] = m_bRegularFrameSize;
+	
 
 
 	jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)] = Json::Value(Json::ValueType::objectValue);
@@ -181,6 +184,11 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 		m_AtlasTex = CResMgr::GetInst()->Load<CTexture>(strKey);
 	}
 
+	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize)))
+	{
+		m_bRegularFrameSize = jVal[string(RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize)].asBool();
+	}
+
 	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)))
 	{
 		const Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
@@ -236,10 +244,14 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 		{
 			const Json::Value& mapAnim = jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
 
+			
+
 			const Json::ValueConstIterator& mapIterEnd = mapAnim.end();
 			for (Json::ValueConstIterator mapIter = mapAnim.begin(); mapIter != mapIterEnd; ++mapIter)
 			{
 				tAnim2D anim = {};
+				anim.strKeyAnim2D = mapIter.key().asString();
+				
 				const Json::Value& animVal = *mapIter;
 				anim.eAnimType = (eANIM_TYPE)animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)].asInt();
 				anim.uColTotal = animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)].asUInt();
@@ -286,6 +298,7 @@ void CAnim2DAtlas::SetNewAnimUV(vector<tAnimFrameUV>& _vecFrameUV)
 
 void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal)
 {
+	assert(_uColTotal > 0u && _uRowTotal > 0u);
 	if (nullptr == m_AtlasTex)
 		return;
 
@@ -311,6 +324,10 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal)
 			m_vecFrameUV.push_back(uv);
 		}
 	}
+
+	//한 프레임의 사이즈를 계산
+	m_bRegularFrameSize = true;
+	m_v2FrameSize = m_AtlasTex->GetSize() * m_vecFrameUV[0].v2_UVSlice;
 }
 
 void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch)
@@ -354,6 +371,10 @@ void CAnim2DAtlas::SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStar
 			m_vecFrameUV.push_back(uv);
 		}
 	}
+
+	//한 프레임의 사이즈를 계산
+	m_bRegularFrameSize = true;
+	m_v2FrameSize = m_AtlasTex->GetSize() * m_vecFrameUV[0].v2_UVSlice;
 }
 
 void CAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, UINT _uRowPitch)
@@ -398,6 +419,9 @@ void CAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, U
 	m_uColTotal = 9u;
 	m_uRowTotal = rowend - _uRowStart;
 
+	//한 프레임의 사이즈를 계산
+	m_bRegularFrameSize = true;
+	m_v2FrameSize = m_AtlasTex->GetSize() * m_vecFrameUV[0].v2_UVSlice;
 }
 
 
@@ -588,6 +612,14 @@ const tAnim2D* CAnim2DAtlas::FindAnim2D(const string& _AnimIdxStrKey)
 		return nullptr;
 
 	return &(iter->second);
+}
+
+Vec2 CAnim2DAtlas::GetFrameSize(UINT _uIdxFrameUV) const
+{
+	if (_uIdxFrameUV > m_vecFrameUV.size())
+		return Vec2();
+
+	return m_AtlasTex->GetSize() * m_vecFrameUV[_uIdxFrameUV].v2_UVSlice;
 }
 
 

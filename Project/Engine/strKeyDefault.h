@@ -215,6 +215,8 @@ namespace RES_INFO
 		{
 			JSONKEY(strKeyAtlasTex);
 			JSONKEY(vecFrameUV);
+			JSONKEY(bRegularFrameSize);
+
 			namespace AnimFrameUV
 			{
 				JSONKEY(v2_UVLeftTop);

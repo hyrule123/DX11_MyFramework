@@ -6,8 +6,12 @@
 
 #include <Engine/CAnimator2D.h>
 
+#include "CScript_SCGroundUnitBase.h"
+
+#include <Engine/CKeyMgr.h>
+
 CScript_SCGroundUnitMove::CScript_SCGroundUnitMove()
-	: CFSM(TYPE_INDEX(CScript_SCGroundUnitMove), (UINT)eSTATE_SCGroundUnit::MOVE)
+	: CFSM(TYPE_INDEX(CScript_SCGroundUnitMove), (UINT)SCGroundUnit::eSTATE::MOVE)
 	, m_fSpeed(200.f)
 	, m_fTurnSpeed(1.f)
 	, m_bArrived(true)
@@ -23,7 +27,8 @@ void CScript_SCGroundUnitMove::EnterState()
 	CAnimator2D* pAnimator = Animator2D();
 	if (pAnimator)
 	{
-		pAnimator->Play(string(strKeyAnim2D_SCGroundUnit[(UINT)eSTATE_SCGroundUnit::IDLE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
+		using namespace SCGroundUnit;
+		pAnimator->Play(string(strKeyAnim2D[(UINT)eSTATE::MOVE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
 	}
 }
 
@@ -85,6 +90,7 @@ void CScript_SCGroundUnitMove::OnState()
 		if (ArriveCheck.x < 0.f || ArriveCheck.y < 0.f)
 		{
 			m_bArrived = true;
+			GetFSMMgr()->Transition((UINT)SCGroundUnit::eSTATE::IDLE);
 		}
 	}
 }
@@ -96,5 +102,13 @@ void CScript_SCGroundUnitMove::EndState()
 
 void CScript_SCGroundUnitMove::tick()
 {
+	assert(GetFSMMgr());
 
+	CScript_SCGroundUnitBase* pMgr = static_cast<CScript_SCGroundUnitBase*>(GetFSMMgr());
+
+	//자신의 유닛이 선택되어 있고, 우클릭(이동명령)이 들어왔을 경우 상태 전환을 요청
+	if (pMgr->IsSelected() && KEY_TAP(eKEY::RBTN))
+	{
+		pMgr->Transition(GetMyeState());
+	}
 }
