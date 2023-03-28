@@ -324,7 +324,22 @@ namespace RES_INFO
 
 			namespace COLLIDER2D
 			{
+				namespace JSON_KEY
+				{
+					//eCOLLIDER_TYPE_2D      m_eColType;
+					JSONKEY(eColType);
 
+					//vecGridIdxInfo
+					//tick마다 계산됨
+
+					//vSimpleCollLBRTPos
+					//tick마다 계산됨
+					
+					//vCenterPos
+					//tick마다 계산됨.
+				}
+
+				
 			}
 
 			namespace COLLIDER3D

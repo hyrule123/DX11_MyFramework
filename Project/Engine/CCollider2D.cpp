@@ -26,6 +26,20 @@ CCollider2D::~CCollider2D()
 
 bool CCollider2D::SaveJson(Json::Value* _pJVal)
 {
+	eCOLLIDER_TYPE_2D      m_eColType;
+
+	//공간분할에서 검사된 자신이 속한 그리드 인덱스 번호
+	vector<UINT>           m_vecGridIdxInfo;
+
+	//공간분할용 간이 충돌체 정보(직사각형 형태 - 기본 세팅은 transform에서 정사각형 형태)
+	//기본 설
+	Vec4                   m_vSimpleCollLBRTPos;
+
+	//간이충돌체 계산은 각자 충돌체에서 따로 구현해줄것.(점충돌체 때문에)
+
+	//오프셋 위치를 반영한 위치(2D)
+	Vec2                   m_vCenterPos;
+
 	return false;
 }
 
