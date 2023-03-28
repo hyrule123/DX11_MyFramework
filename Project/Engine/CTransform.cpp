@@ -83,8 +83,7 @@ bool CTransform::SaveJson(Json::Value* _pJson)
 		return false;
 
 	//Transform 항목을 하나 만들어서 그 안에 저장
-	(*_pJson)[string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::TRANSFORM)] = Json::Value(Json::ValueType::objectValue);
-	Json::Value& jVal = (*_pJson)[string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::TRANSFORM)];
+	Json::Value& jVal = (*_pJson);
 
 	//상위 컴포넌트 항목들도 마찬가지로 내부에 저장한다.
 	if (false == CComponent::SaveJson(&jVal))
@@ -136,17 +135,10 @@ bool CTransform::LoadJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
 		return false;
-
-	//자신의 Object Value를 찾지 못하면 return false
-	else if (false == _pJson->isMember(string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::TRANSFORM)))
+	else if (false == CComponent::LoadJson(_pJson))
 		return false;
 
-	Json::Value& jVal = (*_pJson)[string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::TRANSFORM)];
-
-	if (false == CComponent::LoadJson(&jVal))
-		return false;
-
-
+	Json::Value& jVal = (*_pJson);
 
 	auto ReadVec3FromJson = [](const Json::Value& _jVal, const string& _strKey, Vec3& _outVal)->bool
 	{

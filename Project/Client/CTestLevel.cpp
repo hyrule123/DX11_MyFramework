@@ -38,6 +38,8 @@
 
 #include <Engine/CRandMgr.h>
 
+
+
 void CreateTestLevel()
 {
 
@@ -52,6 +54,7 @@ void CreateTestLevel()
 	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(RES_TEXTURE::MARINE_BMP));
 
 
+
 	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(string(RES_SHADER::GRAPHICS::SCUNITGROUND));
 	SCUnitMtrl->SetShader(pSCUnitShader);
 	SCUnitMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTexMarine);
@@ -60,7 +63,7 @@ void CreateTestLevel()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	for(int i = 0; i < 1; ++i)
+	for(int i = 0; i < 2; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -72,9 +75,10 @@ void CreateTestLevel()
 
 		TestObj->AddComponent(new CAnimator2D);
 
-
-		TestObj->AddComponent(new CCollider2D_OBB);
-	
+		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+		Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+		pCol->SetLBRT(Vec4(xy.x - 16.f, xy.y - 7.f, xy.x - 15.f, xy.y - 16.f));
+		TestObj->AddComponent(pCol);
 		
 		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP));
 		
@@ -100,8 +104,6 @@ void CreateTestLevel()
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
 		TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
-
-
 	}
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();

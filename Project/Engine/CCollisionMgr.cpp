@@ -219,7 +219,21 @@ bool CCollisionMgr::CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2)
 
 bool CCollisionMgr::CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollider2D* _pColRect_2)
 {
-	return false;
+	const Vec4& LBRT_1 = _pColRect_1->GetSimpleCollider();
+	const Vec4& LBRT_2 = _pColRect_2->GetSimpleCollider();
+
+	enum LBRT{ L, B, R, T };
+	if (LBRT_1[L] > LBRT_2[R])
+		return false;
+	else if (LBRT_1[R] < LBRT_2[L])
+		return false;
+	else if (LBRT_1[B] > LBRT_2[T])
+		return false;
+	else if (LBRT_1[T] < LBRT_2[B])
+		return false;
+
+
+	return true;
 }
 
 bool CCollisionMgr::CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollider2D* _pColCircle)
@@ -234,9 +248,21 @@ bool CCollisionMgr::CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2
 
 bool CCollisionMgr::CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint)
 {
+	
+	const Vec4& LBRT = _pColRect->GetSimpleCollider();
+	const Vec2& Point = _pColPoint->GetCenterPos();
 
+	enum LBRT{ L, B, R, T };
+	if (Point.x < LBRT[L])
+		return false;
+	else if (Point.x > LBRT[R])
+		return false;
+	else if (Point.y < LBRT[B])
+		return false;
+	else if (Point.y > LBRT[T])
+		return false;
 
-	return false;
+	return true;
 }
 
 bool CCollisionMgr::CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, CCollider2D* _pColCircle_2)

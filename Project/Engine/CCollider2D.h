@@ -31,7 +31,7 @@ public:
     //기본 설정으로 transform에서 받아온 변의 길이로 간이 충돌체를 계산함.
     //더 간단한 충돌체는 이걸 재정의
     virtual void UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos);
-    virtual void DebugRender() = 0;
+    virtual void DebugRender() {};
     virtual void cleanup() override {};
 
 
@@ -46,20 +46,17 @@ private:
     //기본 설
     Vec4                   m_vSimpleCollLBRTPos;
     
-    //간이충돌체는 각자 충돌체에서 따로 구현해줄것.(점충돌체 때문에)
+    //간이충돌체 계산은 각자 충돌체에서 따로 구현해줄것.(점충돌체 때문에)
 
     //오프셋 위치를 반영한 위치(2D)
     Vec2                   m_vCenterPos;
 
-    
-    
 
 public:
     eCOLLIDER_TYPE_2D  GetColliderType()   const { return m_eColType; }
     void SetvecGridIdx(vector<UINT>& _vecIdx) { std::swap(m_vecGridIdxInfo, _vecIdx); }
 
     Vec2 GetCenterPos() const { return m_vCenterPos; }
-
-
+    const Vec4& GetSimpleCollider() const { return m_vSimpleCollLBRTPos; }
 };
 
