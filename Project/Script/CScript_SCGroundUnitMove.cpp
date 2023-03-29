@@ -100,6 +100,19 @@ void CScript_SCGroundUnitMove::EndState()
 }
 
 
+void CScript_SCGroundUnitMove::init()
+{
+	CScript_SCGroundUnitBase* pMgr = static_cast<CScript_SCGroundUnitBase*>(GetHolder()->GetScript(TYPE_INDEX(CScript_SCGroundUnitBase)));
+
+	if (nullptr == pMgr)
+	{
+		pMgr = new CScript_SCGroundUnitBase;
+		GetHolder()->AddScript(pMgr);
+	}
+
+	pMgr->AddFSM(GetMyState(), this);
+}
+
 void CScript_SCGroundUnitMove::tick()
 {
 	assert(GetFSMMgr());
@@ -109,6 +122,6 @@ void CScript_SCGroundUnitMove::tick()
 	//자신의 유닛이 선택되어 있고, 우클릭(이동명령)이 들어왔을 경우 상태 전환을 요청
 	if (pMgr->IsSelected() && KEY_TAP(eKEY::RBTN))
 	{
-		pMgr->Transition(GetMyeState());
+		pMgr->Transition(GetMyState());
 	}
 }

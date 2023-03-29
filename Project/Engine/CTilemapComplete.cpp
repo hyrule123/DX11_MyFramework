@@ -11,6 +11,7 @@
 CTilemapComplete::CTilemapComplete()
 	: CTilemap(eTILE_TYPE::COMPLETE)
 	, m_tMapData()
+	, m_bMapLoaded()
 {
 	//메쉬는 부모 클래스에서 설정했음.
 	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE));

@@ -3,6 +3,8 @@
 
 #include <Engine/CAnimator2D.h>
 
+#include "CScript_SCGroundUnitBase.h"
+
 CScript_SCGroundUnitIdle::CScript_SCGroundUnitIdle()
     : CFSM(TYPE_INDEX(CScript_SCGroundUnitIdle), (UINT)SCGroundUnit::eSTATE::IDLE)
 {
@@ -15,6 +17,15 @@ CScript_SCGroundUnitIdle::~CScript_SCGroundUnitIdle()
 
 void CScript_SCGroundUnitIdle::init()
 {
+    CScript_SCGroundUnitBase* pMgr = static_cast<CScript_SCGroundUnitBase*>(GetHolder()->GetScript(TYPE_INDEX(CScript_SCGroundUnitBase)));
+
+    if (nullptr == pMgr)
+    {
+        pMgr = new CScript_SCGroundUnitBase;
+        GetHolder()->AddScript(pMgr);
+    }
+        
+    pMgr->AddFSM(GetMyState(), this);
 }
 
 void CScript_SCGroundUnitIdle::EnterState()

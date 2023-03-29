@@ -96,11 +96,12 @@ void CreateTestLevel()
 
 		}
 		else
-		{
-			
+		{	
 			::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
 		}
+		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITMOVE)));
 		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITBASE)));
+		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITIDLE)));
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);

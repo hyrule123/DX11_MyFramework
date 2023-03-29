@@ -25,7 +25,7 @@ private:
     CFSMMgr* m_pFSMMgr;
 
 public:
-    UINT GetMyeState() const { return m_eMyState; }
+    UINT GetMyState() const { return m_eMyState; }
 
     void SetFSMMgr(CFSMMgr* _pMgr) { m_pFSMMgr = _pMgr; }
     CFSMMgr* GetFSMMgr() const { return m_pFSMMgr; }

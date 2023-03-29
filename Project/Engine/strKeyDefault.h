@@ -408,9 +408,6 @@ namespace RES_INFO
 					//원본 재질. 특별한 상태를 표현할 필요가 없을 경우 이 재질을 사용
 					//Ptr<CMaterial>          m_pSharedMtrl;
 					JSONKEY(strKeyMtrl);
-
-					//따로 변수로는 없지만 인스턴싱을 사용하는지/개별 렌더링을 진행하는지 여부를 저장
-					JSONKEY(bUseInstancing);
 				}
 
 				namespace MESHRENDER

@@ -9,6 +9,7 @@ class CScript_SCGroundUnitIdle :
 public:
     CScript_SCGroundUnitIdle();
     virtual ~CScript_SCGroundUnitIdle();
+    CLONE(CScript_SCGroundUnitIdle);
 
 public:
     virtual void init() override;

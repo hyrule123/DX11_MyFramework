@@ -45,19 +45,19 @@ CScript_SCGroundUnitBase::~CScript_SCGroundUnitBase()
 
 void CScript_SCGroundUnitBase::init()
 {
-	{
-		CScript_SCGroundUnitMove* pMoveScript = new CScript_SCGroundUnitMove;
-		GetHolder()->AddScript(pMoveScript);
-		AddFSM((UINT)SCGroundUnit::eSTATE::MOVE, pMoveScript);
-	}
+	//{
+	//	CScript_SCGroundUnitMove* pMoveScript = new CScript_SCGroundUnitMove;
+	//	GetHolder()->AddScript(pMoveScript);
+	//	AddFSM((UINT)SCGroundUnit::eSTATE::MOVE, pMoveScript);
+	//}
 
-	{
-		CScript_SCGroundUnitIdle* pIdleScript = new CScript_SCGroundUnitIdle;
-		GetHolder()->AddScript(pIdleScript);
-		AddFSM((UINT)SCGroundUnit::eSTATE::IDLE, pIdleScript);
-	}
+	//{
+	//	CScript_SCGroundUnitIdle* pIdleScript = new CScript_SCGroundUnitIdle;
+	//	GetHolder()->AddScript(pIdleScript);
+	//	AddFSM((UINT)SCGroundUnit::eSTATE::IDLE, pIdleScript);
+	//}
 
-	Transition((UINT)SCGroundUnit::eSTATE::IDLE);
+	//Transition((UINT)SCGroundUnit::eSTATE::IDLE);
 
 	GetOwner()->Transform()->SetLockRotation(true);
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정

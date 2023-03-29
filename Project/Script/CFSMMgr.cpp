@@ -83,6 +83,10 @@ void CFSMMgr::AddFSM(UINT _uIdx, CFSM* _pFSM)
 	assert(m_eNumState > _uIdx && nullptr != _pFSM);
 	m_arr_pFSM[_uIdx] = _pFSM;
 	_pFSM->SetFSMMgr(this);
+
+	//0u를 무조건 기본 state로 가정한다.
+	if (0u == _uIdx)
+		Transition(0u);
 }
 
 void CFSMMgr::SwitchState(UINT _eState)

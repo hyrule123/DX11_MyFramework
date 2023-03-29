@@ -16,8 +16,11 @@ public:
     CScriptHolder();
     CScriptHolder(const CScriptHolder& _other);
     virtual ~CScriptHolder();
-
     CLONE(CScriptHolder);
+
+public:
+    virtual bool SaveJson(Json::Value* _jVal);
+    virtual bool LoadJson(Json::Value* _jVal);
 
 public:
     virtual void init() final;
@@ -32,8 +35,12 @@ private:
 
 public:
     bool AddScript(CScript* _pScript);
+
     template <typename T>
     T* GetScript();
+
+    CScript* GetScript(std::type_index _typeIdx);
+
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
 
     //들고 있는 Script 들에도 Owner 설정이 필요하므로 재정의해서 사용한다.

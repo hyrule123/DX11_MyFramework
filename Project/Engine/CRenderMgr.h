@@ -24,16 +24,20 @@ struct tInstancingKey
 	//High
 	DWORD_PTR pMesh;
 
-	//Los
+	//Low
 	DWORD_PTR pMtrl;
 
 	bool operator<(const tInstancingKey& _other) const
 	{
+		//High 부분에서 값이 차이나면 무조건 클수밖에 없음
 		if (pMesh < _other.pMesh)
 			return true;
+
+		//High가 같을 경우 Low의 값이 차이나면 True 리턴
 		else if (pMesh == _other.pMesh && pMtrl < _other.pMtrl)
 			return true;
 
+		//이외의 경우에는 false
 		return false;
 	}
 };

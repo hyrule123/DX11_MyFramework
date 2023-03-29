@@ -45,7 +45,6 @@ private:
     Ptr<CMaterial>          m_pSharedMtrl;
 
     //SharedMaterial 복사본(Clone). 고유 상태 표현이 필요할 경우 이 재질을 사용
-    //DynamicMtrl은 무조건 단일 드로우콜이 호출됨.
     Ptr<CMaterial>          m_pDynamicMtrl;
 
     //현재 사용 중인 재질 주소

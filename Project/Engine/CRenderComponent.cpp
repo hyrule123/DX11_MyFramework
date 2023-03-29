@@ -43,9 +43,6 @@ bool CRenderComponent::SaveJson(Json::Value* _pJVal)
 
 	Json::Value& jVal = *_pJVal;
 
-	bool UseInstancing = m_pCurrentMtrl->GetShader()->IsUseInstancing();
-	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::bUseInstancing)] = UseInstancing;
-
 	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::strKeyMesh)] = m_pMesh->GetKey();
 	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::strKeyMtrl)] = m_pSharedMtrl->GetKey();
 
@@ -92,19 +89,6 @@ bool CRenderComponent::LoadJson(Json::Value* _pJVal)
 		else return false;
 	}
 
-	{//인스턴싱을 사용하는 오브젝트인지를 저장
-		string strKey = string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::bUseInstancing);
-		if (jVal.isMember(strKey))
-		{
-			bool bUseInstancing = jVal[strKey].asBool();
-			if (bUseInstancing)
-			{
-				GetDynamicMaterial();
-			}
-		}
-		else return false;
-	}
-
 	return true;
 }
 
@@ -124,7 +108,7 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 		m_pCurrentMtrl = nullptr;
 		return nullptr;
 	}
-
+	 
 	//동적 재질 최초 요청시 clone해서 복사 후 돌려준다.
 	if (nullptr == m_pDynamicMtrl)
 	{

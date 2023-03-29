@@ -34,6 +34,30 @@ CScriptHolder::~CScriptHolder()
 	}
 }
 
+bool CScriptHolder::SaveJson(Json::Value* _jVal)
+{
+	if (nullptr == _jVal)
+		return false;
+	else if (false == CComponent::SaveJson(_jVal))
+		return false;
+
+	Json::Value& jVal = *_jVal;
+
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+
+
+
+	}
+
+	return false;
+}
+
+bool CScriptHolder::LoadJson(Json::Value* _jVal)
+{
+	return false;
+}
+
 
 bool CScriptHolder::AddScript(CScript* _pScript)
 {
@@ -67,6 +91,16 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 		_pScript->init();
 
 	return true;
+}
+
+CScript* CScriptHolder::GetScript(std::type_index _typeIdx)
+{
+	const auto& iter = m_umapScript.find(_typeIdx);
+
+	if (iter != m_umapScript.end())
+		return iter->second;
+
+	return nullptr;
 }
 
 void CScriptHolder::init()

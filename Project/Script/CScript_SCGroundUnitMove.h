@@ -14,6 +14,7 @@ public:
     CLONE(CScript_SCGroundUnitMove);
 
 public:
+    virtual void init() override;
     virtual void tick() override;
 
     virtual void EnterState() override;
