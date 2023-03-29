@@ -44,19 +44,21 @@ private:
 
     //공간분할용 간이 충돌체 정보(직사각형 형태 - 기본 세팅은 transform에서 정사각형 형태)
     //기본 설
-    Vec4                   m_vSimpleCollLBRTPos;
+    Vec4                   m_v4SimpleCollLBRTPos;
     
     //간이충돌체 계산은 각자 충돌체에서 따로 구현해줄것.(점충돌체 때문에)
 
     //오프셋 위치를 반영한 위치(2D)
-    Vec2                   m_vCenterPos;
-
+    Vec2                    m_v2CenterPos;
+    
 
 public:
     eCOLLIDER_TYPE_2D  GetColliderType()   const { return m_eColType; }
+
+    //Swap을 사용하므로 기존 데이터는 사용할수 없어짐에 주의할것
     void SetvecGridIdx(vector<UINT>& _vecIdx) { std::swap(m_vecGridIdxInfo, _vecIdx); }
 
-    Vec2 GetCenterPos() const { return m_vCenterPos; }
-    const Vec4& GetSimpleCollider() const { return m_vSimpleCollLBRTPos; }
+    Vec2 GetCenterPos() const { return m_v2CenterPos; }
+    const Vec4& GetSimpleCollider() const { return m_v4SimpleCollLBRTPos; }
 };
 

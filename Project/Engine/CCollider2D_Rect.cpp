@@ -21,6 +21,17 @@ CCollider2D_Rect::~CCollider2D_Rect()
 {
 }
 
+void CCollider2D_Rect::SetSCBuildingSize(UINT _uNumMegatileX, UINT _uNumMegatileY, const Vec4& _v4LRTBOffset)
+{
+	enum LBRT { L, R, T, B };
+	//메가타일에서의 사이즈
+	Vec2 v2SizeInPixel = Vec2(32.f * (float)_uNumMegatileX, 32.f * (float)_uNumMegatileY);
+	
+	m_v2RectSize = Vec2 (v2SizeInPixel.x - (_v4LRTBOffset[L] + _v4LRTBOffset[R]), v2SizeInPixel.y - (_v4LRTBOffset[B] + _v4LRTBOffset[T]));
+	Vec3 test = Vec3(_v4LRTBOffset[L] - _v4LRTBOffset[R], _v4LRTBOffset[B] - _v4LRTBOffset[T], 0.f);
+	SetOffsetPos(Vec3(_v4LRTBOffset[L] - _v4LRTBOffset[R], _v4LRTBOffset[B] - _v4LRTBOffset[T], 0.f));
+}
+
 void CCollider2D_Rect::UpdateCollider()
 {
 	//할 거 없음
@@ -40,29 +51,34 @@ void CCollider2D_Rect::UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos)
 {
 	CTransform* pTransform = Transform();
 	assert(nullptr != pTransform);
+
+	_vSimpleCollLBRTPos = Vec4(GetCenterPos(), GetCenterPos());
+	const Vec2 halfLen = m_v2RectSize * 0.5f;
+
+	//LB쪽으로는 빼주고, RT쪽으로는 더해준다. 계산 끝
+	_vSimpleCollLBRTPos += Vec4(-halfLen, halfLen);
 	
-	//대입하고
-	_vSimpleCollLBRTPos = m_v4LBRTLength;
+	//Offset이 반영된 중심 좌표는 CCollider2D에서 계산되므로 여기서는 그 값을 가져다 쓰기만 하면 된다.
 
-	//크기(Scale) 반영하고 + L과 B는 음수로 바꿔 줌
-	const Vec3& Scale = pTransform->GetWorldScale();
-	_vSimpleCollLBRTPos *= Vec4(-Scale.x, -Scale.y, Scale.x, Scale.y);
+	////대입하고
+	//_vSimpleCollLBRTPos = m_v4LBRTLength;
 
-	//가운데 위치만큼 이동시키면 끝
-	const Vec2& CenterPos = GetCenterPos();
-	_vSimpleCollLBRTPos += Vec4(CenterPos.x, CenterPos.y, CenterPos.x, CenterPos.y);
+	////크기(Scale) 반영하고 + L과 B는 음수로 바꿔 줌
+	//const Vec3& Scale = pTransform->GetWorldScale();
+	//_vSimpleCollLBRTPos *= Vec4(-Scale.x, -Scale.y, Scale.x, Scale.y);
+
+	////가운데 위치만큼 이동시키면 끝
+	//const Vec2& CenterPos = GetCenterPos();
+	//_vSimpleCollLBRTPos += Vec4(CenterPos.x, CenterPos.y, CenterPos.x, CenterPos.y);
 }
 
 void CCollider2D_Rect::DebugRender()
 {
 	//간이충돌체를 그대로 써서 만들어주면 됨
 	const Vec4& LBRT = GetSimpleCollider();
-	const Matrix& matScale = Matrix::CreateScale(LBRT[R] - LBRT[L], LBRT[T] - LBRT[B], 1.f);
+	const Matrix& matScale = Matrix::CreateScale(m_v2RectSize.x, m_v2RectSize.y, 1.f);
 
-	//중점의 위치 
-	//= L + (R - L) * 0.5
-	//= (L + R) * 0.5
-	const Matrix& matPos = Matrix::CreateTranslation(Vec3((LBRT[L] + LBRT[R]) * 0.5f, (LBRT[B] + LBRT[T]) * 0.5f, 0.f));
+	const Matrix& matPos = Matrix::CreateTranslation(Vec3(GetCenterPos(), 0.f));
 
 	tDebugShapeInfo Info = {};
 	Info.eShapeType = (int)eDEBUGSHAPE_TYPE::RECT;

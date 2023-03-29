@@ -54,7 +54,7 @@ struct tOBB2D
 	//방향
 	Vec2 m_vAxis[2];
 
-	Vec2 m_vCenterPos;
+	Vec2 m_v2CenterPos;
 };
 
 

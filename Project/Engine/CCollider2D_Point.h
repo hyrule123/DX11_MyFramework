@@ -11,7 +11,7 @@ public:
     CLONE(CCollider2D_Point)
 
 private:
-    //필요한 변수 없음.(CCollider2D::m_vCenterPos 사용하면 됨)
+    //필요한 변수 없음.(CCollider2D::m_v2CenterPos 사용하면 됨)
 
 public:
     virtual void UpdateCollider() override {};

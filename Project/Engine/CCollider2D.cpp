@@ -51,9 +51,9 @@ void CCollider2D::finaltick()
 	{
 		//자신의 중심 위치를 구한다.
 		const Vec3& WorldPos = Transform()->GetWorldPos();
-		const Vec3& OffsetPos = GetOffsetPos();
-		m_vCenterPos.x = WorldPos.x + OffsetPos.x;
-		m_vCenterPos.y = WorldPos.y + OffsetPos.y;
+		
+		m_v2CenterPos.x = WorldPos.x + GetOffsetPos().x;
+		m_v2CenterPos.y = WorldPos.y + GetOffsetPos().y;
 
 		bNeedAABBUpdate = true;
 
@@ -67,10 +67,10 @@ void CCollider2D::finaltick()
 	if (true == bNeedAABBUpdate)
 	{
 		//간이 충돌체 정보만 갱신한다. 기본 설정은 Transform에서 변의 길이를 받아와서 정사각형 형태로 생성함.
-		UpdateSimpleCollider(m_vSimpleCollLBRTPos);
+		UpdateSimpleCollider(m_v4SimpleCollLBRTPos);
 
 		//위치 LBRT 정보를 전달해서 인덱스 정보를 받아온다.
-		CCollisionMgr::GetInst()->CalcAndAddCollider2D(this, m_vSimpleCollLBRTPos, m_vecGridIdxInfo);
+		CCollisionMgr::GetInst()->CalcAndAddCollider2D(this, m_v4SimpleCollLBRTPos, m_vecGridIdxInfo);
 	}
 
 	//다 필요 없을 경우 
@@ -98,8 +98,8 @@ void CCollider2D::UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos)
 		float Sidelen = pTransform->GetAABBSideLen();
 
 		//LB
-		_vSimpleCollLBRTPos.x = m_vCenterPos.x - Sidelen;
-		_vSimpleCollLBRTPos.y = m_vCenterPos.y - Sidelen;
+		_vSimpleCollLBRTPos.x = m_v2CenterPos.x - Sidelen;
+		_vSimpleCollLBRTPos.y = m_v2CenterPos.y - Sidelen;
 
 		//RT
 		Sidelen *= 2.f;

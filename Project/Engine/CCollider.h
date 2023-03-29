@@ -13,17 +13,23 @@ public:
 
 private:
     const eDIMENSION_TYPE     m_eCollDimension;
-
-    Matrix              m_matCollider;      // Collider 의 월드행렬
-
-    Vec3                m_vOffsetPos;
-    Vec3                m_vOffsetScale;
-    bool                m_bFixSize;         // 고정 사이즈를 사용
     int                 m_iCollisionCount;  // 현재 충돌중인 충돌체의 갯수를 저장
 
-    bool                m_bNeedPosUpdate;
-    bool                m_bNeedRotUpdate;
-    bool                m_bNeedScaleSizeUpdate;
+    Vec3                    m_v3OffsetPos;
+    Vec3                    m_v3OffsetScale;
+
+    //사용 안하는 변수들
+    
+    
+    //Matrix              m_matCollider;      // Collider 의 월드행렬
+
+    // 고정 사이즈를 사용 - 일단 당장 사용하지는 않음.
+    //bool                m_bFixSize;         
+
+
+    //bool                m_bNeedPosUpdate;
+    //bool                m_bNeedRotUpdate;
+    //bool                m_bNeedScaleSizeUpdate;
 
 
 
@@ -31,8 +37,9 @@ private:
 public:
     eDIMENSION_TYPE GetDimensionType() const { return m_eCollDimension; }
     
-    const Vec3&            GetOffsetPos()      const { return m_vOffsetPos; }
-    const Vec3&            GetOffsetScale()    const { return m_vOffsetScale; }
+    void                    SetOffsetPos(const Vec3& _v3Offset) { m_v3OffsetPos = _v3Offset; }
+    const Vec3&            GetOffsetPos()      const { return m_v3OffsetPos; }
+    const Vec3&            GetOffsetScale()    const { return m_v3OffsetScale; }
 
     void            AddCollisionCount() { ++m_iCollisionCount; }
     void            SubCollisionCount() { --m_iCollisionCount; }
@@ -46,7 +53,7 @@ public:
 
     //inline Setter
     
-    void SetColliderMatrix(const Matrix& _mat) { m_matCollider = _mat; }
+    //void SetColliderMatrix(const Matrix& _mat) { m_matCollider = _mat; }
 
 
 public:

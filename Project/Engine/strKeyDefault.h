@@ -322,6 +322,25 @@ namespace RES_INFO
 				//bool    m_bSizeUpdated;
 			}
 
+			namespace COLLIDER
+			{
+				namespace JSON_KEY
+				{
+
+					//const eDIMENSION_TYPE     m_eCollDimension;
+					JSONKEY(m_eCollDimension);
+
+					//Vec3                m_v2OffsetPos;
+					JSONKEY(m_v2OffsetPos);
+
+					//Vec3                m_vOffsetScale;
+					JSONKEY(m_vOffsetScale);
+
+					//int                 m_iCollisionCount;
+					
+				}
+			}
+
 			namespace COLLIDER2D
 			{
 				namespace JSON_KEY

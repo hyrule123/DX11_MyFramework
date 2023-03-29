@@ -401,6 +401,9 @@ namespace DirectX
 			Vector4(const Vector3& vec3, float _w)
 				: XMFLOAT4(vec3.x, vec3.y, vec3.z, _w)			
 			{}
+            Vector4(const Vector2& _vec2_1, const Vector2& _vec2_2)
+                : XMFLOAT4(_vec2_1.x, _vec2_1.y, _vec2_2.x, _vec2_2.y)
+            {}
 
             Vector4& operator=(const Vector4&) = default;
 			Vector4& operator=(FXMVECTOR _v) {  XMStoreFloat4(this, _v); return *this;}
@@ -502,6 +505,7 @@ namespace DirectX
             static const Vector4 Zero;
             static const Vector4 One;
 
+            enum Axis { X, Y, Z, W };
             static const Vector4 Unit[4];
             //static const Vector4 UnitX;
             //static const Vector4 UnitY;

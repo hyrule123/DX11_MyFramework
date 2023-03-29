@@ -42,14 +42,13 @@ void CCollider2D_OBB::UpdateCollider()
 	}
 
 	//중심점 = 월드 위치 + 오프셋 위치
-	m_tOBBInfo.m_vCenterPos = GetCenterPos();
+	m_tOBBInfo.m_v2CenterPos = GetCenterPos();
 }
 
 
 void CCollider2D_OBB::DebugRender()
 {
 	//나중에 디버그 정보가 필요할 경우에만 렌더링하도록 해줄것
-
 	CTransform* pTransform = Transform();
 	//트랜스폼의 정보
 	const Matrix& matSize = pTransform->GetMatSize();

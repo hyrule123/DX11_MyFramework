@@ -295,7 +295,7 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 	memcpy_s(&arrVec[2], vec2_2size, &OBB_2, vec2_2size);
 
 
-	Vec2 VecMiddle = OBB_1.m_vCenterPos - OBB_2.m_vCenterPos;
+	Vec2 VecMiddle = OBB_1.m_v2CenterPos - OBB_2.m_v2CenterPos;
 	for (int i = 0; i < 4; ++i)
 	{
 		Vec2 norm = arrVec[i];
@@ -330,7 +330,7 @@ bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollide
 	Vec2 vPointToOBBCenter = _pColPoint->GetCenterPos();
 
 	//점의 위치로부터 OBB의 중심 위치까지 弧娩?
-	vPointToOBBCenter -= OBBInfo.m_vCenterPos;
+	vPointToOBBCenter -= OBBInfo.m_v2CenterPos;
 
 	for (int i = 0; i < (int)eAXIS2D::END; ++i)
 	{

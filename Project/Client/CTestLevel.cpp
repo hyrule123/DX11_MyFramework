@@ -77,7 +77,7 @@ void CreateTestLevel()
 
 		CCollider2D_Rect* pCol = new CCollider2D_Rect;
 		Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
-		pCol->SetLBRT(Vec4(xy.x - 16.f, xy.y - 7.f, xy.x - 15.f, xy.y - 16.f));
+		pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
 		TestObj->AddComponent(pCol);
 		
 		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP));

@@ -10,21 +10,22 @@ public:
     CLONE(CCollider2D_Rect)
 
 private:
-    //중점으로부터의 부호 구분이 있는 거리
-    //ex)L, B는 항상 0 이하
-    Vec4 m_v4LBRTLength;
-    enum LBRT { L, B, R, T };
+    
+    //가로세로 길이와 CCollider 클래스의 v3Offset을 활용하여 계산한다.
+    enum XY { x, y };
+    Vec2 m_v2RectSize;
 
 public:
-    //중심점으로부터 각 변까지의 '거리'임에 주의할것.
-    void SetLBRT(const Vec4& _v4DistFromCenter) { m_v4LBRTLength = _v4DistFromCenter; }
+    void SetSize(Vec2 _v2RectSize) { m_v2RectSize = _v2RectSize; }
+
+    //https://m.ygosu.com/board/st/268087/?page=1 참고
+    //사이즈와 오프셋값으로 변환(V4값이 LRBT임에 주의할 것)
+    void SetSCBuildingSize(UINT _uNumMegatileX, UINT _uNumMegatileY, const Vec4& _v4LBRTOffset);
      
 
 public:
     virtual void UpdateCollider() override;
     virtual void UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos) override;
     virtual void DebugRender() override;
-
-
 };
 
