@@ -12,6 +12,9 @@
 
 #include "CTransform.h"
 
+#include "strKeyDefault.h"
+#include "jsoncpp.h"
+
 CCollider2D::CCollider2D(eCOLLIDER_TYPE_2D _eColType)
 	: CCollider(eCOMPONENT_TYPE::COLLIDER2D, eDIMENSION_TYPE::_2D)
 	, m_eColType(_eColType)
@@ -26,14 +29,38 @@ CCollider2D::~CCollider2D()
 
 bool CCollider2D::SaveJson(Json::Value* _pJVal)
 {
+	if (nullptr == _pJVal)
+		return false;
+	else if (false == CCollider::SaveJson(_pJVal))
+		return false;
+
+	Json::Value& jVal = *_pJVal;
+
+	string strKey = string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::JSON_KEY::m_eColType);
+	jVal[strKey] = (int)m_eColType;
 
 
-
-	return false;
+	return true;
 }
 
 bool CCollider2D::LoadJson(Json::Value* _pJVal)
 {
+	if (nullptr == _pJVal)
+		return false;
+	else if (false == CCollider::LoadJson(_pJVal))
+		return false;
+
+	const Json::Value& jVal = *_pJVal;
+
+	//콜라이더 타입이 일치할 경우에만 true 반환
+	string strKey = string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::JSON_KEY::m_eColType);
+	if (jVal.isMember(strKey))
+	{
+		if ((int)m_eColType == jVal[strKey].asInt())
+			return true;
+	}
+
+	ERROR_MESSAGE(Collider Type Not Matching!!);
 	return false;
 }
 

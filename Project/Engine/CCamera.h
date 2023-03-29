@@ -30,8 +30,6 @@ private:
     
     UINT32 m_LayerFlag;
 
-    
-
 public:
     void SetProjType(ePROJ_TYPE _Type);
     ePROJ_TYPE GetProjType() const { return m_ProjectionType; }

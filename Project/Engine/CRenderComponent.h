@@ -23,6 +23,12 @@ public:
     virtual ~CRenderComponent();
 
 public:
+    virtual bool SaveJson(Json::Value* _pJVal) override;
+    virtual bool LoadJson(Json::Value* _pJVal) override;
+
+
+
+public:
     //이 클래스를 상속받는 하위 컴포넌트들은 인스턴싱을 하는지 아닌지 여부에 따라서 각자 설정해줘야함.
     //인자 : 현재 render를 호출한 카메라의 번호
     //반환값 : 인스턴싱 여부(드로우콜이 일어날 경우 true 반환, 인스턴싱을 위한 데이터 전달만 했을 경우 false 반환.)
@@ -32,14 +38,14 @@ private:
     Ptr<CMesh>              m_pMesh;
 
     //원본 재질. 특별한 상태를 표현할 필요가 없을 경우 이 재질을 사용
-    Ptr<CMaterial>          m_pSharedMtrl;  
+    Ptr<CMaterial>          m_pSharedMtrl;
 
     //SharedMaterial 복사본(Clone). 고유 상태 표현이 필요할 경우 이 재질을 사용
     //DynamicMtrl은 무조건 단일 드로우콜이 호출됨.
-    Ptr<CMaterial>          m_pDynamicMtrl; 
+    Ptr<CMaterial>          m_pDynamicMtrl;
 
     //현재 사용 중인 재질 주소
-    Ptr<CMaterial>          m_pCurrentMtrl; 
+    Ptr<CMaterial>          m_pCurrentMtrl;
 
 public:
     void SetMesh(Ptr<CMesh> _Mesh) { m_pMesh = _Mesh; }
@@ -49,8 +55,8 @@ public:
     Ptr<CMaterial> GetCurMaterial() { return m_pCurrentMtrl; }
     Ptr<CMaterial> GetSharedMaterial();
     Ptr<CMaterial> GetDynamicMaterial();
-    void SetUseInstancing() { GetDynamicMaterial(); }
-    bool GetRenderReady() { return ((nullptr != m_pMesh) && (nullptr != m_pSharedMtrl)); }
+    void SetUseInstancing() { GetSharedMaterial(); }
+    bool IsRenderReady() { return ((nullptr != m_pMesh) && (nullptr != m_pSharedMtrl)); }
 
     //공유 재질을 사용 중일 경우
     bool IsUsingInstancing() const { return (m_pSharedMtrl.Get() == m_pCurrentMtrl.Get()); }

@@ -215,7 +215,7 @@ void CCamera::SortObject()
 			if (
 				nullptr == pRenderCom
 				||
-				false == pRenderCom->GetRenderReady()
+				false == pRenderCom->IsRenderReady()
 				)
 				continue;
 			

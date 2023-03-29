@@ -346,16 +346,28 @@ namespace RES_INFO
 				namespace JSON_KEY
 				{
 					//eCOLLIDER_TYPE_2D      m_eColType;
-					JSONKEY(eColType);
+					JSONKEY(m_eColType);
 
-					//vecGridIdxInfo
-					//tick마다 계산됨
+					////공간분할에서 검사된 자신이 속한 그리드 인덱스 번호
+					//vector<UINT>           m_vecGridIdxInfo;
 
-					//vSimpleCollLBRTPos
-					//tick마다 계산됨
-					
-					//vCenterPos
-					//tick마다 계산됨.
+					////공간분할용 간이 충돌체 정보(직사각형 형태 - 기본 세팅은 transform에서 정사각형 형태)
+					////기본 설
+					//Vec4                   m_v4SimpleCollLBRTPos;
+
+					////간이충돌체 계산은 각자 충돌체에서 따로 구현해줄것.(점충돌체 때문에)
+
+					////오프셋 위치를 반영한 위치(2D)
+					//Vec2                    m_v2CenterPos;
+				}
+
+				namespace RECT
+				{
+					namespace JSON_KEY
+					{
+						//Vec2 m_v2RectSize;
+						JSONKEY(m_v2RectSize);
+					}
 				}
 
 				
@@ -386,30 +398,48 @@ namespace RES_INFO
 
 			}
 
-			namespace MESHRENDER
+			namespace RENDER_COMP
 			{
+				namespace JSON_KEY
+				{
+					//Ptr<CMesh>              m_pMesh;
+					JSONKEY(strKeyMesh);
 
+					//원본 재질. 특별한 상태를 표현할 필요가 없을 경우 이 재질을 사용
+					//Ptr<CMaterial>          m_pSharedMtrl;
+					JSONKEY(strKeyMtrl);
+
+					//따로 변수로는 없지만 인스턴싱을 사용하는지/개별 렌더링을 진행하는지 여부를 저장
+					JSONKEY(bUseInstancing);
+				}
+
+				namespace MESHRENDER
+				{
+
+				}
+
+				namespace PARTICLESYSTEM
+				{
+
+				}
+
+				namespace TILEMAP
+				{
+
+				}
+
+				namespace LANDSCAPE
+				{
+
+				}
+
+				namespace DECAL
+				{
+
+				}
 			}
 
-			namespace PARTICLESYSTEM
-			{
 
-			}
-
-			namespace TILEMAP
-			{
-
-			}
-
-			namespace LANDSCAPE
-			{
-
-			}
-
-			namespace DECAL
-			{
-
-			}
 
 			namespace SCRIPT_HOLDER
 			{

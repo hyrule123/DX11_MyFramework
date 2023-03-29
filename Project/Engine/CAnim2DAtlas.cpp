@@ -6,8 +6,7 @@
 
 #include "CStructBuffer.h"
 
-#include <UtilLib_DLL/json/json.h>
-
+#include "jsoncpp.h"
 
 CAnim2DAtlas::CAnim2DAtlas()
 	: CRes(eRES_TYPE::ANIM2D_ATLAS)
@@ -50,28 +49,7 @@ CAnim2DAtlas::~CAnim2DAtlas()
 //
 //}
 
-union v2_i64Pack
-{
-	Vec2 v2;
-	INT64 i64;
 
-	v2_i64Pack(Vec2 _v2) : v2(_v2)
-	{}
-
-	v2_i64Pack(INT64 _i64) : i64(_i64)
-	{}
-};
-
-union f_i32Pack
-{
-	float f;
-	INT32 i;
-
-	f_i32Pack(float _f) : f(_f)
-	{}
-	f_i32Pack(INT32 _i) : i(_i)
-	{}
-};
 
 bool CAnim2DAtlas::Save(const std::filesystem::path& _fileName)
 {
@@ -130,11 +108,11 @@ bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
 			const tAnimFrameUV& Frame = m_vecFrameUV[i];
 
 			//vec2는 float 2개(4byte * 2) -> union으로 묶은뒤 UINT64(8byte)에 묶어서 저장한다.
-			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(v2_i64Pack(Frame.v2_UVLeftTop).i64);
+			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Pack_v2_i64(Frame.v2_UVLeftTop).i64);
 
-			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(v2_i64Pack(Frame.v2_UVSlice).i64);
+			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Pack_v2_i64(Frame.v2_UVSlice).i64);
 
-			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(v2_i64Pack(Frame.v2_Offset).i64);
+			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Pack_v2_i64(Frame.v2_Offset).i64);
 		}
 	}
 
@@ -153,8 +131,8 @@ bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
 			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)] = iter.second.uNumFrame;
 
 			//float은 int 값으로 변환해서 저장한다.
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime)] = f_i32Pack(iter.second.fFullPlayTime).i;
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot)] = v2_i64Pack(iter.second.vPivot).i64;
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime)] = Pack_float_int(iter.second.fFullPlayTime).i;
+			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot)] = Pack_v2_i64(iter.second.vPivot).i64;
 
 			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)] = Json::Value(Json::ValueType::arrayValue);
 			Json::Value& vecFrame = anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)];
@@ -226,9 +204,9 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 			for (size_t i = 0; i < size; ++i)
 			{
 				tAnimFrameUV FrameUV = {};
-				FrameUV.v2_UVLeftTop = v2_i64Pack(LTIter->asInt64()).v2;
-				FrameUV.v2_UVSlice = v2_i64Pack(SliceIter->asInt64()).v2;
-				FrameUV.v2_Offset = v2_i64Pack(OffsetIter->asInt64()).v2;
+				FrameUV.v2_UVLeftTop = Pack_v2_i64(LTIter->asInt64()).v2;
+				FrameUV.v2_UVSlice = Pack_v2_i64(SliceIter->asInt64()).v2;
+				FrameUV.v2_Offset = Pack_v2_i64(OffsetIter->asInt64()).v2;
 
 				m_vecFrameUV.push_back(FrameUV);
 
@@ -264,9 +242,9 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 					return false;
 				}
 
-				anim.fFullPlayTime = f_i32Pack(animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime)].asInt()).f;
+				anim.fFullPlayTime = Pack_float_int(animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime)].asInt()).f;
 				anim.fTimePerFrame = anim.fFullPlayTime / (float)anim.uNumFrame;
-				anim.vPivot = v2_i64Pack(animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot)].asInt64()).v2;
+				anim.vPivot = Pack_v2_i64(animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot)].asInt64()).v2;
 
 				if (animVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)))
 				{

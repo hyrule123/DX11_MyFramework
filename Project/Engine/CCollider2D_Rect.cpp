@@ -6,6 +6,9 @@
 #include "S_0_H_Debug.hlsli"
 #include "CRenderMgr.h"
 
+#include "strKeyDefault.h"
+#include "jsoncpp.h"
+
 CCollider2D_Rect::CCollider2D_Rect()
 	: CCollider2D(eCOLLIDER_TYPE_2D::RECT)
 {
@@ -19,6 +22,40 @@ CCollider2D_Rect::CCollider2D_Rect(eCOLLIDER_TYPE_2D _Type)
 
 CCollider2D_Rect::~CCollider2D_Rect()
 {
+}
+
+bool CCollider2D_Rect::SaveJson(Json::Value* _pJVal)
+{
+	if (nullptr == _pJVal)
+		return false;
+	else if (false == CCollider2D::SaveJson(_pJVal))
+		return false;
+
+	Json::Value& jVal = *_pJVal;
+
+	jVal[string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::RECT::JSON_KEY::m_v2RectSize)] = Pack_v2_i64(m_v2RectSize).i64;
+
+	return true;
+}
+
+bool CCollider2D_Rect::LoadJson(Json::Value* _pJVal)
+{
+	if (nullptr == _pJVal)
+		return false;
+	else if (false == CCollider2D::LoadJson(_pJVal))
+		return false;
+
+	const Json::Value& jVal = *_pJVal;
+
+	string strKey = string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::RECT::JSON_KEY::m_v2RectSize);
+	if (jVal.isMember(strKey))
+	{
+		m_v2RectSize = Pack_v2_i64(jVal[strKey].asInt64()).v2;
+	}
+	else return false;
+
+
+	return true;
 }
 
 void CCollider2D_Rect::SetSCBuildingSize(UINT _uNumMegatileX, UINT _uNumMegatileY, const Vec4& _v4LRTBOffset)

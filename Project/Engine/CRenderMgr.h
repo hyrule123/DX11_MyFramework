@@ -18,6 +18,11 @@ struct tRenderInfo
 	CCamera* pCam;
 };
 
+struct tInstancingKey
+{
+	
+};
+
 
 class CRenderMgr : public CSingleton<CRenderMgr>
 {
@@ -38,7 +43,7 @@ private:
 
 	//빛 관련 구조화 버퍼 변수
 	vector<tLightInfo>		m_vecLight2DStruct;
-	CStructBuffer* m_pLight2DStructBuffer;
+	CStructBuffer*			m_pLight2DStructBuffer;
 
 	//에디터 카메라 모드인지를 저장하는 변수(Ctrl + E)버튼으로 확인 중
 	bool m_bEditorCamMode;

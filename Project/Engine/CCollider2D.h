@@ -37,7 +37,7 @@ public:
 
 
 private:
-    eCOLLIDER_TYPE_2D      m_eColType;
+    const eCOLLIDER_TYPE_2D      m_eColType;
 
     //공간분할에서 검사된 자신이 속한 그리드 인덱스 번호
     vector<UINT>           m_vecGridIdxInfo;

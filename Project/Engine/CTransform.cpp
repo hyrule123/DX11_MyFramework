@@ -16,15 +16,7 @@
 #include "strKeyDefault.h"
 #include "jsoncpp.h"
 
-//float 타입은 int 형태로 변환하여 저장. 불러올때는 역순
-union float_int_Pack
-{
-	float f;
-	int i;
 
-	float_int_Pack(int _i) : i(_i) {};
-	float_int_Pack(float _f) : f(_f) {};
-};
 
 CTransform::CTransform()
 	: CComponent(eCOMPONENT_TYPE::TRANSFORM)
@@ -93,33 +85,33 @@ bool CTransform::SaveJson(Json::Value* _pJson)
 	{//사이즈 X, Y, Z 순서로 저장
 		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3MatSize);
 		jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
-		jVal[strKey].append(float_int_Pack(m_matSize._11).i);
-		jVal[strKey].append(float_int_Pack(m_matSize._22).i);
-		jVal[strKey].append(float_int_Pack(m_matSize._33).i);
+		jVal[strKey].append(Pack_float_int(m_matSize._11).i);
+		jVal[strKey].append(Pack_float_int(m_matSize._22).i);
+		jVal[strKey].append(Pack_float_int(m_matSize._33).i);
 	}
 
 	{
 		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3RelativeScale);
 		jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
-		jVal[strKey].append(float_int_Pack(m_v3RelativeScale.x).i);
-		jVal[strKey].append(float_int_Pack(m_v3RelativeScale.y).i);
-		jVal[strKey].append(float_int_Pack(m_v3RelativeScale.z).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativeScale.x).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativeScale.y).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativeScale.z).i);
 	}
 
 	{
 		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3RelativePos);
 		jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
-		jVal[strKey].append(float_int_Pack(m_v3RelativePos.x).i);
-		jVal[strKey].append(float_int_Pack(m_v3RelativePos.y).i);
-		jVal[strKey].append(float_int_Pack(m_v3RelativePos.z).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativePos.x).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativePos.y).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativePos.z).i);
 	}
 
 	{
 		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3RelativeRot);
 		jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
-		jVal[strKey].append(float_int_Pack(m_v3RelativeRot.x).i);
-		jVal[strKey].append(float_int_Pack(m_v3RelativeRot.y).i);
-		jVal[strKey].append(float_int_Pack(m_v3RelativeRot.z).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativeRot.x).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativeRot.y).i);
+		jVal[strKey].append(Pack_float_int(m_v3RelativeRot.z).i);
 	}
 
 	{
@@ -147,9 +139,9 @@ bool CTransform::LoadJson(Json::Value* _pJson)
 			if (_jVal[_strKey].size() != 3)
 				return false;
 
-			_outVal.x = float_int_Pack(_jVal[_strKey][0].asInt()).f;
-			_outVal.y = float_int_Pack(_jVal[_strKey][1].asInt()).f;
-			_outVal.z = float_int_Pack(_jVal[_strKey][2].asInt()).f;
+			_outVal.x = Pack_float_int(_jVal[_strKey][0].asInt()).f;
+			_outVal.y = Pack_float_int(_jVal[_strKey][1].asInt()).f;
+			_outVal.z = Pack_float_int(_jVal[_strKey][2].asInt()).f;
 
 			return true;
 		}
