@@ -30,6 +30,7 @@ CGraphicsShader::CGraphicsShader()
 	, m_eBSType(eBLEND_STATE_TYPE::DEFAULT)
 	, m_eShaderDomain(eSHADER_DOMAIN::_UNDEFINED)
 	, m_ShaderData{}
+	, m_bUseInstancing()
 {
 }
 
@@ -109,6 +110,7 @@ bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eDEPTH_STENCIL_TYPE)] = (int)m_eDSType;
 	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eBLEND_STATE_TYPE)] = (int)m_eBSType;
 	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eSHADER_DOMAIN)] = (int)m_eShaderDomain;
+	jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::m_bUseInstancing)] = m_bUseInstancing;
 
 	return true;
 }
@@ -151,6 +153,10 @@ bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 		assert(nullptr);
 		return false;
 	}
+
+	strKey = string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::m_bUseInstancing);
+	if (jVal.isMember(strKey))
+		m_bUseInstancing = jVal[strKey].asBool();
 
 	int flagPipeline = jVal[string(RES_INFO::SHADER::GRAPHICS::JSON_KEY::eSHADER_PIPELINE_STAGE)].asInt();
 	int ShaderOrder = 0;

@@ -97,9 +97,9 @@ bool CParticleSystem::render()
 	//Transform()->UpdateData();
 
 	CMaterial* pMtrl = GetCurMaterial().Get();
-	pMtrl->AddMtrlScalarData(GetOwner()->GetMtrlScalarData());
-
 	pMtrl->BindData();
+
+	BindMtrlScalarDataToCBuffer();
 
 	m_pSBufferRW_ParticleTransform->BindBufferSRV();
 

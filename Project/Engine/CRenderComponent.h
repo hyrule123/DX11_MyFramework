@@ -11,9 +11,9 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 
+
+
 class CCamera;
-
-
 class CRenderComponent :
     public CComponent
 {
@@ -33,6 +33,10 @@ public:
     //인자 : 현재 render를 호출한 카메라의 번호
     //반환값 : 인스턴싱 여부(드로우콜이 일어날 경우 true 반환, 인스턴싱을 위한 데이터 전달만 했을 경우 false 반환.)
     virtual bool render() = 0;
+
+protected:
+    //상수버퍼에 재질 데이터를 업로드 및 바인딩
+    void BindMtrlScalarDataToCBuffer();
 
 private:
     Ptr<CMesh>              m_pMesh;
@@ -55,13 +59,10 @@ public:
     Ptr<CMaterial> GetCurMaterial() { return m_pCurrentMtrl; }
     Ptr<CMaterial> GetSharedMaterial();
     Ptr<CMaterial> GetDynamicMaterial();
-    void SetUseInstancing() { GetSharedMaterial(); }
+
+    const tMtrlScalarData& GetMtrlScalarData() const { return GetOwner()->GetMtrlScalarData(); }
     bool IsRenderReady() { return ((nullptr != m_pMesh) && (nullptr != m_pSharedMtrl)); }
 
-    //공유 재질을 사용 중일 경우
-    bool IsUsingInstancing() const { return (m_pSharedMtrl.Get() == m_pCurrentMtrl.Get()); }
-
-    void SetMtrlScalarParam(const tMtrlScalarData& _tMtrlScalarData);
     void SetCamIdx(eCAMERA_INDEX _eCamIdx);
 };
 
@@ -70,14 +71,18 @@ inline void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl)
 {
     m_pSharedMtrl = _Mtrl;
 
+    if (nullptr == _Mtrl)
+        return;
+
     //인스턴싱을 사용하지 않으면 무조건 복사본을 생성
-    if (false == m_pSharedMtrl->GetInstencedRender())
+    if (false == m_pSharedMtrl->IsUseInstancing())
     {
         GetDynamicMaterial();
-        return;
     }
-
-    m_pCurrentMtrl = m_pSharedMtrl;
+    else
+    {
+        m_pCurrentMtrl = m_pSharedMtrl;
+    }
 }
 
 inline Ptr<CMaterial> CRenderComponent::GetSharedMaterial()

@@ -5,6 +5,7 @@
 	"eRASTERIZER_TYPE": 2,
 	"eSHADER_DOMAIN": 4,
 	"eSHADER_PIPELINE_STAGE": 17,
+	"m_bUseInstancing": true,
 	"strKey" : "Debug.json",
 	"strName" : "Debug.cso"
 }

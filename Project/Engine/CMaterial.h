@@ -8,7 +8,7 @@
 
 //Scalar Parameter : 이 재질을 사용하는 오브젝트 개별로 달라질 수 있는 요소
 //Texture Parameter : 이 재질을 사용하는 오브젝트 모두 공통적으로 사용하는 요소
-
+//  그러므로 만약 Texture Parameter를 다르게 사용하고 싶을 경우 Material을 복사해서 렌더링해야 한다.
 
 class CStructBuffer;
 class CConstBuffer;
@@ -22,49 +22,41 @@ public:
     virtual ~CMaterial();
 
     CLONE(CMaterial)
+public:
+    //virtual bool Save(const std::filesystem::path& _fileName) override;
+    //virtual bool Load(const std::filesystem::path& _fileName) override;
+
+    virtual bool SaveJson(Json::Value* _pJson) override;
+    virtual bool LoadJson(Json::Value* _pJson) override;
+
+public:
+    virtual void BindData() override;
 
 private:
     Ptr<CGraphicsShader>    m_pShader;
-
-    vector<tMtrlScalarData>         m_vecMtrlScalar;
-    CConstBuffer*                   m_CBufferMtrlScalar;
-    CStructBuffer*                  m_SBufferMtrlScalar;
-
+    
+    Ptr<CTexture>           m_arrTex[(int)eMTRLDATA_PARAM_TEX::_END];
     tMtrlTexData            m_MtrlTex;
 
-    Ptr<CTexture>           m_arrTex[(int)eMTRLDATA_PARAM_TEX::_END];
-    
-    //1 = 일반 드로우콜, 2 이상 = 인스턴싱
-    //vector은 데이터를 구조화버퍼를 전달하면 싹 지워버리기 문에
-    //별도의 변수를 둬서 사이즈를 따로 저장해 놔야 함
-    UINT                    m_uRenderCount;
-    bool                    m_bUseInstancing;
+    //복사가 일어났을 때 이 값은 true로 변함
+    const bool                    m_bIsDynamic;
 
 public:
-    //Inline Setter
-    void AddMtrlScalarData(const tMtrlScalarData& _MtrlScalarData) { m_vecMtrlScalar.push_back(_MtrlScalarData); }
-    
     void SetTexParam    (eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex);
     void RemoveTexture  (eMTRLDATA_PARAM_TEX _Param);
     void SetShader(Ptr<CGraphicsShader> _Shader) { m_pShader = _Shader; }
+
+    //쉐이더의 인스턴싱 가능 여부를 받아온다.
+    bool IsUseInstancing() const { if (nullptr != m_pShader) return m_pShader->IsUseInstancing(); return false; }
 
     //Inline Getter
     Ptr<CGraphicsShader> GetShader() const { return m_pShader; }
     Ptr<CTexture> GetTexture(eMTRLDATA_PARAM_TEX _texIdx = eMTRLDATA_PARAM_TEX::_0) const;
 
-    UINT GetInstancingCount() const { return m_uRenderCount; }
-    void SetInstancedRender(bool _bEnable);
-    bool GetInstencedRender() const { return (nullptr != m_SBufferMtrlScalar); }
-
-
-public:
-    //virtual bool Save(const std::filesystem::path& _fileName) override;
-    virtual bool SaveJson(Json::Value* _pJson) override;
-    virtual void BindData() override;
+    //void SetInstancingMode(bool _bUse);
+    //bool GetInstancingMode() const { return m_bUseInstancing; }
 
 private:
-    //virtual bool Load(const std::filesystem::path& _fileName) override;
-    virtual bool LoadJson(Json::Value* _pJson) override;
     bool IsTexture(eMTRLDATA_PARAM_TEX _Idx);
 };
 

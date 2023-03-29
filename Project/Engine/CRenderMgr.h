@@ -2,6 +2,7 @@
 
 #include "CSingleton.h"
 
+#include "define.h"
 #include "S_0_H_STD2DLight.hlsli"
 
 class CCamera;
@@ -20,8 +21,23 @@ struct tRenderInfo
 
 struct tInstancingKey
 {
-	
+	//High
+	DWORD_PTR pMesh;
+
+	//Los
+	DWORD_PTR pMtrl;
+
+	bool operator<(const tInstancingKey& _other) const
+	{
+		if (pMesh < _other.pMesh)
+			return true;
+		else if (pMesh == _other.pMesh && pMtrl < _other.pMtrl)
+			return true;
+
+		return false;
+	}
 };
+
 
 
 class CRenderMgr : public CSingleton<CRenderMgr>
@@ -51,9 +67,11 @@ private:
 	//카메라가 쉐이더 도메인에 따라 분류한 결과를 저장
 	vector<tRenderInfo>    m_arrvecShaderDomain[(UINT)eSHADER_DOMAIN::_END];
 
-	//Key : Mtrl 주소, Valud : Mesh 주소
-	unordered_map<DWORD_PTR, DWORD_PTR, tLightHashFunc_DWORD_PTR> m_umapInstancing;
-	
+	//Key: Mesh + Mtrl 주소 담긴 구조체, Value: 동일 조건으로 인스턴싱 될 객체의 정보 vector
+	map<tInstancingKey, vector<tMtrlScalarData>> m_mapInstancing;
+
+	//인스턴싱용 SBuffer
+	CStructBuffer* m_pSBuffer_Instancing;
 
 public:
 	//inline getter
@@ -73,9 +91,11 @@ public:
 	void SetEditorCam(CCamera* _pCamera) { m_arrCam[(int)eCAMERA_INDEX::EDITOR] = _pCamera; }
 	bool IsEditorCamMode() const { return m_bEditorCamMode; }
 
-
 	//렌더링 단계 관련
 	void AddRenderQueue(tRenderInfo _pRenderCom, eSHADER_DOMAIN _eShaderDomain);
+
+	void AddInstancingQueue(const tInstancingKey& _Key, const tMtrlScalarData& _Value);
+	void InstancedRender();
 
 private:
 	//Upload + Bind
@@ -86,7 +106,7 @@ private:
 
 	//RenderMgr에 모인 데이터를 일괄적으로 렌더링
 	void renderAll();
-	void InstancedRender();
+	
 };
 
 

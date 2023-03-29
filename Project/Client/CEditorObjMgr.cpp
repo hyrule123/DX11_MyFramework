@@ -126,7 +126,7 @@ void CEditorObjMgr::render()
 		//월드행렬 전달.
 		tMtrlScalarData MtrlData = {};
 		Ptr<CMaterial> pMtrl = nullptr;
-
+		tInstancingKey Key = {};
 
 		//여기서 설정해줘야 하는것들
 //#define MTRL_SCALAR_DEBUG_MAT_VP    MTRLDATA_PARAM_SCALAR(MAT_0)
@@ -141,7 +141,8 @@ void CEditorObjMgr::render()
 		{
 		case eDEBUGSHAPE_TYPE::RECT:
 		{
-			pMtrl = m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::RECT]->MeshRender()->GetCurMaterial();
+			Key.pMtrl = (DWORD_PTR)m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::RECT]->MeshRender()->GetCurMaterial().Get();
+			Key.pMesh = (DWORD_PTR)m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::RECT]->MeshRender()->GetMesh().Get();
 
 			MtrlData.INT_0 = (int)pCam->GetCamIndex();
 
@@ -163,7 +164,8 @@ void CEditorObjMgr::render()
 		}
 		case eDEBUGSHAPE_TYPE::CIRCLE:
 		{
-			pMtrl = m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::CIRCLE]->MeshRender()->GetCurMaterial();
+			Key.pMtrl = (DWORD_PTR)m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::CIRCLE]->MeshRender()->GetCurMaterial().Get();
+			Key.pMesh = (DWORD_PTR)m_arrDebugShape[(int)eDEBUGSHAPE_TYPE::CIRCLE]->MeshRender()->GetMesh().Get();
 
 			MtrlData.INT_1 = (int)eDEBUGSHAPE_TYPE::CIRCLE;
 
@@ -196,21 +198,22 @@ void CEditorObjMgr::render()
 		//MAT_COLOR = 0번
 		MtrlData.VEC4_0 = m_vecDebugShapeInfo[i].vColor;
 
+
 		//재질 정보를 재질에 등록한다.
-		pMtrl->AddMtrlScalarData(MtrlData);
+		CRenderMgr::GetInst()->AddInstancingQueue(Key, MtrlData);
 	}
 
-	for (int i = 0; i < (int)eDEBUGSHAPE_TYPE::END; ++i)
-	{
-		CRenderComponent* pRenderCom = m_arrDebugShape[i]->GetRenderComponent();
-		if (nullptr == pRenderCom)
-			continue;
+	CRenderMgr::GetInst()->InstancedRender();
+	//for (int i = 0; i < (int)eDEBUGSHAPE_TYPE::END; ++i)
+	//{
+	//	CRenderComponent* pRenderCom = m_arrDebugShape[i]->GetRenderComponent();
+	//	if (nullptr == pRenderCom)
+	//		continue;
 
-		CMaterial* pMtrl = pRenderCom->GetCurMaterial().Get();
-		pMtrl->BindData();
-		pRenderCom->GetMesh()->renderInstanced(pMtrl->GetInstancingCount());
-	}
-
+	//	CMaterial* pMtrl = pRenderCom->GetCurMaterial().Get();
+	//	pMtrl->BindData();
+	//	pRenderCom->GetMesh()->renderInstanced(pMtrl->GetInstancingCount());
+	//}
 
 
 	//남은 시간이 음수가 된 디버그 쉐이프에 대해 삭제 처리를 진행

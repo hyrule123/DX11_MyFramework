@@ -53,50 +53,24 @@ bool CMeshRender::render()
 		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, true);
 
 
-
-
-	//인스턴싱이 설정되어있을 경우(공유 재질을 사용중일 경우)
-	if (true == GetCurMaterial()->GetInstencedRender())
-	{
-
-		//2D까지는 우선 W와 VP를 분리해서 전달
-		//카메라 관련 행렬은 상수버퍼를 통해서 전달되었기 때문에 여기서 업데이트해줄 필요가 없어짐
-		
-
-		//3D가면 이렇게 바꿔줄것(재질에서 쉐이더에 필요한 행렬만 골라서 받을수있도록 설정해줄것.)
-		//const Matrix& matWVP = pOwner->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD) * g_matCam.matWVP;
-		//pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_WVP, matWVP.m);
-		
-		//if(...)
-		//	pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_VIEW, g_matCam.matView.m);
-		//if(...)
-		//	pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_PROJ, g_matCam.matView.m);
-
-
-
-
-		pmtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
-
-		//false를 반환해서 드로우콜을 하지 않았음을 전달한다.
-		return false;
-	}
-
-	else//개별 고유 재질을 사용중일 경우
+	//인스턴싱을 사용하는 쉐이더가 아닐경우 바로 데이터를 전송
+	if(false == GetCurMaterial()->IsUseInstancing())
 	{
 		//여기서는 카메라 데이터를 따로 계산할 필요 없음 - 상수버퍼에 바인딩되어 있음.
 		//여기도 나중에 3D되면 바꿔줄것
 
+		//인스턴싱을 사용하지 않으므로 Scalar 데이터를 상수버퍼에 바인딩
+		BindMtrlScalarDataToCBuffer();
 
 		//재질에 BindData 요청 - 재질 상수버퍼가 바인딩됨.
-		pmtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 		pmtrl->BindData();
-
-		// 메쉬 그리기 명령
-		//UINT InstancingCount = pmtrl->GetInstancingCount();
 
 		pmesh->render();
 		
 		//true를 반환해서 인스턴싱이 필요하지 않다고 전달
 		return true;
 	}
+
+	//인스턴싱을 사용할 경우 return false를 해줌으로써 인스턴싱 처리를 해줘야 함을 전달
+	return false;
 }

@@ -63,7 +63,7 @@ void CreateTestLevel()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < 100; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -88,18 +88,19 @@ void CreateTestLevel()
 		
 		TestObj->Transform()->SetSize(Vec3(TestObj->Animator2D()->GetCurFrameSize(), 1.f));
 
-		if (i == 0)
-		{
-			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITBASE)));
-			::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
-		}
-		else
+		if (i != 0)
 		{
 			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
 			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
 			::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
+
 		}
+		else
+		{
 			
+			::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
+		}
+		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITBASE)));
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);

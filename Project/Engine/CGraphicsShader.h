@@ -23,7 +23,6 @@ public:
     virtual bool LoadJson(Json::Value* _jsonVal) override;
 
 private:
-
     //지정된 각 쉐이더별로 어떤 방식으로 로드했는지를 저장.
     tShaderLoadData                 m_ShaderData[(int)eSHADER_TYPE::END];
 
@@ -48,21 +47,32 @@ private:
 
     eSHADER_DOMAIN                  m_eShaderDomain;
 
+    bool                            m_bUseInstancing;
+
 private:
 
 
 public://INITIALIZE, Setter
     void CreateDefaultInputLayout();
+
     void CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, eSHADER_LOADTYPE _LoadType);
     void CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType);
+
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_eTopology = _Topology; }
     void SetRasterizerState(eRASTERIZER_TYPE _eRS_TYPE) { m_eRSType = _eRS_TYPE; }
-    void SetDepthStencilState(eDEPTH_STENCIL_TYPE _eDS_TYPE) { m_eDSType = _eDS_TYPE; }
-    void SetBlendState(eBLEND_STATE_TYPE _eBS_TYPE) { m_eBSType = _eBS_TYPE; }
-    void SetShaderDomain(eSHADER_DOMAIN _eSD_TYPE) { m_eShaderDomain = _eSD_TYPE; }
 
-    //Getter
+    void SetDepthStencilState(eDEPTH_STENCIL_TYPE _eDS_TYPE) { m_eDSType = _eDS_TYPE; }
+
+    void SetBlendState(eBLEND_STATE_TYPE _eBS_TYPE) { m_eBSType = _eBS_TYPE; }
+
+    void SetShaderDomain(eSHADER_DOMAIN _eSD_TYPE) { m_eShaderDomain = _eSD_TYPE; }
     eSHADER_DOMAIN GetShaderDomain() const { return m_eShaderDomain; }
+
+    void SetUseInstancing(bool _bAble) { m_bUseInstancing = _bAble; }
+    bool IsUseInstancing() const { return m_bUseInstancing; }
+
+
+    
 
 public:
     virtual void BindData() override;

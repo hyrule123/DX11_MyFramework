@@ -55,8 +55,9 @@ bool CTilemapAtlas::render()
 	count = GetTileCountY();
 	pOwner->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_Y, &count);
 
-	pMtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 	pMtrl->BindData();
+
+	BindMtrlScalarDataToCBuffer();
 
 	//렌더링 진행
 	GetMesh()->render();

@@ -508,7 +508,6 @@ void CResMgr::CreateDefaultMaterial()
 		//Rectangle
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetShader(FindRes<CGraphicsShader>(string(RES_DEFAULT::SHADER::GRAPHICS::DEBUG)));
-		pMtrl->SetInstancedRender(true);
 
 		pMtrl->SetKey(string(RES_DEFAULT::MATERIAL::DEBUG_RECT));
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -516,7 +515,6 @@ void CResMgr::CreateDefaultMaterial()
 		//Circle
 		pMtrl = new CMaterial;
 		pMtrl->SetShader(FindRes<CGraphicsShader>(string(RES_DEFAULT::SHADER::GRAPHICS::DEBUG)));
-		pMtrl->SetInstancedRender(true);
 
 		pMtrl->SetKey(string(RES_DEFAULT::MATERIAL::DEBUG_CIRCLE));
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -526,7 +524,6 @@ void CResMgr::CreateDefaultMaterial()
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetShader(FindRes<CGraphicsShader>(string(RES_DEFAULT::SHADER::GRAPHICS::TEST)));
-		pMtrl->SetInstancedRender(true);
 
 		pMtrl->SetKey(string(RES_DEFAULT::MATERIAL::TEST));
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -537,7 +534,6 @@ void CResMgr::CreateDefaultMaterial()
 		Ptr<CMaterial> pMtrl = nullptr;
 		pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(string(RES_DEFAULT::SHADER::GRAPHICS::STD2D)));
-		pMtrl->SetInstancedRender(true);
 
 		pMtrl->SetKey(string(RES_DEFAULT::MATERIAL::STD2D));
 		AddRes(pMtrl->GetKey(), pMtrl);

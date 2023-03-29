@@ -45,7 +45,8 @@ void CScript_MouseCursor::tick()
 		//아닐 경우 + 우클릭을 했을 경우 이동 스크립트를 가져와서 이동시킨다.
 		else if(KEY_TAP(eKEY::RBTN))
 		{
-			CScript_SCGroundUnitMove* pScript =  m_pSelectedGameObject->ScriptHolder()->GetScript<CScript_SCGroundUnitMove>();
+
+			CScript_SCGroundUnitMove* pScript = m_pSelectedGameObject->ScriptHolder()->GetScript<CScript_SCGroundUnitMove>();
 			if (pScript)
 			{
 				pScript->SetDestination(m_v2CursorPos);

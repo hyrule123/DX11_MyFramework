@@ -38,7 +38,7 @@ void CConstBuffer::Create(UINT _iElementSize, UINT _iElementCount)
 	}
 }
 
-void CConstBuffer::UploadData(void* _pSrc, UINT _iSize)
+void CConstBuffer::UploadData(const void* _pSrc, UINT _iSize)
 {
 	// 크기가 지정되지 않은 데이터는 상수버퍼 크기로 본다.
 	UINT size = _iSize;

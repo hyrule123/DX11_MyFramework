@@ -15,30 +15,22 @@
 
 CMaterial::CMaterial()
 	: CRes(eRES_TYPE::MATERIAL)
-	, m_SBufferMtrlScalar()
 	, m_MtrlTex{}
 	, m_arrTex{}
-	, m_uRenderCount()
-	, m_bUseInstancing()
-{	
-	//기본 설정은 단일 드로우콜(Non-Instancing)
-	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
+	, m_bIsDynamic()
+{
 }
 
 CMaterial::CMaterial(const CMaterial& _Clone)
 	: CRes(_Clone)
-	, m_SBufferMtrlScalar(nullptr)//고유 재질은 SBuffer 아예 생성 안시킴
 	, m_pShader(_Clone.m_pShader)
 	, m_MtrlTex(_Clone.m_MtrlTex)
-	, m_uRenderCount(1u)
-	, m_CBufferMtrlScalar()
+	, m_bIsDynamic(true)
 {
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{
 		m_arrTex[i] = _Clone.m_arrTex[i];
 	}
-
-	m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
 }
 
 
@@ -46,40 +38,8 @@ CMaterial::CMaterial(const CMaterial& _Clone)
 CMaterial::~CMaterial()
 {
 	//상수버퍼는 CDevice에서 관리하고, 구조화버퍼는 여기서 관리하므로 구조화버퍼만 제거한다.
-	DESTRUCTOR_DELETE(m_SBufferMtrlScalar);
+	//DESTRUCTOR_DELETE(m_SBufferMtrlScalar);
 }
-
-void CMaterial::SetInstancedRender(bool _bEnable)
-{
-	m_bUseInstancing = _bEnable;
-
-	if(true == _bEnable)
-	{
-		//상수버퍼주소 제거하고
-		m_CBufferMtrlScalar = nullptr;
-
-		//구조화버퍼 생성
-		m_SBufferMtrlScalar = new CStructBuffer(tSBufferDesc{
-			eSTRUCT_BUFFER_TYPE::READ_ONLY,
-			eSHADER_PIPELINE_STAGE::__ALL,
-			eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR
-			, idx_t_SBUFFER_MTRL_SCALAR,
-			idx_u_UAV_NONE }
-		);
-		m_SBufferMtrlScalar->Create((UINT)sizeof(tMtrlScalarData), 100u, nullptr, 0u);
-	}
-	else
-	{
-		SAFE_DELETE(m_SBufferMtrlScalar);
-
-		m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
-	}
-}
-
-//bool CMaterial::Save(const std::filesystem::path& _fileName)
-//{
-//	return false;
-//}
 
 bool CMaterial::SaveJson(Json::Value* _pJson)
 {
@@ -94,7 +54,7 @@ bool CMaterial::SaveJson(Json::Value* _pJson)
 	Json::Value& jVal = *_pJson;
 
 	jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKeyShader)] = m_pShader->GetKey();
-	jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)] = m_bUseInstancing;
+	//jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)] = m_bUseInstancing;
 	jVal[string(RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex)] = Json::Value(Json::arrayValue);
 
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
@@ -146,7 +106,7 @@ bool CMaterial::LoadJson(Json::Value* _pJson)
 	
 	m_pShader = pResMgr->FindRes<CGraphicsShader>(jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKeyShader)].asString());
 
-	m_bUseInstancing = jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)].asBool();
+	//m_bUseInstancing = jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)].asBool();
 	
 
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
@@ -171,50 +131,6 @@ void CMaterial::BindData()
 	if (nullptr == m_pShader)
 		return;
 	
-	//그릴게 없을 경우 return
-
-	if (0u == m_vecMtrlScalar.size())
-	{
-		m_uRenderCount = 0u;
-		return;
-	}
-		
-		
-	//인스턴싱을 사용하지 않을 경우(구조화버퍼 없을 경우) 상수버퍼에 묶어서 바로 렌더링
-	else if(nullptr == m_SBufferMtrlScalar)
-	{
-		m_uRenderCount = 1;
-
-		//1개를 그릴지 여러개를 그릴지(인스턴싱) 여부는 SBUFFER SHAREDATA 담아서 보냄.
-		//여기에 만약 인스턴싱 인덱스 카운트값이 0이 있을 경우 CBuffer을 활용해서 렌더링하는 방식
-		CConstBuffer* CShareDataBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_SBUFFER_SHAREDATA);
-
-		//SBuffer에 그릴것이 없으므로 0을 담아서 보내준다.
-		g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR] = {};
-		CShareDataBuffer->UploadData(g_arrSBufferShareData);
-		CShareDataBuffer->BindBuffer();
-
-		m_CBufferMtrlScalar->UploadData(&(m_vecMtrlScalar[0]));
-		m_CBufferMtrlScalar->BindBuffer();
-
-	}
-	else//구조화버퍼 주소가 있을 경우(인스턴싱을 할 경우) 
-	{
-		//인스턴싱할 객체의 갯수를 받아놓는다.
-		m_uRenderCount = (UINT)m_vecMtrlScalar.size();
-
-		//g_arrSBufferShareData에 수동으로 데이터를 보낼 필요 없음(CStructBuffer에서 전달함.)
-
-
-		//여긴 SBuffer만 바인딩 걸어주면 된다.
-		m_SBufferMtrlScalar->UploadData(m_vecMtrlScalar.data(), m_uRenderCount);
-		m_SBufferMtrlScalar->BindBufferSRV();
-	}
-
-	//바인딩한 데이터는 전부 제거
-	m_vecMtrlScalar.clear();
-
-
 	//쉐이더도 데이터를 바인딩해준다.
 	m_pShader->BindData();
 
@@ -232,7 +148,18 @@ void CMaterial::BindData()
 
 
 
-
+//void CMaterial::SetInstancingMode(bool _bUse)
+//{
+//	m_bUseInstancing = _bUse;
+//	if (m_bUseInstancing)
+//	{
+//		m_CBufferMtrlScalar = nullptr;
+//	}
+//	else
+//	{
+//		m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
+//	}
+//}
 
 
 
@@ -257,4 +184,3 @@ void CMaterial::SetTexParam(eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex)
 	default: break;
 	}
 }
-

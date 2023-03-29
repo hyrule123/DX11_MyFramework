@@ -474,8 +474,7 @@ namespace RES_INFO
 				JSONKEY(eDEPTH_STENCIL_TYPE);
 				JSONKEY(eBLEND_STATE_TYPE);
 				JSONKEY(eSHADER_DOMAIN);
-
-				
+				JSONKEY(m_bUseInstancing);
 			}
 		}
 

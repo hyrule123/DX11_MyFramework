@@ -5,6 +5,7 @@
 	"eRASTERIZER_TYPE" : 0,
 	"eSHADER_DOMAIN" : 0,
 	"eSHADER_PIPELINE_STAGE" : 17,
+	"m_bUseInstancing": true,
 	"strKey" : "STD2D.json",
 	"strName" : "STD2D.cso"
 }

@@ -19,7 +19,7 @@ private:
 
 public:
     void Create(UINT _iElementSize, UINT _iElementCount);
-    void UploadData(void* _pSrc, UINT _iSize = 0);
+    void UploadData(const void* _pSrc, UINT _iSize = 0);
     void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_ePIPELINE_STAGE_flags = _eSHADER_PIPELINE_FLAG; }
     void AddPipelineTarget(eSHADER_PIPELINE_STAGE::FLAG _Stage) { m_ePIPELINE_STAGE_flags |= (UINT)_Stage; }
 

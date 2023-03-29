@@ -9,6 +9,9 @@
 
 #include "CResMgr.h"
 
+#include "CDevice.h"
+#include "CConstBuffer.h"
+
 CRenderComponent::CRenderComponent(eCOMPONENT_TYPE _type)
 	: CComponent(_type)
 {
@@ -40,7 +43,7 @@ bool CRenderComponent::SaveJson(Json::Value* _pJVal)
 
 	Json::Value& jVal = *_pJVal;
 
-	bool UseInstancing = IsUsingInstancing();
+	bool UseInstancing = m_pCurrentMtrl->GetShader()->IsUseInstancing();
 	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::bUseInstancing)] = UseInstancing;
 
 	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::strKeyMesh)] = m_pMesh->GetKey();
@@ -105,6 +108,14 @@ bool CRenderComponent::LoadJson(Json::Value* _pJVal)
 	return true;
 }
 
+void CRenderComponent::BindMtrlScalarDataToCBuffer()
+{
+	static CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
+	const tMtrlScalarData& pMtrlData = GetOwner()->GetMtrlScalarData();
+	pCBuffer->UploadData((void*)&pMtrlData);
+	pCBuffer->BindBuffer();
+}
+
 Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 {
 	//원본 재질이 없을 경우 nullptr을 반환한다.
@@ -124,10 +135,6 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 	return m_pCurrentMtrl;
 }
 
-void CRenderComponent::SetMtrlScalarParam(const tMtrlScalarData& _tMtrlScalarData)
-{
-	m_pCurrentMtrl->AddMtrlScalarData(_tMtrlScalarData);
-}
 
 void CRenderComponent::SetCamIdx(eCAMERA_INDEX _eCamIdx)
 {

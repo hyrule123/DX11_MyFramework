@@ -48,10 +48,10 @@ bool CTilemapComplete::render()
 	}
 	else
 		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, true);
-	
 
-	pmtrl->AddMtrlScalarData(pOwner->GetMtrlScalarData());
 	pmtrl->BindData();
+
+	BindMtrlScalarDataToCBuffer();
 
 	// 메쉬 그리기 명령
 

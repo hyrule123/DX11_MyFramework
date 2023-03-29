@@ -5,6 +5,7 @@
 	"eRASTERIZER_TYPE" : 0,
 	"eSHADER_DOMAIN" : 1,
 	"eSHADER_PIPELINE_STAGE" : 17,
+	"m_bUseInstancing": false,
 	"strKey" : "TilemapComplete.json",
 	"strName" : "TilemapComplete.cso"
 }

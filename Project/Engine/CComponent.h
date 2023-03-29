@@ -27,8 +27,8 @@ public:
     virtual void SetOwner(CGameObject* _pOwner) { m_pOwner = _pOwner; }
 
     //inline Getter
-    eCOMPONENT_TYPE GetType() { return m_eComponentType; }
-    CGameObject* GetOwner() { return m_pOwner ; }
+    eCOMPONENT_TYPE GetType() const { return m_eComponentType; }
+    CGameObject* GetOwner() const { return m_pOwner ; }
 
 public:
     virtual bool SaveJson(Json::Value* _pJson) override;

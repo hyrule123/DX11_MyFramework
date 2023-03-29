@@ -22,11 +22,21 @@ CRenderMgr::CRenderMgr()
     , m_pLight2DStructBuffer()
     , m_bEditorCamMode(true)
 {
+    //구조화버퍼 생성
+    m_pSBuffer_Instancing = new CStructBuffer(tSBufferDesc{
+        eSTRUCT_BUFFER_TYPE::READ_ONLY,
+        eSHADER_PIPELINE_STAGE::__ALL,
+        eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR
+        , idx_t_SBUFFER_MTRL_SCALAR,
+        idx_u_UAV_NONE }
+    );
+    m_pSBuffer_Instancing->Create((UINT)sizeof(tMtrlScalarData), 100u, nullptr, 0u);
 }
 
 CRenderMgr::~CRenderMgr()
 {
-    delete m_pLight2DStructBuffer;
+    DESTRUCTOR_DELETE(m_pLight2DStructBuffer);
+    DESTRUCTOR_DELETE(m_pSBuffer_Instancing);
 }
 
 
@@ -152,25 +162,25 @@ void CRenderMgr::renderAll()
         size_t size = m_arrvecShaderDomain[i].size();
         for (size_t j = 0; j < size; j++)
         {
+            tRenderInfo& RenderInfo = m_arrvecShaderDomain[i][j];
             //카메라 인덱스를 설정해준다.
-            m_arrvecShaderDomain[i][j].pRenderCom->SetCamIdx(m_arrvecShaderDomain[i][j].pCam->GetCamIndex());
+            RenderInfo.pRenderCom->SetCamIdx(RenderInfo.pCam->GetCamIndex());
 
             //만약 render 메소드를 호출했는데 false가 반환되었을 경우(드로우콜 미발생 == 인스턴싱이 필요하다)
-            if (false == m_arrvecShaderDomain[i][j].pRenderCom->render())
+            if (false == RenderInfo.pRenderCom->render())
             {
                 //인스턴싱 대기열 map에 추가
-                DWORD_PTR pMtrl = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetCurMaterial().Get());
+                tInstancingKey Key = {};
+                Key.pMtrl = (DWORD_PTR)(RenderInfo.pRenderCom->GetCurMaterial().Get());
+                Key.pMesh = (DWORD_PTR)(RenderInfo.pRenderCom->GetMesh().Get());
 
-                //중복추가 방지
-                if (m_umapInstancing.end() == m_umapInstancing.find(pMtrl))
-                {
-                    m_umapInstancing[pMtrl] = (DWORD_PTR)(m_arrvecShaderDomain[i][j].pRenderCom->GetMesh().Get());
-                }
+                const tMtrlScalarData& ScalarData = RenderInfo.pRenderCom->GetMtrlScalarData();
+
+                AddInstancingQueue(Key, ScalarData);
             }
-
-
         }
 
+        //모두 순회 돌았으면 인스턴싱으로 렌더링
         InstancedRender();
 
         //렌더링한 쉐이더 도메인은 제거
@@ -178,15 +188,25 @@ void CRenderMgr::renderAll()
     }
 }
 
+void CRenderMgr::AddInstancingQueue(const tInstancingKey& _Key, const tMtrlScalarData& _Value)
+{
+    m_mapInstancing[_Key].push_back(_Value);
+}
+
 void CRenderMgr::InstancedRender()
 {
-    for (const auto& iter : m_umapInstancing)
+    for (const auto& iter : m_mapInstancing)
     {
-        CMaterial* pMtrl = (CMaterial*)(iter.first);
-        pMtrl->BindData();
-        ((CMesh*)(iter.second))->renderInstanced(pMtrl->GetInstancingCount());
+        UINT instances = (UINT)iter.second.size();
+        m_pSBuffer_Instancing->UploadData((void*)iter.second.data(), instances);
+        m_pSBuffer_Instancing->BindBufferSRV();
 
+        CMaterial* pMtrl = (CMaterial*)(iter.first.pMtrl);
+        pMtrl->BindData();
+
+        CMesh* pMesh = (CMesh*)(iter.first.pMesh);
+        pMesh->renderInstanced(instances);
     }
     //인스턴싱 대기열 클리어 
-    m_umapInstancing.clear();
+    m_mapInstancing.clear();
 }

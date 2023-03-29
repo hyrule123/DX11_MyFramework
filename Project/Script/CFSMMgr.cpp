@@ -23,7 +23,7 @@ CFSMMgr::CFSMMgr(const CFSMMgr& _other)
 	, m_ePrevState(_other.m_ePrevState)
 	, m_bBegin()
 {
-	m_arr_pFSM = new CFSM * [m_eNumState];
+	m_arr_pFSM = new CFSM*[m_eNumState];
 	memset(m_arr_pFSM, 0, sizeof(CFSM*) * m_eNumState);
 
 	for (UINT i = 0u; i < m_eNumState; ++i)
@@ -33,7 +33,6 @@ CFSMMgr::CFSMMgr(const CFSMMgr& _other)
 			m_arr_pFSM[i] = static_cast<CFSM*>(_other.m_arr_pFSM[i]->Clone());
 		}
 	}
-
 }
 
 CFSMMgr::~CFSMMgr()
