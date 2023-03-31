@@ -4,6 +4,7 @@
 #include "global.h"
 #include "struct.h"
 
+class CGameObject;
 class CEventMgr :
     public CSingleton<CEventMgr>
 {

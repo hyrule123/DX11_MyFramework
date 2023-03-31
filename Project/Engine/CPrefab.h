@@ -12,11 +12,12 @@ public:
     void         RegisterPrefab(CGameObject* _pPrefab);
     CGameObject* Instantiate();
 
-private:
-    //virtual bool Load(const std::filesystem::path& _fileName) override { return false; }
-
 public:
-    //virtual bool Save(const std::filesystem::path& _fileName) override { return false; }
+    virtual bool Save(const std::filesystem::path& _fileName) override;
+    virtual bool Load(const std::filesystem::path& _fileName) override;
+
+    virtual bool SaveJson(Json::Value* _pJVal) override;
+    virtual bool LoadJson(Json::Value* _pJVal) override;
 
 private:
     virtual void BindData() override {};

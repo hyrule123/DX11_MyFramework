@@ -94,11 +94,6 @@ bool CRes::Save(const std::filesystem::path& _fileName)
 		bool Suc = SaveJson(&SaveVal);
 		if (true == Suc)
 		{
-			Json::StreamWriterBuilder builder;
-			builder["indentation"] = ""; //The JSON document is written in a single line
-			std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-			writer->write(SaveVal, &outFile);
-
 			outFile << SaveVal;
 		}
 		outFile.close();

@@ -13,7 +13,7 @@ bool CComponent::SaveJson(Json::Value* _pJson)
 
 	(*_pJson)[string(RES_INFO::PREFAB::COMPONENT::JSON_KEY::eComponentType)] = (int)m_eComponentType;
 
-	return false;
+	return true;
 }
 
 bool CComponent::LoadJson(Json::Value* _pJson)

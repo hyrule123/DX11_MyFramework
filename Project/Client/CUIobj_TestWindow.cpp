@@ -16,7 +16,7 @@
 #include <Engine/CTilemapComplete.h>
 #include <Script/strKeyShader.h>
 
-
+#include <Engine/EventBroker.h>
 
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
@@ -145,5 +145,5 @@ void CUIobj_TestWindow::CreateTestObj()
 	CTilemapComplete* TilemapComp = new CTilemapComplete;
 	m_pTestObj->AddComponent(TilemapComp);
 
-	::SpawnGameObject(m_pTestObj, Vec3(0.f, 0.f, 1000.f), 0);
+	EventBroker::SpawnGameObject(m_pTestObj, Vec3(0.f, 0.f, 1000.f), 0);
 }

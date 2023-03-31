@@ -98,6 +98,9 @@
     <Filter Include="ImGui\02. UI_Object\06. UI_AnimEditor">
       <UniqueIdentifier>{dd7fc370-697c-4547-af8c-7902d66ade1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{5b5680e0-6f60-4e44-940a-b237c507c9f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

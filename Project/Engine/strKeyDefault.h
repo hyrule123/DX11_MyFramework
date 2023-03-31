@@ -132,6 +132,7 @@ namespace RES_INFO
 {
 	namespace JSON_KEY
 	{
+		JSONKEY(GameObject);
 		JSONKEY(eRES_TYPE);
 		JSONKEY(strKey);
 	}
@@ -266,7 +267,38 @@ namespace RES_INFO
 
 		namespace JSON_KEY
 		{
+			//CComponent* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
+			JSONKEY(m_arrCom);
 
+			//CRenderComponent* m_RenderCom;
+
+			//Hierarchy
+			//CGameObject* m_Parent;
+			//있을 경우 Prefab 형태로 따로 저장해서 불러온 뒤 로드해서 주소를 등록
+			JSONKEY(m_Parent_PREFAB);
+
+			//vector<CGameObject*>    m_vecChild;
+			JSONKEY(m_vecChild_PREFAB);
+
+			//tMtrlScalarData          m_MtrlScalarData;
+
+			//Layer Info
+			//int                     m_iLayerIdx;
+			JSONKEY(m_iLayerIdx);
+
+			//레이어 번호를 고정. 부모 레이어를 옮겨도 자신은 옮겨지지 않음.
+			//bool                    m_bFixLayer;   
+			JSONKEY(m_bFixLayer);
+
+			//Birth, Death
+			//bool                    m_bDestroy;
+
+			//float                   m_fLifeSpan;
+			JSONKEY(m_fLifeSpan);
+
+			//초기화 되어 현재 Level 안에서 작동중인지 여부를 저장.
+			//작동 이후 컴포넌트가 추가될 시 바로 init 호출.
+			//bool                m_bInitialized;
 			
 		}
 
@@ -440,7 +472,10 @@ namespace RES_INFO
 
 			namespace SCRIPT_HOLDER
 			{
-
+				namespace JSON_KEY
+				{
+					JSONKEY(m_vecScript_strKey);
+				}
 			}
 		}
 	}

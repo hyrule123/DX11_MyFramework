@@ -13,6 +13,8 @@ public:
     ~CMeshRender();
 
 public:
+
+public:
     virtual void finaltick() override;
     virtual bool render() override;
 

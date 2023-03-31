@@ -5,6 +5,11 @@
 
 #include "CCollider.h"
 
+#include "strKeyDefault.h"
+#include "jsoncpp.h"
+
+#include "CScriptMgr.h"
+
 CScriptHolder::CScriptHolder()
 	: CComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
 {
@@ -43,19 +48,49 @@ bool CScriptHolder::SaveJson(Json::Value* _jVal)
 
 	Json::Value& jVal = *_jVal;
 
+	string strKey = string(RES_INFO::PREFAB::COMPONENT::SCRIPT_HOLDER::JSON_KEY::m_vecScript_strKey);
+	jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
+
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
-
-
-
+		jVal[strKey].append(m_vecScript[i]->GetName());
 	}
 
-	return false;
+	return true;
 }
 
 bool CScriptHolder::LoadJson(Json::Value* _jVal)
 {
-	return false;
+	if (nullptr == _jVal)
+		return false;
+	else if (false == CComponent::LoadJson(_jVal))
+		return false;
+
+	Json::Value& jVal = *_jVal;
+	
+	{
+		string strKey = string(RES_INFO::PREFAB::COMPONENT::SCRIPT_HOLDER::JSON_KEY::m_vecScript_strKey);
+		if (jVal.isMember(strKey))
+		{
+			Json::Value& arr = jVal[strKey];
+
+			int arrsize = (int)arr.size();
+			for (int i = 0; i < arrsize; ++i)
+			{
+				CScriptMgr::GetInst()->GetNewScript(arr[i].asString());
+			}
+		}
+	}
+	
+	//TODO : 
+	//jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
+
+	//for (size_t i = 0; i < m_vecScript.size(); ++i)
+	//{
+	//	jVal[strKey].append(m_vecScript[i]->GetName());
+	//}
+
+	return true;
 }
 
 

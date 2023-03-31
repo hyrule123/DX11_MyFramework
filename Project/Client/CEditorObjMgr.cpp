@@ -25,6 +25,7 @@
 #include <Script/strKeyScript.h>
 #include <Script/CScriptMgr.h>
 
+#include <Engine/EventBroker.h>
 
 //테스트용 레벨
 #include "CTestLevel.h"
@@ -70,7 +71,7 @@ void CEditorObjMgr::init()
 		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
 		//TODO : 임시로 마우스 오브젝트를 20번 레이어에 생성함
-		::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
+		EventBroker::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
 
 		CCollisionMgr* pMgr = CCollisionMgr::GetInst();
 		for (int i = 0; i < 32; ++i)

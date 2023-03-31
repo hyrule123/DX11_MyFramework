@@ -33,6 +33,8 @@ private:
     vector<CScript*> m_vecScript;
     unordered_map<std::type_index, CScript*> m_umapScript;
 
+    
+
 public:
     bool AddScript(CScript* _pScript);
 

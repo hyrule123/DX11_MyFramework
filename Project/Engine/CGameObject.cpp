@@ -16,6 +16,8 @@
 
 #include "CTransform.h"
 
+#include "strKeyDefault.h"
+#include "jsoncpp.h"
 
 CGameObject::CGameObject()
 	: m_arrCom{}
@@ -194,7 +196,7 @@ void CGameObject::finaltick()
 		m_fLifeSpan -= DELTA_TIME;
 		if (m_fLifeSpan < 0.f)
 		{
-			DestroyObject(this);
+			//DestroyObject(this);
 			return;
 		}
 	}
@@ -260,13 +262,186 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 	else if (false == CEntity::SaveJson(_pJson))
 		return false;
 
+	Json::Value& jVal = *_pJson;
 
-	return false;
+	string strKeyarrCom = string(RES_INFO::PREFAB::JSON_KEY::m_arrCom);
+	jVal[strKeyarrCom] = Json::Value(Json::ValueType::arrayValue);
+	for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
+	{
+		Json::Value& arrCom = jVal[strKeyarrCom];
+		if (nullptr == m_arrCom[i])
+		{
+			//빈 데이터를 삽입
+			arrCom.append(Json::Value(Json::ValueType::nullValue));
+		}
+		else
+		{
+			Json::Value compVal;
+			if (false == m_arrCom[i]->SaveJson(&compVal))
+				return false;
+
+			arrCom.append(compVal);
+		}
+	}
+
+	//TODO: 부모자식관계 저장 아직 안 되고 있음.
+	////부모는 고려하지 않고 자식만 타고들어감.
+	//for (size_t i = 0; i < m_vecChild.size(); ++i)
+	//{
+
+	//}
+
+	{
+		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_iLayerIdx);
+		jVal[strKey] = m_iLayerIdx;
+	}
+	{
+		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_bFixLayer);
+		jVal[strKey] = m_bFixLayer;
+	}
+	{
+		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_fLifeSpan);
+		jVal[strKey] = Pack_float_int(m_fLifeSpan).i;
+	}
+
+
+	return true;
 }
 
 bool CGameObject::LoadJson(Json::Value* _pJson)
 {
-	return false;
+	if (nullptr == _pJson)
+		return false;
+	else if (false == CEntity::LoadJson(_pJson))
+		return false;
+
+	Json::Value& jVal = *_pJson;
+
+	string strKeyarrCom = string(RES_INFO::PREFAB::JSON_KEY::m_arrCom);
+	if (jVal.isMember(strKeyarrCom))
+	{
+		Json::Value& arrCom = jVal[strKeyarrCom];
+		int arrComSize = (int)arrCom.size();
+		for (int i = 0; i < arrComSize; ++i)
+		{
+			if (arrCom[i].empty())
+				continue;
+
+			Json::Value& jsonComponent = arrCom[i];
+
+			CComponent* pCom = nullptr;
+			switch ((eCOMPONENT_TYPE)i)
+			{
+			case eCOMPONENT_TYPE::TRANSFORM:
+				pCom = new CTransform;
+				break;
+			case eCOMPONENT_TYPE::COLLIDER2D:
+			{
+				eCOLLIDER_TYPE_2D ColType = (eCOLLIDER_TYPE_2D)jsonComponent[string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::JSON_KEY::m_eColType)].asInt();
+
+				switch (ColType)
+				{
+				case eCOLLIDER_TYPE_2D::RECT:
+					pCom = new CCollider2D_Rect;
+					break;
+				case eCOLLIDER_TYPE_2D::CIRCLE:
+					pCom = new CCollider2D_Circle;
+					break;
+				case eCOLLIDER_TYPE_2D::OBB:
+					pCom = new CCollider2D_OBB;
+					break;
+				case eCOLLIDER_TYPE_2D::POINT:
+					pCom = new CCollider2D_Point;
+					break;
+				default:
+					break;
+				}
+
+				break;
+			}
+				
+			case eCOMPONENT_TYPE::COLLIDER3D:
+				break;
+			case eCOMPONENT_TYPE::ANIMATOR2D:
+				pCom = new CAnimator2D;
+				break;
+			case eCOMPONENT_TYPE::ANIMATOR3D:
+				break;
+			case eCOMPONENT_TYPE::LIGHT2D:
+				break;
+			case eCOMPONENT_TYPE::LIGHT3D:
+				break;
+			case eCOMPONENT_TYPE::CAMERA:
+				break;
+			case eCOMPONENT_TYPE::MESH_RENDER:
+				pCom = new CMeshRender;
+				break;
+			case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
+				break;
+			case eCOMPONENT_TYPE::TILEMAP:
+				break;
+			case eCOMPONENT_TYPE::LANDSCAPE:
+				break;
+			case eCOMPONENT_TYPE::DECAL:
+				break;
+			case eCOMPONENT_TYPE::SCRIPT_HOLDER:
+				pCom = new CScriptHolder;
+				break;
+			case eCOMPONENT_TYPE::END:
+				break;
+			default:
+				break;
+			}
+
+			if (pCom)
+			{
+				if (false == pCom->LoadJson(&jsonComponent))
+				{
+					SAFE_DELETE(pCom);
+					return false;
+				}
+
+				AddComponent(pCom);
+			}
+			else return false;
+		}
+	}
+	else return false;
+
+
+	//TODO: 부모자식관계 저장 아직 안 되고 있음.
+	////부모는 고려하지 않고 자식만 타고들어감.
+	//for (size_t i = 0; i < m_vecChild.size(); ++i)
+	//{
+
+	//}
+
+	{
+		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_iLayerIdx);
+		if (jVal.isMember(strKey))
+		{
+			m_iLayerIdx = jVal[strKey].asInt();
+		}
+		else return false;
+	}
+	{
+		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_bFixLayer);
+		if (jVal.isMember(strKey))
+		{
+			m_bFixLayer = jVal[strKey].asBool();
+		}
+		else return false;
+	}
+	{
+		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_fLifeSpan);
+		if (jVal.isMember(strKey))
+		{
+			m_fLifeSpan = Pack_float_int(jVal[strKey].asInt()).f;
+		}
+		else return false;
+	}
+
+	return true;
 }
 
 

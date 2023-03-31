@@ -41,6 +41,8 @@ CMaterial::~CMaterial()
 	//DESTRUCTOR_DELETE(m_SBufferMtrlScalar);
 }
 
+
+
 bool CMaterial::SaveJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)

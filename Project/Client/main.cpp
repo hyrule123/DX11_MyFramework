@@ -8,7 +8,7 @@
 
 #include "CImGuiMgr.h"
 
-#include <Script/CScriptMgr.h>
+#include <Script/CScriptMgrInitializer.h>
 
 // 전역 변수:
 HINSTANCE   hInst;                                // 현재 인스턴스입니다.
@@ -45,7 +45,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return 0;
     }
 
-    CScriptMgr::GetInst()->init();
+    //복사용 스크립트 원본 등록 함수 호출
+    CScriptMgrInitializer Init;
+    Init.init();
+
 
     CEditorObjMgr::GetInst()->init();
 

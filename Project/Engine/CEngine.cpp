@@ -11,6 +11,7 @@
 #include "CEventMgr.h"
 #include "CCollisionMgr.h"
 #include "CRandMgr.h"
+#include "CScriptMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -56,6 +57,8 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CRenderMgr::GetInst()->init();
 	CEventMgr::GetInst();
 	CCollisionMgr::GetInst();
+
+	CScriptMgr::GetInst();
 
 	return S_OK;
 }

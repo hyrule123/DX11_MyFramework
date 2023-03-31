@@ -205,6 +205,10 @@
     <ClInclude Include="CRandMgr.h">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClInclude>
+    <ClInclude Include="EventBroker.h" />
+    <ClInclude Include="CScriptMgr.h">
+      <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -374,6 +378,10 @@
     </ClCompile>
     <ClCompile Include="CRandMgr.cpp">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="EventBroker.cpp" />
+    <ClCompile Include="CScriptMgr.cpp">
+      <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -553,6 +561,9 @@
     </Filter>
     <Filter Include="_Source\03. Manager\09. RandMgr">
       <UniqueIdentifier>{5aea2cf4-799a-4c50-9422-eb7b85e28049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Source\03. Manager\10. ScriptMgr">
+      <UniqueIdentifier>{fe30ff2c-2244-4ddf-b23b-4a8458bd34a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

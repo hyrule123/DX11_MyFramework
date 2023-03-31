@@ -23,6 +23,10 @@ void CEventMgr::CreateObject(const tEvent& _event)
 	//rParam = Layer Index
 	CGameObject* Obj = reinterpret_cast<CGameObject*>(_event.lParam);
 
+	//오브젝트가 nullptr이거나 이미 게임 안에서 생성되었을 경우 return
+	if (nullptr == Obj || Obj->IsInitialized())
+		return;
+
 	CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(Obj, (int)_event.rParam);
 
 	m_bLevelModified = true;

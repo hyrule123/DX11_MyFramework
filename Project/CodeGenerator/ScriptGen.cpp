@@ -18,24 +18,23 @@ void CreateScriptCode()
 	{
 		const std::filesystem::directory_entry& entry = *iter;
 
-		const string& ScriptVal = entry.path().filename().string();
+		string ScriptVal = entry.path().filename().string();
 
 		//"CScript_" 와 .h가 붙어있는 파일들만 추가
 		if (string::npos != ScriptVal.find(string(ScriptStandardPrefix)) && string::npos != ScriptVal.find(string(ScriptStandardSuffix)))
 		{
 			string ScriptKey = ScriptVal;
 
+			//뒷부분(.h) 제거
+			size_t pos = ScriptKey.find(string(ScriptStandardSuffix));
+			if (string::npos != pos)
+				ScriptKey.erase(pos, string::npos);
+
 			//앞부분 제거
 			ScriptKey.erase(0, ScriptStandardPrefix.size());
 
-			//뒷부분 제거
-			size_t pos = ScriptKey.find(string(ScriptStandardSuffix));
-			if (string::npos != pos)
-				ScriptKey.erase(pos, ScriptStandardSuffix.size());
-
 			//대문자로 변경
 			transform(ScriptKey.begin(), ScriptKey.end(), ScriptKey.begin(), ::toupper);
-
 
 			mapScripts.insert(make_pair(ScriptKey, ScriptVal));
 		}
@@ -83,8 +82,8 @@ void CreateScriptCode()
 	strKey.close();
 
 
-	//CScriptMgr 작성
-	string ScriptMgrPath = ScriptPath + "CScriptMgr.cpp";
+	//CScriptMgrInitializer 작성
+	string ScriptMgrPath = ScriptPath + "CScriptMgrInitializer.cpp";
 	std::ofstream ScriptMgr(ScriptMgrPath);
 	if (false == ScriptMgr.is_open())
 		return;
@@ -94,7 +93,9 @@ void CreateScriptCode()
 #pragma once
 
 #include "pch.h"
-#include "CScriptMgr.h"
+#include "CScriptMgrInitializer.h"
+
+#include <Engine/CScriptMgr.h>
 
 )";
 	ScriptMgr << RawLiteral;
@@ -109,57 +110,35 @@ void CreateScriptCode()
 	WriteCodeA(ScriptMgr);
 
 
-	//생성자 및 소멸자
-	RawLiteral = R"(
-
-
-CScriptMgr::CScriptMgr() {}
-CScriptMgr::~CScriptMgr()
-{
-	for(const auto& iter : m_umapScript)
-	{
-		DESTRUCTOR_DELETE(iter.second);
-	}
-}
-
-)";
-	ScriptMgr << RawLiteral;
-
-
 	//init()
-	WriteCodeA(ScriptMgr, "void CScriptMgr::init()");
+	WriteCodeA(ScriptMgr, "void CScriptMgrInitializer::init()");
 	WriteBracketOpenA(ScriptMgr);
+
+	string classCodeLine = "CScriptMgr* pMgr = CScriptMgr::GetInst();";
+	WriteCodeA(ScriptMgr, classCodeLine);
 	
 	for (const auto& iter : mapScripts)
 	{
-		string className = "m_umapScript[";
-		className += "std::string(";
-		className += string("SCRIPTS::") + iter.first + ")] = new ";
-		
-		size_t pos = iter.second.find(string(ScriptStandardSuffix));
-		className.append(iter.second.substr(0, pos));
-		className += ';';
+		WriteBracketOpenA(ScriptMgr);
 
-		WriteCodeA(ScriptMgr, className);
+		classCodeLine = string("string strKey = ") + string("string(SCRIPTS::") + iter.first + string(");");
+		WriteCodeA(ScriptMgr, classCodeLine);
+
+		size_t pos = iter.second.find(string(ScriptStandardSuffix));
+		string className = iter.second.substr(0, pos);
+		classCodeLine = string("CScript* newScript = new ") + className + string(";");
+		WriteCodeA(ScriptMgr, classCodeLine);
+
+		classCodeLine = string("newScript->SetName(\"") + className + string("\");");
+		WriteCodeA(ScriptMgr, classCodeLine);
+
+		classCodeLine = string("pMgr->AddBaseScript(strKey, newScript);");
+		WriteCodeA(ScriptMgr, classCodeLine);
+
+		WriteBracketCloseA(ScriptMgr);
 	}
 
 	WriteBracketCloseA(ScriptMgr);
-
-
-	RawLiteral = R"(
-
-CScript* CScriptMgr::GetNewScript(const string& _strKey)
-{
-	const auto& iter = m_umapScript.find(_strKey);
-
-	if (iter == m_umapScript.end())
-		return nullptr;
-
-	return iter->second->Clone();
-}
-)";
-
-	ScriptMgr << RawLiteral;
 
 
 	ScriptMgr.close();
