@@ -1,14 +1,14 @@
 #pragma once
 
-#include <Engine/CScriptMgrBase.h>
+#include <Engine/CScriptMgr.h>
 #include "strKeyScript.h"
 
 class CScript;
 class CScriptMgrInitializer
 {
 public:
-	CScriptMgrInitializer();
-	~CScriptMgrInitializer();
+	CScriptMgrInitializer() = default;
+	virtual ~CScriptMgrInitializer() = default;
 public:
 	void init();
 };

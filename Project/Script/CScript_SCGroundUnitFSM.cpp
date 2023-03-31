@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CScript_SCGroundUnitBase.h"
+#include "CScript_SCGroundUnitFSM.h"
 
 #include "CScript_Bullet.h"
 
@@ -21,53 +21,48 @@
 #include <Engine/define.h>
 
 
-#include "CScript_SCGroundUnitIdle.h"
-#include "CScript_SCGroundUnitMove.h"
+#include "CFState_SCGroundUnitIdle.h"
+#include "CFState_SCGroundUnitMove.h"
 //TODO : 
 //#include "CScript_SCGroundUnitAttack.h"
 //#include "CScript_SCGroundUnitDeath.h"
 
 
-CScript_SCGroundUnitBase::CScript_SCGroundUnitBase()
-	: CFSMMgr(TYPE_INDEX(CScript_SCGroundUnitBase), (UINT)SCGroundUnit::eSTATE::END)
-	, m_ColorKey(0.f, 0.f, 0.f, 0.f)
-	, m_MoveSpeed(400.f)
-	, m_TurningForceRad(XM_PI / 2.f)
-	, m_eCurState()
-	, m_ePrevState()
-	, m_bSelected()
+CScript_SCGroundUnitFSM::CScript_SCGroundUnitFSM()
+	: CFStateMgr(TYPE_INDEX(CScript_SCGroundUnitFSM), (UINT)FSM_SCGroundUnit::eSTATE::END)
+	//, m_ColorKey(0.f, 0.f, 0.f, 0.f)
 {
 }
 
-CScript_SCGroundUnitBase::~CScript_SCGroundUnitBase()
+CScript_SCGroundUnitFSM::~CScript_SCGroundUnitFSM()
 {
 }
 
-void CScript_SCGroundUnitBase::init()
+void CScript_SCGroundUnitFSM::initFSM()
 {
 	//{
-	//	CScript_SCGroundUnitMove* pMoveScript = new CScript_SCGroundUnitMove;
+	//	CFState_SCGroundUnitMove* pMoveScript = new CFState_SCGroundUnitMove;
 	//	GetHolder()->AddScript(pMoveScript);
-	//	AddFSM((UINT)SCGroundUnit::eSTATE::MOVE, pMoveScript);
+	//	AddFState((UINT)FSM_SCGroundUnit::eSTATE::MOVE, pMoveScript);
 	//}
 
 	//{
-	//	CScript_SCGroundUnitIdle* pIdleScript = new CScript_SCGroundUnitIdle;
+	//	CFState_SCGroundUnitIdle* pIdleScript = new CFState_SCGroundUnitIdle;
 	//	GetHolder()->AddScript(pIdleScript);
-	//	AddFSM((UINT)SCGroundUnit::eSTATE::IDLE, pIdleScript);
+	//	AddFState((UINT)FSM_SCGroundUnit::eSTATE::IDLE, pIdleScript);
 	//}
 
-	//Transition((UINT)SCGroundUnit::eSTATE::IDLE);
+	//Transition((UINT)FSM_SCGroundUnit::eSTATE::IDLE);
 
 	GetOwner()->Transform()->SetLockRotation(true);
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
-	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
+	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 }
 
 
 
-//void CScript_SCGroundUnitBase::tick()
+//void CScript_SCGroundUnitFSM::tick()
 //{
 //	m_ePrevState = m_eCurState;
 //
@@ -147,7 +142,7 @@ void CScript_SCGroundUnitBase::init()
 //	
 //}
 
-void CScript_SCGroundUnitBase::OnCollision(CCollider* _pCol)
+void CScript_SCGroundUnitFSM::OnCollision(CCollider* _pCol)
 {
 	//커서가 자신과 충돌중임을 확인했을 경우
 	if (iLayerCursor == _pCol->GetOwner()->GetLayer())
@@ -155,14 +150,14 @@ void CScript_SCGroundUnitBase::OnCollision(CCollider* _pCol)
 		//마우스 커서가 한번 클릭됐을 경우
 		if (KEY_TAP(eKEY::LBTN))
 		{
-			m_bSelected = true;
+			//m_bSelected = true;
 		}
 	}
 }
 
 
 
-//void CScript_SCGroundUnitBase::Shoot()
+//void CScript_SCGroundUnitFSM::Shoot()
 //{
 //	//CGameObject* Bullet = CResMgr::GetInst()->FindRes<CPrefab>("Bullet")->Instantiate();
 //

@@ -21,14 +21,12 @@
 #include <Engine/CCS_SetColor.h>
 #include <Engine/CCS_SCMapLoader.h>
 
+#include <Script/strKeyScript.h>
 #include <Script/strKeyTexture.h>
 #include <Script/strKeyShader.h>
 
-#include <Script/CScriptMgr.h>
-#include <Script/CScript_SCGroundUnitBase.h>
+#include <Engine/CScriptMgr.h>
 #include <Script/CScript_MouseCursor.h>
-#include <Script/CScript_Bullet.h>
-#include <Script/CScript_Debug.h>
 
 #include <Engine/CTimeMgr.h>
 
@@ -37,7 +35,6 @@
 #include <UtilLib_DLL/json/json.h>
 
 #include <Engine/CRandMgr.h>
-
 
 #include <Engine/EventBroker.h>
 
@@ -64,7 +61,7 @@ void CreateTestLevel()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < 1; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -93,44 +90,41 @@ void CreateTestLevel()
 		{
 			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
 			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
-			//::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
+			EventBroker::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
 
 		}
 		else
 		{	
-			//::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
+			EventBroker::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
 		}
-		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITMOVE)));
-		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITBASE)));
-		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::SCGROUNDUNITIDLE)));
+		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MARINE)));
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
 		TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 
-		//std::filesystem::path TestSave = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::PREFAB);
-		std::filesystem::path TestSave = "TestSave.json";
-		CPrefab* pPrefab = new CPrefab;
+		//std::filesystem::path TestSave = "TestSave.json";
+		//CPrefab* pPrefab = new CPrefab;
 
-		pPrefab->RegisterPrefab(TestObj);
+		//pPrefab->RegisterPrefab(TestObj);
 
-		pPrefab->SetKey(TestSave.string());
+		//pPrefab->SetKey(TestSave.string());
 
-		pPrefab->Save(TestSave);
+		//pPrefab->Save(TestSave);
 
-		delete pPrefab;
+		//delete pPrefab;
 	}
 
 	{
-		std::filesystem::path TestSave = "TestSave.json";
-		Ptr<CPrefab> pPrefab = new CPrefab;
-		pPrefab->Load(TestSave);
+		//std::filesystem::path TestSave = "TestSave.json";
+		//Ptr<CPrefab> pPrefab = new CPrefab;
+		//pPrefab->Load(TestSave);
 
-		CResMgr::GetInst()->AddRes<CPrefab>(pPrefab->GetKey(), pPrefab);
+		//CResMgr::GetInst()->AddRes<CPrefab>(pPrefab->GetKey(), pPrefab);
 
-		CGameObject* newobj = pPrefab->Instantiate();
-		
-		EventBroker::SpawnGameObject(newobj, Vec3(10.f, 10.f, 0.f), 0);
+		//CGameObject* newobj = pPrefab->Instantiate();
+		//
+		//EventBroker::SpawnGameObject(newobj, Vec3(10.f, 10.f, 0.f), 0);
 	}
 	
 

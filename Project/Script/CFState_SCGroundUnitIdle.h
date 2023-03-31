@@ -1,15 +1,16 @@
 #pragma once
-#include "CFSM.h"
 
-#include "SCGroundUnit.h"
+#include <Engine/CFState.h>
 
-class CScript_SCGroundUnitIdle :
-    public CFSM
+#include "defineFSM_SCGroundUnit.h"
+
+class CFState_SCGroundUnitIdle :
+    public CFState
 {
 public:
-    CScript_SCGroundUnitIdle();
-    virtual ~CScript_SCGroundUnitIdle();
-    CLONE(CScript_SCGroundUnitIdle);
+    CFState_SCGroundUnitIdle();
+    virtual ~CFState_SCGroundUnitIdle();
+    CLONE(CFState_SCGroundUnitIdle);
 
 public:
     virtual void init() override;

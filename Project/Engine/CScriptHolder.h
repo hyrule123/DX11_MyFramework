@@ -1,13 +1,11 @@
 #pragma once
 #include "CComponent.h"
 
-#include "CScript.h"
-
-
 class CTransform;
 class CCamera;
 class CMeshRender;
 class CCollider;
+class CFStateMgr;
 
 class CScriptHolder :
     public CComponent
@@ -33,6 +31,7 @@ private:
     vector<CScript*> m_vecScript;
     unordered_map<std::type_index, CScript*> m_umapScript;
 
+    CFStateMgr* m_pFStateMgr;
     
 
 public:
@@ -47,6 +46,9 @@ public:
 
     //들고 있는 Script 들에도 Owner 설정이 필요하므로 재정의해서 사용한다.
     virtual void SetOwner(CGameObject* _pOwner) override;
+
+    void SetFStateMgr(CFStateMgr* _pFStateMgr) { m_pFStateMgr = _pFStateMgr; }
+    CFStateMgr* GetFStateMgr() const { return m_pFStateMgr; }
 
 public:
     void BeginColiision(CCollider* _Other);
@@ -63,13 +65,6 @@ inline T* CScriptHolder::GetScript()
 
     if (iter != m_umapScript.end())
         return (T*)iter->second;
-
-    //size_t size = m_vecScript.size();
-    //for (size_t i = 0; i < size; ++i)
-    //{
-    //    if (TypeIdx == m_vecScript[i]->GetTypeIndex())
-    //        return static_cast<T*>(m_vecScript[i]);
-    //}
 
     return nullptr;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "CComponent.h"
 
+#include "CScriptHolder.h"
 
 class CGameObject;
 class CCollider;
@@ -11,10 +12,12 @@ class CScript :
 public:
     CScript() = delete;
     CScript(std::type_index _TypeIndex);
-    CScript(const CScript& _other);
-    virtual ~CScript();
 
-    CLONE(CScript)
+    CScript(const CScript& _other);
+    CLONE(CScript);
+
+    virtual ~CScript();
+    
 
 public:
     //특정 변수에서 초기 설정을 해야 할 경우 이 메소드를 오버라이딩해서 사용할 것.

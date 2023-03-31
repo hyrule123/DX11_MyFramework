@@ -11,11 +11,28 @@ class CCollider3D;
 class CComponent :
     public CEntity
 {
+    friend class CGameObject;
+
 public:
     CComponent(eCOMPONENT_TYPE _Type);
     CComponent(const CComponent& _other);
     virtual ~CComponent();
-    friend class CGameObject;
+
+
+public:
+    virtual bool SaveJson(Json::Value* _pJson) override;
+    virtual bool LoadJson(Json::Value* _pJson) override;
+
+
+public:
+    //특정 변수에서 초기 설정을 해야 할 경우 이 메소드를 오버라이딩해서 사용할 것.
+    virtual void init() {}
+    virtual void tick() {}
+    virtual void finaltick() = 0;
+
+    virtual void cleanup() = 0;
+
+    virtual CComponent* Clone() = 0;
 
 private:
     CGameObject*         m_pOwner;
@@ -30,19 +47,7 @@ public:
     eCOMPONENT_TYPE GetType() const { return m_eComponentType; }
     CGameObject* GetOwner() const { return m_pOwner ; }
 
-public:
-    virtual bool SaveJson(Json::Value* _pJson) override;
-    virtual bool LoadJson(Json::Value* _pJson) override;
 
-public:
-    //특정 변수에서 초기 설정을 해야 할 경우 이 메소드를 오버라이딩해서 사용할 것.
-    virtual void init() {}
-    virtual void tick() {}
-    virtual void finaltick() = 0;
-
-    virtual void cleanup() = 0;
-
-    virtual CComponent* Clone() = 0;
 
 public:
     CTransform* Transform() { return m_pOwner->Transform(); }
@@ -52,8 +57,6 @@ public:
     CCollider2D* Collider2D() { return m_pOwner->Collider2D(); }
     CCollider3D* Collider3D() { return m_pOwner->Collider3D(); }
     CRenderComponent* RenderComponent() { return m_pOwner->GetRenderComponent(); }
-
-
 
 };
 

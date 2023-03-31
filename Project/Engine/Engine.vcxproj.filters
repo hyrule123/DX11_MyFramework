@@ -68,7 +68,7 @@
       <Filter>_Source\07. Resource\06, 07. Shader\GraphicsShader</Filter>
     </ClInclude>
     <ClInclude Include="CScript.h">
-      <Filter>_Source\06. Component\Script</Filter>
+      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClInclude>
     <ClInclude Include="CConstBuffer.h">
       <Filter>_Source\02. Device\ConstBuffer</Filter>
@@ -107,7 +107,7 @@
       <Filter>_Source\06. Component\08~Render Components</Filter>
     </ClInclude>
     <ClInclude Include="CScriptHolder.h">
-      <Filter>_Source\06. Component\Script</Filter>
+      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClInclude>
     <ClInclude Include="CEventMgr.h">
       <Filter>_Source\03. Manager\07. EventMgr</Filter>
@@ -209,6 +209,13 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CFState.h">
+      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="CFStateMgr.h">
+      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -260,7 +267,7 @@
       <Filter>_Source\07. Resource\06, 07. Shader\GraphicsShader</Filter>
     </ClCompile>
     <ClCompile Include="CScript.cpp">
-      <Filter>_Source\06. Component\Script</Filter>
+      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="CConstBuffer.cpp">
       <Filter>_Source\02. Device\ConstBuffer</Filter>
@@ -296,7 +303,7 @@
       <Filter>_Source\06. Component\08~Render Components</Filter>
     </ClCompile>
     <ClCompile Include="CScriptHolder.cpp">
-      <Filter>_Source\06. Component\Script</Filter>
+      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="CEventMgr.cpp">
       <Filter>_Source\03. Manager\07. EventMgr</Filter>
@@ -383,6 +390,12 @@
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CFState.cpp">
+      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
+    </ClCompile>
+    <ClCompile Include="CFStateMgr.cpp">
+      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">
@@ -450,9 +463,6 @@
     </Filter>
     <Filter Include="_Source\06. Component">
       <UniqueIdentifier>{687dc90e-c2c0-4507-bd5e-153a25cd4d38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_Source\06. Component\Script">
-      <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
     </Filter>
     <Filter Include="_Source\06. Component\08~Render Components">
       <UniqueIdentifier>{8becc570-32b7-44bb-92b1-a74ff0317140}</UniqueIdentifier>
@@ -565,6 +575,12 @@
     <Filter Include="_Source\03. Manager\10. ScriptMgr">
       <UniqueIdentifier>{fe30ff2c-2244-4ddf-b23b-4a8458bd34a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="_Source\06. Component\11. ScriptHolder">
+      <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Source\06. Component\12. FSM">
+      <UniqueIdentifier>{14bdf5e0-768d-4c36-bb77-ffbdbd041eb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -672,5 +688,8 @@
     <FxCompile Include="S_2_P_TilemapComplete.hlsl">
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc" />
   </ItemGroup>
 </Project>

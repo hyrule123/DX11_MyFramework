@@ -1,38 +1,38 @@
 #include "pch.h"
-#include "CScript_SCGroundUnitMove.h"
+#include "CFState_SCGroundUnitMove.h"
 
 #include <Engine/CTransform.h>
 #include <Engine/CTimeMgr.h>
 
 #include <Engine/CAnimator2D.h>
 
-#include "CScript_SCGroundUnitBase.h"
+#include "CScript_SCGroundUnitFSM.h"
 
 #include <Engine/CKeyMgr.h>
 
-CScript_SCGroundUnitMove::CScript_SCGroundUnitMove()
-	: CFSM(TYPE_INDEX(CScript_SCGroundUnitMove), (UINT)SCGroundUnit::eSTATE::MOVE)
+CFState_SCGroundUnitMove::CFState_SCGroundUnitMove()
+	: CFState(TYPE_INDEX(CFState_SCGroundUnitMove), (UINT)FSM_SCGroundUnit::eSTATE::MOVE)
 	, m_fSpeed(200.f)
 	, m_fTurnSpeed(1.f)
 	, m_bArrived(true)
 {
 }
 
-CScript_SCGroundUnitMove::~CScript_SCGroundUnitMove()
+CFState_SCGroundUnitMove::~CFState_SCGroundUnitMove()
 {
 }
 
-void CScript_SCGroundUnitMove::EnterState()
+void CFState_SCGroundUnitMove::EnterState()
 {
 	CAnimator2D* pAnimator = Animator2D();
 	if (pAnimator)
 	{
-		using namespace SCGroundUnit;
+		using namespace FSM_SCGroundUnit;
 		pAnimator->Play(string(strKeyAnim2D[(UINT)eSTATE::MOVE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
 	}
 }
 
-void CScript_SCGroundUnitMove::OnState()
+void CFState_SCGroundUnitMove::OnState()
 {
 	if (false == m_bArrived)
 	{
@@ -90,38 +90,29 @@ void CScript_SCGroundUnitMove::OnState()
 		if (ArriveCheck.x < 0.f || ArriveCheck.y < 0.f)
 		{
 			m_bArrived = true;
-			GetFSMMgr()->Transition((UINT)SCGroundUnit::eSTATE::IDLE);
+			GetFSMMgr()->Transition((UINT)FSM_SCGroundUnit::eSTATE::IDLE);
 		}
 	}
 }
 
-void CScript_SCGroundUnitMove::EndState()
+void CFState_SCGroundUnitMove::EndState()
 {
 }
 
 
-void CScript_SCGroundUnitMove::init()
+void CFState_SCGroundUnitMove::init()
 {
-	CScript_SCGroundUnitBase* pMgr = static_cast<CScript_SCGroundUnitBase*>(GetHolder()->GetScript(TYPE_INDEX(CScript_SCGroundUnitBase)));
-
-	if (nullptr == pMgr)
-	{
-		pMgr = new CScript_SCGroundUnitBase;
-		GetHolder()->AddScript(pMgr);
-	}
-
-	pMgr->AddFSM(GetMyState(), this);
 }
 
-void CScript_SCGroundUnitMove::tick()
+void CFState_SCGroundUnitMove::tick()
 {
 	assert(GetFSMMgr());
 
-	CScript_SCGroundUnitBase* pMgr = static_cast<CScript_SCGroundUnitBase*>(GetFSMMgr());
+	CScript_SCGroundUnitFSM* pMgr = static_cast<CScript_SCGroundUnitFSM*>(GetFSMMgr());
 
 	//자신의 유닛이 선택되어 있고, 우클릭(이동명령)이 들어왔을 경우 상태 전환을 요청
-	if (pMgr->IsSelected() && KEY_TAP(eKEY::RBTN))
-	{
-		pMgr->Transition(GetMyState());
-	}
+	//if (pMgr->IsSelected() && KEY_TAP(eKEY::RBTN))
+	//{
+	//	pMgr->Transition(GetMyState());
+	//}
 }

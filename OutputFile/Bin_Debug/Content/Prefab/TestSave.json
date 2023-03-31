@@ -59,9 +59,7 @@
 				"eComponentType" : 13,
 				"m_vecScript_strKey" : 
 				[
-					"CScript_SCGroundUnitMove",
-					"CScript_SCGroundUnitBase",
-					"CScript_SCGroundUnitIdle"
+					null
 				]
 			}
 		],

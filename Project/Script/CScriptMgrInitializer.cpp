@@ -10,20 +10,10 @@
 //Created Scripts
 #include "CScript_Bullet.h"
 #include "CScript_CameraMove.h"
-#include "CScript_Debug.h"
-#include "CMouseCursorScriptBase.h"
-#include "CScript_SCGroundUnitMove.h"
-#include "CFStateMgr_SCGroundUnitBase.h"
-#include "CFState_SCGroundUnitIdle.h"
+#include "CScript_Marine.h"
+#include "CScript_MouseCursor.h"
+#include "CScript_SCGroundUnitFSM.h"
 #include "CScript_TestObj.h"
-
-CScriptMgrInitializer::CScriptMgrInitializer()
-{
-}
-
-CScriptMgrInitializer::~CScriptMgrInitializer()
-{
-}
 
 void CScriptMgrInitializer::init()
 {
@@ -41,33 +31,21 @@ void CScriptMgrInitializer::init()
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::DEBUG);
-		CScript* newScript = new CScript_Debug;
-		newScript->SetName("CScript_Debug");
+		string strKey = string(SCRIPTS::MARINE);
+		CScript* newScript = new CScript_Marine;
+		newScript->SetName("CScript_Marine");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::MOUSECURSOR);
-		CScript* newScript = new CMouseCursorScriptBase;
-		newScript->SetName("CMouseCursorScriptBase");
+		CScript* newScript = new CScript_MouseCursor;
+		newScript->SetName("CScript_MouseCursor");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::SCGROUNDUNITMOVE);
-		CScript* newScript = new CScript_SCGroundUnitMove;
-		newScript->SetName("CScript_SCGroundUnitMove");
-		pMgr->AddBaseScript(strKey, newScript);
-	}
-	{
-		string strKey = string(SCRIPTS::SCGROUNDUNITBASE);
-		CScript* newScript = new CFStateMgr_SCGroundUnitBase;
-		newScript->SetName("CFStateMgr_SCGroundUnitBase");
-		pMgr->AddBaseScript(strKey, newScript);
-	}
-	{
-		string strKey = string(SCRIPTS::SCGROUNDUNITIDLE);
-		CScript* newScript = new CFState_SCGroundUnitIdle;
-		newScript->SetName("CFState_SCGroundUnitIdle");
+		string strKey = string(SCRIPTS::SCGROUNDUNITFSM);
+		CScript* newScript = new CScript_SCGroundUnitFSM;
+		newScript->SetName("CScript_SCGroundUnitFSM");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{

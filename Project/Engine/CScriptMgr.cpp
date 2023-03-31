@@ -9,7 +9,7 @@ CScriptMgr::CScriptMgr()
 
 CScriptMgr::~CScriptMgr()
 {
-	for (const auto& iter : m_umapScript)
+	for (const auto& iter : m_umapScriptName)
 	{
 		DESTRUCTOR_DELETE(iter.second);
 	}
@@ -18,17 +18,28 @@ CScriptMgr::~CScriptMgr()
 
 void CScriptMgr::AddBaseScript(const string& _strKey, CScript* _pScript)
 {
-	if (nullptr == _pScript || _strKey.empty() || m_umapScript.end() != m_umapScript.find(_strKey))
+	if (nullptr == _pScript || _strKey.empty() || m_umapScriptName.end() != m_umapScriptName.find(_strKey))
 		return;
 
-	m_umapScript.insert(std::make_pair(_strKey, _pScript));
+	m_umapScriptName.insert(std::make_pair(_strKey, _pScript));
+	m_umapScriptTypeIdx.insert(std::make_pair(_pScript->GetTypeIndex(), _pScript));
 }
 
 CScript* CScriptMgr::GetNewScript(const string& _strKey)
 {
-	const auto& iter = m_umapScript.find(_strKey);
+	const auto& iter = m_umapScriptName.find(_strKey);
 
-	if (iter == m_umapScript.end())
+	if (iter == m_umapScriptName.end())
+		return nullptr;
+
+	return iter->second->Clone();
+}
+
+CScript* CScriptMgr::GetNewScript(std::type_index _typeIdx)
+{
+	const auto& iter = m_umapScriptTypeIdx.find(_typeIdx);
+
+	if (iter == m_umapScriptTypeIdx.end())
 		return nullptr;
 
 	return iter->second->Clone();

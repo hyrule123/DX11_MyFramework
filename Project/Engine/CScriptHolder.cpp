@@ -29,7 +29,6 @@ CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 }
 
 
-
 CScriptHolder::~CScriptHolder()
 {
 	size_t size = m_vecScript.size();
@@ -53,7 +52,12 @@ bool CScriptHolder::SaveJson(Json::Value* _jVal)
 
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
-		jVal[strKey].append(m_vecScript[i]->GetName());
+		Json::Value ScriptVal;
+		
+		jVal[strKey].append(ScriptVal);
+
+		if (false == m_vecScript[i]->SaveJson(&ScriptVal))
+			return false;
 	}
 
 	return true;
@@ -77,7 +81,15 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 			int arrsize = (int)arr.size();
 			for (int i = 0; i < arrsize; ++i)
 			{
-				CScriptMgr::GetInst()->GetNewScript(arr[i].asString());
+				CScript* newScript = CScriptMgr::GetInst()->GetNewScript(arr[i].asString());
+
+				if (nullptr == newScript)
+				{
+					ERROR_MESSAGE(Failed to load Script!!);
+					return false;
+				}
+
+				AddScript(newScript);
 			}
 		}
 	}
@@ -104,7 +116,6 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 	//스크립트 중복 방지
 	if (m_umapScript.find(type) != m_umapScript.end())
 	{
-		delete _pScript;
 		return false;
 	}
 	//size_t size = m_vecScript.size();

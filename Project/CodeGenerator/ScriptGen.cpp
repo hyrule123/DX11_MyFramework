@@ -60,7 +60,7 @@ void CreateScriptCode()
 #include <string_view>
 
 )";
-
+	WriteCodeA(strKey, Codeline);
 	
 
 	WriteCodeA(strKey, "namespace SCRIPTS");

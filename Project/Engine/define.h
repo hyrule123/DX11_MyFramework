@@ -52,7 +52,8 @@ enum class eCOMPONENT_TYPE
 	DECAL,			// 내부 렌더링
 
 	// custom
-	SCRIPT_HOLDER,			
+	SCRIPT_HOLDER,		
+	FSM,
 
 	END
 };

@@ -97,7 +97,7 @@ namespace DIRECTORY_NAME
 "Sound",
 "Prefab",
 "Shader/Graphics",
-"Shader/Compute"
+"Shader/Compute",
 	};
 
 #ifdef _DEBUG
@@ -114,6 +114,7 @@ namespace DIRECTORY_NAME
 	constexpr std::string_view ANIM2D = RES_ARR[(int)eRES_TYPE::ANIM2D_ATLAS];
 	constexpr std::string_view SOUND = RES_ARR[(int)eRES_TYPE::SOUND];
 	constexpr std::string_view PREFAB = RES_ARR[(int)eRES_TYPE::PREFAB];
+	
 
 	constexpr std::string_view SHADER_ROOT = "Shader";
 	constexpr std::string_view SHADER_GRAPHICS = RES_ARR[(int)eRES_TYPE::GRAPHICS_SHADER];

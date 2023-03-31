@@ -23,7 +23,7 @@
 #include <Script/CScript_MouseCursor.h>
 
 #include <Script/strKeyScript.h>
-#include <Script/CScriptMgr.h>
+#include <Engine/CScriptMgr.h>
 
 #include <Engine/EventBroker.h>
 

@@ -2,7 +2,7 @@
 
 #include <string_view>
 
-namespace SCGroundUnit
+namespace FSM_SCGroundUnit
 {
     enum class eSTATE
     {

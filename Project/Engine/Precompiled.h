@@ -15,6 +15,7 @@
 #include <filesystem>
 #include <fstream>
 #include <random>
+#include <type_traits>
 
 using std::vector;
 using std::list;
