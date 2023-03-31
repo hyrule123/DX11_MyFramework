@@ -15,16 +15,18 @@
 
 CScriptHolder::CScriptHolder()
 	: CComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
+	, m_pFStateMgr()
 {
 }
 
 CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	: CComponent(_other)
+	, m_pFStateMgr()
 {
 	size_t size = _other.m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecScript.push_back(_other.m_vecScript[i]->Clone());
+		AddScript(_other.m_vecScript[i]->Clone());
 
 		//복사 생성자에는 아직 소유자 포인터 정보가 입력되지 않았으므로 
 		//SetOwner에서 처리해줘야 한다.

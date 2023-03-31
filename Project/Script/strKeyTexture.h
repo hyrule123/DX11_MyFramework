@@ -21,7 +21,7 @@ namespace RES_TEXTURE
 	constexpr const std::string_view MARINE_BMP = "marine.bmp";
 	namespace NOISE
 	{
-		constexpr const std::string_view NOISE_01_PNG = "Noise/noise_01.png";
+		constexpr const std::string_view NOISE_01_PNG = "noise/noise_01.png";
 	}
 	constexpr const std::string_view TILE_BMP = "TILE.bmp";
 	constexpr const std::string_view TRILOB_REAVER__BMP = "trilob(Reaver).bmp";
