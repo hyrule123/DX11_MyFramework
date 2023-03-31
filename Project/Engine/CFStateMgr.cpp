@@ -36,6 +36,14 @@ CFStateMgr::CFStateMgr(const CFStateMgr& _other)
 
 CFStateMgr::~CFStateMgr()
 {
+	//복사 생성자용으로 생성된 스크립트(주인이 없는 스크립트)의 경우 직접 삭제를 해준다.
+	if (nullptr == GetOwner())
+	{
+		for (UINT i = 0u; i < m_eNumState; ++i)
+		{
+			DESTRUCTOR_DELETE(m_arr_pFSM[i]);
+		}
+	}
 	//받은 주소는 스크립트 주소이다. -> CScriptHolder에서 삭제되므로 여기서 삭제해 줄 필요가 없다.
 	//대신 동적할당한 배열은 제거해 주어야 한다.
 	DESTRUCTOR_DELETE_ARRAY(m_arr_pFSM);

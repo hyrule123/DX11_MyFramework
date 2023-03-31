@@ -42,7 +42,7 @@ class CScript_SCGroundUnitFSM :
 public:
     CScript_SCGroundUnitFSM();
     //CScript_SCGroundUnitFSM(const CScript_SCGroundUnitFSM& _other); //기본 복사생성자로 충분함.
-    ~CScript_SCGroundUnitFSM();
+    virtual ~CScript_SCGroundUnitFSM();
 
     CLONE(CScript_SCGroundUnitFSM);
 
