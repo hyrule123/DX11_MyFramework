@@ -10,6 +10,7 @@ class CFState_SCGroundUnitAttack :
 public:
     CFState_SCGroundUnitAttack();
     virtual ~CFState_SCGroundUnitAttack();
+    CLONE(CFState_SCGroundUnitAttack);
 
 public:
     virtual void EnterState() override;

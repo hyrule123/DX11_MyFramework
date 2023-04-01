@@ -10,6 +10,9 @@
 
 #include "CScriptMgr.h"
 
+#include "CFState.h"
+#include "CFStateMgr.h"
+
 CScriptHolder::CScriptHolder()
 	: CComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
 {
@@ -167,6 +170,14 @@ void CScriptHolder::SetOwner(CGameObject* _pOwner)
 	{
 		m_vecScript[i]->SetOwner(_pOwner);
 	}
+}
+
+CFState* CScriptHolder::Transition(UINT _eState)
+{
+	if (m_pFStateMgr) 
+		return m_pFStateMgr->Transition(_eState); 
+	
+	return nullptr;
 }
 
 void CScriptHolder::tick()

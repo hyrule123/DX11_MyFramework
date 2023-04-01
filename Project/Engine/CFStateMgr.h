@@ -27,7 +27,7 @@ private:
     //포인터를 담아놓을 배열(이중 포인터)
     //사전에 지정된 enum class를 사용하므로 const로 선언
     const UINT m_eNumState;
-    CFState** m_arr_pFSM;
+    vector<CFState*> m_vec_pFSM;
 
     UINT m_eCurState;
 

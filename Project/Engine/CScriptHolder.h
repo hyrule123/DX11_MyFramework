@@ -1,11 +1,13 @@
 #pragma once
 #include "CComponent.h"
 
+
 class CTransform;
 class CCamera;
 class CMeshRender;
 class CCollider;
 class CFStateMgr;
+class CFState;
 
 class CScriptHolder :
     public CComponent
@@ -32,7 +34,6 @@ private:
     unordered_map<std::type_index, CScript*> m_umapScript;
 
     CFStateMgr* m_pFStateMgr;
-    
 
 public:
     bool AddScript(CScript* _pScript);
@@ -49,6 +50,10 @@ public:
 
     void SetFStateMgr(CFStateMgr* _pFStateMgr) { m_pFStateMgr = _pFStateMgr; }
     CFStateMgr* GetFStateMgr() const { return m_pFStateMgr; }
+
+    CFState* Transition(UINT _eState);
+    
+
 
 public:
     void BeginColiision(CCollider* _Other);

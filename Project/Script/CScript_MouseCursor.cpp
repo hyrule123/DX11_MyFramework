@@ -12,6 +12,7 @@
 
 #include "defineFSM_SCGroundUnit.h"
 #include "CFState_SCGroundUnitMove.h"
+#include "CFState_SCGroundUnitAttack.h"
 
 
 
@@ -49,16 +50,16 @@ void CScript_MouseCursor::tick()
 		//아닐 경우 + 우클릭을 했을 경우 이동 스크립트를 가져와서 이동시킨다.
 		else if(KEY_TAP(eKEY::RBTN))
 		{
-			CFStateMgr* pFStateMgr = m_pSelectedGameObject->ScriptHolder()->GetFStateMgr();
-			if (pFStateMgr)
+			CFState_SCGroundUnitMove* pMoveState = (CFState_SCGroundUnitMove*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::MOVE));
+			if (pMoveState)
 			{
-				CFState_SCGroundUnitMove* pMoveState = (CFState_SCGroundUnitMove*)pFStateMgr->Transition((UINT)FSM_SCGroundUnit::eSTATE::MOVE);
-				if (pMoveState)
-				{
-					pMoveState->SetDestination(m_v2CursorPos);
-				}
-
+				pMoveState->SetDestination(m_v2CursorPos);
 			}
+		}
+
+		else if (KEY_TAP(eKEY::A))
+		{
+			CFState_SCGroundUnitAttack* pAttackState = (CFState_SCGroundUnitAttack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::ATTACK));
 		}
 	}
 
