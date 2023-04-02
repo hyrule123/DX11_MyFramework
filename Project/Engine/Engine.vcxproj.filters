@@ -205,7 +205,6 @@
     <ClInclude Include="CRandMgr.h">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClInclude>
-    <ClInclude Include="EventBroker.h" />
     <ClInclude Include="CScriptMgr.h">
       <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
     </ClInclude>
@@ -216,6 +215,7 @@
     <ClInclude Include="CFStateMgr.h">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClInclude>
+    <ClInclude Include="EventDispatcher.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -386,7 +386,6 @@
     <ClCompile Include="CRandMgr.cpp">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClCompile>
-    <ClCompile Include="EventBroker.cpp" />
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
     </ClCompile>
@@ -396,6 +395,7 @@
     <ClCompile Include="CFStateMgr.cpp">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
+    <ClCompile Include="EventDispatcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">

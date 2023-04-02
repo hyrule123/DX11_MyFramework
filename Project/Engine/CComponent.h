@@ -37,6 +37,7 @@ public:
 private:
     CGameObject*         m_pOwner;
     const eCOMPONENT_TYPE m_eComponentType;
+    bool                 m_bIsDisabled;
 
 public:
     //inline Setter
@@ -47,16 +48,16 @@ public:
     eCOMPONENT_TYPE GetType() const { return m_eComponentType; }
     CGameObject* GetOwner() const { return m_pOwner ; }
 
-
+    SETTER(bool, Disable, m_bIsDisabled);
+    bool isDisabled() const { return m_bIsDisabled; }
 
 public:
-    CTransform* Transform() { return m_pOwner->Transform(); }
-    CMeshRender* MeshRender() { return m_pOwner->MeshRender(); }
-    CCamera* Camera() { return m_pOwner->Camera(); }
-    CAnimator2D* Animator2D() { return m_pOwner->Animator2D(); }
-    CCollider2D* Collider2D() { return m_pOwner->Collider2D(); }
-    CCollider3D* Collider3D() { return m_pOwner->Collider3D(); }
-    CRenderComponent* RenderComponent() { return m_pOwner->GetRenderComponent(); }
-
+    CTransform*         Transform()         { return m_pOwner->Transform(); }
+    CMeshRender*        MeshRender()        { return m_pOwner->MeshRender(); }
+    CCamera*            Camera()            { return m_pOwner->Camera(); }
+    CAnimator2D*        Animator2D()        { return m_pOwner->Animator2D(); }
+    CCollider2D*        Collider2D()        { return m_pOwner->Collider2D(); }
+    CCollider3D*        Collider3D()        { return m_pOwner->Collider3D(); }
+    CRenderComponent*   RenderComponent()   { return m_pOwner->RenderComponent(); }
 };
 

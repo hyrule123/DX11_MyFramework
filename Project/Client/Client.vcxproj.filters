@@ -101,6 +101,9 @@
     <Filter Include="Other">
       <UniqueIdentifier>{5b5680e0-6f60-4e44-940a-b237c507c9f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\02. UI_Object\06 UI_SCPrefabEditor">
+      <UniqueIdentifier>{d192bc27-8120-4dd9-8763-d99faeda374c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -230,6 +233,15 @@
     </ClInclude>
     <ClInclude Include="CUIobj_AnimEditor.h">
       <Filter>ImGui\02. UI_Object\06. UI_AnimEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIObj_SCPrefabEditor.h">
+      <Filter>ImGui\02. UI_Object\06 UI_SCPrefabEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="macroFunc_Imgui.h">
+      <Filter>ImGui\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_stdlib.h">
+      <Filter>ImGui\99. ImGuiSource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,6 +376,12 @@
     </ClCompile>
     <ClCompile Include="CUIobj_AnimEditor.cpp">
       <Filter>ImGui\02. UI_Object\06. UI_AnimEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIObj_SCPrefabEditor.cpp">
+      <Filter>ImGui\02. UI_Object\06 UI_SCPrefabEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_stdlib.cpp">
+      <Filter>ImGui\99. ImGuiSource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

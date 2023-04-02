@@ -36,10 +36,97 @@
 
 #include <Engine/CRandMgr.h>
 
-#include <Engine/EventBroker.h>
+#include <Engine/EventDispatcher.h>
+
+
+namespace INGAME_LAYER_INFO
+{
+	enum idx
+	{
+		_00,
+		TileMap,
+		_03,
+		GroundUnitShadow,
+		_04,
+		GroundUnitBack,
+		_06,
+		GroundUnitMain,
+		_08,
+		GroundUnitEffects,
+		_10,
+		GroundUnitAttack,
+		_12,
+		AirUnitShadow,
+		_14,
+		AirUnitBack,
+		_16,
+		AirUnitMain,
+		_18,
+		AirUnitBooster,
+		_20,
+		AirUnitAttack,
+		_22,
+		_23,
+		_24,
+		_25,
+		_26,
+		_27,
+		_28,
+		_29,
+		MouseCursor,
+		_31,
+		END
+	};
+
+	constexpr std::string_view strLayerName[32] = {
+	"", //00
+	"TileMap",	//01
+	"",	//02
+	"GroundUnitShadow",	//03
+	"",	//04
+	"GroundUnitBack",	//05
+	"",	//06
+	"GroundUnitMain",	//07
+	"",	//08
+	"GroundUnitEffects",	//09
+	"",	//10
+	"GroundUnitAttack",	//11
+	"",	//12
+	"AirUnitShadow",	//13
+	"",	//14
+	"AirUnitBack",	//15
+	"",	//16
+	"AirUnitMain",	//17
+	"",	//18
+	"AirUnitBooster",	//19
+	"",	//20
+	"AirUnitAttack",	//21
+	"",	//22
+	"",	//23
+	"",	//24
+	"",	//25
+	"",	//26
+	"",	//27
+	"",	//28
+	"",	//29
+	"MouseCursor",	//30
+	"",	//31
+	};
+}
+
+
 
 void CreateTestLevel()
 {
+	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
+
+	//CCollisionMgr::GetInst()->AddLayerInteraction2D(INGAME_LAYER_INFO::GroundUnitMain, INGAME_LAYER_INFO::MouseCursor);
+	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(INGAME_LAYER_INFO::MouseCursor);
+
+	for (int i = 0; i < (int)INGAME_LAYER_INFO::idx::END; ++i)
+	{
+		pLevel->SetLayerName(i, string(INGAME_LAYER_INFO::strLayerName[i]));
+	}
 
 	LoadAllTexture();
 	LoadUserMtrl();
@@ -50,8 +137,6 @@ void CreateTestLevel()
 	Ptr<CMaterial> SCUnitMtrl = new CMaterial;
 
 	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(RES_TEXTURE::MARINE_BMP));
-
-
 
 	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(string(RES_SHADER::GRAPHICS::SCUNITGROUND));
 	SCUnitMtrl->SetShader(pSCUnitShader);
@@ -65,7 +150,6 @@ void CreateTestLevel()
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
-		TestObj->AddComponent(new CTransform);
 		
 		TestObj->AddComponent(new CMeshRender);
 		TestObj->MeshRender()->SetMaterial(SCUnitMtrl);
@@ -90,12 +174,11 @@ void CreateTestLevel()
 		{
 			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
 			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
-			EventBroker::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
-
+			EventDispatcher::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
 		}
 		else
 		{	
-			EventBroker::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), 0);
+			EventDispatcher::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
 		}
 		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MARINE)));
 
@@ -124,18 +207,11 @@ void CreateTestLevel()
 
 		//CGameObject* newobj = pPrefab->Instantiate();
 		//
-		//EventBroker::SpawnGameObject(newobj, Vec3(10.f, 10.f, 0.f), 0);
+		//EventDispatcher::SpawnGameObject(newobj, Vec3(10.f, 10.f, 0.f), 0);
 	}
 	
 
-	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 
-
-	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 0);
-	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
-
-	pLevel->SetLayerName(0, "DefaultLayer");
-	pLevel->SetLayerName(1, "Layer 1");
 
 
 	//Ptr<CTexture> pCreateTex = CResMgr::GetInst()->CreateTexture(
@@ -406,10 +482,10 @@ void CreateTestLevel()
 		pObj->AddComponent(Cam);
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
-		pObj->AddComponent(new CTransform);
-		//pObj->AddScript(new CScript_CameraMove);
+		//pObj->AddComponent(new CTransform);
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::CAMERAMOVE)));
 
-		EventBroker::SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), 1);
+		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), 1);
 		//pLevel->AddGameObject(pObj, 1);
 	}
 

@@ -4,6 +4,26 @@
 #include "jsoncpp.h"
 #include "strKeyDefault.h"
 
+CComponent::CComponent(eCOMPONENT_TYPE _Type)
+	: m_pOwner(nullptr)
+	, m_eComponentType(_Type)
+	, m_bIsDisabled()
+{
+}
+
+CComponent::CComponent(const CComponent& _other)
+	: CEntity(_other)
+	, m_eComponentType(_other.m_eComponentType)
+	, m_pOwner(nullptr)
+	, m_bIsDisabled()
+{
+}
+
+CComponent::~CComponent()
+{
+}
+
+
 bool CComponent::SaveJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
@@ -34,19 +54,4 @@ bool CComponent::LoadJson(Json::Value* _pJson)
 	return false;
 }
 
-CComponent::CComponent(eCOMPONENT_TYPE _Type)
-	: m_pOwner(nullptr)
-	, m_eComponentType(_Type)	
-{
-}
 
-CComponent::CComponent(const CComponent& _other)
-	: CEntity(_other)
-	, m_eComponentType(_other.m_eComponentType)
-	, m_pOwner(nullptr)
-{
-}
-
-CComponent::~CComponent()
-{
-}

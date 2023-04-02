@@ -19,6 +19,8 @@
 #include "strKeyDefault.h"
 #include "jsoncpp.h"
 
+#include "EventDispatcher.h"
+
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_bInitialized()
@@ -29,6 +31,7 @@ CGameObject::CGameObject()
 	, m_bDestroy()
 	, m_fLifeSpan(FLT_MAX_NEG)
 {
+	AddComponent(new CTransform);
 }
 
 CGameObject::CGameObject(const CGameObject& _other)
@@ -139,11 +142,6 @@ void CGameObject::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* 
 }
 
 
-
-
-
-
-
 void CGameObject::init()
 {
 	m_bInitialized = true;
@@ -171,7 +169,7 @@ void CGameObject::tick()
 
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i])
+		if (nullptr != m_arrCom[i] && false == m_arrCom[i]->isDisabled())
 			m_arrCom[i]->tick();
 	}
 
@@ -196,7 +194,7 @@ void CGameObject::finaltick()
 		m_fLifeSpan -= DELTA_TIME;
 		if (m_fLifeSpan < 0.f)
 		{
-			//DestroyObject(this);
+			EventDispatcher::DestroyObject(this);
 			return;
 		}
 	}
@@ -205,7 +203,7 @@ void CGameObject::finaltick()
 	//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER; ++i)
 	{
-		if (nullptr != m_arrCom[i])
+		if (nullptr != m_arrCom[i] && false == m_arrCom[i]->isDisabled())
 			m_arrCom[i]->finaltick();
 	}
 
@@ -487,6 +485,18 @@ void CGameObject::AddComponent(CComponent* _Component)
 	//이미 작동중일 경우 바로 init() 호출
 	if(m_bInitialized)
 		_Component->init();
+}
+
+void CGameObject::RemoveComponent(eCOMPONENT_TYPE _eComType)
+{
+	if (nullptr == m_arrCom[(UINT)_eComType])
+		return;
+
+	//Disable되어있지 않을 경우 제거 X(오류 발생 가능성)
+	else if (false == m_arrCom[(UINT)_eComType]->isDisabled())
+		return;
+
+	SAFE_DELETE(m_arrCom[(UINT)_eComType]);
 }
 
 void CGameObject::AddScript(CScript* _Script)

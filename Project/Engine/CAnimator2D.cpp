@@ -63,8 +63,6 @@ CAnimator2D::~CAnimator2D()
 }
 
 
-
-
 void CAnimator2D::finaltick()
 {
     //재생할 애니메이션이 있을 경우 프레임 처리
@@ -285,15 +283,12 @@ const Vec2 CAnimator2D::GetCurFrameSize()
 }
 
 
-
-
-
 void CAnimator2D::UpdateAtlasTexToMtrl()
 {
     if (false == m_bNeedUpdateMtrl)
         return;
 
-    CMaterial* pMtrl = GetOwner()->GetRenderComponent()->GetCurMaterial().Get();
+    CMaterial* pMtrl = GetOwner()->RenderComponent()->GetCurMaterial().Get();
 
     for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
     {

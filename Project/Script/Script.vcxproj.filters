@@ -19,6 +19,9 @@
     <Filter Include="ScriptCode\CScript_SCGroundUnit\Units">
       <UniqueIdentifier>{8d7a5066-2c36-4fff-bcfc-df4b05d0b2c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScriptCode\CScript_SCGroundUnit\Components">
+      <UniqueIdentifier>{8f550a72-4cfb-4fa4-8e8a-7e5b93a8c5f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CScript_Bullet.h">
@@ -48,28 +51,25 @@
     <ClInclude Include="strKeyScript.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="defineUser.h">
+    <ClInclude Include="defineScript.h">
       <Filter>Generated</Filter>
-    </ClInclude>
-    <ClInclude Include="CScript_SCGroundUnitFSM.h">
-      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
-    </ClInclude>
-    <ClInclude Include="defineFSM_SCGroundUnit.h">
-      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClInclude>
     <ClInclude Include="CSCEntity.h">
       <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCGroundUnitAttack.h">
+    <ClInclude Include="define_SCUnit.h">
+      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="CFState_SCUnitAttack.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCGroundUnitIdle.h">
+    <ClInclude Include="CFState_SCUnitIdle.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCGroundUnitMove.h">
+    <ClInclude Include="CFState_SCUnitMove_Ground.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCGroundUnitMove_Hover.h">
+    <ClInclude Include="CFState_SCUnitMove_Hover.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
     <ClInclude Include="CScriptMgrInitializer.h">
@@ -77,6 +77,12 @@
     </ClInclude>
     <ClInclude Include="CScript_Marine.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="CFState_SCUnitMove.h">
+      <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript_SCUnitVital.h">
+      <Filter>ScriptCode\CScript_SCGroundUnit\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,22 +101,19 @@
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_SCGroundUnitFSM.cpp">
-      <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
-    </ClCompile>
     <ClCompile Include="CSCEntity.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCGroundUnitAttack.cpp">
+    <ClCompile Include="CFState_SCUnitAttack.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCGroundUnitIdle.cpp">
+    <ClCompile Include="CFState_SCUnitIdle.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCGroundUnitMove.cpp">
+    <ClCompile Include="CFState_SCUnitMove_Ground.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCGroundUnitMove_Hover.cpp">
+    <ClCompile Include="CFState_SCUnitMove_Hover.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
     <ClCompile Include="CScriptMgrInitializer.cpp">
@@ -119,5 +122,14 @@
     <ClCompile Include="CScript_Marine.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\Units</Filter>
     </ClCompile>
+    <ClCompile Include="CFState_SCUnitMove.cpp">
+      <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript_SCUnitVital.cpp">
+      <Filter>ScriptCode\CScript_SCGroundUnit\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

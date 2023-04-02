@@ -25,12 +25,12 @@
 #include <Script/strKeyScript.h>
 #include <Engine/CScriptMgr.h>
 
-#include <Engine/EventBroker.h>
+#include <Engine/EventDispatcher.h>
 
 //테스트용 레벨
 #include "CTestLevel.h"
 
-#include <Script/defineUser.h>
+#include <Script/defineScript.h>
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}
@@ -61,7 +61,7 @@ void CEditorObjMgr::init()
 	{//커서 생성
 		m_pMousePicker = new CGameObject;
 		m_pMousePicker->SetName("Cursor");
-		m_pMousePicker->AddComponent(new CTransform);
+		//m_pMousePicker->AddComponent(new CTransform);
 		m_pMousePicker->AddComponent(new CCollider2D_Point);
 
 		CScript* Script = CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MOUSECURSOR));
@@ -71,7 +71,7 @@ void CEditorObjMgr::init()
 		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
 		//TODO : 임시로 마우스 오브젝트를 20번 레이어에 생성함
-		EventBroker::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
+		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
 
 		CCollisionMgr* pMgr = CCollisionMgr::GetInst();
 		for (int i = 0; i < 32; ++i)
@@ -283,13 +283,20 @@ void CEditorObjMgr::CreateEditorCamera()
 	pCam->SetLayerFlag(UINT32_MAX);
 	pCam->SetCamIndex(eCAMERA_INDEX::EDITOR);
 
-	CTransform* pTransform = new CTransform;
-	m_pEditorCam->AddComponent(pTransform);
+	CTransform* pTransform = m_pEditorCam->Transform();
 	pTransform->SetRelativePos(Vec3(0.f, 0.f, -100.f));
 
 	m_pEditorCam->AddScript(new CScript_CameraMove);
 
 	CRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
+}
+
+CGameObject* CEditorObjMgr::GetSelectedObj()
+{
+	if (nullptr == m_pMousePicker)
+		return nullptr;
+
+	return m_pMousePicker->ScriptHolder()->GetScript<CScript_MouseCursor>()->GetSelectedObject();
 }
 
 void CEditorObjMgr::MouseLBTNCallback(CGameObject* _pObj)

@@ -64,7 +64,12 @@ void CLayer::RemoveDestroyed()
 	m_vecObject.erase(std::remove_if(m_vecObject.begin(), m_vecObject.end(),
 		[](CGameObject* _Obj)->bool
 		{
-			return _Obj->IsDestroyed();
+			bool isDestroyed = _Obj->IsDestroyed();
+
+			if (isDestroyed)
+				delete _Obj;
+
+			return isDestroyed;
 		}),
 		m_vecObject.end());
 }

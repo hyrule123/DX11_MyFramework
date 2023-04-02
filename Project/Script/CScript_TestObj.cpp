@@ -33,7 +33,6 @@ void CScript_TestObj::init()
 
 void CScript_TestObj::tick()
 {
-	
 	Vec3 Scale = Transform()->GetRelativeScale();
 	Vec3 Rot = Transform()->GetRelativeRot();
 
@@ -45,5 +44,4 @@ void CScript_TestObj::tick()
 
 	Transform()->SetRelativeRot(Rot);
 	Transform()->SetRelativeScale(Scale);
-
 }

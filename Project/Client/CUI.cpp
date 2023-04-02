@@ -111,7 +111,7 @@ void CUI::AddChildUI(CUI* _UI)
 	if (true == m_bNoChildUI)
 	{
 		SAFE_DELETE(_UI);
-		return;
+		return ;
 	}
 		
 

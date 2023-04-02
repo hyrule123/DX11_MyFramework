@@ -27,6 +27,8 @@ public:
 
     void AddFuncRBTNCallback(eKEY_STATE _eMouseAction, std::function<void(CGameObject*)> _pFunc) { m_arrpFuncRBTNCallback[(int)_eMouseAction] = _pFunc; }
 
+    GETTER(CGameObject*, SelectedObject, m_pSelectedGameObject);
+
 public:
     virtual void tick() override;
     virtual void OnCollision(CCollider* _Collider) override;

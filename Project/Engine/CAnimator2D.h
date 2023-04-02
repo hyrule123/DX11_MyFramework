@@ -53,7 +53,6 @@ private:
     eANIM_LOOPMODE          m_eLoopMode;
     bool                    m_bReverse;
     bool                    m_bFlipX;
-
 //========================================================
 
 

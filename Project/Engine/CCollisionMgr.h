@@ -84,6 +84,9 @@ public:
     void AddCollider3D(CCollider3D* _pCol) {};
     void AddLayerInteraction2D(int _iLayer1, int _iLayer2);
 
+    //지정한 레이어와 모든 레이어와 충돌 상호작용하도록 변경한다.
+    void AddLayerInterAction2DAll(int _iLayer);
+
 public:
     //CollisionMgr의 호출 시점: CLevelMgr::tick()이 호출되는 시점. -> 가져다 써도 문제 없음.
     void Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridNumX, UINT _uiGridNumY);
@@ -123,8 +126,18 @@ private://충돌 검사 함수
 
 inline void CCollisionMgr::AddLayerInteraction2D(int _iLayer1, int _iLayer2)
 {
-    m_arrFlagLayerInteraction[_iLayer1] |= 1 << _iLayer2;
-    m_arrFlagLayerInteraction[_iLayer2] |= 1 << _iLayer1;
+    m_arrFlagLayerInteraction[_iLayer1] |= 1u << _iLayer2;
+    m_arrFlagLayerInteraction[_iLayer2] |= 1u << _iLayer1;
+}
+
+inline void CCollisionMgr::AddLayerInterAction2DAll(int _iLayer)
+{
+    m_arrFlagLayerInteraction[_iLayer] = UINT32_MAX;
+
+    for (int i = 0; i < MAX_LAYER; ++i)
+    {
+        m_arrFlagLayerInteraction[i] |= 1u << _iLayer;
+    }
 }
 
 

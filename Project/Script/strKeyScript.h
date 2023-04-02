@@ -14,6 +14,6 @@ constexpr const std::string_view BULLET = "CScript_Bullet.h";
 constexpr const std::string_view CAMERAMOVE = "CScript_CameraMove.h";
 constexpr const std::string_view MARINE = "CScript_Marine.h";
 constexpr const std::string_view MOUSECURSOR = "CScript_MouseCursor.h";
-constexpr const std::string_view SCGROUNDUNITFSM = "CScript_SCGroundUnitFSM.h";
+constexpr const std::string_view SCUNITVITAL = "CScript_SCUnitVital.h";
 constexpr const std::string_view TESTOBJ = "CScript_TestObj.h";
 }

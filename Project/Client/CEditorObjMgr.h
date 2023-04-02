@@ -33,6 +33,8 @@ private:
 private:
     void CreateDebugShape();
     void CreateEditorCamera();
+
+    CGameObject* GetSelectedObj();
     
     void MouseLBTNCallback(CGameObject* _pObj);
 

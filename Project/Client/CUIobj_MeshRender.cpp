@@ -8,7 +8,7 @@
 #include "CUI_ComboBox.h"
 
 CUIobj_MeshRender::CUIobj_MeshRender()
-	: CUIobj_Component("MeshRender", eCOMPONENT_TYPE::COLLIDER2D)
+	: CUIobj_Component("MeshRender", eCOMPONENT_TYPE::MESH_RENDER)
 {
 	m_pComboBoxMesh = new CUI_ComboBox("MeshComboBox");
 	AddChildUI(m_pComboBoxMesh);
@@ -48,7 +48,7 @@ void CUIobj_MeshRender::ChangeMeshCallback(const tComboItem& _tComboItem)
 	if (nullptr == sel.pData.ptr)
 		return;
 
-	GetTarget()->MeshRender()->SetMesh(static_cast<CMesh*>(sel.pData.ptr));
+	GetTargetObj()->MeshRender()->SetMesh(static_cast<CMesh*>(sel.pData.ptr));
 }
 
 void CUIobj_MeshRender::UpdateMtrlListCallback(const tComboItem& _tComboItem)
@@ -78,7 +78,7 @@ void CUIobj_MeshRender::ChangeMtrlCallback(const tComboItem& _tComboItem)
 	if (nullptr == mtrl)
 		return;
 
-	GetTarget()->MeshRender()->SetMaterial(mtrl);
+	GetTargetObj()->MeshRender()->SetMaterial(mtrl);
 }
 
 void CUIobj_MeshRender::init()
@@ -98,13 +98,13 @@ void CUIobj_MeshRender::init()
 
 	
 	//타겟이 지정되어 있을경우 타겟의 메쉬와 재질의 이름을 기본 세팅해준다.
-	if (nullptr != GetTarget() && nullptr != GetTarget()->MeshRender())
+	if (nullptr != GetTargetObj() && nullptr != GetTargetObj()->MeshRender())
 	{
-		const string& meshname = GetTarget()->MeshRender()->GetMesh()->GetKey();
+		const string& meshname = GetTargetObj()->MeshRender()->GetMesh()->GetKey();
 		m_pComboBoxMesh->SetCurrentSelected(meshname);
 
 
-		const string& mtrlname = GetTarget()->MeshRender()->GetCurMaterial()->GetKey();
+		const string& mtrlname = GetTargetObj()->MeshRender()->GetCurMaterial()->GetKey();
 		m_pComboBoxMtrl->SetCurrentSelected(meshname);
 	}
 }
@@ -112,17 +112,17 @@ void CUIobj_MeshRender::init()
 void CUIobj_MeshRender::tick()
 {
 	//나중에 게임오브젝트를 선택해서 가져오는 기능 구현하면 아래코드는 지울것,.
-	if (nullptr != GetTarget() && nullptr != GetTarget()->MeshRender())
+	if (nullptr != GetTargetObj() && nullptr != GetTargetObj()->MeshRender())
 	{
 		if (-1 == m_pComboBoxMesh->GetCurrentIndex())
 		{
-			const string& meshname = GetTarget()->MeshRender()->GetMesh()->GetKey();
+			const string& meshname = GetTargetObj()->MeshRender()->GetMesh()->GetKey();
 			m_pComboBoxMesh->SetCurrentSelected(meshname);
 		}
 
 		if (-1 == m_pComboBoxMtrl->GetCurrentIndex())
 		{
-			const string& mtrlname = GetTarget()->MeshRender()->GetCurMaterial()->GetKey();
+			const string& mtrlname = GetTargetObj()->MeshRender()->GetCurMaterial()->GetKey();
 			m_pComboBoxMtrl->SetCurrentSelected(mtrlname);
 		}
 	}

@@ -25,6 +25,16 @@
 #define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, #_aStrMessage, NULL, MB_OK)
 #define ERROR_RUNTIME(_stdRuntimeError) MessageBoxA(nullptr, _stdRuntimeError.what(), nullptr, MB_OK);
 
+//Macro for SMALL data sized variable
+#define SETTER(_Type_, _Name_, _Var_) void Set##_Name_(_Type_ _##_Name_) { _Var_ = _##_Name_; }
+
+//Macro for SMALL data sized variable
+#define GETTER(_Type_, _Name_, _Var_) _Type_ Get##_Name_() const { return _Var_; }
+
+//Macro for SMALL data sized variable
+#define GETSET(_Type_, _Name_, _Var_) \
+void Set##_Name_(_Type_ _##_Name_) { _Var_ = _##_Name_; }\
+_Type_ Get##_Name_() const { return _Var_; }
 
 
 extern const string g_voidStr;
@@ -229,7 +239,8 @@ enum class eEVENT_TYPE
 	DELETE_OBJECT,
 	ADD_CHILD,
 	DELETE_RESOURCE,
-	LEVEL_CHANGE
+	LEVEL_CHANGE,
+	REMOVE_COMPONENT
 };
 
 enum class eCOLLIDER_TYPE_2D

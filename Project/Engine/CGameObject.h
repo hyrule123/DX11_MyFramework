@@ -67,29 +67,14 @@ public:
     void                SetLayerIdx(int _iLayerIdx) { m_iLayerIdx = _iLayerIdx; }
     void                SetLayerFixed(bool _bFix) { m_bFixLayer = _bFix; }
     void                SetParent(CGameObject* _pObj) { m_Parent = _pObj; }
+
+    //이벤트매니저에서 사용
     void                DestroyForEventMgr();
+
     void                SetLifeSpan(float _fLifeSpan);
     void                SetChildTransformToUpdate();
 
     bool                IsInitialized() const { return m_bInitialized; }
-
-    ////Components
-    CComponent* GetComponent(eCOMPONENT_TYPE _type) const { return (CComponent*)m_arrCom[(UINT)_type]; }
-
-    CTransform* Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
-
-    CCollider2D* Collider2D() const { return (CCollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER2D]; }
-    CCollider3D* Collider3D() const { return (CCollider3D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER3D]; }
-
-    CAnimator2D* Animator2D() const { return (CAnimator2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::ANIMATOR2D]; }
-
-    CMeshRender* MeshRender() const { return (CMeshRender*)m_arrCom[(UINT)eCOMPONENT_TYPE::MESH_RENDER]; }
-    CTilemap* Tilemap() const { return (CTilemap*)m_arrCom[(UINT)eCOMPONENT_TYPE::TILEMAP]; }
-
-    CCamera* Camera() const { return (CCamera*)m_arrCom[(UINT)eCOMPONENT_TYPE::CAMERA]; }
-    CRenderComponent* GetRenderComponent() const { return m_RenderCom; }
-    CScriptHolder* ScriptHolder() const { return (CScriptHolder*)m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER]; }
-    CLight2D* Light2D() const { return (CLight2D*)(m_arrCom[(UINT)eCOMPONENT_TYPE::LIGHT2D]); }
 
     CGameObject* GetParent() const { return m_Parent; }
     int          GetLayer() const { return m_iLayerIdx; }
@@ -100,8 +85,15 @@ public:
 
     //Add
     void AddComponent(CComponent* _Component);
+
+    //이 함수를 직접적으로 사용하지 말고 EventMgr::DeleteComponent를 통해서 지울것
+    void RemoveComponent(eCOMPONENT_TYPE _eComType);
+
     void AddScript(CScript* _Script);
     void AddChildObj(CGameObject* _Object);
+
+
+
     void RemoveChild(CGameObject* _Object);
 
     //Recursive
@@ -126,6 +118,27 @@ public:
     const MATRIX& GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCALAR _Param) const;
     const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
 
+
+public:
+    ////Components
+    CComponent*         GetComponent(eCOMPONENT_TYPE _type) const { return (CComponent*)m_arrCom[(UINT)_type]; }
+
+    CTransform*         Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
+
+    CCollider2D*        Collider2D() const { return (CCollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER2D]; }
+    CCollider3D*        Collider3D() const { return (CCollider3D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER3D]; }
+
+    CAnimator2D*        Animator2D() const { return (CAnimator2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::ANIMATOR2D]; }
+
+    CMeshRender*        MeshRender() const { return (CMeshRender*)m_arrCom[(UINT)eCOMPONENT_TYPE::MESH_RENDER]; }
+    CTilemap*           Tilemap() const { return (CTilemap*)m_arrCom[(UINT)eCOMPONENT_TYPE::TILEMAP]; }
+
+    CCamera*            Camera() const { return (CCamera*)m_arrCom[(UINT)eCOMPONENT_TYPE::CAMERA]; }
+
+    CRenderComponent*   RenderComponent() const { return m_RenderCom; }
+
+    CScriptHolder*      ScriptHolder() const { return (CScriptHolder*)m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER]; }
+    CLight2D* Light2D() const { return (CLight2D*)(m_arrCom[(UINT)eCOMPONENT_TYPE::LIGHT2D]); }
 };
 
 inline void CGameObject::DestroyForEventMgr()

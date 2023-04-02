@@ -12,7 +12,7 @@
 #include "CScript_CameraMove.h"
 #include "CScript_Marine.h"
 #include "CScript_MouseCursor.h"
-#include "CScript_SCGroundUnitFSM.h"
+#include "CScript_SCUnitVital.h"
 #include "CScript_TestObj.h"
 
 void CScriptMgrInitializer::init()
@@ -43,9 +43,9 @@ void CScriptMgrInitializer::init()
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::SCGROUNDUNITFSM);
-		CScript* newScript = new CScript_SCGroundUnitFSM;
-		newScript->SetName("CScript_SCGroundUnitFSM");
+		string strKey = string(SCRIPTS::SCUNITVITAL);
+		CScript* newScript = new CScript_SCUnitVital;
+		newScript->SetName("CScript_SCUnitVital");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{

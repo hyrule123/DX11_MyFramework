@@ -155,6 +155,7 @@
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIobj_Animator2D.h" />
     <ClInclude Include="CUIobj_AnimEditor.h" />
+    <ClInclude Include="CUIObj_SCPrefabEditor.h" />
     <ClInclude Include="CUI_Button.h" />
     <ClInclude Include="CUIobj_Camera.h" />
     <ClInclude Include="CUI_Child.h" />
@@ -185,11 +186,13 @@
     <ClInclude Include="CUI_Tree.h" />
     <ClInclude Include="CUI_Widget.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="macroFunc_Imgui.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
     <ClInclude Include="ImGui\imgui_impl_win32.h" />
     <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imgui_stdlib.h" />
     <ClInclude Include="JsonCPP.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -201,6 +204,7 @@
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIobj_Animator2D.cpp" />
     <ClCompile Include="CUIobj_AnimEditor.cpp" />
+    <ClCompile Include="CUIObj_SCPrefabEditor.cpp" />
     <ClCompile Include="CUI_Button.cpp" />
     <ClCompile Include="CUIobj_Camera.cpp" />
     <ClCompile Include="CUI_Child.cpp" />
@@ -250,6 +254,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_stdlib.cpp" />
     <ClCompile Include="ImGui\imgui_tables.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>

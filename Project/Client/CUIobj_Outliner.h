@@ -19,7 +19,6 @@ public:
 
 private:
     CUI_Tree* m_arrLayer[MAX_LAYER];
-
     CUIobj_Inspector* m_pInspectorUI;
 
 public:

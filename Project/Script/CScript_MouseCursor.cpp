@@ -10,9 +10,9 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CFStateMgr.h>
 
-#include "defineFSM_SCGroundUnit.h"
-#include "CFState_SCGroundUnitMove.h"
-#include "CFState_SCGroundUnitAttack.h"
+#include "define_SCUnit.h"
+#include "CFState_SCUnitMove_Ground.h"
+#include "CFState_SCUnitAttack.h"
 
 
 
@@ -50,7 +50,7 @@ void CScript_MouseCursor::tick()
 		//아닐 경우 + 우클릭을 했을 경우 이동 스크립트를 가져와서 이동시킨다.
 		else if(KEY_TAP(eKEY::RBTN))
 		{
-			CFState_SCGroundUnitMove* pMoveState = (CFState_SCGroundUnitMove*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::MOVE));
+			CFState_SCUnitMove_Ground* pMoveState = (CFState_SCUnitMove_Ground*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::MOVE));
 			if (pMoveState)
 			{
 				pMoveState->SetDestination(m_v2CursorPos);
@@ -59,7 +59,7 @@ void CScript_MouseCursor::tick()
 
 		else if (KEY_TAP(eKEY::A))
 		{
-			CFState_SCGroundUnitAttack* pAttackState = (CFState_SCGroundUnitAttack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::ATTACK));
+			CFState_SCUnitAttack* pAttackState = (CFState_SCUnitAttack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::ATTACK));
 		}
 	}
 

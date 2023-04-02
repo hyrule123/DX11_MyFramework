@@ -18,7 +18,7 @@ public:
 public:
     //init에서 반드시 해줘야 하는 고정작업이 있으므로 initFSM()을 재정의해서 초기화 할것
     virtual void init() final;
-    virtual void initFSM() = 0;
+    virtual void initFSM() {};
     virtual void tick() final;
     CFState* Transition(UINT _eState);
     

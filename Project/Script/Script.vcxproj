@@ -181,45 +181,50 @@ call "CodeGenerator_$(Configuration).exe" Script
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CSCEntity.h" />
+    <ClInclude Include="CFState_SCUnitMove.h" />
     <ClInclude Include="CScriptMgrInitializer.h" />
     <ClInclude Include="CScript_Bullet.h" />
     <ClInclude Include="CScript_CameraMove.h" />
     <ClInclude Include="CScript_Marine.h" />
     <ClInclude Include="CScript_MouseCursor.h" />
-    <ClInclude Include="CFState_SCGroundUnitAttack.h" />
-    <ClInclude Include="CScript_SCGroundUnitFSM.h" />
-    <ClInclude Include="CFState_SCGroundUnitIdle.h" />
-    <ClInclude Include="CFState_SCGroundUnitMove.h" />
-    <ClInclude Include="CFState_SCGroundUnitMove_Hover.h" />
+    <ClInclude Include="CFState_SCUnitAttack.h" />
+    <ClInclude Include="CSCEntity.h" />
+    <ClInclude Include="CFState_SCUnitIdle.h" />
+    <ClInclude Include="CFState_SCUnitMove_Ground.h" />
+    <ClInclude Include="CFState_SCUnitMove_Hover.h" />
     <ClInclude Include="CScript_TestObj.h" />
-    <ClInclude Include="defineUser.h" />
+    <ClInclude Include="CScript_SCUnitVital.h" />
+    <ClInclude Include="defineScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="defineFSM_SCGroundUnit.h" />
+    <ClInclude Include="define_SCUnit.h" />
     <ClInclude Include="strKeyScript.h" />
     <ClInclude Include="strKeyShader.h" />
     <ClInclude Include="strKeyTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CSCEntity.cpp" />
+    <ClCompile Include="CFState_SCUnitMove.cpp" />
     <ClCompile Include="CScriptMgrInitializer.cpp" />
     <ClCompile Include="CScript_Bullet.cpp" />
     <ClCompile Include="CScript_CameraMove.cpp" />
     <ClCompile Include="CScript_Marine.cpp" />
     <ClCompile Include="CScript_MouseCursor.cpp" />
-    <ClCompile Include="CFState_SCGroundUnitAttack.cpp" />
-    <ClCompile Include="CScript_SCGroundUnitFSM.cpp" />
-    <ClCompile Include="CFState_SCGroundUnitIdle.cpp" />
-    <ClCompile Include="CFState_SCGroundUnitMove.cpp" />
-    <ClCompile Include="CFState_SCGroundUnitMove_Hover.cpp" />
+    <ClCompile Include="CFState_SCUnitAttack.cpp" />
+    <ClCompile Include="CSCEntity.cpp" />
+    <ClCompile Include="CFState_SCUnitIdle.cpp" />
+    <ClCompile Include="CFState_SCUnitMove_Ground.cpp" />
+    <ClCompile Include="CFState_SCUnitMove_Hover.cpp" />
     <ClCompile Include="CScript_TestObj.cpp" />
+    <ClCompile Include="CScript_SCUnitVital.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

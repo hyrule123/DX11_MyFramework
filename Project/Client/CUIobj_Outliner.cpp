@@ -37,10 +37,15 @@ void CUIobj_Outliner::init()
 	{
 		CLayer* pLayer = pLevel->GetLayer((UINT)i);
 
-		string strLayerName = pLayer->GetName();
+		string strLayerName = "Layer ";
+		strLayerName += std::to_string(i) + " \"";
 
-		if (true == strLayerName.empty())
-			strLayerName = "No Name";
+		if (true == pLayer->GetName().empty())
+			strLayerName += "No Name";
+		else
+			strLayerName += pLayer->GetName();
+
+		strLayerName += "\"";
 
 		CUI_Tree* pTree = new CUI_Tree(strLayerName);
 		pTree->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
@@ -49,8 +54,6 @@ void CUIobj_Outliner::init()
 
 		m_arrLayer[i] = pTree;
 	}
-
-	
 
 	m_pInspectorUI = static_cast<CUIobj_Inspector*>(CImGuiMgr::GetInst()->FindUI("Inspector"));
 }
@@ -77,9 +80,11 @@ void CUIobj_Outliner::UpdateObjectTree()
 		size_t size = vecObj.size();
 		for (size_t j = 0; j < size; ++j)
 		{
+			//자식 오브젝트는 continue
 			if (nullptr != vecObj[j]->GetParent())
 				continue;
 			
+			//최상위 부모 오브젝트인 경우에만 계층구조로 로드한다.
 			LoadGameObjectHierarchy(m_arrLayer[i], vecObj[j]);
 		}
 	}
@@ -87,12 +92,16 @@ void CUIobj_Outliner::UpdateObjectTree()
 
 void CUIobj_Outliner::LoadGameObjectHierarchy(CUI_Tree* _pUI, CGameObject* _pGameObject)
 {
+	if (nullptr == _pGameObject)
+		return;
 
 	CUI_Tree* pTree = new CUI_Tree(_pGameObject->GetName());
-	tPtrData ptrData{ _pGameObject, };
 
+	pTree->SetDataPtr(tPtrData{ _pGameObject, });
+	
 	pTree->SetFuncCallback(eUI_MOUSE_STATUS::LBTN_DOUBLE_CLICKED,
 		std::bind(&CUIobj_Outliner::CallbackLinkInspector, this, std::placeholders::_1));
+
 	pTree->AddTreeFlag(ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
 
 	_pUI->AddChildUI(pTree);

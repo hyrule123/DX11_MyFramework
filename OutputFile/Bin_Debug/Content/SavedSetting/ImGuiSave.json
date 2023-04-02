@@ -1,15 +1,17 @@
 {
 	"Contents" : 
 	{
-		"IsActive" : false
+		"IsActive" : true
 	},
 	"Inspector" : 
 	{
 		"IsActive" : true
 	},
 	"MainMenu" : null,
+	"Outliner" : null,
+	"SCPrefabEditor" : null,
 	"TestWindow" : 
 	{
-		"IsActive" : false
+		"IsActive" : true
 	}
 }

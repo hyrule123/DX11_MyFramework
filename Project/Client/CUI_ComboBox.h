@@ -17,6 +17,13 @@ struct tComboItem
 {
 	string strName;
 	tPtrData pData;
+
+	tComboItem() : strName(), pData() {};
+
+	tComboItem(const string& _strName, tPtrData _pData = { nullptr, })
+		: strName(_strName)
+		, pData(_pData)
+	{}
 };
 
 class CUI_ComboBox 
@@ -82,7 +89,7 @@ private:
 
 inline const tComboItem& CUI_ComboBox::GetCurrentSelected() const
 {
-	static tComboItem voidItem = {};
+	static tComboItem voidItem = {g_voidStr, };
 
 	if (true == IsIndexValid())
 		return m_vecItem[m_iCurrentSelected];

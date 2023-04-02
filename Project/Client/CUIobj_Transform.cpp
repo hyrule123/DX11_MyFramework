@@ -14,9 +14,9 @@ CUIobj_Transform::~CUIobj_Transform()
 }
 
 
-void CUIobj_Transform::render_update()
+void CUIobj_Transform::EditComUI()
 {
-    CTransform* pTransform = GetTarget()->Transform();
+    CTransform* pTransform = GetTargetObj()->Transform();
     assert(nullptr != pTransform);
 
     //값을 수정도 가능해야 하므로 일반 value로 받아온다.

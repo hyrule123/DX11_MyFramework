@@ -16,6 +16,8 @@
 #include "CUI_Button.h"
 #include "CUIobj_TestWindow.h"
 
+#include "CUIObj_SCPrefabEditor.h"
+
 #include <fstream>
 
 #include "JsonCPP.h"
@@ -233,7 +235,9 @@ void CImGuiMgr::CreateDefaultUI()
 
     AddUI(new CUIobj_Inspector);
     AddUI(new CUIobj_Contents);
-    //AddUI(new CUIobj_Outliner);
+    AddUI(new CUIobj_Outliner);
+
+    AddUI(new CUIobj_SCPrefabEditor);
 }
 
 void CImGuiMgr::begin()

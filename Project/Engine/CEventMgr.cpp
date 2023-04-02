@@ -4,6 +4,7 @@
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CGameObject.h"
+#include "CComponent.h"
 
 
 CEventMgr::CEventMgr()
@@ -19,8 +20,7 @@ CEventMgr::~CEventMgr()
 
 void CEventMgr::CreateObject(const tEvent& _event)
 {
-	//lParam = CGameObject Pointer
-	//rParam = Layer Index
+
 	CGameObject* Obj = reinterpret_cast<CGameObject*>(_event.lParam);
 
 	//오브젝트가 nullptr이거나 이미 게임 안에서 생성되었을 경우 return
@@ -42,10 +42,9 @@ void CEventMgr::DestroyObject(const tEvent& _event)
 		return;
 
 	_pObj->DestroyForEventMgr();
-	m_vecReserveDestroy.push_back(_pObj);
-
-	m_bLevelModified = true;
 }
+
+
 
 void CEventMgr::AddChildObj(const tEvent& _event)
 {
@@ -55,22 +54,65 @@ void CEventMgr::AddChildObj(const tEvent& _event)
 	pParent->AddChildObj(pChild);
 }
 
-void CEventMgr::tick()
+void CEventMgr::RemoveComponent(const tEvent& _event)
 {
-	//bDestroy 상태인 게임오브젝트를 Level에서 제거
+	//lParam = GameObject*
+	//rParam = eCOMPONENT_TYPE
+
+	CGameObject* pObj = reinterpret_cast<CGameObject*>(_event.lParam);
+	if (nullptr == pObj)
+		return;
+
+	CComponent* pCom = pObj->GetComponent((eCOMPONENT_TYPE)_event.rParam);
+	if (nullptr == pCom)
+		return;
+
+	//여기선 Disable만 해줌으로써 모든 관계를 정리하도록 해준다.
+	pCom->SetDisable(true);
+
+	//나머지는 LazyEvent에서 처리.
+	m_vecLazyEvent.push_back(_event);
+}
+
+void CEventMgr::RemoveComponentLazy(const tEvent& _event)
+{
+	CGameObject* pObj = reinterpret_cast<CGameObject*>(_event.lParam);
+	if (nullptr == pObj)
+		return;
+
+	eCOMPONENT_TYPE comType = (eCOMPONENT_TYPE)_event.rParam;
+	CComponent* pCom = pObj->GetComponent(comType);
+	if (nullptr == pCom)
+		return;
+
+	//여기선 Disable만 해줌으로써 모든 관계를 정리하도록 해준다.
+	pObj->RemoveComponent(comType);
+}
+
+void CEventMgr::ProcessLazyEvent()
+{
+	//bDestroy 상태인 게임오브젝트를 Level에서 제거시킨다.(댕글링 포인터 제거)
 	CLevelMgr::GetInst()->GetCurLevel()->RemoveDestroyed();
 
-	//이벤트 큐가 진행되기 전에 이전 프레임에서 등록된 오브젝트를 제거
-	//이러면 지난 프레임에서 제거하도록 등록되었던 오브젝트들이 전부 지워지게 됨.
-	size_t size = m_vecReserveDestroy.size();
+	size_t size = m_vecLazyEvent.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		delete m_vecReserveDestroy[i];
+		switch (m_vecLazyEvent[i].Type)
+		{
+		case eEVENT_TYPE::REMOVE_COMPONENT:
+			RemoveComponentLazy(m_vecLazyEvent[i]);
+			break;
+
+		default:
+			break;
+		}
 	}
-	m_vecReserveDestroy.clear();
+	m_vecLazyEvent.clear();
+}
 
-
-	size = m_vecEvent.size();
+void CEventMgr::ProcessEvent()
+{
+	size_t size = m_vecEvent.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		switch (m_vecEvent[i].Type)
@@ -88,9 +130,20 @@ void CEventMgr::tick()
 			break;
 		case eEVENT_TYPE::LEVEL_CHANGE:
 			break;
+
+		case eEVENT_TYPE::REMOVE_COMPONENT:
+			RemoveComponent(m_vecEvent[i]);
+			break;
+
 		default:
 			break;
 		}
 	}
 	m_vecEvent.clear();
+}
+
+void CEventMgr::tick()
+{
+	ProcessLazyEvent();
+	ProcessEvent();
 }

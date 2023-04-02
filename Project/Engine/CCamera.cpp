@@ -209,7 +209,7 @@ void CCamera::SortObject()
 		for (size_t i = 0; i < size; ++i)
 		{
 			//출력 담당 컴포넌트를 받아온다.
-			CRenderComponent* pRenderCom = vecObj[i]->GetRenderComponent();
+			CRenderComponent* pRenderCom = vecObj[i]->RenderComponent();
 
 			//컴포넌트가 없거나, 컴포넌트 내부의 출력용 클래스가 등록되어있지 않을 경우 continue
 			if (

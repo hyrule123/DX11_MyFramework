@@ -1,11 +1,11 @@
 #include "pch.h"
-#include "EventBroker.h"
+#include "EventDispatcher.h"
 
 #include "CEventMgr.h"
 #include "CGameObject.h"
 #include "CTransform.h"
 
-void EventBroker::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx)
+void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
 	_pNewObject->Transform()->SetRelativePos(_vWorldPos);
 
@@ -17,7 +17,7 @@ void EventBroker::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
-void EventBroker::DestroyObject(CGameObject* _pObject)
+void EventDispatcher::DestroyObject(CGameObject* _pObject)
 {
 	tEvent evn = {};
 	evn.Type = eEVENT_TYPE::DELETE_OBJECT;
@@ -27,12 +27,27 @@ void EventBroker::DestroyObject(CGameObject* _pObject)
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
-void EventBroker::AddChildObj(CGameObject* _pParent, CGameObject* _pChild)
+void EventDispatcher::AddChildObj(CGameObject* _pParent, CGameObject* _pChild)
 {
 	tEvent evn = {};
 	evn.Type = eEVENT_TYPE::ADD_CHILD;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pParent);
 	evn.rParam = reinterpret_cast<DWORD_PTR>(_pChild);
+
+	CEventMgr::GetInst()->AddEvent(evn);
+}
+
+void EventDispatcher::RemoveComponent(CGameObject* _pObject, eCOMPONENT_TYPE _eType)
+{
+	//오브젝트가 없거나 오브젝트 안의 컴포넌트가 없을 경우 return
+	if (nullptr == _pObject || nullptr == _pObject->GetComponent(_eType))
+		return;
+
+	tEvent evn = {};
+
+	evn.Type = eEVENT_TYPE::REMOVE_COMPONENT;
+	evn.lParam = reinterpret_cast<DWORD_PTR>(_pObject);
+	evn.rParam = (DWORD_PTR)(_eType);
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }

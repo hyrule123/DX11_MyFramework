@@ -1,14 +1,14 @@
 #pragma once
-#include "CScript_SCGroundUnitFSM.h"
+#include "CSCEntity.h"
 
-#include "defineFSM_SCGroundUnit.h"
+#include "define_SCUnit.h"
 class CScript_Marine :
-    public CScript_SCGroundUnitFSM
+    public CSCEntity
 {
 public:
     CScript_Marine();
     virtual ~CScript_Marine();
-    CLONE(CScript_SCGroundUnitFSM);
+    CLONE(CSCEntity);
 
 public:
     void Idle()     { Transition((UINT)FSM_SCGroundUnit::eSTATE::IDLE); }

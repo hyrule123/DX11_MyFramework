@@ -87,8 +87,8 @@ CFState* CFStateMgr::Transition(UINT _eState)
 	if (m_eNumState < _eState)
 		return nullptr;
 
-	//동일한 State일 경우 return
-	if (m_eCurState == _eState || nullptr == m_vec_pFSM[_eState])
+	//목표 State가 존재하지 않을 경우 return
+	if (nullptr == m_vec_pFSM[_eState])
 		return nullptr;
 
 	//현재 FSM이 없거나
@@ -106,7 +106,7 @@ void CFStateMgr::AddFState(UINT _uIdx, CFState* _pFState)
 {
 	assert(m_eNumState > _uIdx && nullptr != _pFState);
 	m_vec_pFSM[_uIdx] = _pFState;
-	_pFState->SetFSMMgr(this);
+	_pFState->SetFStateMgr(this);
 }
 
 void CFStateMgr::SwitchState(UINT _eState)

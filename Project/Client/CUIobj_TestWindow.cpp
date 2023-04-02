@@ -16,7 +16,7 @@
 #include <Engine/CTilemapComplete.h>
 #include <Script/strKeyShader.h>
 
-#include <Engine/EventBroker.h>
+#include <Engine/EventDispatcher.h>
 
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
@@ -93,7 +93,6 @@ void CUIobj_TestWindow::init()
 
 void CUIobj_TestWindow::render_update()
 {
-
 }
 
 void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
@@ -140,10 +139,9 @@ void CUIobj_TestWindow::CreateTestObj()
 	m_pTestObj = new CGameObject;
 
 	m_pTestObj->SetName("MapObj");
-	m_pTestObj->AddComponent(new CTransform);
 	
 	CTilemapComplete* TilemapComp = new CTilemapComplete;
 	m_pTestObj->AddComponent(TilemapComp);
 
-	EventBroker::SpawnGameObject(m_pTestObj, Vec3(0.f, 0.f, 1000.f), 0);
+	EventDispatcher::SpawnGameObject(m_pTestObj, Vec3(0.f, 0.f, 1000.f), 0);
 }
