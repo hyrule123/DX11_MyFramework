@@ -8,7 +8,7 @@ class CScript_Marine :
 public:
     CScript_Marine();
     virtual ~CScript_Marine();
-    CLONE(CSCEntity);
+    CLONE(CScript_Marine);
 
 public:
     void Idle()     { Transition((UINT)FSM_SCGroundUnit::eSTATE::IDLE); }
