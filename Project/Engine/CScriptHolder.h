@@ -56,8 +56,8 @@ public:
 
 
 public:
-    void BeginColiision(CCollider* _Other);
-    void OnCollision(CCollider* _Other);
+    void BeginColiision(CCollider* _Other, const Vec3& _v3HitPoint);
+    void OnCollision(CCollider* _Other, const Vec3& _v3HitPoint);
     void EndCollision(CCollider* _Other);
 };
 

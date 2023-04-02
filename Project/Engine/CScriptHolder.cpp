@@ -193,21 +193,21 @@ void CScriptHolder::tick()
 
 
 
-void CScriptHolder::BeginColiision(CCollider* _Other)
+void CScriptHolder::BeginColiision(CCollider* _Other, const Vec3& _v3HitPoint)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecScript[i]->BeginCollision(_Other);
+		m_vecScript[i]->BeginCollision(_Other, _v3HitPoint);
 	}
 }
 
-void CScriptHolder::OnCollision(CCollider* _Other)
+void CScriptHolder::OnCollision(CCollider* _Other, const Vec3& _v3HitPoint)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecScript[i]->OnCollision(_Other);
+		m_vecScript[i]->OnCollision(_Other, _v3HitPoint);
 	}
 }
 

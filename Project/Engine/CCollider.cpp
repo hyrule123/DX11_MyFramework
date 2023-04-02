@@ -24,31 +24,31 @@ CCollider::~CCollider()
 
 
 //자신과 상대방의 begincollision 호출
-void CCollider::BeginCollision(CCollider* _other)
+void CCollider::BeginCollision(CCollider* _other, const Vec3& _v3HitPoint)
 {
 	++m_iCollisionCount;
 	_other->AddCollisionCount();
 
 	CScriptHolder* pSH = GetOwner()->ScriptHolder();
 	if (nullptr != pSH)
-		pSH->BeginColiision(_other);
+		pSH->BeginColiision(_other, _v3HitPoint);
 	
 
 	pSH = _other->GetOwner()->ScriptHolder();
 	if (nullptr != pSH)
-		pSH->BeginColiision(this);
+		pSH->BeginColiision(this, _v3HitPoint);
 }
 
-void CCollider::OnCollision(CCollider* _other)
+void CCollider::OnCollision(CCollider* _other, const Vec3& _v3HitPoint)
 {
 	CScriptHolder* pSH = GetOwner()->ScriptHolder();
 	if (nullptr != pSH)
-		pSH->OnCollision(_other);
+		pSH->OnCollision(_other, _v3HitPoint);
 
 
 	pSH = _other->GetOwner()->ScriptHolder();
 	if (nullptr != pSH)
-		pSH->OnCollision(this);
+		pSH->OnCollision(this, _v3HitPoint);
 }
 
 void CCollider::EndCollision(CCollider* _other)

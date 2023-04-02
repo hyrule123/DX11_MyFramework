@@ -13,6 +13,7 @@
 
 #include "CCollider2D_OBB.h"
 #include "CCollider2D_Point.h"
+#include "CCollider2D_Circle.h"
 
 #include "struct.h"
 
@@ -104,6 +105,7 @@ void CCollisionMgr::Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridN
 
 void CCollisionMgr::tick()
 {
+	//2D 충돌 검사
 	for (int i = 0; i < m_iNum2DGridTotalIndex; ++i)
 	{
 		size_t size = m_vec2DGrid[i].vecColl.size();
@@ -148,14 +150,16 @@ void CCollisionMgr::tick()
 				CCollider2D* pColA = m_vec2DGrid[i].vecColl[l];
 				CCollider2D* pColB = m_vec2DGrid[i].vecColl[m];
 
+				Vec2 HitPoint;
+
 				//충돌
-				if (true == CheckCollision2D(pColA, pColB))
+				if (true == CheckCollision2D(pColA, pColB, HitPoint))
 				{
 
 					auto iter = m_umapCollisionID.find(ID.FullID);
 					if (iter == m_umapCollisionID.end())
 					{
-						pColA->BeginCollision(pColB);
+						pColA->BeginCollision(pColB, Vec3(HitPoint, 0.f));
 
 
 						//충돌 정보에 충돌을 체크한 시간과 충돌체 주소를 넣어서 map에 삽입한다.
@@ -166,7 +170,7 @@ void CCollisionMgr::tick()
 					}
 					else
 					{
-						pColA->OnCollision(pColB);
+						pColA->OnCollision(pColB, Vec3(HitPoint, 0.f));
 
 						//충돌 중이라면(map에 충돌 정보가 들어 있다면) 체크한 시간만 갱신한다.
 						iter->second.llCheckedCount = CTimeMgr::GetInst()->GetCurCount();
@@ -212,12 +216,12 @@ void CCollisionMgr::tick()
 
 }
 
-bool CCollisionMgr::CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2)
+bool CCollisionMgr::CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2, Vec2& _v2HitPoint)
 {
-	return m_arrFuncCheckCollision2D[(int)_pCol_1->GetColliderType()][(int)_pCol_2->GetColliderType()](_pCol_1, _pCol_2);
+	return m_arrFuncCheckCollision2D[(int)_pCol_1->GetColliderType()][(int)_pCol_2->GetColliderType()](_pCol_1, _pCol_2, _v2HitPoint);
 }
 
-bool CCollisionMgr::CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollider2D* _pColRect_2)
+bool CCollisionMgr::CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollider2D* _pColRect_2, Vec2& _v2HitPoint)
 {
 	const Vec4& LBRT_1 = _pColRect_1->GetSimpleCollider();
 	const Vec4& LBRT_2 = _pColRect_2->GetSimpleCollider();
@@ -232,55 +236,173 @@ bool CCollisionMgr::CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollid
 	else if (LBRT_1[T] < LBRT_2[B])
 		return false;
 
-
 	return true;
 }
 
-bool CCollisionMgr::CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollider2D* _pColCircle)
+bool CCollisionMgr::CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollider2D* _pColCircle, Vec2& _v2HitPoint)
 {
-	return false;
-}
+	enum LBRT { L, B, R, T };
+	const Vec4& RectLBRT = _pColRect->GetSimpleCollider();
+	const Vec2& CircleCenter = _pColCircle->GetCenterPos();
+	float CircleRadius = static_cast<CCollider2D_Circle*>(_pColCircle)->GetRadius();
 
-bool CCollisionMgr::CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2D* _pColOBB)
-{
-	return false;
-}
-
-bool CCollisionMgr::CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint)
-{
+	//원의 중심점이 사각형의 어느 부분에 있는지 계산한다.
+	UINT idx = ComputeRelativePos_Rect_Point(RectLBRT, CircleCenter);
 	
+	//원의 중심점이 사각형 내부일 경우
+	if (idx == 4u)
+	{
+		_v2HitPoint = CircleCenter;
+		return true;
+	}
+
+	UINT remainder = idx % 2;
+
+	//1, 3, 5, 7일 경우 == 상하좌우에 위치할 경우
+	if (1u == remainder)
+	{
+		float dist = 0.f;
+		switch (idx)
+		{
+			//원의 중점이 사각형의 아래에 있을 경우(y < Bottom)
+		case 1u:
+			dist = fabsf(RectLBRT[B] - CircleCenter.y);
+			break;
+
+			//원의 중점이 사각형의 왼쪽에 있을 경우
+		case 3u:
+			dist = fabsf(RectLBRT[L] - CircleCenter.x);
+			break;
+
+			//원의 중점이 사각형의 오른쪽에 있을 경우
+		case 5u:
+			dist = fabsf(CircleCenter.x - RectLBRT[R]);
+			break;
+
+			//원의 중점이 사각형의 위에 있을 경우
+		case 7u:
+			dist = fabsf(CircleCenter.y - RectLBRT[T]);
+			break;
+
+		default:
+			break;
+		}
+
+		//거리가 반지름보다 짧을 경우
+		if (dist < CircleRadius)
+		{
+			ComputeV2HitPointByRectLBRT(_pColRect->GetSimpleCollider(), _pColCircle->GetSimpleCollider(), _v2HitPoint);
+			return true;
+		}
+	}
+
+	//0, 2, 6, 8(대각선 위치일 경우)
+	else
+	{
+		//아닐 경우 사각형의 끝 꼭지점이 원의 범위 안인지 확인한다.
+		enum LBRT { L, B, R, T };
+		for (int i = 0; i < 4; ++i)
+		{
+			Vec2 RectVertex;
+			switch (i)
+			{
+			case 0://LB
+				RectVertex = Vec2(RectLBRT[L], RectLBRT[B]);
+				break;
+			case 1://RB
+				RectVertex = Vec2(RectLBRT[R], RectLBRT[B]);
+				break;
+			case 2://RT
+				RectVertex = Vec2(RectLBRT[R], RectLBRT[T]);
+				break;
+			case 3://LT
+				RectVertex = Vec2(RectLBRT[L], RectLBRT[T]);
+				break;
+			}
+
+			if (true == CheckCollision2D_Circle_Point_CollInfo(CircleCenter, CircleRadius, RectVertex))
+			{
+				ComputeV2HitPointByRectLBRT(_pColRect->GetSimpleCollider(), _pColCircle->GetSimpleCollider(), _v2HitPoint);
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool CCollisionMgr::CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2D* _pColOBB, Vec2& _v2HitPoint)
+{
+	return false;
+}
+
+bool CCollisionMgr::CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint, Vec2& _v2HitPoint)
+{
 	const Vec4& LBRT = _pColRect->GetSimpleCollider();
 	const Vec2& Point = _pColPoint->GetCenterPos();
 
-	enum LBRT{ L, B, R, T };
-	if (Point.x < LBRT[L])
+	return CheckCollision2D_Rect_Point_CollInfo(LBRT, Point);
+}
+
+bool CCollisionMgr::CheckCollision2D_Rect_Point_CollInfo(const Vec4& _v4LBRT, const Vec2& _v2Point)
+{
+	enum LBRT { L, B, R, T };
+	if (_v2Point.x < _v4LBRT[L])
 		return false;
-	else if (Point.x > LBRT[R])
+	else if (_v2Point.x > _v4LBRT[R])
 		return false;
-	else if (Point.y < LBRT[B])
+	else if (_v2Point.y < _v4LBRT[B])
 		return false;
-	else if (Point.y > LBRT[T])
+	else if (_v2Point.y > _v4LBRT[T])
 		return false;
 
 	return true;
 }
 
-bool CCollisionMgr::CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, CCollider2D* _pColCircle_2)
+bool CCollisionMgr::CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, CCollider2D* _pColCircle_2, Vec2& _v2HitPoint)
+{
+	const Vec2& CenterPos_1 = _pColCircle_1->GetCenterPos();
+	const Vec2& CenterPos_2 = _pColCircle_2->GetCenterPos();
+
+	float dist = Vec2::DistanceSquared(CenterPos_1, CenterPos_2);
+
+	float RadiusSum = static_cast<CCollider2D_Circle*>(_pColCircle_1)->GetRadius();
+	RadiusSum += static_cast<CCollider2D_Circle*>(_pColCircle_2)->GetRadius();
+	RadiusSum *= RadiusSum;
+
+	if (dist < RadiusSum)
+	{
+		ComputeV2HitPointByRectLBRT(_pColCircle_1->GetSimpleCollider(), _pColCi)
+	}
+	
+
+	return false;
+}
+
+bool CCollisionMgr::CheckCollision2D_Circle_OBB(CCollider2D* _pColCircle, CCollider2D* _pColOBB, Vec2& _v2HitPoint)
 {
 	return false;
 }
 
-bool CCollisionMgr::CheckCollision2D_Circle_OBB(CCollider2D* _pColCircle, CCollider2D* _pColOBB)
+bool CCollisionMgr::CheckCollision2D_Circle_Point(CCollider2D* _pColCircle, CCollider2D* _pColPoint, Vec2& _v2HitPoint)
 {
+	
+
+
 	return false;
 }
 
-bool CCollisionMgr::CheckCollision2D_Circle_Point(CCollider2D* _pColCircle, CCollider2D* _pColPoint)
+bool CCollisionMgr::CheckCollision2D_Circle_Point_CollInfo(const Vec2& _v2CircleCenterPos, float _fCircleRadius, const Vec2& _v2PointPos)
 {
-	return false;
+	float dist = Vec2::Distance(_v2CircleCenterPos, _v2PointPos);
+
+	if (dist > _fCircleRadius)
+		return false;
+
+	return true;
 }
 
-bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollider2D* _pColOBB2D_2)
+bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollider2D* _pColOBB2D_2, Vec2& _v2HitPoint)
 {
 	const tOBB2D& OBB_1 = static_cast<CCollider2D_OBB*>(_pColOBB2D_1)->GetColliderInfo();
 	const tOBB2D& OBB_2 = static_cast<CCollider2D_OBB*>(_pColOBB2D_2)->GetColliderInfo();
@@ -324,12 +446,12 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 	return true;
 }
 
-bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollider2D* _pColPoint)
+bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollider2D* _pColPoint, Vec2& _v2HitPoint)
 {
 	const tOBB2D& OBBInfo = static_cast<CCollider2D_OBB*>(_pColOBB2D)->GetColliderInfo();
 	Vec2 vPointToOBBCenter = _pColPoint->GetCenterPos();
 
-	//점의 위치로부터 OBB의 중심 위치까지 弧娩?
+	//점의 위치로부터 OBB의 중심 위치까지
 	vPointToOBBCenter -= OBBInfo.m_v2CenterPos;
 
 	for (int i = 0; i < (int)eAXIS2D::END; ++i)
@@ -383,10 +505,40 @@ bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollide
 }
 
 
-bool CCollisionMgr::CheckCollision2D_Point_Point(CCollider2D* _pColPoint_1, CCollider2D* _pColPoint_2)
+bool CCollisionMgr::CheckCollision2D_Point_Point(CCollider2D* _pColPoint_1, CCollider2D* _pColPoint_2, Vec2& _v2HitPoint)
 {
+	//점 점은 무조건 return false
 	return false;
 }
+
+
+UINT CCollisionMgr::ComputeRelativePos_Rect_Point(const Vec4& _v4RectLBRT, const Vec2& _v2Point)
+{
+	enum LBRT { L, B, R, T };
+	UINT x =	_v2Point.x < _v4RectLBRT[L] ? 0 :
+				_v2Point.x <= _v4RectLBRT[R] ? 1 : 2;
+
+	UINT y =	_v2Point.y < _v4RectLBRT[B] ? 0 :
+				_v2Point.y <= _v4RectLBRT[T] ? 1 : 2;
+
+	return x + y * 3u;
+}
+
+void CCollisionMgr::ComputeV2HitPointByRectLBRT(const Vec4& _v4LBRT_1, const Vec4& _v4LBRT_2, Vec2& _v2HitPoint)
+{
+	enum LBRT { L, B, R, T };
+
+	//모두 통과했을 경우 hit point 계산
+	float Left = _v4LBRT_1[L] > _v4LBRT_2[L] ? _v4LBRT_1[L] : _v4LBRT_2[L];
+	float Bottom = _v4LBRT_1[B] > _v4LBRT_2[B] ? _v4LBRT_1[B] : _v4LBRT_2[B];
+	float Right = _v4LBRT_1[R] < _v4LBRT_2[R] ? _v4LBRT_1[R] : _v4LBRT_2[R];
+	float Top = _v4LBRT_1[T] < _v4LBRT_2[T] ? _v4LBRT_1[T] : _v4LBRT_2[T];
+
+	_v2HitPoint.x = (Left + Right) * 0.5f;
+	_v2HitPoint.y = (Top + Bottom) * 0.5f;
+}
+
+
 
 void CCollisionMgr::RegisterCollisionFunc()
 {
@@ -394,42 +546,85 @@ void CCollisionMgr::RegisterCollisionFunc()
 
 	//RECTANGLE
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::RECT]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Rect, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Rect, this, 
+			std::placeholders::_1, std::placeholders::_2, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::CIRCLE]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Circle, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Circle, this, 
+			std::placeholders::_1, std::placeholders::_2,
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::OBB]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_OBB, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_OBB, this, 
+			std::placeholders::_1, std::placeholders::_2, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::RECT][(int)eCOLLIDER_TYPE_2D::POINT]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Point, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Point, this, 
+			std::placeholders::_1, std::placeholders::_2,
+			std::placeholders::_3);
 
 	//CIRCLE
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::CIRCLE][(int)eCOLLIDER_TYPE_2D::RECT]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Circle, this, std::placeholders::_2, std::placeholders::_1);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Circle, this, 
+			std::placeholders::_2, std::placeholders::_1,
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::CIRCLE][(int)eCOLLIDER_TYPE_2D::CIRCLE]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Circle, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Circle, this, 
+			std::placeholders::_1, std::placeholders::_2, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::CIRCLE][(int)eCOLLIDER_TYPE_2D::OBB]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_OBB, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_OBB, this, 
+			std::placeholders::_1, std::placeholders::_2, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::CIRCLE][(int)eCOLLIDER_TYPE_2D::POINT]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Point, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Point, this, 
+			std::placeholders::_1, std::placeholders::_2, 
+			std::placeholders::_3);
 
 	//OBB
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::OBB][(int)eCOLLIDER_TYPE_2D::RECT]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_OBB, this, std::placeholders::_2, std::placeholders::_1);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_OBB, this, 
+			std::placeholders::_2, std::placeholders::_1, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::OBB][(int)eCOLLIDER_TYPE_2D::CIRCLE]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_OBB, this, std::placeholders::_2, std::placeholders::_1);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_OBB, this, 
+			std::placeholders::_2, std::placeholders::_1, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::OBB][(int)eCOLLIDER_TYPE_2D::OBB]
-		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_OBB, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_OBB, this, 
+			std::placeholders::_1, std::placeholders::_2, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::OBB][(int)eCOLLIDER_TYPE_2D::POINT]
-		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_Point, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_Point, this, 
+			std::placeholders::_1, std::placeholders::_2, 
+			std::placeholders::_3);
 
 
 	//POINT
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::POINT][(int)eCOLLIDER_TYPE_2D::RECT]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Point, this, std::placeholders::_2, std::placeholders::_1);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Rect_Point, this, 
+			std::placeholders::_2, std::placeholders::_1, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::POINT][(int)eCOLLIDER_TYPE_2D::CIRCLE]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Point, this, std::placeholders::_2, std::placeholders::_1);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Circle_Point, this, 
+			std::placeholders::_2, std::placeholders::_1, 
+			std::placeholders::_3);
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::POINT][(int)eCOLLIDER_TYPE_2D::OBB]
-		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_Point, this, std::placeholders::_2, std::placeholders::_1);
+		= std::bind(&CCollisionMgr::CheckCollision2D_OBB_Point, this, 
+			std::placeholders::_2, std::placeholders::_1, 
+			std::placeholders::_3);
+
 	m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::POINT][(int)eCOLLIDER_TYPE_2D::POINT]
-		= std::bind(&CCollisionMgr::CheckCollision2D_Point_Point, this, std::placeholders::_1, std::placeholders::_2);
+		= std::bind(&CCollisionMgr::CheckCollision2D_Point_Point, this, 
+			std::placeholders::_1, std::placeholders::_2, 
+			std::placeholders::_3);
 }

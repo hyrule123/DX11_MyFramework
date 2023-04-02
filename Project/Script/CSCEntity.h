@@ -48,19 +48,19 @@ private:
     UINT m_flagTech;
 
 public:
-    GETSET(eSCUNIT_UNIT_TYPE, UnitType, m_eUnitType);
-    GETSET(eSCUNIT_MOVE_TYPE, MoveType, m_eMoveType);
-    GETSET(eSCUNIT_UNIT_SIZE_TYPE, UnitSizeType, m_eUnitSizeType);
+    GETSET(eSCUNIT_UNIT_TYPE, m_eUnitType, UnitType);
+    GETSET(eSCUNIT_MOVE_TYPE, m_eMoveType, MoveType);
+    GETSET(eSCUNIT_UNIT_SIZE_TYPE, m_eUnitSizeType, UnitSizeType);
 
-    GETSET(UINT, Population, m_uPopulation);
-    GETSET(UINT, SightRange, m_uSightRange);
-    GETSET(UINT, CostMineral, m_uCostMineral);
-    GETSET(UINT, CostGas, m_uCostGas);
-    GETSET(float, BuildTime, m_fBaseBuildTime);
+    GETSET(UINT, m_uPopulation, Population);
+    GETSET(UINT, m_uSightRange, SightRange);
+    GETSET(UINT, m_uCostMineral, CostMineral);
+    GETSET(UINT, m_uCostGas, CostGas);
+    GETSET(float, m_fBaseBuildTime, BuildTime);
 
-    GETSET(const string&, strProdBuildingName, m_strProdBuildingName);
-    GETSET(eKEY, ProdSlot, m_eKeyShortcut);
-    GETSET(UINT, flagTech, m_flagTech);
+    GETSET(const string&, m_strProdBuildingName, strProdBuildingName);
+    GETSET(eKEY, m_eKeyShortcut, ProdSlot);
+    GETSET(UINT, m_flagTech, flagTech);
 
 private:
 

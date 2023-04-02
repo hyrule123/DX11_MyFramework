@@ -403,7 +403,13 @@ namespace RES_INFO
 					}
 				}
 
-				
+				namespace CIRCLE
+				{
+					namespace JSON_KEY
+					{
+						JSONKEY(m_fRadius);
+					}
+				}
 			}
 
 			namespace COLLIDER3D

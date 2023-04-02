@@ -48,7 +48,7 @@ public:
     eCOMPONENT_TYPE GetType() const { return m_eComponentType; }
     CGameObject* GetOwner() const { return m_pOwner ; }
 
-    SETTER(bool, Disable, m_bIsDisabled);
+    SETTER(bool, m_bIsDisabled, Disable);
     bool isDisabled() const { return m_bIsDisabled; }
 
 public:

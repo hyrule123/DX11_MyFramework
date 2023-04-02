@@ -27,5 +27,5 @@ private:
 public:
     UINT GetMyState() const { return m_eMyState; }
 
-    GETSET(CFStateMgr*, FStateMgr, m_pFStateMgr);
+    GETSET(CFStateMgr*, m_pFStateMgr, FStateMgr);
 };

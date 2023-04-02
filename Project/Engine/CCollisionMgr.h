@@ -72,7 +72,7 @@ private:
     
     unordered_map<UINT64, tCollisionInfo, tLightHashFunc_UINT64>   m_umapCollisionID;
 
-    std::function<bool(CCollider2D*, CCollider2D*)> m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::END][(int)eCOLLIDER_TYPE_2D::END];
+    std::function<bool(CCollider2D*, CCollider2D*, Vec2&)> m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::END][(int)eCOLLIDER_TYPE_2D::END];
 public:
     //공간분할을 위한 자신의 간이 충돌체 꼭지점 정보를 전달한다.
     //Rect는 4개, Point는 1개 등 다를 수 있기 때문에 정점 위치를 vector에 담아서 전달하는 방식으로 구현
@@ -102,25 +102,38 @@ private://충돌 검사 함수
 
 
     //충돌체 타입을 분류해서 아래의 함수들을 호출한다.
-    bool CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2);
+    bool CheckCollision2D(CCollider2D* _pCol_1, CCollider2D* _pCol_2, Vec2& _v2HitPoint);
 
-    bool CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollider2D* _pColRect_2);
-    bool CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollider2D* _pColCircle);
-    bool CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2D* _pColOBB);
-    bool CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint);
+    bool CheckCollision2D_Rect_Rect(CCollider2D* _pColRect_1, CCollider2D* _pColRect_2, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollider2D* _pColCircle, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2D* _pColOBB, Vec2& _v2HitPoint);
+
+    bool CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Rect_Point_CollInfo(const Vec4& _v4LBRT, const Vec2& _v2Point);
 
    
-    bool CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, CCollider2D* _pColCircle_2);
-    bool CheckCollision2D_Circle_OBB(CCollider2D* _pColCircle, CCollider2D* _pColOBB);
-    bool CheckCollision2D_Circle_Point(CCollider2D* _pColCircle, CCollider2D* _pColPoint);
+    bool CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, CCollider2D* _pColCircle_2, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Circle_OBB(CCollider2D* _pColCircle, CCollider2D* _pColOBB, Vec2& _v2HitPoint);
+
+    bool CheckCollision2D_Circle_Point(CCollider2D* _pColCircle, CCollider2D* _pColPoint, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Circle_Point_CollInfo(const Vec2& _v2CircleCenterPos, float _fCircleRadius, const Vec2& _v2PointPos);
 
 
-    bool CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollider2D* _pColOBB2D_2);
-    bool CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollider2D* _pColPoint);
+    bool CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollider2D* _pColOBB2D_2, Vec2& _v2HitPoint);
+    bool CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollider2D* _pColPoint, Vec2& _v2HitPoint);
 
-    bool CheckCollision2D_Point_Point(CCollider2D* _pColPoint_1, CCollider2D* _pColPoint_2);
-    
-    
+    bool CheckCollision2D_Point_Point(CCollider2D* _pColPoint_1, CCollider2D* _pColPoint_2, Vec2& _v2HitPoint);
+
+private:
+    //6   7    8
+    //  =====
+    //3 | 4 |  5
+    //  =====
+    //0   1    2    
+    //점이 사각형의 어느 지점에 있는지를 인덱스 형태로 반환한다(위 도식 참고)
+    UINT ComputeRelativePos_Rect_Point(const Vec4& _v4RectLBRT, const Vec2& _v2Point);
+
+    void ComputeV2HitPointByRectLBRT(const Vec4& _v4LBRT_1, const Vec4& _v4LBRT_2, Vec2& _v2HitPoint);
 };
 
 

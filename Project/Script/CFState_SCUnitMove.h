@@ -32,13 +32,13 @@ private:
 
 
 public:
-    GETTER(eSCUNIT_MOVE_TYPE, MoveType, m_eMoveType);
-    GETSET(float, Speed, m_fSpeed);
+    GETTER(eSCUNIT_MOVE_TYPE, m_eMoveType, MoveType);
+    GETSET(float, m_fSpeed, Speed);
 
     void SetDestination(Vec2 _v2Dest) { m_v2Destination = _v2Dest; m_bArrived = false; }
-    GETTER(Vec2, Destination, m_v2Destination);
+    GETTER(Vec2, m_v2Destination, Destination);
 
-    SETTER(bool, Arrive, m_bArrived);
+    SETTER(bool, m_bArrived, Arrive);
     bool IsArrived() const { return m_bArrived; }
 };
 
