@@ -66,7 +66,7 @@ void CScript_MouseCursor::tick()
 	
 }
 
-void CScript_MouseCursor::OnCollision(CCollider* _Collider)
+void CScript_MouseCursor::OnCollision(CCollider* _Collider, const Vec3& _v3HitPoint)
 {
 	//오브젝트가 삭제 대기 상태일 경우 여기에 아예 들어오지 않으므로 걱정할 필요 없음.
 

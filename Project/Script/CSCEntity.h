@@ -21,7 +21,7 @@ public:
     virtual void initFSM() override;
 
 public:
-    virtual void OnCollision(CCollider* _pCol) override;
+    virtual void OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint) override;
 
 private:
     eSCUNIT_UNIT_TYPE m_eUnitType;

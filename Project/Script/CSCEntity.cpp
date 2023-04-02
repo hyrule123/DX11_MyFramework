@@ -59,7 +59,7 @@ void CSCEntity::initFSM()
 	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 }
 
-void CSCEntity::OnCollision(CCollider* _pCol)
+void CSCEntity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)
 {
 	//커서가 자신과 충돌중임을 확인했을 경우
 	if (iLayerCursor == _pCol->GetOwner()->GetLayer())
@@ -67,6 +67,7 @@ void CSCEntity::OnCollision(CCollider* _pCol)
 		//마우스 커서가 한번 클릭됐을 경우
 		if (KEY_TAP(eKEY::LBTN))
 		{
+
 			//m_bSelected = true;
 		}
 	}

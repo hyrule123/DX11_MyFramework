@@ -31,7 +31,8 @@ public:
 
 public:
     virtual void tick() override;
-    virtual void OnCollision(CCollider* _Collider) override;
+    virtual void OnCollision(CCollider* _Collider, const Vec3& _v3HitPoint) override;
+
 
 private:
     void CalcPos();

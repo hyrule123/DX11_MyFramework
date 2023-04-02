@@ -11,7 +11,7 @@ private:
     float m_TurningForceRad;
 
 public:
-    virtual void BeginCollision(CCollider* _pCol) override;
+    virtual void BeginCollision(CCollider* _pCol, const Vec3& _v3HitPoint) override;
 
 public:
     virtual void init() override;

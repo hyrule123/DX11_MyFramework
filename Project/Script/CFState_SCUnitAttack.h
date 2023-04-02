@@ -12,6 +12,7 @@ public:
     virtual ~CFState_SCUnitAttack();
     CLONE(CFState_SCUnitAttack);
 
+
 public:
     virtual void EnterState() override;
     virtual void OnState() override;

@@ -372,7 +372,8 @@ bool CCollisionMgr::CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, C
 
 	if (dist < RadiusSum)
 	{
-		ComputeV2HitPointByRectLBRT(_pColCircle_1->GetSimpleCollider(), _pColCi)
+		//TODO: 여기 작성할 것
+		//ComputeV2HitPointByRectLBRT(_pColCircle_1->GetSimpleCollider(), _pColCi)
 	}
 	
 

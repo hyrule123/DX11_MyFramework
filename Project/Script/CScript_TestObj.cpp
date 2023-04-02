@@ -20,7 +20,7 @@ CScript_TestObj::~CScript_TestObj()
 {
 }
 
-void CScript_TestObj::BeginCollision(CCollider* _pCol)
+void CScript_TestObj::BeginCollision(CCollider* _Collider, const Vec3& _v3HitPoint)
 {
 	GetOwner()->SetLifeSpan(2.f);
 }
