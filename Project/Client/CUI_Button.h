@@ -5,7 +5,7 @@ class CUI_Button :
 {
     CUI_Button() = delete;
 public:
-    CUI_Button(const string& _strButtonName);
+    CUI_Button(const string& _strButtonName);// , ImVec2 _v2Size = ImVec2(0.f, 0.f));
     virtual ~CUI_Button();
 
 public:
@@ -15,7 +15,6 @@ public:
 
 private:
     std::function<void(const tUIData&)> m_funcCallback;
-
     ImVec2 m_vSize;
 
 public:

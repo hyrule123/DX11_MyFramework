@@ -63,12 +63,15 @@ void CEventMgr::RemoveComponent(const tEvent& _event)
 	if (nullptr == pObj)
 		return;
 
-	CComponent* pCom = pObj->GetComponent((eCOMPONENT_TYPE)_event.rParam);
+	eCOMPONENT_TYPE comType = (eCOMPONENT_TYPE)_event.rParam;
+
+	CComponent* pCom = pObj->GetComponent(comType);
 	if (nullptr == pCom)
 		return;
 
 	//여기선 Disable만 해줌으로써 모든 관계를 정리하도록 해준다.
 	pCom->SetDisable(true);
+	pCom->cleanup();
 
 	//나머지는 LazyEvent에서 처리.
 	m_vecLazyEvent.push_back(_event);

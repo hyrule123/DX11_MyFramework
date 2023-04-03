@@ -94,6 +94,7 @@ private:
 public:
     //1. 아틀라스 텍스처 등록
     void SetAtlasTexture(Ptr<CTexture> _AtlasTex);
+    Ptr<CTexture> GetAtlasTex() const { return m_AtlasTex; }
 
     //2. 프레임별 UV 값 등록
 
@@ -103,6 +104,8 @@ public:
     //규칙적인 사이즈일 경우 등분해서 등록
     void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal);
     void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch);
+
+    //중복된 방향(180도 8방향)을 가지는 애니메이션 프레임을 만들 때
     void SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, UINT _uRowPitch);
 
 
@@ -130,7 +133,7 @@ public:
 
 
     const tAnim2D* FindAnim2D(const string& _AnimIdxStrKey);
-    Ptr<CTexture> GetAtlasTex() { return m_AtlasTex; }
+    
     const tAnimFrameUV& GetFrameUVData(int _iIdx) { return m_vecFrameUV[_iIdx]; }
 
     bool IsFrameSizeRegular() const { return m_bRegularFrameSize; }

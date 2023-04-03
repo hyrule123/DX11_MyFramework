@@ -623,9 +623,9 @@ void LoadAnim()
 		//
 		//pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP), Atlas);
 
-		//Atlas->Save("TestSave.json");
+		//Atlas->Save("MarineMain.json");
 
-		if (true == Atlas->Load("TestSave.json"))
+		if (true == Atlas->Load("MarineMain.json"))
 		{
 			pResMgr->AddRes<CAnim2DAtlas>(Atlas->GetKey(), Atlas);
 		}

@@ -5,8 +5,9 @@
 
 
 
-CUI_DragNDropSender::CUI_DragNDropSender()
+CUI_DragNDropSender::CUI_DragNDropSender(const string& _strKeySend)
 	: CUI_Widget("DragNDrop", eWIDGET_TYPE::DRAG_N_DROP_SENDER)
+	, m_strKeySend(_strKeySend)
 	, m_flag()
 {
 }
@@ -23,8 +24,8 @@ bool CUI_DragNDropSender::beginUI()
 void CUI_DragNDropSender::render_update()
 {
 	const tPtrData& pData = GetPtrData();
-	ImGui::SetDragDropPayload(m_strKeySend.c_str(), pData.ptr, pData.size);
-
+	if(ImGui::SetDragDropPayload(m_strKeySend.c_str(), pData.ptr, pData.size))
+		ImGui::Text(m_strKeySend.c_str());
 	//위젯 Child를 넣을 경우 드래그 앤 드랍을 할 때 Description을 보여줄 수 있음. 
 }
 
@@ -36,8 +37,9 @@ void CUI_DragNDropSender::endUI()
 
 
 
-CUI_DragNDropReceiver::CUI_DragNDropReceiver()
+CUI_DragNDropReceiver::CUI_DragNDropReceiver(const string& _strKeyReceive)
 	: CUI_Widget("Receiver", eWIDGET_TYPE::DRAN_N_DROP_RECEIVER)
+	, m_strKeyReceive(_strKeyReceive)
 {
 }
 
@@ -54,7 +56,7 @@ void CUI_DragNDropReceiver::render_update()
 {
 	if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_strKeyReceive.c_str()))
 	{
-
+		SetDataPtr(tPtrData{ payload->Data, (size_t)payload->DataSize });
 	}
 }
 

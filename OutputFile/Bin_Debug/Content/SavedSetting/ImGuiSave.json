@@ -1,7 +1,11 @@
 {
-	"Contents" : 
+	"Animation Editor" : 
 	{
 		"IsActive" : true
+	},
+	"Contents" : 
+	{
+		"IsActive" : false
 	},
 	"Inspector" : 
 	{

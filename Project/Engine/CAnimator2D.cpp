@@ -159,6 +159,11 @@ void CAnimator2D::finaltick()
     UpdateData();
 }
 
+void CAnimator2D::cleanup()
+{
+    Stop();
+}
+
 void CAnimator2D::UpdateData()
 {
     UpdateAtlasTexToMtrl();

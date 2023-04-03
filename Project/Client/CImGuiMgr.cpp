@@ -24,6 +24,7 @@
 
 #include "CUIobj_Contents.h"
 #include "CUIobj_Outliner.h"
+#include "CUIobj_AnimEditor.h"
 
 
 
@@ -237,7 +238,8 @@ void CImGuiMgr::CreateDefaultUI()
     AddUI(new CUIobj_Contents);
     AddUI(new CUIobj_Outliner);
 
-    AddUI(new CUIobj_SCPrefabEditor);
+    AddUI(new CUIobj_AnimEditor);
+    //AddUI(new CUIobj_SCPrefabEditor);
 }
 
 void CImGuiMgr::begin()
@@ -269,8 +271,8 @@ void CImGuiMgr::finaltick()
 {
     //Demo UI
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-    if(m_bShowDemoWindow1)
-        ImGui::ShowDemoWindow(&m_bShowDemoWindow1);
+    //if(m_bShowDemoWindow1)
+        //ImGui::ShowDemoWindow(&m_bShowDemoWindow1);
 
     //// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
     //{

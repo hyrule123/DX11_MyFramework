@@ -5,9 +5,9 @@ struct tPtrData
 	void*	ptr;
 	size_t  size;
 
-	tPtrData() : ptr(), size() {}
+	tPtrData() : ptr(), size(8u) {}
 
-	tPtrData(void* _ptr, size_t _size = 0u)
+	tPtrData(void* _ptr, size_t _size = 8u)
 		: ptr(_ptr)
 		, size(_size)
 	{}

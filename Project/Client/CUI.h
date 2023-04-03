@@ -28,6 +28,8 @@ public:
 	//위치 이동이나 내부 연결된 객체들의 값 조정 작업은 여기서 진행
 	void tickRecursive();
 	void finaltick();
+	
+	void ManualUpdate();
 
 
 	virtual void init() {}

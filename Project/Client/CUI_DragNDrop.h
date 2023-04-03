@@ -8,7 +8,7 @@ class CUI_DragNDropSender :
     public CUI_Widget
 {
 public:
-    CUI_DragNDropSender();
+    CUI_DragNDropSender(const string& _strKeySend);
     virtual ~CUI_DragNDropSender();
 
 public:
@@ -19,7 +19,6 @@ public:
 private:
     ImGuiDragDropFlags m_flag;
     string m_strKeySend;
-
 
 public:
     void SetKeySend(const string& _strKeySend) { m_strKeySend = _strKeySend; }
@@ -39,7 +38,7 @@ class CUI_DragNDropReceiver :
     public CUI_Widget
 {
 public:
-    CUI_DragNDropReceiver();
+    CUI_DragNDropReceiver(const string& _strKeyReceive);
     virtual ~CUI_DragNDropReceiver();
 
 public:
@@ -49,13 +48,9 @@ public:
 
 private:
     string m_strKeyReceive;
-    tPtrData m_tData;
 
 public:
     void SetKeyReceive(const string& _strKeyReceive) { m_strKeyReceive = _strKeyReceive; }
-
-    bool IsReceived() const { return (nullptr != m_tData.ptr); }
-    tPtrData GetData() const { return m_tData; }
 };
 
 

@@ -3,8 +3,10 @@
 
 #include "CUIobj_Contents.h"
 #include "CUI_Tree.h"
+#include "CUI_DragNDrop.h"
 
 #include <Engine/CResMgr.h>
+#include <Engine/strKeyDefault.h>
 
 CUIobj_Contents::CUIobj_Contents()
 	: CUI_BasicWindow("Contents")
@@ -70,11 +72,15 @@ void CUIobj_Contents::UpdateResources()
 		for (auto iter : ResMap)
 		{
 			CUI_Tree* Node = new CUI_Tree(iter.first);
-			Node->SetDataPtr(tPtrData{ iter.second.Get(), });
+			tPtrData data = { iter.second.Get(), };
+			Node->SetDataPtr(data);
 			Node->SetFuncCallback(eUI_MOUSE_STATUS::LBTN_CLICKED, std::bind(&CUIobj_Contents::ChangeSelectedTreeNode, this, std::placeholders::_1));
+
+			CUI_DragNDropSender* dndSender = new CUI_DragNDropSender(string(DIRECTORY_NAME::RES_ARR[i]));
+			dndSender->SetDataPtr(data);
+			Node->AddChildUI(dndSender);
 
 			m_arrpResTypeRoot[i]->AddChildNode(Node);
 		}
-		
 	}
 }

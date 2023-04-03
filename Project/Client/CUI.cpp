@@ -62,8 +62,11 @@ void CUI::finaltick()
 
 		endUI();
 	}
+}
 
-
+void CUI::ManualUpdate()
+{
+	finaltick();
 }
 
 void CUI::SaveRecursive(Json::Value& _Node)
