@@ -343,10 +343,10 @@ namespace RES_INFO
 				//bool    m_bInheritRot;
 				JSONKEY(bInheritRot);
 
-				//bool    m_bLockRot;
+				//bool    m_bLockRotation;
 				JSONKEY(bLockRot);
 
-				//Matrix  m_matWorld;
+				//Matrix  m_matWorldWithoutSize;
 
 				//bool    m_bNeedMyUpdate;
 

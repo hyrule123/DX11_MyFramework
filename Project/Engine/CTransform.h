@@ -24,9 +24,14 @@ public:
 
 
 private:
-    Matrix    m_matSize;
+    Vec3    m_v3Size;
 
     Vec3    m_v3RelativeScale;
+
+    //Scale 정보가 1, 1, 1(기본값)이 아닐 경우 true
+    //Scale 정보가 단위행렬인데 계산할 필요는 없으므로 
+    bool    m_bIsDefaultScale;
+
     Vec3    m_v3RelativePos;
     Vec3    m_v3RelativeRot;
 
@@ -47,10 +52,15 @@ private:
 
     bool    m_bInheritScale;
     bool    m_bInheritRot;
-    bool    m_bLockRot; //자신의 회전 방지
+    bool    m_bLockRotation; //자신의 회전 방지
     
+    //자신의 사이즈 정보가 반영되지 않은 행렬
+    //자식 Transform에 값을 넘겨줄 떄 이 행렬로 넘겨줘야 해서 별도로 분리함.
+    Matrix  m_matWorldWithoutSize;
+
     //부모로부터 상속받아 최종적으로 만들어진 월드행렬
     Matrix  m_matWorld;
+    
 
     //상속 형태로 업데이트가 필요한지 여부를 저장.
     //위치가 변하지 않았는데 굳이 월드행렬을 업데이트 할 필요가 없음.
@@ -74,7 +84,7 @@ public:
     void SetRelativePosXY(const Vec2& _vPos) { m_v3RelativePos.x = _vPos.x; m_v3RelativePos.y = _vPos.y; SetMyUpdate(); }
     void SetRelativePos(float _x, float _y, float _z) { m_v3RelativePos = Vec3(_x, _y, _z); SetMyUpdate(); }
 
-    void SetRelativeScale(const Vec3& _vScale) { m_v3RelativeScale = _vScale; SetMyUpdate(); m_bSizeUpdated = true; }
+    void SetRelativeScale(const Vec3& _vScale);
     void SetRelativeScale(float _x, float _y, float _z);
 
     void SetRelativeRot(const Vec3& _vRot) { m_v3RelativeRot = _vRot; SetMyUpdate(); }
@@ -91,7 +101,7 @@ public:
     void SetRotInheritance(bool _bInherit) { m_bInheritRot = _bInherit; SetMyUpdate(); }
 
     //상대 회전값은 변화하지만 실제로 회전하지는 않음.
-    void SetLockRotation(bool _bLockRot) { m_bLockRot = _bLockRot; }
+    void SetLockRotation(bool _bLockRot) { m_bLockRotation = _bLockRot; }
 
     //이번 틱에 업데이트를 해야한다고 설정. 자신의 움직임에 영향을 받는 자식 오브젝트들에게도 재귀적으로 알림
     void SetMyUpdate();
@@ -102,17 +112,21 @@ public:
     //이 길이를 간이 충돌체 한 변의 반의 길이로 사용하면, 
     //어떤 도형이던 간에 안에 들어오는 형태의 정사각형 또는 정육면체를 만들 수 있다.(간이 충돌체로 적합)
     //사이즈 또는 스케일값이 변했을 경우 간이 충돌체 정보를 새로 생성.
+    //현재 컬링 및 간이 충돌체 계산에 사용 중.
     float GetAABBSideLen() const { return m_fLongestDiagonalLen; }
 
     bool IsUpdated() const { return (m_bNeedMyUpdate || m_bNeedParentUpdate); }
     bool GetSizeUpdated() const { return m_bSizeUpdated; }
+    bool GetDefaultScale() const { return m_bIsDefaultScale; }
 
     //inline Getter
-    ////Inline methods don't need to return the value by const reference
-    Vec3 GetSize() const { return Vec3(m_matSize._11, m_matSize._22, m_matSize._33); }
-    const Matrix& GetMatSize() const { return m_matSize; }
+    const Vec3& GetSize() const { return m_v3Size; }
+
+    //개별 사이즈 + 월드 Scale 반영된 실제 사이즈
+    Vec3 GetWorldSize() const;
+
     const Vec3& GetRelativePos() const { return m_v3RelativePos; }
-    Vec3 GetWorldPos() const { return Vec3(m_matWorld.m[3]); }
+    Vec3 GetWorldPos() const { return Vec3(m_matWorldWithoutSize.m[3]); }
     const Vec3& GetRelativeScale() const { return m_v3RelativeScale; }
     Vec3 GetWorldScale() const;
     const Vec3& GetRelativeRot() const { return m_v3RelativeRot; }
@@ -121,8 +135,9 @@ public:
     Vec3 GetWorldRot(eAXIS3D _eAxis) const;
 
     const Vec3& GetRelativeDir(eDIR_TYPE _eDir) const { return m_vRelativeDir[(UINT)_eDir]; }
-    Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorld.m[(UINT)_eDir]).Normalize(); }
-    const Matrix& GetWorldMatWithoutSize() const { return m_matWorld; }
+    Vec3 GetWorldDir(eDIR_TYPE _eDir) const { return Vec3(m_matWorldWithoutSize.m[(UINT)_eDir]).Normalize(); }
+    const Matrix& GetWorldMatWithoutSize() const { return m_matWorldWithoutSize; }
+    const Matrix& GetWorldMat() const { return m_matWorld; }
 
 
 
@@ -140,8 +155,16 @@ private:
 
 inline void CTransform::SetSize(const Vec3& _vSize)
 {
-    m_matSize._11 = _vSize.x; m_matSize._22 = _vSize.y; m_matSize._33 = _vSize.z;
+    m_v3Size = _vSize;
     m_bSizeUpdated = true;
+}
+
+inline void CTransform::SetRelativeScale(const Vec3& _vScale)
+{ 
+    m_v3RelativeScale = _vScale; 
+    SetMyUpdate(); 
+    m_bSizeUpdated = true; 
+    m_bIsDefaultScale = false;
 }
 
 inline void CTransform::SetRelativeScale(float _x, float _y, float _z)
@@ -149,6 +172,7 @@ inline void CTransform::SetRelativeScale(float _x, float _y, float _z)
     m_v3RelativeScale = Vec3(_x, _y, _z); 
     SetMyUpdate(); 
     m_bSizeUpdated = true;
+    m_bIsDefaultScale = false;
 }
 
 inline void CTransform::SetMyUpdate()
@@ -165,19 +189,24 @@ inline void CTransform::SetMyUpdate()
 //    return (Vec3(m_matSize._11, m_matSize._22, m_matSize._33) * GetWorldScale()).Length();
 //}
 
-inline Vec3 CTransform::GetWorldScale() const
+inline Vec3 CTransform::GetWorldSize() const
 {
     return Vec3(m_matWorld.Right().Length(), m_matWorld.Up().Length(), m_matWorld.Front().Length());
 }
 
+inline Vec3 CTransform::GetWorldScale() const
+{
+    return Vec3(m_matWorldWithoutSize.Right().Length(), m_matWorldWithoutSize.Up().Length(), m_matWorldWithoutSize.Front().Length());
+}
+
 inline Matrix CTransform::GetWorldRotMat() const
 {
-    return Matrix(m_matWorld.Right().Normalize(), m_matWorld.Up().Normalize(), m_matWorld.Front().Normalize());
+    return Matrix(m_matWorldWithoutSize.Right().Normalize(), m_matWorldWithoutSize.Up().Normalize(), m_matWorldWithoutSize.Front().Normalize());
 }
 
 inline Vec3 CTransform::GetWorldRot(eAXIS3D _eAxis) const
 {
-    return m_matWorld.Axis((UINT)_eAxis).Normalize();
+    return m_matWorldWithoutSize.Axis((UINT)_eAxis).Normalize();
 }
 
 inline void CTransform::ClearUpdateState()

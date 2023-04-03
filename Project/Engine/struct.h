@@ -51,10 +51,7 @@ struct tRectInfo
 //CheckCollision2D_OBB_OBB 함수에서 이 구조체에 대한 memcpy를 사용하고 있으므로 수정에 주의할 것.
 struct tOBB2D
 {
-	//방향
-	Vec2 m_vAxis[2];
-
-	Vec2 m_v2CenterPos;
+	Vec2 m_v2Axis[2];
 };
 
 

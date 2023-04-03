@@ -123,6 +123,8 @@ void CreateTestLevel()
 	//CCollisionMgr::GetInst()->AddLayerInteraction2D(INGAME_LAYER_INFO::GroundUnitMain, INGAME_LAYER_INFO::MouseCursor);
 	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(INGAME_LAYER_INFO::MouseCursor);
 
+	CCollisionMgr::GetInst()->AddLayerInteraction2D(INGAME_LAYER_INFO::GroundUnitMain, INGAME_LAYER_INFO::GroundUnitMain);
+
 	for (int i = 0; i < (int)INGAME_LAYER_INFO::idx::END; ++i)
 	{
 		pLevel->SetLayerName(i, string(INGAME_LAYER_INFO::strLayerName[i]));
@@ -146,7 +148,7 @@ void CreateTestLevel()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	for(int i = 0; i < 1; ++i)
+	for(int i = 0; i < 2; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -157,10 +159,7 @@ void CreateTestLevel()
 
 		TestObj->AddComponent(new CAnimator2D);
 
-		CCollider2D_Rect* pCol = new CCollider2D_Rect;
-		Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
-		pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
-		TestObj->AddComponent(pCol);
+
 		
 		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP));
 		
@@ -172,12 +171,24 @@ void CreateTestLevel()
 
 		if (i != 0)
 		{
+			CCollider2D_Circle* pCircle = new CCollider2D_Circle;
+			pCircle->SetRadius(100.f);
+			//CCollider2D_Rect* pCol = new CCollider2D_Rect;
+			//Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+			//pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
+			TestObj->AddComponent(pCircle);
+
 			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
 			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
-			EventDispatcher::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), 0);
+			EventDispatcher::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
 		}
 		else
 		{	
+			CCollider2D_Rect* pCol = new CCollider2D_Rect;
+			Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+			pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
+			TestObj->AddComponent(pCol);
+
 			EventDispatcher::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
 		}
 		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MARINE)));

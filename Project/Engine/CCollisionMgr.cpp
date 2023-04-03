@@ -35,7 +35,7 @@ CCollisionMgr::~CCollisionMgr()
 
 }
 
-void CCollisionMgr::CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx)
+void CCollisionMgr::CalcSimpleCollGrid2D(__in CCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx)
 {
 	_vecIdx.clear();
 
@@ -58,7 +58,7 @@ void CCollisionMgr::CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLB
 		{
 			UINT Idx = (UINT)(y * m_iNum2DGridX + x);
 			
-			m_vec2DGrid[Idx].vecColl.push_back(_pCol);
+			//m_vec2DGrid[Idx].vecColl.push_back(_pCol);
 
 			_vecIdx.push_back(Idx);
 		}
@@ -243,7 +243,7 @@ bool CCollisionMgr::CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollid
 {
 	enum LBRT { L, B, R, T };
 	const Vec4& RectLBRT = _pColRect->GetSimpleCollider();
-	const Vec2& CircleCenter = _pColCircle->GetCenterPos();
+	const Vec2& CircleCenter = _pColCircle->GetCenterPos().XY();
 	float CircleRadius = static_cast<CCollider2D_Circle*>(_pColCircle)->GetRadius();
 
 	//원의 중심점이 사각형의 어느 부분에 있는지 계산한다.
@@ -256,10 +256,11 @@ bool CCollisionMgr::CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollid
 		return true;
 	}
 
-	UINT remainder = idx % 2;
+	//우측으로 1비트 이동 + 1과 비트 and 연산 하면 2로 나눈 나머지 결과와 똑같음
+	bool isOdd = (idx & 0x01);
 
 	//1, 3, 5, 7일 경우 == 상하좌우에 위치할 경우
-	if (1u == remainder)
+	if (isOdd)
 	{
 		float dist = 0.f;
 		switch (idx)
@@ -291,7 +292,7 @@ bool CCollisionMgr::CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollid
 		//거리가 반지름보다 짧을 경우
 		if (dist < CircleRadius)
 		{
-			ComputeV2HitPointByRectLBRT(_pColRect->GetSimpleCollider(), _pColCircle->GetSimpleCollider(), _v2HitPoint);
+			ComputeHitPointByRectLBRT(_pColRect->GetSimpleCollider(), _pColCircle->GetSimpleCollider(), _v2HitPoint);
 			return true;
 		}
 	}
@@ -322,7 +323,7 @@ bool CCollisionMgr::CheckCollision2D_Rect_Circle(CCollider2D* _pColRect, CCollid
 
 			if (true == CheckCollision2D_Circle_Point_CollInfo(CircleCenter, CircleRadius, RectVertex))
 			{
-				ComputeV2HitPointByRectLBRT(_pColRect->GetSimpleCollider(), _pColCircle->GetSimpleCollider(), _v2HitPoint);
+				ComputeHitPointByRectLBRT(_pColRect->GetSimpleCollider(), _pColCircle->GetSimpleCollider(), _v2HitPoint);
 				return true;
 			}
 		}
@@ -339,9 +340,13 @@ bool CCollisionMgr::CheckCollision2D_Rect_OBB(CCollider2D* _pColRect, CCollider2
 bool CCollisionMgr::CheckCollision2D_Rect_Point(CCollider2D* _pColRect, CCollider2D* _pColPoint, Vec2& _v2HitPoint)
 {
 	const Vec4& LBRT = _pColRect->GetSimpleCollider();
-	const Vec2& Point = _pColPoint->GetCenterPos();
+	const Vec2& Point = _pColPoint->GetCenterPos().XY();
 
-	return CheckCollision2D_Rect_Point_CollInfo(LBRT, Point);
+	if (false == CheckCollision2D_Rect_Point_CollInfo(LBRT, Point))
+		return false;
+
+	_v2HitPoint = Point;
+	return true;
 }
 
 bool CCollisionMgr::CheckCollision2D_Rect_Point_CollInfo(const Vec4& _v4LBRT, const Vec2& _v2Point)
@@ -361,8 +366,8 @@ bool CCollisionMgr::CheckCollision2D_Rect_Point_CollInfo(const Vec4& _v4LBRT, co
 
 bool CCollisionMgr::CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, CCollider2D* _pColCircle_2, Vec2& _v2HitPoint)
 {
-	const Vec2& CenterPos_1 = _pColCircle_1->GetCenterPos();
-	const Vec2& CenterPos_2 = _pColCircle_2->GetCenterPos();
+	const Vec2& CenterPos_1 = _pColCircle_1->GetCenterPos().XY();
+	const Vec2& CenterPos_2 = _pColCircle_2->GetCenterPos().XY();
 
 	float dist = Vec2::DistanceSquared(CenterPos_1, CenterPos_2);
 
@@ -370,14 +375,12 @@ bool CCollisionMgr::CheckCollision2D_Circle_Circle(CCollider2D* _pColCircle_1, C
 	RadiusSum += static_cast<CCollider2D_Circle*>(_pColCircle_2)->GetRadius();
 	RadiusSum *= RadiusSum;
 
-	if (dist < RadiusSum)
-	{
-		//TODO: 여기 작성할 것
-		//ComputeV2HitPointByRectLBRT(_pColCircle_1->GetSimpleCollider(), _pColCi)
-	}
+	if (dist > RadiusSum)
+		return false;
 	
+	ComputeHitPointByRectLBRT(_pColCircle_1->GetSimpleCollider(), _pColCircle_2->GetSimpleCollider(), _v2HitPoint);
 
-	return false;
+	return true;
 }
 
 bool CCollisionMgr::CheckCollision2D_Circle_OBB(CCollider2D* _pColCircle, CCollider2D* _pColOBB, Vec2& _v2HitPoint)
@@ -387,17 +390,24 @@ bool CCollisionMgr::CheckCollision2D_Circle_OBB(CCollider2D* _pColCircle, CColli
 
 bool CCollisionMgr::CheckCollision2D_Circle_Point(CCollider2D* _pColCircle, CCollider2D* _pColPoint, Vec2& _v2HitPoint)
 {
-	
+	const Vec2& CenterPos = _pColCircle->GetCenterPos().XY();
+	const Vec2& Point = _pColPoint->GetCenterPos().XY();
 
+	float fRad = static_cast<CCollider2D_Circle*>(_pColCircle)->GetRadius();
 
-	return false;
+	if (Vec2::DistanceSquared(CenterPos, Point) > fRad * fRad)
+		return false;
+
+	_v2HitPoint = Point;
+
+	return true;
 }
 
 bool CCollisionMgr::CheckCollision2D_Circle_Point_CollInfo(const Vec2& _v2CircleCenterPos, float _fCircleRadius, const Vec2& _v2PointPos)
 {
-	float dist = Vec2::Distance(_v2CircleCenterPos, _v2PointPos);
+	float dist = Vec2::DistanceSquared(_v2CircleCenterPos, _v2PointPos);
 
-	if (dist > _fCircleRadius)
+	if (dist > _fCircleRadius * _fCircleRadius)
 		return false;
 
 	return true;
@@ -405,8 +415,8 @@ bool CCollisionMgr::CheckCollision2D_Circle_Point_CollInfo(const Vec2& _v2Circle
 
 bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollider2D* _pColOBB2D_2, Vec2& _v2HitPoint)
 {
-	const tOBB2D& OBB_1 = static_cast<CCollider2D_OBB*>(_pColOBB2D_1)->GetColliderInfo();
-	const tOBB2D& OBB_2 = static_cast<CCollider2D_OBB*>(_pColOBB2D_2)->GetColliderInfo();
+	const tOBB2D& OBB_1 = static_cast<CCollider2D_OBB*>(_pColOBB2D_1)->GetOBBInfo();
+	const tOBB2D& OBB_2 = static_cast<CCollider2D_OBB*>(_pColOBB2D_2)->GetOBBInfo();
 
 	//Vec2의 사이즈 * 2를 계산한다. 최적화를 위해 처음 계산한 값을 계속 사용.
 	static const size_t vec2_2size = sizeof(Vec2) * 2;
@@ -418,7 +428,7 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 	memcpy_s(&arrVec[2], vec2_2size, &OBB_2, vec2_2size);
 
 
-	Vec2 VecMiddle = OBB_1.m_v2CenterPos - OBB_2.m_v2CenterPos;
+	Vec2 VecMiddle = (_pColOBB2D_1->GetCenterPos() - _pColOBB2D_2->GetCenterPos()).XY();
 	for (int i = 0; i < 4; ++i)
 	{
 		Vec2 norm = arrVec[i];
@@ -439,32 +449,30 @@ bool CCollisionMgr::CheckCollision2D_OBB_OBB(CCollider2D* _pColOBB2D_1, CCollide
 			return false;
 	}
 	
-
 	//위 검사를 통과하면 HitPoint를 계산해서 각 충돌체의 충돌시작함수를 호출한다.
-
-
+	ComputeHitPointByRectLBRT(_pColOBB2D_1->GetSimpleCollider(), _pColOBB2D_2->GetSimpleCollider(), _v2HitPoint);
 
 	return true;
 }
 
 bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollider2D* _pColPoint, Vec2& _v2HitPoint)
 {
-	const tOBB2D& OBBInfo = static_cast<CCollider2D_OBB*>(_pColOBB2D)->GetColliderInfo();
-	Vec2 vPointToOBBCenter = _pColPoint->GetCenterPos();
+	const tOBB2D& OBBInfo = static_cast<CCollider2D_OBB*>(_pColOBB2D)->GetOBBInfo();
+	Vec2 vPointToOBBCenter = _pColPoint->GetCenterPos().XY();
 
 	//점의 위치로부터 OBB의 중심 위치까지
-	vPointToOBBCenter -= OBBInfo.m_v2CenterPos;
+	vPointToOBBCenter -= _pColOBB2D->GetCenterPos().XY();
 
 	for (int i = 0; i < (int)eAXIS2D::END; ++i)
 	{
 		//사영의 대상이 될 축을 단위벡터로 전환
-		Vec2 Norm = OBBInfo.m_vAxis[i];
+		Vec2 Norm = OBBInfo.m_v2Axis[i];
 		Norm.Normalize();
 
 		//각 축을 사영 대상 축에 사영하고, 0.5를 곱해서 반 길이로 줄인다.(중심부터의 거리이므로)
 		float NormLen = 0.f;
-		NormLen += fabs(Norm.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::X]));
-		NormLen += fabs(Norm.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::Y]));
+		NormLen += fabs(Norm.Dot(OBBInfo.m_v2Axis[(int)eAXIS2D::X]));
+		NormLen += fabs(Norm.Dot(OBBInfo.m_v2Axis[(int)eAXIS2D::Y]));
 		NormLen *= 0.5f;
 
 		//마찬가지로 점과 OBB의 중심점도 같은 축에 사영한다.
@@ -475,32 +483,8 @@ bool CCollisionMgr::CheckCollision2D_OBB_Point(CCollider2D* _pColOBB2D, CCollide
 			return false;
 	}
 
-	////X축 사영
-	//Vec2 NormX = OBBInfo.m_vAxis[(int)eAXIS2D::X];
-	//NormX.Normalize();
-	//float NormXLen = 0.f;
-	//NormXLen += fabs(NormX.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::X]));
-	//NormXLen += fabs(NormX.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::Y]));
-	//NormXLen *= 0.5f;
 
-	//float PointToOBBCenterProjX = fabs(NormX.Dot(vPointToOBBCenter));
-
-	//if (PointToOBBCenterProjX > NormXLen)
-	//	return false;
-
-
-	//Vec2 NormY = OBBInfo.m_vAxis[(int)eAXIS2D::Y];
-	//NormY.Normalize();
-	//float NormYLen = 0.f;
-	//NormYLen += fabs(NormY.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::X]));
-	//NormYLen += fabs(NormY.Dot(OBBInfo.m_vAxis[(int)eAXIS2D::Y]));
-	//NormYLen *= 0.5f;
-
-	//float PointToOBBCenterProjY = fabs(NormY.Dot(vPointToOBBCenter));
-
-	//if (PointToOBBCenterProjY > NormYLen)
-	//	return false;
-
+	_v2HitPoint = _pColPoint->GetCenterPos();
 
 	return true;
 }
@@ -525,7 +509,7 @@ UINT CCollisionMgr::ComputeRelativePos_Rect_Point(const Vec4& _v4RectLBRT, const
 	return x + y * 3u;
 }
 
-void CCollisionMgr::ComputeV2HitPointByRectLBRT(const Vec4& _v4LBRT_1, const Vec4& _v4LBRT_2, Vec2& _v2HitPoint)
+void CCollisionMgr::ComputeHitPointByRectLBRT(const Vec4& _v4LBRT_1, const Vec4& _v4LBRT_2, Vec2& _v2HitPoint)
 {
 	enum LBRT { L, B, R, T };
 

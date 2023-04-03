@@ -108,6 +108,16 @@ void CUIobj_Collider2D::EditComUI()
 
 void CUIobj_Collider2D::RectEditUI()
 {
+	CCollider2D_Rect* pRect = static_cast<CCollider2D_Rect*>(GetTargetObj()->Collider2D());
+
+	IMGUI_AlignedText("Collider Size: ");
+	
+	//Vec2 v2RectSize = pRect->Getv2RectSize();
+	//if (ImGui::DragFloat2("##CollSize", v2RectSize))
+	//{
+	//	pRect->Setv2RectSize(v2RectSize);
+	//}
+
 }
 
 void CUIobj_Collider2D::CircleEditUI()

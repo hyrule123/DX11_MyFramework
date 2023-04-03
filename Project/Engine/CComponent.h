@@ -30,6 +30,9 @@ public:
     virtual void tick() {}
     virtual void finaltick() = 0;
 
+    //finaltick이 끝난 후에 호출됨. 초기화해줘야 할 더티플래그가 있을 경우 재정의해서 사용할것.
+    virtual void clearDirtyFlags() {};
+
     virtual void cleanup() = 0;
 
     virtual CComponent* Clone() = 0;

@@ -11,60 +11,68 @@ public:
     CCollider(eCOMPONENT_TYPE _ComType, eDIMENSION_TYPE _eDim);
     virtual ~CCollider();
 
+
+public:
+    //충돌체 finaltick()은 transform::finaltick()이후 호출되므로 transform의 값을 마음껏 가져다 사용해도 문제 없음.
+    virtual void finaltick();
+
+    //고유 충돌체의 정보와 AABB 사각형 정보(m_RectInfo)를 업데이트 해야함.
+    virtual void UpdateCollider() = 0;
+
 private:
     const eDIMENSION_TYPE     m_eCollDimension;
     int                 m_iCollisionCount;  // 현재 충돌중인 충돌체의 갯수를 저장
 
+    //Position은 무조건 트랜스폼을 따라감. 이 값은 Transform의 위치값에 추가로 Offset을 줌.
     Vec3                    m_v3OffsetPos;
-    Vec3                    m_v3OffsetScale;
 
-    //사용 안하는 변수들
-    
-    
-    //Matrix              m_matCollider;      // Collider 의 월드행렬
+    //Offset을 통해 계산된 실제 중심점 위치
+    Vec3                    m_v3CenterPos;
 
-    // 고정 사이즈를 사용 - 일단 당장 사용하지는 않음.
-    //bool                m_bFixSize;         
+    //Size는 선택적으로 독립적인 사이즈를 사용 가능
+    Vec3                    m_v3Size;
+    //트랜스폼의 사이즈를 따라갈것인지 / 독립적인 사이즈를 사용할것인지 여부
+    bool                    m_bFollowTransformSize;
 
-
-    //bool                m_bNeedPosUpdate;
-    //bool                m_bNeedRotUpdate;
-    //bool                m_bNeedScaleSizeUpdate;
-
-
-
+    //충돌체 업데이트가 필요할 경우 하위 클래스에서 이 값을 변경해주면 됨.
+    //이 값은 매 프레임 >>1씩 비트시프트가 진행됨
+    UINT8 m_bCollPosUpdated;
+    UINT8 m_bCollSizeUpdated;
 
 public:
     eDIMENSION_TYPE GetDimensionType() const { return m_eCollDimension; }
     
-    void                    SetOffsetPos(const Vec3& _v3Offset) { m_v3OffsetPos = _v3Offset; }
+    void                   SetOffsetPos(const Vec3& _v3Offset) { m_v3OffsetPos = _v3Offset; m_bCollPosUpdated |= 0x02; }
     const Vec3&            GetOffsetPos()      const { return m_v3OffsetPos; }
-    const Vec3&            GetOffsetScale()    const { return m_v3OffsetScale; }
 
-    void            AddCollisionCount() { ++m_iCollisionCount; }
-    void            SubCollisionCount() { --m_iCollisionCount; }
-    int             GetCollisionCount() const { return m_iCollisionCount; }
+    const Vec3& GetCenterPos()      const { return m_v3CenterPos; }
 
-    int             GetLayerIndex()           { return GetOwner()->GetLayer(); }
-    
+    //사이즈를 직접 설정하는순간 Transform과 독립적인 사이즈를 사용
+    //이 함수의 호출 타이밍을 알 수가 없으므로 최소 2프레임동안 업데이트 플래그가 유지되도록 설정해준다.
+    void SetCollSize(const Vec3& _v3Offset) { m_v3Size = _v3Offset; m_bFollowTransformSize = false; m_bCollSizeUpdated |= 0x02; }
+    const Vec3& GetCollSize()    const { return m_v3Size; }
 
-    //nullptr이 반환될 수 있으므로 주의할것
-    CScriptHolder* ScriptHolder()             { return GetOwner()->ScriptHolder(); }
 
-    //inline Setter
-    
-    //void SetColliderMatrix(const Matrix& _mat) { m_matCollider = _mat; }
+    void SetFollowTransformSize(bool _bFollow) { m_bFollowTransformSize = _bFollow; }
+    bool isFollowTransformSize() const { return m_bFollowTransformSize; }
+
+    bool isCollPosUpdated() const { return (0x00 != m_bCollPosUpdated); }
+    bool isCollSizeUpdated() const { return (0x00 != m_bCollSizeUpdated); }
+
 
 
 public:
     void BeginCollision(CCollider* _other, const Vec3& _v3HitPoint);
     void OnCollision(CCollider* _other, const Vec3& _v3HitPoint);
     void EndCollision(CCollider* _other);
+    void            AddCollisionCount() { ++m_iCollisionCount; }
+    void            SubCollisionCount() { --m_iCollisionCount; }
+    int             GetCollisionCount() const { return m_iCollisionCount; }
 
-public:
-    //충돌체 finaltick()은 transform::finaltick()이후 호출되므로 transform의 값을 마음껏 가져다 사용해도 문제 없음.
-    virtual void finaltick() = 0;
+    int             GetLayerIndex() { return GetOwner()->GetLayer(); }
 
-    //고유 충돌체의 정보와 AABB 사각형 정보(m_RectInfo)를 업데이트 해야함.
-    virtual void UpdateCollider() = 0;
+
+    //nullptr이 반환될 수 있으므로 주의할것
+    CScriptHolder* ScriptHolder() { return GetOwner()->ScriptHolder(); }
+
 };

@@ -11,13 +11,13 @@
 
 CCollider2D_Circle::CCollider2D_Circle()
 	: CCollider2D(eCOLLIDER_TYPE_2D::CIRCLE)
-	, m_fRadius(100.f)
+	//, m_fRadius(100.f)
 {
 }
 
 CCollider2D_Circle::CCollider2D_Circle(const CCollider2D_Circle& _other)
 	: CCollider2D(_other)
-	, m_fRadius(_other.m_fRadius)
+	//, m_fRadius(_other.m_fRadius)
 {
 }
 
@@ -34,7 +34,7 @@ bool CCollider2D_Circle::SaveJson(Json::Value* _pJVal)
 
 	Json::Value& jVal = *_pJVal;
 
-	jVal[string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::CIRCLE::JSON_KEY::m_fRadius)] = m_fRadius;
+	//jVal[string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::CIRCLE::JSON_KEY::m_fRadius)] = m_fRadius;
 
 	return true;
 }
@@ -48,24 +48,25 @@ bool CCollider2D_Circle::LoadJson(Json::Value* _pJVal)
 
 	Json::Value& jVal = *_pJVal;
 
-	string strKey = string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::CIRCLE::JSON_KEY::m_fRadius);
-	if (jVal.isMember(strKey))
-		m_fRadius = jVal[strKey].asFloat();
-	else
-		return false;
+	//string strKey = string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::CIRCLE::JSON_KEY::m_fRadius);
+	//if (jVal.isMember(strKey))
+	//	m_fRadius = jVal[strKey].asFloat();
+	//else
+	//	return false;
 
 	return true;
 }
 
-void CCollider2D_Circle::UpdateCollider()
-{
-}
 
 void CCollider2D_Circle::UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos)
 {
-	const Vec2& v2Pos = GetCenterPos();
+	const Vec2& v2Pos = GetCenterPos().XY();
 
-	Vec2 LBRT(m_fRadius, m_fRadius);
+	//반지름은 X값만을 사용.
+	float fRadius = GetCollSize().x;
+
+	//타원은 지원하지 않음
+	Vec2 LBRT(fRadius, fRadius);
 
 	_vSimpleCollLBRTPos = Vec4(v2Pos - LBRT, v2Pos + LBRT);
 }
@@ -74,17 +75,15 @@ void CCollider2D_Circle::DebugRender()
 {
 	CTransform* pTransform = Transform();
 
-	const Matrix& matWorld = pTransform->GetWorldMatWithoutSize();
+	const Matrix& matOffset = Matrix::CreateTranslation(GetCenterPos());
 
-	const Matrix& matOffset = Matrix::CreateTranslation(GetOffsetPos());
-
-	//20 사이즈의 작은 원을 생성
-	const static Matrix matSize = Matrix::CreateScale(m_fRadius);
+	//원을 생성
+	const Matrix& matSize = Matrix::CreateScale(GetRadius() * 2.f);
 
 	tDebugShapeInfo Info = {};
 	Info.eShapeType = (int)eDEBUGSHAPE_TYPE::CIRCLE;
 
-	Info.matWorld = matSize * matOffset * matWorld;
+	Info.matWorld = matSize * matOffset;
 
 	//충돌 중인 물체가 있을 경우 빨강, 아닐 경우 초록
 	Info.vColor = 0 == GetCollisionCount() ? Vec4(0.f, 1.f, 0.f, 1.f) : Vec4(1.f, 0.f, 0.f, 1.f);

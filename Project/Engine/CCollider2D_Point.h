@@ -14,7 +14,6 @@ private:
     //필요한 변수 없음.(CCollider2D::m_v2CenterPos 사용하면 됨)
 
 public:
-    virtual void UpdateCollider() override {};
     virtual void UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos) override;
     virtual void DebugRender() override;
 

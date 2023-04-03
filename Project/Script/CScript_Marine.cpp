@@ -9,7 +9,9 @@ CScript_Marine::CScript_Marine()
 	: CSCEntity(TYPE_INDEX(CScript_Marine), (UINT)FSM_SCGroundUnit::eSTATE::END)
 {
 	AddFState((UINT)FSM_SCGroundUnit::eSTATE::IDLE, new CFState_SCUnitIdle);
-	AddFState((UINT)FSM_SCGroundUnit::eSTATE::MOVE, new CFState_SCUnitMove_Ground);
+	CFState_SCUnitMove_Ground* move = new CFState_SCUnitMove_Ground;
+	move->SetSpeed(100.f);
+	AddFState((UINT)FSM_SCGroundUnit::eSTATE::MOVE, move);
 	AddFState((UINT)FSM_SCGroundUnit::eSTATE::ATTACK, new CFState_SCUnitAttack);
 }
 

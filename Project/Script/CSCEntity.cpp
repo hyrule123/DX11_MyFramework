@@ -53,7 +53,9 @@ CSCEntity::~CSCEntity()
 
 void CSCEntity::initFSM()
 {
+	//유닛은 기본적으로 전부 회전이 존재하지 않음.
 	GetOwner()->Transform()->SetLockRotation(true);
+
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
 	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);

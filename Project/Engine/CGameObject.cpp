@@ -213,6 +213,7 @@ void CGameObject::finaltick()
 		m_vecChild[i]->finaltick();
 	}
 
+
 	//자녀 포함 모든 컴포넌트가 업데이트 되면 업데이트 상황 초기화
 	if (nullptr != m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])
 		static_cast<CTransform*>(m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])->ClearUpdateState();

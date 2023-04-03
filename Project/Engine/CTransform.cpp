@@ -20,11 +20,13 @@
 
 CTransform::CTransform()
 	: CComponent(eCOMPONENT_TYPE::TRANSFORM)
+	, m_v3Size(100.f, 100.f, 100.f)
 	, m_v3RelativeScale(1.f, 1.f, 1.f)
+	, m_bIsDefaultScale(true)
 	, m_bInheritScale(true)
 	, m_bInheritRot(true)
 	, m_bSizeUpdated(true)
-	, m_bLockRot()
+	, m_bLockRotation()
 	, m_bNeedMyUpdate(true)
 	, m_bNeedParentUpdate(true)
 	, m_fLongestDiagonalLen()
@@ -57,15 +59,20 @@ void CTransform::finaltick()
 	//둘중에 하나라도 업데이트 되었을 경우 월드행렬을 새로 계산한다.
 	if (m_bNeedMyUpdate || m_bNeedParentUpdate || m_bSizeUpdated)
 	{
-		m_matWorld = m_matRelative * m_matParent;
+		//부모 행렬이 있을 경우 부모행렬을 곱해줌.
+		if (GetOwner()->GetParent())
+			m_matWorldWithoutSize = m_matRelative * m_matParent;
+		else
+			m_matWorldWithoutSize = m_matRelative;
 
-		MATRIX matWorld = m_matSize * m_matWorld;
+		//자신의 사이즈가 반영된 최종 월드행렬을 계산
+		m_matWorld = Matrix::CreateScale(m_v3Size) * m_matWorldWithoutSize;
 
 		//행렬의 1 ~ 3 부분을 전부 제곱한 뒤, 제곱근을 씌운다. 그러면 가장 긴 대각선의 길이가 나온다.
 		//sqrt(11제곱 + 12제곱 + 13제곱 + 21제곱 + 22제곱 + 23제곱 + 31제곱 + 32제곱 + 33제곱)
-		m_fLongestDiagonalLen = sqrtf(matWorld.Axis((int)eAXIS3D::X).LengthSquared() + matWorld.Axis((int)eAXIS3D::Y).LengthSquared() + matWorld.Axis((int)eAXIS3D::Z).LengthSquared());
+		m_fLongestDiagonalLen = sqrtf(m_matWorld.Axis((int)eAXIS3D::X).LengthSquared() + m_matWorld.Axis((int)eAXIS3D::Y).LengthSquared() + m_matWorld.Axis((int)eAXIS3D::Z).LengthSquared());
 		
-		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &matWorld);
+		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &m_matWorld);
 	}
 }
 
@@ -85,9 +92,9 @@ bool CTransform::SaveJson(Json::Value* _pJson)
 	{//사이즈 X, Y, Z 순서로 저장
 		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3MatSize);
 		jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
-		jVal[strKey].append(Pack_float_int(m_matSize._11).i);
-		jVal[strKey].append(Pack_float_int(m_matSize._22).i);
-		jVal[strKey].append(Pack_float_int(m_matSize._33).i);
+		jVal[strKey].append(Pack_float_int(m_v3Size.x).i);
+		jVal[strKey].append(Pack_float_int(m_v3Size.y).i);
+		jVal[strKey].append(Pack_float_int(m_v3Size.z).i);
 	}
 
 	{
@@ -117,7 +124,7 @@ bool CTransform::SaveJson(Json::Value* _pJson)
 	{
 		jVal[string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::bInheritRot)] = m_bInheritRot;
 		jVal[string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::bInheritScale)] = m_bInheritScale;
-		jVal[string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::bLockRot)] = m_bLockRot;
+		jVal[string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::bLockRot)] = m_bLockRotation;
 	}
 
 	return true;
@@ -211,7 +218,7 @@ bool CTransform::LoadJson(Json::Value* _pJson)
 		strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::bLockRot);
 		if (jVal.isMember(strKey))
 		{
-			m_bLockRot = jVal[strKey].asBool();
+			m_bLockRotation = jVal[strKey].asBool();
 		}
 		else return false;
 	}
@@ -224,42 +231,34 @@ bool CTransform::LoadJson(Json::Value* _pJson)
 
 void CTransform::UpdateMyTransform()
 {
-	//크기행렬(CreateScale을 해주면 자동으로 동차좌표를 추가해서 행렬에 삽입해 준다.
-	const Matrix& matScale = Matrix::CreateScale(m_v3RelativeScale);
+	m_matRelative = Matrix::Identity;
 
-	//방향은 쿼터니언을 사용해서 계산.
-	//회전이 잠겨있을 경우 계산하지 않음.
-	Matrix matRot = Matrix::Identity;
-	/*if (false == m_bLockRot)
-		matRot = MATRIX::CreateFromPitchYawRoll(m_v3RelativeRot.x, m_v3RelativeRot.y, m_v3RelativeRot.z);*/
-
-	if (false == m_bLockRot)
+	//1. 크기행렬
+	if (false == m_bIsDefaultScale)
 	{
-		matRot = MATRIX::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(m_v3RelativeRot.y, m_v3RelativeRot.x, m_v3RelativeRot.z));
-		//방금 구한 회전행렬으로 직관적 방향을 계산한다.
-		//회전행렬을 따로 변수에 저장하지 않으므로 지역변수에 계산해놓은 시점에서 직관적 방향도 구해놓는다.
-		//방법 1 - 행렬곱과 래핑함수를 사용
+		//크기행렬(CreateScale을 해주면 자동으로 동차좌표를 추가해서 행렬에 삽입해 준다.
+		m_matRelative *= Matrix::CreateScale(m_v3RelativeScale);
 	}
 
-	//TODO: 방향 고정일 경우 사인과 코사인을 이용해서 상대적 방향 계산하도록 만들어 놓기
+	//2. 회전행렬
+	Matrix matRot = MATRIX::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(m_v3RelativeRot.y, m_v3RelativeRot.x, m_v3RelativeRot.z));
+	//회전행렬으로부터 직관적 방향을 계산한다.
 	m_vRelativeDir[(UINT)eDIR_TYPE::FRONT] = matRot.Forward();
 	m_vRelativeDir[(UINT)eDIR_TYPE::RIGHT] = matRot.Right();
 	m_vRelativeDir[(UINT)eDIR_TYPE::UP] = matRot.Up();
+	//방향은 쿼터니언을 사용해서 계산.
 	
+	//회전 잠금 상태가 아닐 경우에만 회전행렬을 곱해준다.
+	if (false == m_bLockRotation)
+		m_matRelative *= matRot;
 
-
-
-	//이동행렬
-	const Matrix& matTranslation = Matrix::CreateTranslation(m_v3RelativePos);
-
-	//자신의 월드행렬 완성(상대값)
-	m_matRelative = matScale * matRot * matTranslation;
+	//3. 이동행렬
+	m_matRelative *= Matrix::CreateTranslation(m_v3RelativePos);
 }
 
 void CTransform::UpdateParentMatrix()
 {
 	m_matParent = Matrix::Identity;
-
 
 	//부모 오브젝트가 있을 경우 부모의 월드행렬을 받아온다. 
 	//성공 시 true가 반환되므로 이 때는 상속 과정을 시작하면 됨

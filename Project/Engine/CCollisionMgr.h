@@ -77,7 +77,7 @@ public:
     //공간분할을 위한 자신의 간이 충돌체 꼭지점 정보를 전달한다.
     //Rect는 4개, Point는 1개 등 다를 수 있기 때문에 정점 위치를 vector에 담아서 전달하는 방식으로 구현
     //
-    void CalcAndAddCollider2D(__in CCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx);
+    void CalcSimpleCollGrid2D(__in CCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx);
 
     //이건 트랜스폼에서 추가 연산이 없었을 경우(자신의 간이정점 위치에 변함이 없을 경우) 호출
     void AddCollider2D(CCollider2D* _pCol, const vector<UINT>& _vecIdx);
@@ -133,7 +133,9 @@ private:
     //점이 사각형의 어느 지점에 있는지를 인덱스 형태로 반환한다(위 도식 참고)
     UINT ComputeRelativePos_Rect_Point(const Vec4& _v4RectLBRT, const Vec2& _v2Point);
 
-    void ComputeV2HitPointByRectLBRT(const Vec4& _v4LBRT_1, const Vec4& _v4LBRT_2, Vec2& _v2HitPoint);
+    //LBRT 정보가 들어있는 사각형을 통해 겹치는 부분을 구한다.
+    //일반적으로 정확도를 조금 희생하고 Simple Collider를 사용
+    void ComputeHitPointByRectLBRT(const Vec4& _v4LBRT_1, const Vec4& _v4LBRT_2, Vec2& _v2HitPoint);
 };
 
 

@@ -16,10 +16,13 @@ private:
     virtual bool LoadJson(Json::Value* _pJVal) override;
     
 public:
-    virtual void UpdateCollider() override;
     virtual void UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos) override;
     virtual void DebugRender() override;
 
-    DECLARE_GETSET(float, m_fRadius, Radius);
+private:
+    
+public:
+    void SetRadius(float _fRadius) { SetCollSize(Vec3(_fRadius, 1.f, 1.f)); }
+    float GetRadius() const { return GetCollSize().x; }
 };
 

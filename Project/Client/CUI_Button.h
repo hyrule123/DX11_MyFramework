@@ -20,8 +20,6 @@ private:
 
 public:
     void SetFuncCallback(std::function<void(const tUIData&)> _funcCallback) { m_funcCallback = _funcCallback; }
-
     void SetSize(ImVec2 _vSize) { m_vSize = _vSize; }
-
 };
 
