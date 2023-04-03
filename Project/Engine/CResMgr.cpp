@@ -619,7 +619,7 @@ Ptr<CRes> CResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileN
 		break;
 
 	default:
-		ERROR_MESSAGE(Unknown Resource Type!);
+		ERROR_MESSAGE("Unknown Resource Type!");
 		break;
 	}
 

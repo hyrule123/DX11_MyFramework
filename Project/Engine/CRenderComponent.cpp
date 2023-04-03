@@ -37,7 +37,7 @@ bool CRenderComponent::SaveJson(Json::Value* _pJVal)
 
 	if (false == IsRenderReady())
 	{
-		ERROR_MESSAGE(Render Component is not prepared for render!!);
+		ERROR_MESSAGE("Render Component is not prepared for render!!");
 		return false;
 	}
 
@@ -70,7 +70,7 @@ bool CRenderComponent::LoadJson(Json::Value* _pJVal)
 
 			if (nullptr == m_pMesh)
 			{
-				ERROR_MESSAGE(Failed to load Mesh!!);
+				ERROR_MESSAGE("Failed to load Mesh!!");
 				return false;
 			}
 		}
@@ -85,7 +85,7 @@ bool CRenderComponent::LoadJson(Json::Value* _pJVal)
 
 			if (nullptr == m_pSharedMtrl)
 			{
-				ERROR_MESSAGE(Failed to load Material!!);
+				ERROR_MESSAGE("Failed to load Material!!");
 				return false;
 			}
 

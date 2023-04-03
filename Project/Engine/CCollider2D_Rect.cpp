@@ -58,7 +58,7 @@ bool CCollider2D_Rect::LoadJson(Json::Value* _pJVal)
 	return true;
 }
 
-void CCollider2D_Rect::SetSCBuildingSize(UINT _uNumMegatileX, UINT _uNumMegatileY, const Vec4& _v4LRTBOffset)
+void CCollider2D_Rect::SetSCBuildingSize(int _uNumMegatileX, int _uNumMegatileY, const Vec4& _v4LRTBOffset)
 {
 	enum LBRT { L, R, T, B };
 	//메가타일에서의 사이즈

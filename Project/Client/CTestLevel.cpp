@@ -171,12 +171,11 @@ void CreateTestLevel()
 
 		if (i != 0)
 		{
-			CCollider2D_Circle* pCircle = new CCollider2D_Circle;
-			pCircle->SetRadius(100.f);
-			//CCollider2D_Rect* pCol = new CCollider2D_Rect;
-			//Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
-			//pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
-			TestObj->AddComponent(pCircle);
+			CCollider2D_Rect* pCol = new CCollider2D_Rect;
+			Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+			pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
+			TestObj->AddComponent(pCol);
+
 
 			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
 			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
@@ -184,10 +183,12 @@ void CreateTestLevel()
 		}
 		else
 		{	
-			CCollider2D_Rect* pCol = new CCollider2D_Rect;
-			Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
-			pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
-			TestObj->AddComponent(pCol);
+			CCollider2D_Circle* pCircle = new CCollider2D_Circle;
+			pCircle->SetRadius(50.f);
+			//CCollider2D_Rect* pCol = new CCollider2D_Rect;
+			//Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+			//pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
+			TestObj->AddComponent(pCircle);
 
 			EventDispatcher::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
 		}

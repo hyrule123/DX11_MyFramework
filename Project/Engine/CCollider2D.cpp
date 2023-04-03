@@ -60,7 +60,7 @@ bool CCollider2D::LoadJson(Json::Value* _pJVal)
 			return true;
 	}
 
-	ERROR_MESSAGE(Collider Type Not Matching!!);
+	ERROR_MESSAGE("Collider Type Not Matching!!");
 	return false;
 }
 

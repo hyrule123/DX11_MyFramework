@@ -26,7 +26,6 @@ CUIobj_Collider2D::~CUIobj_Collider2D()
 
 void CUIobj_Collider2D::init()
 {
-	//항상 표시
 	m_ComboColTypeSelector = new CUI_ComboBox("Select Collider Type");
 	AddChildUI(m_ComboColTypeSelector);
 
@@ -45,6 +44,8 @@ void CUIobj_Collider2D::tick()
 
 void CUIobj_Collider2D::CreateNewComUI()
 {
+	m_ComboColTypeSelector->SetActive(true);
+
 	//이 버튼을 누를 경우 새 충돌체를 생성한다.
 	if (ImGui::Button("Create New Collider"))
 	{
@@ -60,13 +61,13 @@ void CUIobj_Collider2D::CreateNewComUI()
 			GetTargetObj()->AddComponent(new CCollider2D_Circle);
 			break;
 		case eCOLLIDER_TYPE_2D::OBB:
-			ERROR_MESSAGE(Not Supported);
+			ERROR_MESSAGE("Not Supported");
 			break;
 		case eCOLLIDER_TYPE_2D::POINT:
-			ERROR_MESSAGE(Not Supported);
+			ERROR_MESSAGE("Not Supported");
 			break;
 		case eCOLLIDER_TYPE_2D::END:
-			ERROR_MESSAGE(Not Supported);
+			ERROR_MESSAGE("Not Supported");
 			break;
 		default:
 			break;
@@ -76,6 +77,8 @@ void CUIobj_Collider2D::CreateNewComUI()
 
 void CUIobj_Collider2D::EditComUI()
 {
+	m_ComboColTypeSelector->SetActive(false);
+
 	eCOLLIDER_TYPE_2D type = GetTargetObj()->Collider2D()->GetColliderType();
 
 	switch (type)
@@ -112,16 +115,49 @@ void CUIobj_Collider2D::RectEditUI()
 
 	IMGUI_AlignedText("Collider Size: ");
 	
-	//Vec2 v2RectSize = pRect->Getv2RectSize();
-	//if (ImGui::DragFloat2("##CollSize", v2RectSize))
-	//{
-	//	pRect->Setv2RectSize(v2RectSize);
-	//}
+	Vec2 v2RectSize = pRect->GetCollSize().XY();
+	if (ImGui::DragFloat2("##CollSize", v2RectSize))
+	{
+		if (v2RectSize.x > 10.f && v2RectSize.y > 10.f)
+		{
+			pRect->SetCollSize(v2RectSize);
+		}
+	}
 
+	ImGui::NewLine();
+	ImGui::TextColored(ImColorPreset::Orange, "[Set Building Size]");
+
+	IMGUI_AlignedText("Mega Tile Size: ");
+	static int BuildingSize[2] = {};
+	ImGui::InputInt2("##BuildingSizeMegaTile", BuildingSize);
+
+	static Vec4 Offset;
+	IMGUI_AlignedText("Offsets(Vec4)");
+	ImGui::InputFloat4("##BuildingSizeOffset", Offset);
+
+	if (ImGui::Button("Apply"))
+	{
+		if(0 < BuildingSize[0]&& 0 < BuildingSize[1])
+			pRect->SetSCBuildingSize(BuildingSize[0], BuildingSize[1], Offset);
+		else
+		{
+			ERROR_MESSAGE("Mega tile numbers must be more than 1");
+		}
+	}
+	
 }
 
 void CUIobj_Collider2D::CircleEditUI()
 {
+	CCollider2D_Circle* pCol = static_cast<CCollider2D_Circle*>(GetTargetObj()->Collider2D());
+	float fRad = pCol->GetRadius();
+	
+	IMGUI_AlignedText("Radius : ");
+	if (ImGui::DragFloat("##SetRadius", &fRad))
+	{
+		if(fRad > 0.f)
+			pCol->SetRadius(fRad);
+	}
 }
 
 //void CUIobj_Collider2D::render_update()

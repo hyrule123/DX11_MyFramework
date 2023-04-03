@@ -49,7 +49,9 @@ public:
 
     //사이즈를 직접 설정하는순간 Transform과 독립적인 사이즈를 사용
     //이 함수의 호출 타이밍을 알 수가 없으므로 최소 2프레임동안 업데이트 플래그가 유지되도록 설정해준다.
-    void SetCollSize(const Vec3& _v3Offset) { m_v3Size = _v3Offset; m_bFollowTransformSize = false; m_bCollSizeUpdated |= 0x02; }
+    void SetCollSize(const Vec3& _v3Size) { m_v3Size = _v3Size; m_bFollowTransformSize = false; m_bCollSizeUpdated |= 0x02; }
+    void SetCollSize(const Vec2& _v2Size) { m_v3Size = _v2Size; m_bFollowTransformSize = false; m_bCollSizeUpdated |= 0x02; }
+
     const Vec3& GetCollSize()    const { return m_v3Size; }
 
 

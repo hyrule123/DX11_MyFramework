@@ -90,7 +90,7 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 
 				if (nullptr == newScript)
 				{
-					ERROR_MESSAGE(Failed to load Script!!);
+					ERROR_MESSAGE("Failed to load Script!!");
 					return false;
 				}
 
