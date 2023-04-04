@@ -23,8 +23,10 @@ bool CUI_DragNDropSender::beginUI()
 
 void CUI_DragNDropSender::render_update()
 {
-	const tPtrData& pData = GetPtrData();
-	if(ImGui::SetDragDropPayload(m_strKeySend.c_str(), pData.ptr, pData.size))
+	tPtrData* pData = new tPtrData;
+	memset(pData, 0, sizeof(tPtrData));
+	(*pData) = GetPtrData();
+	if(ImGui::SetDragDropPayload(m_strKeySend.c_str(), pData, sizeof(tPtrData)))
 		ImGui::Text(m_strKeySend.c_str());
 	//위젯 Child를 넣을 경우 드래그 앤 드랍을 할 때 Description을 보여줄 수 있음. 
 }
@@ -56,7 +58,9 @@ void CUI_DragNDropReceiver::render_update()
 {
 	if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_strKeyReceive.c_str()))
 	{
-		SetDataPtr(tPtrData{ payload->Data, (size_t)payload->DataSize });
+		tPtrData data = {};
+		memcpy(&data, payload->Data, payload->DataSize);
+		SetDataPtr(data);
 	}
 }
 

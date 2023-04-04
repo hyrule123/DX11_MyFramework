@@ -194,7 +194,6 @@
     <ClInclude Include="ImGui\imgui_impl_win32.h" />
     <ClInclude Include="ImGui\imgui_internal.h" />
     <ClInclude Include="ImGui\imgui_stdlib.h" />
-    <ClInclude Include="JsonCPP.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />

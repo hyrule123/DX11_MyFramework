@@ -20,8 +20,6 @@
 
 #include <fstream>
 
-#include "JsonCPP.h"
-
 #include "CUIobj_Contents.h"
 #include "CUIobj_Outliner.h"
 #include "CUIobj_AnimEditor.h"
@@ -62,6 +60,15 @@ CImGuiMgr::~CImGuiMgr()
 
         vecUI.push_back(iter.second);
     }
+
+    //auto iter = m_mapUI.begin();
+    //while (iter != m_mapUI.end())
+    //{
+    //    iter = m_mapUI.erase(iter);
+    //}
+
+    
+    m_mapUI.clear();
 
     size_t size = vecUI.size();
     for (size_t i = 0; i < size; ++i)
@@ -198,6 +205,7 @@ void CImGuiMgr::ImGuiInit(HWND _hWnd)
 
     ImGui::LoadIniSettingsFromDisk(fullPath.string().c_str());
 
+    fullPath.clear();
     fullPath = origDir;
     fullPath /= "ImGuiSave.json";
 

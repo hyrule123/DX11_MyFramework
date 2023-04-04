@@ -20,7 +20,7 @@
 #include <Engine/CTransform.h>
 #include <Engine/CRenderMgr.h>
 
-#include "JsonCPP.h"
+#include <Engine/jsoncpp.h>
 
 CUIobj_Inspector::CUIobj_Inspector()
 	: CUI_BasicWindow("Inspector")

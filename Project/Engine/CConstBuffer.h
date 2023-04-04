@@ -6,6 +6,11 @@
 class CConstBuffer
     : public CEntity
 {
+    CLONE_DISABLE(CConstBuffer);
+public:
+    CConstBuffer(UINT _iRegisterNum);
+    virtual ~CConstBuffer();
+
 private:
     ComPtr<ID3D11Buffer>    m_CB;
     D3D11_BUFFER_DESC       m_Desc;
@@ -29,9 +34,6 @@ public:
 
 
 
-    CLONE_DISABLE(CConstBuffer);
-public:
-    CConstBuffer(UINT _iRegisterNum);
-    ~CConstBuffer();
+
 };
 

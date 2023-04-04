@@ -32,12 +32,13 @@
 
 #include <Engine/CResMgr.h>
 
-#include <UtilLib_DLL/json/json.h>
+
 
 #include <Engine/CRandMgr.h>
 
 #include <Engine/EventDispatcher.h>
 
+#include <Engine/jsoncpp.h>
 
 #include "EditAnim.h"
 

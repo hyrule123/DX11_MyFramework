@@ -8,7 +8,7 @@ class CTransform :
 public:
     CTransform();
     //단순 Value만 저장 중이므로 기본 복사 생성자로도 충분함.
-    ~CTransform();
+    virtual ~CTransform();
     CLONE(CTransform);
 
 public:

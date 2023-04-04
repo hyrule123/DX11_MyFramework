@@ -19,7 +19,7 @@ CUIobj_AnimEditor::~CUIobj_AnimEditor()
 
 void CUIobj_AnimEditor::init()
 {
-	m_AnimAtlasReceiver = new CUI_DragNDropReceiver(DIRECTORY_NAME::RES_ARR[(int)eRES_TYPE::ANIM2D_ATLAS].data());
+	m_AnimAtlasReceiver = new CUI_DragNDropReceiver(string(DIRECTORY_NAME::RES_ARR[(int)eRES_TYPE::ANIM2D_ATLAS]));
 	AddChildUI(m_AnimAtlasReceiver);
 }
 

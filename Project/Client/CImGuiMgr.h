@@ -9,7 +9,7 @@
 
 #include "macroFunc_Imgui.h"
 
-#include <UtilLib_DLL/json/json.h>
+#include <Engine/jsoncpp.h>
 
 #include "CUI_Structs.h"
 
@@ -33,7 +33,7 @@ class CImGuiMgr :
     SINGLETON(CImGuiMgr);
 private:
     HWND                m_hWnd;
-    map<string, CUI*>   m_mapUI;
+    unordered_map<string, CUI*>   m_mapUI;
 
     CUI_Menubar* m_MainMenubar;
     CUI_Menu* m_OpenWindowsMenu;
@@ -52,7 +52,7 @@ private:
 
 public:
     CUI* FindUI(const string& _UIName);
-    const map<string, CUI*>& GetMapUI() const { return m_mapUI; }
+    const unordered_map<string, CUI*>& GetMapUI() const { return m_mapUI; }
 
     HWND GetHwnd() const { return m_hWnd; }
     void AddUI(CUI* _pUI);

@@ -23,7 +23,7 @@ namespace strKey_Texture
 	}
 	namespace NOISE
 	{
-		constexpr std::string_view NOISE_01_PNG = "Noise/noise_01.png";
+		constexpr std::string_view NOISE_01_PNG = "noise/noise_01.png";
 	}
 	namespace TERRAN
 	{

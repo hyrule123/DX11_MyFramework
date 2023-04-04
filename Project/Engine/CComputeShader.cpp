@@ -10,7 +10,7 @@
 //상수버퍼
 #include "CConstBuffer.h"
 
-#include <UtilLib_DLL/json/json.h>
+#include "jsoncpp.h"
 
 CComputeShader::CComputeShader()
 	: CShader(eRES_TYPE::COMPUTE_SHADER)

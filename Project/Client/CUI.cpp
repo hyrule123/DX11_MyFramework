@@ -24,7 +24,7 @@ CUI::~CUI()
 			delete(m_vecChildUI[i]);
 	}
 
-	CImGuiMgr::GetInst()->RemoveUI(GetStrID());
+	//CImGuiMgr::GetInst()->RemoveUI(GetStrID());
 }
 
 

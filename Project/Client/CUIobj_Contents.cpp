@@ -76,9 +76,9 @@ void CUIobj_Contents::UpdateResources()
 			Node->SetDataPtr(data);
 			Node->SetFuncCallback(eUI_MOUSE_STATUS::LBTN_CLICKED, std::bind(&CUIobj_Contents::ChangeSelectedTreeNode, this, std::placeholders::_1));
 
-			CUI_DragNDropSender* dndSender = new CUI_DragNDropSender(string(DIRECTORY_NAME::RES_ARR[i]));
-			dndSender->SetDataPtr(data);
-			Node->AddChildUI(dndSender);
+			//CUI_DragNDropSender* dndSender = new CUI_DragNDropSender(string(DIRECTORY_NAME::RES_ARR[i]));
+			//dndSender->SetDataPtr(data);
+			//Node->AddChildUI(dndSender);
 
 			m_arrpResTypeRoot[i]->AddChildNode(Node);
 		}
