@@ -16,7 +16,7 @@
 #include <fstream>
 
 
-
+DEFINITION_SINGLETON(CResMgr);
 
 CResMgr::CResMgr()
 	: m_bResUpdated(true)

@@ -22,7 +22,7 @@
     <ClInclude Include="CEngine.h">
       <Filter>_Source\01. Engine</Filter>
     </ClInclude>
-    <ClInclude Include="CSingleton.h">
+    <ClInclude Include="Singleton.h">
       <Filter>_Source\09. Module</Filter>
     </ClInclude>
     <ClInclude Include="CDevice.h">

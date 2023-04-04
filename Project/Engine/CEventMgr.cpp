@@ -6,6 +6,7 @@
 #include "CGameObject.h"
 #include "CComponent.h"
 
+DEFINITION_SINGLETON(CEventMgr);
 
 CEventMgr::CEventMgr()
 	: m_bLevelModified()

@@ -33,6 +33,8 @@
 
 #include "CCollider2D_Point.h"
 
+DEFINITION_SINGLETON(CLevelMgr);
+
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
 {

@@ -6,6 +6,8 @@
 
 #include "define.h"
 
+DEFINITION_SINGLETON(CTimeMgr);
+
 CTimeMgr::CTimeMgr()
 	: m_llPrevCount{}
 	, m_llCurCount{}

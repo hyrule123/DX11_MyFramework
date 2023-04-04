@@ -46,8 +46,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     //복사용 스크립트 원본 등록 함수 호출
-    CScriptMgrInitializer Init;
-    Init.init();
+    CScriptMgrInitializer::init();
 
 
     CEditorObjMgr::GetInst()->init();
@@ -90,6 +89,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }       
     }
 
+    CImGuiMgr::Destroy();
+    CEditorObjMgr::Destroy();
+    CEngine::Destroy();
 
     return (int) msg.wParam;
 }

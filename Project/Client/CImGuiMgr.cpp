@@ -24,7 +24,7 @@
 #include "CUIobj_Outliner.h"
 #include "CUIobj_AnimEditor.h"
 
-
+DEFINITION_SINGLETON(CImGuiMgr);
 
 CImGuiMgr::CImGuiMgr()
     : m_hWnd()

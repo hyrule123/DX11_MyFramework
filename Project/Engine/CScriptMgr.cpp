@@ -2,6 +2,7 @@
 #include "CScriptMgr.h"
 #include "CScript.h"
 
+DEFINITION_SINGLETON(CScriptMgr);
 
 CScriptMgr::CScriptMgr()
 {

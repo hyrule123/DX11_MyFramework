@@ -7,8 +7,5 @@ class CScript;
 class CScriptMgrInitializer
 {
 public:
-	CScriptMgrInitializer() = default;
-	virtual ~CScriptMgrInitializer() = default;
-public:
-	void init();
+	static void init();
 };

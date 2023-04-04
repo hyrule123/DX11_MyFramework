@@ -1,14 +1,13 @@
 #pragma once
-#include "CSingleton.h"
+#include "Singleton.h"
 
 #include "global.h"
 #include "struct.h"
 
 class CGameObject;
-class CEventMgr :
-    public CSingleton<CEventMgr>
+class CEventMgr
 {
-    SINGLETON(CEventMgr);
+    DECLARE_SINGLETON(CEventMgr);
 
 public:
     void tick();

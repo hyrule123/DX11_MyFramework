@@ -4,6 +4,7 @@
 #include "CKeyMgr.h"
 #include "CEngine.h"
 
+DEFINITION_SINGLETON(CKeyMgr);
 
 int g_arrVK[(UINT)eKEY::END]
 =

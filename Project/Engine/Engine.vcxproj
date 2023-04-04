@@ -236,7 +236,7 @@
     <ClInclude Include="CScriptHolder.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CShader.h" />
-    <ClInclude Include="CSingleton.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="CStructBuffer.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTilemap.h" />

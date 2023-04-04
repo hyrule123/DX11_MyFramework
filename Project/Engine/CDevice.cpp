@@ -4,6 +4,8 @@
 #include "CEngine.h"
 #include "CConstBuffer.h"
 
+DEFINITION_SINGLETON(CDevice);
+
 CDevice::CDevice()
     : m_hWnd(nullptr)  
     , m_ViewPort{}

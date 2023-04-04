@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CSingleton.h"
+#include "Singleton.h"
 
 #include "define.h"
 #include "S_0_H_STD2DLight.hlsli"
@@ -44,9 +44,9 @@ struct tInstancingKey
 
 
 
-class CRenderMgr : public CSingleton<CRenderMgr>
+class CRenderMgr
 {
-	SINGLETON(CRenderMgr);
+	DECLARE_SINGLETON(CRenderMgr);
 
 public:
 	void init();

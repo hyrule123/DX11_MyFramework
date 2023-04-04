@@ -2,6 +2,8 @@
 
 #include "define.h"
 
+#include "Singleton.h"
+
 enum class eKEY
 {
 	UP,		// VK_UP
@@ -63,9 +65,8 @@ struct tKeyInfo
 
 
 class CKeyMgr 
-	: public CSingleton<CKeyMgr>
 {
-	SINGLETON(CKeyMgr);
+	DECLARE_SINGLETON(CKeyMgr);
 private:
 	vector<tKeyInfo>	m_vecKey;
 	Vec2				m_vMouseLocalPos;

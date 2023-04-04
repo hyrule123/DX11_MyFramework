@@ -1,5 +1,5 @@
 #pragma once
-#include "CSingleton.h"
+#include "Singleton.h"
 
 #include "define.h"
 
@@ -19,10 +19,9 @@
 //1. define.h enum에 Res 타입 추가했는지 확인
 //2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
 
-class CResMgr :
-    public CSingleton<CResMgr>
+class CResMgr
 {
-    SINGLETON(CResMgr);
+    DECLARE_SINGLETON(CResMgr);
 public:
     void init();
     void cleartick() { m_bResUpdated = false; }

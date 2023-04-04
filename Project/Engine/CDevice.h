@@ -5,8 +5,8 @@
 class CConstBuffer;
 
 class CDevice
-	: public CSingleton<CDevice>
 {
+	DECLARE_SINGLETON(CDevice);
 private:
 	//초기화 순서 + 렌더링 파이프라인 순서대로 정렬
 	//Window
@@ -82,10 +82,5 @@ public:
 	ID3D11RasterizerState* GetRSState(eRASTERIZER_TYPE _Type) { return m_arrRSState[(UINT)_Type].Get(); }
 	ID3D11DepthStencilState* GetDSState(eDEPTH_STENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }
 	ID3D11BlendState* GetBSState(eBLEND_STATE_TYPE _Type) { return m_arrBSState[(UINT)_Type].Get(); }
-
-
-public:
-	CDevice();
-	~CDevice();
 };
 

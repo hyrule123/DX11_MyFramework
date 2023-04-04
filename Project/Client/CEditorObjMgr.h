@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/CSingleton.h>
+#include <Engine/Singleton.h>
 
 #include <Engine/S_0_H_Debug.hlsli>
 
@@ -8,10 +8,9 @@ class CGameObject;
 class CCamera;
 
 
-class CEditorObjMgr :
-    public CSingleton<CEditorObjMgr>
+class CEditorObjMgr
 {
-    SINGLETON(CEditorObjMgr);
+    DECLARE_SINGLETON(CEditorObjMgr);
 public:
     void init();
     void progress();

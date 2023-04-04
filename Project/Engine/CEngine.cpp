@@ -13,6 +13,8 @@
 #include "CRandMgr.h"
 #include "CScriptMgr.h"
 
+DEFINITION_SINGLETON(CEngine);
+
 CEngine::CEngine()
 	: m_hWnd(nullptr)
 	, m_ClearColor(0.5f, 0.5f, 0.5f, 1.f)
@@ -21,7 +23,15 @@ CEngine::CEngine()
 
 CEngine::~CEngine()
 {
-
+	CScriptMgr::Destroy();
+	CCollisionMgr::Destroy();
+	CEventMgr::Destroy();
+	CRenderMgr::Destroy();
+	CLevelMgr::Destroy();
+	CResMgr::Destroy();
+	CTimeMgr::Destroy();
+	CKeyMgr::Destroy();
+	CPathMgr::Destroy();
 }
 
 int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
@@ -50,7 +60,6 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
-	CTimeMgr::GetInst();
 	CResMgr::GetInst()->init();
 
 	CLevelMgr::GetInst()->init();		
