@@ -1,6 +1,8 @@
 #pragma once
 
+#ifndef JSON_DLL
 #define JSON_DLL
+#endif
 #include <UtilLib_DLL/json/json.h>
 
 #ifdef _DEBUG
