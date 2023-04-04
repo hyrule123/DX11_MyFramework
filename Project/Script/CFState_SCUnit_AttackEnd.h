@@ -18,6 +18,8 @@ public:
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
     virtual bool CheckCondition(UINT _eState) override;
 
-
+private:
+    bool m_bCurMotionEnd;
+    UINT m_ReservedMotion;
 };
 

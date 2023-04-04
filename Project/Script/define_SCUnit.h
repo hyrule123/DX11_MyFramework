@@ -46,34 +46,25 @@ enum class eSCUNIT_MOVE_TYPE
     Air
 };
 
-#define FSM(_NameSpace, ...) \
-namespace FSM_##_NameSpace\
-{\
-    enum eSTATE : UINT {\
-        __VA_ARGS__\
-        , END\
-    };\
-\
-    constexpr std::string_view strKeyAnim[(int)eSTATE::END] = {\
-        #__VA_ARGS__\
-    };\
+namespace FSM_SCGroundUnit
+{
+    enum eSTATE
+    {
+        IDLE,
+        MOVE,
+        ATTACK_BEGIN,
+        ATTACK,
+        ATTACK_END,
+        DEATH,
+        END
+    };
+
+    constexpr std::string_view strKey_Anim[END] = {
+        "IDLE",
+        "MOVE",
+        "ATTACK_BEGIN",
+        "ATTACK",
+        "ATTACK_END",
+        "DEATH"
+    };
 }
-
-
-FSM(SCGroundUnit,
-    IDLE,
-    MOVE,
-    ATTACK_BEGIN,
-    ATTACK,
-    ATTACK_END,
-    DEATH
-);
-
-FSM(MARINE,
-    IDLE,
-    MOVE,
-    ATTACK_BEGIN,
-    ATTACK,
-    ATTACK_END,
-    DEATH
-    );

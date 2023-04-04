@@ -25,7 +25,7 @@ void CFState_SCUnitMove_Ground::EnterState()
 	if (pAnimator)
 	{
 		using namespace FSM_SCGroundUnit;
-		pAnimator->Play(string(strKeyAnim2D[(UINT)eSTATE::MOVE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
+		pAnimator->Play(string(strKey_Anim[(UINT)eSTATE::MOVE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
 	}
 }
 

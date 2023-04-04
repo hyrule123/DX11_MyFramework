@@ -39,6 +39,8 @@
 #include <Engine/EventDispatcher.h>
 
 
+#include "EditAnim.h"
+
 namespace INGAME_LAYER_INFO
 {
 	enum idx
@@ -118,6 +120,7 @@ namespace INGAME_LAYER_INFO
 
 void CreateMainGame()
 {
+
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 
 	//CCollisionMgr::GetInst()->AddLayerInteraction2D(INGAME_LAYER_INFO::GroundUnitMain, INGAME_LAYER_INFO::MouseCursor);
@@ -132,13 +135,13 @@ void CreateMainGame()
 
 	LoadAllTexture();
 	LoadUserMtrl();
-	LoadAnim();
+	AnimEditor::EditAnim();
 
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	Ptr<CMaterial> SCUnitMtrl = new CMaterial;
 
-	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(RES_TEXTURE::MARINE_BMP));
+	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(strKey_Texture::TERRAN::MARINE_BMP));
 
 	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(string(RES_SHADER::GRAPHICS::SCUNITGROUND));
 	SCUnitMtrl->SetShader(pSCUnitShader);
@@ -148,7 +151,7 @@ void CreateMainGame()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < 1; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -161,7 +164,7 @@ void CreateMainGame()
 
 
 		
-		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(RES_TEXTURE::MARINE_BMP));
+		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
 		
 		TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
 

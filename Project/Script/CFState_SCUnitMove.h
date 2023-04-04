@@ -16,6 +16,7 @@ public:
 public:
     virtual void init() override;
 
+
 private:
     const eSCUNIT_MOVE_TYPE m_eMoveType;
 

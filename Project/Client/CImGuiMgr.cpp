@@ -235,10 +235,9 @@ void CImGuiMgr::CreateDefaultUI()
     AddUI(m_TestWindow);
 
     AddUI(new CUIobj_Inspector);
-    AddUI(new CUIobj_Contents);
     AddUI(new CUIobj_Outliner);
-
-    AddUI(new CUIobj_AnimEditor);
+    //AddUI(new CUIobj_Contents);
+    //AddUI(new CUIobj_AnimEditor);
     //AddUI(new CUIobj_SCPrefabEditor);
 }
 

@@ -51,32 +51,32 @@ CAnim2DAtlas::~CAnim2DAtlas()
 
 
 
-bool CAnim2DAtlas::Save(const std::filesystem::path& _fileName)
-{
-	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
-	std::filesystem::path FilePath = GETRESPATH;
-	FilePath /= _fileName;
-
-	std::ofstream outFile(FilePath);
-	if (outFile.is_open())
-	{
-		Json::Value SaveVal;
-
-		bool Suc = SaveJson(&SaveVal);
-		if (true == Suc)
-		{
-			Json::StreamWriterBuilder builder;
-			builder["indentation"] = ""; //The JSON document is written in a single line
-			std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-			writer->write(SaveVal, &outFile);
-		}
-		outFile.close();
-
-		return Suc;
-	}
-
-	return false;
-}
+//bool CAnim2DAtlas::Save(const std::filesystem::path& _fileName)
+//{
+//	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
+//	std::filesystem::path FilePath = GETRESPATH;
+//	FilePath /= _fileName;
+//
+//	std::ofstream outFile(FilePath);
+//	if (outFile.is_open())
+//	{
+//		Json::Value SaveVal;
+//
+//		bool Suc = SaveJson(&SaveVal);
+//		if (true == Suc)
+//		{
+//			Json::StreamWriterBuilder builder;
+//			builder["indentation"] = ""; //The JSON document is written in a single line
+//			std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+//			writer->write(SaveVal, &outFile);
+//		}
+//		outFile.close();
+//
+//		return Suc;
+//	}
+//
+//	return false;
+//}
 
 //TODO : 여기 작성
 bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)

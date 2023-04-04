@@ -97,11 +97,11 @@ public:
     void RemoveChild(CGameObject* _Object);
 
     //Recursive
-    void AddAllHierarchyObjects(__in int _iLayerIdx, __out vector<CGameObject*>& _vecObj);
+    void AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _vecObj);
     void SetParentMatrixUpdated();
 
     //기타
-    bool GetParentWorldMatrix(__out Matrix& _mat);
+    bool GetParentWorldMatrix(Matrix& _mat);
 
     const vector<CGameObject*>& GetvecChilds() const { return m_vecChild; }
     size_t GetNumChilds() const { return m_vecChild.size(); }

@@ -25,7 +25,7 @@ void CFState_SCUnitIdle::EnterState()
     if (pAnimator)
     {
         using namespace FSM_SCGroundUnit;
-        pAnimator->Play(string(strKeyAnim2D[(int)eSTATE::IDLE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
+        pAnimator->Play(string(strKey_Anim[(int)eSTATE::IDLE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
     }
 }
 

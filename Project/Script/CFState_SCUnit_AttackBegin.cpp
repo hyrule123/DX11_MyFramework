@@ -8,7 +8,7 @@
 
 
 CFState_SCUnit_AttackBegin::CFState_SCUnit_AttackBegin()
-	: CFState(TYPE_INDEX(CFState_SCUnit_AttackBegin), FSM_MARINE::)
+	: CFState(TYPE_INDEX(CFState_SCUnit_AttackBegin), FSM_SCGroundUnit::ATTACK_BEGIN)
 {
 }
 
@@ -22,7 +22,7 @@ void CFState_SCUnit_AttackBegin::EnterState()
 	if (pAnimator)
 	{
 		using namespace FSM_SCGroundUnit;
-		pAnimator->Play(string(strKeyAnim[eSTATE::ATTACK]), eANIM_LOOPMODE::NORMAL_LOOP, false);
+		pAnimator->Play(string(strKey_Anim[eSTATE::ATTACK]), eANIM_LOOPMODE::NORMAL_LOOP, false);
 	}
 }
 
@@ -32,7 +32,7 @@ void CFState_SCUnit_AttackBegin::OnState()
 	{
 		if (Animator2D()->IsFinished())
 		{
-			GetFStateMgr()->Transition(FSM_MARINE::ATTACK);
+			GetFStateMgr()->Transition(FSM_SCGroundUnit::ATTACK);
 		}
 	}
 		
@@ -46,7 +46,7 @@ void CFState_SCUnit_AttackBegin::EndState()
 bool CFState_SCUnit_AttackBegin::CheckCondition(UINT _eState)
 {
 	//사망 외엔 return false(전환 불가)
-	if (FSM_MARINE::DEATH == _eState)
+	if (FSM_SCGroundUnit::DEATH == _eState)
 		return true;
 
 	return false;

@@ -41,8 +41,6 @@ void CResMgr::init()
 	CreateDefaultMaterial();
 
 	LoadDefaultTexture();
-
-	
 }
 
 void CResMgr::CreateResClassTypeIndex()

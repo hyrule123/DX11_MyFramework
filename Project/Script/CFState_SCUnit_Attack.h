@@ -29,4 +29,5 @@ private:
     UINT m_uDamageAddedPerUpgrade;
     UINT m_uWeaponRange;
 
+    int m_bReservedMove;
 };

@@ -70,7 +70,6 @@ void CEditorObjMgr::init()
 		CScript_MouseCursor* pScript = m_pMousePicker->ScriptHolder()->GetScript<CScript_MouseCursor>();
 		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
-		//TODO : 임시로 마우스 오브젝트를 20번 레이어에 생성함
 		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
 
 		CCollisionMgr* pMgr = CCollisionMgr::GetInst();
