@@ -7,7 +7,7 @@ _type();\
 static _type* m_Inst;\
 public:\
 static _type* GetInst() { if(nullptr == m_Inst) m_Inst = new _type; return m_Inst; };\
-static void Destroy() { if(nullptr != m_Inst) { delete m_Inst; m_Inst = nullptr; } }
+static void Destroy() { if(m_Inst) { delete m_Inst; m_Inst = nullptr; } }
 
 #define DEFINITION_SINGLETON(_type) \
 _type* _type::m_Inst = nullptr

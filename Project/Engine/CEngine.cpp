@@ -32,6 +32,7 @@ CEngine::~CEngine()
 	CTimeMgr::Destroy();
 	CKeyMgr::Destroy();
 	CPathMgr::Destroy();
+	CDevice::Destroy();
 }
 
 int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
