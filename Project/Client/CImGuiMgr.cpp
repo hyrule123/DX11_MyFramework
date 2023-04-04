@@ -42,7 +42,7 @@ CImGuiMgr::~CImGuiMgr()
     std::filesystem::path origDir = CPathMgr::GetInst()->GetPathRel_Content();
     origDir /= DIRECTORY_NAME::SAVED_SETTING;
     std::filesystem::path fullPath = origDir / "imgui.ini";
-    ImGui::SaveIniSettingsToDisk(fullPath.string().c_str());
+    //ImGui::SaveIniSettingsToDisk(fullPath.string().c_str());
 
     vector<CUI*> vecUI;
 
@@ -203,7 +203,7 @@ void CImGuiMgr::ImGuiInit(HWND _hWnd)
     std::filesystem::path fullPath = origDir / "imgui.ini";
     io.IniFilename = NULL;
 
-    ImGui::LoadIniSettingsFromDisk(fullPath.string().c_str());
+    //ImGui::LoadIniSettingsFromDisk(fullPath.string().c_str());
 
     fullPath.clear();
     fullPath = origDir;
