@@ -20,6 +20,7 @@ CAnimator2D::CAnimator2D()
     , m_uCurFrameIdx()
     , m_fCurTime()
     , m_bFinish()
+    , m_bFinishChecked()
     , m_fTimePerFrame()
     , m_fFullPlayTime()
     , m_eLoopMode()
@@ -68,6 +69,8 @@ void CAnimator2D::finaltick()
     //재생할 애니메이션이 있을 경우 프레임 처리
     if (nullptr != m_pCurAnim)
     {
+        m_bFinishChecked = false;
+
         //재생이 끝나지 않았을 경우 현재 프레임 업데이트
         if (false == m_bFinish)
         {
@@ -90,6 +93,7 @@ void CAnimator2D::finaltick()
                     //마지막 프레임으로 고정시킨다
                     m_uCurFrame = m_uMaxFrameCount - 1;
                     m_bFinish = true;
+                    m_bFinishChecked = true;
                 }
             }
 
@@ -200,7 +204,6 @@ void CAnimator2D::UpdateData()
     pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
     pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
  
-
     //애니메이션의 UV 정보를 받아옴.
     const tAnimFrameUV& frameuv = m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameUVData(m_uCalculatedIdx);
 
@@ -219,15 +222,15 @@ void CAnimator2D::AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> 
 }
 
 
-void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse)
+bool CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse)
 {
     if (nullptr != m_arrAtlasTex[m_iCurAtlasTexIdx])
     {
         const tAnim2D* curanim = m_arrAtlasTex[m_iCurAtlasTexIdx]->FindAnim2D(_strAnimName);
 
-        //같은 애니메이션일 경우 바꾸지 않음
+        //같은 애니메이션일 경우 바꾸지 않음. 재생 중이므로 true 반환
         if (curanim == m_pCurAnim)
-            return;
+            return true;
 
         m_pCurAnim = curanim;
     }
@@ -271,8 +274,12 @@ void CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
             Transform()->SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
         }
             
+        //재생준비 완료 - true 반환
+        return true;
     }
 
+
+    return false;
 }
 
 const Vec2 CAnimator2D::GetCurFrameSize() 

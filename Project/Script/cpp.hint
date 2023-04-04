@@ -1,4 +1,17 @@
 
+#define FSM(_NameSpace, ...) \
+namespace FSM_##_NameSpace\
+{\
+    enum eSTATE {\
+        __VA_ARGS__\
+        , END\
+    };\
+\
+    constexpr std::string_view strKeyAnim[(int)eSTATE::END] = {\
+        #__VA_ARGS__\
+    };\
+}
+
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }
 
 #define DEVICE  CDevice::GetInst()->GetDevice()

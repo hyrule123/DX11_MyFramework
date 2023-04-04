@@ -11,8 +11,8 @@ public:
     CLONE(CScript_Marine);
 
 public:
-    void Idle()     { Transition((UINT)FSM_SCGroundUnit::eSTATE::IDLE); }
-    void Move()     { Transition((UINT)FSM_SCGroundUnit::eSTATE::MOVE); }
-    void Attack()   { Transition((UINT)FSM_SCGroundUnit::eSTATE::ATTACK); }
+    void Idle()     { Transition(FSM_MARINE::IDLE); }
+    void Move()     { Transition(FSM_MARINE::MOVE); }
+    void Attack()   { Transition(FSM_MARINE::ATTACK_BEGIN); }
 };
 

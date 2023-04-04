@@ -151,7 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CTestLevel.h" />
+    <ClInclude Include="CMainGameLevel.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIobj_Animator2D.h" />
     <ClInclude Include="CUIobj_AnimEditor.h" />
@@ -185,6 +185,7 @@
     <ClInclude Include="CUIobj_TestWindow.h" />
     <ClInclude Include="CUI_Tree.h" />
     <ClInclude Include="CUI_Widget.h" />
+    <ClInclude Include="EditAnim.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="macroFunc_Imgui.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -200,7 +201,7 @@
     <ClInclude Include="CUIobj_Contents.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CTestLevel.cpp" />
+    <ClCompile Include="CMainGameLevel.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIobj_Animator2D.cpp" />
     <ClCompile Include="CUIobj_AnimEditor.cpp" />
@@ -234,6 +235,7 @@
     <ClCompile Include="CUIobj_TestWindow.cpp" />
     <ClCompile Include="CUI_Tree.cpp" />
     <ClCompile Include="CUI_Widget.cpp" />
+    <ClCompile Include="EditAnim.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>

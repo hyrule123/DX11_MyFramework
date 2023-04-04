@@ -20,4 +20,5 @@ void CreateStrKey_EnumArray(const std::filesystem::path& _PathFromContent, const
 
 void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension);
 
+void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension);
 

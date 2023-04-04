@@ -29,9 +29,6 @@
     <ClCompile Include="MacroFunc.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="StringConvert.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="StrKeyGen.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -44,9 +41,6 @@
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="MacroFunc.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="StringConvert.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

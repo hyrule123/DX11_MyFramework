@@ -160,16 +160,11 @@
     <ClCompile Include="StrKeyGen.cpp" />
     <ClCompile Include="ScriptGen.cpp" />
     <ClCompile Include="ShaderGen.cpp" />
-    <ClCompile Include="StringConvert.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeGenFunc.h" />
     <ClInclude Include="MacroFunc.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StringConvert.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

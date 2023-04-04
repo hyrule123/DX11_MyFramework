@@ -12,22 +12,22 @@ namespace RES_SHADER
 {
 	namespace GRAPHICS
 	{
-		constexpr const std::string_view DEBUG = "Debug.json";
-		constexpr const std::string_view PARTICLE = "Particle.json";
-		constexpr const std::string_view SCUNITGROUND = "SCUnitGround.json";
-		constexpr const std::string_view STD2D = "STD2D.json";
-		constexpr const std::string_view STD2DLIGHT = "STD2DLight.json";
-		constexpr const std::string_view TEST = "Test.json";
-		constexpr const std::string_view TILEMAPATLAS = "TilemapAtlas.json";
-		constexpr const std::string_view TILEMAPCOMPLETE = "TilemapComplete.json";
+		constexpr std::string_view DEBUG = "Debug.json";
+		constexpr std::string_view PARTICLE = "Particle.json";
+		constexpr std::string_view SCUNITGROUND = "SCUnitGround.json";
+		constexpr std::string_view STD2D = "STD2D.json";
+		constexpr std::string_view STD2DLIGHT = "STD2DLight.json";
+		constexpr std::string_view TEST = "Test.json";
+		constexpr std::string_view TILEMAPATLAS = "TilemapAtlas.json";
+		constexpr std::string_view TILEMAPCOMPLETE = "TilemapComplete.json";
 	}
 
 	namespace COMPUTE
 	{
-		constexpr const std::string_view SCMAPLOADER = "S_1_C_SCMapLoader.json";
-		constexpr const std::string_view INITALIZE = "S_C_Initalize.json";
-		constexpr const std::string_view PARTICLEBASIC = "S_C_ParticleBasic.json";
-		constexpr const std::string_view PARTICLERAINDROP = "S_C_ParticleRainDrop.json";
-		constexpr const std::string_view SETCOLOR = "S_C_SetColor.json";
+		constexpr std::string_view SCMAPLOADER = "S_1_C_SCMapLoader.json";
+		constexpr std::string_view INITALIZE = "S_C_Initalize.json";
+		constexpr std::string_view PARTICLEBASIC = "S_C_ParticleBasic.json";
+		constexpr std::string_view PARTICLERAINDROP = "S_C_ParticleRainDrop.json";
+		constexpr std::string_view SETCOLOR = "S_C_SetColor.json";
 	}
 }

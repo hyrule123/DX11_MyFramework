@@ -2,27 +2,28 @@
 
 namespace PresetPath
 {
-	constexpr const std::string_view ScriptProj = "./Project/Script";
+	constexpr std::string_view ScriptProj = "./Project/Script";
 
 #ifdef _DEBUG
-	constexpr const std::string_view Content = "./OutputFile/Bin_Debug/Content";
+	constexpr std::string_view Content = "./OutputFile/Bin_Debug/Content";
 #else
-	constexpr const std::string_view Content = "./OutputFile/Bin_Release/Content";
+	constexpr std::string_view Content = "./OutputFile/Bin_Release/Content";
 #endif
 
-	constexpr const std::string_view strKeyScript = "strKeyScript.h";
-	constexpr const std::string_view strKeyShader = "strKeyShader.h";
-	constexpr const std::string_view strKeyTexture = "strKeyTexture.h";
+	constexpr std::string_view strKeyScript = "strKeyScript.h";
+	constexpr std::string_view strKeyShader = "strKeyShader.h";
+	constexpr std::string_view strKeyTexture = "strKeyTexture.h";
 }
 
 namespace PresetStr
 {
-	constexpr const std::string_view NameSpace = "namespace ";
-	constexpr const std::string_view ConstexprStringView = "constexpr const std::string_view ";
-	constexpr const std::string_view EqualDoubleQuotation = " = \"";
-	constexpr const std::string_view EnumClass = "enum class ";
+	constexpr std::string_view NameSpace = "namespace ";
+	constexpr std::string_view ConstexprStringView = "constexpr std::string_view ";
+	constexpr std::string_view EqualDoubleQuotation = " = \"";
+	constexpr std::string_view EnumClass = "enum class ";
+	constexpr std::string_view strKey = "strKey_";
 
-	constexpr const std::string_view Head = R"(
+	constexpr std::string_view Head = R"(
 #pragma once
 
 #include <string_view>

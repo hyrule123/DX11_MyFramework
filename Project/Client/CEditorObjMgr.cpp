@@ -28,7 +28,7 @@
 #include <Engine/EventDispatcher.h>
 
 //테스트용 레벨
-#include "CTestLevel.h"
+#include "CMainGameLevel.h"
 
 #include <Script/defineScript.h>
 
@@ -52,7 +52,7 @@ CEditorObjMgr::~CEditorObjMgr()
 
 void CEditorObjMgr::init()
 {
-	::CreateTestLevel();
+	::CreateMainGame();
 
 	CreateDebugShape();
 

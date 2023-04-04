@@ -12,7 +12,7 @@
 
 #include "define_SCUnit.h"
 #include "CFState_SCUnitMove_Ground.h"
-#include "CFState_SCUnitAttack.h"
+#include "CFState_SCUnit_Attack.h"
 
 
 
@@ -59,7 +59,7 @@ void CScript_MouseCursor::tick()
 
 		else if (KEY_TAP(eKEY::A))
 		{
-			CFState_SCUnitAttack* pAttackState = (CFState_SCUnitAttack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::ATTACK));
+			CFState_SCUnit_Attack* pAttackState = (CFState_SCUnit_Attack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::ATTACK));
 		}
 	}
 

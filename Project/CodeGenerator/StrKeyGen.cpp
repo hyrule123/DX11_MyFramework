@@ -91,7 +91,7 @@ void CreateStrKey_EnumArray(const std::filesystem::path& _PathFromContent, const
 			//순회가 끝났으면 코드를 생성해준다.
 			//enum class부터 생성
 			CodeLine = string(PresetStr::NameSpace);
-			string UpperCase = string("RES_") + _PathFromContent.string();
+			string UpperCase = string(PresetStr::strKey) + _PathFromContent.string();
 			UpperCase += "_ARRAY";
 			UpperCaseA(UpperCase);
 			CodeLine += UpperCase;
@@ -178,6 +178,146 @@ void CreateStrKey_EnumArray(const std::filesystem::path& _PathFromContent, const
 
 	
 }
+
+
+void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension)
+{
+	std::filesystem::path HeaderPath(PresetPath::ScriptProj);
+	HeaderPath /= _HeaderFilename;
+
+	std::ofstream fp(HeaderPath);
+	if (true == fp.is_open())
+	{
+		string CodeLine = string(PresetStr::Head);
+		fp << CodeLine;
+
+		unordered_map<filesystem::path, vector<filesystem::path>> umapFile;
+
+		//여기부터 recursive iterator를 통해서 순회
+		filesystem::recursive_directory_iterator dirIter;
+		try
+		{
+			//현재 작업 영역 $(SolutionDir)로부터의 경로를 만들어준다.
+			filesystem::path FullPath(PresetPath::Content);
+
+			//Fullpath = ~/Content/(리소스 폴더)
+			//ex)Fullpath == ~/Content/Texture
+			FullPath /= _PathFromContent;
+
+			//리소스가 있는 경로로부터 재귀적으로 순회를 돌아준다.
+			dirIter = filesystem::recursive_directory_iterator(FullPath);
+			const filesystem::recursive_directory_iterator& dirIterEnd = filesystem::end(dirIter);
+
+			for (dirIter; dirIter != dirIterEnd; ++dirIter)
+			{
+				//폴더가 아닐 경우에만 진행. Map을 통해서 전부 넣어준다.
+				if (false == dirIter->is_directory())
+				{
+					const filesystem::path& curPath = dirIter->path();
+
+					//불러올 리소스 확장자와 일치하는지 확인한다.
+					bool bMatchingExtension = false;
+					for (size_t i = (size_t)0; i < _vecExtension.size(); ++i)
+					{
+						string Extension = curPath.filename().extension().string();
+						transform(Extension.begin(), Extension.end(), Extension.begin(), ::tolower);
+
+						if (_vecExtension[i] == Extension)
+						{
+							bMatchingExtension = true;
+							break;
+						}
+					}
+
+					//등록하고자 하는 확장자와 일치하지 않을 경우 등록 취소.
+					if (false == bMatchingExtension)
+						continue;
+
+					//Fullpath에서 자신의 위치 경로를 제외한 값만 생성해준다.
+					//
+					const filesystem::path& ValuePath = curPath.lexically_relative(FullPath);
+
+					umapFile[curPath.parent_path()].push_back(ValuePath);
+				}
+			}
+
+			//리소스 작성 시작
+			CodeLine = PresetStr::NameSpace;
+			CodeLine += PresetStr::strKey;
+			{
+				string name = _PathFromContent.filename().string();
+				CodeLine += name;
+			}
+			WriteCodeA(fp, CodeLine);
+			WriteBracketOpenA(fp);
+
+			auto iter = umapFile.begin();
+			const auto iterEnd = umapFile.end();
+			while (iter != iterEnd)
+			{
+				{
+					string varCode(PresetStr::NameSpace);
+					string name = iter->first.filename().string();
+					if (_PathFromContent.filename().string() == name)
+						name = "BASE_PATH";
+
+					UpperCaseA(name);
+					std::replace_if(CodeLine.begin(), CodeLine.end(),
+						[](char c)->bool { return ('(' == c || ')' == c || '.' == c); },
+						'_'
+					);
+					varCode += name;
+					WriteCodeA(fp, varCode);
+					WriteBracketOpenA(fp);
+				}
+
+				size_t size = iter->second.size();
+				for (size_t i = 0; i < size; ++i)
+				{
+					const auto& vec = iter->second;
+					CodeLine = PresetStr::ConstexprStringView;
+					{
+						string varName = vec[i].filename().string();
+						UpperCaseA(varName);
+						std::replace_if(varName.begin(), varName.end(),
+							[](char c)->bool { return ('(' == c || ')' == c || '.' == c); },
+							'_'
+						);
+						CodeLine += varName;
+					}
+					CodeLine += PresetStr::EqualDoubleQuotation;
+					CodeLine += iter->second[i].string();
+					CodeLine += "\";";
+					std::replace(CodeLine.begin(), CodeLine.end(), '\\', '/');
+
+					WriteCodeA(fp, CodeLine);
+				}
+
+				WriteBracketCloseA(fp);
+
+				++iter;
+			}
+
+
+			WriteBracketCloseA(fp, true);
+			WriteBracketCloseAllA(fp);
+
+
+			fp.close();
+		}
+
+		catch (const std::filesystem::filesystem_error& error)
+		{
+			MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+			throw(std::runtime_error("Process Terminated by error."));
+		}
+
+		//작성이 완료되었으면 파일을 저장한다.
+		fp.close();
+	}
+
+}
+
 
 void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension)
 {
@@ -266,7 +406,7 @@ void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const
 							CodeLine = PresetStr::NameSpace;
 
 							if (prevPath.empty())
-								CodeLine += string("RES_");
+								CodeLine += PresetStr::strKey;
 
 							string UpperCase = curPath.parent_path().filename().string();
 							transform(UpperCase.begin(), UpperCase.end(), UpperCase.begin(), ::toupper);
@@ -291,6 +431,7 @@ void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const
 					string TempStr = curPath.filename().string();
 					UpperCaseA(TempStr);
 
+					//변수명으로 사용 불가능한 문자들을 제거
 					std::replace_if(TempStr.begin(), TempStr.end(),
 						[](char c)->bool { return ('(' == c || ')' == c || '.' == c); },
 						'_'
@@ -323,5 +464,3 @@ void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const
 		fpStrKeyHeader.close();
 	}
 }
-
-

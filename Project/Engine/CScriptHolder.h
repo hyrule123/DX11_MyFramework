@@ -64,9 +64,7 @@ public:
 template <typename T>
 inline T* CScriptHolder::GetScript()
 {
-    std::type_index TypeIdx = std::type_index(typeid(T));
-
-    const auto& iter = m_umapScript.find(TypeIdx);
+    const auto& iter = m_umapScript.find(std::type_index(typeid(T)));
 
     if (iter != m_umapScript.end())
         return (T*)iter->second;

@@ -46,22 +46,34 @@ enum class eSCUNIT_MOVE_TYPE
     Air
 };
 
-
-namespace FSM_SCGroundUnit
-{
-    enum class eSTATE
-    {
-        IDLE,
-        MOVE,
-        ATTACK,
-        END
-    };
-
-    //지상유닛의 FSM에 대응되는 애니메이션 이름을 저장
-    constexpr std::string_view strKeyAnim2D[(int)eSTATE::END] =
-    {
-        "IDLE",
-        "MOVE",
-        "ATTACK"
-    };
+#define FSM(_NameSpace, ...) \
+namespace FSM_##_NameSpace\
+{\
+    enum eSTATE : UINT {\
+        __VA_ARGS__\
+        , END\
+    };\
+\
+    constexpr std::string_view strKeyAnim[(int)eSTATE::END] = {\
+        #__VA_ARGS__\
+    };\
 }
+
+
+FSM(SCGroundUnit,
+    IDLE,
+    MOVE,
+    ATTACK_BEGIN,
+    ATTACK,
+    ATTACK_END,
+    DEATH
+);
+
+FSM(MARINE,
+    IDLE,
+    MOVE,
+    ATTACK_BEGIN,
+    ATTACK,
+    ATTACK_END,
+    DEATH
+    );

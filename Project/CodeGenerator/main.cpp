@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     {
         vecExtension.push_back(string(RES_INFO::TEXTURE::Ext::arr[i]));
     }
-    CreateStrKey_Hierarchy(RES_INFO::TEXTURE::DirName, PresetPath::strKeyTexture, vecExtension);
+    CreateStrKey(RES_INFO::TEXTURE::DirName, PresetPath::strKeyTexture, vecExtension);
 
 
 

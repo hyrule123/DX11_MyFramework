@@ -215,7 +215,7 @@
     <ClInclude Include="CUI_MenuItem.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CTestLevel.h" />
+    <ClInclude Include="CMainGameLevel.h" />
     <ClInclude Include="CUI_DragNDrop.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
@@ -243,6 +243,7 @@
     <ClInclude Include="ImGui\imgui_stdlib.h">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClInclude>
+    <ClInclude Include="EditAnim.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -361,7 +362,7 @@
     <ClCompile Include="CUI_MenuItem.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CTestLevel.cpp" />
+    <ClCompile Include="CMainGameLevel.cpp" />
     <ClCompile Include="CUI_DragNDrop.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
@@ -383,5 +384,6 @@
     <ClCompile Include="ImGui\imgui_stdlib.cpp">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClCompile>
+    <ClCompile Include="EditAnim.cpp" />
   </ItemGroup>
 </Project>

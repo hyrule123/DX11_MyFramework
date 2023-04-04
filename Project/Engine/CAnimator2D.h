@@ -19,7 +19,6 @@ public:
 
 public:
     virtual void finaltick() override;
-
     virtual void cleanup() override;
 
     void UpdateData();
@@ -39,6 +38,10 @@ private:
 
     float               m_fCurTime;
     bool                m_bFinish;
+
+    //루프 모드일 때 bFinish에 값이 저장되지 않음 
+    //-> 다른 스크립트에서 찾을 수 있도록 한 프레임동안 지속되는 변수가 별도로 필요함
+    bool                m_bFinishChecked;
 //========================================================
 
 
@@ -58,7 +61,6 @@ private:
 
 //=================== 등록된 아틀라스 텍스처 주소 관련 ======================
     Ptr<CAnim2DAtlas>       m_arrAtlasTex[(int)eMTRLDATA_PARAM_TEX::_END];
-
     bool                    m_bNeedUpdateMtrl;
 //=========================================================================
 
@@ -67,14 +69,14 @@ private:
 public:
     //애니메이션 데이터는 텍스처와 동일한 이름을 사용할것
     void AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex);
-    void Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
+    bool Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
 
-    bool IsFinished() const { return m_bFinish; }
+    bool IsFinished() const { return m_bFinishChecked; }
 
     //TODO : 임시
-    const Vec2  GetCurFrameSize() ;
-
+    const Vec2  GetCurFrameSize();
     const tAnim2D* GetCurAnim() const { return m_pCurAnim; }
+
 
     
 private:
