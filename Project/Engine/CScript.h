@@ -32,22 +32,19 @@ public:
     virtual void EndCollision(CCollider* _other) {}
 
 private:
-    CGameObject* m_pOwner;
     CScriptHolder* m_pHolder;
     const std::type_index m_TypeIndex;
 
 public:
-    CGameObject* GetOwner() const { return m_pOwner; }
-    void SetOwner(CGameObject* _pObj) { m_pOwner = _pObj; }
 
     CScriptHolder* ScriptHolder() const { return m_pHolder; }
     void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }
 
-    CTransform* Transform() const { return m_pOwner->Transform(); }
-    CMeshRender* MeshRender() const { return m_pOwner->MeshRender(); }
-    CCamera* Camera() const { return m_pOwner->Camera(); }
-    CRenderComponent* RenderCom() const { return m_pOwner->RenderComponent(); }
-    CAnimator2D* Animator2D() const { return m_pOwner->Animator2D(); }
+    CTransform* Transform() const { return m_pHolder->Transform(); }
+    CMeshRender* MeshRender() const { return m_pHolder->MeshRender(); }
+    CCamera* Camera() const { return m_pHolder->Camera(); }
+    CRenderComponent* RenderCom() const { return m_pHolder->RenderComponent(); }
+    CAnimator2D* Animator2D() const { return m_pHolder->Animator2D(); }
     const std::type_index GetTypeIndex() const { return m_TypeIndex; }
 };
 

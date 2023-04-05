@@ -152,62 +152,62 @@ void CreateMainGame()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	CGameObject* pParent = nullptr;
-	for(int i = 0; i < 2; ++i)
-	{
-		CGameObject* TestObj = new CGameObject;
-		TestObj->SetName("TestObj");
-		
-		TestObj->AddComponent(new CMeshRender);
-		TestObj->MeshRender()->SetMaterial(SCUnitMtrl);
-		TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
+	//CGameObject* pParent = nullptr;
+	//for(int i = 0; i < 2; ++i)
+	//{
+	//	CGameObject* TestObj = new CGameObject;
+	//	TestObj->SetName("TestObj");
+	//	
+	//	TestObj->AddComponent(new CMeshRender);
+	//	TestObj->MeshRender()->SetMaterial(SCUnitMtrl);
+	//	TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
 
-		TestObj->AddComponent(new CAnimator2D);
-		
-		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
-		
-		TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
+	//	TestObj->AddComponent(new CAnimator2D);
+	//	
+	//	Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
+	//	
+	//	TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
 
-		//TestObj->Animator2D()->Play("Marine_Move", eANIM_LOOPMODE::NORMAL_LOOP, false);
-		
-		TestObj->Transform()->SetSize(Vec3(TestObj->Animator2D()->GetCurFrameSize(), 1.f));
+	//	//TestObj->Animator2D()->Play("Marine_Move", eANIM_LOOPMODE::NORMAL_LOOP, false);
+	//	
+	//	TestObj->Transform()->SetSize(Vec3(TestObj->Animator2D()->GetCurFrameSize(), 1.f));
 
-		if (i != 0)
-		{
-			CCollider2D_Rect* pCol = new CCollider2D_Rect;
-			Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
-			pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
-			TestObj->AddComponent(pCol);
+	//	if (i != 0)
+	//	{
+	//		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+	//		Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+	//		pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
+	//		TestObj->AddComponent(pCol);
 
 
-			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
-			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
+	//		float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
+	//		float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
 
-			
-			EventDispatcher::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
+	//		
+	//		EventDispatcher::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
 
-			EventDispatcher::AddChildObj(pParent, TestObj);
-		}
-		else
-		{	
-			CCollider2D_Circle* pCircle = new CCollider2D_Circle;
-			pCircle->SetRadius(50.f);
-			//CCollider2D_Rect* pCol = new CCollider2D_Rect;
-			//Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
-			//pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
-			TestObj->AddComponent(pCircle);
+	//		EventDispatcher::AddChildObj(pParent, TestObj);
+	//	}
+	//	else
+	//	{	
+	//		CCollider2D_Circle* pCircle = new CCollider2D_Circle;
+	//		pCircle->SetRadius(50.f);
+	//		//CCollider2D_Rect* pCol = new CCollider2D_Rect;
+	//		//Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+	//		//pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
+	//		TestObj->AddComponent(pCircle);
 
-			TestObj->SetName("TestObj");
+	//		TestObj->SetName("TestObj");
 
-			pParent = TestObj;
-			EventDispatcher::SpawnGameObject(TestObj, Vec3(100.f, 100.f, 100.f), INGAME_LAYER_INFO::GroundUnitMain);
-		}
-		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MARINE)));
+	//		pParent = TestObj;
+	//		EventDispatcher::SpawnGameObject(TestObj, Vec3(100.f, 100.f, 100.f), INGAME_LAYER_INFO::GroundUnitMain);
+	//	}
+	//	TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MARINE)));
 
-		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
-		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
-		TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
-	}
+	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
+	//	TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
+	//	TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
+	//}
 
 
 

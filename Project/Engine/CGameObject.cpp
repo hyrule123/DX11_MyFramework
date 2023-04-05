@@ -52,8 +52,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	{
 		if (nullptr != _other.m_arrCom[i])
 		{
-			m_arrCom[i] = _other.m_arrCom[i]->Clone();
-			m_arrCom[i]->SetOwner(this);
+			AddComponent(_other.m_arrCom[i]->Clone());
 
 			//1-1. 렌더링 컴포넌트 일 경우 m_RenderCom에 복사
 			if ((UINT)g_RenderComIdxStart <= i && i < (UINT)g_RenderComIdxEnd)
@@ -447,13 +446,15 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 
 			if (pCom)
 			{
+				//LoadJson -> Prefab 만드는 데 사용
+				//init이 먼저 호출되지 않음
+				//->Component를 먼저 추가해도 문제 없음
+				AddComponent(pCom);
+
 				if (false == pCom->LoadJson(&jsonComponent))
 				{
-					SAFE_DELETE(pCom);
 					return false;
 				}
-
-				AddComponent(pCom);
 			}
 		}
 	}
@@ -546,7 +547,7 @@ void CGameObject::AddComponent(CComponent* _Component)
 	}
 
 	//소유자 주소를 등록.
-	_Component->m_pOwner = this;
+	_Component->SetOwner(this);
 	m_arrCom[ComType] = _Component;
 
 	//이미 작동중일 경우 바로 init() 호출

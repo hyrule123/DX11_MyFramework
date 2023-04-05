@@ -10,10 +10,10 @@
 
 namespace SCRIPTS
 {
-constexpr std::string_view BULLET = "CScript_Bullet.h";
-constexpr std::string_view CAMERAMOVE = "CScript_CameraMove.h";
-constexpr std::string_view MARINE = "CScript_Marine.h";
-constexpr std::string_view MOUSECURSOR = "CScript_MouseCursor.h";
-constexpr std::string_view SCUNITVITAL = "CScript_SCUnitVital.h";
-constexpr std::string_view TESTOBJ = "CScript_TestObj.h";
+constexpr std::string_view BULLET = "CScript_Bullet";
+constexpr std::string_view CAMERAMOVE = "CScript_CameraMove";
+constexpr std::string_view MARINE = "CScript_Marine";
+constexpr std::string_view MOUSECURSOR = "CScript_MouseCursor";
+constexpr std::string_view SCUNITVITAL = "CScript_SCUnitVital";
+constexpr std::string_view TESTOBJ = "CScript_TestObj";
 }

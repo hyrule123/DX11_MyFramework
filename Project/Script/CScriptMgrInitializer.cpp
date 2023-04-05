@@ -21,37 +21,37 @@ void CScriptMgrInitializer::init()
 	{
 		string strKey = string(SCRIPTS::BULLET);
 		CScript* newScript = new CScript_Bullet;
-		newScript->SetName("CScript_Bullet.h");
+		newScript->SetName("CScript_Bullet");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::CAMERAMOVE);
 		CScript* newScript = new CScript_CameraMove;
-		newScript->SetName("CScript_CameraMove.h");
+		newScript->SetName("CScript_CameraMove");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::MARINE);
 		CScript* newScript = new CScript_Marine;
-		newScript->SetName("CScript_Marine.h");
+		newScript->SetName("CScript_Marine");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::MOUSECURSOR);
 		CScript* newScript = new CScript_MouseCursor;
-		newScript->SetName("CScript_MouseCursor.h");
+		newScript->SetName("CScript_MouseCursor");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::SCUNITVITAL);
 		CScript* newScript = new CScript_SCUnitVital;
-		newScript->SetName("CScript_SCUnitVital.h");
+		newScript->SetName("CScript_SCUnitVital");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::TESTOBJ);
 		CScript* newScript = new CScript_TestObj;
-		newScript->SetName("CScript_TestObj.h");
+		newScript->SetName("CScript_TestObj");
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 }

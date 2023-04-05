@@ -25,6 +25,7 @@ void CreateScriptCode()
 		{
 			string ScriptKey = ScriptVal;
 
+
 			//뒷부분(.h) 제거
 			size_t pos = ScriptKey.find(string(ScriptStandardSuffix));
 			if (string::npos != pos)
@@ -72,7 +73,9 @@ void CreateScriptCode()
 	{
 		string FinalCodeLine = BaseCode + iter.first + " = ";
 		FinalCodeLine += "\"";
-		FinalCodeLine += iter.second + '"';
+		string withoutExt = iter.second;
+		withoutExt.erase(withoutExt.length() - 2u, string::npos);
+		FinalCodeLine += withoutExt + '"';
 		FinalCodeLine += ";";
 		WriteCodeA(strKey, FinalCodeLine);
 	}
@@ -128,8 +131,6 @@ void CreateScriptCode()
 		string className = iter.second.substr(0, pos);
 		classCodeLine = string("CScript* newScript = new ") + className + string(";");
 		WriteCodeA(ScriptMgr, classCodeLine);
-
-		//TODO: 여기에 '.h' 추가하던가 지우던가 할것
 
 		classCodeLine = string("newScript->SetName(\"") + className + string("\");");
 		WriteCodeA(ScriptMgr, classCodeLine);

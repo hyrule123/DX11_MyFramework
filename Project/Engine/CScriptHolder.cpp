@@ -136,7 +136,6 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 	m_vecScript.push_back(_pScript);
 	m_umapScript[type] = _pScript;
 
-	_pScript->SetOwner(GetOwner());
 	_pScript->SetHolder(this);
 	if (true == GetOwner()->IsInitialized())
 		_pScript->init();
