@@ -6,10 +6,19 @@ class CGameObject;
 class CPrefab :
     public CRes
 {
+public:
+    CPrefab();
+    virtual ~CPrefab();
+    CLONE_DISABLE(CPrefab)
+
 private:
     CGameObject* m_pPrefab;
+
+    //SaveMode로 생성시에는 파일을 제거하지 않음.
+    bool         m_bSaveMode;
 public:
-    void         RegisterPrefab(CGameObject* _pPrefab);
+    //SaveMode로 생성시에는 파일을 제거하지 않음.
+    void         RegisterPrefab(CGameObject* _pPrefab, bool _bIsSaveMode = false);
     CGameObject* Instantiate();
 
 public:
@@ -21,11 +30,5 @@ public:
 
 private:
     virtual void BindData() override {};
-
-public:
-    CPrefab();
-    virtual ~CPrefab();
-
-    CLONE_DISABLE(CPrefab)
 };
 

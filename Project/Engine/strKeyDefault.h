@@ -315,8 +315,8 @@ namespace RES_INFO
 			{
 				JSONKEY(TRANSFORM);
 
-				//Matrix    m_matSize;
-				JSONKEY(v3MatSize);
+				//Matrix    ;
+				JSONKEY(v3Size);
 
 				//Vec3    m_v3RelativeScale;
 				JSONKEY(v3RelativeScale);

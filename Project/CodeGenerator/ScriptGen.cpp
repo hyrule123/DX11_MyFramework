@@ -129,6 +129,8 @@ void CreateScriptCode()
 		classCodeLine = string("CScript* newScript = new ") + className + string(";");
 		WriteCodeA(ScriptMgr, classCodeLine);
 
+		//TODO: 여기에 '.h' 추가하던가 지우던가 할것
+
 		classCodeLine = string("newScript->SetName(\"") + className + string("\");");
 		WriteCodeA(ScriptMgr, classCodeLine);
 

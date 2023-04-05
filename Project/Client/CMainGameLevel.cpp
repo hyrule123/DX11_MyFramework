@@ -152,7 +152,8 @@ void CreateMainGame()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	for(int i = 0; i < 1; ++i)
+	CGameObject* pParent = nullptr;
+	for(int i = 0; i < 2; ++i)
 	{
 		CGameObject* TestObj = new CGameObject;
 		TestObj->SetName("TestObj");
@@ -181,7 +182,11 @@ void CreateMainGame()
 
 			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
 			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
+
+			
 			EventDispatcher::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
+
+			EventDispatcher::AddChildObj(pParent, TestObj);
 		}
 		else
 		{	
@@ -192,25 +197,20 @@ void CreateMainGame()
 			//pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
 			TestObj->AddComponent(pCircle);
 
-			EventDispatcher::SpawnGameObject(TestObj, Vec3(0.f, 0.f, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
+			TestObj->SetName("TestObj");
+
+			pParent = TestObj;
+			EventDispatcher::SpawnGameObject(TestObj, Vec3(100.f, 100.f, 100.f), INGAME_LAYER_INFO::GroundUnitMain);
 		}
 		TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MARINE)));
 
 		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
 		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
 		TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
-
-		//std::filesystem::path TestSave = "TestSave.json";
-		//CPrefab* pPrefab = new CPrefab;
-
-		//pPrefab->RegisterPrefab(TestObj);
-
-		//pPrefab->SetKey(TestSave.string());
-
-		//pPrefab->Save(TestSave);
-
-		//delete pPrefab;
 	}
+
+
+
 
 	{
 		//std::filesystem::path TestSave = "TestSave.json";

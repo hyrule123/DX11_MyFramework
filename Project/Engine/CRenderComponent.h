@@ -50,6 +50,8 @@ private:
     //현재 사용 중인 재질 주소
     Ptr<CMaterial>          m_pCurrentMtrl;
 
+    bool                    m_bIsDynamicMode;
+
 public:
     void SetMesh(Ptr<CMesh> _Mesh) { m_pMesh = _Mesh; }
     void SetMaterial(Ptr<CMaterial> _Mtrl);
@@ -87,5 +89,6 @@ inline void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl)
 inline Ptr<CMaterial> CRenderComponent::GetSharedMaterial()
 { 
     m_pCurrentMtrl = m_pSharedMtrl;
+    m_bIsDynamicMode = false;
     return m_pSharedMtrl; 
 }

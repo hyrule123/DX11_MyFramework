@@ -56,7 +56,7 @@ bool CScriptHolder::SaveJson(Json::Value* _jVal)
 	{
 		Json::Value ScriptVal;
 		
-		jVal[strKey].append(ScriptVal);
+		jVal[strKey].append(m_vecScript[i]->GetName());
 
 		if (false == m_vecScript[i]->SaveJson(&ScriptVal))
 			return false;
@@ -83,6 +83,9 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 			int arrsize = (int)arr.size();
 			for (int i = 0; i < arrsize; ++i)
 			{
+				if (arr[i].isNull())
+					break;
+
 				CScript* newScript = CScriptMgr::GetInst()->GetNewScript(arr[i].asString());
 
 				if (nullptr == newScript)

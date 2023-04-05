@@ -37,6 +37,7 @@ private:
 
     //lParam = Parent GameObject*
     //rParam = Child GameObject*
+    //CreateObject는 따로 해주지 않으므로 주의
     void AddChildObj(const tEvent& _event);
 
     //lParam = GameObject*

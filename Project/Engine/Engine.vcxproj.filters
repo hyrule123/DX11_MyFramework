@@ -578,9 +578,6 @@
     <Filter Include="_Source\06. Component\11. ScriptHolder">
       <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_Source\06. Component\12. FSM">
-      <UniqueIdentifier>{14bdf5e0-768d-4c36-bb77-ffbdbd041eb4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

@@ -14,6 +14,7 @@
 
 CRenderComponent::CRenderComponent(eCOMPONENT_TYPE _type)
 	: CComponent(_type)
+	, m_bIsDynamicMode()
 {
 }
 
@@ -21,7 +22,17 @@ CRenderComponent::CRenderComponent(const CRenderComponent& _other)
 	: CComponent(_other)
 	, m_pMesh(_other.m_pMesh)
 	, m_pSharedMtrl(_other.m_pSharedMtrl)
+	, m_bIsDynamicMode(_other.m_bIsDynamicMode)
 {
+	assert(nullptr != m_pSharedMtrl);
+
+	if (m_bIsDynamicMode)
+	{
+		m_pDynamicMtrl = _other.m_pDynamicMtrl->Clone();
+		GetDynamicMaterial();
+	}
+	else
+		GetSharedMaterial();
 }
 
 CRenderComponent::~CRenderComponent()
@@ -81,14 +92,15 @@ bool CRenderComponent::LoadJson(Json::Value* _pJVal)
 		string strKey = string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::strKeyMtrl);
 		if (jVal.isMember(strKey))
 		{
-			m_pSharedMtrl = CResMgr::GetInst()->Load<CMaterial>(jVal[strKey].asString());
+			Ptr<CMaterial> pMtrl = CResMgr::GetInst()->Load<CMaterial>(jVal[strKey].asString());
 
-			if (nullptr == m_pSharedMtrl)
+			if (nullptr == pMtrl)
 			{
 				ERROR_MESSAGE("Failed to load Material!!");
 				return false;
 			}
 
+			SetMaterial(pMtrl);
 		}
 		else return false;
 	}
@@ -120,6 +132,7 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 	}
 
 	m_pCurrentMtrl = m_pDynamicMtrl;
+	m_bIsDynamicMode = true;
 	return m_pCurrentMtrl;
 }
 

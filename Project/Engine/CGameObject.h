@@ -96,8 +96,8 @@ public:
     void AddChildObj(CGameObject* _Object);
 
 
-
     void RemoveChild(CGameObject* _Object);
+    
 
     //Recursive
     void AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _vecObj);

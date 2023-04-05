@@ -90,7 +90,7 @@ bool CTransform::SaveJson(Json::Value* _pJson)
 
 	
 	{//사이즈 X, Y, Z 순서로 저장
-		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3MatSize);
+		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3Size);
 		jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
 		jVal[strKey].append(Pack_float_int(m_v3Size.x).i);
 		jVal[strKey].append(Pack_float_int(m_v3Size.y).i);
@@ -159,7 +159,7 @@ bool CTransform::LoadJson(Json::Value* _pJson)
 
 
 	{//RelativeSize
-		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3MatSize);
+		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3Size);
 		Vec3 size;
 		if (ReadVec3FromJson(jVal, strKey, size))
 		{

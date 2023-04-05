@@ -16,8 +16,6 @@ public:
 private:
     class CGameObject* m_pTestObj;
 
-public:
-
 private:
     void LoadMapData(const struct tComboItem& _tCombo);
     void CreateTestObj();

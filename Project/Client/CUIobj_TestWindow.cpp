@@ -17,6 +17,8 @@
 #include <Script/strKeyShader.h>
 
 #include <Engine/EventDispatcher.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
 
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
@@ -33,8 +35,6 @@ void CUIobj_TestWindow::init()
 {
 	CreateTestObj();
 
-
-    AddChildUI(new CUI_Button("TestButton"));
 
     CUI_Button* pButton = (CUI_Button*)FindChildUIByName("TestButton");
 
@@ -93,6 +93,35 @@ void CUIobj_TestWindow::init()
 
 void CUIobj_TestWindow::render_update()
 {
+	if (ImGui::Button("Save GameObject"))
+	{
+		std::filesystem::path TestSave = "TestSave.json";
+		CPrefab* pPrefab = new CPrefab;
+
+		pPrefab->SetKey(TestSave.string());
+
+		CLevel* level = CLevelMgr::GetInst()->GetCurLevel();
+
+		CGameObject* pObj = level->FindObjectByName("TestObj");
+
+		pPrefab->RegisterPrefab(pObj, true);
+
+		pPrefab->SetKey(TestSave.string());
+
+		pPrefab->Save(TestSave);
+
+		delete pPrefab;
+	}
+
+	if (ImGui::Button("Load GameObjet"))
+	{
+		Ptr<CPrefab> prefab = CResMgr::GetInst()->Load<CPrefab>("TestSave.json");
+
+		CGameObject* pObj = prefab->Instantiate();
+
+		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+	}
+
 }
 
 void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)

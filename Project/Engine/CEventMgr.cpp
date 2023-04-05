@@ -93,27 +93,6 @@ void CEventMgr::RemoveComponentLazy(const tEvent& _event)
 	pObj->RemoveComponent(comType);
 }
 
-void CEventMgr::ProcessLazyEvent()
-{
-	//bDestroy 상태인 게임오브젝트를 Level에서 제거시킨다.(댕글링 포인터 제거)
-	CLevelMgr::GetInst()->GetCurLevel()->RemoveDestroyed();
-
-	size_t size = m_vecLazyEvent.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		switch (m_vecLazyEvent[i].Type)
-		{
-		case eEVENT_TYPE::REMOVE_COMPONENT:
-			RemoveComponentLazy(m_vecLazyEvent[i]);
-			break;
-
-		default:
-			break;
-		}
-	}
-	m_vecLazyEvent.clear();
-}
-
 void CEventMgr::ProcessEvent()
 {
 	size_t size = m_vecEvent.size();
@@ -145,6 +124,29 @@ void CEventMgr::ProcessEvent()
 	}
 	m_vecEvent.clear();
 }
+
+void CEventMgr::ProcessLazyEvent()
+{
+	//bDestroy 상태인 게임오브젝트를 Level에서 제거시킨다.(댕글링 포인터 제거)
+	CLevelMgr::GetInst()->GetCurLevel()->RemoveDestroyed();
+
+	size_t size = m_vecLazyEvent.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		switch (m_vecLazyEvent[i].Type)
+		{
+		case eEVENT_TYPE::REMOVE_COMPONENT:
+			RemoveComponentLazy(m_vecLazyEvent[i]);
+			break;
+
+		default:
+			break;
+		}
+	}
+	m_vecLazyEvent.clear();
+}
+
+
 
 void CEventMgr::tick()
 {

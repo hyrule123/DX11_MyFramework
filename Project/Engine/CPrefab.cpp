@@ -6,23 +6,40 @@
 #include "CPathMgr.h"
 #include "jsoncpp.h"
 
+#include "define.h"
+
 CPrefab::CPrefab()
 	: CRes(eRES_TYPE::PREFAB)
 	, m_pPrefab()
+	, m_bSaveMode()
 {
 }
 
 CPrefab::~CPrefab()
 {
-	delete m_pPrefab;
+	//저장모드가 아닐 경우에만 삭제
+	if(false == m_bSaveMode)
+		DESTRUCTOR_DELETE(m_pPrefab);
 }
 
-void CPrefab::RegisterPrefab(CGameObject* _pPrefab)
+void CPrefab::RegisterPrefab(CGameObject* _pPrefab, bool _bIsSaveMode)
 {
 	//Prefab은 레이어에 등록되어 실행되는 용도가 아님.
 	//assert(0 > _pPrefab->GetLayer());
 
 	m_pPrefab = _pPrefab;
+	m_bSaveMode = _bIsSaveMode;
+
+	const string& strKey = GetKey();
+	if (strKey.empty())
+	{
+		ERROR_MESSAGE("You must set string Key!!");
+		DEBUG_BREAK;
+		return;
+	}
+
+	if (m_pPrefab)
+		m_pPrefab->SetName(GetKey());
 }
 
 CGameObject* CPrefab::Instantiate()

@@ -21,6 +21,11 @@
 
 #include "EventDispatcher.h"
 
+#include "CPrefab.h"
+
+//세이브, 로드에 사용
+#include "CResMgr.h"
+
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_bInitialized()
@@ -262,6 +267,12 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 	else if (false == CEntity::SaveJson(_pJson))
 		return false;
 
+	if (GetName().empty())
+	{
+		ERROR_MESSAGE("You must Set name to save prefab!!");
+		return false;
+	}
+
 	Json::Value& jVal = *_pJson;
 
 	string strKeyarrCom = string(RES_INFO::PREFAB::JSON_KEY::m_arrCom);
@@ -290,17 +301,42 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 		
 		for (size_t i = 0u; i < m_vecChild.size(); ++i)
 		{
-			const string& objKey = m_vecChild[i]->GetName();
-			if (objKey.empty())
+			//자식 오브젝트의 이름을 받아온다.
+			string childKey = m_vecChild[i]->GetName();
+
+			if (childKey.empty())
 			{
-				ERROR_MESSAGE("You must set Gameobject name to Save!!");
-				
-				DEBUG_BREAK;
+				childKey = GetName();
+
+				//혹시나 json 확장자 있을경우 확장자 제거
+				size_t pos = childKey.find(RES_INFO::PREFAB::Ext);
+				if (string::npos != pos)
+					childKey.erase(pos, string::npos);
+
+				childKey += string("_") + std::to_string(i);
+				childKey += RES_INFO::PREFAB::Ext;
 			}
+			else
+			{
+				//혹시나 json 확장자 있을경우 확장자 제거
+				size_t pos = childKey.find(RES_INFO::PREFAB::Ext);
+				if (string::npos != pos)
+					childKey.erase(pos, string::npos);
+			}
+			childKey += RES_INFO::PREFAB::Ext;
+
+			CPrefab* Prefab = new CPrefab;
+			Prefab->SetKey(childKey);
+			Prefab->RegisterPrefab(m_vecChild[i], true);
+
+			bool Suc = Prefab->Save(childKey);
+			delete Prefab;
+
+			if (false == Suc)
+				return false;
+
 			//자식 오브젝트의 키값만 저장(프리팹의 키값으로 사용됨)
-			vecChild.append(m_vecChild[i]);
-			
-			
+			vecChild.append(childKey);
 		}
 	}
 
@@ -346,8 +382,11 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 			switch ((eCOMPONENT_TYPE)i)
 			{
 			case eCOMPONENT_TYPE::TRANSFORM:
-				pCom = new CTransform;
+			{
+				Transform()->LoadJson(&jsonComponent);
 				break;
+			}
+				
 			case eCOMPONENT_TYPE::COLLIDER2D:
 			{
 				eCOLLIDER_TYPE_2D ColType = (eCOLLIDER_TYPE_2D)jsonComponent[string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::JSON_KEY::m_eColType)].asInt();
@@ -416,18 +455,31 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 
 				AddComponent(pCom);
 			}
-			else return false;
 		}
 	}
 	else return false;
 
+	//계층 프리팹 로드
+	{
+		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_vecChild_PREFAB);
+		if (false == jVal.isMember(strKey))
+			return false;
 
-	//TODO: 부모자식관계 저장 아직 안 되고 있음.
-	////부모는 고려하지 않고 자식만 타고들어감.
-	//for (size_t i = 0; i < m_vecChild.size(); ++i)
-	//{
-
-	//}
+		const Json::Value& arrChild = jVal[strKey];
+		for (Json::ValueConstIterator iter = arrChild.begin(); iter != arrChild.end(); ++iter)
+		{
+			Ptr<CPrefab> pPrefab = CResMgr::GetInst()->Load<CPrefab>(iter->asString());
+			if (nullptr == pPrefab)
+			{
+				ERROR_MESSAGE("Child Prefab load failed.");
+				DEBUG_BREAK;
+				return false;
+			}
+			CGameObject* pObj = pPrefab->Instantiate();
+			
+			AddChildObj(pObj);
+		}
+	}
 
 	{
 		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_iLayerIdx);
@@ -546,6 +598,8 @@ void CGameObject::RemoveChild(CGameObject* _Object)
 	{
 		if (_Object == (*iter))
 		{
+			//부모 오브젝트 주소 제거
+			(*iter)->SetParent(nullptr);
 			m_vecChild.erase(iter);
 			return;
 		}
