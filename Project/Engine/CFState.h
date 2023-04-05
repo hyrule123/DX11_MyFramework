@@ -9,8 +9,12 @@ class CFState
 {
 public:
     CFState(std::type_index _typeIdx, UINT _eMyState);
+
     CFState(const CFState& _other);
+    virtual CFState* Clone() = 0;
+
     virtual ~CFState();
+    
 
 public:
     virtual void EnterState() = 0;

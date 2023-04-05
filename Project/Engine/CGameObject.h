@@ -19,10 +19,13 @@ class CCollider3D;
 class CGameObject :
     public CEntity
 {
-    CLONE(CGameObject)
+    
 public:
     CGameObject();
+
     CGameObject(const CGameObject& _other);
+    CLONE(CGameObject);
+
     ~CGameObject();
 
 public:

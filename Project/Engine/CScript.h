@@ -14,7 +14,7 @@ public:
     CScript(std::type_index _TypeIndex);
 
     CScript(const CScript& _other);
-    CLONE(CScript);
+    virtual CScript* Clone() = 0;
 
     virtual ~CScript();
     
