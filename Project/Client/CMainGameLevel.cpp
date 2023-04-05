@@ -161,8 +161,6 @@ void CreateMainGame()
 		TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
 
 		TestObj->AddComponent(new CAnimator2D);
-
-
 		
 		Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
 		

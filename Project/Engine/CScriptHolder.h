@@ -14,9 +14,13 @@ class CScriptHolder :
 {
 public:
     CScriptHolder();
+
     CScriptHolder(const CScriptHolder& _other);
-    virtual ~CScriptHolder();
     CLONE(CScriptHolder);
+
+    virtual ~CScriptHolder();
+
+    
 
 public:
     virtual bool SaveJson(Json::Value* _jVal);

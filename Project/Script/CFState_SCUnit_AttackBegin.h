@@ -8,6 +8,7 @@ class CFState_SCUnit_AttackBegin :
 public:
     CFState_SCUnit_AttackBegin();
     virtual ~CFState_SCUnit_AttackBegin();
+    CLONE(CFState_SCUnit_AttackBegin);
 
 public:
     virtual void EnterState() override;

@@ -7,7 +7,11 @@ class CEntity
 public:
 	CEntity();
 	CEntity(const string& _strName);
+
+
 	CEntity(const CEntity& _other);
+	virtual CEntity* Clone() = 0;
+
 	virtual ~CEntity();
 
 public:
@@ -29,7 +33,6 @@ public:
 	const string& GetName() { return m_strName; }
 	UINT32 GetID() { return m_iID; }
 
-public:
-	virtual CEntity* Clone() = 0;
+
 };
 
