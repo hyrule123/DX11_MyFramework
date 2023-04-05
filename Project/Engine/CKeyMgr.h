@@ -2,7 +2,7 @@
 
 #include "define.h"
 
-#include "Singleton.h"
+#include "CSingleton.h"
 
 enum class eKEY
 {
@@ -62,11 +62,10 @@ struct tKeyInfo
 };
 
 
-
-
-class CKeyMgr 
+class CKeyMgr
+	: public CSingleton<CKeyMgr>
 {
-	DECLARE_SINGLETON(CKeyMgr);
+	SINGLETON(CKeyMgr);
 private:
 	vector<tKeyInfo>	m_vecKey;
 	Vec2				m_vMouseLocalPos;

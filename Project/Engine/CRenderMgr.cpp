@@ -16,7 +16,6 @@
 
 #include "CConstBuffer.h"
 
-DEFINITION_SINGLETON(CRenderMgr);
 
 CRenderMgr::CRenderMgr()
     : m_arrCam{}

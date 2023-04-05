@@ -6,7 +6,10 @@ class CFState_SCUnit_Death :
 {
 public:
     CFState_SCUnit_Death();
-    CFState_SCUnit_Death(std::type_index _type);
+
+    CFState_SCUnit_Death(const CFState_SCUnit_Death& _other) = default;
+    CLONE(CFState_SCUnit_Death);
+
     virtual ~CFState_SCUnit_Death();
 
 public:

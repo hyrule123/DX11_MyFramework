@@ -4,14 +4,10 @@
 #include "define_SCUnit.h"
 
 CFState_SCUnit_Death::CFState_SCUnit_Death()
-    :CFState(TYPE_INDEX(CFState_SCUnit_Death), FSM_SCGroundUnit::DEATH)
+    :CFState(FSM_SCGroundUnit::DEATH)
 {
 }
 
-CFState_SCUnit_Death::CFState_SCUnit_Death(std::type_index _type)
-    : CFState(_type, FSM_SCGroundUnit::DEATH)
-{
-}
 
 CFState_SCUnit_Death::~CFState_SCUnit_Death()
 {

@@ -6,7 +6,7 @@
 #include "CSCEntity.h"
 
 CFState_SCUnitIdle::CFState_SCUnitIdle()
-    : CFState(TYPE_INDEX(CFState_SCUnitIdle), (UINT)FSM_SCGroundUnit::eSTATE::IDLE)
+    : CFState((UINT)FSM_SCGroundUnit::eSTATE::IDLE)
 {
 }
 

@@ -10,7 +10,7 @@
 
 
 CFState_SCUnit_Attack::CFState_SCUnit_Attack()
-	: CFState(TYPE_INDEX(CFState_SCUnit_Attack), (UINT)FSM_SCGroundUnit::eSTATE::ATTACK)
+	: CFState((UINT)FSM_SCGroundUnit::eSTATE::ATTACK)
 	, m_uDefaultDamage()
 	, m_uDamageAddedPerUpgrade()
 	, m_uWeaponRange()

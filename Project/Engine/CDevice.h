@@ -5,8 +5,9 @@
 class CConstBuffer;
 
 class CDevice
+	: public CSingleton<CDevice>
 {
-	DECLARE_SINGLETON(CDevice);
+	SINGLETON(CDevice);
 private:
 	//초기화 순서 + 렌더링 파이프라인 순서대로 정렬
 	//Window

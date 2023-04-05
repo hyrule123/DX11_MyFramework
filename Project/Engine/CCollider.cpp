@@ -73,7 +73,7 @@ void CCollider::finaltick()
 	CTransform* pTransform = Transform();
 
 	//트랜스폼의 위치정보가 변경되었을 경우 중심점을 새로 계산(위치는 무조건 Transform을 따라감.)
-	if (true == pTransform->IsUpdated())
+	if (true == pTransform->IsUpdated() || isCollPosUpdated())
 	{
 		m_bCollPosUpdated |= 0x01;
 

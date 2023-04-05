@@ -15,8 +15,8 @@ public:
 	virtual ~CEntity();
 
 public:
-	virtual bool Save(const std::filesystem::path _fileName) { return true; }
-	virtual bool Load(const std::filesystem::path _fileName) { return true; }
+	virtual bool Save(const std::filesystem::path& _fileName) { return false; }
+	virtual bool Load(const std::filesystem::path& _fileName) { return false; }
 
 	virtual bool SaveJson(Json::Value* _pJson);
 	virtual bool LoadJson(Json::Value* _pJson);

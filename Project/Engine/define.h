@@ -25,6 +25,13 @@
 #define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, _aStrMessage, NULL, MB_OK)
 #define ERROR_RUNTIME(_stdRuntimeError) MessageBoxA(nullptr, _stdRuntimeError.what(), nullptr, MB_OK);
 
+#ifdef _DEBUG
+#define DEBUG_BREAK DebugBreak()
+#else
+#define DEBUG_BREAK
+#endif
+
+
 //Macro for SMALL data sized variable
 #define SETTER(_Type_, _Var_, _FuncName_) void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }
 
@@ -81,7 +88,6 @@ enum class eCOMPONENT_TYPE
 
 	// custom
 	SCRIPT_HOLDER,		
-	FSM,
 
 	END
 };

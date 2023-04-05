@@ -13,7 +13,6 @@
 #include "CRandMgr.h"
 #include "CScriptMgr.h"
 
-DEFINITION_SINGLETON(CEngine);
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -23,16 +22,6 @@ CEngine::CEngine()
 
 CEngine::~CEngine()
 {
-	CScriptMgr::Destroy();
-	CCollisionMgr::Destroy();
-	CEventMgr::Destroy();
-	CRenderMgr::Destroy();
-	CLevelMgr::Destroy();
-	CResMgr::Destroy();
-	CTimeMgr::Destroy();
-	CKeyMgr::Destroy();
-	CPathMgr::Destroy();
-	CDevice::Destroy();
 }
 
 int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)

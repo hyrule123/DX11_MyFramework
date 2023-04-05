@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Singleton.h"
+#include "CSingleton.h"
 
 class CTimeMgr
+	: public CSingleton<CTimeMgr>
 {
-	DECLARE_SINGLETON(CTimeMgr);
+	SINGLETON(CTimeMgr);
 
 public:
 	void init();

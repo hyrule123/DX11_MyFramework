@@ -6,7 +6,7 @@
 #include <Engine/CAnimator2D.h>
 
 CFState_SCUnit_AttackEnd::CFState_SCUnit_AttackEnd()
-    : CFState(TYPE_INDEX(CFState_SCUnit_AttackEnd), FSM_SCGroundUnit::ATTACK_END)
+    : CFState(FSM_SCGroundUnit::ATTACK_END)
 	, m_bCurMotionEnd()
 {
 }
@@ -19,7 +19,7 @@ void CFState_SCUnit_AttackEnd::EnterState()
 {
 	m_bCurMotionEnd = false;
 
-	CAnimator2D* pAnimator = Animator2D();
+	CAnimator2D* pAnimator = GetFStateMgr()->Animator2D();
 	if (pAnimator)
 	{
 		using namespace FSM_SCGroundUnit;
@@ -30,7 +30,11 @@ void CFState_SCUnit_AttackEnd::EnterState()
 void CFState_SCUnit_AttackEnd::OnState()
 {
 	if (Animator2D()->IsFinished())
+	{
 		m_bCurMotionEnd = true;
+		//GetFStateMgr(
+	}
+		
 }
 
 void CFState_SCUnit_AttackEnd::EndState()
@@ -68,3 +72,4 @@ bool CFState_SCUnit_AttackEnd::CheckCondition(UINT _eState)
 
     return false;
 }
+

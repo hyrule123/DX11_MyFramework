@@ -11,7 +11,7 @@
 #include <Engine/CKeyMgr.h>
 
 CFState_SCUnitMove_Ground::CFState_SCUnitMove_Ground()
-	: CFState_SCUnitMove(TYPE_INDEX(CFState_SCUnitMove_Ground), (UINT)FSM_SCGroundUnit::eSTATE::MOVE, eSCUNIT_MOVE_TYPE::Ground)
+	: CFState_SCUnitMove((UINT)FSM_SCGroundUnit::eSTATE::MOVE, eSCUNIT_MOVE_TYPE::Ground)
 {
 }
 
@@ -33,7 +33,7 @@ void CFState_SCUnitMove_Ground::OnState()
 {
 	if (false == IsArrived())
 	{
-		CTransform* pTransform = GetOwner()->Transform();
+		CTransform* pTransform = Transform();
 		Vec2 pos = pTransform->GetRelativePos().XY();
 
 		//이동하기 전 거리 차이를 계산한다.
@@ -100,17 +100,4 @@ void CFState_SCUnitMove_Ground::EndState()
 void CFState_SCUnitMove_Ground::init()
 {
 	CFState_SCUnitMove::init();
-}
-
-void CFState_SCUnitMove_Ground::tick()
-{
-	assert(GetFStateMgr());
-
-	CSCEntity* pMgr = static_cast<CSCEntity*>(GetFStateMgr());
-
-	//자신의 유닛이 선택되어 있고, 우클릭(이동명령)이 들어왔을 경우 상태 전환을 요청
-	//if (pMgr->IsSelected() && KEY_TAP(eKEY::RBTN))
-	//{
-	//	pMgr->Transition(GetMyState());
-	//}
 }

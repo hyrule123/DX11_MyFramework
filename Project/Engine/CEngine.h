@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Singleton.h"
+#include "CSingleton.h"
 
 class CEngine
+	:public CSingleton<CEngine>
 {
-	DECLARE_SINGLETON(CEngine);
+	SINGLETON(CEngine);
 
 private:
 	HWND	m_hWnd;

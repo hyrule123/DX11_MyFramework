@@ -28,7 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(3253);
+    //_CrtSetBreakAlloc(34501);
 #endif
     
     MyRegisterClass(hInstance);
@@ -44,10 +44,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         return 0;
     }
-
     //복사용 스크립트 원본 등록 함수 호출
     CScriptMgrInitializer::init();
-
 
     CEditorObjMgr::GetInst()->init();
 
@@ -88,10 +86,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             CEngine::GetInst()->cleartick();
         }       
     }
-
-    CImGuiMgr::Destroy();
-    CEditorObjMgr::Destroy();
-    CEngine::Destroy();
 
     return (int) msg.wParam;
 }

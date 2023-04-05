@@ -38,7 +38,7 @@ public:
     CGameObject* GetOwner() const { return m_pOwner; }
     void SetOwner(CGameObject* _pObj) { m_pOwner = _pObj; }
 
-    CScriptHolder* GetHolder() const { return m_pHolder; }
+    CScriptHolder* ScriptHolder() const { return m_pHolder; }
     void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }
 
     CTransform* Transform() const { return m_pOwner->Transform(); }

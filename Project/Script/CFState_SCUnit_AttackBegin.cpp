@@ -8,7 +8,7 @@
 
 
 CFState_SCUnit_AttackBegin::CFState_SCUnit_AttackBegin()
-	: CFState(TYPE_INDEX(CFState_SCUnit_AttackBegin), FSM_SCGroundUnit::ATTACK_BEGIN)
+	: CFState(FSM_SCGroundUnit::ATTACK_BEGIN)
 {
 }
 
@@ -18,7 +18,7 @@ CFState_SCUnit_AttackBegin::~CFState_SCUnit_AttackBegin()
 
 void CFState_SCUnit_AttackBegin::EnterState()
 {
-	CAnimator2D* pAnimator = Animator2D();
+	CAnimator2D* pAnimator = GetFStateMgr()->Animator2D();
 	if (pAnimator)
 	{
 		using namespace FSM_SCGroundUnit;
@@ -28,9 +28,10 @@ void CFState_SCUnit_AttackBegin::EnterState()
 
 void CFState_SCUnit_AttackBegin::OnState()
 {
-	if (Animator2D())
+	CAnimator2D* pAnimator = GetFStateMgr()->Animator2D();
+	if (pAnimator)
 	{
-		if (Animator2D()->IsFinished())
+		if (pAnimator->IsFinished())
 		{
 			GetFStateMgr()->Transition(FSM_SCGroundUnit::ATTACK);
 		}

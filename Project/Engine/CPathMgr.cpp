@@ -3,7 +3,6 @@
 
 #include "CEngine.h"
 
-DEFINITION_SINGLETON(CPathMgr);
 
 CPathMgr::CPathMgr()
 {

@@ -12,10 +12,13 @@ class CSCEntity :
 {
 public:
     CSCEntity(std::type_index _typeIdx, UINT _eNumState);
-    //CSCEntity(const CSCEntity& _other); //기본 복사생성자로 충분함.
+
+    CSCEntity(const CSCEntity& _other) = default;
+    CLONE(CSCEntity);
+
     virtual ~CSCEntity();
 
-    CLONE(CSCEntity);
+    
 
 public:
     virtual void initFSM() override;

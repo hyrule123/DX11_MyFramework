@@ -1,12 +1,13 @@
 #pragma once
-#include "Singleton.h"
+#include "CSingleton.h"
 
 class CLevel;
 class CGameObject;
 
 class CLevelMgr
+    : public CSingleton<CLevelMgr>
 {
-    DECLARE_SINGLETON(CLevelMgr);
+    SINGLETON(CLevelMgr);
 private:
     CLevel*     m_pCurLevel;
 

@@ -17,7 +17,6 @@
 
 #include "struct.h"
 
-DEFINITION_SINGLETON(CCollisionMgr);
 
 CCollisionMgr::CCollisionMgr()
 	: m_iNum2DGridX()

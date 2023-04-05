@@ -1,6 +1,7 @@
 #pragma once
-#include "Singleton.h"
+
 #include "define.h"
+#include "CSingleton.h"
 
 //**********************************************
 // 충돌체가 그리드 하나 크기보다 커질 경우 에러 나므로 주의할 것
@@ -44,8 +45,9 @@ struct tCollisionInfo
 
 
 class CCollisionMgr
+    : public CSingleton<CCollisionMgr>
 {
-    DECLARE_SINGLETON(CCollisionMgr);
+    SINGLETON(CCollisionMgr);
        
 private:
     //우선 논리적으로만 충돌정보를 저장. 나중에 필요해지면 따로 만들것.

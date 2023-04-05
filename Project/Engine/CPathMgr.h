@@ -2,7 +2,7 @@
 
 #include "global.h"
 
-#include "Singleton.h"
+#include "CSingleton.h"
 
 #include "strKeyDefault.h"
 
@@ -11,8 +11,10 @@
 
 
 class CPathMgr
+	:public CSingleton<CPathMgr>
 {
-	DECLARE_SINGLETON(CPathMgr);
+	SINGLETON(CPathMgr);
+
 private:
 	std::filesystem::path m_PathAbsolute_Content;
 	std::filesystem::path m_PathRelative_Content;

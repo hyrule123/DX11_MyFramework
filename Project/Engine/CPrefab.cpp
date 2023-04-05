@@ -20,7 +20,7 @@ CPrefab::~CPrefab()
 void CPrefab::RegisterPrefab(CGameObject* _pPrefab)
 {
 	//Prefab은 레이어에 등록되어 실행되는 용도가 아님.
-	assert(0 > _pPrefab->GetLayer());
+	//assert(0 > _pPrefab->GetLayer());
 
 	m_pPrefab = _pPrefab;
 }

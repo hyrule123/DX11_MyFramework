@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Singleton.h"
+#include "CSingleton.h"
 
 #include <random>
 
 class CRandMgr
+    : public CSingleton<CRandMgr>
 {
-    DECLARE_SINGLETON(CRandMgr);
+    SINGLETON(CRandMgr);
 private:
     std::mt19937 m_RandEngine;
 

@@ -7,6 +7,4 @@
 #include "func.h"
 #include "S_H_Register.hlsli"
 
-#include "Singleton.h"
-
-
+#include "CSingleton.h"

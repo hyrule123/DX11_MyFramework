@@ -1,5 +1,5 @@
 #pragma once
-#include <Engine\Singleton.h>
+#include <Engine\CSingleton.h>
 
 //IMGUI
 #include "ImGui/imgui.h"
@@ -28,8 +28,9 @@ typedef void (CUI::* UI_DELEGATE_1)(DWORD_PTR);
 typedef void (CUI::* UI_DELEGATE_2)(DWORD_PTR, DWORD_PTR);
 
 class CImGuiMgr
+    : public CSingleton<CImGuiMgr>
 {
-    DECLARE_SINGLETON(CImGuiMgr);
+    SINGLETON(CImGuiMgr);
 private:
     HWND                m_hWnd;
     unordered_map<string, CUI*>   m_mapUI;

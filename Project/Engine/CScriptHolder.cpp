@@ -27,9 +27,6 @@ CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	for (size_t i = 0; i < size; ++i)
 	{
 		AddScript(_other.m_vecScript[i]->Clone());
-
-		//복사 생성자에는 아직 소유자 포인터 정보가 입력되지 않았으므로 
-		//SetOwner에서 처리해줘야 한다.
 	}
 }
 
@@ -144,16 +141,6 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 	return true;
 }
 
-CScript* CScriptHolder::GetScript(std::type_index _typeIdx)
-{
-	const auto& iter = m_umapScript.find(_typeIdx);
-
-	if (iter != m_umapScript.end())
-		return iter->second;
-
-	return nullptr;
-}
-
 void CScriptHolder::init()
 {
 	size_t size = m_vecScript.size();
@@ -176,11 +163,13 @@ void CScriptHolder::SetOwner(CGameObject* _pOwner)
 
 CFState* CScriptHolder::Transition(UINT _eState)
 {
-	if (m_pFStateMgr) 
-		return m_pFStateMgr->Transition(_eState); 
-	
+	if (m_pFStateMgr)
+		return m_pFStateMgr->Transition(_eState);
+
 	return nullptr;
 }
+
+
 
 void CScriptHolder::tick()
 {

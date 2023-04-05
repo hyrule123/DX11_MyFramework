@@ -8,7 +8,7 @@ class CFState_SCUnitMove :
     public CFState
 {
 public:
-    CFState_SCUnitMove(std::type_index _typeIdx, UINT _eMyState, eSCUNIT_MOVE_TYPE _eMoveType);
+    CFState_SCUnitMove(UINT _eMyState, eSCUNIT_MOVE_TYPE _eMoveType);
     virtual ~CFState_SCUnitMove();
 
     CFState_SCUnitMove(const CFState_SCUnitMove& _other) = default;

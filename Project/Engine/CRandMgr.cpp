@@ -3,7 +3,6 @@
 
 #include "CTimeMgr.h"
 
-DEFINITION_SINGLETON(CRandMgr);
 
 CRandMgr::CRandMgr()
 	: m_RandEngine((unsigned int)time(0))

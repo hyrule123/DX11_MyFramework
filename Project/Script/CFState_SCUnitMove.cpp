@@ -3,8 +3,8 @@
 
 #include "CSCEntity.h"
 
-CFState_SCUnitMove::CFState_SCUnitMove(std::type_index _typeIdx, UINT _eMyState, eSCUNIT_MOVE_TYPE _eMoveType)
-	: CFState(_typeIdx, _eMyState)
+CFState_SCUnitMove::CFState_SCUnitMove(UINT _eMyState, eSCUNIT_MOVE_TYPE _eMoveType)
+	: CFState(_eMyState)
 	, m_eMoveType(_eMoveType)
 	, m_fSpeed(10.f)
 	, m_fTurnSpeed(0.5f)

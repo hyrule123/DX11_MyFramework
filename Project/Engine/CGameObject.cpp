@@ -254,6 +254,7 @@ void CGameObject::cleanup()
 	}
 }
 
+
 bool CGameObject::SaveJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
@@ -283,12 +284,25 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 		}
 	}
 
-	//TODO: 부모자식관계 저장 아직 안 되고 있음.
-	////부모는 고려하지 않고 자식만 타고들어감.
-	//for (size_t i = 0; i < m_vecChild.size(); ++i)
-	//{
-
-	//}
+	{
+		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_vecChild_PREFAB);
+		Json::Value& vecChild = jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
+		
+		for (size_t i = 0u; i < m_vecChild.size(); ++i)
+		{
+			const string& objKey = m_vecChild[i]->GetName();
+			if (objKey.empty())
+			{
+				ERROR_MESSAGE("You must set Gameobject name to Save!!");
+				
+				DEBUG_BREAK;
+			}
+			//자식 오브젝트의 키값만 저장(프리팹의 키값으로 사용됨)
+			vecChild.append(m_vecChild[i]);
+			
+			
+		}
+	}
 
 	{
 		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_iLayerIdx);

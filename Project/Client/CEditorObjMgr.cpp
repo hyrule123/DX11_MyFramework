@@ -32,7 +32,6 @@
 
 #include <Script/defineScript.h>
 
-DEFINITION_SINGLETON(CEditorObjMgr);
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}

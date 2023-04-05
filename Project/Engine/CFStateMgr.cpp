@@ -21,10 +21,9 @@ CFStateMgr::CFStateMgr(const CFStateMgr& _other)
 	, m_eCurState(_other.m_eCurState)
 	, m_bBegin()
 {
-
 	for (UINT i = 0u; i < m_eNumState; ++i)
 	{
-		if (nullptr != _other.m_vec_pFSM[i])
+		if (_other.m_vec_pFSM[i])
 		{
 			AddFState(i, (CFState*)_other.m_vec_pFSM[i]->Clone());
 		}
@@ -33,32 +32,29 @@ CFStateMgr::CFStateMgr(const CFStateMgr& _other)
 
 CFStateMgr::~CFStateMgr()
 {
-	if (nullptr == GetHolder())
+	for (size_t i = 0u; i < m_vec_pFSM.size(); ++i)
 	{
-		for (size_t i = 0u; i < m_vec_pFSM.size(); ++i)
-		{
-			if (m_vec_pFSM[i])
-				DESTRUCTOR_DELETE(m_vec_pFSM[i]);
-		}
+		if (m_vec_pFSM[i])
+			DESTRUCTOR_DELETE(m_vec_pFSM[i]);
 	}
 }
 
 
 void CFStateMgr::init()
 {
-	GetHolder()->SetFStateMgr(this);
+	ScriptHolder()->RegisterFStateMgr(this);
 
 	//무조건 idle 상태는 존재해야 한다고 가정함
-	assert(nullptr != m_vec_pFSM[0u]);
+	assert(0u < (UINT)m_vec_pFSM.size() && nullptr != m_vec_pFSM[0]);
 
-	for (UINT i = 0; i < m_eNumState; ++i)
+	for (size_t i = 0u; i < m_vec_pFSM.size(); ++i)
 	{
 		if (m_vec_pFSM[i])
 		{
-			//Holder에 스크립트 삽입 요청. 내부에서 중복 스크립트는 알아서 추가하지 않으므로
-			//이미 스크립트가 추가되어 있어도 문제가 발생하지 않음.
-			GetHolder()->AddScript(m_vec_pFSM[i]);
+			m_vec_pFSM[i]->SetOwnerObj(GetOwner());
+			m_vec_pFSM[i]->init();
 		}
+			
 	}
 
 	initFSM();
@@ -102,6 +98,33 @@ CFState* CFStateMgr::Transition(UINT _eState)
 	return nullptr;
 }
 
+void CFStateMgr::BeginCollision(CCollider* _other, const Vec3& _v3HitPoint)
+{
+	for (UINT i = 0u; i < m_eNumState; ++i)
+	{
+		if (m_vec_pFSM[i])
+			m_vec_pFSM[i]->BeginColiision(_other, _v3HitPoint);
+	}
+}
+
+void CFStateMgr::OnCollision(CCollider* _other, const Vec3& _v3HitPoint)
+{
+	for (UINT i = 0u; i < m_eNumState; ++i)
+	{
+		if (m_vec_pFSM[i])
+			m_vec_pFSM[i]->OnCollision(_other, _v3HitPoint);
+	}
+}
+
+void CFStateMgr::EndCollision(CCollider* _other)
+{
+	for (UINT i = 0u; i < m_eNumState; ++i)
+	{
+		if (m_vec_pFSM[i])
+			m_vec_pFSM[i]->EndCollision(_other);
+	}
+}
+
 void CFStateMgr::AddFState(UINT _uIdx, CFState* _pFState)
 {
 	assert(m_eNumState > _uIdx && nullptr != _pFState);
@@ -119,3 +142,5 @@ void CFStateMgr::SwitchState(UINT _eState)
 	if (m_vec_pFSM[m_eCurState])
 		m_vec_pFSM[m_eCurState]->EnterState();
 }
+
+

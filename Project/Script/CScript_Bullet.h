@@ -5,6 +5,15 @@
 class CScript_Bullet :
     public CScript
 {
+    
+public:
+    CScript_Bullet();
+
+    CScript_Bullet(const CScript_Bullet& _other) = default;
+    CLONE(CScript_Bullet);
+
+    ~CScript_Bullet();
+
 private:
     Vec3 m_vDefaultPos;
     Vec3 m_vBulletDir;
@@ -16,10 +25,4 @@ public:
     virtual void tick() override;
 
     void SetDefaultVal(const Vec3& _vPos, const Vec3& _vDir);
-
-
-    CLONE(CScript_Bullet);
-public:
-    CScript_Bullet();
-    ~CScript_Bullet();
 };

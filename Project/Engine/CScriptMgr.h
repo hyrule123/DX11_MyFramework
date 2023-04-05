@@ -1,12 +1,13 @@
 #pragma once
-#include "Singleton.h"
+#include "CSingleton.h"
 
 
 //CScript 프로젝트에서 상속받아 사용하는 용도(Engine단에서 인스턴스를 만들지 않음)
 class CScript;
 class CScriptMgr
+	: public CSingleton<CScriptMgr>
 {
-	DECLARE_SINGLETON(CScriptMgr);
+	SINGLETON(CScriptMgr);
 
 protected:
 	unordered_map<string, CScript*> m_umapScriptName;

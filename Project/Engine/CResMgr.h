@@ -1,5 +1,5 @@
 #pragma once
-#include "Singleton.h"
+#include "CSingleton.h"
 
 #include "define.h"
 
@@ -20,8 +20,10 @@
 //2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
 
 class CResMgr
+    : public CSingleton<CResMgr>
 {
-    DECLARE_SINGLETON(CResMgr);
+    SINGLETON(CResMgr);
+
 public:
     void init();
     void cleartick() { m_bResUpdated = false; }
