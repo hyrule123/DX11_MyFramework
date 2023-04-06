@@ -30,9 +30,6 @@ public:
     virtual void finaltick() final {}
     virtual void cleanup() final {}
 
-    //들고 있는 Script 들에도 Owner 설정이 필요하므로 재정의해서 사용한다.
-    virtual void SetOwner(CGameObject* _pOwner) override;
-
     CFState* Transition(UINT _eState);
 
 private:

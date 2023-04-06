@@ -9,7 +9,6 @@
 CFState::CFState(UINT _eMyState)
 	: m_eMyState(_eMyState)
 	, m_pFStateMgr()
-	, m_pOwner()
 {
 }
 

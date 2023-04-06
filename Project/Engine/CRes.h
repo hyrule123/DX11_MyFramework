@@ -15,6 +15,7 @@ class CRes :
 {
 public:
     CRes(eRES_TYPE _type);
+
     CRes(const CRes& _other);
     virtual ~CRes();
 
@@ -35,6 +36,8 @@ public:
     const string& GetKey() { return m_strKey; }
 
     eRES_TYPE GetResType() const { return m_eResType; }
+
+    int GetRefCount() const { return m_iRefCount; }
 
 private:
     void AddRef() { ++m_iRefCount; }

@@ -137,7 +137,7 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 	m_umapScript[type] = _pScript;
 
 	_pScript->SetHolder(this);
-	if (true == GetOwner()->IsInitialized())
+	if (GetOwner() && true == GetOwner()->IsInitialized())
 		_pScript->init();
 
 	return true;
@@ -149,17 +149,6 @@ void CScriptHolder::init()
 	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecScript[i]->init();
-	}
-}
-
-void CScriptHolder::SetOwner(CGameObject* _pOwner)
-{
-	CComponent::SetOwner(_pOwner);
-
-	size_t size = m_vecScript.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		m_vecScript[i]->SetOwner(_pOwner);
 	}
 }
 

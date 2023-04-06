@@ -12,6 +12,7 @@
 
 #include "CTransform.h"
 
+#include "jsoncpp.h"
 
 
 CAnimator2D::CAnimator2D()
@@ -61,6 +62,96 @@ CAnimator2D::CAnimator2D(const CAnimator2D& _other)
 
 CAnimator2D::~CAnimator2D()
 {
+}
+
+bool CAnimator2D::SaveJson(Json::Value* _pJVal)
+{
+    if (nullptr == _pJVal)
+        return false;
+    else if (false == CComponent::SaveJson(_pJVal))
+        return false;
+
+    Json::Value& jVal = *_pJVal;
+
+    try
+    {
+        {
+            string strKey = string(RES_INFO::PREFAB::COMPONENT::ANIMATOR2D::JSON_KEY::m_arrAtlasTex);
+            jVal[strKey] = Json::Value(Json::arrayValue);
+            for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+            {
+                if (nullptr != m_arrAtlasTex[i])
+                {
+                    jVal[strKey].append(m_arrAtlasTex[i]->GetKey());
+                }
+                else
+                {
+                    jVal[strKey].append(Json::Value(Json::nullValue));
+                }
+            }
+        }
+
+    }
+    catch (const std::runtime_error& _err)
+    {
+        string error = _err.what();
+        error += " Save Failed!!";
+        MessageBoxA(nullptr, error.c_str(), nullptr, MB_OK);
+        return false;
+    }
+
+    return true;
+}
+
+bool CAnimator2D::LoadJson(Json::Value* _pJVal)
+{
+    if (nullptr == _pJVal)
+        return false;
+    else if (false == CComponent::SaveJson(_pJVal))
+        return false;
+
+    Json::Value& jVal = *_pJVal;
+
+    try
+    {
+        {
+            string strKey = string(RES_INFO::PREFAB::COMPONENT::ANIMATOR2D::JSON_KEY::m_arrAtlasTex);
+            if (false == jVal.isMember(strKey) || false == jVal[strKey].isArray())
+                throw std::runtime_error(strKey);
+
+            Json::Value& arrAtlasTex = jVal[strKey];
+
+            int size = arrAtlasTex.size();
+            if ((int)eMTRLDATA_PARAM_TEX::_END != size)
+                throw std::runtime_error(strKey + " Array Index exceeded");
+
+            for (int i = 0u; i < size; ++i)
+            {
+                if (arrAtlasTex[i].isNull())
+                    continue;
+
+                Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(arrAtlasTex[i].asString());
+
+                if (nullptr == pAtlas)
+                {
+                    DEBUG_BREAK;
+                    throw(std::runtime_error(strKey));
+                }
+
+                AddAtlasTex((eMTRLDATA_PARAM_TEX)i, pAtlas);
+            }
+        }
+
+    }
+    catch (const std::runtime_error& _err)
+    {
+        string error = _err.what();
+        error += " Load Failed!!";
+        MessageBoxA(nullptr, error.c_str(), nullptr, MB_OK);
+        return false;
+    }
+
+    return true;
 }
 
 

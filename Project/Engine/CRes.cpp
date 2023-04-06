@@ -31,6 +31,7 @@ void CRes::Release()
 
 	if (0 == m_iRefCount)
 	{
+		OutputDebugStringA(string(std::to_string(m_iRefCount) + "\n").c_str());
 		delete this;
 	}
 }

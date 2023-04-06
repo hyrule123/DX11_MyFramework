@@ -50,10 +50,7 @@ void CFStateMgr::init()
 	for (size_t i = 0u; i < m_vec_pFSM.size(); ++i)
 	{
 		if (m_vec_pFSM[i])
-		{
-			m_vec_pFSM[i]->SetOwnerObj(GetOwner());
 			m_vec_pFSM[i]->init();
-		}
 			
 	}
 

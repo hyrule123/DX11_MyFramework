@@ -53,13 +53,6 @@ CGameObject::CGameObject(const CGameObject& _other)
 		if (nullptr != _other.m_arrCom[i])
 		{
 			AddComponent(_other.m_arrCom[i]->Clone());
-
-			//1-1. 렌더링 컴포넌트 일 경우 m_RenderCom에 복사
-			if ((UINT)g_RenderComIdxStart <= i && i < (UINT)g_RenderComIdxEnd)
-			{
-				assert(nullptr == m_RenderCom);
-				m_RenderCom = static_cast<CRenderComponent*>(m_arrCom[i]);
-			}
 		}
 	}
 

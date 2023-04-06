@@ -10,7 +10,6 @@
 
 namespace SCRIPTS
 {
-constexpr std::string_view BULLET = "CScript_Bullet";
 constexpr std::string_view CAMERAMOVE = "CScript_CameraMove";
 constexpr std::string_view MARINE = "CScript_Marine";
 constexpr std::string_view MOUSECURSOR = "CScript_MouseCursor";

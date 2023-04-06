@@ -39,7 +39,18 @@
 			},
 			null,
 			{
-				"eComponentType" : 3
+				"eComponentType" : 3,
+				"m_arrAtlasTex" : 
+				[
+					"SC/Unit/Terran/marine.bmp",
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null
+				]
 			},
 			null,
 			null,

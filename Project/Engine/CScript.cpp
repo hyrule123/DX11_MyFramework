@@ -8,12 +8,14 @@
 
 CScript::CScript(std::type_index _TypeIndex)
 	: m_TypeIndex(_TypeIndex)
+	, m_pHolder()
 {
 }
 
 CScript::CScript(const CScript& _other)
 	: CEntity(_other)
 	, m_TypeIndex(_other.m_TypeIndex)
+	, m_pHolder()
 {
 }
 

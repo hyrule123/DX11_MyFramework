@@ -10,7 +10,7 @@ typedef struct tVertex
 } Vtx;
 
 
-struct tEvent
+struct tGameEvent
 {
 	eEVENT_TYPE Type;
 	DWORD_PTR	lParam;

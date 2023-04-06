@@ -45,6 +45,9 @@ public:
     CCamera* Camera() const { return m_pHolder->Camera(); }
     CRenderComponent* RenderCom() const { return m_pHolder->RenderComponent(); }
     CAnimator2D* Animator2D() const { return m_pHolder->Animator2D(); }
+
+    CGameObject* GetOwner() const { return m_pHolder->GetOwner(); }
+
     const std::type_index GetTypeIndex() const { return m_TypeIndex; }
 };
 

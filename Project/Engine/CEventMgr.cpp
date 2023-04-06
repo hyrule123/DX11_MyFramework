@@ -19,7 +19,7 @@ CEventMgr::~CEventMgr()
 
 }
 
-void CEventMgr::CreateObject(const tEvent& _event)
+void CEventMgr::CreateObject(const tGameEvent& _event)
 {
 
 	CGameObject* Obj = reinterpret_cast<CGameObject*>(_event.lParam);
@@ -33,7 +33,7 @@ void CEventMgr::CreateObject(const tEvent& _event)
 	m_bLevelModified = true;
 }
 
-void CEventMgr::DestroyObject(const tEvent& _event)
+void CEventMgr::DestroyObject(const tGameEvent& _event)
 {
 	CGameObject* _pObj = reinterpret_cast<CGameObject*>(_event.lParam);
 
@@ -47,7 +47,7 @@ void CEventMgr::DestroyObject(const tEvent& _event)
 
 
 
-void CEventMgr::AddChildObj(const tEvent& _event)
+void CEventMgr::AddChildObj(const tGameEvent& _event)
 {
 	CGameObject* pParent = reinterpret_cast<CGameObject*>(_event.lParam);
 	CGameObject* pChild = reinterpret_cast<CGameObject*>(_event.rParam);
@@ -55,7 +55,7 @@ void CEventMgr::AddChildObj(const tEvent& _event)
 	pParent->AddChildObj(pChild);
 }
 
-void CEventMgr::RemoveComponent(const tEvent& _event)
+void CEventMgr::RemoveComponent(const tGameEvent& _event)
 {
 	//lParam = GameObject*
 	//rParam = eCOMPONENT_TYPE
@@ -78,7 +78,7 @@ void CEventMgr::RemoveComponent(const tEvent& _event)
 	m_vecLazyEvent.push_back(_event);
 }
 
-void CEventMgr::RemoveComponentLazy(const tEvent& _event)
+void CEventMgr::RemoveComponentLazy(const tGameEvent& _event)
 {
 	CGameObject* pObj = reinterpret_cast<CGameObject*>(_event.lParam);
 	if (nullptr == pObj)

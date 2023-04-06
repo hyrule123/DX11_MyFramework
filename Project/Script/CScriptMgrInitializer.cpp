@@ -8,7 +8,6 @@
 
 
 //Created Scripts
-#include "CScript_Bullet.h"
 #include "CScript_CameraMove.h"
 #include "CScript_Marine.h"
 #include "CScript_MouseCursor.h"
@@ -18,12 +17,6 @@
 void CScriptMgrInitializer::init()
 {
 	CScriptMgr* pMgr = CScriptMgr::GetInst();
-	{
-		string strKey = string(SCRIPTS::BULLET);
-		CScript* newScript = new CScript_Bullet;
-		newScript->SetName("CScript_Bullet");
-		pMgr->AddBaseScript(strKey, newScript);
-	}
 	{
 		string strKey = string(SCRIPTS::CAMERAMOVE);
 		CScript* newScript = new CScript_CameraMove;

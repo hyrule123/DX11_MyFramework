@@ -8,16 +8,26 @@ class CAnim2DAtlas;
 class CTexture;
 struct tAnim2D;
 
-class CAnimator2D :
-    public CComponent
+class CAnimator2D 
+    : public CComponent
 {
 public:
     CAnimator2D();
+
     CAnimator2D(const CAnimator2D& _other);
-    virtual ~CAnimator2D();
     CLONE(CAnimator2D);
 
+    virtual ~CAnimator2D();
+    
+
 public:
+    virtual bool SaveJson(Json::Value* _pJVal) override;
+    virtual bool LoadJson(Json::Value* _pJVal) override;
+
+
+public:
+    
+
     virtual void finaltick() override;
     virtual void cleanup() override;
 

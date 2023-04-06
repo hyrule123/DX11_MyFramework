@@ -188,7 +188,6 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CFState_SCUnit_AttackEnd.h" />
     <ClInclude Include="CFState_SCUnit_Death.h" />
     <ClInclude Include="CScriptMgrInitializer.h" />
-    <ClInclude Include="CScript_Bullet.h" />
     <ClInclude Include="CScript_CameraMove.h" />
     <ClInclude Include="CScript_Marine.h" />
     <ClInclude Include="CScript_MouseCursor.h" />
@@ -213,7 +212,6 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClCompile Include="CFState_SCUnit_AttackEnd.cpp" />
     <ClCompile Include="CFState_SCUnit_Death.cpp" />
     <ClCompile Include="CScriptMgrInitializer.cpp" />
-    <ClCompile Include="CScript_Bullet.cpp" />
     <ClCompile Include="CScript_CameraMove.cpp" />
     <ClCompile Include="CScript_Marine.cpp" />
     <ClCompile Include="CScript_MouseCursor.cpp" />

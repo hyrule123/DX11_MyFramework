@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "CSCEntity.h"
 
-#include "CScript_Bullet.h"
-
 #include <Engine/CMeshRender.h>
 #include <Engine/CMaterial.h>
 #include <Engine/CTransform.h>
@@ -54,7 +52,7 @@ CSCEntity::~CSCEntity()
 void CSCEntity::initFSM()
 {
 	//유닛은 기본적으로 전부 회전이 존재하지 않음.
-	GetOwner()->Transform()->SetLockRotation(true);
+	Transform()->SetLockRotation(true);
 
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
 	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);

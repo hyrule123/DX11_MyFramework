@@ -62,7 +62,13 @@ class CAnim2DAtlas :
 {
 public:
     CAnim2DAtlas();
+
+    CAnim2DAtlas(const CAnim2DAtlas& _other) = default;
+    CLONE_DISABLE(CAnim2DAtlas);
+
     virtual ~CAnim2DAtlas();
+
+
 public:
     //json 파일에 숫자 데이터만 들어가 있기에 가독성이 중요하지 않아서 붙여쓰기 방식으로 작성하기 위해 오버라이드 하였음.
     //virtual bool Save(const std::filesystem::path& _fileName) override;

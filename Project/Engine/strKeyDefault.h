@@ -419,7 +419,10 @@ namespace RES_INFO
 
 			namespace ANIMATOR2D
 			{
-
+				namespace JSON_KEY
+				{
+					JSONKEY(m_arrAtlasTex);
+				}
 			}
 
 			namespace ANIMATOR3D

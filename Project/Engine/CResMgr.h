@@ -156,7 +156,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
     
     // 이미 해당 키로 리소스가 있다면, 반환
     if (nullptr != pRes)
-        return (T*)pRes.Get();
+        return pRes;
         
     pRes = new T;
     pRes->SetKey(_strKey);
@@ -170,7 +170,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
         
     m_bResUpdated = true;
 
-    return (T*)pRes.Get();
+    return pRes;
 }
 
 

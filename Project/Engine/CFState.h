@@ -44,18 +44,15 @@ public:
 private:
     const UINT m_eMyState;
     CFStateMgr* m_pFStateMgr;
-    CGameObject* m_pOwner;
 
 public:
     UINT GetMyState() const { return m_eMyState; }
 
     GETSET(CFStateMgr*, m_pFStateMgr, FStateMgr);
 
-    GETSET(CGameObject*, m_pOwner, OwnerObj);
-
-    CTransform* Transform() const { return m_pOwner->Transform(); }
-    CAnimator2D* Animator2D() const { return m_pOwner->Animator2D(); }
-    CScriptHolder* ScriptHolder() const { return m_pOwner->ScriptHolder(); }
+    CTransform* Transform() const { return m_pFStateMgr->Transform(); }
+    CAnimator2D* Animator2D() const { return m_pFStateMgr->Animator2D(); }
+    CScriptHolder* ScriptHolder() const { return m_pFStateMgr->ScriptHolder(); }
 
 
 };

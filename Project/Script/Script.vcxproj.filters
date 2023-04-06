@@ -27,9 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CScript_Bullet.h">
-      <Filter>ScriptCode</Filter>
-    </ClInclude>
     <ClInclude Include="CScript_CameraMove.h">
       <Filter>ScriptCode</Filter>
     </ClInclude>
@@ -96,9 +93,6 @@
     <ClInclude Include="CFState_SCUnit_Death.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CScript_Bullet.cpp">
-      <Filter>ScriptCode</Filter>
-    </ClCompile>
     <ClCompile Include="CScript_CameraMove.cpp">
       <Filter>ScriptCode</Filter>
     </ClCompile>
