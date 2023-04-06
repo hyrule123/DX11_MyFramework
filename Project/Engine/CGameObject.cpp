@@ -43,7 +43,7 @@ CGameObject::CGameObject(const CGameObject& _other)
 	: CEntity(_other)
 	, m_iLayerIdx(_other.m_iLayerIdx)
 	, m_bFixLayer(_other.m_bFixLayer)
-	, m_bInitialized(_other.m_bInitialized)
+	, m_bInitialized()
 	, m_bDestroy()
 	, m_fLifeSpan(FLT_MAX_NEG)
 {
@@ -62,7 +62,6 @@ CGameObject::CGameObject(const CGameObject& _other)
 	{
 		AddChildObj(_other.m_vecChild[i]->Clone());
 	}
-
 }
 
 CGameObject::~CGameObject()
@@ -154,7 +153,6 @@ void CGameObject::init()
 	{
 		m_vecChild[i]->init();
 	}
-
 }
 
 void CGameObject::tick()
@@ -502,6 +500,7 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 
 	return true;
 }
+
 
 
 

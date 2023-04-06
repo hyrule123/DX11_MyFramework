@@ -45,6 +45,7 @@ void CPrefab::RegisterPrefab(CGameObject* _pPrefab, bool _bIsSaveMode)
 CGameObject* CPrefab::Instantiate()
 {
 	assert(m_pPrefab != nullptr);
+
 	return m_pPrefab->Clone();
 }
 

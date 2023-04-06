@@ -42,6 +42,8 @@ public:
     virtual bool SaveJson(Json::Value* _pJson) override;
     virtual bool LoadJson(Json::Value* _pJson) override;
 
+public:
+
 private:
     //Components
     CComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];

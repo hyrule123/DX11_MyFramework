@@ -28,7 +28,7 @@ void CEventMgr::CreateObject(const tGameEvent& _event)
 	if (nullptr == Obj || Obj->IsInitialized())
 		return;
 
-	CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(Obj, (int)_event.rParam);
+	CreateObjRecursive(Obj, (int)_event.rParam);
 
 	m_bLevelModified = true;
 }
@@ -144,6 +144,26 @@ void CEventMgr::ProcessLazyEvent()
 		}
 	}
 	m_vecLazyEvent.clear();
+}
+
+void CEventMgr::CreateObjRecursive(CGameObject* _pObj, int _iLayer)
+{
+	CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(_pObj, _iLayer);
+
+	//자식 오브젝트를 받아와서
+	const vector<CGameObject*>& vecChild = _pObj->GetvecChilds();
+
+	//순회를 돌아주면서 레이어에 넣어준다.
+	//레이어가 따로 지정되지 않았을 경우 부모의 레이어를 따라가도록 해줌
+	size_t size = vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		int iLayer = vecChild[i]->GetLayer();
+		if (0 > iLayer)
+			iLayer = _iLayer;
+
+		CreateObjRecursive(vecChild[i], iLayer);
+	}
 }
 
 

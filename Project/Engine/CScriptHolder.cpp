@@ -22,11 +22,14 @@ CScriptHolder::CScriptHolder()
 CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	: CComponent(_other)
 	, m_pFStateMgr()
+	, m_umapScript()
 {
 	size_t size = _other.m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		AddScript(_other.m_vecScript[i]->Clone());
+		CScript* pScript = _other.m_vecScript[i]->Clone();
+		AddScript(pScript);
+		m_umapScript.insert(make_pair(pScript->GetTypeIndex(), pScript));
 	}
 }
 

@@ -47,9 +47,10 @@ private:
 
 
 private:
-    void ProcessLazyEvent();
     void ProcessEvent();
-
+    void ProcessLazyEvent();
+    
+    void CreateObjRecursive(CGameObject* _pObj, int _iLayer);
 
     
 };
