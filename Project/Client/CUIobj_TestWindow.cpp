@@ -20,6 +20,8 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 
+#include <Engine/CRandMgr.h>
+
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
 	, m_pTestObj()
@@ -119,7 +121,7 @@ void CUIobj_TestWindow::render_update()
 
 		CGameObject* pObj = prefab->Instantiate();
 
-		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), 0);
+		EventDispatcher::SpawnGameObject(pObj, Vec3(CRandMgr::GetInst()->GetRand(-640.f, 640.f), CRandMgr::GetInst()->GetRand(-320.f, 320.f), 0.f), 0);
 	}
 
 }

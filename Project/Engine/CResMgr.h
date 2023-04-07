@@ -159,7 +159,6 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
         return pRes;
         
     pRes = new T;
-    pRes->SetKey(_strKey);
 
     if (false == pRes->Load(_fileName))
         return nullptr;

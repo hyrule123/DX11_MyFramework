@@ -51,7 +51,7 @@ CAnimator2D::CAnimator2D(const CAnimator2D& _other)
     , m_bFlipX(_other.m_bFlipX)
     , m_iCurAtlasTexIdx(_other.m_iCurAtlasTexIdx)
     , m_pCurAnim(_other.m_pCurAnim)
-    , m_bNeedUpdateMtrl(false)
+    , m_bNeedUpdateMtrl(true)
 
 {
     for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
@@ -63,6 +63,7 @@ CAnimator2D::CAnimator2D(const CAnimator2D& _other)
 CAnimator2D::~CAnimator2D()
 {
 }
+
 
 bool CAnimator2D::SaveJson(Json::Value* _pJVal)
 {
@@ -308,7 +309,6 @@ void CAnimator2D::UpdateData()
 void CAnimator2D::AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex)
 {
     m_arrAtlasTex[(int)_eTexParam] = _pAtlasTex;
-
     m_bNeedUpdateMtrl = true;
 }
 

@@ -9,7 +9,7 @@
 
 
 
-void AnimEditor::EditAnim()
+void CodeEditor::EditAnim()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 	//Reaver
@@ -34,31 +34,36 @@ void AnimEditor::EditAnim()
 	//	pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::CORSAIR_BMP), Atlas);
 	//}
 
+	MarineMain();
+}
 
+void CodeEditor::MarineMain()
+{
 	{
-		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		//Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 
-		Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(strKey_Texture::TERRAN::MARINE_BMP)));
+		//Atlas->SetAtlasTexture(CResMgr::GetInst()->FindRes<CTexture>(string(strKey_Texture::TERRAN::MARINE_BMP)));
 
-		using namespace FSM_SCGroundUnit;
+		//using namespace FSM_SCGroundUnit;
 
-		Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
-		Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[IDLE]), 0u, 1u, 1.f);
-		Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[ATTACK_BEGIN]), 1u, 2u, 0.5f);
-		Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[ATTACK_END]), 2u, 1u, 0.5f);
+		//Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
+		//Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[IDLE]), 0u, 1u, 1.f);
+		//Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[ATTACK_BEGIN]), 1u, 2u, 0.5f);
+		//Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[ATTACK_END]), 2u, 1u, 0.5f);
 
-		Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[MOVE]), 4u, 9u, 1.f);
+		//Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[MOVE]), 4u, 9u, 1.f);
 
-		vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
-		Atlas->AddAnim2D_vecRowIndex(string(strKey_Anim[ATTACK]),row, 0.6f);
+		//vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
+		//Atlas->AddAnim2D_vecRowIndex(string(strKey_Anim[ATTACK]), row, 0.6f);
 
-		row.clear();
-		
-		row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
-		Atlas->AddAnim2D(string(strKey_Anim[DEATH]), row, 1.f);
-		
-		pResMgr->AddRes<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP), Atlas);
-		Atlas->Save("MarineMain.json");
+		//row.clear();
+
+		//row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
+		//Atlas->AddAnim2D(string(strKey_Anim[DEATH]), row, 1.f);
+
+		//string strKey = string(strKey_Texture::TERRAN::MARINE_BMP);
+		//CResMgr::GetInst()->AddRes<CAnim2DAtlas>(strKey, Atlas);
+		//Atlas->Save(strKey);
 
 		//if (true == Atlas->Load("MarineMain.json"))
 		//{

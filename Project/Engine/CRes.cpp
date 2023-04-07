@@ -25,15 +25,67 @@ CRes::~CRes()
 {
 }
 
-
-
-bool CRes::Load(const std::filesystem::path& _fileName)
+bool CRes::Save(const std::filesystem::path& _fileName)
 {
 	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
 	std::filesystem::path FilePath = GETRESPATH;
 	FilePath /= _fileName;
 
-	SetKey(_fileName.string());
+	const std::filesystem::path& parentDir = FilePath.parent_path();
+	if (false == std::filesystem::exists(parentDir))
+	{
+		try { std::filesystem::create_directories(parentDir); }
+		catch (const std::filesystem::filesystem_error& _err)
+		{
+			ERROR_MESSAGE(_err.what());
+			DEBUG_BREAK;
+			return false;
+		}
+	}
+
+	std::ofstream outFile(FilePath);
+	if (outFile.is_open())
+	{
+		Json::Value SaveVal;
+
+		bool Suc = SaveJson(&SaveVal);
+		if (true == Suc)
+		{
+			outFile << SaveVal;
+		}
+		outFile.close();
+
+		return Suc;
+	}
+
+	return false;
+}
+
+bool CRes::SaveJson(Json::Value* _pJson)
+{
+	if (nullptr == _pJson)
+		return false;
+
+	else if (false == CEntity::SaveJson(_pJson))
+		return false;
+
+	(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE)] = (int)m_eResType;
+	//(*_pJson)[string(RES_INFO::JSON_KEY::strKey)] = m_strKey;
+	(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE)] = (int)m_eResType;
+
+	return true;
+}
+
+bool CRes::Load(const std::filesystem::path& _fileName)
+{
+	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
+	std::filesystem::path FilePath = GETRESPATH;
+
+	FilePath /= _fileName;
+
+	//키값이 지정되지 않았을 경우 파일명을 키값으로 사용
+	if(GetKey().empty())
+		SetKey(_fileName.string());
 
 	std::ifstream inFile(FilePath);
 	if (inFile.is_open())
@@ -73,41 +125,4 @@ bool CRes::LoadJson(Json::Value* _pJson)
 	return true;
 }
 
-bool CRes::Save(const std::filesystem::path& _fileName)
-{
-	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
-	std::filesystem::path FilePath = GETRESPATH;
-	FilePath /= _fileName;
 
-	std::ofstream outFile(FilePath);
-	if (outFile.is_open())
-	{
-		Json::Value SaveVal;
-
-		bool Suc = SaveJson(&SaveVal);
-		if (true == Suc)
-		{
-			outFile << SaveVal;
-		}
-		outFile.close();
-
-		return Suc;
-	}
-
-	return false;
-}
-
-bool CRes::SaveJson(Json::Value* _pJson)
-{
-	if (nullptr == _pJson)
-		return false;
-
-	else if (false == CEntity::SaveJson(_pJson))
-		return false;
-
-	(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE)] = (int)m_eResType;
-	//(*_pJson)[string(RES_INFO::JSON_KEY::strKey)] = m_strKey;
-	(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE)] = (int)m_eResType;
-
-	return true;
-}

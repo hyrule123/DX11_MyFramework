@@ -136,7 +136,7 @@ void CreateMainGame()
 
 	LoadAllTexture();
 	LoadUserMtrl();
-	AnimEditor::EditAnim();
+	CodeEditor::EditAnim();
 
 	CResMgr* pResMgr = CResMgr::GetInst();
 
@@ -163,13 +163,9 @@ void CreateMainGame()
 
 	//	TestObj->AddComponent(new CAnimator2D);
 	//	
-	//	Ptr<CAnim2DAtlas> animAtlas = pResMgr->FindRes<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
+	//	Ptr<CAnim2DAtlas> animAtlas = pResMgr->Load<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
 	//	
 	//	TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
-
-	//	//TestObj->Animator2D()->Play("Marine_Move", eANIM_LOOPMODE::NORMAL_LOOP, false);
-	//	
-	//	TestObj->Transform()->SetSize(Vec3(TestObj->Animator2D()->GetCurFrameSize(), 1.f));
 
 	//	if (i == 0)
 	//	{

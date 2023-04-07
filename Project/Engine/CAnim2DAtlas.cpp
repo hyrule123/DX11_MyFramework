@@ -78,6 +78,25 @@ CAnim2DAtlas::~CAnim2DAtlas()
 //	return false;
 //}
 
+bool CAnim2DAtlas::Save(const std::filesystem::path& _fileName)
+{
+	std::filesystem::path replacedExt = _fileName;
+	replacedExt.replace_extension(RES_INFO::ANIM2D::Ext);
+
+	return CRes::Save(replacedExt);
+}
+
+bool CAnim2DAtlas::Load(const std::filesystem::path& _fileName)
+{
+	std::filesystem::path replacedExt = _fileName;
+	replacedExt.replace_extension(RES_INFO::ANIM2D::Ext);
+
+	SetKey(_fileName.string());
+
+	//확장자를 json으로 바꿔서 load 한뒤
+	return CRes::Load(replacedExt);
+}
+
 //TODO : 여기 작성
 bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
 {
@@ -159,7 +178,14 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)))
 	{
 		const string& strKey = jVal[string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)].asString();
-		m_AtlasTex = CResMgr::GetInst()->Load<CTexture>(strKey);
+		Ptr<CTexture> tex = CResMgr::GetInst()->Load<CTexture>(strKey);
+		if (nullptr == tex)
+		{
+			ERROR_MESSAGE(string("Atlas Texture " + strKey + "Load Failed!!").c_str());
+			DEBUG_BREAK;
+			return false;
+		}
+		SetAtlasTexture(tex);
 	}
 
 	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize)))
@@ -221,8 +247,6 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 		if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)))
 		{
 			const Json::Value& mapAnim = jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
-
-			
 
 			const Json::ValueConstIterator& mapIterEnd = mapAnim.end();
 			for (Json::ValueConstIterator mapIter = mapAnim.begin(); mapIter != mapIterEnd; ++mapIter)

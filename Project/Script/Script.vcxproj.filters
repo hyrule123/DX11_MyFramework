@@ -51,9 +51,6 @@
     <ClInclude Include="strKeyScript.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="defineScript.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
     <ClInclude Include="CSCEntity.h">
       <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClInclude>
@@ -91,6 +88,7 @@
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
     <ClInclude Include="CFState_SCUnit_Death.h" />
+    <ClInclude Include="defineScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">

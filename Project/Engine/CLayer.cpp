@@ -10,7 +10,12 @@ CLayer::CLayer()
 
 CLayer::~CLayer()
 {
-	Safe_Del_Vec(m_vecObject);
+	size_t size = m_vecObject.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (nullptr == m_vecObject[i]->GetParent())
+			DESTRUCTOR_DELETE(m_vecObject[i]);
+	}
 }
 
 void CLayer::tick()

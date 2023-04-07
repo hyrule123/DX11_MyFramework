@@ -64,7 +64,6 @@ CGameObject::CGameObject(const CGameObject& _other)
 CGameObject::~CGameObject()
 {
 	//Layer에 등록된 CGameObject*의 경우는 EventMgr을 통해서 제거 할시 알아서 제거됨.
-
 	Safe_Del_Array(m_arrCom);
 
 	size_t size = m_vecChild.size();
