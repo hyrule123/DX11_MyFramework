@@ -47,6 +47,17 @@ CLevelMgr::~CLevelMgr()
 
 
 
+void CLevelMgr::SetCurLevel(CLevel* _pLevel)
+{
+	assert(nullptr);
+}
+
+void CLevelMgr::AddNewGameObj(CGameObject* _pObj)
+{
+	assert(m_pCurLevel || nullptr == _pObj);
+	m_pCurLevel->AddNewGameObj(_pObj);
+}
+
 CGameObject* CLevelMgr::FindObjectByName(const string& _Name)
 {
 	return m_pCurLevel->FindObjectByName(_Name);

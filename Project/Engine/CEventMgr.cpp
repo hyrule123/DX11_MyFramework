@@ -19,21 +19,20 @@ CEventMgr::~CEventMgr()
 
 }
 
-void CEventMgr::CreateObject(const tGameEvent& _event)
+void CEventMgr::SpawnNewGameObj(const tGameEvent& _event)
 {
-
 	CGameObject* Obj = reinterpret_cast<CGameObject*>(_event.lParam);
 
 	//오브젝트가 nullptr이거나 이미 게임 안에서 생성되었을 경우 return
-	if (nullptr == Obj || Obj->IsInitialized())
+	if (nullptr == Obj)
 		return;
 
-	CreateObjRecursive(Obj, (int)_event.rParam);
+	CLevelMgr::GetInst()->GetCurLevel()->AddNewGameObj(Obj);
 
 	m_bLevelModified = true;
 }
 
-void CEventMgr::DestroyObject(const tGameEvent& _event)
+void CEventMgr::DestroyGameObj(const tGameEvent& _event)
 {
 	CGameObject* _pObj = reinterpret_cast<CGameObject*>(_event.lParam);
 
@@ -42,17 +41,17 @@ void CEventMgr::DestroyObject(const tGameEvent& _event)
 	if (true == _pObj->IsDestroyed())
 		return;
 
-	_pObj->DestroyForEventMgr();
+	_pObj->DestroyRecursive();
 }
 
 
 
-void CEventMgr::AddChildObj(const tGameEvent& _event)
+void CEventMgr::AddChildGameObj(const tGameEvent& _event)
 {
 	CGameObject* pParent = reinterpret_cast<CGameObject*>(_event.lParam);
 	CGameObject* pChild = reinterpret_cast<CGameObject*>(_event.rParam);
 	
-	pParent->AddChildObj(pChild);
+	pParent->AddChildGameObj(pChild);
 }
 
 void CEventMgr::RemoveComponent(const tGameEvent& _event)
@@ -101,13 +100,13 @@ void CEventMgr::ProcessEvent()
 		switch (m_vecEvent[i].Type)
 		{
 		case eEVENT_TYPE::CREATE_OBJECT:
-			CreateObject(m_vecEvent[i]);
+			SpawnNewGameObj(m_vecEvent[i]);
 			break;
 		case eEVENT_TYPE::DELETE_OBJECT:
-			DestroyObject(m_vecEvent[i]);
+			DestroyGameObj(m_vecEvent[i]);
 			break;
 		case eEVENT_TYPE::ADD_CHILD:
-			AddChildObj(m_vecEvent[i]);
+			AddChildGameObj(m_vecEvent[i]);
 			break;
 		case eEVENT_TYPE::DELETE_RESOURCE:
 			break;
@@ -145,27 +144,6 @@ void CEventMgr::ProcessLazyEvent()
 	}
 	m_vecLazyEvent.clear();
 }
-
-void CEventMgr::CreateObjRecursive(CGameObject* _pObj, int _iLayer)
-{
-	CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(_pObj, _iLayer);
-
-	//자식 오브젝트를 받아와서
-	const vector<CGameObject*>& vecChild = _pObj->GetvecChilds();
-
-	//순회를 돌아주면서 레이어에 넣어준다.
-	//레이어가 따로 지정되지 않았을 경우 부모의 레이어를 따라가도록 해줌
-	size_t size = vecChild.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		int iLayer = vecChild[i]->GetLayer();
-		if (0 > iLayer)
-			iLayer = _iLayer;
-
-		CreateObjRecursive(vecChild[i], iLayer);
-	}
-}
-
 
 
 void CEventMgr::tick()

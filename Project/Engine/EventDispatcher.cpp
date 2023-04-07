@@ -1,23 +1,26 @@
 #include "pch.h"
 #include "EventDispatcher.h"
-
 #include "CEventMgr.h"
+
+#include "CLevelMgr.h"
 #include "CGameObject.h"
 #include "CTransform.h"
 
 void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
+	assert(0 <= _LayerIdx && _LayerIdx < MAX_LAYER);
+
 	_pNewObject->Transform()->SetRelativePos(_vWorldPos);
+	_pNewObject->SetLayer(_LayerIdx);
 
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::CREATE_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pNewObject);
-	evn.rParam = static_cast<DWORD_PTR>(_LayerIdx);
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
-void EventDispatcher::DestroyObject(CGameObject* _pObject)
+void EventDispatcher::DestroyGameObj(CGameObject* _pObject)
 {
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::DELETE_OBJECT;
@@ -27,8 +30,9 @@ void EventDispatcher::DestroyObject(CGameObject* _pObject)
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
-void EventDispatcher::AddChildObj(CGameObject* _pParent, CGameObject* _pChild)
+void EventDispatcher::AddChildGameObj(CGameObject* _pParent, CGameObject* _pChild)
 {
+
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::ADD_CHILD;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pParent);

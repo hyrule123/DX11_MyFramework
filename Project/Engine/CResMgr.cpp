@@ -24,6 +24,18 @@ CResMgr::CResMgr()
 
 CResMgr::~CResMgr()
 {
+	for (UINT i = 0; i < (UINT)eRES_TYPE::END; ++i)
+	{
+		auto iter = m_arrRes[i].begin();
+		auto iterEnd = m_arrRes[i].end();
+		while (iter != iterEnd)
+		{
+			OutputDebugStringA(string(iter->second->GetKey() + ": ").c_str());
+			OutputDebugStringA(string(std::to_string(iter->second->GetRefCount()) + "\n").c_str());
+			iter = m_arrRes[i].erase(iter);
+		}
+	}
+
 }
 
 

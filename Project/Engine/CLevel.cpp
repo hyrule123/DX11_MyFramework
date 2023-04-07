@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CLevel.h"
 
-#include "CLayer.h"
+
 
 #include "CGameObject.h"
 
@@ -14,13 +14,12 @@ CLevel::CLevel()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		m_arrLayer[i] = new CLayer(i);
+		m_arrLayer[i].SetLayerIdx(i);
 	}
 }
 
 CLevel::~CLevel()
 {
-	Safe_Del_Array(m_arrLayer);
 }
 
 
@@ -28,7 +27,7 @@ void CLevel::tick()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		m_arrLayer[i]->tick();
+		m_arrLayer[i].tick();
 	}
 }
 
@@ -36,18 +35,14 @@ void CLevel::finaltick()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		m_arrLayer[i]->finaltick();
+		m_arrLayer[i].finaltick();
 	}
 }
 
 
-void CLevel::AddGameObject(CGameObject* _Object, int _iLayerIdx)
+void CLevel::AddNewGameObj(CGameObject* _Object)
 {
-	assert(nullptr != _Object || 0 < _iLayerIdx);
-
-	m_arrLayer[_iLayerIdx]->AddGameObject(_Object);
-
-
+	AddNewGameObj_Recursive(_Object);
 	_Object->init();
 }
 
@@ -55,7 +50,29 @@ void CLevel::RemoveDestroyed()
 {
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
-		m_arrLayer[i]->RemoveDestroyed();
+		m_arrLayer[i].RemoveDestroyed();
+	}
+}
+
+void CLevel::AddNewGameObj_Recursive(CGameObject* _pObj)
+{
+	//레이어 번호를 지정하지 않았을 경우 부모의 레이어를 따라간다.
+	if (0 > _pObj->GetLayer())
+	{
+		CGameObject* pParent = _pObj->GetParent();
+		assert(nullptr != pParent && 0 <= pParent->GetLayer() && pParent->GetLayer() < MAX_LAYER);
+		_pObj->SetLayer(pParent->GetLayer());
+	}
+
+	//레이어에 삽입
+	m_arrLayer[_pObj->GetLayer()].AddGameObject(_pObj);
+
+	//자식 오브젝트들에 대해서 재귀적으로 수행
+	const vector<CGameObject*>& vecObj = _pObj->GetvecChilds();
+	size_t size = vecObj.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		AddNewGameObj_Recursive(vecObj[i]);
 	}
 }
 
@@ -63,21 +80,21 @@ void CLevel::SetLayerName(int _iLayer, const string& _sLayerName)
 {
 	assert(0 <= _iLayer && _iLayer < MAX_LAYER);
 
-	m_arrLayer[_iLayer]->SetName(_sLayerName);
+	m_arrLayer[_iLayer].SetName(_sLayerName);
 }
 
 const string& CLevel::GetLayerName(int _iLayer)
 {
 	assert(0 <= _iLayer && _iLayer < MAX_LAYER);
 
-	return m_arrLayer[_iLayer]->GetName();
+	return m_arrLayer[_iLayer].GetName();
 }
 
 int CLevel::GetLayerIdxByName(const string& _sLayerName)
 {
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
-		if (_sLayerName == m_arrLayer[i]->GetName())
+		if (_sLayerName == m_arrLayer[i].GetName())
 			return i;
 	}
 
@@ -89,7 +106,7 @@ CGameObject* CLevel::FindObjectByName(const string& _Name)
 {
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
-		const vector<CGameObject*>& vecObj = m_arrLayer[i]->GetvecObj();
+		const vector<CGameObject*>& vecObj = m_arrLayer[i].GetvecObj();
 
 		size_t size = vecObj.size();
 		for (size_t j = 0; j < size; ++j)
@@ -104,16 +121,16 @@ CGameObject* CLevel::FindObjectByName(const string& _Name)
 		}
 	}
 
-
 	return nullptr;
 }
 
 void CLevel::FindObjectALLByName(const string& _Name, vector<CGameObject*>& _out)
 {
+	_out.clear();
 
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
-		const vector<CGameObject*>& vecObj = m_arrLayer[i]->GetvecObj();
+		const vector<CGameObject*>& vecObj = m_arrLayer[i].GetvecObj();
 
 		size_t size = vecObj.size();
 		for (size_t j = 0; j < size; ++j)

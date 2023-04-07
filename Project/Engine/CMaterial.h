@@ -39,7 +39,7 @@ private:
     tMtrlTexData            m_MtrlTex;
 
     //복사가 일어났을 때 이 값은 true로 변함
-    const bool                    m_bIsDynamic;
+    const bool              m_bIsDynamic;
 
 public:
     void SetTexParam    (eMTRLDATA_PARAM_TEX _Param, Ptr<CTexture> _Tex);

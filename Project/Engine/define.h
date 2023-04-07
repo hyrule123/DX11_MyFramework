@@ -19,7 +19,7 @@
 
 #define TYPE_INDEX(Type) std::type_index(typeid(Type))
 
-#define FLT_MAX_NEG -FLT_MAX
+#define FLT_MAX_NEGATIVE -FLT_MAX
 
 #define BITMASK(n) (1 << n)
 #define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, _aStrMessage, NULL, MB_OK)

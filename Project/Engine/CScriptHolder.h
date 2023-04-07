@@ -26,6 +26,7 @@ public:
 
 public:
     virtual void init() final;
+    virtual void start() final;
     virtual void tick() final;
     virtual void finaltick() final {}
     virtual void cleanup() final {}

@@ -36,3 +36,17 @@ enum class eUI_MOUSE_STATUS
 	LBTN_DOUBLE_CLICKED,
 	END
 };
+
+//string strName, tPtrData pData
+struct tComboItem
+{
+	string strName;
+	tPtrData pData;
+
+	tComboItem() : strName(), pData() {};
+
+	tComboItem(const string& _strName, tPtrData _pData = { nullptr, })
+		: strName(_strName)
+		, pData(_pData)
+	{}
+};

@@ -19,8 +19,12 @@ class CRenderComponent :
 {
 public:
     CRenderComponent(eCOMPONENT_TYPE _type);
+
     CRenderComponent(const CRenderComponent& _other);
+    CLONE_DISABLE(CRenderComponent);
+
     virtual ~CRenderComponent();
+
 
 public:
     virtual bool SaveJson(Json::Value* _pJVal) override;

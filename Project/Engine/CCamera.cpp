@@ -203,7 +203,7 @@ void CCamera::SortObject()
 			continue;
 
 		//카메라가 출력하고자 하는 레이어의 오브젝트 리스트를 받아와서
-		const vector<CGameObject*>& vecObj = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i)->GetvecObj();
+		const vector<CGameObject*>& vecObj = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i).GetvecObj();
 		
 		size_t size = vecObj.size();
 		for (size_t i = 0; i < size; ++i)

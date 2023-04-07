@@ -1,6 +1,8 @@
 #pragma once
 #include "CUIobj_Component.h"
 
+#include "CUI_Structs.h"
+
 class CUI_ComboBox;
 class CUIobj_MeshRender :
     public CUIobj_Component

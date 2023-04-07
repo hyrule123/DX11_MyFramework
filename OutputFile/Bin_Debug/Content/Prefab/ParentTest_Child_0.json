@@ -10,8 +10,8 @@
 				"eComponentType" : 0,
 				"v3RelativePos" : 
 				[
-					-1014132564,
-					-1021875318,
+					-1022201758,
+					-1020786573,
 					0
 				],
 				"v3RelativeRot" : 
@@ -73,13 +73,11 @@
 				]
 			}
 		],
-		"m_bFixLayer" : false,
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 7,
 		"m_vecChild_PREFAB" : [],
-		"strName" : "TestObj.json"
+		"strName" : "ParentTest_Child_0.json"
 	},
 	"eRES_TYPE" : 6,
-	"strKey" : "TestObj.json",
 	"strName" : ""
 }

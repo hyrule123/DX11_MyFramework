@@ -3,8 +3,8 @@
 
 #include "CGameObject.h"
 
-CLayer::CLayer(int _iLayerIdx)
-	: m_iLayerIdx(_iLayerIdx)
+CLayer::CLayer()
+	: m_iLayerIdx(-1)
 {
 }
 
@@ -15,6 +15,8 @@ CLayer::~CLayer()
 
 void CLayer::tick()
 {
+	assert(0 <= m_iLayerIdx && m_iLayerIdx < MAX_LAYER);
+
 	size_t size = m_vecObject.size();
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -35,11 +37,9 @@ void CLayer::finaltick()
 
 void CLayer::AddGameObject(CGameObject* _Object)
 {
-	if (nullptr == _Object)
-		return;
+	assert(nullptr != _Object);
 
-	//자신의 오브젝트 리스트에 전체 계층구조를 추가한다.
-	_Object->AddAllHierarchyObjects(m_iLayerIdx, m_vecObject);
+	m_vecObject.push_back(_Object);
 }
 
 void CLayer::RemoveGameObject(CGameObject* _Object)

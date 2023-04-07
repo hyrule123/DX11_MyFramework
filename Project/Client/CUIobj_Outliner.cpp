@@ -35,15 +35,15 @@ void CUIobj_Outliner::init()
 
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
-		CLayer* pLayer = pLevel->GetLayer((UINT)i);
+		CLayer& pLayer = pLevel->GetLayer((UINT)i);
 
 		string strLayerName = "Layer ";
 		strLayerName += std::to_string(i) + " \"";
 
-		if (true == pLayer->GetName().empty())
+		if (true == pLayer.GetName().empty())
 			strLayerName += "No Name";
 		else
-			strLayerName += pLayer->GetName();
+			strLayerName += pLayer.GetName();
 
 		strLayerName += "\"";
 
@@ -74,9 +74,9 @@ void CUIobj_Outliner::UpdateObjectTree()
 	{
 		m_arrLayer[i]->ClearChildUI();
 
-		CLayer* pLayer = pLevel->GetLayer((UINT)i);
+		CLayer& pLayer = pLevel->GetLayer((UINT)i);
 
-		const auto& vecObj = pLayer->GetvecObj();
+		const auto& vecObj = pLayer.GetvecObj();
 		size_t size = vecObj.size();
 		for (size_t j = 0; j < size; ++j)
 		{

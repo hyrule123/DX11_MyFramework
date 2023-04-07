@@ -9,8 +9,8 @@ class EventDispatcher
 {
 public:
 	static void SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx);
-	static void DestroyObject(CGameObject* _pObject);
-	static void AddChildObj(CGameObject* _pParent, CGameObject* _pChild);
+	static void DestroyGameObj(CGameObject* _pObject);
+	static void AddChildGameObj(CGameObject* _pParent, CGameObject* _pChild);
 	static void RemoveComponent(CGameObject* _pObject, eCOMPONENT_TYPE _eType);
 };
 

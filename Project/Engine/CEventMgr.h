@@ -28,17 +28,16 @@ public:
 
 private:
     //lParam = CGameObject Pointer
-    //rParam = Layer Index
-    void CreateObject(const tGameEvent& _event);
+    void SpawnNewGameObj(const tGameEvent& _event);
 
     //lParam = CGameObject Pointer
     //rParam = None
-    void DestroyObject(const tGameEvent& _event);
+    void DestroyGameObj(const tGameEvent& _event);
 
     //lParam = Parent GameObject*
     //rParam = Child GameObject*
-    //CreateObject는 따로 해주지 않으므로 주의
-    void AddChildObj(const tGameEvent& _event);
+    //SpawnNewGameObj는 따로 해주지 않으므로 주의
+    void AddChildGameObj(const tGameEvent& _event);
 
     //lParam = GameObject*
     //rParam = eCOMPONENT_TYPE
@@ -50,7 +49,7 @@ private:
     void ProcessEvent();
     void ProcessLazyEvent();
     
-    void CreateObjRecursive(CGameObject* _pObj, int _iLayer);
+    void SpawnObjRecursive(CGameObject* _pObj, int _iLayer);
 
     
 };

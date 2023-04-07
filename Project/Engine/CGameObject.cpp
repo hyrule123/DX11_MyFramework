@@ -28,13 +28,12 @@
 
 CGameObject::CGameObject()
 	: m_arrCom{}
-	, m_bInitialized()
 	, m_RenderCom()
 	, m_Parent()
 	, m_iLayerIdx(-1)
-	, m_bFixLayer()
+	, m_fLifeSpan(FLT_MAX_NEGATIVE)
 	, m_bDestroy()
-	, m_fLifeSpan(FLT_MAX_NEG)
+	, m_bStarted()
 {
 	AddComponent(new CTransform);
 }
@@ -42,15 +41,13 @@ CGameObject::CGameObject()
 CGameObject::CGameObject(const CGameObject& _other)
 	: CEntity(_other)
 	, m_iLayerIdx(_other.m_iLayerIdx)
-	, m_bFixLayer(_other.m_bFixLayer)
-	, m_bInitialized()
 	, m_bDestroy()
-	, m_fLifeSpan(FLT_MAX_NEG)
+	, m_fLifeSpan(FLT_MAX_NEGATIVE)
 {
 	//1. 컴포넌트 목록 복사
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != _other.m_arrCom[i])
+		if (_other.m_arrCom[i])
 		{
 			AddComponent(_other.m_arrCom[i]->Clone());
 		}
@@ -60,19 +57,21 @@ CGameObject::CGameObject(const CGameObject& _other)
 	size_t size = _other.m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		AddChildObj(_other.m_vecChild[i]->Clone());
+		AddChildGameObj(_other.m_vecChild[i]->Clone());
 	}
 }
 
 CGameObject::~CGameObject()
 {
-	/*for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
-	{
-		if (nullptr != m_arrCom[i])
-			delete m_arrCom[i];
-	}*/
+	//Layer에 등록된 CGameObject*의 경우는 EventMgr을 통해서 제거 할시 알아서 제거됨.
 
 	Safe_Del_Array(m_arrCom);
+
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		SAFE_DELETE(m_vecChild[i]);
+	}
 }
 
 void CGameObject::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src)
@@ -140,8 +139,6 @@ void CGameObject::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* 
 
 void CGameObject::init()
 {
-	m_bInitialized = true;
-
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
@@ -155,12 +152,32 @@ void CGameObject::init()
 	}
 }
 
+void CGameObject::start()
+{
+	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr != m_arrCom[i])
+			m_arrCom[i]->start();
+	}
+
+	size_t size = m_vecChild.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecChild[i]->start();
+	}
+}
+
 void CGameObject::tick()
 {
 	//자신이 파괴 대기 상태일 경우 자신과 모든 자식들에 대해 tick을 처리하지 않음
 	if (true == m_bDestroy)
 		return;
-
+	else if (false == m_bStarted)
+	{
+		m_bStarted = true;
+		start();
+	}
+		
 
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
@@ -184,12 +201,12 @@ void CGameObject::finaltick()
 		cleanup();
 		return;
 	}
-	else if (FLT_MAX_NEG != m_fLifeSpan)
+	else if (FLT_MAX_NEGATIVE != m_fLifeSpan)
 	{
 		m_fLifeSpan -= DELTA_TIME;
 		if (m_fLifeSpan < 0.f)
 		{
-			EventDispatcher::DestroyObject(this);
+			EventDispatcher::DestroyGameObj(this);
 			return;
 		}
 	}
@@ -303,8 +320,7 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 				if (string::npos != pos)
 					childKey.erase(pos, string::npos);
 
-				childKey += string("_") + std::to_string(i);
-				childKey += RES_INFO::PREFAB::Ext;
+				childKey += string("_Child_") + std::to_string(i);
 			}
 			else
 			{
@@ -334,10 +350,7 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_iLayerIdx);
 		jVal[strKey] = m_iLayerIdx;
 	}
-	{
-		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_bFixLayer);
-		jVal[strKey] = m_bFixLayer;
-	}
+
 	{
 		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_fLifeSpan);
 		jVal[strKey] = Pack_float_int(m_fLifeSpan).i;
@@ -469,7 +482,7 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 			}
 			CGameObject* pObj = pPrefab->Instantiate();
 			
-			AddChildObj(pObj);
+			AddChildGameObj(pObj);
 		}
 	}
 
@@ -481,14 +494,7 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 		}
 		else return false;
 	}
-	{
-		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_bFixLayer);
-		if (jVal.isMember(strKey))
-		{
-			m_bFixLayer = jVal[strKey].asBool();
-		}
-		else return false;
-	}
+
 	{
 		string strKey = string(RES_INFO::PREFAB::JSON_KEY::m_fLifeSpan);
 		if (jVal.isMember(strKey))
@@ -541,10 +547,6 @@ void CGameObject::AddComponent(CComponent* _Component)
 	//소유자 주소를 등록.
 	_Component->SetOwner(this);
 	m_arrCom[ComType] = _Component;
-
-	//이미 작동중일 경우 바로 init() 호출
-	if(m_bInitialized)
-		_Component->init();
 }
 
 void CGameObject::RemoveComponent(eCOMPONENT_TYPE _eComType)
@@ -574,7 +576,7 @@ void CGameObject::AddScript(CScript* _Script)
 	pScriptHolder->AddScript(_Script);
 }
 
-void CGameObject::AddChildObj(CGameObject* _Object)
+void CGameObject::AddChildGameObj(CGameObject* _Object)
 {
 	if (nullptr != (_Object->GetParent()))
 		_Object->GetParent()->RemoveChild(_Object);
@@ -600,35 +602,6 @@ void CGameObject::RemoveChild(CGameObject* _Object)
 	}
 }
 
-
-void CGameObject::AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _vecObj)
-{
-	//인덱스가 아직 지정되지 않았을 경우 -> 무조건 인덱스 지정을 한번 해줘야함
-	//레이어가 고정되지 않았을 경우 -> 부모 오브젝트의 레이어를 따라감
-	//둘중 하나라도 걸리면 일단 옮겨야함
-	if (-1 == m_iLayerIdx || false == m_bFixLayer)
-	{
-		//만약 어딘가의 레이어에 등록되어 있었다면 기존 레이어에서 자신을 삭제해야 한다.
-		if (m_iLayerIdx > 0)
-		{
-			CLevelMgr::GetInst()->GetCurLevel()->GetLayer(m_iLayerIdx)->RemoveGameObject(this);
-		}
-
-		//삭제하고 새로운 레이어에 등록
-		m_iLayerIdx = _iLayerIdx;
-		_vecObj.push_back(this);
-	}
-	
-	//위 조건의 반대는
-	//m_iLayerIdx가 1이 아니고(&&) m_bFixLayer가 true 일때 이므로 이 때는 레이어 이동을 무조건 안하는 경우이다.
-	
-	//자식들을 대상으로도 재귀적으로 호출
-	size_t size = m_vecChild.size();
-	for (size_t i = 0; i < size; ++i)
-	{
-		m_vecChild[i]->AddAllHierarchyObjects(_iLayerIdx, _vecObj);
-	}
-}
 
 void CGameObject::SetParentMatrixUpdated()
 {

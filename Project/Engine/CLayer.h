@@ -4,28 +4,24 @@
 #include "define.h"
 
 class CGameObject;
-
 class CLayer :
     public CEntity
 {
 public:
-    CLayer(int _iLayerIdx);
+    CLayer();
     ~CLayer();
     CLONE(CLayer);
-
-private:
-    CLayer() = delete;
-    
-
-private:
-    const int             m_iLayerIdx;
-    vector<CGameObject*>    m_vecObject;
-    
 
 public:
     void tick();
     void finaltick();
-
+    
+private:
+    int             m_iLayerIdx;
+    vector<CGameObject*>    m_vecObject;
+    
+public:
+    void SetLayerIdx(int _idx) { m_iLayerIdx = _idx; }
 
 public:
     void AddGameObject(CGameObject* _Object);

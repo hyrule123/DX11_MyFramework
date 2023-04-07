@@ -1,6 +1,7 @@
 #pragma once
 #include "CUI_Widget.h"
 #include "CImGuiMgr.h"
+#include "CUI_Structs.h"
 
 enum class eCALLBACK_TYPE
 {
@@ -12,19 +13,7 @@ enum class eCALLBACK_TYPE
 };
 
 
-//string strName, tPtrData pData
-struct tComboItem
-{
-	string strName;
-	tPtrData pData;
 
-	tComboItem() : strName(), pData() {};
-
-	tComboItem(const string& _strName, tPtrData _pData = { nullptr, })
-		: strName(_strName)
-		, pData(_pData)
-	{}
-};
 
 class CUI_ComboBox 
 	: public CUI_Widget

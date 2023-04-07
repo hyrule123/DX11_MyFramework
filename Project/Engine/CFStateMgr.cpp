@@ -51,7 +51,6 @@ void CFStateMgr::init()
 	{
 		if (m_vec_pFSM[i])
 			m_vec_pFSM[i]->init();
-			
 	}
 
 	initFSM();

@@ -26,10 +26,16 @@ public:
     CGameObject(const CGameObject& _other);
     CLONE(CGameObject);
 
-    ~CGameObject();
+    virtual ~CGameObject();
 
 public:
+    //게임오브젝트 최초 생성 시 호출
     void init();
+
+    //첫 tick 직전에 한 번 호출
+    void start();
+
+
     void tick();
     virtual void finaltick();
     bool render();
@@ -58,31 +64,25 @@ private:
 
     //Layer Info
     int                     m_iLayerIdx;
-    bool                    m_bFixLayer;    //레이어 번호를 고정. 부모 레이어를 옮겨도 자신은 옮겨지지 않음.
 
     //Birth, Death
-    bool                    m_bDestroy;
     float                   m_fLifeSpan;
-
-    //초기화 되어 현재 Level 안에서 작동중인지 여부를 저장.
-    //작동 이후 컴포넌트가 추가될 시 바로 init 호출.
-    bool                m_bInitialized;
+    bool                    m_bDestroy;
+    bool                    m_bStarted;
 
 public:
-    void                SetLayerIdx(int _iLayerIdx) { m_iLayerIdx = _iLayerIdx; }
-    void                SetLayerFixed(bool _bFix) { m_bFixLayer = _bFix; }
+    void                SetLayer(int _iLayerIdx) { m_iLayerIdx = _iLayerIdx; }
+    int                 GetLayer() const { return m_iLayerIdx; }
     void                SetParent(CGameObject* _pObj) { m_Parent = _pObj; }
 
     //이벤트매니저에서 사용
-    void                DestroyForEventMgr();
+    void                DestroyRecursive();
 
     void                SetLifeSpan(float _fLifeSpan);
     void                SetChildTransformToUpdate();
 
-    bool                IsInitialized() const { return m_bInitialized; }
-
     CGameObject* GetParent() const { return m_Parent; }
-    int          GetLayer() const { return m_iLayerIdx; }
+   
     bool         IsDestroyed() const { return m_bDestroy; }
     
     //Master GameObject만 LevelMgr에서 tick()를 호출한다.
@@ -95,14 +95,13 @@ public:
     void RemoveComponent(eCOMPONENT_TYPE _eComType);
 
     void AddScript(CScript* _Script);
-    void AddChildObj(CGameObject* _Object);
+    void AddChildGameObj(CGameObject* _Object);
 
 
     void RemoveChild(CGameObject* _Object);
     
 
     //Recursive
-    void AddAllHierarchyObjects(int _iLayerIdx, vector<CGameObject*>& _vecObj);
     void SetParentMatrixUpdated();
 
     //기타
@@ -146,21 +145,21 @@ public:
     CLight2D* Light2D() const { return (CLight2D*)(m_arrCom[(UINT)eCOMPONENT_TYPE::LIGHT2D]); }
 };
 
-inline void CGameObject::DestroyForEventMgr()
+inline void CGameObject::DestroyRecursive()
 {
     m_bDestroy = true;
 
     size_t size = m_vecChild.size();
     for (size_t i = 0; i < size; i++)
     {
-        m_vecChild[i]->DestroyForEventMgr();
+        m_vecChild[i]->DestroyRecursive();
     }
 }
 
 inline void CGameObject::SetLifeSpan(float _fLifeSpan)
 {
     //이미 수명이 설정되었을 경우에는 retrurn
-    if (m_fLifeSpan != FLT_MAX_NEG)
+    if (m_fLifeSpan != FLT_MAX_NEGATIVE)
         return;
 
     m_fLifeSpan = _fLifeSpan;
@@ -221,7 +220,7 @@ inline float CGameObject::GetMtrlScalarParam_Float(eMTRLDATA_PARAM_SCALAR _Param
     case eMTRLDATA_PARAM_SCALAR::FLOAT_3: return m_MtrlScalarData.FLOAT_3;
 
 
-    default: return FLT_MAX_NEG;
+    default: return FLT_MAX_NEGATIVE;
     }
 }
 
@@ -237,7 +236,7 @@ inline Vec2 CGameObject::GetMtrlScalarParam_Vec2(eMTRLDATA_PARAM_SCALAR _Param) 
 
     case eMTRLDATA_PARAM_SCALAR::VEC2_3: return m_MtrlScalarData.VEC2_3;
 
-    default: return Vec2(FLT_MAX_NEG);
+    default: return Vec2(FLT_MAX_NEGATIVE);
     }
 }
 
@@ -253,7 +252,7 @@ inline const Vec4& CGameObject::GetMtrlScalarParam_Vec4(eMTRLDATA_PARAM_SCALAR _
 
     case eMTRLDATA_PARAM_SCALAR::VEC4_3: return m_MtrlScalarData.VEC4_3;
 
-    default: return Vec4(FLT_MAX_NEG);
+    default: return Vec4(FLT_MAX_NEGATIVE);
     }
 }
 

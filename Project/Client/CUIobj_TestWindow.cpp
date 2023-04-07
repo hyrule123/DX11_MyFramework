@@ -95,14 +95,14 @@ void CUIobj_TestWindow::render_update()
 {
 	if (ImGui::Button("Save GameObject"))
 	{
-		std::filesystem::path TestSave = "TestSave.json";
+		std::filesystem::path TestSave = "ParentTest.json";
 		CPrefab* pPrefab = new CPrefab;
 
 		pPrefab->SetKey(TestSave.string());
 
 		CLevel* level = CLevelMgr::GetInst()->GetCurLevel();
 
-		CGameObject* pObj = level->FindObjectByName("TestObj");
+		CGameObject* pObj = level->FindObjectByName("ParentTest");
 
 		pPrefab->RegisterPrefab(pObj, true);
 
@@ -115,7 +115,7 @@ void CUIobj_TestWindow::render_update()
 
 	if (ImGui::Button("Load GameObjet"))
 	{
-		Ptr<CPrefab> prefab = CResMgr::GetInst()->Load<CPrefab>("TestSave.json");
+		Ptr<CPrefab> prefab = CResMgr::GetInst()->Load<CPrefab>("ParentTest.json");
 
 		CGameObject* pObj = prefab->Instantiate();
 

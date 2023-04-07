@@ -29,7 +29,6 @@ CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	{
 		CScript* pScript = _other.m_vecScript[i]->Clone();
 		AddScript(pScript);
-		m_umapScript.insert(make_pair(pScript->GetTypeIndex(), pScript));
 	}
 }
 
@@ -126,22 +125,11 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 	{
 		return false;
 	}
-	//size_t size = m_vecScript.size();
-	//for (size_t i = 0; i < size; ++i)
-	//{
-	//	if (type == m_vecScript[i]->GetTypeIndex())
-	//	{
-	//		delete _pScript;
-	//		return false;
-	//	}
-	//}
 
 	m_vecScript.push_back(_pScript);
 	m_umapScript[type] = _pScript;
 
 	_pScript->SetHolder(this);
-	if (GetOwner() && true == GetOwner()->IsInitialized())
-		_pScript->init();
 
 	return true;
 }
@@ -152,6 +140,15 @@ void CScriptHolder::init()
 	for (size_t i = 0; i < size; ++i)
 	{
 		m_vecScript[i]->init();
+	}
+}
+
+void CScriptHolder::start()
+{
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecScript[i]->start();
 	}
 }
 
