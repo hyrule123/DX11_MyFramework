@@ -9,9 +9,11 @@ class CFState_SCUnit_Attack :
 {
 public:
     CFState_SCUnit_Attack();
-    virtual ~CFState_SCUnit_Attack();
+
+    CFState_SCUnit_Attack(const CFState_SCUnit_Attack& _other) = default;
     CLONE(CFState_SCUnit_Attack);
 
+    virtual ~CFState_SCUnit_Attack();
 
 public:
     virtual void EnterState() override;

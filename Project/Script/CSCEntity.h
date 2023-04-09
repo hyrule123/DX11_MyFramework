@@ -18,8 +18,6 @@ public:
 
     virtual ~CSCEntity();
 
-    
-
 public:
     virtual void initFSM() override;
 

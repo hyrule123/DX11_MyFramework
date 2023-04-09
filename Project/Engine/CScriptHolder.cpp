@@ -56,12 +56,14 @@ bool CScriptHolder::SaveJson(Json::Value* _jVal)
 
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
-		Json::Value ScriptVal;
-		
 		jVal[strKey].append(m_vecScript[i]->GetName());
 
+		Json::Value ScriptVal;
+		//스크립트도 별도로 저장할 것이 있을경우 저장시킨다.
 		if (false == m_vecScript[i]->SaveJson(&ScriptVal))
 			return false;
+
+
 	}
 
 	return true;

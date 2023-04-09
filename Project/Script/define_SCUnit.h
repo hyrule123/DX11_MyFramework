@@ -68,3 +68,8 @@ namespace FSM_SCGroundUnit
         "DEATH"
     };
 }
+
+namespace UNIT_INFO
+{
+
+}
