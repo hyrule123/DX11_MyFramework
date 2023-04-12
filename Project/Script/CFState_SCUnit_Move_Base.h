@@ -4,14 +4,14 @@
 
 #include "define_SCUnit.h"
 
-class CFState_SCUnitMove :
+class CFState_SCUnit_Move_Base :
     public CFState
 {
 public:
-    CFState_SCUnitMove(UINT _eMyState, eSCUNIT_MOVE_TYPE _eMoveType);
-    virtual ~CFState_SCUnitMove();
+    CFState_SCUnit_Move_Base(UINT _eMyState, eSCUNIT_MOVE_TYPE _eMoveType);
+    virtual ~CFState_SCUnit_Move_Base();
 
-    CFState_SCUnitMove(const CFState_SCUnitMove& _other) = default;
+    CFState_SCUnit_Move_Base(const CFState_SCUnit_Move_Base& _other) = default;
 
 public:
     virtual void init() override;

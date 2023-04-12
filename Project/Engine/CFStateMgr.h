@@ -13,7 +13,10 @@ class CFStateMgr :
 public:
     //_eNumState = 등록된 State의 갯수
     CFStateMgr(std::type_index _typeIdx, UINT _eNumState);
+
     CFStateMgr(const CFStateMgr& _other);
+    CLONE_DISABLE(CFStateMgr);
+
     virtual ~CFStateMgr();
 
 public:

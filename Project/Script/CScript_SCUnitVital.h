@@ -1,5 +1,5 @@
 #pragma once
-#include "CSCEntity.h"
+#include "CSC_Entity.h"
 class CScript_SCUnitVital :
     public CScript
 {

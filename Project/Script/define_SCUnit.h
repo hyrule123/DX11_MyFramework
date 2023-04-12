@@ -2,7 +2,7 @@
 
 #include <string_view>
 
-enum class eSCUNIT_UNIT_TYPE
+enum class eSCUNIT_UNIT_RACE
 {
     NEUTRAL,
     TERRAN,

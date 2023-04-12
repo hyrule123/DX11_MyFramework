@@ -32,14 +32,15 @@
 #endif
 
 
-//Macro for SMALL data sized variable
-#define SETTER(_Type_, _Var_, _FuncName_) void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }
+//Macro for SMALL data sized variable(public)
+#define SETTER(_Type_, _Var_, _FuncName_) public: void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }
 
-//Macro for SMALL data sized variable
-#define GETTER(_Type_, _Var_, _FuncName_) _Type_ Get##_FuncName_() const { return _Var_; }
+//Macro for SMALL data sized variable(public)
+#define GETTER(_Type_, _Var_, _FuncName_) public: _Type_ Get##_FuncName_() const { return _Var_; }
 
-//Macro for SMALL data sized variable
+//Macro for SMALL data sized variable(public)
 #define GETSET(_Type_, _Var_, _FuncName_) \
+public:\
 void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }\
 _Type_ Get##_FuncName_() const { return _Var_; }
 

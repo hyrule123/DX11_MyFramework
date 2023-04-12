@@ -183,7 +183,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CFState_SCUnitMove.h" />
+    <ClInclude Include="CFState_SCUnit_Move_Base.h" />
     <ClInclude Include="CFState_SCUnit_AttackBegin.h" />
     <ClInclude Include="CFState_SCUnit_AttackEnd.h" />
     <ClInclude Include="CFState_SCUnit_Death.h" />
@@ -192,22 +192,23 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CScript_Marine.h" />
     <ClInclude Include="CScript_MouseCursor.h" />
     <ClInclude Include="CFState_SCUnit_Attack.h" />
-    <ClInclude Include="CSCEntity.h" />
-    <ClInclude Include="CFState_SCUnitIdle.h" />
-    <ClInclude Include="CFState_SCUnitMove_Ground.h" />
-    <ClInclude Include="CFState_SCUnitMove_Hover.h" />
+    <ClInclude Include="CSC_Entity.h" />
+    <ClInclude Include="CFState_SCUnit_Idle.h" />
+    <ClInclude Include="CFState_SCUnit_Move_Ground.h" />
+    <ClInclude Include="CFState_SCUnit_Move_Hover.h" />
     <ClInclude Include="CScript_TestObj.h" />
     <ClInclude Include="CScript_SCUnitVital.h" />
     <ClInclude Include="defineScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="define_SCUnit.h" />
+    <ClInclude Include="SCUnitCom_Base.h" />
     <ClInclude Include="strKeyScript.h" />
     <ClInclude Include="strKeyShader.h" />
     <ClInclude Include="strKeyTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CFState_SCUnitMove.cpp" />
+    <ClCompile Include="CFState_SCUnit_Move_Base.cpp" />
     <ClCompile Include="CFState_SCUnit_AttackBegin.cpp" />
     <ClCompile Include="CFState_SCUnit_AttackEnd.cpp" />
     <ClCompile Include="CFState_SCUnit_Death.cpp" />
@@ -216,10 +217,10 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClCompile Include="CScript_Marine.cpp" />
     <ClCompile Include="CScript_MouseCursor.cpp" />
     <ClCompile Include="CFState_SCUnit_Attack.cpp" />
-    <ClCompile Include="CSCEntity.cpp" />
-    <ClCompile Include="CFState_SCUnitIdle.cpp" />
-    <ClCompile Include="CFState_SCUnitMove_Ground.cpp" />
-    <ClCompile Include="CFState_SCUnitMove_Hover.cpp" />
+    <ClCompile Include="CSC_Entity.cpp" />
+    <ClCompile Include="CFState_SCUnit_Idle.cpp" />
+    <ClCompile Include="CFState_SCUnit_Move_Ground.cpp" />
+    <ClCompile Include="CFState_SCUnit_Move_Hover.cpp" />
     <ClCompile Include="CScript_TestObj.cpp" />
     <ClCompile Include="CScript_SCUnitVital.cpp" />
     <ClCompile Include="pch.cpp">
@@ -228,6 +229,7 @@ call "CodeGenerator_$(Configuration).exe" Script
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SCUnitCom_Base.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

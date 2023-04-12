@@ -1,18 +1,18 @@
 #include "pch.h"
 #include "CScript_Marine.h"
 
-#include "CFState_SCUnitIdle.h"
-#include "CFState_SCUnitMove_Ground.h"
+#include "CFState_SCUnit_Idle.h"
+#include "CFState_SCUnit_Move_Ground.h"
 #include "CFState_SCUnit_AttackBegin.h"
 #include "CFState_SCUnit_Attack.h"
 #include "CFState_SCUnit_AttackEnd.h"
 
 CScript_Marine::CScript_Marine()
-	: CSCEntity(TYPE_INDEX(CScript_Marine), (UINT)FSM_SCGroundUnit::END)
+	: CSC_Entity(TYPE_INDEX(CScript_Marine), (UINT)FSM_SCGroundUnit::END)
 {
-	AddFState(FSM_SCGroundUnit::IDLE, new CFState_SCUnitIdle);
+	AddFState(FSM_SCGroundUnit::IDLE, new CFState_SCUnit_Idle);
 
-	CFState_SCUnitMove_Ground* move = new CFState_SCUnitMove_Ground;
+	CFState_SCUnit_Move_Ground* move = new CFState_SCUnit_Move_Ground;
 	move->SetSpeed(100.f);
 	AddFState(FSM_SCGroundUnit::MOVE, move);
 

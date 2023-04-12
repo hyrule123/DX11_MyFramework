@@ -25,6 +25,9 @@
     <Filter Include="ScriptCode\CScript_SCGroundUnit\Units\Marine">
       <UniqueIdentifier>{21a953b2-d5ca-436f-89b4-c809f71abd4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScriptCode\Temp">
+      <UniqueIdentifier>{96420542-f5b5-4f92-b9f2-6f02a0634619}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CScript_CameraMove.h">
@@ -51,7 +54,7 @@
     <ClInclude Include="strKeyScript.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="CSCEntity.h">
+    <ClInclude Include="CSC_Entity.h">
       <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClInclude>
     <ClInclude Include="define_SCUnit.h">
@@ -60,19 +63,19 @@
     <ClInclude Include="CFState_SCUnit_Attack.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCUnitIdle.h">
+    <ClInclude Include="CFState_SCUnit_Idle.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCUnitMove_Ground.h">
+    <ClInclude Include="CFState_SCUnit_Move_Ground.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCUnitMove_Hover.h">
+    <ClInclude Include="CFState_SCUnit_Move_Hover.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
     <ClInclude Include="CScriptMgrInitializer.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCUnitMove.h">
+    <ClInclude Include="CFState_SCUnit_Move_Base.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
     <ClInclude Include="CScript_SCUnitVital.h">
@@ -87,8 +90,13 @@
     <ClInclude Include="CFState_SCUnit_AttackEnd.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClInclude>
-    <ClInclude Include="CFState_SCUnit_Death.h" />
     <ClInclude Include="defineScript.h" />
+    <ClInclude Include="CFState_SCUnit_Death.h">
+      <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
+    </ClInclude>
+    <ClInclude Include="SCUnitCom_Base.h">
+      <Filter>ScriptCode\CScript_SCGroundUnit\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -103,25 +111,25 @@
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="CSCEntity.cpp">
+    <ClCompile Include="CSC_Entity.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClCompile>
     <ClCompile Include="CFState_SCUnit_Attack.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCUnitIdle.cpp">
+    <ClCompile Include="CFState_SCUnit_Idle.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCUnitMove_Ground.cpp">
+    <ClCompile Include="CFState_SCUnit_Move_Ground.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCUnitMove_Hover.cpp">
+    <ClCompile Include="CFState_SCUnit_Move_Hover.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
     <ClCompile Include="CScriptMgrInitializer.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCUnitMove.cpp">
+    <ClCompile Include="CFState_SCUnit_Move_Base.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
     <ClCompile Include="CScript_SCUnitVital.cpp">
@@ -136,7 +144,12 @@
     <ClCompile Include="CFState_SCUnit_AttackEnd.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
-    <ClCompile Include="CFState_SCUnit_Death.cpp" />
+    <ClCompile Include="CFState_SCUnit_Death.cpp">
+      <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
+    </ClCompile>
+    <ClCompile Include="SCUnitCom_Base.cpp">
+      <Filter>ScriptCode\CScript_SCGroundUnit\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

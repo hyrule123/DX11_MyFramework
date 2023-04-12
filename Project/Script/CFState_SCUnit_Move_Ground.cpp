@@ -1,25 +1,25 @@
 #include "pch.h"
-#include "CFState_SCUnitMove_Ground.h"
+#include "CFState_SCUnit_Move_Ground.h"
 
 #include <Engine/CTransform.h>
 #include <Engine/CTimeMgr.h>
 
 #include <Engine/CAnimator2D.h>
 
-#include "CSCEntity.h"
+#include "CSC_Entity.h"
 
 #include <Engine/CKeyMgr.h>
 
-CFState_SCUnitMove_Ground::CFState_SCUnitMove_Ground()
-	: CFState_SCUnitMove((UINT)FSM_SCGroundUnit::eSTATE::MOVE, eSCUNIT_MOVE_TYPE::Ground)
+CFState_SCUnit_Move_Ground::CFState_SCUnit_Move_Ground()
+	: CFState_SCUnit_Move_Base((UINT)FSM_SCGroundUnit::eSTATE::MOVE, eSCUNIT_MOVE_TYPE::Ground)
 {
 }
 
-CFState_SCUnitMove_Ground::~CFState_SCUnitMove_Ground()
+CFState_SCUnit_Move_Ground::~CFState_SCUnit_Move_Ground()
 {
 }
 
-void CFState_SCUnitMove_Ground::EnterState()
+void CFState_SCUnit_Move_Ground::EnterState()
 {
 	CAnimator2D* pAnimator = Animator2D();
 	if (pAnimator)
@@ -29,7 +29,7 @@ void CFState_SCUnitMove_Ground::EnterState()
 	}
 }
 
-void CFState_SCUnitMove_Ground::OnState()
+void CFState_SCUnit_Move_Ground::OnState()
 {
 	if (false == IsArrived())
 	{
@@ -92,12 +92,12 @@ void CFState_SCUnitMove_Ground::OnState()
 	}
 }
 
-void CFState_SCUnitMove_Ground::EndState()
+void CFState_SCUnit_Move_Ground::EndState()
 {
 }
 
 
-void CFState_SCUnitMove_Ground::init()
+void CFState_SCUnit_Move_Ground::init()
 {
-	CFState_SCUnitMove::init();
+	CFState_SCUnit_Move_Base::init();
 }

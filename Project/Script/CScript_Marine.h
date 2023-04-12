@@ -1,9 +1,9 @@
 #pragma once
-#include "CSCEntity.h"
+#include "CSC_Entity.h"
 
 #include "define_SCUnit.h"
 class CScript_Marine :
-    public CSCEntity
+    public CSC_Entity
 {
 public:
     CScript_Marine();

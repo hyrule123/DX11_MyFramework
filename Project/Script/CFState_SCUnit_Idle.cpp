@@ -1,25 +1,25 @@
 #include "pch.h"
-#include "CFState_SCUnitIdle.h"
+#include "CFState_SCUnit_Idle.h"
 
 #include <Engine/CAnimator2D.h>
 
-#include "CSCEntity.h"
+#include "CSC_Entity.h"
 
-CFState_SCUnitIdle::CFState_SCUnitIdle()
+CFState_SCUnit_Idle::CFState_SCUnit_Idle()
     : CFState((UINT)FSM_SCGroundUnit::eSTATE::IDLE)
 {
 }
 
-CFState_SCUnitIdle::~CFState_SCUnitIdle()
+CFState_SCUnit_Idle::~CFState_SCUnit_Idle()
 {
 }
 
 
-void CFState_SCUnitIdle::init()
+void CFState_SCUnit_Idle::init()
 {
 }
 
-void CFState_SCUnitIdle::EnterState()
+void CFState_SCUnit_Idle::EnterState()
 {
     CAnimator2D* pAnimator = Animator2D();
     if (pAnimator)
@@ -29,10 +29,10 @@ void CFState_SCUnitIdle::EnterState()
     }
 }
 
-void CFState_SCUnitIdle::OnState()
+void CFState_SCUnit_Idle::OnState()
 {
 }
 
-void CFState_SCUnitIdle::EndState()
+void CFState_SCUnit_Idle::EndState()
 {
 }

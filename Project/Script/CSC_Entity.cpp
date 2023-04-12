@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CSCEntity.h"
+#include "CSC_Entity.h"
 
 #include <Engine/CMeshRender.h>
 #include <Engine/CMaterial.h>
@@ -17,15 +17,15 @@
 #include <Engine/CCollider.h>
 #include <Engine/define.h>
 
+#include <Engine/jsoncpp.h>
+
 #include "defineScript.h"
-#include "CFState_SCUnitIdle.h"
-#include "CFState_SCUnitMove_Ground.h"
-//TODO : 
-//#include "CScript_SCGroundUnitAttack.h"
-//#include "CScript_SCGroundUnitDeath.h"
+#include "CFState_SCUnit_Idle.h"
+#include "CFState_SCUnit_Move_Ground.h"
 
+#include "SCUnitCom_Base.h"
 
-CSCEntity::CSCEntity(std::type_index _typeIdx, UINT _eNumState)
+CSC_Entity::CSC_Entity(std::type_index _typeIdx, UINT _eNumState)
 	: CFStateMgr(_typeIdx, _eNumState)
 	, m_eUnitType()
 	, m_uPopulation()
@@ -45,11 +45,23 @@ CSCEntity::CSCEntity(std::type_index _typeIdx, UINT _eNumState)
 {
 }
 
-CSCEntity::~CSCEntity()
+CSC_Entity::~CSC_Entity()
 {
 }
 
-void CSCEntity::initFSM()
+bool CSC_Entity::SaveJson(Json::Value* _pJVal)
+{
+	
+
+	return false;
+}
+
+bool CSC_Entity::LoadJson(Json::Value* _pJVal)
+{
+	return false;
+}
+
+void CSC_Entity::initFSM()
 {
 	//유닛은 기본적으로 전부 회전이 존재하지 않음.
 	Transform()->SetLockRotation(true);
@@ -59,7 +71,7 @@ void CSCEntity::initFSM()
 	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 }
 
-void CSCEntity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)
+void CSC_Entity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)
 {
 	//커서가 자신과 충돌중임을 확인했을 경우
 	if (iLayerCursor == _pCol->GetOwner()->GetLayer())
@@ -67,8 +79,7 @@ void CSCEntity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)
 		//마우스 커서가 한번 클릭됐을 경우
 		if (KEY_TAP(eKEY::LBTN))
 		{
-
-			//m_bSelected = true;
+			
 		}
 	}
 }
