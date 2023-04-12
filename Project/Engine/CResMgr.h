@@ -70,8 +70,6 @@ public:
     void AddRes(const string& _strKey, Ptr<T>& _Res);
 
     
-
-
     //파일명 = 키일떄 사용
     template<typename T>
     Ptr<T>Load(const std::filesystem::path& _fileName);
@@ -152,6 +150,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName)
 template<typename T>
 inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string& _strKey)
 {
+    static_assert(std::is_base_of<CRes, T>::value);
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     
     // 이미 해당 키로 리소스가 있다면, 반환
