@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "CFStateMgr.h"
-#include "CFState.h"
+#include "CFSM_Mgr.h"
+#include "CFSM.h"
 
 #include "CScriptHolder.h"
 
-CFStateMgr::CFStateMgr(std::type_index _typeIdx, UINT _eNumState)
+CFSM_Mgr::CFSM_Mgr(std::type_index _typeIdx, UINT _eNumState)
 	: CScript(_typeIdx)
 	, m_eNumState(_eNumState)
 	, m_vec_pFSM(_eNumState)
@@ -14,7 +14,7 @@ CFStateMgr::CFStateMgr(std::type_index _typeIdx, UINT _eNumState)
 	m_vec_pFSM.resize(m_eNumState);
 }
 
-CFStateMgr::CFStateMgr(const CFStateMgr& _other)
+CFSM_Mgr::CFSM_Mgr(const CFSM_Mgr& _other)
 	: CScript(_other)
 	, m_eNumState(_other.m_eNumState)
 	, m_vec_pFSM(_other.m_eNumState)
@@ -25,12 +25,12 @@ CFStateMgr::CFStateMgr(const CFStateMgr& _other)
 	{
 		if (_other.m_vec_pFSM[i])
 		{
-			AddFState(i, (CFState*)_other.m_vec_pFSM[i]->Clone());
+			AddFState(i, (CFSM*)_other.m_vec_pFSM[i]->Clone());
 		}
 	}
 }
 
-CFStateMgr::~CFStateMgr()
+CFSM_Mgr::~CFSM_Mgr()
 {
 	for (size_t i = 0u; i < m_vec_pFSM.size(); ++i)
 	{
@@ -40,7 +40,7 @@ CFStateMgr::~CFStateMgr()
 }
 
 
-void CFStateMgr::init()
+void CFSM_Mgr::init()
 {
 	ScriptHolder()->RegisterFStateMgr(this);
 
@@ -57,7 +57,7 @@ void CFStateMgr::init()
 	Transition(0u);
 }
 
-void CFStateMgr::tick()
+void CFSM_Mgr::tick()
 {
 	if (false == m_bBegin)
 	{
@@ -73,7 +73,7 @@ void CFStateMgr::tick()
 	}
 }
 
-CFState* CFStateMgr::Transition(UINT _eState)
+CFSM* CFSM_Mgr::Transition(UINT _eState)
 {
 	//Array 인덱스보다 높은 숫자가 들어올 경우 assert
 	if (m_eNumState < _eState)
@@ -94,7 +94,7 @@ CFState* CFStateMgr::Transition(UINT _eState)
 	return nullptr;
 }
 
-void CFStateMgr::BeginCollision(CCollider* _other, const Vec3& _v3HitPoint)
+void CFSM_Mgr::BeginCollision(CCollider* _other, const Vec3& _v3HitPoint)
 {
 	for (UINT i = 0u; i < m_eNumState; ++i)
 	{
@@ -103,7 +103,7 @@ void CFStateMgr::BeginCollision(CCollider* _other, const Vec3& _v3HitPoint)
 	}
 }
 
-void CFStateMgr::OnCollision(CCollider* _other, const Vec3& _v3HitPoint)
+void CFSM_Mgr::OnCollision(CCollider* _other, const Vec3& _v3HitPoint)
 {
 	for (UINT i = 0u; i < m_eNumState; ++i)
 	{
@@ -112,7 +112,7 @@ void CFStateMgr::OnCollision(CCollider* _other, const Vec3& _v3HitPoint)
 	}
 }
 
-void CFStateMgr::EndCollision(CCollider* _other)
+void CFSM_Mgr::EndCollision(CCollider* _other)
 {
 	for (UINT i = 0u; i < m_eNumState; ++i)
 	{
@@ -121,14 +121,14 @@ void CFStateMgr::EndCollision(CCollider* _other)
 	}
 }
 
-void CFStateMgr::AddFState(UINT _uIdx, CFState* _pFState)
+void CFSM_Mgr::AddFState(UINT _uIdx, CFSM* _pFState)
 {
 	assert(m_eNumState > _uIdx && nullptr != _pFState);
 	m_vec_pFSM[_uIdx] = _pFState;
 	_pFState->SetFStateMgr(this);
 }
 
-void CFStateMgr::SwitchState(UINT _eState)
+void CFSM_Mgr::SwitchState(UINT _eState)
 {
 	if (m_vec_pFSM[m_eCurState])
 		m_vec_pFSM[m_eCurState]->EndState();

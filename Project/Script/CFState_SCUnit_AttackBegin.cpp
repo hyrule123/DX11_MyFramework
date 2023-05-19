@@ -4,11 +4,11 @@
 #include "define_SCUnit.h"
 #include <Engine/CAnimator2D.h>
 
-#include <Engine/CFStateMgr.h>
+#include <Engine/CFSM_Mgr.h>
 
 
 CFState_SCUnit_AttackBegin::CFState_SCUnit_AttackBegin()
-	: CFState(FSM_SCGroundUnit::ATTACK_BEGIN)
+	: CFSM(FSM_SCGroundUnit::ATTACK_BEGIN)
 {
 }
 

@@ -1,28 +1,28 @@
 #include "pch.h"
 
-#include "CFState.h"
+#include "CFSM.h"
 
 #include "CGameObject.h"
 
-#include "CFStateMgr.h"
+#include "CFSM_Mgr.h"
 
-CFState::CFState(UINT _eMyState)
+CFSM::CFSM(UINT _eMyState)
 	: m_eMyState(_eMyState)
 	, m_pFStateMgr()
 {
 }
 
-CFState::CFState(const CFState& _other)
+CFSM::CFSM(const CFSM& _other)
 	: m_eMyState(_other.m_eMyState)
 	, m_pFStateMgr()
 {
 }
 
-CFState::~CFState()
+CFSM::~CFSM()
 {
 }
 
-CFState* CFState::Transition(UINT _eState)
+CFSM* CFSM::Transition(UINT _eState)
 {
 	if (m_pFStateMgr)
 		return m_pFStateMgr->Transition(_eState);

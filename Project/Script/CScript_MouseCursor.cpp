@@ -8,9 +8,9 @@
 #include <Engine/CCollider.h>
 
 #include <Engine/CGameObject.h>
-#include <Engine/CFStateMgr.h>
+#include <Engine/CFSM_Mgr.h>
 
-#include <Engine/CFStateMgr.h>
+#include <Engine/CFSM_Mgr.h>
 
 #include "define_SCUnit.h"
 #include "CFState_SCUnit_Move_Ground.h"

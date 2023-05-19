@@ -6,7 +6,7 @@
 #include <Engine/CAnimator2D.h>
 
 CFState_SCUnit_AttackEnd::CFState_SCUnit_AttackEnd()
-    : CFState(FSM_SCGroundUnit::ATTACK_END)
+    : CFSM(FSM_SCGroundUnit::ATTACK_END)
 	, m_bCurMotionEnd()
 {
 }

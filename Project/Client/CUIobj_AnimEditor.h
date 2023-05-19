@@ -1,6 +1,8 @@
 #pragma once
 #include "CUI_BasicWindow.h"
 
+#include <Engine/ptr.h>
+
 class CAnim2DAtlas;
 class CUI_DragNDropReceiver;
 

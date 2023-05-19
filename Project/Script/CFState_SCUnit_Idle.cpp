@@ -6,7 +6,7 @@
 #include "CSC_Entity.h"
 
 CFState_SCUnit_Idle::CFState_SCUnit_Idle()
-    : CFState((UINT)FSM_SCGroundUnit::eSTATE::IDLE)
+    : CFSM((UINT)FSM_SCGroundUnit::eSTATE::IDLE)
 {
 }
 

@@ -10,8 +10,8 @@
 
 #include "CScriptMgr.h"
 
-#include "CFState.h"
-#include "CFStateMgr.h"
+#include "CFSM.h"
+#include "CFSM_Mgr.h"
 
 CScriptHolder::CScriptHolder()
 	: CComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
@@ -154,7 +154,7 @@ void CScriptHolder::start()
 	}
 }
 
-CFState* CScriptHolder::Transition(UINT _eState)
+CFSM* CScriptHolder::Transition(UINT _eState)
 {
 	if (m_pFStateMgr)
 		return m_pFStateMgr->Transition(_eState);

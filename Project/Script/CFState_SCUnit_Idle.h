@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Engine/CFState.h>
+#include <Engine/CFSM.h>
 
 #include "define_SCUnit.h"
 
 class CFState_SCUnit_Idle :
-    public CFState
+    public CFSM
 {
 public:
     CFState_SCUnit_Idle();

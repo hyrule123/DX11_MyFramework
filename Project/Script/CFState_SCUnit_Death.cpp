@@ -4,7 +4,7 @@
 #include "define_SCUnit.h"
 
 CFState_SCUnit_Death::CFState_SCUnit_Death()
-    :CFState(FSM_SCGroundUnit::DEATH)
+    :CFSM(FSM_SCGroundUnit::DEATH)
 {
 }
 

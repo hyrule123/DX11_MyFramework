@@ -26,7 +26,7 @@
 #include "SCUnitCom_Base.h"
 
 CSC_Entity::CSC_Entity(std::type_index _typeIdx, UINT _eNumState)
-	: CFStateMgr(_typeIdx, _eNumState)
+	: CFSM_Mgr(_typeIdx, _eNumState)
 	, m_eUnitType()
 	, m_uPopulation()
 
@@ -35,9 +35,8 @@ CSC_Entity::CSC_Entity(std::type_index _typeIdx, UINT _eNumState)
 	, m_uSightRange(5u)
 	, m_uCostMineral(50u)
 	, m_uCostGas()
-
 	, m_fBaseBuildTime()
-	, m_ProdSlot()
+	//, m_ProdSlot()
 	, m_eKeyShortcut()
 	, m_flagTech()
 	

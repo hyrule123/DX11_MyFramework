@@ -209,8 +209,8 @@
     <ClInclude Include="CEngine.h" />
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CEventMgr.h" />
-    <ClInclude Include="CFState.h" />
-    <ClInclude Include="CFStateMgr.h" />
+    <ClInclude Include="CFSM.h" />
+    <ClInclude Include="CFSM_Mgr.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGraphicsShader.h" />
     <ClInclude Include="CKeyMgr.h" />
@@ -285,8 +285,8 @@
     </ClCompile>
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
-    <ClCompile Include="CFState.cpp" />
-    <ClCompile Include="CFStateMgr.cpp" />
+    <ClCompile Include="CFSM.cpp" />
+    <ClCompile Include="CFSM_Mgr.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CGraphicsShader.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />

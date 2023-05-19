@@ -4,7 +4,7 @@
 #include "CSC_Entity.h"
 
 CFState_SCUnit_Move_Base::CFState_SCUnit_Move_Base(UINT _eMyState, eSCUNIT_MOVE_TYPE _eMoveType)
-	: CFState(_eMyState)
+	: CFSM(_eMyState)
 	, m_eMoveType(_eMoveType)
 	, m_fSpeed(10.f)
 	, m_fTurnSpeed(0.5f)

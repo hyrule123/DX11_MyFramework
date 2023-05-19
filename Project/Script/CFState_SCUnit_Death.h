@@ -1,8 +1,8 @@
 #pragma once
-#include <Engine/CFState.h>
+#include <Engine/CFSM.h>
 
 class CFState_SCUnit_Death :
-    public CFState
+    public CFSM
 {
 public:
     CFState_SCUnit_Death();

@@ -208,14 +208,12 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CFState.h">
+    <ClInclude Include="CFSM.h">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="CFStateMgr.h">
-      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
-    </ClInclude>
     <ClInclude Include="EventDispatcher.h" />
+    <ClInclude Include="CFSM_Mgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -389,13 +387,11 @@
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CFState.cpp">
-      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
-    </ClCompile>
-    <ClCompile Include="CFStateMgr.cpp">
+    <ClCompile Include="CFSM.cpp">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />
+    <ClCompile Include="CFSM_Mgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">
