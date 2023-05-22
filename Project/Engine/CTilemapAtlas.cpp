@@ -24,7 +24,7 @@ CTilemapAtlas::CTilemapAtlas()
 
 CTilemapAtlas::~CTilemapAtlas()
 {
-	DESTRUCTOR_DELETE(m_SBuffer);
+	SAFE_DELETE(m_SBuffer);
 }
 
 

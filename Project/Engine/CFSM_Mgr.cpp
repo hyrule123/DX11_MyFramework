@@ -4,9 +4,8 @@
 
 #include "CScriptHolder.h"
 
-CFSM_Mgr::CFSM_Mgr(std::type_index _typeIdx, UINT _eNumState)
-	: CScript(_typeIdx)
-	, m_eNumState(_eNumState)
+CFSM_Mgr::CFSM_Mgr(UINT _eNumState)
+	: m_eNumState(_eNumState)
 	, m_vec_pFSM(_eNumState)
 	, m_eCurState()
 	, m_bBegin()
@@ -35,15 +34,13 @@ CFSM_Mgr::~CFSM_Mgr()
 	for (size_t i = 0u; i < m_vec_pFSM.size(); ++i)
 	{
 		if (m_vec_pFSM[i])
-			DESTRUCTOR_DELETE(m_vec_pFSM[i]);
+			SAFE_DELETE(m_vec_pFSM[i]);
 	}
 }
 
 
 void CFSM_Mgr::init()
 {
-	ScriptHolder()->RegisterFStateMgr(this);
-
 	//무조건 idle 상태는 존재해야 한다고 가정함
 	assert(0u < (UINT)m_vec_pFSM.size() && nullptr != m_vec_pFSM[0]);
 

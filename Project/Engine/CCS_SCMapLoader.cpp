@@ -247,13 +247,13 @@ CCS_SCMapLoader::~CCS_SCMapLoader()
 {
     for (int i = 0; i < (int)eTILESET_INFO::END; ++i)
     {
-        DESTRUCTOR_DELETE_ARRAY(m_arrpSBufferTileSet[i].arrTileSetMember);
+        SAFE_DELETE_ARRAY(m_arrpSBufferTileSet[i].arrTileSetMember);
     }
 
-    DESTRUCTOR_DELETE(m_pSBuffer_MXTM);
+    SAFE_DELETE(m_pSBuffer_MXTM);
 
 
-    DESTRUCTOR_DELETE(m_pSBuffer_Debug);
+    SAFE_DELETE(m_pSBuffer_Debug);
     if (nullptr != m_DebugData)
         delete[] m_DebugData;
     

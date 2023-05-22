@@ -15,14 +15,12 @@
 
 CScriptHolder::CScriptHolder()
 	: CComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
-	, m_pFStateMgr()
 {
 }
 
 CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	: CComponent(_other)
-	, m_pFStateMgr()
-	, m_umapScript()
+	, m_mapScript()
 {
 	size_t size = _other.m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
@@ -38,7 +36,7 @@ CScriptHolder::~CScriptHolder()
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		DESTRUCTOR_DELETE(m_vecScript[i]);
+		SAFE_DELETE(m_vecScript[i]);
 	}
 }
 
@@ -119,17 +117,11 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 {
 	if (nullptr == _pScript)
 		return false;
-
-	std::type_index type = _pScript->GetTypeIndex();
-
-	//스크립트 중복 방지
-	if (m_umapScript.find(type) != m_umapScript.end())
-	{
+	else if (nullptr != FindScript(_pScript->GetName()))
 		return false;
-	}
 
 	m_vecScript.push_back(_pScript);
-	m_umapScript[type] = _pScript;
+	m_mapScript.insert(std::make_pair(_pScript->GetName(), _pScript));
 
 	_pScript->SetHolder(this);
 

@@ -21,7 +21,7 @@ CCS_Initialize::CCS_Initialize()
 
 CCS_Initialize::~CCS_Initialize()
 {
-	DESTRUCTOR_DELETE(m_pSBuffer_InitSetting);
+	SAFE_DELETE(m_pSBuffer_InitSetting);
 }
 
 bool CCS_Initialize::BindDataCS()

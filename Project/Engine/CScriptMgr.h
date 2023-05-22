@@ -10,12 +10,10 @@ class CScriptMgr
 	SINGLETON(CScriptMgr);
 
 protected:
-	unordered_map<string, CScript*> m_umapScriptName;
-	unordered_map<std::type_index, CScript*> m_umapScriptTypeIdx;
+	map<string, CScript*> m_mapScript;
 
 public:
 	void AddBaseScript(const string& _strKey, CScript* _pScript);
 	CScript* GetNewScript(const string& _strKey);
-	CScript* GetNewScript(std::type_index _typeIdx);
 };
 

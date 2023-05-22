@@ -12,7 +12,7 @@ class CFSM_Mgr :
 {
 public:
     //_eNumState = 등록된 State의 갯수
-    CFSM_Mgr(std::type_index _typeIdx, UINT _eNumState);
+    CFSM_Mgr(UINT _eNumState);
 
     CFSM_Mgr(const CFSM_Mgr& _other);
     CLONE_DISABLE(CFSM_Mgr);

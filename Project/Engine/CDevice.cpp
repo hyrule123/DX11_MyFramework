@@ -20,7 +20,7 @@ CDevice::~CDevice()
 {
     for (int i = 0; i < idx_b_END; ++i)
     {
-        DESTRUCTOR_DELETE(m_arrConstBuffer[i]);
+        SAFE_DELETE(m_arrConstBuffer[i]);
     }
 }
 

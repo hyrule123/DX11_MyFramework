@@ -132,7 +132,8 @@ void CreateScriptCode()
 		classCodeLine = string("CScript* newScript = new ") + className + string(";");
 		WriteCodeA(ScriptMgr, classCodeLine);
 
-		classCodeLine = string("newScript->SetName(\"") + className + string("\");");
+		classCodeLine = string("newScript->SetName(strKey)");
+		//classCodeLine = string("newScript->SetName(\"") + className + string("\");");
 		WriteCodeA(ScriptMgr, classCodeLine);
 
 		classCodeLine = string("pMgr->AddBaseScript(strKey, newScript);");

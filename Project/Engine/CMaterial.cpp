@@ -38,7 +38,7 @@ CMaterial::CMaterial(const CMaterial& _Clone)
 CMaterial::~CMaterial()
 {
 	//상수버퍼는 CDevice에서 관리하고, 구조화버퍼는 여기서 관리하므로 구조화버퍼만 제거한다.
-	//DESTRUCTOR_DELETE(m_SBufferMtrlScalar);
+	//SAFE_DELETE(m_SBufferMtrlScalar);
 }
 
 

@@ -38,8 +38,8 @@ CParticleSystem::CParticleSystem()
 
 CParticleSystem::~CParticleSystem()
 {
-	DESTRUCTOR_DELETE(m_pSBufferRW_ParticleTransform);
-	DESTRUCTOR_DELETE(m_pSBufferRW_Shared);
+	SAFE_DELETE(m_pSBufferRW_ParticleTransform);
+	SAFE_DELETE(m_pSBufferRW_Shared);
 }
 
 void CParticleSystem::init()

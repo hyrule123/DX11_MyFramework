@@ -36,17 +36,11 @@ public:
 private:
     //같은 스크립트에 대해 두 개의 컨테이너가 들고 있으므로 반드시 추가/제거할 때 주의할것.
     vector<CScript*> m_vecScript;
-    map<std::type_index, CScript*> m_umapScript;
-
-
-
+    map<std::string, CScript*> m_mapScript;
 
 public:
     bool AddScript(CScript* _pScript);
-
-    template <typename T>
-    T* GetScript();
-    CScript* GetScript(std::type_index _t);
+    CScript* FindScript(const string& _strName);
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
 
 public:
@@ -55,25 +49,14 @@ public:
     void EndCollision(CCollider* _Other);
 };
 
-template <typename T>
-inline T* CScriptHolder::GetScript()
-{
-    return (T*)GetScript(std::type_index(typeid(T)));
-}
 
-inline CScript* CScriptHolder::GetScript(std::type_index _t)
+inline CScript* CScriptHolder::FindScript(const string& _strName)
 {
-    const auto& iter = m_umapScript.find(_t);
+    const auto& iter = m_mapScript.find(_strName);
 
-    if (iter != m_umapScript.end())
+    if (iter != m_mapScript.end())
         return iter->second;
 
     return nullptr;
-}
-
-inline void CScriptHolder::RegisterFStateMgr(CFSM_Mgr* _pFStateMgr)
-{
-    assert(nullptr == m_pFStateMgr);
-    m_pFStateMgr = _pFStateMgr;
 }
 

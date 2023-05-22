@@ -14,7 +14,7 @@ CLayer::~CLayer()
 	for (size_t i = 0; i < size; ++i)
 	{
 		if (nullptr == m_vecObject[i]->GetParent())
-			DESTRUCTOR_DELETE(m_vecObject[i]);
+			SAFE_DELETE(m_vecObject[i]);
 	}
 }
 

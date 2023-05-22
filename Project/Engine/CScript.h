@@ -10,8 +10,7 @@ class CScript :
     public CEntity
 {
 public:
-    CScript() = delete;
-    CScript(std::type_index _TypeIndex);
+    CScript();
 
     CScript(const CScript& _other);
     virtual CScript* Clone() = 0;
@@ -34,10 +33,8 @@ public:
 
 private:
     CScriptHolder* m_pHolder;
-    const std::type_index m_TypeIndex;
 
 public:
-
     CScriptHolder* ScriptHolder() const { return m_pHolder; }
     void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }
 
@@ -48,7 +45,5 @@ public:
     CAnimator2D* Animator2D() const { return m_pHolder->Animator2D(); }
 
     CGameObject* GetOwner() const { return m_pHolder->GetOwner(); }
-
-    const std::type_index GetTypeIndex() const { return m_TypeIndex; }
 };
 

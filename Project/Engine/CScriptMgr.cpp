@@ -9,37 +9,28 @@ CScriptMgr::CScriptMgr()
 
 CScriptMgr::~CScriptMgr()
 {
-	for (const auto& iter : m_umapScriptName)
+	for (const auto& iter : m_mapScript)
 	{
-		DESTRUCTOR_DELETE(iter.second);
+		if (iter.second)
+			delete iter.second;
 	}
 }
 
-
 void CScriptMgr::AddBaseScript(const string& _strKey, CScript* _pScript)
 {
-	if (nullptr == _pScript || _strKey.empty() || m_umapScriptName.end() != m_umapScriptName.find(_strKey))
+	if (nullptr == _pScript || _strKey.empty())
+		return;
+	else if (m_mapScript.end() != m_mapScript.find(_strKey))
 		return;
 
-	m_umapScriptName.insert(std::make_pair(_strKey, _pScript));
-	m_umapScriptTypeIdx.insert(std::make_pair(_pScript->GetTypeIndex(), _pScript));
+	m_mapScript.insert(std::make_pair(_strKey, _pScript));
 }
 
 CScript* CScriptMgr::GetNewScript(const string& _strKey)
 {
-	const auto& iter = m_umapScriptName.find(_strKey);
+	const auto& iter = m_mapScript.find(_strKey);
 
-	if (iter == m_umapScriptName.end())
-		return nullptr;
-
-	return iter->second->Clone();
-}
-
-CScript* CScriptMgr::GetNewScript(std::type_index _typeIdx)
-{
-	const auto& iter = m_umapScriptTypeIdx.find(_typeIdx);
-
-	if (iter == m_umapScriptTypeIdx.end())
+	if (iter == m_mapScript.end())
 		return nullptr;
 
 	return iter->second->Clone();

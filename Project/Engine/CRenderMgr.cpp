@@ -36,8 +36,8 @@ CRenderMgr::CRenderMgr()
 
 CRenderMgr::~CRenderMgr()
 {
-    DESTRUCTOR_DELETE(m_pLight2DStructBuffer);
-    DESTRUCTOR_DELETE(m_pSBuffer_Instancing);
+    SAFE_DELETE(m_pLight2DStructBuffer);
+    SAFE_DELETE(m_pSBuffer_Instancing);
 }
 
 
