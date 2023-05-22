@@ -36,9 +36,10 @@ public:
 private:
     //같은 스크립트에 대해 두 개의 컨테이너가 들고 있으므로 반드시 추가/제거할 때 주의할것.
     vector<CScript*> m_vecScript;
-    unordered_map<std::type_index, CScript*> m_umapScript;
+    map<std::type_index, CScript*> m_umapScript;
 
-    CFSM_Mgr* m_pFStateMgr;
+
+
 
 public:
     bool AddScript(CScript* _pScript);
@@ -48,9 +49,6 @@ public:
     CScript* GetScript(std::type_index _t);
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
 
-    void RegisterFStateMgr(CFSM_Mgr* _pFStateMgr);
-    CFSM_Mgr* GetFStateMgr() const { return m_pFStateMgr; }
-    
 public:
     void BeginColiision(CCollider* _Other, const Vec3& _v3HitPoint);
     void OnCollision(CCollider* _Other, const Vec3& _v3HitPoint);
