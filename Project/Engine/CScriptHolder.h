@@ -1,13 +1,15 @@
 #pragma once
 #include "CComponent.h"
 
-
 class CTransform;
 class CCamera;
 class CMeshRender;
 class CCollider;
 class CFSM_Mgr;
 class CFSM;
+
+//한 게임오브젝트에서 활용하는 스크립트들 모음
+//FSM도 여기에서 담당
 
 class CScriptHolder :
     public CComponent
@@ -31,17 +33,24 @@ public:
     virtual void finaltick() final {}
     virtual void cleanup() final {}
 
-    CFSM* Transition(UINT _eState);
+    bool Transition(UINT _eStateID, tEvent _tEventMsg = tEvent{});
 
 private:
-    //같은 스크립트에 대해 두 개의 컨테이너가 들고 있으므로 반드시 추가/제거할 때 주의할것.
+    //FSM을 포함한 모든 스크립트를 들고있음(업데이트 용)
     vector<CScript*> m_vecScript;
-    map<std::string, CScript*> m_mapScript;
+    //map<std::string, CScript*> m_mapScript;
+
+    //Index = FSM의 인덱스 번호
+    vector<CFSM*> m_vecFSM;
+    CFSM* m_pCurrentFSM;
 
 public:
     bool AddScript(CScript* _pScript);
     CScript* FindScript(const string& _strName);
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
+
+    bool AddFSM(CFSM* _pFSM);
+    CFSM* GetCurFSM() const { return m_pCurrentFSM; }
 
 public:
     void BeginColiision(CCollider* _Other, const Vec3& _v3HitPoint);
@@ -50,13 +59,7 @@ public:
 };
 
 
-inline CScript* CScriptHolder::FindScript(const string& _strName)
-{
-    const auto& iter = m_mapScript.find(_strName);
 
-    if (iter != m_mapScript.end())
-        return iter->second;
 
-    return nullptr;
-}
+
 

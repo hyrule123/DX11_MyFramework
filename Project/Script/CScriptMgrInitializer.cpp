@@ -20,31 +20,31 @@ void CScriptMgrInitializer::init()
 	{
 		string strKey = string(SCRIPTS::CAMERAMOVE);
 		CScript* newScript = new CScript_CameraMove;
-		newScript->SetName("CScript_CameraMove");
+		newScript->SetName(strKey)
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::MARINE);
 		CScript* newScript = new CScript_Marine;
-		newScript->SetName("CScript_Marine");
+		newScript->SetName(strKey)
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::MOUSECURSOR);
 		CScript* newScript = new CScript_MouseCursor;
-		newScript->SetName("CScript_MouseCursor");
+		newScript->SetName(strKey)
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::SCUNITVITAL);
 		CScript* newScript = new CScript_SCUnitVital;
-		newScript->SetName("CScript_SCUnitVital");
+		newScript->SetName(strKey)
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
 		string strKey = string(SCRIPTS::TESTOBJ);
 		CScript* newScript = new CScript_TestObj;
-		newScript->SetName("CScript_TestObj");
+		newScript->SetName(strKey)
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 }

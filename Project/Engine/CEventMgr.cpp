@@ -49,7 +49,7 @@ void CEventMgr::DestroyGameObj(const tGameEvent& _event)
 void CEventMgr::AddChildGameObj(const tGameEvent& _event)
 {
 	CGameObject* pParent = reinterpret_cast<CGameObject*>(_event.lParam);
-	CGameObject* pChild = reinterpret_cast<CGameObject*>(_event.rParam);
+	CGameObject* pChild = reinterpret_cast<CGameObject*>(_event.wParam);
 	
 	pParent->AddChildGameObj(pChild);
 }
@@ -57,13 +57,13 @@ void CEventMgr::AddChildGameObj(const tGameEvent& _event)
 void CEventMgr::RemoveComponent(const tGameEvent& _event)
 {
 	//lParam = GameObject*
-	//rParam = eCOMPONENT_TYPE
+	//wParam = eCOMPONENT_TYPE
 
 	CGameObject* pObj = reinterpret_cast<CGameObject*>(_event.lParam);
 	if (nullptr == pObj)
 		return;
 
-	eCOMPONENT_TYPE comType = (eCOMPONENT_TYPE)_event.rParam;
+	eCOMPONENT_TYPE comType = (eCOMPONENT_TYPE)_event.wParam;
 
 	CComponent* pCom = pObj->GetComponent(comType);
 	if (nullptr == pCom)
@@ -83,7 +83,7 @@ void CEventMgr::RemoveComponentLazy(const tGameEvent& _event)
 	if (nullptr == pObj)
 		return;
 
-	eCOMPONENT_TYPE comType = (eCOMPONENT_TYPE)_event.rParam;
+	eCOMPONENT_TYPE comType = (eCOMPONENT_TYPE)_event.wParam;
 	CComponent* pCom = pObj->GetComponent(comType);
 	if (nullptr == pCom)
 		return;

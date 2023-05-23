@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Engine/CFSM_Mgr.h>
 #include <Engine/CKeyMgr.h>
 
 #include "define_SCUnit.h"
@@ -8,7 +7,7 @@
 #include "SCUnitCom_Base.h"
 
 class CSC_Entity :
-    public CFSM_Mgr
+    public CScript
 {
 public:
     CSC_Entity(std::type_index _typeIdx, UINT _eNumState);

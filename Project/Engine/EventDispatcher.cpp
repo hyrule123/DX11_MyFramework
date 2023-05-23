@@ -25,7 +25,7 @@ void EventDispatcher::DestroyGameObj(CGameObject* _pObject)
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::DELETE_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pObject);
-	evn.rParam = 0;
+	evn.wParam = 0;
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }
@@ -36,7 +36,7 @@ void EventDispatcher::AddChildGameObj(CGameObject* _pParent, CGameObject* _pChil
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::ADD_CHILD;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pParent);
-	evn.rParam = reinterpret_cast<DWORD_PTR>(_pChild);
+	evn.wParam = reinterpret_cast<DWORD_PTR>(_pChild);
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }
@@ -51,7 +51,7 @@ void EventDispatcher::RemoveComponent(CGameObject* _pObject, eCOMPONENT_TYPE _eT
 
 	evn.Type = eEVENT_TYPE::REMOVE_COMPONENT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pObject);
-	evn.rParam = (DWORD_PTR)(_eType);
+	evn.wParam = (DWORD_PTR)(_eType);
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }

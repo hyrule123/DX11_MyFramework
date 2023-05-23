@@ -11,16 +11,17 @@
 #include "CScriptMgr.h"
 
 #include "CFSM.h"
-#include "CFSM_Mgr.h"
 
 CScriptHolder::CScriptHolder()
 	: CComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
+	, m_pCurrentFSM()
 {
 }
 
 CScriptHolder::CScriptHolder(const CScriptHolder& _other)
 	: CComponent(_other)
-	, m_mapScript()
+	, m_pCurrentFSM()
+	//, m_mapScript()
 {
 	size_t size = _other.m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
@@ -121,11 +122,23 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 		return false;
 
 	m_vecScript.push_back(_pScript);
-	m_mapScript.insert(std::make_pair(_pScript->GetName(), _pScript));
+	//m_mapScript.insert(std::make_pair(_pScript->GetName(), _pScript));
 
 	_pScript->SetHolder(this);
 
 	return true;
+}
+
+CScript* CScriptHolder::FindScript(const string& _strName)
+{
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (_strName == m_vecScript[i]->GetName())
+			return m_vecScript[i];
+	}
+
+	return nullptr;
 }
 
 void CScriptHolder::init()
@@ -144,14 +157,32 @@ void CScriptHolder::start()
 	{
 		m_vecScript[i]->start();
 	}
+
+	//FSM이 등록되어 있을 경우 0번 FSM을 시작 FSM으로 등록
+	if (false == m_vecFSM.empty() && nullptr != m_vecFSM[0])
+		m_pCurrentFSM = m_vecFSM[0];
+	
+	m_pCurrentFSM->EnterState();
 }
 
-CFSM* CScriptHolder::Transition(UINT _eState)
+bool CScriptHolder::Transition(UINT _eStateID, tEvent _tEventMsg)
 {
-	if (m_pFStateMgr)
-		return m_pFStateMgr->Transition(_eState);
+	//예외 처리
+	if (m_vecFSM.size() <= _eStateID)
+		return false;
+	else if (nullptr == m_pCurrentFSM || nullptr == m_vecFSM[_eStateID])
+		return false;
 
-	return nullptr;
+	//Transition 확인 및 true 반환 시 교체
+	if (m_pCurrentFSM->CheckCondition(_eStateID, _tEventMsg))
+	{
+		m_pCurrentFSM->EndState();
+		m_pCurrentFSM = m_vecFSM[_eStateID];
+		m_pCurrentFSM->EnterState();
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -165,7 +196,26 @@ void CScriptHolder::tick()
 	}
 }
 
+bool CScriptHolder::AddFSM(CFSM* _pFSM)
+{
+	if (nullptr == _pFSM)
+		return false;
 
+	UINT stateID = _pFSM->GetStateID();
+	
+	//state ID가 vector의 사이즈보다 클 경우 공간 확보
+	if (stateID < m_vecFSM.size())
+	{
+		//이미 해당 state가 있을 경우 false 리턴
+		if (nullptr != m_vecFSM[stateID])
+			return false;
+	}
+	else
+		m_vecFSM.resize(stateID + 1);
+
+	m_vecFSM[stateID] = _pFSM;
+	return true;
+}
 
 void CScriptHolder::BeginColiision(CCollider* _Other, const Vec3& _v3HitPoint)
 {

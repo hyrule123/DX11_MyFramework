@@ -36,7 +36,7 @@ private:
 
 public:
     CScriptHolder* ScriptHolder() const { return m_pHolder; }
-    void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }
+    virtual void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }
 
     CTransform* Transform() const { return m_pHolder->Transform(); }
     CMeshRender* MeshRender() const { return m_pHolder->MeshRender(); }

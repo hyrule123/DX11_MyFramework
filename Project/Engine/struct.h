@@ -13,8 +13,14 @@ typedef struct tVertex
 struct tGameEvent
 {
 	eEVENT_TYPE Type;
+	DWORD_PTR	wParam;
 	DWORD_PTR	lParam;
-	DWORD_PTR	rParam;
+};
+
+struct tEvent
+{
+	DWORD_PTR wParam;
+	DWORD_PTR lParam;
 };
 
 struct tSquareInfo

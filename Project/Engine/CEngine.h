@@ -31,7 +31,4 @@ public:
 private:
 	void tick();
 	void render();
-
-
-
 };

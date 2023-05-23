@@ -213,7 +213,6 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="EventDispatcher.h" />
-    <ClInclude Include="CFSM_Mgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -391,7 +390,6 @@
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />
-    <ClCompile Include="CFSM_Mgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">

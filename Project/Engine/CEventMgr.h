@@ -31,16 +31,16 @@ private:
     void SpawnNewGameObj(const tGameEvent& _event);
 
     //lParam = CGameObject Pointer
-    //rParam = None
+    //wParam = None
     void DestroyGameObj(const tGameEvent& _event);
 
     //lParam = Parent GameObject*
-    //rParam = Child GameObject*
+    //wParam = Child GameObject*
     //SpawnNewGameObj는 따로 해주지 않으므로 주의
     void AddChildGameObj(const tGameEvent& _event);
 
     //lParam = GameObject*
-    //rParam = eCOMPONENT_TYPE
+    //wParam = eCOMPONENT_TYPE
     void RemoveComponent(const tGameEvent& _event);
     void RemoveComponentLazy(const tGameEvent& _event);
 
@@ -48,9 +48,5 @@ private:
 private:
     void ProcessEvent();
     void ProcessLazyEvent();
-    
-    void SpawnObjRecursive(CGameObject* _pObj, int _iLayer);
-
-    
 };
 
