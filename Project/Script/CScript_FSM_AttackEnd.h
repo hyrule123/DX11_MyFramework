@@ -2,17 +2,13 @@
 
 #include <Engine/CFSM.h>
 
-class CFState_SCUnit_AttackBegin :
+class CScript_FSM_AttackEnd :
     public CFSM
 {
 public:
-    CFState_SCUnit_AttackBegin();
-
-    CFState_SCUnit_AttackBegin(const CFState_SCUnit_AttackBegin& _other) = default;
-    CLONE(CFState_SCUnit_AttackBegin);
-
-    virtual ~CFState_SCUnit_AttackBegin();
-    
+    CScript_FSM_AttackEnd(const string& _strKey);
+    virtual ~CScript_FSM_AttackEnd();
+    CLONE(CScript_FSM_AttackEnd);
 
 public:
     virtual void EnterState() override;
@@ -21,7 +17,10 @@ public:
 
     //상태 변경을 요청한 State의 번호
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
-    virtual bool CheckCondition(UINT _eState) override;
+    virtual bool CheckCondition(UINT _eState, tEvent _tEventMsg) override;
 
+private:
+    bool m_bCurMotionEnd;
+    UINT m_ReservedMotion;
 };
 

@@ -2,12 +2,6 @@
 
 #include <string_view>
 
-enum class eSCUnit_ComType
-{
-    VITAL,
-
-    END
-};
 
 enum class eSCUNIT_UNIT_RACE
 {

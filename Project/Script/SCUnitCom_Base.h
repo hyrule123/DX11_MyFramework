@@ -3,13 +3,13 @@
 
 #include "define_SCUnit.h"
 
-class CSC_Entity;
+class CScript_SCEntity;
 //유닛 컴포넌트 기초 클래스
 class SCUnitCom_Base
     : public CEntity
 {
 public:
-    SCUnitCom_Base(eSCUnit_ComType _eComType, CSC_Entity* _pOwner);
+    SCUnitCom_Base(CScript_SCEntity* _pOwner);
 
     SCUnitCom_Base(const SCUnitCom_Base& _other);
     CLONE_DISABLE(SCUnitCom_Base);
@@ -22,7 +22,5 @@ public:
     
     
 private:
-    DECLARE_GETSET(eSCUnit_ComType, m_eSCUnit_ComType, ComType);
-    DECLARE_GETSET(CSC_Entity*, m_pOwner, Owner);
+    DECLARE_GETTER_SETTER(CScript_SCEntity*, m_pOwner, Owner);
 };
-

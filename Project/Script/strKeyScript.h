@@ -10,9 +10,17 @@
 
 namespace SCRIPTS
 {
+constexpr std::string_view FSM_MOVE_GROUND = "CScript_FSM_Move_Ground";
+constexpr std::string_view FSM_ATTACKEND = "CScript_FSM_AttackEnd";
+constexpr std::string_view FSM_ATTACKBEGIN = "CScript_FSM_AttackBegin";
 constexpr std::string_view CAMERAMOVE = "CScript_CameraMove";
+constexpr std::string_view FSM_ATTACK = "CScript_FSM_Attack";
+constexpr std::string_view FSM_DEATH = "CScript_FSM_Death";
+constexpr std::string_view FSM_IDLE = "CScript_FSM_Idle";
+constexpr std::string_view FSM_MOVE_HOVER = "CScript_FSM_Move_Hover";
 constexpr std::string_view MARINE = "CScript_Marine";
 constexpr std::string_view MOUSECURSOR = "CScript_MouseCursor";
+constexpr std::string_view SCENTITY = "CScript_SCEntity";
 constexpr std::string_view SCUNITVITAL = "CScript_SCUnitVital";
 constexpr std::string_view TESTOBJ = "CScript_TestObj";
 }

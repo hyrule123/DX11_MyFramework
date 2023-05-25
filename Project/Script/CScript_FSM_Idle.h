@@ -4,13 +4,13 @@
 
 #include "define_SCUnit.h"
 
-class CFState_SCUnit_Idle :
+class CScript_FSM_Idle :
     public CFSM
 {
 public:
-    CFState_SCUnit_Idle();
-    virtual ~CFState_SCUnit_Idle();
-    CLONE(CFState_SCUnit_Idle);
+    CScript_FSM_Idle(const string& _strKey);
+    virtual ~CScript_FSM_Idle();
+    CLONE(CScript_FSM_Idle);
 
 public:
     virtual void init() override;
@@ -20,6 +20,6 @@ public:
 
     //상태 변경을 요청한 State의 번호
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
-    virtual bool CheckCondition(UINT _eState) override { return true; }
+    virtual bool CheckCondition(UINT _eState, tEvent _tEventMsg) override { return true; }
 };
 

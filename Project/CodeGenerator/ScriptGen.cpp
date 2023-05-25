@@ -129,12 +129,12 @@ void CreateScriptCode()
 
 		size_t pos = iter.second.find(string(ScriptStandardSuffix));
 		string className = iter.second.substr(0, pos);
-		classCodeLine = string("CScript* newScript = new ") + className + string(";");
+		classCodeLine = string("CScript* newScript = new ") + className + string("(strKey);");
 		WriteCodeA(ScriptMgr, classCodeLine);
 
-		classCodeLine = string("newScript->SetName(strKey)");
+		//classCodeLine = string("newScript->SetKey(strKey)");
 		//classCodeLine = string("newScript->SetName(\"") + className + string("\");");
-		WriteCodeA(ScriptMgr, classCodeLine);
+		//WriteCodeA(ScriptMgr, classCodeLine);
 
 		classCodeLine = string("pMgr->AddBaseScript(strKey, newScript);");
 		WriteCodeA(ScriptMgr, classCodeLine);

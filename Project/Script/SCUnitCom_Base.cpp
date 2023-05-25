@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "SCUnitCom_Base.h"
 
-#include "CSC_Entity.h"
+#include "CScript_SCEntity.h"
 
-SCUnitCom_Base::SCUnitCom_Base(eSCUnit_ComType _eComType, CSC_Entity* _pOwner)
+SCUnitCom_Base::SCUnitCom_Base(CScript_SCEntity* _pOwner)
 	: m_eSCUnit_ComType(_eComType)
 	, m_pOwner(_pOwner)
 {

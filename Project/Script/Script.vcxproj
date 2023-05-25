@@ -183,19 +183,19 @@ call "CodeGenerator_$(Configuration).exe" Script
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CFState_SCUnit_Move_Base.h" />
-    <ClInclude Include="CFState_SCUnit_AttackBegin.h" />
-    <ClInclude Include="CFState_SCUnit_AttackEnd.h" />
-    <ClInclude Include="CFState_SCUnit_Death.h" />
+    <ClInclude Include="CFSM_Move_Base.h" />
+    <ClInclude Include="CScript_FSM_AttackBegin.h" />
+    <ClInclude Include="CScript_FSM_AttackEnd.h" />
+    <ClInclude Include="CScript_FSM_Death.h" />
     <ClInclude Include="CScriptMgrInitializer.h" />
     <ClInclude Include="CScript_CameraMove.h" />
     <ClInclude Include="CScript_Marine.h" />
     <ClInclude Include="CScript_MouseCursor.h" />
-    <ClInclude Include="CFState_SCUnit_Attack.h" />
-    <ClInclude Include="CSC_Entity.h" />
-    <ClInclude Include="CFState_SCUnit_Idle.h" />
-    <ClInclude Include="CFState_SCUnit_Move_Ground.h" />
-    <ClInclude Include="CFState_SCUnit_Move_Hover.h" />
+    <ClInclude Include="CScript_FSM_Attack.h" />
+    <ClInclude Include="CScript_SCEntity.h" />
+    <ClInclude Include="CScript_FSM_Idle.h" />
+    <ClInclude Include="CScript_FSM_Move_Ground.h" />
+    <ClInclude Include="CScript_FSM_Move_Hover.h" />
     <ClInclude Include="CScript_TestObj.h" />
     <ClInclude Include="CScript_SCUnitVital.h" />
     <ClInclude Include="defineScript.h" />
@@ -208,19 +208,19 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="strKeyTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CFState_SCUnit_Move_Base.cpp" />
-    <ClCompile Include="CFState_SCUnit_AttackBegin.cpp" />
-    <ClCompile Include="CFState_SCUnit_AttackEnd.cpp" />
-    <ClCompile Include="CFState_SCUnit_Death.cpp" />
+    <ClCompile Include="CFSM_Move_Base.cpp" />
+    <ClCompile Include="CScript_FSM_AttackBegin.cpp" />
+    <ClCompile Include="CScript_FSM_AttackEnd.cpp" />
+    <ClCompile Include="CScript_FSM_Death.cpp" />
     <ClCompile Include="CScriptMgrInitializer.cpp" />
     <ClCompile Include="CScript_CameraMove.cpp" />
     <ClCompile Include="CScript_Marine.cpp" />
     <ClCompile Include="CScript_MouseCursor.cpp" />
-    <ClCompile Include="CFState_SCUnit_Attack.cpp" />
-    <ClCompile Include="CSC_Entity.cpp" />
-    <ClCompile Include="CFState_SCUnit_Idle.cpp" />
-    <ClCompile Include="CFState_SCUnit_Move_Ground.cpp" />
-    <ClCompile Include="CFState_SCUnit_Move_Hover.cpp" />
+    <ClCompile Include="CScript_FSM_Attack.cpp" />
+    <ClCompile Include="CScript_SCEntity.cpp" />
+    <ClCompile Include="CScript_FSM_Idle.cpp" />
+    <ClCompile Include="CScript_FSM_Move_Ground.cpp" />
+    <ClCompile Include="CScript_FSM_Move_Hover.cpp" />
     <ClCompile Include="CScript_TestObj.cpp" />
     <ClCompile Include="CScript_SCUnitVital.cpp" />
     <ClCompile Include="pch.cpp">

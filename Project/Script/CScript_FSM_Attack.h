@@ -4,16 +4,16 @@
 
 #include "define_SCUnit.h"
 
-class CFState_SCUnit_Attack :
+class CScript_FSM_Attack :
     public CFSM
 {
 public:
-    CFState_SCUnit_Attack();
+    CScript_FSM_Attack(const string& _strKey);
 
-    CFState_SCUnit_Attack(const CFState_SCUnit_Attack& _other) = default;
-    CLONE(CFState_SCUnit_Attack);
+    CScript_FSM_Attack(const CScript_FSM_Attack& _other) = default;
+    CLONE(CScript_FSM_Attack);
 
-    virtual ~CFState_SCUnit_Attack();
+    virtual ~CScript_FSM_Attack();
 
 public:
     virtual void EnterState() override;
@@ -22,7 +22,7 @@ public:
 
     //상태 변경을 요청한 State의 번호
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
-    virtual bool CheckCondition(UINT _eState) override;
+    virtual bool CheckCondition(UINT _eState, tEvent _tEventMsg = tEvent{}) override;
 
 private:
     //Intantiate, 업그레이드 확인용으로 사용

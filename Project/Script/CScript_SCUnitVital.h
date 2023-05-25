@@ -1,5 +1,5 @@
 #pragma once
-#include "CSC_Entity.h"
+#include "CScript_SCEntity.h"
 class CScript_SCUnitVital :
     public CScript
 {
@@ -11,19 +11,23 @@ public:
     CLONE(CScript_SCUnitVital);
 
 private:
-    //체력 관련
-    UINT m_uHealthMax;
-    UINT m_uCurHealth;
-    UINT m_uShildMax;
-    UINT m_uCurShild;
+    DECLARE_GETTER_SETTER(UINT, m_uMaxHP, MaxHP);
+    DECLARE_GETTER_SETTER(float, m_fCurHP, CurHP);
 
+    DECLARE_GETTER_SETTER(UINT, m_uMaxShield, MaxShield);
+    DECLARE_GETTER_SETTER(float, m_fCurShield, CurShield);
+
+private:
     //아머
     //업그레이드 키를 찾는데도 사용함.
     string m_strArmorName;
-    UINT m_uDefaultArmor;
-    UINT m_uArmorAddedPerUpgraded;
+public:
+    const string& GetArmorName() const { return m_strArmorName; }
 
-    eSCUNIT_ARMOR_TYPE m_eArmorType;
+private:
+    DECLARE_GETTER_SETTER(UINT, m_uDefaultArmor, DefaultArmor);
+    DECLARE_GETTER_SETTER(UINT, m_uArmorAddedPerUpgrade, ArmorAddedPerUpgrade);
 
+    DECLARE_GETTER_SETTER(eSCUNIT_ARMOR_TYPE, m_eArmorType, ArmorType);
 };
 

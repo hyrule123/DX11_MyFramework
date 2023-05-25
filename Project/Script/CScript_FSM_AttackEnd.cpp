@@ -1,25 +1,25 @@
 #include "pch.h"
-#include "CFState_SCUnit_AttackEnd.h"
+#include "CScript_FSM_AttackEnd.h"
 
 #include "define_SCUnit.h"
 
 #include <Engine/CAnimator2D.h>
 
-CFState_SCUnit_AttackEnd::CFState_SCUnit_AttackEnd()
-    : CFSM(FSM_SCGroundUnit::ATTACK_END)
+CScript_FSM_AttackEnd::CScript_FSM_AttackEnd(const string& _strKey)
+    : CFSM(_strKey, FSM_SCGroundUnit::ATTACK_END)
 	, m_bCurMotionEnd()
 {
 }
 
-CFState_SCUnit_AttackEnd::~CFState_SCUnit_AttackEnd()
+CScript_FSM_AttackEnd::~CScript_FSM_AttackEnd()
 {
 }
 
-void CFState_SCUnit_AttackEnd::EnterState()
+void CScript_FSM_AttackEnd::EnterState()
 {
 	m_bCurMotionEnd = false;
 
-	CAnimator2D* pAnimator = GetFStateMgr()->Animator2D();
+	CAnimator2D* pAnimator = Animator2D();
 	if (pAnimator)
 	{
 		using namespace FSM_SCGroundUnit;
@@ -27,7 +27,7 @@ void CFState_SCUnit_AttackEnd::EnterState()
 	}
 }
 
-void CFState_SCUnit_AttackEnd::OnState()
+void CScript_FSM_AttackEnd::OnState()
 {
 	if (Animator2D()->IsFinished())
 	{
@@ -37,11 +37,11 @@ void CFState_SCUnit_AttackEnd::OnState()
 		
 }
 
-void CFState_SCUnit_AttackEnd::EndState()
+void CScript_FSM_AttackEnd::EndState()
 {
 }
 
-bool CFState_SCUnit_AttackEnd::CheckCondition(UINT _eState)
+bool CScript_FSM_AttackEnd::CheckCondition(UINT _eState, tEvent _tEventMsg)
 {
 	using namespace FSM_SCGroundUnit;
 	switch (_eState)

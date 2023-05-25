@@ -4,8 +4,9 @@
 
 #include "CGameObject.h"
 
-CFSM::CFSM(UINT _uStateID)
-	: m_uStateID(_uStateID)
+CFSM::CFSM(const string& _strKey, UINT _uStateID)
+	: CScript(_strKey)
+	, m_uStateID(_uStateID)
 {
 }
 
@@ -18,6 +19,8 @@ CFSM::CFSM(const CFSM& _other)
 CFSM::~CFSM()
 {
 }
+
+
 
 
 

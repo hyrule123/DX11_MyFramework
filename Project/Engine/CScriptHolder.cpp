@@ -194,6 +194,8 @@ void CScriptHolder::tick()
 	{
 		m_vecScript[i]->tick();
 	}
+
+	if(m_pCurrentFSM) m_pCurrentFSM->OnState();
 }
 
 bool CScriptHolder::AddFSM(CFSM* _pFSM)

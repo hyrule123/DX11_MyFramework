@@ -1,16 +1,12 @@
 #include "pch.h"
 
-#include "CFState_SCUnit_Attack.h"
-#include "CFState_SCUnit_AttackEnd.h"
+#include "CScript_FSM_Attack.h"
+#include "CScript_FSM_AttackEnd.h"
 
 #include <Engine/CAnimator2D.h>
 
-#include <Engine/CFSM_Mgr.h>
-
-
-
-CFState_SCUnit_Attack::CFState_SCUnit_Attack()
-	: CFSM((UINT)FSM_SCGroundUnit::eSTATE::ATTACK)
+CScript_FSM_Attack::CScript_FSM_Attack(const string& _strKey)
+	: CFSM(_strKey, (UINT)FSM_SCGroundUnit::eSTATE::ATTACK)
 	, m_uDefaultDamage()
 	, m_uDamageAddedPerUpgrade()
 	, m_uWeaponRange()
@@ -18,11 +14,11 @@ CFState_SCUnit_Attack::CFState_SCUnit_Attack()
 {
 }
 
-CFState_SCUnit_Attack::~CFState_SCUnit_Attack()
+CScript_FSM_Attack::~CScript_FSM_Attack()
 {
 }
 
-void CFState_SCUnit_Attack::EnterState()
+void CScript_FSM_Attack::EnterState()
 {
 	m_bReservedMove = -1;
 
@@ -34,20 +30,20 @@ void CFState_SCUnit_Attack::EnterState()
 	}
 }
 
-void CFState_SCUnit_Attack::OnState()
+void CScript_FSM_Attack::OnState()
 {
 	if (Animator2D()->IsFinished() && 0 < m_bReservedMove)
 	{
-		CFState_SCUnit_AttackEnd* pAtkEnd = (CFState_SCUnit_AttackEnd*)GetFStateMgr()->Transition(FSM_SCGroundUnit::ATTACK_END);
+		CScript_FSM_AttackEnd* pAtkEnd = (CScript_FSM_AttackEnd*)ScriptHolder()->Transition(FSM_SCGroundUnit::ATTACK_END);
 
 	}
 }
 
-void CFState_SCUnit_Attack::EndState()
+void CScript_FSM_Attack::EndState()
 {
 }
 
-bool CFState_SCUnit_Attack::CheckCondition(UINT _eState)
+bool CScript_FSM_Attack::CheckCondition(UINT _eState, tEvent _tEventMsg)
 {
 	if (FSM_SCGroundUnit::DEATH == _eState)
 		return true;

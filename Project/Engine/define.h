@@ -39,23 +39,23 @@
 #define GETTER(_Type_, _Var_, _FuncName_) public: _Type_ Get##_FuncName_() const { return _Var_; }
 
 //Macro for SMALL data sized variable(public)
-#define GETSET(_Type_, _Var_, _FuncName_) \
+#define GETTER_SETTER(_Type_, _Var_, _FuncName_) \
 public:\
 void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }\
 _Type_ Get##_FuncName_() const { return _Var_; }
 
 //선언 + Get
-#define DECLARE_GET(_Type_, _Var_, _FuncName_) \
+#define DECLARE_GETTER(_Type_, _Var_, _FuncName_) \
 private: _Type_ _Var_;\
 public: _Type_ Get##_FuncName_() const { return _Var_; }
 
 //선언 + Set
-#define DECLARE_SET(_Type_, _Var_, _FuncName_) \
+#define DECLARE_SETTER(_Type_, _Var_, _FuncName_) \
 private: _Type_ _Var_;\
 public: void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }
 
 //선언 + Get + Set
-#define DECLARE_GETSET(_Type_, _Var_, _FuncName_) \
+#define DECLARE_GETTER_SETTER(_Type_, _Var_, _FuncName_) \
 private: _Type_ _Var_;\
 public: _Type_ Get##_FuncName_() const { return _Var_; }\
 public: void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }

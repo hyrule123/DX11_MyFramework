@@ -10,7 +10,7 @@ class CScript :
     public CEntity
 {
 public:
-    CScript();
+    CScript(const string& _strKey);
 
     CScript(const CScript& _other);
     virtual CScript* Clone() = 0;
@@ -32,12 +32,17 @@ public:
     virtual void EndCollision(CCollider* _other) {}
 
 private:
-    CScriptHolder* m_pHolder;
-
+    const string m_strKey;
 public:
-    CScriptHolder* ScriptHolder() const { return m_pHolder; }
-    virtual void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }
+    const string& GetKey() const { return m_strKey; }
 
+private:
+    CScriptHolder* m_pHolder;
+public:
+    virtual void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }
+    CScriptHolder* ScriptHolder() const { return m_pHolder; }
+    
+public:
     CTransform* Transform() const { return m_pHolder->Transform(); }
     CMeshRender* MeshRender() const { return m_pHolder->MeshRender(); }
     CCamera* Camera() const { return m_pHolder->Camera(); }

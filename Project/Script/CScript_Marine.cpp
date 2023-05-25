@@ -1,24 +1,24 @@
 #include "pch.h"
 #include "CScript_Marine.h"
 
-#include "CFState_SCUnit_Idle.h"
-#include "CFState_SCUnit_Move_Ground.h"
-#include "CFState_SCUnit_AttackBegin.h"
-#include "CFState_SCUnit_Attack.h"
-#include "CFState_SCUnit_AttackEnd.h"
+#include "CScript_FSM_Idle.h"
+#include "CScript_FSM_Move_Ground.h"
+#include "CScript_FSM_AttackBegin.h"
+#include "CScript_FSM_Attack.h"
+#include "CScript_FSM_AttackEnd.h"
 
-CScript_Marine::CScript_Marine()
-	: CSC_Entity(TYPE_INDEX(CScript_Marine), (UINT)FSM_SCGroundUnit::END)
+CScript_Marine::CScript_Marine(const string& _strKey)
+	: CScript_SCEntity(_strKey)
 {
-	AddFState(FSM_SCGroundUnit::IDLE, new CFState_SCUnit_Idle);
+	ScriptHolder()->AddFSM(new CScript_FSM_Idle);
 
-	CFState_SCUnit_Move_Ground* move = new CFState_SCUnit_Move_Ground;
+	CScript_FSM_Move_Ground* move = new CScript_FSM_Move_Ground;
 	move->SetSpeed(100.f);
-	AddFState(FSM_SCGroundUnit::MOVE, move);
+	ScriptHolder()->AddFSM(FSM_SCGroundUnit::MOVE, move);
 
-	AddFState(FSM_SCGroundUnit::ATTACK_BEGIN, new CFState_SCUnit_AttackBegin);
-	AddFState(FSM_SCGroundUnit::ATTACK, new CFState_SCUnit_Attack);
-	AddFState(FSM_SCGroundUnit::ATTACK_END, new CFState_SCUnit_AttackEnd);
+	ScriptHolder()->AddFSM(FSM_SCGroundUnit::ATTACK_BEGIN, new CScript_FSM_AttackBegin);
+	ScriptHolder()->AddFSM(FSM_SCGroundUnit::ATTACK, new CScript_FSM_Attack);
+	ScriptHolder()->AddFSM(FSM_SCGroundUnit::ATTACK_END, new CScript_FSM_AttackEnd);
 }
 
 

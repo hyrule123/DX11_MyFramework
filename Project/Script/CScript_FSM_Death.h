@@ -1,16 +1,16 @@
 #pragma once
 #include <Engine/CFSM.h>
 
-class CFState_SCUnit_Death :
+class CScript_FSM_Death :
     public CFSM
 {
 public:
-    CFState_SCUnit_Death();
+    CScript_FSM_Death(const string& _strKey);
 
-    CFState_SCUnit_Death(const CFState_SCUnit_Death& _other) = default;
-    CLONE(CFState_SCUnit_Death);
+    CScript_FSM_Death(const CScript_FSM_Death& _other) = default;
+    CLONE(CScript_FSM_Death);
 
-    virtual ~CFState_SCUnit_Death();
+    virtual ~CScript_FSM_Death();
 
 public:
     virtual void EnterState() override;
@@ -19,6 +19,6 @@ public:
 
     //상태 변경을 요청한 State의 번호
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
-    virtual bool CheckCondition(UINT _eState) override;
+    virtual bool CheckCondition(UINT _eState, tEvent _tEventMsg) override;
 };
 

@@ -8,8 +8,8 @@
 #include <Engine/CKeyMgr.h>
 #include <Engine/CTimeMgr.h>
 
-CScript_CameraMove::CScript_CameraMove() 
-	: CScript(TYPE_INDEX(CScript_CameraMove))
+CScript_CameraMove::CScript_CameraMove(const string& _strKey)
+	: CScript(_strKey)
 	, m_CamSpeed(400.f)
 	, m_TurningForceRad(XM_PI)
 {
