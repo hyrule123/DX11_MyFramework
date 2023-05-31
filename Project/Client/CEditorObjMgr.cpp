@@ -43,10 +43,10 @@ CEditorObjMgr::~CEditorObjMgr()
 {
 	for (int i = 0; i < (int)eDEBUGSHAPE_TYPE::END; ++i)
 	{
-		DESTRUCTOR_DELETE(m_arrDebugShape[i]);
+		SAFE_DELETE(m_arrDebugShape[i]);
 	}
 
-	DESTRUCTOR_DELETE(m_pEditorCam);
+	SAFE_DELETE(m_pEditorCam);
 	//DESTRUCTOR_DELETE(m_pMousePicker);
 }
 
@@ -65,13 +65,13 @@ void CEditorObjMgr::init()
 		//m_pMousePicker->AddComponent(new CTransform);
 		m_pMousePicker->AddComponent(new CCollider2D_Point);
 
-		CScript* Script = CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MOUSECURSOR));
+		CScript* Script = CScriptMgr::GetInst()->GetNewScript(SCRIPTS::MOUSECURSOR);
 		m_pMousePicker->AddScript(Script);
 
-		CScript_MouseCursor* pScript = m_pMousePicker->ScriptHolder()->GetScript<CScript_MouseCursor>();
+		CScript_MouseCursor* pScript = static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(string(SCRIPTS::MOUSECURSOR)));
 		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
-		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
+ 		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
 
 		CCollisionMgr* pMgr = CCollisionMgr::GetInst();
 		for (int i = 0; i < 32; ++i)
@@ -286,7 +286,7 @@ void CEditorObjMgr::CreateEditorCamera()
 	CTransform* pTransform = m_pEditorCam->Transform();
 	pTransform->SetRelativePos(Vec3(0.f, 0.f, -100.f));
 
-	m_pEditorCam->AddScript(new CScript_CameraMove);
+	m_pEditorCam->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::CAMERAMOVE)));
 
 	CRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
 }
@@ -296,7 +296,7 @@ CGameObject* CEditorObjMgr::GetSelectedObj()
 	if (nullptr == m_pMousePicker)
 		return nullptr;
 
-	return m_pMousePicker->ScriptHolder()->GetScript<CScript_MouseCursor>()->GetSelectedObject();
+	return static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(SCRIPTS::MOUSECURSOR))->GetSelectedObject();
 }
 
 void CEditorObjMgr::MouseLBTNCallback(CGameObject* _pObj)

@@ -4,10 +4,10 @@ class CScript_SCUnitVital :
     public CScript
 {
 public:
-    CScript_SCUnitVital();
+    CScript_SCUnitVital(const string& _strKey);
     virtual ~CScript_SCUnitVital();
 
-    CScript_SCUnitVital(const CScript_SCUnitVital& _other);
+    CScript_SCUnitVital(const CScript_SCUnitVital& _other) = default;
     CLONE(CScript_SCUnitVital);
 
 private:

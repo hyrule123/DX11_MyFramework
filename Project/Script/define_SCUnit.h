@@ -47,7 +47,7 @@ enum class eSCUNIT_MOVE_TYPE
     Air
 };
 
-namespace FSM_SCGroundUnit
+namespace FSM_SCUnit
 {
     enum eSTATE
     {

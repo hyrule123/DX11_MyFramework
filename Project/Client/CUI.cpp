@@ -143,7 +143,7 @@ void CUI::ClearChildUI()
 	size_t size = m_vecChildUI.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		DESTRUCTOR_DELETE(m_vecChildUI[i]);
+		SAFE_DELETE(m_vecChildUI[i]);
 	}
 	m_vecChildUI.clear();
 }

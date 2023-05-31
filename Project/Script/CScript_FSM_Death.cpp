@@ -4,7 +4,7 @@
 #include "define_SCUnit.h"
 
 CScript_FSM_Death::CScript_FSM_Death(const string& _strKey)
-    :CFSM(_strKey, FSM_SCGroundUnit::DEATH)
+    :CFSM(_strKey, FSM_SCUnit::DEATH)
 {
 }
 

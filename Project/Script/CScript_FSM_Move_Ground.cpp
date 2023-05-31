@@ -11,7 +11,7 @@
 #include <Engine/CKeyMgr.h>
 
 CScript_FSM_Move_Ground::CScript_FSM_Move_Ground(const string& _strKey)
-	: CFSM_Move_Base(_strKey, (UINT)FSM_SCGroundUnit::eSTATE::MOVE, eSCUNIT_MOVE_TYPE::Ground)
+	: CFSM_Move_Base(_strKey, (UINT)FSM_SCUnit::eSTATE::MOVE, eSCUNIT_MOVE_TYPE::Ground)
 {
 }
 
@@ -24,7 +24,7 @@ void CScript_FSM_Move_Ground::EnterState()
 	CAnimator2D* pAnimator = Animator2D();
 	if (pAnimator)
 	{
-		using namespace FSM_SCGroundUnit;
+		using namespace FSM_SCUnit;
 		pAnimator->Play(string(strKey_Anim[(UINT)eSTATE::MOVE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
 	}
 }
@@ -51,8 +51,8 @@ void CScript_FSM_Move_Ground::OnState()
 		//90도를 더해준다.
 		acos -= XM_PIDIV2;
 
+//DEBUG MESSAGE
 #ifdef _DEBUG
-
 		static float check = 0.f;
 		check += DELTA_TIME;
 		if (1.f < check)
@@ -87,7 +87,7 @@ void CScript_FSM_Move_Ground::OnState()
 		if (ArriveCheck.x < 0.f || ArriveCheck.y < 0.f)
 		{
 			SetArrive(true);
-			GetFStateMgr()->Transition((UINT)FSM_SCGroundUnit::eSTATE::IDLE);
+			ScriptHolder()->Transition((UINT)FSM_SCUnit::eSTATE::IDLE);
 		}
 	}
 }

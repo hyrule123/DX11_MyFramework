@@ -35,3 +35,4 @@ CScript* CScriptMgr::GetNewScript(const string& _strKey)
 
 	return iter->second->Clone();
 }
+

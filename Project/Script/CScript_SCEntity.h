@@ -4,7 +4,6 @@
 
 #include "define_SCUnit.h"
 
-#include "SCUnitCom_Base.h"
 
 class CScript_SCEntity :
     public CScript

@@ -12,9 +12,8 @@ public:
     virtual ~CFSM_Move_Base();
 
     //Base 클래스이므로 disable
-    CLONE_DISABLE(CFSM_Move_Base);
-
     CFSM_Move_Base(const CFSM_Move_Base& _other) = default;
+    CLONE_DISABLE(CFSM_Move_Base);
 
 public:
     virtual void init() override;

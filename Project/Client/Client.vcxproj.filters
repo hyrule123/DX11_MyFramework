@@ -242,7 +242,7 @@
     <ClInclude Include="ImGui\imgui_stdlib.h">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClInclude>
-    <ClInclude Include="EditAnim.h" />
+    <ClInclude Include="ManualEdit.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -383,6 +383,6 @@
     <ClCompile Include="ImGui\imgui_stdlib.cpp">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClCompile>
-    <ClCompile Include="EditAnim.cpp" />
+    <ClCompile Include="ManualEdit.cpp" />
   </ItemGroup>
 </Project>

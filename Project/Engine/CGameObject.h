@@ -95,6 +95,7 @@ public:
     void RemoveComponent(eCOMPONENT_TYPE _eComType);
 
     void AddScript(CScript* _Script);
+
     void AddChildGameObj(CGameObject* _Object);
 
 

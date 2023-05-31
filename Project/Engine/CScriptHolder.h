@@ -43,23 +43,35 @@ private:
     //Index = FSM의 인덱스 번호
     vector<CFSM*> m_vecFSM;
     CFSM* m_pCurrentFSM;
+private:
+    bool CheckFSMValid(UINT _uStateID) const;
 
 public:
     bool AddScript(CScript* _pScript);
-    CScript* FindScript(const string& _strName);
+    //CScript* FindScript(const string& _strKey);
+    CScript* FindScript(string_view _strViewKey);
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
 
+    //이건 직접 호출할 필요 없음.(AddScript 할 시 알아서 호출 됨)
     bool AddFSM(CFSM* _pFSM);
     CFSM* GetCurFSM() const { return m_pCurrentFSM; }
-
+    CFSM* GetFSM(UINT _uStateID) const { if (CheckFSMValid(_uStateID)) return m_vecFSM[_uStateID]; return nullptr; }
+     
 public:
     void BeginColiision(CCollider* _Other, const Vec3& _v3HitPoint);
     void OnCollision(CCollider* _Other, const Vec3& _v3HitPoint);
     void EndCollision(CCollider* _Other);
 };
 
+inline bool CScriptHolder::CheckFSMValid(UINT _uStateID) const
+{
+    if (_uStateID >= m_vecFSM.size())
+        return false;
+    else if (nullptr == m_vecFSM[_uStateID])
+        return false;
 
-
+    return true;
+}
 
 
 

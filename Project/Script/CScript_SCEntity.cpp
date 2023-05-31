@@ -23,7 +23,6 @@
 #include "CScript_FSM_Idle.h"
 #include "CScript_FSM_Move_Ground.h"
 
-#include "SCUnitCom_Base.h"
 
 CScript_SCEntity::CScript_SCEntity(const string& _strKey)
 	: CScript(_strKey)

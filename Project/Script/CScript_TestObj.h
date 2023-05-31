@@ -5,6 +5,13 @@
 class CScript_TestObj :
     public CScript
 {
+    
+public:
+    CScript_TestObj(const string& _strKey);
+    virtual ~CScript_TestObj();
+
+    CLONE(CScript_TestObj);
+
 private:
     Vec4 m_ColorKey;
     float m_MoveSpeed;
@@ -17,9 +24,6 @@ public:
     virtual void init() override;
     virtual void tick() override;
 
-    CLONE(CScript_TestObj);
-public:
-    CScript_TestObj();
-    ~CScript_TestObj();
+
 };
 

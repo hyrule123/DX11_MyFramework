@@ -72,7 +72,7 @@ CImGuiMgr::~CImGuiMgr()
     size_t size = vecUI.size();
     for (size_t i = 0; i < size; ++i)
     {
-        DESTRUCTOR_DELETE(vecUI[i]);
+        SAFE_DELETE(vecUI[i]);
     }
 
     fullPath = origDir;

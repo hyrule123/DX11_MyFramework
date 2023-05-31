@@ -114,6 +114,8 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 }
 
 
+
+
 bool CScriptHolder::AddScript(CScript* _pScript)
 {
 	if (nullptr == _pScript)
@@ -129,12 +131,24 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 	return true;
 }
 
-CScript* CScriptHolder::FindScript(const string& _strName)
+//CScript* CScriptHolder::FindScript(const string& _strKey)
+//{
+//	size_t size = m_vecScript.size();
+//	for (size_t i = 0; i < size; ++i)
+//	{
+//		if (_strKey == m_vecScript[i]->GetName())
+//			return m_vecScript[i];
+//	}
+//
+//	return nullptr;
+//}
+
+CScript* CScriptHolder::FindScript(string_view _strViewKey)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		if (_strName == m_vecScript[i]->GetName())
+		if (_strViewKey == m_vecScript[i]->GetKey())
 			return m_vecScript[i];
 	}
 
@@ -168,15 +182,23 @@ void CScriptHolder::start()
 bool CScriptHolder::Transition(UINT _eStateID, tEvent _tEventMsg)
 {
 	//예외 처리
-	if (m_vecFSM.size() <= _eStateID)
-		return false;
-	else if (nullptr == m_pCurrentFSM || nullptr == m_vecFSM[_eStateID])
+	if (false == CheckFSMValid(_eStateID))
 		return false;
 
-	//Transition 확인 및 true 반환 시 교체
-	if (m_pCurrentFSM->CheckCondition(_eStateID, _tEventMsg))
+	bool bCheck = false;
+
+	if (
+		//현재 State가 존재하지 않으면 바로 검사 통과
+		nullptr == m_pCurrentFSM
+		||
+		//State가 있을 경우 조건 검사
+		m_pCurrentFSM->CheckCondition(_eStateID, _tEventMsg)
+		)
 	{
-		m_pCurrentFSM->EndState();
+		//검사 통과 시 state 교체
+		if (m_pCurrentFSM)
+			m_pCurrentFSM->EndState();
+
 		m_pCurrentFSM = m_vecFSM[_eStateID];
 		m_pCurrentFSM->EnterState();
 		return true;

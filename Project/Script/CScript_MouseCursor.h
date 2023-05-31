@@ -7,7 +7,7 @@ class CScript_MouseCursor :
     public CScript
 {
 public:
-    CScript_MouseCursor();
+    CScript_MouseCursor(const string& _strKey);
     virtual ~CScript_MouseCursor();
     CLONE(CScript_MouseCursor);
 

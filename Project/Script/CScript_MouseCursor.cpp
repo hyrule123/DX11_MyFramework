@@ -8,9 +8,6 @@
 #include <Engine/CCollider.h>
 
 #include <Engine/CGameObject.h>
-#include <Engine/CFSM_Mgr.h>
-
-#include <Engine/CFSM_Mgr.h>
 
 #include "define_SCUnit.h"
 #include "CScript_FSM_Move_Ground.h"
@@ -18,8 +15,8 @@
 
 
 
-CScript_MouseCursor::CScript_MouseCursor()
-	: CScript(TYPE_INDEX(CScript_MouseCursor))
+CScript_MouseCursor::CScript_MouseCursor(const string& _strKey)
+	: CScript(_strKey)
 	, m_arrpFuncLBTNCallback{}
 	, m_arrpFuncRBTNCallback{}
 	, m_pSelectedGameObject()
@@ -52,8 +49,8 @@ void CScript_MouseCursor::tick()
 		//아닐 경우 + 우클릭을 했을 경우 이동 스크립트를 가져와서 이동시킨다.
 		else if(KEY_TAP(eKEY::RBTN))
 		{
-			(CFSM_Move_Base*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::MOVE));
-			CFSM_Move_Base* pMoveState = (CFSM_Move_Base*)m_pSelectedGameObject->ScriptHolder()->GetFStateMgr()->GetFState(FSM_SCGroundUnit::MOVE);
+			(CFSM_Move_Base*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCUnit::MOVE));
+			CFSM_Move_Base* pMoveState = (CFSM_Move_Base*)m_pSelectedGameObject->ScriptHolder()->GetFSM(FSM_SCUnit::MOVE);
 				
 			if (pMoveState)
 			{
@@ -63,7 +60,7 @@ void CScript_MouseCursor::tick()
 
 		else if (KEY_TAP(eKEY::A))
 		{
-			CScript_FSM_Attack* pAttackState = (CScript_FSM_Attack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCGroundUnit::eSTATE::ATTACK));
+			CScript_FSM_Attack* pAttackState = (CScript_FSM_Attack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCUnit::eSTATE::ATTACK));
 		}
 	}
 

@@ -25,8 +25,11 @@
 #include <Script/strKeyTexture.h>
 #include <Script/strKeyShader.h>
 
-#include <Engine/CScriptMgr.h>
+#include <Script/CScript_FSM_Move_Ground.h>
 #include <Script/CScript_MouseCursor.h>
+
+#include <Engine/CScriptMgr.h>
+
 
 #include <Engine/CTimeMgr.h>
 
@@ -40,7 +43,7 @@
 
 #include <Engine/jsoncpp.h>
 
-#include "EditAnim.h"
+#include "ManualEdit.h"
 
 namespace INGAME_LAYER_INFO
 {
@@ -121,6 +124,11 @@ namespace INGAME_LAYER_INFO
 
 void CreateMainGame()
 {
+	LoadAllTexture();
+	LoadUserMtrl();
+
+
+
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 
@@ -134,9 +142,7 @@ void CreateMainGame()
 		pLevel->SetLayerName(i, string(INGAME_LAYER_INFO::strLayerName[i]));
 	}
 
-	LoadAllTexture();
-	LoadUserMtrl();
-	CodeEditor::EditAnim();
+
 
 	CResMgr* pResMgr = CResMgr::GetInst();
 
@@ -152,57 +158,86 @@ void CreateMainGame()
 	Json::Value SaveFile;
 	SCUnitMtrl->SaveJson(&SaveFile);
 
-	//CGameObject* pParent = nullptr;
-	//for(int i = 0; i < 2; ++i)
-	//{
-	//	CGameObject* TestObj = new CGameObject;
-	//	
-	//	TestObj->AddComponent(new CMeshRender);
-	//	TestObj->MeshRender()->SetMaterial(SCUnitMtrl);
-	//	TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
+	CGameObject* pParent = nullptr;
+	for(int i = 0; i < 2; ++i)
+	{
+		CGameObject* TestObj = new CGameObject;
+		
+		TestObj->AddComponent(new CMeshRender);
+		TestObj->MeshRender()->SetMaterial(SCUnitMtrl);
+		TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
 
-	//	TestObj->AddComponent(new CAnimator2D);
-	//	
-	//	Ptr<CAnim2DAtlas> animAtlas = pResMgr->Load<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
-	//	
-	//	TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
+		TestObj->AddComponent(new CAnimator2D);
+		
+		Ptr<CAnim2DAtlas> animAtlas = pResMgr->Load<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
+		
+		TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
 
-	//	if (i == 0)
-	//	{
-	//		CCollider2D_Circle* pCircle = new CCollider2D_Circle;
-	//		pCircle->SetRadius(50.f);
-	//		//CCollider2D_Rect* pCol = new CCollider2D_Rect;
-	//		//Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
-	//		//pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
-	//		TestObj->AddComponent(pCircle);
+		if (i == 0)
+		{
+			CCollider2D_Circle* pCircle = new CCollider2D_Circle;
+			pCircle->SetRadius(50.f);
+			//CCollider2D_Rect* pCol = new CCollider2D_Rect;
+			//Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+			//pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
+			TestObj->AddComponent(pCircle);
 
-	//		TestObj->SetName("ParentTest");
+			TestObj->SetName("ParentTest");
 
-	//		pParent = TestObj;
-	//		EventDispatcher::SpawnGameObject(TestObj, Vec3(100.f, 100.f, 100.f), INGAME_LAYER_INFO::GroundUnitMain);
-	//	}
-	//	else
-	//	{	
-	//		CCollider2D_Rect* pCol = new CCollider2D_Rect;
-	//		Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
-	//		pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
-	//		TestObj->AddComponent(pCol);
+			pParent = TestObj;
+			EventDispatcher::SpawnGameObject(TestObj, Vec3(100.f, 100.f, 100.f), INGAME_LAYER_INFO::GroundUnitMain);
+		}
+		else
+		{	
+			CCollider2D_Rect* pCol = new CCollider2D_Rect;
+			Vec2 xy = Vec2(32.f, 32.f) * Vec2(2.f, 1.5f);
+			pCol->SetSCBuildingSize(2u, 2u, Vec4(-7, 0, 8, 7));
+			TestObj->AddComponent(pCol);
 
 
-	//		float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
-	//		float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
+			float x = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 1280.f;
+			float y = CRandMgr::GetInst()->GetRand(0.f, 1.f) * 640.f;
 
-	//		EventDispatcher::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
-	//		//TestObj->SetName("ChildTest");
+			EventDispatcher::SpawnGameObject(TestObj, Vec3(-640.f + x, -320.f + y, 0.f), INGAME_LAYER_INFO::GroundUnitMain);
+			//TestObj->SetName("ChildTest");
 
-	//		EventDispatcher::AddChildGameObj(pParent, TestObj);
-	//	}
-	//	TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::MARINE)));
+			EventDispatcher::AddChildGameObj(pParent, TestObj);
+		}
 
-	//	Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
-	//	TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
-	//	TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
-	//}
+		//스크립트 추가
+		{
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(SCRIPTS::SCENTITY));
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::FSM_IDLE)));
+
+			{
+				CScript_FSM_Move_Ground* pScript = (CScript_FSM_Move_Ground*)CScriptMgr::GetInst()->GetNewScript(SCRIPTS::FSM_MOVE_GROUND);
+				TestObj->AddScript((CScript*)pScript);
+				pScript = nullptr;
+			}
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::FSM_ATTACK)));
+
+			//CScriptHolder* pScriptHolder =
+//	TestObj->ScriptHolder()->AddFSM(new CScript_FSM_Idle);
+
+// move = new CScript_FSM_Move_Ground;
+//move->SetSpeed(100.f);
+//ScriptHolder()->AddFSM(FSM_SCGroundUnit::MOVE, move);
+
+//ScriptHolder()->AddFSM(FSM_SCGroundUnit::ATTACK_BEGIN, new CScript_FSM_AttackBegin);
+//ScriptHolder()->AddFSM(FSM_SCGroundUnit::ATTACK, new CScript_FSM_Attack);
+//ScriptHolder()->AddFSM(FSM_SCGroundUnit::ATTACK_END, new CScript_FSM_AttackEnd);
+		}
+
+
+
+
+		Vec4 ColorKey(0.f, 0.f, 0.f, 0.f);
+		TestObj->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &ColorKey);
+		TestObj->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
+
+
+
+	}
 
 
 

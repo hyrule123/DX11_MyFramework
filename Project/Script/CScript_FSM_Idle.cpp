@@ -6,7 +6,7 @@
 #include "CScript_SCEntity.h"
 
 CScript_FSM_Idle::CScript_FSM_Idle(const string& _strKey)
-    : CFSM(_strKey, (UINT)FSM_SCGroundUnit::eSTATE::IDLE)
+    : CFSM(_strKey, (UINT)FSM_SCUnit::eSTATE::IDLE)
 {
 }
 
@@ -24,7 +24,7 @@ void CScript_FSM_Idle::EnterState()
     CAnimator2D* pAnimator = Animator2D();
     if (pAnimator)
     {
-        using namespace FSM_SCGroundUnit;
+        using namespace FSM_SCUnit;
         pAnimator->Play(string(strKey_Anim[(int)eSTATE::IDLE]), eANIM_LOOPMODE::NORMAL_LOOP, false);
     }
 }

@@ -27,11 +27,8 @@ public:
 
     //상태 변경을 요청한 State의 번호
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
-    virtual bool CheckCondition(UINT _eState, tEvent _tEventMsg) = 0;
-protected:
-    bool Transition(UINT _eStateID, tEvent _tEventMsg = tEvent{});
+    virtual bool CheckCondition(UINT _eStateID, tEvent _tEventMsg) = 0;
 
-public:
     //호출 시점: Transition()에서 true가 반환될 경우(상태 진입)
     virtual void EnterState() = 0;
 
@@ -41,6 +38,11 @@ public:
     //호출 시점: Transition()에서 true가 반환될 경우(상태 종료)
     virtual void EndState() = 0;
 
+
+protected:
+    bool Transition(UINT _eStateID, tEvent _tEventMsg = tEvent{});
+
+public:
     virtual void SetHolder(CScriptHolder* _pScriptHolder) override;
 
 private:

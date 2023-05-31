@@ -9,11 +9,10 @@ class CScript_FSM_Attack :
 {
 public:
     CScript_FSM_Attack(const string& _strKey);
+    virtual ~CScript_FSM_Attack();
 
     CScript_FSM_Attack(const CScript_FSM_Attack& _other) = default;
     CLONE(CScript_FSM_Attack);
-
-    virtual ~CScript_FSM_Attack();
 
 public:
     virtual void EnterState() override;
