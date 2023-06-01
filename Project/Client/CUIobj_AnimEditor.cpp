@@ -4,7 +4,7 @@
 
 #include <Engine/CResMgr.h>
 #include <Engine/CAnim2DAtlas.h>
-#include <Engine/strKeyDefault.h>
+#include <Engine/strKey_Default.h>
 
 CUIobj_AnimEditor::CUIobj_AnimEditor()
 	: CUI_BasicWindow("Animation Editor")

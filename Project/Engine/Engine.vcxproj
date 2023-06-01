@@ -251,7 +251,7 @@
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SCMapDefine.h" />
-    <ClInclude Include="strKeyDefault.h" />
+    <ClInclude Include="strKey_Default.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ptr.h" />

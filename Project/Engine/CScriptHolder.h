@@ -49,7 +49,7 @@ private:
 public:
     bool AddScript(CScript* _pScript);
     //CScript* FindScript(const string& _strKey);
-    CScript* FindScript(string_view _strViewKey);
+    CScript* FindScript(const string& _strViewKey);
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
 
     //이건 직접 호출할 필요 없음.(AddScript 할 시 알아서 호출 됨)

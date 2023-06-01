@@ -4,7 +4,7 @@
 #include "CUI_Button.h"
 #include "CUI_ComboBox.h"
 
-#include <Engine/strKeyDefault.h>
+#include <Engine/strKey_Default.h>
 
 #include <Engine/CPathMgr.h>
 #include <Engine/CResMgr.h>
@@ -12,9 +12,9 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
 #include <Engine/CMeshRender.h>
-#include <Engine/strKeyDefault.h>
+#include <Engine/strKey_Default.h>
 #include <Engine/CTilemapComplete.h>
-#include <Script/strKeyShader.h>
+#include <Script/strKey_Shader.h>
 
 #include <Engine/EventDispatcher.h>
 #include <Engine/CLevelMgr.h>
@@ -139,7 +139,7 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 		try
 		{
 			Ptr<CCS_SCMapLoader> pMapLoader;
-			pMapLoader = pResMgr->FindRes<CComputeShader>(string(RES_SHADER::COMPUTE::SCMAPLOADER));
+			pMapLoader = pResMgr->FindRes<CComputeShader>(string(strKey_RES_SHADER::COMPUTE::SCMAPLOADER));
 			if (nullptr == pMapLoader)
 				throw std::runtime_error("Cannot find Map Loader!!");
 			

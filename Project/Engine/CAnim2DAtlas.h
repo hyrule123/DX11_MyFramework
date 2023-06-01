@@ -114,6 +114,7 @@ public:
     void SetNewAnimUV(UINT _uColTotal, UINT _uRowTotal, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch);
 
     //중복된 방향(180도 8방향)을 가지는 애니메이션 프레임을 만들 때
+    //이미지가 중복되어 있음
     void SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, UINT _uRowPitch);
 
 

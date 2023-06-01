@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "CodeGenFunc.h"
 
-#include <Engine/strKeyDefault.h>
+#include <Engine/strKey_Default.h>
 
 
 #include "MacroFunc.h"
@@ -18,18 +18,23 @@ int main(int argc, char* argv[])
 {
     //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
     CreateScriptCode();
-
     CreateShaderCode();
-
     
-    vector<string> vecExtension;
-    for (size_t i = 0; i < (int)RES_INFO::TEXTURE::Ext::idx::END; ++i)
     {
-        vecExtension.push_back(string(RES_INFO::TEXTURE::Ext::arr[i]));
+        vector<string> vecExtension;
+        for (size_t i = 0; i < (size_t)RES_INFO::TEXTURE::Ext::idx::END; ++i)
+        {
+            vecExtension.push_back(RES_INFO::TEXTURE::Ext::arr[i]);
+        }
+        CreateStrKey(RES_INFO::TEXTURE::DirName, PresetPath::strKey_Texture, vecExtension);
     }
-    CreateStrKey(RES_INFO::TEXTURE::DirName, PresetPath::strKeyTexture, vecExtension);
 
-
+    {
+        vector<string> vecExt;
+        vecExt.push_back(RES_INFO::PREFAB::Ext);
+        CreateStrKey(RES_INFO::PREFAB::DirName, PresetPath::strKey_Prefab, vecExt);
+    }
+    
 
     ////argument가 만족되지 않으면 디버그 모드로 작동
     //if (1 == argc)
@@ -57,7 +62,7 @@ int main(int argc, char* argv[])
     //    {
     //        vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
     //    }
-    //    //CreateStrKey(RES_INFO::TEXTURE::DirName, "strKeyTexture.h", vecExtension);
+    //    //CreateStrKey(RES_INFO::TEXTURE::DirName, "strKey_Texture.h", vecExtension);
     //}
     //    
 

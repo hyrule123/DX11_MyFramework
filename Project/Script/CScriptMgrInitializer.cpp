@@ -23,52 +23,52 @@ void CScriptMgrInitializer::init()
 {
 	CScriptMgr* pMgr = CScriptMgr::GetInst();
 	{
-		string strKey = string(SCRIPTS::FSM_MOVE_GROUND);
+		string strKey = string(strKey_SCRIPTS::FSM_MOVE_GROUND);
 		CScript* newScript = new CScript_FSM_Move_Ground(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::CAMERAMOVE);
+		string strKey = string(strKey_SCRIPTS::CAMERAMOVE);
 		CScript* newScript = new CScript_CameraMove(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::MOUSECURSOR);
+		string strKey = string(strKey_SCRIPTS::MOUSECURSOR);
 		CScript* newScript = new CScript_MouseCursor(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::FSM_ATTACK);
+		string strKey = string(strKey_SCRIPTS::FSM_ATTACK);
 		CScript* newScript = new CScript_FSM_Attack(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::FSM_DEATH);
+		string strKey = string(strKey_SCRIPTS::FSM_DEATH);
 		CScript* newScript = new CScript_FSM_Death(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::SCENTITY);
+		string strKey = string(strKey_SCRIPTS::SCENTITY);
 		CScript* newScript = new CScript_SCEntity(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::FSM_IDLE);
+		string strKey = string(strKey_SCRIPTS::FSM_IDLE);
 		CScript* newScript = new CScript_FSM_Idle(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::FSM_MOVE_HOVER);
+		string strKey = string(strKey_SCRIPTS::FSM_MOVE_HOVER);
 		CScript* newScript = new CScript_FSM_Move_Hover(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::SCUNITVITAL);
+		string strKey = string(strKey_SCRIPTS::SCUNITVITAL);
 		CScript* newScript = new CScript_SCUnitVital(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
-		string strKey = string(SCRIPTS::TESTOBJ);
+		string strKey = string(strKey_SCRIPTS::TESTOBJ);
 		CScript* newScript = new CScript_TestObj(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}

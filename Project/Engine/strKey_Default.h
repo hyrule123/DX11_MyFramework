@@ -25,61 +25,61 @@ enum class eRES_TYPE
 	END
 };
 
-namespace RES_DEFAULT
+namespace strKey_RES_DEFAULT
 {
 	namespace MESH
 	{
-		constexpr std::string_view POINT = "PointMesh";
-		constexpr std::string_view RECT = "RectMesh";
-		constexpr std::string_view CIRCLE = "CircleMesh";
+		STRKEY POINT = "PointMesh";
+		STRKEY RECT = "RectMesh";
+		STRKEY CIRCLE = "CircleMesh";
 
-		constexpr std::string_view DEBUG_RECT = "RectMesh_Debug";
-		constexpr std::string_view DEBUG_CIRCLE = "CircleMesh_Debug";
+		STRKEY DEBUG_RECT = "RectMesh_Debug";
+		STRKEY DEBUG_CIRCLE = "CircleMesh_Debug";
 	}
 
 
 	namespace MATERIAL
 	{
-		constexpr std::string_view DEBUG_RECT = "DebugRect.json";
-		constexpr std::string_view DEBUG_CIRCLE = "DebugCircle.json";
+		STRKEY DEBUG_RECT = "DebugRect.json";
+		STRKEY DEBUG_CIRCLE = "DebugCircle.json";
 
-		constexpr std::string_view TEST = "Test.json";
-		constexpr std::string_view STD2D = "std2D.json";
-		constexpr std::string_view STD2D_LIGHT = "std2DLight.json";
+		STRKEY TEST = "Test.json";
+		STRKEY STD2D = "std2D.json";
+		STRKEY STD2D_LIGHT = "std2DLight.json";
 		
-		constexpr std::string_view TILEMAP_COMPLETE = "TilemapComplete.json";
-		constexpr std::string_view TILEMAP_ATLAS = "TilemapAtlas.json";
+		STRKEY TILEMAP_COMPLETE = "TilemapComplete.json";
+		STRKEY TILEMAP_ATLAS = "TilemapAtlas.json";
 
-		constexpr std::string_view PARTICLE_RENDER = "ParticleRender.json";
+		STRKEY PARTICLE_RENDER = "ParticleRender.json";
 	}
 
 	namespace SHADER
 	{
 		namespace GRAPHICS
 		{
-			constexpr std::string_view DEBUG = "Debug.json";
-			constexpr std::string_view PARTICLE = "Particle.json";
-			constexpr std::string_view STD2D = "STD2D.json";
-			constexpr std::string_view STD2DLIGHT = "STD2DLight.json";
-			constexpr std::string_view TEST = "Test.json";
-			constexpr std::string_view TILEMAPATLAS = "TilemapAtlas.json";
-			constexpr std::string_view TILEMAPCOMPLETE = "TilemapComplete.json";
+			STRKEY DEBUG = "Debug.json";
+			STRKEY PARTICLE = "Particle.json";
+			STRKEY STD2D = "STD2D.json";
+			STRKEY STD2DLIGHT = "STD2DLight.json";
+			STRKEY TEST = "Test.json";
+			STRKEY TILEMAPATLAS = "TilemapAtlas.json";
+			STRKEY TILEMAPCOMPLETE = "TilemapComplete.json";
 		}
 
 		namespace COMPUTE
 		{
-			constexpr std::string_view SCMAPLOADER = "S_1_C_SCMapLoader.json";
-			constexpr std::string_view INITALIZE = "S_C_Initalize.json";
-			constexpr std::string_view PARTICLEBASIC = "S_C_ParticleBasic.json";
-			constexpr std::string_view PARTICLERAINDROP = "S_C_ParticleRainDrop.json";
-			constexpr std::string_view SETCOLOR = "S_C_SetColor.json";
+			STRKEY SCMAPLOADER = "S_1_C_SCMapLoader.json";
+			STRKEY INITALIZE = "S_C_Initalize.json";
+			STRKEY PARTICLEBASIC = "S_C_ParticleBasic.json";
+			STRKEY PARTICLERAINDROP = "S_C_ParticleRainDrop.json";
+			STRKEY SETCOLOR = "S_C_SetColor.json";
 		}
 	}
 	
 	namespace TEXTURE
 	{
-		constexpr std::string_view DEFAULT = "Default.png";
-		constexpr std::string_view NOISE_1 = "Noise/noise_01.png";
+		STRKEY DEFAULT = "Default.png";
+		STRKEY NOISE_1 = "Noise/noise_01.png";
 	}
 }
 
@@ -87,48 +87,48 @@ namespace DIRECTORY_NAME
 {
 	//인덱스는 eRES_TYPE를 사용
 	//ResMgr에서 관리되는 리소스의 키 및 폴더 이름으로 사용
-	constexpr std::string_view RES_ARR[(int)eRES_TYPE::END] =
+	STRKEY RES_ARR[(int)eRES_TYPE::END] =
 	{
-"MeshData",
-"MeshData",
-"Material",
-"Texture",
-"Anim2D",
-"Sound",
-"Prefab",
-"Shader/Graphics",
-"Shader/Compute",
+		"MeshData",
+		"MeshData",
+		"Material",
+		"Texture",
+		"Anim2D",
+		"Sound",
+		"Prefab",
+		"Shader/Graphics",
+		"Shader/Compute",
 	};
 
 #ifdef _DEBUG
-	constexpr std::string_view CONFIGURATION = "_Debug";
+	STRKEY CONFIGURATION = "_Debug";
 #else
-	constexpr std::string_view CONFIGURATION = "_Release";
+	STRKEY CONFIGURATION = "_Release";
 #endif
 
-	constexpr std::string_view RELATIVE_BEGIN = ".";
-	constexpr std::string_view CONTENT = "Content";
-	constexpr std::string_view MESHDATA = RES_ARR[(int)eRES_TYPE::MESHDATA];
-	constexpr std::string_view MATERIAL = RES_ARR[(int)eRES_TYPE::MATERIAL];
-	constexpr std::string_view TEXTURE = RES_ARR[(int)eRES_TYPE::TEXTURE];
-	constexpr std::string_view ANIM2D = RES_ARR[(int)eRES_TYPE::ANIM2D_ATLAS];
-	constexpr std::string_view SOUND = RES_ARR[(int)eRES_TYPE::SOUND];
-	constexpr std::string_view PREFAB = RES_ARR[(int)eRES_TYPE::PREFAB];
+	STRKEY RELATIVE_BEGIN = ".";
+	STRKEY CONTENT = "Content";
+	STRKEY MESHDATA = RES_ARR[(int)eRES_TYPE::MESHDATA];
+	STRKEY MATERIAL = RES_ARR[(int)eRES_TYPE::MATERIAL];
+	STRKEY TEXTURE = RES_ARR[(int)eRES_TYPE::TEXTURE];
+	STRKEY ANIM2D = RES_ARR[(int)eRES_TYPE::ANIM2D_ATLAS];
+	STRKEY SOUND = RES_ARR[(int)eRES_TYPE::SOUND];
+	STRKEY PREFAB = RES_ARR[(int)eRES_TYPE::PREFAB];
 	
 
-	constexpr std::string_view SHADER_ROOT = "Shader";
-	constexpr std::string_view SHADER_GRAPHICS = RES_ARR[(int)eRES_TYPE::GRAPHICS_SHADER];
-	constexpr std::string_view SHADER_COMPUTE = RES_ARR[(int)eRES_TYPE::COMPUTE_SHADER];
+	STRKEY SHADER_ROOT = "Shader";
+	STRKEY SHADER_GRAPHICS = RES_ARR[(int)eRES_TYPE::GRAPHICS_SHADER];
+	STRKEY SHADER_COMPUTE = RES_ARR[(int)eRES_TYPE::COMPUTE_SHADER];
 
-	constexpr std::string_view SCMAP = "SCMap";
-	constexpr std::string_view SCMAP_TILESET = "Tileset";
+	STRKEY SCMAP = "SCMap";
+	STRKEY SCMAP_TILESET = "Tileset";
 
 	//각종 세팅값 저장하는 폴더
-	constexpr std::string_view SAVED_SETTING = "SavedSetting";
+	STRKEY SAVED_SETTING = "SavedSetting";
 }
 
 
-#define JSONKEY(_type) constexpr std::string_view _type = #_type
+#define JSONKEY(_type) STRKEY _type = #_type
 namespace RES_INFO
 {
 	namespace JSON_KEY
@@ -147,24 +147,24 @@ namespace RES_INFO
 				FBX,
 				END
 			};
-			constexpr std::string_view arr[(int)idx::END] = { ".fbx" };
+			STRKEY arr[(int)idx::END] = { ".fbx" };
 		}
 
-		constexpr std::string_view DirName = DIRECTORY_NAME::RES_ARR[(int)eRES_TYPE::MESH];
+		STRKEY DirName = DIRECTORY_NAME::RES_ARR[(int)eRES_TYPE::MESH];
 	}
 
 	namespace MATERIAL
 	{
-		constexpr std::string_view Ext = ".json";
+		STRKEY Ext = ".json";
 
 		namespace JSON_KEY
 		{
-			JSONKEY(strKeyShader);
+			JSONKEY(strKey_Shader);
 			JSONKEY(arrStrKeyTex);
 			JSONKEY(bUseInstancing);
 		}
 
-		constexpr std::string_view DirName = DIRECTORY_NAME::MATERIAL;
+		STRKEY DirName = DIRECTORY_NAME::MATERIAL;
 	}
 	
 	//순회 돌 떄 편하게 돌수있도록 배열 형태로 사용
@@ -179,10 +179,10 @@ namespace RES_INFO
 				END
 			};
 
-			constexpr std::string_view arr[(int)idx::END] = { ".png", ".bmp" };
+			STRKEY arr[(int)idx::END] = { ".png", ".bmp" };
 		}
 
-		constexpr std::string_view DirName = DIRECTORY_NAME::TEXTURE;
+		STRKEY DirName = DIRECTORY_NAME::TEXTURE;
 	}
 
 	//string strKeyAnim2D;
@@ -211,7 +211,7 @@ namespace RES_INFO
 
 	namespace ANIM2D
 	{
-		constexpr std::string_view Ext = ".json";
+		STRKEY Ext = ".json";
 
 		namespace JSON_KEY
 		{
@@ -256,15 +256,15 @@ namespace RES_INFO
 				OGG,
 				END
 			};
-			constexpr std::string_view arr[(int)idx::END] = { ".mp3", ".ogg" };
+			STRKEY arr[(int)idx::END] = { ".mp3", ".ogg" };
 		}
-		constexpr std::string_view DirName = DIRECTORY_NAME::SOUND;
+		STRKEY DirName = DIRECTORY_NAME::SOUND;
 	}
 
 	namespace PREFAB
 	{
-		constexpr std::string_view Ext = ".json";
-		constexpr std::string_view DirName = DIRECTORY_NAME::PREFAB;
+		STRKEY Ext = ".json";
+		STRKEY DirName = DIRECTORY_NAME::PREFAB;
 
 		namespace JSON_KEY
 		{
@@ -493,14 +493,14 @@ namespace RES_INFO
 
 	namespace SHADER
 	{
-		constexpr std::string_view DirNameRoot = "Shader";
-		constexpr std::string_view Ext_ShaderSetting = ".json";
-		constexpr std::string_view Ext_ShaderCode = ".cso";
+		STRKEY DirNameRoot = "Shader";
+		STRKEY Ext_ShaderSetting = ".json";
+		STRKEY Ext_ShaderCode = ".cso";
 
 		namespace GRAPHICS
 		{
-			constexpr std::string_view DirName = DIRECTORY_NAME::SHADER_GRAPHICS;
-			constexpr std::string_view arrPrefix[(int)eSHADER_TYPE::END] =
+			STRKEY DirName = DIRECTORY_NAME::SHADER_GRAPHICS;
+			STRKEY arrPrefix[(int)eSHADER_TYPE::END] =
 			{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
 
 			//각 쉐이더마다 들어가야할 설정값
@@ -522,8 +522,8 @@ namespace RES_INFO
 
 		namespace COMPUTE
 		{
-			constexpr std::string_view DirName = "Compute";
-			constexpr std::string_view Prefix = "_C_";
+			STRKEY DirName = "Compute";
+			STRKEY Prefix = "_C_";
 
 			namespace JSON_KEY
 			{
@@ -537,7 +537,7 @@ namespace RES_INFO
 
 	namespace SCMAP
 	{
-		constexpr std::string_view DirName = "SCMap";
+		STRKEY DirName = "SCMap";
 
 		namespace Ext
 		{
@@ -547,7 +547,7 @@ namespace RES_INFO
 				SCX,
 				END
 			};
-			constexpr std::string_view arr[(int)idx::END] = { ".scm", ".scx" };
+			STRKEY arr[(int)idx::END] = { ".scm", ".scx" };
 		}
 	}
 

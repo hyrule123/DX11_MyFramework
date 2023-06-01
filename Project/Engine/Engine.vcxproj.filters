@@ -199,7 +199,7 @@
     <ClInclude Include="SCMapDefine.h">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClInclude>
-    <ClInclude Include="strKeyDefault.h">
+    <ClInclude Include="strKey_Default.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
     <ClInclude Include="CRandMgr.h">

@@ -2,7 +2,7 @@
 #include "CTilemap.h"
 
 #include "CResMgr.h"
-#include "strKeyDefault.h"
+#include "strKey_Default.h"
 
 CTilemap::CTilemap(eTILE_TYPE _eTileType)
 	: CRenderComponent(eCOMPONENT_TYPE::TILEMAP)
@@ -10,7 +10,7 @@ CTilemap::CTilemap(eTILE_TYPE _eTileType)
 	, m_uTileCountX(1)
 	, m_uTileCountY(1)
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(string(strKey_RES_DEFAULT::MESH::RECT)));
 }
 
 CTilemap::~CTilemap()

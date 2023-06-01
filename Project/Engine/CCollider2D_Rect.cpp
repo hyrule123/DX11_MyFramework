@@ -6,7 +6,7 @@
 #include "S_0_H_Debug.hlsli"
 #include "CRenderMgr.h"
 
-#include "strKeyDefault.h"
+#include "strKey_Default.h"
 #include "jsoncpp.h"
 
 CCollider2D_Rect::CCollider2D_Rect()

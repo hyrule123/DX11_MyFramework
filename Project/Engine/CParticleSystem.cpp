@@ -5,7 +5,7 @@
 
 #include "CStructBuffer.h"
 
-#include "strKeyDefault.h"
+#include "strKey_Default.h"
 
 #include "CTransform.h"
 
@@ -25,8 +25,8 @@ CParticleSystem::CParticleSystem()
 	, m_AccTime()
 	, m_bIsCreated()
 {
-	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(string(RES_DEFAULT::MESH::POINT)));
-	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(string(RES_DEFAULT::MATERIAL::PARTICLE_RENDER)));
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(string(strKey_RES_DEFAULT::MESH::POINT)));
+	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(string(strKey_RES_DEFAULT::MATERIAL::PARTICLE_RENDER)));
 
 
 	UINT ShaderTarget = eSHADER_PIPELINE_STAGE::__GEOMETRY | eSHADER_PIPELINE_STAGE::__PIXEL;

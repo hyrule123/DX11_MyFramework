@@ -5,9 +5,9 @@
 
 #include "CStructBuffer.h"
 
-#include "strKeyDefault.h"
+#include "strKey_Default.h"
 
-constexpr std::string_view CSFileName_SetColor = "S_C_SetColor";
+STRKEY CSFileName_SetColor = "S_C_SetColor";
 
 CCS_SetColor::CCS_SetColor()
 {

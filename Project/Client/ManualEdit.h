@@ -3,13 +3,15 @@
 class ManualEdit
 {
 public:
-	static void EditPrefab();
+	static void Edit();
 	
 
 private:
-	static void MarineAnim();
+	static void MarineAnim_Save(const string& _strKey);
+	static void MarinePrefab_Save(const string& _strKey);
 
-	static void MarinePrefab();
+	static void LoadAnim(const string& _strKey);
+	static void LoadPrefab(const string& _strKey);
 };
 
 

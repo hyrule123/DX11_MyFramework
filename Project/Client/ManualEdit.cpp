@@ -1,29 +1,42 @@
 #include "pch.h"
 #include "ManualEdit.h"
 
-#include <Script/strKeyTexture.h>
-
 #include <Engine/CResMgr.h>
-#include <Script/define_SCUnit.h>
 
+//string Keys
+#include <Engine/strKey_Default.h>
+#include <Script/strKey_Texture.h>
+
+//Components
+#include <Engine/CCollider2D_Rect.h>
+#include <Engine/CAnimator2D.h>
+#include <Engine/CMeshRender.h>
 #include <Engine/CScriptHolder.h>
 
-void ManualEdit::EditPrefab()
+//Scripts
+#include <Script/define_SCUnit.h>
+
+void ManualEdit::Edit()
 {
-	MarineAnim();
-	MarinePrefab();
+	CResMgr* pResMgr = CResMgr::GetInst();
 
-
+	//마린
+	{
+		string strKey = strKey_TEXTURE::TERRAN::MARINE_BMP;
+		MarineAnim_Save(strKey);
+		LoadAnim(strKey);
+	}
+	
 }
 
 
-void ManualEdit::MarineAnim()
+void ManualEdit::MarineAnim_Save(const string& _strKey)
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 
-	Atlas->SetAtlasTexture(CResMgr::GetInst()->FindRes<CTexture>(string(strKey_Texture::TERRAN::MARINE_BMP)));
+	Atlas->SetAtlasTexture(CResMgr::GetInst()->FindRes<CTexture>(strKey_TEXTURE::TERRAN::MARINE_BMP));
 
 	using namespace FSM_SCUnit;
 	Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
@@ -41,28 +54,58 @@ void ManualEdit::MarineAnim()
 	row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
 	Atlas->AddAnim2D(string(strKey_Anim[DEATH]), row, 1.f);
 
-	string strKey = string(strKey_Texture::TERRAN::MARINE_BMP);
-	CResMgr::GetInst()->AddRes<CAnim2DAtlas>(strKey, Atlas);
+	string strKey = strKey_TEXTURE::TERRAN::MARINE_BMP;
+	
 	Atlas->Save(strKey);
 }
 
-void ManualEdit::MarinePrefab()
+void ManualEdit::MarinePrefab_Save(const string& _strKey)
 {
-	if
+	CResMgr* pResMgr = CResMgr::GetInst();
 
+	CGameObject* pObj = new CGameObject;
+
+	//Collider
 	{
-
-
-
+		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+		pObj->AddComponent(pCol);
+		pCol->SetCollSize(Vec2(17.f, 20.f));
 	}
+
+	//CAnimator2D
+	{
+		CAnimator2D* pAnim = new CAnimator2D;
+		pObj->AddComponent(pAnim);
+
+		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::MARINE_BMP);
+		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
+	}
+
+	//MeshRender
+	{
+		CMeshRender* pMesh = new CMeshRender;
+		pObj->AddComponent(pMesh);
+
+		//CMaterial* pMtrl = pResMgr->FindRes<CMaterial>()
+		//pMesh->SetMaterial()
+	}
+	
+
+	Ptr<CPrefab> pPrefab = new CPrefab;
+	pPrefab->SetKey(_strKey);
+	pPrefab->RegisterPrefab(pObj, true);
 }
 
-void ManualEdit::LoadAnim()
+void ManualEdit::LoadAnim(const string& _strKey)
 {
-	if (true == Atlas->Load("MarineMain.json"))
-	{
-		pResMgr->AddRes<CAnim2DAtlas>(Atlas->GetKey(), Atlas);
-	}
+	Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(_strKey);
+	
+	assert(nullptr != pAtlas);
+}
+
+void ManualEdit::LoadPrefab(const string& _strKey)
+{
+	
 }
 
 
@@ -70,7 +113,7 @@ void ManualEdit::LoadAnim()
 //Reaver
 //{
 //	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(strKey_Texture::)));
+//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(strKey_TEXTURE::)));
 
 //	Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
 //	Atlas->AddAnim2D_SC_Redundant("MOVE", 0u, 9u, 1.f);

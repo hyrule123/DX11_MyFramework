@@ -60,7 +60,7 @@ namespace FSM_SCUnit
         END
     };
 
-    constexpr std::string_view strKey_Anim[END] = {
+    constexpr inline const char* strKey_Anim[END] = {
         "IDLE",
         "MOVE",
         "ATTACK_BEGIN",

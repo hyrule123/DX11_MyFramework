@@ -172,7 +172,7 @@ void CreateShaderCode()
 
 
 	filesystem::path filePath(PresetPath::ScriptProj);
-	filePath /= PresetPath::strKeyShader;
+	filePath /= PresetPath::strKey_Shader;
 	std::ofstream fpStrKeyShader(filePath);
 	if (true == fpStrKeyShader.is_open())
 	{
@@ -180,14 +180,14 @@ void CreateShaderCode()
 		string RawLiteral = string(PresetStr::Head);
 		fpStrKeyShader << RawLiteral;
 
-		WriteCodeA(fpStrKeyShader, "namespace RES_SHADER");
+		WriteCodeA(fpStrKeyShader, "namespace strKey_RES_SHADER");
 		WriteBracketOpenA(fpStrKeyShader);
 		WriteCodeA(fpStrKeyShader, "namespace GRAPHICS");
 		WriteBracketOpenA(fpStrKeyShader);
 			
 		for(const auto& GSIter : mapShaderInfo)
 		{
-			string codeLine = string(PresetStr::ConstexprStringView);
+			string codeLine = string(PresetStr::ConstexprInlineConstChar);
 
 			//JSON 파일 명
 			string strKeyUpper = GSIter.first;
@@ -252,7 +252,7 @@ void CreateShaderCode()
 					}
 
 
-					string codeLine = string(PresetStr::ConstexprStringView);
+					string codeLine = string(PresetStr::ConstexprInlineConstChar);
 
 
 

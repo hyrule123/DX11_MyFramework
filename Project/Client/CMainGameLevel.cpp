@@ -11,7 +11,7 @@
 #include <Engine/ptr.h>
 #include <Engine/CTexture.h>
 #include <Engine/CResMgr.h>
-#include <Engine/strKeyDefault.h>
+#include <Engine/strKey_Default.h>
 #include <Engine/CGameObject.h>
 #include <Engine/components.h>
 #include <Engine/CCollisionMgr.h>
@@ -21,9 +21,9 @@
 #include <Engine/CCS_SetColor.h>
 #include <Engine/CCS_SCMapLoader.h>
 
-#include <Script/strKeyScript.h>
-#include <Script/strKeyTexture.h>
-#include <Script/strKeyShader.h>
+#include <Script/strKey_Script.h>
+#include <Script/strKey_Texture.h>
+#include <Script/strKey_Shader.h>
 
 #include <Script/CScript_FSM_Move_Ground.h>
 #include <Script/CScript_MouseCursor.h>
@@ -84,7 +84,7 @@ namespace INGAME_LAYER_INFO
 		END
 	};
 
-	constexpr std::string_view strLayerName[32] = {
+	constexpr inline const char* strLayerName[32] = {
 	"", //00
 	"TileMap",	//01
 	"",	//02
@@ -148,9 +148,9 @@ void CreateMainGame()
 
 	Ptr<CMaterial> SCUnitMtrl = new CMaterial;
 
-	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(string(strKey_Texture::TERRAN::MARINE_BMP));
+	Ptr<CTexture> pTexMarine = pResMgr->FindRes<CTexture>(strKey_TEXTURE::TERRAN::MARINE_BMP);
 
-	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(string(RES_SHADER::GRAPHICS::SCUNITGROUND));
+	Ptr<CGraphicsShader> pSCUnitShader = pResMgr->FindRes<CGraphicsShader>(string(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND));
 	SCUnitMtrl->SetShader(pSCUnitShader);
 	SCUnitMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, pTexMarine);
 	SCUnitMtrl->SetKey("SCUnitMtrl.json");
@@ -165,11 +165,11 @@ void CreateMainGame()
 		
 		TestObj->AddComponent(new CMeshRender);
 		TestObj->MeshRender()->SetMaterial(SCUnitMtrl);
-		TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(string(RES_DEFAULT::MESH::RECT)));
+		TestObj->MeshRender()->SetMesh(pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT));
 
 		TestObj->AddComponent(new CAnimator2D);
 		
-		Ptr<CAnim2DAtlas> animAtlas = pResMgr->Load<CAnim2DAtlas>(string(strKey_Texture::TERRAN::MARINE_BMP));
+		Ptr<CAnim2DAtlas> animAtlas = pResMgr->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::MARINE_BMP);
 		
 		TestObj->Animator2D()->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, animAtlas);
 
@@ -206,15 +206,15 @@ void CreateMainGame()
 
 		//스크립트 추가
 		{
-			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(SCRIPTS::SCENTITY));
-			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::FSM_IDLE)));
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::SCENTITY));
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
 
 			{
-				CScript_FSM_Move_Ground* pScript = (CScript_FSM_Move_Ground*)CScriptMgr::GetInst()->GetNewScript(SCRIPTS::FSM_MOVE_GROUND);
+				CScript_FSM_Move_Ground* pScript = (CScript_FSM_Move_Ground*)CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_MOVE_GROUND);
 				TestObj->AddScript((CScript*)pScript);
 				pScript = nullptr;
 			}
-			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::FSM_ATTACK)));
+			TestObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_ATTACK));
 
 			//CScriptHolder* pScriptHolder =
 //	TestObj->ScriptHolder()->AddFSM(new CScript_FSM_Idle);
@@ -287,7 +287,7 @@ void CreateMainGame()
 	//	pPlayer->AddComponent(new CMeshRender);
 
 	//	if (0 == i)
-	//		pPlayer->AddScript(CScriptMgr::GetInst()->GetNewScript(SCRIPTS::PLAYER));
+	//		pPlayer->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::PLAYER));
 	//	
 	//	Ptr<CMaterial> PlayerMtrl = CResMgr::GetInst()->FindRes<CMaterial>(RES_DEFAULT::MATERIAL::MARINE);
 
@@ -527,7 +527,7 @@ void CreateMainGame()
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		//pObj->AddComponent(new CTransform);
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::CAMERAMOVE)));
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::CAMERAMOVE));
 
 		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), 1);
 		//pLevel->AddGameObject(pObj, 1);

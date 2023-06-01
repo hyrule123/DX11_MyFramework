@@ -11,7 +11,7 @@
 #include <Engine/CMeshRender.h>
 #include <Engine/CCamera.h>
 #include <Engine/CTransform.h>
-#include <Engine/strKeyDefault.h>
+#include <Engine/strKey_Default.h>
 
 #include <Engine/CCollisionMgr.h>
 #include <Engine/CCollider2D_Point.h>
@@ -22,7 +22,7 @@
 #include <Script/CScript_CameraMove.h>
 #include <Script/CScript_MouseCursor.h>
 
-#include <Script/strKeyScript.h>
+#include <Script/strKey_Script.h>
 #include <Engine/CScriptMgr.h>
 
 #include <Engine/EventDispatcher.h>
@@ -65,10 +65,10 @@ void CEditorObjMgr::init()
 		//m_pMousePicker->AddComponent(new CTransform);
 		m_pMousePicker->AddComponent(new CCollider2D_Point);
 
-		CScript* Script = CScriptMgr::GetInst()->GetNewScript(SCRIPTS::MOUSECURSOR);
+		CScript* Script = CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::MOUSECURSOR);
 		m_pMousePicker->AddScript(Script);
 
-		CScript_MouseCursor* pScript = static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(string(SCRIPTS::MOUSECURSOR)));
+		CScript_MouseCursor* pScript = static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_SCRIPTS::MOUSECURSOR));
 		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
  		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
@@ -241,8 +241,8 @@ void CEditorObjMgr::CreateDebugShape()
 		{
 			CMeshRender* pMesh = new CMeshRender;
 			//월드행렬을 직접 받아서 쉐이더에 보낼 것이기 떄문에 Transform은 필요하지 않음.
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(string(RES_DEFAULT::MESH::DEBUG_RECT));
-			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(RES_DEFAULT::MATERIAL::DEBUG_RECT));
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::DEBUG_RECT);
+			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey_RES_DEFAULT::MATERIAL::DEBUG_RECT);
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
 			m_arrDebugShape[i]->AddComponent(pMesh);
@@ -253,8 +253,8 @@ void CEditorObjMgr::CreateDebugShape()
 		case eDEBUGSHAPE_TYPE::CIRCLE:
 		{
 			CMeshRender* pMesh = new CMeshRender;
-			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(string(RES_DEFAULT::MESH::DEBUG_CIRCLE));
-			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(RES_DEFAULT::MATERIAL::DEBUG_CIRCLE));
+			Ptr<CMesh> pDebugMesh = CResMgr::GetInst()->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::DEBUG_CIRCLE);
+			Ptr<CMaterial> pDebugMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey_RES_DEFAULT::MATERIAL::DEBUG_CIRCLE);
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
 			m_arrDebugShape[i]->AddComponent(pMesh);
@@ -286,7 +286,7 @@ void CEditorObjMgr::CreateEditorCamera()
 	CTransform* pTransform = m_pEditorCam->Transform();
 	pTransform->SetRelativePos(Vec3(0.f, 0.f, -100.f));
 
-	m_pEditorCam->AddScript(CScriptMgr::GetInst()->GetNewScript(string(SCRIPTS::CAMERAMOVE)));
+	m_pEditorCam->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::CAMERAMOVE));
 
 	CRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
 }
@@ -296,7 +296,7 @@ CGameObject* CEditorObjMgr::GetSelectedObj()
 	if (nullptr == m_pMousePicker)
 		return nullptr;
 
-	return static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(SCRIPTS::MOUSECURSOR))->GetSelectedObject();
+	return static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_SCRIPTS::MOUSECURSOR))->GetSelectedObject();
 }
 
 void CEditorObjMgr::MouseLBTNCallback(CGameObject* _pObj)

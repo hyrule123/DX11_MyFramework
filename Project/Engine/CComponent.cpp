@@ -2,7 +2,7 @@
 #include "CComponent.h"
 
 #include "jsoncpp.h"
-#include "strKeyDefault.h"
+#include "strKey_Default.h"
 
 CComponent::CComponent(eCOMPONENT_TYPE _Type)
 	: m_pOwner(nullptr)

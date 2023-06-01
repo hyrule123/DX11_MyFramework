@@ -216,9 +216,9 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 				v2_Offset.size()
 				)
 			{
-				string ErrorMessage(string_view("AnimFrameUV Data in\n"));
+				string ErrorMessage("AnimFrameUV Data in\n");
 				ErrorMessage += GetKey();
-				ErrorMessage += string_view("is corrupted!!");
+				ErrorMessage += "is corrupted!!";
 				MessageBoxA(nullptr, ErrorMessage.c_str(), nullptr, MB_OK);
 				return false;
 			}

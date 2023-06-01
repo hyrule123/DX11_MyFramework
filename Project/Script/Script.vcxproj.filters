@@ -45,15 +45,6 @@
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="strKeyTexture.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
-    <ClInclude Include="strKeyShader.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
-    <ClInclude Include="strKeyScript.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
     <ClInclude Include="CScript_SCEntity.h">
       <Filter>ScriptCode\CScript_SCGroundUnit</Filter>
     </ClInclude>
@@ -84,6 +75,12 @@
     </ClInclude>
     <ClInclude Include="CScript_FSM_Attack.h">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
+    </ClInclude>
+    <ClInclude Include="strKey_Script.h" />
+    <ClInclude Include="strKey_Shader.h" />
+    <ClInclude Include="strKey_Texture.h" />
+    <ClInclude Include="strKey_Prefab.h">
+      <Filter>Generated</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

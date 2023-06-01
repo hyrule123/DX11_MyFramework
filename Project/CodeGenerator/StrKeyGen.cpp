@@ -22,164 +22,6 @@
 	}
 */
 
-
-
-
-void CreateStrKey_EnumArray(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension)
-{
-	std::filesystem::path HeaderPath(PresetPath::ScriptProj);
-	HeaderPath /= _HeaderFilename;
-
-	std::ofstream fp(HeaderPath);
-	if (true == fp.is_open())
-	{
-
-		string CodeLine = string(PresetStr::Head);
-		fp << CodeLine;
-
-		unordered_map<filesystem::path, vector<filesystem::path>> umapFile;
-
-		//여기부터 recursive iterator를 통해서 순회
-		filesystem::recursive_directory_iterator dirIter;
-		try
-		{
-			//현재 작업 영역 $(SolutionDir)로부터의 경로를 만들어준다.
-			filesystem::path FullPath(PresetPath::Content);
-
-			//Fullpath = ~/Content/(리소스 폴더)
-			//ex)Fullpath == ~/Content/Texture
-			FullPath /= _PathFromContent;
-
-			//리소스가 있는 경로로부터 재귀적으로 순회를 돌아준다.
-			dirIter = filesystem::recursive_directory_iterator(FullPath);
-			const filesystem::recursive_directory_iterator& dirIterEnd = filesystem::end(dirIter);
-
-			for (dirIter; dirIter != dirIterEnd; ++dirIter)
-			{
-				//폴더가 아닐 경우에만 진행. Map을 통해서 전부 넣어준다.
-				if (false == dirIter->is_directory())
-				{
-					const filesystem::path& curPath = dirIter->path();
-
-					//불러올 리소스 확장자와 일치하는지 확인한다.
-					bool bMatchingExtension = false;
-					for (size_t i = (size_t)0; i < _vecExtension.size(); ++i)
-					{
-						string Extension = curPath.filename().extension().string();
-						transform(Extension.begin(), Extension.end(), Extension.begin(), ::tolower);
-
-						if (_vecExtension[i] == Extension)
-						{
-							bMatchingExtension = true;
-							break;
-						}
-					}
-
-					//등록하고자 하는 확장자와 일치하지 않을 경우 등록 취소.
-					if (false == bMatchingExtension)
-						continue;
-
-					//Fullpath에서 자신의 위치 경로를 제외한 값만 생성해준다.
-					//
-					const filesystem::path& ValuePath = curPath.lexically_relative(FullPath);
-
-					umapFile[curPath.parent_path()].push_back(ValuePath);
-				}
-			}
-
-			
-			//순회가 끝났으면 코드를 생성해준다.
-			//enum class부터 생성
-			CodeLine = string(PresetStr::NameSpace);
-			string UpperCase = string(PresetStr::strKey) + _PathFromContent.string();
-			UpperCase += "_ARRAY";
-			UpperCaseA(UpperCase);
-			CodeLine += UpperCase;
-
-			WriteCodeA(fp, CodeLine);
-			WriteBracketOpenA(fp);
-
-			CodeLine = string(PresetStr::EnumClass);
-			CodeLine += "Idx";
-			WriteCodeA(fp, CodeLine);
-			WriteBracketOpenA(fp);
-
-			//for문으로 순회를 돌아주면서 enum에 값을 추가해준다.
-			for (const auto& iter : umapFile)
-			{
-				size_t size = iter.second.size();
-				for (size_t i = 0; i < size; ++i)
-				{
-					//파일명을 대문자로 변환한 뒤 소괄호()와 . 문자를 제거한다.
-					CodeLine = iter.second[i].filename().string();
-					UpperCaseA(CodeLine);
-					std::replace_if(CodeLine.begin(), CodeLine.end(),
-						[](char c)->bool { return ('(' == c || ')' == c || '.' == c); },
-						'_'
-					);
-					CodeLine += ',';
-					WriteCodeA(fp, CodeLine);
-				}
-			}
-
-			//enum에는 순회를 돌 떄를 생각해서 END 값도 추가
-			WriteCodeA(fp, "END");
-			//순회 다 돌았으면 괄호를 닫아준다.
-			WriteBracketCloseA(fp, true);
-
-
-			//다시 순회를 돌면서 이번엔 배열 형태로 작성한다.
-			CodeLine = string(PresetStr::ConstexprStringView);
-			CodeLine += "arrKey";
-			CodeLine += "[] = ";
-			WriteCodeA(fp, CodeLine);
-			WriteBracketOpenA(fp);
-
-			auto iter = umapFile.begin();
-			const auto iterEnd = umapFile.end();
-			while (iter != iterEnd)
-			{
-				size_t size = iter->second.size();
-				for (size_t i = 0; i < size; ++i)
-				{
-					CodeLine = "\"";
-					CodeLine += iter->second[i].string();
-					CodeLine += "\"";
-					std::replace(CodeLine.begin(), CodeLine.end(), '\\', '/');
-
-					//순회가 끝나지 않았을 경우에는 쉽표를 추가
-					//if (i + 1 != size || std::next(iter) != iterEnd)
-					CodeLine += ',';
-
-					WriteCodeA(fp, CodeLine);
-				}
-
-				++iter;
-			}
-
-			
-			WriteBracketCloseA(fp, true);
-			WriteBracketCloseAllA(fp);
-
-
-			fp.close();
-		}
-
-		catch (const std::filesystem::filesystem_error& error)
-		{
-			MessageBoxA(nullptr, error.what(), NULL, MB_OK);
-			throw(std::runtime_error("Process Terminated by error."));
-		}
-
-		//작성이 완료되었으면 파일을 저장한다.
-		fp.close();
-	}
-
-
-	
-}
-
-
 void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension)
 {
 	std::filesystem::path HeaderPath(PresetPath::ScriptProj);
@@ -246,6 +88,7 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 			CodeLine += PresetStr::strKey;
 			{
 				string name = _PathFromContent.filename().string();
+				UpperCaseA(name);
 				CodeLine += name;
 			}
 			WriteCodeA(fp, CodeLine);
@@ -275,12 +118,12 @@ void CreateStrKey(const std::filesystem::path& _PathFromContent, const std::file
 				for (size_t i = 0; i < size; ++i)
 				{
 					const auto& vec = iter->second;
-					CodeLine = PresetStr::ConstexprStringView;
+					CodeLine = PresetStr::ConstexprInlineConstChar;
 					{
 						string varName = vec[i].filename().string();
 						UpperCaseA(varName);
 						std::replace_if(varName.begin(), varName.end(),
-							[](char c)->bool { return ('(' == c || ')' == c || '.' == c); },
+							[](char c)->bool { return ('(' == c || ')' == c || '.' == c || ',' == c); },
 							'_'
 						);
 						CodeLine += varName;
@@ -426,14 +269,14 @@ void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const
 					//키값을 추가한다. 이 때, 키(변수명)은 파일명으로만 해놓고,
 					//실제 Value 값은 자신의 리소스 타입 이후로 해준다.
 					//ex. Texture/SCUnit/Marine.png -> SCUnit/Marine.png
-					CodeLine = PresetStr::ConstexprStringView;
+					CodeLine = PresetStr::ConstexprInlineConstChar;
 
 					string TempStr = curPath.filename().string();
 					UpperCaseA(TempStr);
 
 					//변수명으로 사용 불가능한 문자들을 제거
 					std::replace_if(TempStr.begin(), TempStr.end(),
-						[](char c)->bool { return ('(' == c || ')' == c || '.' == c); },
+						[](char c)->bool { return ('(' == c || ')' == c || '.' == c || ',' == c); },
 						'_'
 					);
 
@@ -463,4 +306,159 @@ void CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const
 		//작성이 완료되었으면 파일을 저장한다.
 		fpStrKeyHeader.close();
 	}
+}
+
+
+void CreateStrKey_EnumArray(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension)
+{
+	//std::filesystem::path HeaderPath(PresetPath::ScriptProj);
+	//HeaderPath /= _HeaderFilename;
+
+	//std::ofstream fp(HeaderPath);
+	//if (true == fp.is_open())
+	//{
+
+	//	string CodeLine = string(PresetStr::Head);
+	//	fp << CodeLine;
+
+	//	unordered_map<filesystem::path, vector<filesystem::path>> umapFile;
+
+	//	//여기부터 recursive iterator를 통해서 순회
+	//	filesystem::recursive_directory_iterator dirIter;
+	//	try
+	//	{
+	//		//현재 작업 영역 $(SolutionDir)로부터의 경로를 만들어준다.
+	//		filesystem::path FullPath(PresetPath::Content);
+
+	//		//Fullpath = ~/Content/(리소스 폴더)
+	//		//ex)Fullpath == ~/Content/Texture
+	//		FullPath /= _PathFromContent;
+
+	//		//리소스가 있는 경로로부터 재귀적으로 순회를 돌아준다.
+	//		dirIter = filesystem::recursive_directory_iterator(FullPath);
+	//		const filesystem::recursive_directory_iterator& dirIterEnd = filesystem::end(dirIter);
+
+	//		for (dirIter; dirIter != dirIterEnd; ++dirIter)
+	//		{
+	//			//폴더가 아닐 경우에만 진행. Map을 통해서 전부 넣어준다.
+	//			if (false == dirIter->is_directory())
+	//			{
+	//				const filesystem::path& curPath = dirIter->path();
+
+	//				//불러올 리소스 확장자와 일치하는지 확인한다.
+	//				bool bMatchingExtension = false;
+	//				for (size_t i = (size_t)0; i < _vecExtension.size(); ++i)
+	//				{
+	//					string Extension = curPath.filename().extension().string();
+	//					transform(Extension.begin(), Extension.end(), Extension.begin(), ::tolower);
+
+	//					if (_vecExtension[i] == Extension)
+	//					{
+	//						bMatchingExtension = true;
+	//						break;
+	//					}
+	//				}
+
+	//				//등록하고자 하는 확장자와 일치하지 않을 경우 등록 취소.
+	//				if (false == bMatchingExtension)
+	//					continue;
+
+	//				//Fullpath에서 자신의 위치 경로를 제외한 값만 생성해준다.
+	//				//
+	//				const filesystem::path& ValuePath = curPath.lexically_relative(FullPath);
+
+	//				umapFile[curPath.parent_path()].push_back(ValuePath);
+	//			}
+	//		}
+
+	//		
+	//		//순회가 끝났으면 코드를 생성해준다.
+	//		//enum class부터 생성
+	//		CodeLine = string(PresetStr::NameSpace);
+	//		string UpperCase = string(PresetStr::strKey) + _PathFromContent.string();
+	//		UpperCase += "_ARRAY";
+	//		UpperCaseA(UpperCase);
+	//		CodeLine += UpperCase;
+
+	//		WriteCodeA(fp, CodeLine);
+	//		WriteBracketOpenA(fp);
+
+	//		CodeLine = string(PresetStr::EnumClass);
+	//		CodeLine += "Idx";
+	//		WriteCodeA(fp, CodeLine);
+	//		WriteBracketOpenA(fp);
+
+	//		//for문으로 순회를 돌아주면서 enum에 값을 추가해준다.
+	//		for (const auto& iter : umapFile)
+	//		{
+	//			size_t size = iter.second.size();
+	//			for (size_t i = 0; i < size; ++i)
+	//			{
+	//				//파일명을 대문자로 변환한 뒤 소괄호()와 . 문자를 제거한다.
+	//				CodeLine = iter.second[i].filename().string();
+	//				UpperCaseA(CodeLine);
+	//				std::replace_if(CodeLine.begin(), CodeLine.end(),
+	//					[](char c)->bool { return ('(' == c || ')' == c || '.' == c); },
+	//					'_'
+	//				);
+	//				CodeLine += ',';
+	//				WriteCodeA(fp, CodeLine);
+	//			}
+	//		}
+
+	//		//enum에는 순회를 돌 떄를 생각해서 END 값도 추가
+	//		WriteCodeA(fp, "END");
+	//		//순회 다 돌았으면 괄호를 닫아준다.
+	//		WriteBracketCloseA(fp, true);
+
+
+	//		//다시 순회를 돌면서 이번엔 배열 형태로 작성한다.
+	//		CodeLine = string(PresetStr::ConstexprInlineConstChar);
+	//		CodeLine += "arrKey";
+	//		CodeLine += "[] = ";
+	//		WriteCodeA(fp, CodeLine);
+	//		WriteBracketOpenA(fp);
+
+	//		auto iter = umapFile.begin();
+	//		const auto iterEnd = umapFile.end();
+	//		while (iter != iterEnd)
+	//		{
+	//			size_t size = iter->second.size();
+	//			for (size_t i = 0; i < size; ++i)
+	//			{
+	//				CodeLine = "\"";
+	//				CodeLine += iter->second[i].string();
+	//				CodeLine += "\"";
+	//				std::replace(CodeLine.begin(), CodeLine.end(), '\\', '/');
+
+	//				//순회가 끝나지 않았을 경우에는 쉽표를 추가
+	//				//if (i + 1 != size || std::next(iter) != iterEnd)
+	//				CodeLine += ',';
+
+	//				WriteCodeA(fp, CodeLine);
+	//			}
+
+	//			++iter;
+	//		}
+
+	//		
+	//		WriteBracketCloseA(fp, true);
+	//		WriteBracketCloseAllA(fp);
+
+
+	//		fp.close();
+	//	}
+
+	//	catch (const std::filesystem::filesystem_error& error)
+	//	{
+	//		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+	//		throw(std::runtime_error("Process Terminated by error."));
+	//	}
+
+	//	//작성이 완료되었으면 파일을 저장한다.
+	//	fp.close();
+	//}
+
+
+	//
 }

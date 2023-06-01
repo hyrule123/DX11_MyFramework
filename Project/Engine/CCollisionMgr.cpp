@@ -18,6 +18,7 @@
 #include "struct.h"
 
 
+
 CCollisionMgr::CCollisionMgr()
 	: m_iNum2DGridX()
 	, m_iNum2DGridY()

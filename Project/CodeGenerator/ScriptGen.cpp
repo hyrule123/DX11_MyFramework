@@ -3,8 +3,8 @@
 #include "CodeGenFunc.h"
 #include "MacroFunc.h"
 
-constexpr std::string_view ScriptStandardPrefix = "CScript_";
-constexpr std::string_view ScriptStandardSuffix = ".h";
+STRKEY ScriptStandardPrefix = "CScript_";
+STRKEY ScriptStandardSuffix = ".h";
 
 void CreateScriptCode()
 {
@@ -21,18 +21,18 @@ void CreateScriptCode()
 		string ScriptVal = entry.path().filename().string();
 
 		//"CScript_" 와 .h가 붙어있는 파일들만 추가
-		if (string::npos != ScriptVal.find(string(ScriptStandardPrefix)) && string::npos != ScriptVal.find(string(ScriptStandardSuffix)))
+		if (string::npos != ScriptVal.find(ScriptStandardPrefix) && string::npos != ScriptVal.find(string(ScriptStandardSuffix)))
 		{
 			string ScriptKey = ScriptVal;
 
 
 			//뒷부분(.h) 제거
-			size_t pos = ScriptKey.find(string(ScriptStandardSuffix));
+			size_t pos = ScriptKey.find(ScriptStandardSuffix);
 			if (string::npos != pos)
 				ScriptKey.erase(pos, string::npos);
 
 			//앞부분 제거
-			ScriptKey.erase(0, ScriptStandardPrefix.size());
+			ScriptKey.erase(0, string(ScriptStandardPrefix).size());
 
 			//대문자로 변경
 			transform(ScriptKey.begin(), ScriptKey.end(), ScriptKey.begin(), ::toupper);
@@ -45,7 +45,7 @@ void CreateScriptCode()
 
 
 	//strKey 작성
-	string strKeyPath = ScriptPath + "strKeyScript.h";
+	string strKeyPath = ScriptPath + "strKey_Script.h";
 	std::ofstream strKey(strKeyPath);
 	if (false == strKey.is_open())
 		return;
@@ -57,18 +57,17 @@ void CreateScriptCode()
 	WriteCodeA(strKey);
 
 	string Codeline = R"(
-#include <string>
-#include <string_view>
-
+#include <Engine/define.h>
 )";
 	WriteCodeA(strKey, Codeline);
 	
 
-	WriteCodeA(strKey, "namespace SCRIPTS");
-	WriteCodeA(strKey, "{");
+	WriteCodeA(strKey, "namespace strKey_SCRIPTS");
+	WriteBracketOpenA(strKey);
+	
 
 	
-	const string& BaseCode = string(PresetStr::ConstexprStringView);
+	const string& BaseCode = string(PresetStr::ConstexprInlineConstChar);
 	for (const auto& iter : mapScripts)
 	{
 		string FinalCodeLine = BaseCode + iter.first + " = ";
@@ -80,7 +79,7 @@ void CreateScriptCode()
 		WriteCodeA(strKey, FinalCodeLine);
 	}
 
-	WriteCodeA(strKey, "}");
+	WriteBracketCloseA(strKey);
 
 	strKey.close();
 
@@ -124,7 +123,7 @@ void CreateScriptCode()
 	{
 		WriteBracketOpenA(ScriptMgr);
 
-		classCodeLine = string("string strKey = ") + string("string(SCRIPTS::") + iter.first + string(");");
+		classCodeLine = string("string strKey = ") + string("string(strKey_SCRIPTS::") + iter.first + string(");");
 		WriteCodeA(ScriptMgr, classCodeLine);
 
 		size_t pos = iter.second.find(string(ScriptStandardSuffix));

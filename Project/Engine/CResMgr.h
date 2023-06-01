@@ -150,6 +150,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName)
 template<typename T>
 inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string& _strKey)
 {
+    //CRes를 상속받는 클래스가 아닐 경우 컴파일 중지
     static_assert(std::is_base_of<CRes, T>::value);
     Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
     

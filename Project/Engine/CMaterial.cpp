@@ -55,7 +55,7 @@ bool CMaterial::SaveJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-	jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKeyShader)] = m_pShader->GetKey();
+	jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKey_Shader)] = m_pShader->GetKey();
 	//jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)] = m_bUseInstancing;
 	jVal[string(RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex)] = Json::Value(Json::arrayValue);
 
@@ -86,7 +86,7 @@ bool CMaterial::LoadJson(Json::Value* _pJson)
 
 	CResMgr* pResMgr = CResMgr::GetInst();
 	
-	m_pShader = pResMgr->Load<CGraphicsShader>(jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKeyShader)].asString());
+	m_pShader = pResMgr->Load<CGraphicsShader>(jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKey_Shader)].asString());
 
 	//m_bUseInstancing = jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)].asBool();
 	

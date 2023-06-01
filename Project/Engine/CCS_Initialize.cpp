@@ -5,14 +5,15 @@
 
 #include "S_H_Struct.hlsli"
 
-#include "strKeyDefault.h"
+#include "strKey_Default.h"
 
-constexpr std::string_view CSFileName_Initialize = "S_C_Initalize";
+STRKEY CSFileName_Initialize = "S_C_Initalize";
 
 CCS_Initialize::CCS_Initialize()
 	: CComputeShader(1u, 1u, 1u)
 	, m_pSBuffer_InitSetting()
 {
+
 	std::filesystem::path CSPath = CSFileName_Initialize;
 	CSPath += RES_INFO::SHADER::Ext_ShaderSetting;
 	if (false == Load(CSPath))

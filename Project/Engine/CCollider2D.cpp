@@ -12,7 +12,7 @@
 
 #include "CTransform.h"
 
-#include "strKeyDefault.h"
+#include "strKey_Default.h"
 #include "jsoncpp.h"
 
 CCollider2D::CCollider2D(eCOLLIDER_TYPE_2D _eColType)

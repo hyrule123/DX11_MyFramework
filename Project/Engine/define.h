@@ -31,6 +31,7 @@
 #define DEBUG_BREAK
 #endif
 
+#define STRKEY constexpr inline const char*
 
 //Macro for SMALL data sized variable(public)
 #define SETTER(_Type_, _Var_, _FuncName_) public: void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }
@@ -99,7 +100,7 @@ extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 
 
 
-//constexpr std::string_view g_eRES_TYPE_strName[(int)eRES_TYPE::END]
+//STRKEY g_eRES_TYPE_strName[(int)eRES_TYPE::END]
 //{
 //	"MESH",
 //	"MESHDATA",

@@ -199,9 +199,10 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="define_SCUnit.h" />
-    <ClInclude Include="strKeyScript.h" />
-    <ClInclude Include="strKeyShader.h" />
-    <ClInclude Include="strKeyTexture.h" />
+    <ClInclude Include="strKey_Prefab.h" />
+    <ClInclude Include="strKey_Script.h" />
+    <ClInclude Include="strKey_Shader.h" />
+    <ClInclude Include="strKey_Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CFSM_Move_Base.cpp" />

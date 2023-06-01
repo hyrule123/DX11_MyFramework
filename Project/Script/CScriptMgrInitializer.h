@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Engine/CScriptMgr.h>
-#include "strKeyScript.h"
+#include "strKey_Script.h"
 
 class CScript;
 class CScriptMgrInitializer

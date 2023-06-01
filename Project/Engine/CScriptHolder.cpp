@@ -5,7 +5,7 @@
 
 #include "CCollider.h"
 
-#include "strKeyDefault.h"
+#include "strKey_Default.h"
 #include "jsoncpp.h"
 
 #include "CScriptMgr.h"
@@ -143,7 +143,7 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 //	return nullptr;
 //}
 
-CScript* CScriptHolder::FindScript(string_view _strViewKey)
+CScript* CScriptHolder::FindScript(const string& _strViewKey)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)

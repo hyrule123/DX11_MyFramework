@@ -6,7 +6,7 @@
 #include "CUI_DragNDrop.h"
 
 #include <Engine/CResMgr.h>
-#include <Engine/strKeyDefault.h>
+#include <Engine/strKey_Default.h>
 
 CUIobj_Contents::CUIobj_Contents()
 	: CUI_BasicWindow("Contents")

@@ -20,15 +20,15 @@
 #include "CResMgr.h"
 
 #ifdef _DEBUG
-constexpr std::string_view strPath_StormLib = "StormLib_DLL_Debug.dll";
+STRKEY strPath_StormLib = "StormLib_DLL_Debug.dll";
 #else
-constexpr std::string_view strPath_StormLib = "StormLib_DLL_Release.dll";
+STRKEY strPath_StormLib = "StormLib_DLL_Release.dll";
 #endif
 
 //맵 정보 읽기용
-constexpr std::string_view TerrainChunk = "ERA";
-constexpr std::string_view MapSizeChunk = "DIM";
-constexpr std::string_view TileMapChunk = "MTXM";
+STRKEY TerrainChunk = "ERA";
+STRKEY MapSizeChunk = "DIM";
+STRKEY TileMapChunk = "MTXM";
 
 CCS_SCMapLoader::CCS_SCMapLoader()
     : m_arrpSBufferTileSet{}
@@ -37,7 +37,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     , m_DebugData()
     
 {
-    std::filesystem::path FilePath(RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER);
+    std::filesystem::path FilePath(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER);
     if (false == Load(FilePath))
         throw(std::runtime_error("Compute Shader\n\"S_1_C_SCMapLoader\"\nLoad Failed!!"));
 

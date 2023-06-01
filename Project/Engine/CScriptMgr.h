@@ -15,6 +15,5 @@ protected:
 public:
 	void AddBaseScript(const string& _strKey, CScript* _pScript);
 	CScript* GetNewScript(const string& _strKey);
-	CScript* GetNewScript(std::string_view _strViewKey) { return GetNewScript(string(_strViewKey)); }
 };
 
