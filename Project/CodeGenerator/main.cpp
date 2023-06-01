@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
     CreateScriptCode();
     CreateShaderCode();
     
+    //Generate Texture Key
     {
         vector<string> vecExtension;
         for (size_t i = 0; i < (size_t)RES_INFO::TEXTURE::Ext::idx::END; ++i)
@@ -29,12 +30,13 @@ int main(int argc, char* argv[])
         CreateStrKey(RES_INFO::TEXTURE::DirName, PresetPath::strKey_Texture, vecExtension);
     }
 
-    {
-        vector<string> vecExt;
-        vecExt.push_back(RES_INFO::PREFAB::Ext);
-        CreateStrKey(RES_INFO::PREFAB::DirName, PresetPath::strKey_Prefab, vecExt);
-    }
-    
+    //Generate Prefab Key
+    //{
+    //    vector<string> vecExt;
+    //    vecExt.push_back(RES_INFO::PREFAB::Ext);
+    //    CreateStrKey(RES_INFO::PREFAB::DirName, PresetPath::strKey_Prefab, vecExt);
+    //}
+    //
 
     ////argument가 만족되지 않으면 디버그 모드로 작동
     //if (1 == argc)

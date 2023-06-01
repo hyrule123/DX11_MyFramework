@@ -199,7 +199,6 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="define_SCUnit.h" />
-    <ClInclude Include="strKey_Prefab.h" />
     <ClInclude Include="strKey_Script.h" />
     <ClInclude Include="strKey_Shader.h" />
     <ClInclude Include="strKey_Texture.h" />

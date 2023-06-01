@@ -196,6 +196,7 @@
     <ClInclude Include="ManualEdit.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="strKey_Prefab.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="CUIobj_Contents.h" />
   </ItemGroup>

@@ -2,10 +2,14 @@
 #include "ManualEdit.h"
 
 #include <Engine/CResMgr.h>
+#include <Engine/CScriptMgr.h>
 
 //string Keys
 #include <Engine/strKey_Default.h>
+#include <Script/strKey_Script.h>
 #include <Script/strKey_Texture.h>
+#include <Script/strKey_Shader.h>
+#include "strKey_Prefab.h"
 
 //Components
 #include <Engine/CCollider2D_Rect.h>
@@ -15,18 +19,26 @@
 
 //Scripts
 #include <Script/define_SCUnit.h>
+#include <Script/CScript_FSM_Idle.h>
+#include <Script/CScript_FSM_Attack.h>
+#include <Script/CScript_FSM_Move_Ground.h>
+#include <Script/CScript_FSM_Death.h>
 
 void ManualEdit::Edit()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 
-	//마린
+	//Marine
 	{
+		//Animation
 		string strKey = strKey_TEXTURE::TERRAN::MARINE_BMP;
 		MarineAnim_Save(strKey);
 		LoadAnim(strKey);
+
+		//Prefab
+		strKey = strKey_RES_PREFAB::MARINE;
+		MarinePrefab_Save(strKey);
 	}
-	
 }
 
 
@@ -83,17 +95,30 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 	//MeshRender
 	{
-		CMeshRender* pMesh = new CMeshRender;
-		pObj->AddComponent(pMesh);
+		CMeshRender* pRenderCom = new CMeshRender;
+		pObj->AddComponent(pRenderCom);
 
-		//CMaterial* pMtrl = pResMgr->FindRes<CMaterial>()
-		//pMesh->SetMaterial()
+		//Material
+		Ptr<CMaterial> pMtrl = new CMaterial;
+		pRenderCom->SetMaterial(pMtrl);
+		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND);
+		pMtrl->SetShader(pShader);
+		
+		//Mesh
+		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		pRenderCom->SetMesh(pMesh);
+	}
+
+	//Script
+	{
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
 	}
 	
 
 	Ptr<CPrefab> pPrefab = new CPrefab;
 	pPrefab->SetKey(_strKey);
 	pPrefab->RegisterPrefab(pObj, true);
+	pPrefab->Save(_strKey);
 }
 
 void ManualEdit::LoadAnim(const string& _strKey)
@@ -103,10 +128,6 @@ void ManualEdit::LoadAnim(const string& _strKey)
 	assert(nullptr != pAtlas);
 }
 
-void ManualEdit::LoadPrefab(const string& _strKey)
-{
-	
-}
 
 
 //CResMgr* pResMgr = CResMgr::GetInst();

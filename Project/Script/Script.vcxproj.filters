@@ -79,9 +79,6 @@
     <ClInclude Include="strKey_Script.h" />
     <ClInclude Include="strKey_Shader.h" />
     <ClInclude Include="strKey_Texture.h" />
-    <ClInclude Include="strKey_Prefab.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">

@@ -124,9 +124,11 @@ namespace INGAME_LAYER_INFO
 
 void CreateMainGame()
 {
-	LoadAllTexture();
-	LoadUserMtrl();
+	LoadRes(eRES_TYPE::TEXTURE);
+	LoadRes(eRES_TYPE::MATERIAL);
+	LoadRes(eRES_TYPE::PREFAB);
 
+	ManualEdit::Edit();
 
 
 
@@ -556,12 +558,12 @@ void CreateMainGame()
 	}
 }
 
-void LoadAllTexture()
+void LoadRes(eRES_TYPE _eResType)
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
 	//텍스처 로드
-	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::TEXTURE);
+	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(_eResType);
 
 	std::filesystem::recursive_directory_iterator RIter;
 	try
@@ -573,7 +575,8 @@ void LoadAllTexture()
 			if (true == RIter->is_directory())
 				continue;
 			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
-			pResMgr->Load<CTexture>(RelativePath);
+			pResMgr->Load(_eResType, RelativePath);
+			//pResMgr->Load<CTexture>(RelativePath);
 		}
 	}
 	catch (const std::filesystem::filesystem_error& error)
@@ -583,32 +586,59 @@ void LoadAllTexture()
 	}
 }
 
-void LoadUserMtrl()
-{
-	CResMgr* pResMgr = CResMgr::GetInst();
-	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
-	//텍스처 로드
-	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::MATERIAL);
-
-	std::filesystem::recursive_directory_iterator RIter;
-	try
-	{
-		RIter = std::filesystem::recursive_directory_iterator(ResPath);
-
-		for (RIter; RIter != std::filesystem::end(RIter); ++RIter)
-		{
-			if (true == RIter->is_directory())
-				continue;
-			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
-			pResMgr->Load<CMaterial>(RelativePath);
-		}
-	}
-	catch (const std::filesystem::filesystem_error& error)
-	{
-		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
-		throw(error);
-	}
-}
+//void LoadAllTexture()
+//{
+//	CResMgr* pResMgr = CResMgr::GetInst();
+//	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
+//	//텍스처 로드
+//	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::TEXTURE);
+//
+//	std::filesystem::recursive_directory_iterator RIter;
+//	try
+//	{
+//		RIter = std::filesystem::recursive_directory_iterator(ResPath);
+//
+//		for (RIter; RIter != std::filesystem::end(RIter); ++RIter)
+//		{
+//			if (true == RIter->is_directory())
+//				continue;
+//			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
+//			pResMgr->Load<CTexture>(RelativePath);
+//		}
+//	}
+//	catch (const std::filesystem::filesystem_error& error)
+//	{
+//		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+//		throw(error);
+//	}
+//}
+//
+//void LoadUserMtrl()
+//{
+//	CResMgr* pResMgr = CResMgr::GetInst();
+//	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
+//	//텍스처 로드
+//	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::MATERIAL);
+//
+//	std::filesystem::recursive_directory_iterator RIter;
+//	try
+//	{
+//		RIter = std::filesystem::recursive_directory_iterator(ResPath);
+//
+//		for (RIter; RIter != std::filesystem::end(RIter); ++RIter)
+//		{
+//			if (true == RIter->is_directory())
+//				continue;
+//			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
+//			pResMgr->Load<CMaterial>(RelativePath);
+//		}
+//	}
+//	catch (const std::filesystem::filesystem_error& error)
+//	{
+//		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+//		throw(error);
+//	}
+//}
 
 void LoadAnim()
 {

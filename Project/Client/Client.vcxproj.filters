@@ -243,6 +243,7 @@
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClInclude>
     <ClInclude Include="ManualEdit.h" />
+    <ClInclude Include="strKey_Prefab.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

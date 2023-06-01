@@ -18,9 +18,9 @@ class CMaterial :
 {
 public:
     CMaterial();
-    CMaterial(const CMaterial& _Clone);
     virtual ~CMaterial();
 
+    CMaterial(const CMaterial& _Clone);
     CLONE(CMaterial)
 public:
     //virtual bool Save(const std::filesystem::path& _fileName) override;
