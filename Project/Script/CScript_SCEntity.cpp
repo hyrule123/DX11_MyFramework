@@ -23,10 +23,24 @@
 #include "CScript_FSM_Idle.h"
 #include "CScript_FSM_Move_Ground.h"
 
+namespace strKey_SCEntity
+{
+	JSONKEY(m_eRace);
+	JSONKEY(m_uPopulation);
+	JSONKEY(m_eMoveType);
+	JSONKEY(m_eUnitSizeType);
+	JSONKEY(m_uSightRange);
+	JSONKEY(m_uCostMineral);
+	JSONKEY(m_uCostGas);
+	JSONKEY(m_fBaseBuildTime);
+	JSONKEY(m_strProdBuildingName);
+	JSONKEY(m_eKeyShortcut);
+	JSONKEY(m_flagTech);
+};
 
 CScript_SCEntity::CScript_SCEntity(const string& _strKey)
 	: CScript(_strKey)
-	, m_eUnitType()
+	, m_eRace()
 	, m_uPopulation()
 	, m_eMoveType()
 	, m_eUnitSizeType()
@@ -45,9 +59,24 @@ CScript_SCEntity::~CScript_SCEntity()
 
 bool CScript_SCEntity::SaveJson(Json::Value* _pJVal)
 {
-	
+	if (false == CScript::SaveJson(_pJVal))
+		return false;
 
-	return false;
+	Json::Value& jVal = *_pJVal;
+
+	jVal[strKey_SCEntity::m_eRace] = (int)m_eRace;
+	jVal[strKey_SCEntity::m_uPopulation] = (UINT)m_uPopulation;
+	jVal[strKey_SCEntity::m_eMoveType] = (int)m_eMoveType;
+	jVal[strKey_SCEntity::m_eUnitSizeType] = (int)m_eUnitSizeType;
+	jVal[strKey_SCEntity::m_uSightRange] = (UINT)m_uSightRange;
+	jVal[strKey_SCEntity::m_uCostMineral] = (UINT)m_uCostMineral;
+	jVal[strKey_SCEntity::m_uCostGas] = (UINT)m_uCostGas;
+	jVal[strKey_SCEntity::m_fBaseBuildTime] = Pack_float_int(m_fBaseBuildTime).i;
+	jVal[strKey_SCEntity::m_strProdBuildingName] = m_strProdBuildingName;
+	jVal[strKey_SCEntity::m_eKeyShortcut] = (UINT)m_eKeyShortcut;
+	jVal[strKey_SCEntity::m_flagTech] = (UINT)m_flagTech;
+
+	return true;
 }
 
 bool CScript_SCEntity::LoadJson(Json::Value* _pJVal)

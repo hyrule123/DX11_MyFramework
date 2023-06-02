@@ -13,15 +13,13 @@ class CAnimator2D
 {
 public:
     CAnimator2D();
+    virtual ~CAnimator2D();
 
     CAnimator2D(const CAnimator2D& _other);
     CLONE(CAnimator2D);
-
-    virtual ~CAnimator2D();
     
 
 public:
-
     virtual bool SaveJson(Json::Value* _pJVal) override;
     virtual bool LoadJson(Json::Value* _pJVal) override;
 

@@ -135,7 +135,6 @@ inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
 
     eRES_TYPE type = GetResType<T>();
 
-
     m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
     _Res->SetKey(_strKey);
 }

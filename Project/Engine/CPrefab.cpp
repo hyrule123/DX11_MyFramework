@@ -69,7 +69,7 @@ bool CPrefab::Save(const std::filesystem::path& _fileName)
 		return true;
 	}
 
-	return true;
+	return false;
 }
 
 bool CPrefab::Load(const std::filesystem::path& _fileName)

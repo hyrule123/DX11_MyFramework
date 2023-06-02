@@ -28,7 +28,7 @@ public:
 
 public:
     //종족 정보
-    DECLARE_GETTER_SETTER(eSCUNIT_UNIT_RACE, m_eUnitType, UnitType);
+    DECLARE_GETTER_SETTER(eSCUNIT_UNIT_RACE, m_eRace, Race);
     DECLARE_GETTER_SETTER(UINT, m_uPopulation, Population);
 
     //이동 타입(지상, 호버링, 공중)
@@ -50,7 +50,7 @@ public:
     GETTER_SETTER(const string&, m_strProdBuildingName, strProdBuildingName);
 
     //생산 단축키
-    DECLARE_GETTER_SETTER(eKEY, m_eKeyShortcut, ProdSlot);
+    DECLARE_GETTER_SETTER(eKEY, m_eKeyShortcut, ShortcutKey);
 
     //생산 조건 테크
     DECLARE_GETTER_SETTER(UINT, m_flagTech, flagTech);

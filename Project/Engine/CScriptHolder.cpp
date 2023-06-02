@@ -55,14 +55,16 @@ bool CScriptHolder::SaveJson(Json::Value* _jVal)
 
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
-		jVal[strKey].append(m_vecScript[i]->GetName());
+		Json::Value ScriptValue = Json::objectValue;
 
-		Json::Value ScriptVal;
-		//스크립트도 별도로 저장할 것이 있을경우 저장시킨다.
-		if (false == m_vecScript[i]->SaveJson(&ScriptVal))
+		const string& strKeyScript = m_vecScript[i]->GetKey();
+		ScriptValue[strKeyScript] = Json::Value(Json::objectValue);
+
+		//스크립트도 별도로 저장할 것이 있을경우 별도의 저장 공간을 만들어서 저장시킨다.
+		if (false == m_vecScript[i]->SaveJson(&ScriptValue[strKeyScript]))
 			return false;
 
-
+		jVal[strKey].append(ScriptValue);
 	}
 
 	return true;
@@ -97,7 +99,9 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 					return false;
 				}
 
-				AddScript(newScript);
+				//newScript->LoadJson()
+
+				//AddScript(newScript);
 			}
 		}
 	}

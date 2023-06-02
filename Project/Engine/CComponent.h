@@ -15,9 +15,10 @@ class CComponent :
 
 public:
     CComponent(eCOMPONENT_TYPE _Type);
-    CComponent(const CComponent& _other);
     virtual ~CComponent();
 
+    CComponent(const CComponent& _other);
+    virtual CComponent* Clone() = 0;
 
 public:
     virtual bool SaveJson(Json::Value* _pJson) override;
@@ -36,7 +37,7 @@ public:
 
     virtual void cleanup() = 0;
 
-    virtual CComponent* Clone() = 0;
+    
 
 private:
     CGameObject*         m_pOwner;

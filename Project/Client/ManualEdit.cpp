@@ -38,6 +38,9 @@ void ManualEdit::Edit()
 		//Prefab
 		strKey = strKey_RES_PREFAB::MARINE;
 		MarinePrefab_Save(strKey);
+
+		//Instantiate
+		LoadPrefab(strKey);
 	}
 }
 
@@ -46,23 +49,36 @@ void ManualEdit::MarineAnim_Save(const string& _strKey)
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 
-	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::MARINE_BMP);
+	assert(nullptr != pTex);
 
-	Atlas->SetAtlasTexture(CResMgr::GetInst()->FindRes<CTexture>(strKey_TEXTURE::TERRAN::MARINE_BMP));
+
+	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	
+	Atlas->SetAtlasTexture(pTex);
 
 	using namespace FSM_SCUnit;
 	Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
+
+	//Idle
 	Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[IDLE]), 0u, 1u, 1.f);
+
+	//Attack Begin
 	Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[ATTACK_BEGIN]), 1u, 2u, 0.5f);
+
+	//Attack End
 	Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[ATTACK_END]), 2u, 1u, 0.5f);
 
+	//Move
 	Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[MOVE]), 4u, 9u, 1.f);
 
+	//Attack
 	vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
 	Atlas->AddAnim2D_vecRowIndex(string(strKey_Anim[ATTACK]), row, 0.6f);
 
 	row.clear();
 
+	//Death
 	row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
 	Atlas->AddAnim2D(string(strKey_Anim[DEATH]), row, 1.f);
 
@@ -100,6 +116,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 		//Material
 		Ptr<CMaterial> pMtrl = new CMaterial;
+		pMtrl->SetKey(strKey_RES_PREFAB::MARINE);//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
 		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND);
 		pMtrl->SetShader(pShader);
@@ -111,7 +128,10 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 	//Script
 	{
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::SCENTITY));
 		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_MOVE_GROUND));
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_ATTACK));
 	}
 	
 
@@ -119,13 +139,20 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	pPrefab->SetKey(_strKey);
 	pPrefab->RegisterPrefab(pObj, true);
 	pPrefab->Save(_strKey);
+
+
 }
 
 void ManualEdit::LoadAnim(const string& _strKey)
 {
 	Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(_strKey);
-	
 	assert(nullptr != pAtlas);
+}
+
+void ManualEdit::LoadPrefab(const string& _strKey)
+{
+	Ptr<CPrefab> pPrefab = CResMgr::GetInst()->Load<CPrefab>(_strKey);
+	assert(nullptr != pPrefab);
 }
 
 

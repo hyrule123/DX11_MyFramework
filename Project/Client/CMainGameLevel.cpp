@@ -124,12 +124,11 @@ namespace INGAME_LAYER_INFO
 
 void CreateMainGame()
 {
+	ManualEdit::Edit();
+
 	LoadRes(eRES_TYPE::TEXTURE);
 	LoadRes(eRES_TYPE::MATERIAL);
 	LoadRes(eRES_TYPE::PREFAB);
-
-	ManualEdit::Edit();
-
 
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
@@ -143,8 +142,6 @@ void CreateMainGame()
 	{
 		pLevel->SetLayerName(i, string(INGAME_LAYER_INFO::strLayerName[i]));
 	}
-
-
 
 	CResMgr* pResMgr = CResMgr::GetInst();
 

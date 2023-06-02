@@ -80,21 +80,23 @@ CAnim2DAtlas::~CAnim2DAtlas()
 
 bool CAnim2DAtlas::Save(const std::filesystem::path& _fileName)
 {
-	std::filesystem::path replacedExt = _fileName;
-	replacedExt.replace_extension(RES_INFO::ANIM2D::Ext);
+	//확장자에 .json을 더해서 저장.(저장 및 불러오기 할때만 확장자를 더하고 뺌.)
+	//로드 이후 키값에서는 .json 확장자를 제거
+	std::filesystem::path AddExt = _fileName;
+	AddExt += RES_INFO::ANIM2D::Ext;
 
-	return CRes::Save(replacedExt);
+	return CRes::Save(AddExt);
 }
 
 bool CAnim2DAtlas::Load(const std::filesystem::path& _fileName)
 {
-	std::filesystem::path replacedExt = _fileName;
-	replacedExt.replace_extension(RES_INFO::ANIM2D::Ext);
+	std::filesystem::path AddExt = _fileName;
+	SetKey(AddExt.string());
 
-	SetKey(_fileName.string());
+	AddExt += RES_INFO::ANIM2D::Ext;
 
 	//확장자를 json으로 바꿔서 load 한뒤
-	return CRes::Load(replacedExt);
+	return CRes::Load(AddExt);
 }
 
 //TODO : 여기 작성
@@ -111,50 +113,50 @@ bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
 	if (nullptr == m_AtlasTex)
 		return false;
 
-	jVal[string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)] = m_AtlasTex->GetKey();
-	jVal[string(RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize)] = m_bRegularFrameSize;
+	jVal[RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex] = m_AtlasTex->GetKey();
+	jVal[RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize] = m_bRegularFrameSize;
 	
 
 
-	jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)] = Json::Value(Json::ValueType::objectValue);
+	jVal[RES_INFO::ANIM2D::JSON_KEY::vecFrameUV] = Json::Value(Json::ValueType::objectValue);
 	{
-		Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
-		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)] = Json::Value(Json::arrayValue);
-		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)] = Json::Value(Json::arrayValue);
-		FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)] = Json::Value(Json::arrayValue);
+		Json::Value& FrameUV = jVal[RES_INFO::ANIM2D::JSON_KEY::vecFrameUV];
+		FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop] = Json::Value(Json::arrayValue);
+		FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice] = Json::Value(Json::arrayValue);
+		FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset] = Json::Value(Json::arrayValue);
 		for (size_t i = 0; i < m_vecFrameUV.size(); ++i)
 		{
 			const tAnimFrameUV& Frame = m_vecFrameUV[i];
 
 			//vec2는 float 2개(4byte * 2) -> union으로 묶은뒤 UINT64(8byte)에 묶어서 저장한다.
-			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)].append(Pack_v2_i64(Frame.v2_UVLeftTop).i64);
+			FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop].append(Pack_v2_i64(Frame.v2_UVLeftTop).i64);
 
-			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)].append(Pack_v2_i64(Frame.v2_UVSlice).i64);
+			FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice].append(Pack_v2_i64(Frame.v2_UVSlice).i64);
 
-			FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)].append(Pack_v2_i64(Frame.v2_Offset).i64);
+			FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset].append(Pack_v2_i64(Frame.v2_Offset).i64);
 		}
 	}
 
 	{
-		jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)] = Json::Value(Json::objectValue);
-		Json::Value& mapAnim = jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
+		jVal[RES_INFO::ANIM2D::JSON_KEY::mapAnim] = Json::Value(Json::objectValue);
+		Json::Value& mapAnim = jVal[RES_INFO::ANIM2D::JSON_KEY::mapAnim];
 
 		for (const auto& iter : m_mapAnim)
 		{
 			mapAnim[iter.first] = Json::Value(Json::objectValue);
 			Json::Value& anim2dVal = mapAnim[iter.first];
 
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)] = (int)iter.second.eAnimType;
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)] = iter.second.uColTotal;
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal)] = iter.second.uRowTotal;
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)] = iter.second.uNumFrame;
+			anim2dVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType] = (int)iter.second.eAnimType;
+			anim2dVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal] = iter.second.uColTotal;
+			anim2dVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal] = iter.second.uRowTotal;
+			anim2dVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame] = iter.second.uNumFrame;
 
 			//float은 int 값으로 변환해서 저장한다.
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime)] = Pack_float_int(iter.second.fFullPlayTime).i;
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot)] = Pack_v2_i64(iter.second.vPivot).i64;
+			anim2dVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime] = Pack_float_int(iter.second.fFullPlayTime).i;
+			anim2dVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot] = Pack_v2_i64(iter.second.vPivot).i64;
 
-			anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)] = Json::Value(Json::ValueType::arrayValue);
-			Json::Value& vecFrame = anim2dVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)];
+			anim2dVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame] = Json::Value(Json::ValueType::arrayValue);
+			Json::Value& vecFrame = anim2dVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame];
 
 			for (size_t i = 0; i < iter.second.vecFrame.size(); ++i)
 			{
@@ -175,9 +177,9 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 
 	const Json::Value& jVal = *_jVal;
 
-	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)))
+	if (jVal.isMember(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex))
 	{
-		const string& strKey = jVal[string(RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex)].asString();
+		const string& strKey = jVal[RES_INFO::ANIM2D::JSON_KEY::strKeyAtlasTex].asString();
 		Ptr<CTexture> tex = CResMgr::GetInst()->Load<CTexture>(strKey);
 		if (nullptr == tex)
 		{
@@ -188,25 +190,25 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 		SetAtlasTexture(tex);
 	}
 
-	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize)))
+	if (jVal.isMember(RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize))
 	{
-		m_bRegularFrameSize = jVal[string(RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize)].asBool();
+		m_bRegularFrameSize = jVal[RES_INFO::ANIM2D::JSON_KEY::bRegularFrameSize].asBool();
 	}
 
-	if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)))
+	if (jVal.isMember(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV))
 	{
-		const Json::Value& FrameUV = jVal[string(RES_INFO::ANIM2D::JSON_KEY::vecFrameUV)];
+		const Json::Value& FrameUV = jVal[RES_INFO::ANIM2D::JSON_KEY::vecFrameUV];
 		if (
-			FrameUV.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop))
+			FrameUV.isMember(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)
 			&&
-			FrameUV.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice))
+			FrameUV.isMember(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)
 			&&
-			FrameUV.isMember(string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset))
+			FrameUV.isMember(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)
 			)
 		{
-			const Json::Value& v2_UVLeftTop = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop)];
-			const Json::Value& v2_UVSlice = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice)];
-			const Json::Value& v2_Offset = FrameUV[string(RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset)];
+			const Json::Value& v2_UVLeftTop = FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVLeftTop];
+			const Json::Value& v2_UVSlice = FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_UVSlice];
+			const Json::Value& v2_Offset = FrameUV[RES_INFO::ANIM2D::JSON_KEY::AnimFrameUV::v2_Offset];
 			if (v2_UVLeftTop.size()
 				!=
 				v2_UVSlice.size()
@@ -244,9 +246,9 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 	}
 
 	{
-		if (jVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)))
+		if (jVal.isMember(RES_INFO::ANIM2D::JSON_KEY::mapAnim))
 		{
-			const Json::Value& mapAnim = jVal[string(RES_INFO::ANIM2D::JSON_KEY::mapAnim)];
+			const Json::Value& mapAnim = jVal[RES_INFO::ANIM2D::JSON_KEY::mapAnim];
 
 			const Json::ValueConstIterator& mapIterEnd = mapAnim.end();
 			for (Json::ValueConstIterator mapIter = mapAnim.begin(); mapIter != mapIterEnd; ++mapIter)
@@ -255,24 +257,24 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 				anim.strKeyAnim2D = mapIter.key().asString();
 				
 				const Json::Value& animVal = *mapIter;
-				anim.eAnimType = (eANIM_TYPE)animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType)].asInt();
-				anim.uColTotal = animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal)].asUInt();
-				anim.uRowTotal = animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal)].asUInt();
+				anim.eAnimType = (eANIM_TYPE)animVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::eAnimType].asInt();
+				anim.uColTotal = animVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::uColTotal].asUInt();
+				anim.uRowTotal = animVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::uRowTotal].asUInt();
 
-				anim.uNumFrame = animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame)].asUInt();
+				anim.uNumFrame = animVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::uNumFrame].asUInt();
 				if (anim.uNumFrame == 0u)
 				{
 					MessageBoxA(nullptr, "Total number of Animation2D frame is 0.", nullptr, MB_OK);
 					return false;
 				}
 
-				anim.fFullPlayTime = Pack_float_int(animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime)].asInt()).f;
+				anim.fFullPlayTime = Pack_float_int(animVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::fFullPlayTime].asInt()).f;
 				anim.fTimePerFrame = anim.fFullPlayTime / (float)anim.uNumFrame;
-				anim.vPivot = Pack_v2_i64(animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot)].asInt64()).v2;
+				anim.vPivot = Pack_v2_i64(animVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::vPivot].asInt64()).v2;
 
-				if (animVal.isMember(string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)))
+				if (animVal.isMember(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame))
 				{
-					for (const auto& vecFrmIter : animVal[string(RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame)])
+					for (const auto& vecFrmIter : animVal[RES_INFO::ANIM2D::JSON_KEY::Anim2D::vecFrame])
 					{
 						anim.vecFrame.emplace_back(vecFrmIter.asUInt());
 					}

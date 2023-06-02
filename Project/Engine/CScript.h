@@ -17,8 +17,9 @@ public:
 
     virtual ~CScript();
 public:
-    virtual bool SaveJson(Json::Value* _jVal) override { return true; }
-    virtual bool LoadJson(Json::Value* _jVal) override { return true; }
+    //strKey는 생성될 때 정해지므로 여기선 json 저장 불러오기를 해줄것이 없음
+    //virtual bool SaveJson(Json::Value* _jVal) override {  return CEntity::SaveJson(_jVal); }
+    //virtual bool LoadJson(Json::Value* _jVal) override { return CEntity::SaveJson(_jVal); }
 
 public:
     //특정 변수에서 초기 설정을 해야 할 경우 이 메소드를 오버라이딩해서 사용할 것.

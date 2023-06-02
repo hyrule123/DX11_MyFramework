@@ -578,7 +578,7 @@ void CResMgr::CreateDefaultMaterial()
 	//Particle Material
 	{
 		Ptr<CMaterial> pMtrl = new CMaterial();
-		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE)));
+		pMtrl->SetShader(FindRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE));
 		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::PARTICLE_RENDER));
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
@@ -586,8 +586,8 @@ void CResMgr::CreateDefaultMaterial()
 
 void CResMgr::LoadDefaultTexture()
 {
-	Load<CTexture>(string(strKey_RES_DEFAULT::TEXTURE::DEFAULT));
-	Load<CTexture>(string(strKey_RES_DEFAULT::TEXTURE::NOISE_1));
+	Load<CTexture>(strKey_RES_DEFAULT::TEXTURE::DEFAULT);
+	Load<CTexture>(strKey_RES_DEFAULT::TEXTURE::NOISE_1);
 }
 
 
