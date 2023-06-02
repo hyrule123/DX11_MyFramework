@@ -4,6 +4,14 @@
 
 #include "define_SCUnit.h"
 
+enum class eSCUNIT_ATTACK_LEVEL
+{
+    IDLE,
+    BEGINATTACK,
+    INATTACK,
+    END
+};
+
 class CScript_FSM_Attack :
     public CFSM
 {
@@ -30,5 +38,6 @@ private:
     UINT m_uDamageAddedPerUpgrade;
     UINT m_uWeaponRange;
 
+    bool m_bAttackBegin;
     int m_bReservedMove;
 };

@@ -11,6 +11,7 @@ CScript_FSM_Attack::CScript_FSM_Attack(const string& _strKey)
 	, m_uDamageAddedPerUpgrade()
 	, m_uWeaponRange()
 	, m_bReservedMove()
+	, m_bAttackBegin()
 {
 }
 
@@ -21,6 +22,11 @@ CScript_FSM_Attack::~CScript_FSM_Attack()
 void CScript_FSM_Attack::EnterState()
 {
 	m_bReservedMove = -1;
+
+	//if (false == m_bAttackBegin)
+	//{
+	//	pAnimato
+	//}
 
 	CAnimator2D* pAnimator = Animator2D();
 	if (pAnimator)
@@ -41,10 +47,13 @@ void CScript_FSM_Attack::OnState()
 
 void CScript_FSM_Attack::EndState()
 {
+	m_bAttackBegin = false;
 }
 
 bool CScript_FSM_Attack::CheckCondition(UINT _eState, tEvent _tEventMsg)
 {
+	return true;
+
 	if (FSM_SCUnit::DEATH == _eState)
 		return true;
 
@@ -58,6 +67,7 @@ bool CScript_FSM_Attack::CheckCondition(UINT _eState, tEvent _tEventMsg)
 		if (m_bReservedMove)
 			return true;
 	}
+	
 	
 
 	return false;

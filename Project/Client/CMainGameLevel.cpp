@@ -44,6 +44,7 @@
 #include <Engine/jsoncpp.h>
 
 #include "ManualEdit.h"
+#include "strKey_Prefab.h"
 
 namespace INGAME_LAYER_INFO
 {
@@ -124,11 +125,21 @@ namespace INGAME_LAYER_INFO
 
 void CreateMainGame()
 {
-	ManualEdit::Edit();
-
 	LoadRes(eRES_TYPE::TEXTURE);
 	LoadRes(eRES_TYPE::MATERIAL);
+
+	ManualEdit::Edit();
+
 	LoadRes(eRES_TYPE::PREFAB);
+
+	{
+		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->FindRes<CPrefab>(strKey_RES_PREFAB::MARINE);
+		CGameObject* Marine = MarinePrefab->Instantiate();
+
+		EventDispatcher::SpawnGameObject(Marine, Vec3(0.f, 0.f, 0.f), 0);
+	}
+
+	
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);

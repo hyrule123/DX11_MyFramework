@@ -38,9 +38,10 @@ void ManualEdit::Edit()
 		//Prefab
 		strKey = strKey_RES_PREFAB::MARINE;
 		MarinePrefab_Save(strKey);
+		LoadPrefab(strKey);
 
 		//Instantiate
-		LoadPrefab(strKey);
+		
 	}
 }
 
@@ -137,7 +138,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 	Ptr<CPrefab> pPrefab = new CPrefab;
 	pPrefab->SetKey(_strKey);
-	pPrefab->RegisterPrefab(pObj, true);
+	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(_strKey);
 }
 

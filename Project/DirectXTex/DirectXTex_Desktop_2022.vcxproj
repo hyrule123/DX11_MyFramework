@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>z_DirectXTex</ProjectName>
+    <ProjectName>DirectXTex</ProjectName>
     <ProjectGuid>{6AD4B99B-9BDC-41F1-9E70-E30819BC0762}</ProjectGuid>
     <RootNamespace>$safeprojectname$</RootNamespace>
     <Keyword>Win32Proj</Keyword>

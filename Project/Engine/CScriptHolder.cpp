@@ -79,6 +79,7 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 
 	Json::Value& jVal = *_jVal;
 	
+	try
 	{
 		string strKey = string(RES_INFO::PREFAB::COMPONENT::SCRIPT_HOLDER::JSON_KEY::m_vecScript_strKey);
 		if (jVal.isMember(strKey))
@@ -96,39 +97,36 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 					string ScriptKey = it.key().asString();
 
 					CScript* newScript = CScriptMgr::GetInst()->GetNewScript(ScriptKey);
-
+					
+					//스크립트를 생성받지 못했을 경우 return
 					if (nullptr == newScript)
 					{
 						string errmsg = "Script\"";
 						errmsg += ScriptKey + "\"";
 						errmsg += " is not Exists!!";
 
-						
-						ERROR_MESSAGE(errmsg.c_str());
-						assert(nullptr != newScript);
-						return false;
+						throw(std::runtime_error(errmsg));
 					}
+					AddScript(newScript);
 
+					//스크립트의 로드에 실패했을 경우
 					if (false == newScript->LoadJson(&(*it)[ScriptKey]))
 					{
-						ERROR_MESSAGE("Script Load Failed!!");
-						assert(false);
-
-						return false;
+						string errmsg = "Script Load Failed!!";
+						throw(errmsg);
 					}
 				}
 
 			}
 		}
 	}
+	catch (const std::runtime_error& _err)
+	{
+		ERROR_MESSAGE(_err.what());
+		assert(false);
+		return false;
+	}
 	
-	//TODO : 
-	//jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
-
-	//for (size_t i = 0; i < m_vecScript.size(); ++i)
-	//{
-	//	jVal[strKey].append(m_vecScript[i]->GetName());
-	//}
 
 	return true;
 }
