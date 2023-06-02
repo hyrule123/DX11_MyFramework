@@ -75,7 +75,7 @@
 							"m_eKeyShortcut" : 0,
 							"m_eMoveType" : 0,
 							"m_eRace" : 0,
-							"m_eUnitSizeType" : 0,
+							"m_eUnitSize" : 0,
 							"m_fBaseBuildTime" : 0,
 							"m_flagTech" : 0,
 							"m_strProdBuildingName" : "",

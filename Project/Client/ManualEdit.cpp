@@ -139,8 +139,6 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	pPrefab->SetKey(_strKey);
 	pPrefab->RegisterPrefab(pObj, true);
 	pPrefab->Save(_strKey);
-
-
 }
 
 void ManualEdit::LoadAnim(const string& _strKey)

@@ -11,7 +11,7 @@ enum class eSCUNIT_UNIT_RACE
     ZERG
 };
 
-enum class eSCUNIT_UNIT_SIZE_TYPE
+enum class eSCUNIT_SIZE
 {
     Small,
     Midium,

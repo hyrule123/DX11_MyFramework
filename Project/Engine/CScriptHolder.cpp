@@ -88,20 +88,36 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 			int arrsize = (int)arr.size();
 			for (int i = 0; i < arrsize; ++i)
 			{
-				if (arr[i].isNull())
-					break;
-
-				CScript* newScript = CScriptMgr::GetInst()->GetNewScript(arr[i].asString());
-
-				if (nullptr == newScript)
-				{
-					ERROR_MESSAGE("Failed to load Script!!");
+				if (arr[i].empty())
 					return false;
+
+				for (Json::ValueIterator it = arr[i].begin(); it != arr[i].end(); ++it)
+				{
+					string ScriptKey = it.key().asString();
+
+					CScript* newScript = CScriptMgr::GetInst()->GetNewScript(ScriptKey);
+
+					if (nullptr == newScript)
+					{
+						string errmsg = "Script\"";
+						errmsg += ScriptKey + "\"";
+						errmsg += " is not Exists!!";
+
+						
+						ERROR_MESSAGE(errmsg.c_str());
+						assert(nullptr != newScript);
+						return false;
+					}
+
+					if (false == newScript->LoadJson(&(*it)[ScriptKey]))
+					{
+						ERROR_MESSAGE("Script Load Failed!!");
+						assert(false);
+
+						return false;
+					}
 				}
 
-				//newScript->LoadJson()
-
-				//AddScript(newScript);
 			}
 		}
 	}
@@ -176,11 +192,17 @@ void CScriptHolder::start()
 		m_vecScript[i]->start();
 	}
 
-	//FSM이 등록되어 있을 경우 0번 FSM을 시작 FSM으로 등록
-	if (false == m_vecFSM.empty() && nullptr != m_vecFSM[0])
+
+	//FSM 등록여부 체크
+	if (false == m_vecFSM.empty())
+	{
+		assert(nullptr != m_vecFSM[0]);
+
+		//FSM이 등록되어 있을 경우 0번 FSM을 시작 FSM으로 등록
+
 		m_pCurrentFSM = m_vecFSM[0];
-	
-	m_pCurrentFSM->EnterState();
+		m_pCurrentFSM->EnterState();
+	}
 }
 
 bool CScriptHolder::Transition(UINT _eStateID, tEvent _tEventMsg)

@@ -28,7 +28,7 @@ namespace strKey_SCEntity
 	JSONKEY(m_eRace);
 	JSONKEY(m_uPopulation);
 	JSONKEY(m_eMoveType);
-	JSONKEY(m_eUnitSizeType);
+	JSONKEY(m_eUnitSize);
 	JSONKEY(m_uSightRange);
 	JSONKEY(m_uCostMineral);
 	JSONKEY(m_uCostGas);
@@ -43,7 +43,7 @@ CScript_SCEntity::CScript_SCEntity(const string& _strKey)
 	, m_eRace()
 	, m_uPopulation()
 	, m_eMoveType()
-	, m_eUnitSizeType()
+	, m_eUnitSize()
 	, m_uSightRange(5u)
 	, m_uCostMineral(50u)
 	, m_uCostGas()
@@ -67,7 +67,7 @@ bool CScript_SCEntity::SaveJson(Json::Value* _pJVal)
 	jVal[strKey_SCEntity::m_eRace] = (int)m_eRace;
 	jVal[strKey_SCEntity::m_uPopulation] = (UINT)m_uPopulation;
 	jVal[strKey_SCEntity::m_eMoveType] = (int)m_eMoveType;
-	jVal[strKey_SCEntity::m_eUnitSizeType] = (int)m_eUnitSizeType;
+	jVal[strKey_SCEntity::m_eUnitSize] = (int)m_eUnitSize;
 	jVal[strKey_SCEntity::m_uSightRange] = (UINT)m_uSightRange;
 	jVal[strKey_SCEntity::m_uCostMineral] = (UINT)m_uCostMineral;
 	jVal[strKey_SCEntity::m_uCostGas] = (UINT)m_uCostGas;
@@ -81,7 +81,37 @@ bool CScript_SCEntity::SaveJson(Json::Value* _pJVal)
 
 bool CScript_SCEntity::LoadJson(Json::Value* _pJVal)
 {
-	return false;
+	if (nullptr == _pJVal)
+		return false;
+
+	else if (false == CScript::LoadJson(_pJVal))
+		return false;
+
+	const Json::Value& jVal = *_pJVal;
+
+	try
+	{
+		m_eRace = (eSCUNIT_UNIT_RACE)jVal[strKey_SCEntity::m_eRace].asInt();
+		m_uPopulation = jVal[strKey_SCEntity::m_uPopulation].asUInt();
+		m_eMoveType = (eSCUNIT_MOVE_TYPE)jVal[strKey_SCEntity::m_eMoveType].asInt();
+		m_eUnitSize = (eSCUNIT_SIZE)jVal[strKey_SCEntity::m_eUnitSize].asInt();
+		m_uSightRange = jVal[strKey_SCEntity::m_uSightRange].asUInt();
+		m_uCostMineral = jVal[strKey_SCEntity::m_uCostMineral].asUInt();
+		m_uCostGas = jVal[strKey_SCEntity::m_uCostGas].asUInt();
+		m_fBaseBuildTime = Pack_float_int(jVal[strKey_SCEntity::m_fBaseBuildTime].asInt()).f;
+		m_strProdBuildingName = jVal[strKey_SCEntity::m_strProdBuildingName].asString();
+		m_eKeyShortcut = (eKEY)jVal[strKey_SCEntity::m_eKeyShortcut].asInt();
+		m_flagTech = jVal[strKey_SCEntity::m_flagTech].asUInt();
+
+		return true;
+	}
+	catch (const std::runtime_error& err)
+	{
+		ERROR_MESSAGE(err.what());
+		return false;
+	}
+
+	return true;
 }
 
 void CScript_SCEntity::init()
