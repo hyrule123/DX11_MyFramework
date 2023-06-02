@@ -132,12 +132,16 @@ void CreateMainGame()
 
 	LoadRes(eRES_TYPE::PREFAB);
 
+	for (int i = 0; i < 50; ++i)
 	{
 		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->FindRes<CPrefab>(strKey_RES_PREFAB::MARINE);
 		CGameObject* Marine = MarinePrefab->Instantiate();
 
-		EventDispatcher::SpawnGameObject(Marine, Vec3(0.f, 0.f, 0.f), 0);
+		float randx = CRandMgr::GetInst()->GetRand<float>(-640.f, 640.f);
+		float randy = CRandMgr::GetInst()->GetRand<float>(-320.f, 320.f);
+		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f), 0);
 	}
+
 
 	
 
