@@ -140,6 +140,10 @@ void CreateMainGame()
 		float randx = CRandMgr::GetInst()->GetRand<float>(-640.f, 640.f);
 		float randy = CRandMgr::GetInst()->GetRand<float>(-320.f, 320.f);
 		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f), 0);
+
+		CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_SCRIPTS::FSM_MOVE_GROUND));
+
+		pMoveGround->SetSpeed(100.f);
 	}
 
 
