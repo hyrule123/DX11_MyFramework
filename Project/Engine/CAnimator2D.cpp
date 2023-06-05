@@ -76,22 +76,19 @@ bool CAnimator2D::SaveJson(Json::Value* _pJVal)
 
     try
     {
+        string strKey = string(RES_INFO::PREFAB::COMPONENT::ANIMATOR2D::JSON_KEY::m_arrAtlasTex);
+        jVal[strKey] = Json::Value(Json::arrayValue);
+        for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
         {
-            string strKey = string(RES_INFO::PREFAB::COMPONENT::ANIMATOR2D::JSON_KEY::m_arrAtlasTex);
-            jVal[strKey] = Json::Value(Json::arrayValue);
-            for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+            if (nullptr != m_arrAtlasTex[i])
             {
-                if (nullptr != m_arrAtlasTex[i])
-                {
-                    jVal[strKey].append(m_arrAtlasTex[i]->GetKey());
-                }
-                else
-                {
-                    jVal[strKey].append(Json::Value(Json::nullValue));
-                }
+                jVal[strKey].append(m_arrAtlasTex[i]->GetKey());
+            }
+            else
+            {
+                jVal[strKey].append(Json::Value(Json::nullValue));
             }
         }
-
     }
     catch (const std::runtime_error& _err)
     {

@@ -25,17 +25,17 @@
 
 namespace strKey_SCEntity
 {
-	JSONKEY(m_eRace);
-	JSONKEY(m_uPopulation);
-	JSONKEY(m_eMoveType);
-	JSONKEY(m_eUnitSize);
-	JSONKEY(m_uSightRange);
-	JSONKEY(m_uCostMineral);
-	JSONKEY(m_uCostGas);
-	JSONKEY(m_fBaseBuildTime);
-	JSONKEY(m_strProdBuildingName);
-	JSONKEY(m_eKeyShortcut);
-	JSONKEY(m_flagTech);
+	STRKEY_DECLARE(m_eRace);
+	STRKEY_DECLARE(m_uPopulation);
+	STRKEY_DECLARE(m_eMoveType);
+	STRKEY_DECLARE(m_eUnitSize);
+	STRKEY_DECLARE(m_uSightRange);
+	STRKEY_DECLARE(m_uCostMineral);
+	STRKEY_DECLARE(m_uCostGas);
+	STRKEY_DECLARE(m_fBaseBuildTime);
+	STRKEY_DECLARE(m_strProdBuildingName);
+	STRKEY_DECLARE(m_eKeyShortcut);
+	STRKEY_DECLARE(m_flagTech);
 };
 
 CScript_SCEntity::CScript_SCEntity(const string& _strKey)
@@ -102,8 +102,6 @@ bool CScript_SCEntity::LoadJson(Json::Value* _pJVal)
 		m_strProdBuildingName = jVal[strKey_SCEntity::m_strProdBuildingName].asString();
 		m_eKeyShortcut = (eKEY)jVal[strKey_SCEntity::m_eKeyShortcut].asInt();
 		m_flagTech = jVal[strKey_SCEntity::m_flagTech].asUInt();
-
-		return true;
 	}
 	catch (const std::runtime_error& err)
 	{
@@ -122,6 +120,11 @@ void CScript_SCEntity::init()
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
 	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);
 	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
+}
+
+void CScript_SCEntity::start()
+{
+	assert(nullptr != ScriptHolder()->Animator2D());
 }
 
 void CScript_SCEntity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)

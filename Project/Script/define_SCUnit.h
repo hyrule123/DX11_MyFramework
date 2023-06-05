@@ -13,9 +13,9 @@ enum class eSCUNIT_UNIT_RACE
 
 enum class eSCUNIT_SIZE
 {
-    Small,
-    Midium,
-    Big,
+    SMALL,
+    MEDIUM,
+    BIG,
 };
 
 //두 상태를 동시에 가질 수 있으므로 
@@ -28,46 +28,45 @@ enum class eSCUNIT_ARMOR_TYPE
 
 enum class eSCUNIT_ATTACK_TYPE
 {
-    Normal,
-    Explosive,
-    Concussive,
-    Spell
+    NORMAL,
+    EXPLOSIVE,
+    CONCUSSIVE,
+    SPELL
 };
 
 enum class eSCUNIT_WEAPON_FLAG
 {
-    isGroundAttackable = BITMASK(0),
-    isAirAttackable = BITMASK(1),
+    GROUND = BITMASK(0),
+    AIR = BITMASK(1),
 };
 
 enum class eSCUNIT_MOVE_TYPE
 {
-    Ground,
-    Hover,
-    Air
+    GROUND,
+    HOVER,
+    AIR
 };
 
 namespace FSM_SCUnit
 {
-    enum eSTATE
+    enum eSTATE : UINT
     {
         IDLE,
         MOVE,
-        ATTACK_BEGIN,
         ATTACK,
-        ATTACK_END,
         DEATH,
         END
     };
 
-    constexpr inline const char* strKey_Anim[END] = {
-        "IDLE",
-        "MOVE",
-        "ATTACK_BEGIN",
-        "ATTACK",
-        "ATTACK_END",
-        "DEATH"
-    };
+    namespace strKey_Anim
+    {
+        STRKEY_DECLARE(IDLE);
+        STRKEY_DECLARE(MOVE);
+        STRKEY_DECLARE(ATTACK_BEGIN_END);
+        STRKEY_DECLARE(ATTACK);
+        STRKEY_DECLARE(DEATH);
+    }
+    
 }
 
 namespace UNIT_INFO

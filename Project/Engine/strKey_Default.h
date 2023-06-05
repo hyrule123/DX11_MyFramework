@@ -128,14 +128,14 @@ namespace DIRECTORY_NAME
 }
 
 
-#define JSONKEY(_type) STRKEY _type = #_type
+
 namespace RES_INFO
 {
 	namespace JSON_KEY
 	{
-		JSONKEY(GameObject);
-		JSONKEY(eRES_TYPE);
-		JSONKEY(strKey);
+		STRKEY_DECLARE(GameObject);
+		STRKEY_DECLARE(eRES_TYPE);
+		STRKEY_DECLARE(strKey);
 	}
 
 	namespace MESHDATA
@@ -159,9 +159,9 @@ namespace RES_INFO
 
 		namespace JSON_KEY
 		{
-			JSONKEY(strKey_Shader);
-			JSONKEY(arrStrKeyTex);
-			JSONKEY(bUseInstancing);
+			STRKEY_DECLARE(strKey_Shader);
+			STRKEY_DECLARE(arrStrKeyTex);
+			STRKEY_DECLARE(bUseInstancing);
 		}
 
 		STRKEY DirName = DIRECTORY_NAME::MATERIAL;
@@ -215,33 +215,33 @@ namespace RES_INFO
 
 		namespace JSON_KEY
 		{
-			JSONKEY(strKeyAtlasTex);
-			JSONKEY(vecFrameUV);
-			JSONKEY(bRegularFrameSize);
+			STRKEY_DECLARE(strKeyAtlasTex);
+			STRKEY_DECLARE(vecFrameUV);
+			STRKEY_DECLARE(bRegularFrameSize);
 
 			namespace AnimFrameUV
 			{
-				JSONKEY(v2_UVLeftTop);
-				JSONKEY(v2_UVSlice);
-				JSONKEY(v2_Offset);
-				JSONKEY(fFullPlayTime);
+				STRKEY_DECLARE(v2_UVLeftTop);
+				STRKEY_DECLARE(v2_UVSlice);
+				STRKEY_DECLARE(v2_Offset);
+				STRKEY_DECLARE(fFullPlayTime);
 			}
 			
-			JSONKEY(mapAnim);
+			STRKEY_DECLARE(mapAnim);
 			namespace Anim2D
 			{
-				JSONKEY(strKeyAnim2D);
-				JSONKEY(vecFrame);
-				JSONKEY(uNumFrame);
-				JSONKEY(fFullPlayTime);
-				JSONKEY(eAnimType);
-				JSONKEY(vPivot);
-				JSONKEY(uColTotal);
-				JSONKEY(uRowTotal);
+				STRKEY_DECLARE(strKeyAnim2D);
+				STRKEY_DECLARE(vecFrame);
+				STRKEY_DECLARE(uNumFrame);
+				STRKEY_DECLARE(fFullPlayTime);
+				STRKEY_DECLARE(eAnimType);
+				STRKEY_DECLARE(vPivot);
+				STRKEY_DECLARE(uColTotal);
+				STRKEY_DECLARE(uRowTotal);
 			}
 
-			JSONKEY(uRowTotal);
-			JSONKEY(uColTotal);
+			STRKEY_DECLARE(uRowTotal);
+			STRKEY_DECLARE(uColTotal);
 		}
 		
 	}
@@ -269,33 +269,33 @@ namespace RES_INFO
 		namespace JSON_KEY
 		{
 			//CComponent* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
-			JSONKEY(m_arrCom);
+			STRKEY_DECLARE(m_arrCom);
 
 			//CRenderComponent* m_RenderCom;
 
 			//Hierarchy
 			//CGameObject* m_Parent;
 			//있을 경우 Prefab 형태로 따로 저장해서 불러온 뒤 로드해서 주소를 등록
-			JSONKEY(m_Parent_PREFAB);
+			STRKEY_DECLARE(m_Parent_PREFAB);
 
 			//vector<CGameObject*>    m_vecChild;
-			JSONKEY(m_vecChild_PREFAB);
+			STRKEY_DECLARE(m_vecChild_PREFAB);
 
 			//tMtrlScalarData          m_MtrlScalarData;
 
 			//Layer Info
 			//int                     m_iLayerIdx;
-			JSONKEY(m_iLayerIdx);
+			STRKEY_DECLARE(m_iLayerIdx);
 
 			//레이어 번호를 고정. 부모 레이어를 옮겨도 자신은 옮겨지지 않음.
 			//bool                    m_bFixLayer;   
-			JSONKEY(m_bFixLayer);
+			STRKEY_DECLARE(m_bFixLayer);
 
 			//Birth, Death
 			//bool                    m_bDestroy;
 
 			//float                   m_fLifeSpan;
-			JSONKEY(m_fLifeSpan);
+			STRKEY_DECLARE(m_fLifeSpan);
 
 			//초기화 되어 현재 Level 안에서 작동중인지 여부를 저장.
 			//작동 이후 컴포넌트가 추가될 시 바로 init 호출.
@@ -307,25 +307,25 @@ namespace RES_INFO
 		{
 			namespace JSON_KEY
 			{
-				JSONKEY(eComponentType);
+				STRKEY_DECLARE(eComponentType);
 			}
 			
 
 			namespace TRANSFORM
 			{
-				JSONKEY(TRANSFORM);
+				STRKEY_DECLARE(TRANSFORM);
 
 				//Matrix    ;
-				JSONKEY(v3Size);
+				STRKEY_DECLARE(v3Size);
 
 				//Vec3    m_v3RelativeScale;
-				JSONKEY(v3RelativeScale);
+				STRKEY_DECLARE(v3RelativeScale);
 
 				//Vec3    m_v3RelativePos;
-				JSONKEY(v3RelativePos);
+				STRKEY_DECLARE(v3RelativePos);
 
 				//Vec3    m_v3RelativeRot;
-				JSONKEY(v3RelativeRot);
+				STRKEY_DECLARE(v3RelativeRot);
 
 				//float m_fLongestDiagonalLen;
 
@@ -338,13 +338,13 @@ namespace RES_INFO
 				//Matrix  m_matParent;
 
 				//bool    m_bInheritScale;
-				JSONKEY(bInheritScale);
+				STRKEY_DECLARE(bInheritScale);
 
 				//bool    m_bInheritRot;
-				JSONKEY(bInheritRot);
+				STRKEY_DECLARE(bInheritRot);
 
 				//bool    m_bLockRotation;
-				JSONKEY(bLockRot);
+				STRKEY_DECLARE(bLockRot);
 
 				//Matrix  m_matWorldWithoutSize;
 
@@ -361,13 +361,13 @@ namespace RES_INFO
 				{
 
 					//const eDIMENSION_TYPE     m_eCollDimension;
-					JSONKEY(m_eCollDimension);
+					STRKEY_DECLARE(m_eCollDimension);
 
 					//Vec3                m_v2OffsetPos;
-					JSONKEY(m_v2OffsetPos);
+					STRKEY_DECLARE(m_v2OffsetPos);
 
 					//Vec3                m_vOffsetScale;
-					JSONKEY(m_vOffsetScale);
+					STRKEY_DECLARE(m_vOffsetScale);
 
 					//int                 m_iCollisionCount;
 					
@@ -379,7 +379,7 @@ namespace RES_INFO
 				namespace JSON_KEY
 				{
 					//eCOLLIDER_TYPE_2D      m_eColType;
-					JSONKEY(m_eColType);
+					STRKEY_DECLARE(m_eColType);
 
 					////공간분할에서 검사된 자신이 속한 그리드 인덱스 번호
 					//vector<UINT>           m_vecGridIdxInfo;
@@ -399,7 +399,7 @@ namespace RES_INFO
 					namespace JSON_KEY
 					{
 						//Vec2 m_v2RectSize;
-						JSONKEY(m_v2RectSize);
+						STRKEY_DECLARE(m_v2RectSize);
 					}
 				}
 
@@ -407,7 +407,7 @@ namespace RES_INFO
 				{
 					namespace JSON_KEY
 					{
-						JSONKEY(m_fRadius);
+						STRKEY_DECLARE(m_fRadius);
 					}
 				}
 			}
@@ -421,7 +421,7 @@ namespace RES_INFO
 			{
 				namespace JSON_KEY
 				{
-					JSONKEY(m_arrAtlasTex);
+					STRKEY_DECLARE(m_arrAtlasTex);
 				}
 			}
 
@@ -445,11 +445,11 @@ namespace RES_INFO
 				namespace JSON_KEY
 				{
 					//Ptr<CMesh>              m_pMesh;
-					JSONKEY(strKeyMesh);
+					STRKEY_DECLARE(strKeyMesh);
 
 					//원본 재질. 특별한 상태를 표현할 필요가 없을 경우 이 재질을 사용
 					//Ptr<CMaterial>          m_pSharedMtrl;
-					JSONKEY(strKeyMtrl);
+					STRKEY_DECLARE(strKeyMtrl);
 				}
 
 				namespace MESHRENDER
@@ -484,7 +484,7 @@ namespace RES_INFO
 			{
 				namespace JSON_KEY
 				{
-					JSONKEY(m_vecScript_strKey);
+					STRKEY_DECLARE(m_vecScript_strKey);
 				}
 			}
 		}
@@ -510,13 +510,13 @@ namespace RES_INFO
 				//쉐이더 파일의 '이름'만 추출
 				//ex) S_1_V_Debug : Debug
 				//이름 : CEntity의 Name을 사용
-				JSONKEY(eSHADER_PIPELINE_STAGE);
-				JSONKEY(D3D_PRIMITIVE_TOPOLOGY);
-				JSONKEY(eRASTERIZER_TYPE);
-				JSONKEY(eDEPTH_STENCIL_TYPE);
-				JSONKEY(eBLEND_STATE_TYPE);
-				JSONKEY(eSHADER_DOMAIN);
-				JSONKEY(m_bUseInstancing);
+				STRKEY_DECLARE(eSHADER_PIPELINE_STAGE);
+				STRKEY_DECLARE(D3D_PRIMITIVE_TOPOLOGY);
+				STRKEY_DECLARE(eRASTERIZER_TYPE);
+				STRKEY_DECLARE(eDEPTH_STENCIL_TYPE);
+				STRKEY_DECLARE(eBLEND_STATE_TYPE);
+				STRKEY_DECLARE(eSHADER_DOMAIN);
+				STRKEY_DECLARE(m_bUseInstancing);
 			}
 		}
 
@@ -529,7 +529,7 @@ namespace RES_INFO
 			{
 				//쉐이더와 json 파일이 공유하는 파일 이름. 확장자 제외
 				//ex) S_C_SCMapLoader.json : S_C_SCMapLoader
-				JSONKEY(uarrNumThreadXYZ);
+				STRKEY_DECLARE(uarrNumThreadXYZ);
 			}
 		}
 	}

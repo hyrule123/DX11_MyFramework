@@ -15,6 +15,57 @@ CScript_FSM_Idle::~CScript_FSM_Idle()
 }
 
 
+bool CScript_FSM_Idle::SaveJson(Json::Value* _pJson)
+{
+    try
+    {
+        if (nullptr == _pJson)
+            throw(std::runtime_error("_pJson == nullptr"));
+
+        else if (false == CFSM::SaveJson(_pJson))
+            return false;
+
+        Json::Value& jVal = *_pJson;
+
+
+
+
+    }
+    catch (const std::runtime_error& err)
+    {
+        ERROR_MESSAGE(err.what());
+        assert(false);
+        return false;
+    }
+
+    return true;
+}
+
+bool CScript_FSM_Idle::LoadJson(Json::Value* _pJson)
+{
+    try
+    {
+        if (nullptr == _pJson)
+            throw(std::runtime_error("_pJson == nullptr"));
+
+        else if (false == CFSM::LoadJson(_pJson))
+            return false;
+
+        Json::Value& jVal = *_pJson;
+
+
+    }
+    catch (const std::runtime_error& err)
+    {
+        ERROR_MESSAGE(err.what());
+        assert(false);
+        return false;
+    }
+
+    return true;
+
+}
+
 void CScript_FSM_Idle::init()
 {
 }

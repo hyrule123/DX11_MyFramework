@@ -7,7 +7,7 @@
 
 namespace JSON_KEY
 {
-	JSONKEY(strName);
+	STRKEY_DECLARE(strName);
 }
 
 UINT CEntity::g_iNextID = 0;

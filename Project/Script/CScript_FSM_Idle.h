@@ -13,6 +13,9 @@ public:
     CLONE(CScript_FSM_Idle);
 
 public:
+    virtual bool SaveJson(Json::Value* _pJson) override;
+    virtual bool LoadJson(Json::Value* _pJson) override;
+
     virtual void init() override;
     virtual void EnterState() override;
     virtual void OnState() override;

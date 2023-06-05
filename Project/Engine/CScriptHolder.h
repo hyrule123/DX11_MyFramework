@@ -11,8 +11,8 @@ class CFSM;
 //한 게임오브젝트에서 활용하는 스크립트들 모음
 //FSM도 여기에서 담당
 
-class CScriptHolder :
-    public CComponent
+class CScriptHolder 
+    : public CComponent
 {
 public:
     CScriptHolder();
@@ -48,8 +48,8 @@ private:
 
 public:
     bool AddScript(CScript* _pScript);
-    //CScript* FindScript(const string& _strKey);
-    CScript* FindScript(const string& _strViewKey);
+    CScript* FindScript(const string& _strKey);
+
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
 
     //이건 직접 호출할 필요 없음.(AddScript 할 시 알아서 호출 됨)

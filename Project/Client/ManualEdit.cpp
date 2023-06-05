@@ -23,6 +23,7 @@
 #include <Script/CScript_FSM_Attack.h>
 #include <Script/CScript_FSM_Move_Ground.h>
 #include <Script/CScript_FSM_Death.h>
+#include <Script/CScript_SCEntity.h>
 
 void ManualEdit::Edit()
 {
@@ -129,10 +130,21 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 	//Script
 	{
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::SCENTITY));
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_MOVE_GROUND));
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::FSM_ATTACK));
+		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
+
+		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::SCENTITY));
+		pObj->AddScript(pSCEntity);
+		
+		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
+		pObj->AddScript(pFSMIdle);
+
+		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_SCRIPTS::FSM_MOVE_GROUND);
+		pObj->AddScript(pFSMGround);
+
+		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_SCRIPTS::FSM_ATTACK);
+		pObj->AddScript(pFSMAttack);
+
+
 	}
 	
 

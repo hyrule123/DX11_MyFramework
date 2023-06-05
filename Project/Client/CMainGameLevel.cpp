@@ -132,22 +132,20 @@ void CreateMainGame()
 
 	LoadRes(eRES_TYPE::PREFAB);
 
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->FindRes<CPrefab>(strKey_RES_PREFAB::MARINE);
 		CGameObject* Marine = MarinePrefab->Instantiate();
 
 		float randx = CRandMgr::GetInst()->GetRand<float>(-640.f, 640.f);
 		float randy = CRandMgr::GetInst()->GetRand<float>(-320.f, 320.f);
-		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f), 0);
+		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f), 1);
 
 		CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_SCRIPTS::FSM_MOVE_GROUND));
 
 		pMoveGround->SetSpeed(100.f);
 	}
 
-
-	
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);

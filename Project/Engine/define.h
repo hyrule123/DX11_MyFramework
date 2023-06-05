@@ -32,6 +32,7 @@
 #endif
 
 #define STRKEY constexpr inline const char*
+#define STRKEY_DECLARE(_type) STRKEY _type = #_type
 
 //Macro for SMALL data sized variable(public)
 #define SETTER(_Type_, _Var_, _FuncName_) public: void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }

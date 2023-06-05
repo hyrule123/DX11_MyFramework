@@ -142,24 +142,12 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 		return false;
 
 	m_vecScript.push_back(_pScript);
-	//m_mapScript.insert(std::make_pair(_pScript->GetName(), _pScript));
 
 	_pScript->SetHolder(this);
 
 	return true;
 }
 
-//CScript* CScriptHolder::FindScript(const string& _strKey)
-//{
-//	size_t size = m_vecScript.size();
-//	for (size_t i = 0; i < size; ++i)
-//	{
-//		if (_strKey == m_vecScript[i]->GetName())
-//			return m_vecScript[i];
-//	}
-//
-//	return nullptr;
-//}
 
 CScript* CScriptHolder::FindScript(const string& _strViewKey)
 {
