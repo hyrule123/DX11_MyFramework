@@ -63,26 +63,23 @@ void ManualEdit::MarineAnim_Save(const string& _strKey)
 	Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
 
 	//Idle
-	Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[IDLE]), 0u, 1u, 1.f);
+	Atlas->AddAnim2D_SC_Redundant(strKey_Anim::IDLE, 0u, 1u, 1.f);
 
 	//Attack Begin
-	Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[ATTACK_BEGIN]), 1u, 2u, 0.5f);
-
-	//Attack End
-	Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[ATTACK_END]), 2u, 1u, 0.5f);
+	Atlas->AddAnim2D_SC_Redundant(strKey_Anim::ATTACK_BEGIN_END, 1u, 2u, 0.5f);
 
 	//Move
-	Atlas->AddAnim2D_SC_Redundant(string(strKey_Anim[MOVE]), 4u, 9u, 1.f);
+	Atlas->AddAnim2D_SC_Redundant(strKey_Anim::MOVE, 4u, 9u, 1.f);
 
 	//Attack
 	vector<UINT> row = { 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 3u, 2u, 2u, 2u, 2u, 2u };
-	Atlas->AddAnim2D_vecRowIndex(string(strKey_Anim[ATTACK]), row, 0.6f);
+	Atlas->AddAnim2D_vecRowIndex(strKey_Anim::ATTACK, row, 0.6f);
 
 	row.clear();
 
 	//Death
 	row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
-	Atlas->AddAnim2D(string(strKey_Anim[DEATH]), row, 1.f);
+	Atlas->AddAnim2D(strKey_Anim::DEATH, row, 1.f);
 
 	string strKey = strKey_TEXTURE::TERRAN::MARINE_BMP;
 	

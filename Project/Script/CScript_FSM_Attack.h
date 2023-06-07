@@ -4,13 +4,7 @@
 
 #include "define_SCUnit.h"
 
-enum class eSCUNIT_ATTACK_STATE
-{
-    IDLE,
-    BEGIN_ATTACK,
-    IN_ATTACK,
-    END_ATTACK
-};
+
 
 class CScript_FSM_Attack :
     public CFSM
@@ -54,8 +48,6 @@ private:
     GETTER_SETTER(UINT, m_uWeaponRange, WeaponRange);
 
 private:
-    //State Check
-    eSCUNIT_ATTACK_STATE m_eAttackState;
     bool m_bStopReserved;
     Vec2 m_v2ReservedDest; //예약된 이동 목적지
 

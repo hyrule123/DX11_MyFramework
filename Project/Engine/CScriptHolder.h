@@ -10,6 +10,12 @@ class CFSM;
 
 //한 게임오브젝트에서 활용하는 스크립트들 모음
 //FSM도 여기에서 담당
+enum class eFSM_RESULT
+{
+    NULLPTR,
+    ACCEPT,
+    REJECT
+};
 
 class CScriptHolder 
     : public CComponent
@@ -33,7 +39,7 @@ public:
     virtual void finaltick() final {}
     virtual void cleanup() final {}
 
-    bool Transition(UINT _eStateID, tEvent _tEventMsg = tEvent{});
+    eFSM_RESULT Transition(UINT _eStateID, tEvent _tEventMsg = tEvent{});
 
 private:
     //FSM을 포함한 모든 스크립트를 들고있음(업데이트 용)

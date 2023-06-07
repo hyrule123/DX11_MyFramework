@@ -40,7 +40,7 @@ public:
 
 
 protected:
-    bool Transition(UINT _eStateID, tEvent _tEventMsg = tEvent{});
+    eFSM_RESULT Transition(UINT _eStateID, tEvent _tEventMsg = tEvent{});
 
 public:
     virtual void SetHolder(CScriptHolder* _pScriptHolder) override;
@@ -51,7 +51,7 @@ public:
     UINT GetStateID() const { return m_uStateID; }
 };
 
-inline bool CFSM::Transition(UINT _eStateID, tEvent _tEventMsg)
+inline eFSM_RESULT CFSM::Transition(UINT _eStateID, tEvent _tEventMsg)
 {
     return ScriptHolder()->Transition(_eStateID, _tEventMsg);
 }

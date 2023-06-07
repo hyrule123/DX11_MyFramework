@@ -150,7 +150,7 @@
 				114
 			]
 		},
-		"ATTACK_BEGIN" : 
+		"ATTACK_BEGIN_END" : 
 		{
 			"eAnimType" : 1,
 			"fFullPlayTime" : 1056964608,
@@ -177,27 +177,6 @@
 				99,
 				100,
 				113,
-				114
-			]
-		},
-		"ATTACK_END" : 
-		{
-			"eAnimType" : 1,
-			"fFullPlayTime" : 1056964608,
-			"uColTotal" : 9,
-			"uNumFrame" : 1,
-			"uRowTotal" : 1,
-			"vPivot" : 4539628425446424576,
-			"vecFrame" : 
-			[
-				2,
-				16,
-				30,
-				44,
-				58,
-				72,
-				86,
-				100,
 				114
 			]
 		},

@@ -191,13 +191,11 @@ void CScriptHolder::start()
 	}
 }
 
-bool CScriptHolder::Transition(UINT _eStateID, tEvent _tEventMsg)
+eFSM_RESULT CScriptHolder::Transition(UINT _eStateID, tEvent _tEventMsg)
 {
-	//예외 처리
+	//예외 처리(전환 대상이 되는 상태가 없음)
 	if (false == CheckFSMValid(_eStateID))
-		return false;
-
-	bool bCheck = false;
+		return eFSM_RESULT::NULLPTR;
 
 	if (
 		//현재 State가 존재하지 않으면 바로 검사 통과
@@ -213,10 +211,10 @@ bool CScriptHolder::Transition(UINT _eStateID, tEvent _tEventMsg)
 
 		m_pCurrentFSM = m_vecFSM[_eStateID];
 		m_pCurrentFSM->EnterState();
-		return true;
+		return eFSM_RESULT::ACCEPT;
 	}
 
-	return false;
+	return eFSM_RESULT::REJECT;
 }
 
 
