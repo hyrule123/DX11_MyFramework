@@ -359,18 +359,11 @@ namespace RES_INFO
 			{
 				namespace JSON_KEY
 				{
+					//Position은 무조건 트랜스폼을 따라감. 이 값은 Transform의 위치값에 추가로 Offset을 줌.
+					STRKEY_DECLARE(m_v3OffsetPos);
 
-					//const eDIMENSION_TYPE     m_eCollDimension;
-					STRKEY_DECLARE(m_eCollDimension);
-
-					//Vec3                m_v2OffsetPos;
-					STRKEY_DECLARE(m_v2OffsetPos);
-
-					//Vec3                m_vOffsetScale;
-					STRKEY_DECLARE(m_vOffsetScale);
-
-					//int                 m_iCollisionCount;
-					
+					STRKEY_DECLARE(m_bFollowTransformSize);
+					STRKEY_DECLARE(m_v3Size);
 				}
 			}
 

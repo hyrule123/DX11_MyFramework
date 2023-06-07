@@ -35,7 +35,20 @@
 			},
 			{
 				"eComponentType" : 1,
-				"m_eColType" : 0
+				"m_bFollowTransformSize" : false,
+				"m_eColType" : 0,
+				"m_v3OffsetPos" : 
+				[
+					0,
+					0,
+					0
+				],
+				"m_v3Size" : 
+				[
+					1099431936,
+					1101004800,
+					1120403456
+				]
 			},
 			null,
 			{

@@ -6,6 +6,9 @@
 
 #include "CTransform.h"
 
+#include "jsoncpp.h"
+#include "strKey_Default.h"
+
 CCollider::CCollider(eCOMPONENT_TYPE _ComType, eDIMENSION_TYPE _eDim)
 	: CComponent(_ComType)
 	, m_eCollDimension(_eDim)
@@ -19,6 +22,102 @@ CCollider::CCollider(eCOMPONENT_TYPE _ComType, eDIMENSION_TYPE _eDim)
 
 CCollider::~CCollider()
 {
+}
+
+bool CCollider::SaveJson(Json::Value* _pJson)
+{
+	if (nullptr == _pJson)
+		return false;
+	else if (false == CComponent::SaveJson(_pJson))
+		return false;
+
+	Json::Value& jVal = *_pJson;
+
+	{
+		string strKey = RES_INFO::PREFAB::COMPONENT::COLLIDER::JSON_KEY::m_v3OffsetPos;
+		jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
+		jVal[strKey].append(Pack_float_int(m_v3OffsetPos.x).i);
+		jVal[strKey].append(Pack_float_int(m_v3OffsetPos.y).i);
+		jVal[strKey].append(Pack_float_int(m_v3OffsetPos.z).i);
+	}
+
+	{
+		jVal[RES_INFO::PREFAB::COMPONENT::COLLIDER::JSON_KEY::m_bFollowTransformSize] = m_bFollowTransformSize;
+	}
+
+	//고유한 충돌체 사이즈를 별도로 사용하는 경우 사이즈를 별도로 저장한다.
+	//트랜스폼의 사이즈를 따라가는 경우 사이즈를 저장하지 않음(어차피 계산됨)
+	if (false == m_bFollowTransformSize)
+	{
+		string strKey = RES_INFO::PREFAB::COMPONENT::COLLIDER::JSON_KEY::m_v3Size;
+		jVal[strKey] = Json::Value(Json::ValueType::arrayValue);
+		jVal[strKey].append(Pack_float_int(m_v3Size.x).i);
+		jVal[strKey].append(Pack_float_int(m_v3Size.y).i);
+		jVal[strKey].append(Pack_float_int(m_v3Size.z).i);
+	}
+
+
+	return true;
+}
+
+bool CCollider::LoadJson(Json::Value* _pJson)
+{
+	if (nullptr == _pJson)
+		return false;
+	else if (false == CComponent::LoadJson(_pJson))
+		return false;
+
+	Json::Value& jVal = *_pJson;
+
+	try
+	{
+		{
+			string strKey = RES_INFO::PREFAB::COMPONENT::COLLIDER::JSON_KEY::m_v3OffsetPos;
+			if (jVal.isMember(strKey) && jVal[strKey].isArray() && (jVal[strKey].size() == 3))
+			{
+				m_v3OffsetPos.x = Pack_float_int(jVal[strKey][0].asInt()).f;
+				m_v3OffsetPos.y = Pack_float_int(jVal[strKey][1].asInt()).f;
+				m_v3OffsetPos.z = Pack_float_int(jVal[strKey][2].asInt()).f;
+			}
+			else
+			{
+				strKey += " is Missing!!";
+				throw(std::runtime_error(strKey));
+			}
+		}
+
+		{
+			string strKey = RES_INFO::PREFAB::COMPONENT::COLLIDER::JSON_KEY::m_bFollowTransformSize;
+			if (jVal.isMember(strKey))
+				m_bFollowTransformSize = jVal[strKey].asBool();
+			else
+				throw(std::runtime_error(strKey + " is Missing!!"));
+		}
+
+		//사이즈의 경우 고유 사이즈를 사용하도록 설정되어 있을 경우에만 불러온다.
+		if(false == m_bFollowTransformSize)
+		{
+			string strKey = RES_INFO::PREFAB::COMPONENT::COLLIDER::JSON_KEY::m_v3Size;
+			if (jVal.isMember(strKey) && jVal[strKey].isArray() && (jVal[strKey].size() == 3))
+			{
+				m_v3Size.x = Pack_float_int(jVal[strKey][0].asInt()).f;
+				m_v3Size.y = Pack_float_int(jVal[strKey][1].asInt()).f;
+				m_v3Size.z = Pack_float_int(jVal[strKey][2].asInt()).f;
+			}
+			else
+				throw(std::runtime_error(strKey + " is Missing!!"));
+		}
+	}
+	catch (const std::runtime_error& _err)
+	{
+		ERROR_MESSAGE(_err.what());
+		assert(false);
+		return false;
+	}
+
+
+
+	return true;
 }
 
 

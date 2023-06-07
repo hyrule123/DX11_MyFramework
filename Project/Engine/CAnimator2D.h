@@ -37,10 +37,10 @@ private:
 //========= 현재 애니메이션 시간 ==================
 //     매 tick마다 갱신되는 변수
     //0부터 체크되는 프레임 번호
-    UINT                m_uCurFrame;
+    //UINT                m_uCurFrame;
 
     //벡터에서 찾을 현재 프레임의 인덱스 번호(역재생 여부에 따라 계산된 실제 인덱스)
-    UINT                m_uCurFrameIdx;
+    int                m_iCurFrameIdx;
 
     //실제로 계산된 vecFrameUV 안에서의 인덱스
     int                m_uCalculatedIdx;

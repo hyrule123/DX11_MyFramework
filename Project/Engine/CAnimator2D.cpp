@@ -17,8 +17,8 @@
 
 CAnimator2D::CAnimator2D()
     : CComponent(eCOMPONENT_TYPE::ANIMATOR2D)
-    , m_uCurFrame()
-    , m_uCurFrameIdx()
+    //, m_uCurFrame()
+    , m_iCurFrameIdx()
     , m_fCurTime()
     , m_bFinish()
     , m_bFinishChecked()
@@ -39,7 +39,7 @@ CAnimator2D::CAnimator2D()
 
 CAnimator2D::CAnimator2D(const CAnimator2D& _other)
     : CComponent(_other)
-    , m_uCurFrame(_other.m_uCurFrame)
+    //, m_uCurFrame(_other.m_uCurFrame)
     , m_uCalculatedIdx(_other.m_uCalculatedIdx)
     , m_fCurTime(_other.m_fCurTime)
     , m_bFinish(_other.m_bFinish)
@@ -173,16 +173,36 @@ void CAnimator2D::finaltick()
                 //ftime에서 한프레임별 시간을 계산
                 m_fCurTime -= m_fTimePerFrame;
 
-                //다음 프레임으로 진행한다.
-                ++m_uCurFrame;
-
-                //마지막 프레임일 경우
-                if (m_uMaxFrameCount <= m_uCurFrame)
+                //정재생일 경우
+                if (false == m_bReverse)
                 {
-                    //마지막 프레임으로 고정시킨다
-                    m_uCurFrame = m_uMaxFrameCount - 1;
-                    m_bFinish = true;
-                    m_bFinishChecked = true;
+                    //다음 프레임으로 진행한다.
+                    ++m_iCurFrameIdx;
+
+                    //마지막 프레임일 경우
+                    if ((int)m_uMaxFrameCount <= m_iCurFrameIdx)
+                    {
+                        //마지막 프레임으로 고정시킨다
+                        m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
+                        m_bFinish = true;
+                        m_bFinishChecked = true;
+                    }
+                }
+
+                //역재생일 경우
+                else
+                {
+                    //다음 프레임으로 진행한다.
+                    --m_iCurFrameIdx;
+
+                    //마지막 프레임까지 재생이 끝났을 경우
+                    if (0 > m_iCurFrameIdx)
+                    {
+                        //마지막 프레임으로 고정시킨다
+                        m_iCurFrameIdx = 0;
+                        m_bFinish = true;
+                        m_bFinishChecked = true;
+                    }
                 }
             }
 
@@ -197,12 +217,14 @@ void CAnimator2D::finaltick()
                     break;
                 case eANIM_LOOPMODE::NORMAL_LOOP:
                     //프레임을 다시 0번으로 변경
-                    m_uCurFrame = 0u;
+                    if (false == m_bReverse)
+                        m_iCurFrameIdx = 0;
+                    else
+                        m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
 
                     m_bFinish = false;
                     break;
                 case eANIM_LOOPMODE::ZIG_ZAG:
-                    m_uCurFrame = 0u;
 
                     //프레임 0번으로 변경하고 리버스 모드를 반대로 바꿈
                     m_bReverse = !m_bReverse;
@@ -215,13 +237,6 @@ void CAnimator2D::finaltick()
             }
         }
 
-        //실제 애니메이션 프레임을 계산한다.
-        //역재생인지 여부를 먼저 계산
-        if (true == m_bReverse)
-            m_uCurFrameIdx = m_uMaxFrameCount - 1u - m_uCurFrame;
-        else
-            m_uCurFrameIdx = m_uCurFrame;
-
 
         //방향을 가진 애니메이션일 경우 방향에 따른 프레임을 계산한다.
         if (eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP == m_pCurAnim->eAnimType)
@@ -230,20 +245,20 @@ void CAnimator2D::finaltick()
         }
         else if (eANIM_TYPE::SEQUENTIAL == m_pCurAnim->eAnimType)
         {
-            m_uCalculatedIdx = m_pCurAnim->vecFrame[m_uCurFrameIdx];
+            m_uCalculatedIdx = m_pCurAnim->vecFrame[m_iCurFrameIdx];
         }
 
         //프레임에 등록된 콜백함수가 있을 경우 콜백함수 호출
         //vector의 사이즈를 확인하고 현재 프레임 넘어서 인덱스가 존재할 경우에만 확인(최적화)
         size_t size = m_pCurAnim->vec2D_pFuncCallback.size();
-        if (size > m_uCurFrameIdx)
+        if (size > m_iCurFrameIdx)
         {
-            size = m_pCurAnim->vec2D_pFuncCallback[m_uCurFrameIdx].size();
+            size = m_pCurAnim->vec2D_pFuncCallback[m_iCurFrameIdx].size();
             for (size_t i = 0; i < size; ++i)
             {
                 //함수 호출
-                if(nullptr != m_pCurAnim->vec2D_pFuncCallback[m_uCurFrameIdx][i])
-                    m_pCurAnim->vec2D_pFuncCallback[m_uCurFrameIdx][i]();
+                if(nullptr != m_pCurAnim->vec2D_pFuncCallback[m_iCurFrameIdx][i])
+                    m_pCurAnim->vec2D_pFuncCallback[m_iCurFrameIdx][i]();
             }
         }
     }
@@ -336,7 +351,6 @@ bool CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
                     m_iCurAtlasTexIdx = i;
                     break;
                 }
-                    
             }
         }
     }
@@ -347,13 +361,20 @@ bool CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
         m_eLoopMode = _eLoopMode;
         m_bReverse = _bReverse;
 
-        m_uCurFrame = 0u;
-        m_uCalculatedIdx = 0;
+        //m_uCurFrame = 0u;
+
+
         m_fCurTime = 0.f;
         m_bFinish = false;
         m_bFlipX = false;
 
         m_uMaxFrameCount = m_pCurAnim->uNumFrame;
+
+        if (false == m_bReverse)
+            m_iCurFrameIdx = 0;
+        else
+            m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
+
         m_fTimePerFrame = m_pCurAnim->fTimePerFrame;
         m_fFullPlayTime = m_pCurAnim->fFullPlayTime;
         
@@ -447,5 +468,5 @@ void CAnimator2D::CalculateDirectionalColHalfFlipAtlas()
         m_bFlipX = false;
     }
 
-    m_uCalculatedIdx = m_pCurAnim->vecFrame[idx * m_pCurAnim->uRowTotal + m_uCurFrameIdx];
+    m_uCalculatedIdx = m_pCurAnim->vecFrame[idx * m_pCurAnim->uRowTotal + m_iCurFrameIdx];
 }

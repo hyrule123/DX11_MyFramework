@@ -11,6 +11,9 @@ public:
     CCollider(eCOMPONENT_TYPE _ComType, eDIMENSION_TYPE _eDim);
     virtual ~CCollider();
 
+    virtual bool SaveJson(Json::Value* _pJson) override;
+    virtual bool LoadJson(Json::Value* _pJson) override;
+
 
 public:
     //충돌체 finaltick()은 transform::finaltick()이후 호출되므로 transform의 값을 마음껏 가져다 사용해도 문제 없음.

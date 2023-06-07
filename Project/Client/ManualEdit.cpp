@@ -96,6 +96,8 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	{
 		CCollider2D_Rect* pCol = new CCollider2D_Rect;
 		pObj->AddComponent(pCol);
+
+		pCol->SetFollowTransformSize(false);
 		pCol->SetCollSize(Vec2(17.f, 20.f));
 	}
 
