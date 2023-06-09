@@ -17,7 +17,7 @@ CScript_FSM_Death::~CScript_FSM_Death()
 {
 }
 
-void CScript_FSM_Death::EnterState()
+void CScript_FSM_Death::EnterState(const tFSM_Event& _tEvent)
 {
     CAnimator2D* pAnimator = Animator2D();
     assert(pAnimator);

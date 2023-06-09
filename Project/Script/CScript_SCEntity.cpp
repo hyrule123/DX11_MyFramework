@@ -23,6 +23,8 @@
 #include "CScript_FSM_Idle.h"
 #include "CScript_FSM_Move_Ground.h"
 
+#include "CScript_FSM_Attack_BeginEnd.h"
+
 namespace strKey_SCEntity
 {
 	STRKEY_DECLARE(m_eRace);
@@ -138,5 +140,10 @@ void CScript_SCEntity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)
 			
 		}
 	}
+}
+
+void CScript_SCEntity::Attack(CGameObject* _pTarget)
+{
+
 }
 

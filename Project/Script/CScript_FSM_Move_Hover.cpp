@@ -17,12 +17,12 @@ CScript_FSM_Move_Hover::CScript_FSM_Move_Hover(const CScript_FSM_Move_Hover& _ot
 {
 }
 
-bool CScript_FSM_Move_Hover::CheckCondition(UINT _eState, tEvent _tEventMsg)
+eFSM_RESULT CScript_FSM_Move_Hover::CheckCondition(const tFSM_Event& _tEvent)
 {
-    return false;
+    return eFSM_RESULT::REJECT;
 }
 
-void CScript_FSM_Move_Hover::EnterState()
+void CScript_FSM_Move_Hover::EnterState(const tFSM_Event& _tEvent)
 {
 }
 

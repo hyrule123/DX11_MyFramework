@@ -14,7 +14,8 @@ enum class eFSM_RESULT
 {
     NULLPTR,
     ACCEPT,
-    REJECT
+    REJECT,
+    RESERVE
 };
 
 class CScriptHolder 
@@ -39,7 +40,9 @@ public:
     virtual void finaltick() final {}
     virtual void cleanup() final {}
 
-    eFSM_RESULT Transition(UINT _eStateID, tEvent _tEventMsg = tEvent{});
+    eFSM_RESULT Transition(const tFSM_Event& _tEvent);
+    eFSM_RESULT Transition(UINT _uStateID) { return Transition(tFSM_Event{ _uStateID, }); }
+    eFSM_RESULT ForceTransition(const tFSM_Event& _tEvent);
 
 private:
     //FSM을 포함한 모든 스크립트를 들고있음(업데이트 용)
@@ -49,8 +52,12 @@ private:
     //Index = FSM의 인덱스 번호
     vector<CFSM*> m_vecFSM;
     CFSM* m_pCurrentFSM;
+
+    tFSM_Event m_uReservedFSM;
 private:
     bool CheckFSMValid(UINT _uStateID) const;
+    void ResetReservedFSM() { m_uReservedFSM = tFSM_Event{}; }
+    void ChangeFSM(const tFSM_Event& _tEvent);
 
 public:
     bool AddScript(CScript* _pScript);
@@ -78,6 +85,9 @@ inline bool CScriptHolder::CheckFSMValid(UINT _uStateID) const
 
     return true;
 }
+
+
+
 
 
 

@@ -70,7 +70,7 @@ void CScript_FSM_Idle::init()
 {
 }
 
-void CScript_FSM_Idle::EnterState()
+void CScript_FSM_Idle::EnterState(const tFSM_Event& _tEvent)
 {
     CAnimator2D* pAnimator = Animator2D();
     if (pAnimator)
@@ -87,3 +87,4 @@ void CScript_FSM_Idle::OnState()
 void CScript_FSM_Idle::EndState()
 {
 }
+

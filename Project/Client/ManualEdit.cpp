@@ -20,6 +20,7 @@
 //Scripts
 #include <Script/define_SCUnit.h>
 #include <Script/CScript_FSM_Idle.h>
+#include <Script/CScript_FSM_Attack_BeginEnd.h>
 #include <Script/CScript_FSM_Attack.h>
 #include <Script/CScript_FSM_Move_Ground.h>
 #include <Script/CScript_FSM_Death.h>
@@ -140,10 +141,10 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_SCRIPTS::FSM_MOVE_GROUND);
 		pObj->AddScript(pFSMGround);
 
+		pObj->AddScript(pScriptMgr->GetNewScript(strKey_SCRIPTS::FSM_ATTACK_BEGINEND));
+
 		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_SCRIPTS::FSM_ATTACK);
 		pObj->AddScript(pFSMAttack);
-
-
 	}
 	
 

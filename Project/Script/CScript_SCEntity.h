@@ -60,5 +60,6 @@ public:
 public:
 
 
-private:
+public:
+    void Attack(CGameObject* _pTarget);
 };

@@ -3,10 +3,8 @@
 
 #include "define_SCUnit.h"
 
-
-
-//WPARAM : m_bIsBegin
-//LPARAM : 미사용
+//srcParam : X
+//destParam : (bool)m_bIsEnd
 
 class CScript_FSM_Attack_BeginEnd :
     public CFSM
@@ -19,21 +17,16 @@ public:
     CLONE(CScript_FSM_Attack_BeginEnd);
 
 public:
-    virtual void EnterState() override;
+    virtual void EnterState(const tFSM_Event& _tEvent) override;
     virtual void OnState() override;
     virtual void EndState() override;
 
-    virtual bool CheckCondition(UINT _eStateID, tEvent _tEventMsg) override;
-    eFSM_RESULT BeginAttack() { return Transition(FSM_SCUnit::ATTACK_BEGIN_END, tEvent{ (DWORD_PTR)true, }); }
-    eFSM_RESULT EndAttack() { return Transition(FSM_SCUnit::ATTACK_BEGIN_END, tEvent{ (DWORD_PTR)false, }); }
+    virtual eFSM_RESULT CheckCondition(const tFSM_Event& _tEvent) override;
+    
 
 private:
-    bool m_bIsBegin;
+    bool m_bIsEnd;
+    void SetBeginEnd(bool _bIsEnd) { m_bIsEnd = _bIsEnd; }
 
-public:
-    UINT m_uNextMoveID;
-    tEvent m_tNextMoveMsg;
-
-    void ResetNextMove() { m_uNextMoveID = FSM_SCUnit::END; m_tNextMoveMsg = {}; }
 };
 

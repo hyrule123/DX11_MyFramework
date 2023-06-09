@@ -80,6 +80,9 @@ public:
     void AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex);
     bool Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
 
+    //현재 재생중인 애니메이션을 그대로 역재생함.
+    void ReverseCurrent(bool _bReverse) { m_bReverse = _bReverse; }
+
     bool IsFinished() const { return m_bFinishChecked; }
 
     //TODO : 임시

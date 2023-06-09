@@ -19,7 +19,7 @@ CScript_FSM_Move_Ground::~CScript_FSM_Move_Ground()
 {
 }
 
-void CScript_FSM_Move_Ground::EnterState()
+void CScript_FSM_Move_Ground::EnterState(const tFSM_Event& _tEvent)
 {
 	CAnimator2D* pAnimator = Animator2D();
 	if (pAnimator)

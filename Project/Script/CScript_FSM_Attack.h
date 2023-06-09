@@ -4,7 +4,7 @@
 
 #include "define_SCUnit.h"
 
-
+class CScript_FSM_Attack_BeginEnd;
 
 class CScript_FSM_Attack :
     public CFSM
@@ -17,17 +17,17 @@ public:
     CLONE(CScript_FSM_Attack);
 
 public:
-    virtual void EnterState() override;
+    virtual void init() override;
+
+    virtual void EnterState(const tFSM_Event& _tEvent) override;
     virtual void OnState() override;
     virtual void EndState() override;
 
     //상태 변경을 요청한 State의 번호
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
-    virtual bool CheckCondition(UINT _eState, tEvent _tEventMsg = tEvent{}) override;
+    virtual eFSM_RESULT CheckCondition(const tFSM_Event& _tEvent) override;
 
     void Attack(CGameObject* _pTarget);
-    //목적지를 CheckCondition으로 전달해주는 래핑함수
-    void Move(Vec2 _v2Dest);
 
 private:
     //Intantiate, 업그레이드 확인용으로 사용
@@ -48,12 +48,17 @@ private:
     GETTER_SETTER(UINT, m_uWeaponRange, WeaponRange);
 
 private:
-    bool m_bStopReserved;
-    Vec2 m_v2ReservedDest; //예약된 이동 목적지
-
     //공격 대상
     CGameObject* m_pTarget;
     SETTER(CGameObject*, m_pTarget, Target);
+
+
+    //공격 시작/종료 모션 담당 클래스
+private:
+    CScript_FSM_Attack_BeginEnd* m_pAtkBeginEnd;
+
+private:
+
 
 public:
     void SetAll(const string& _strWeaponName, UINT _uDefaultDMG, UINT _uDMGAddedPerUpgrade, UINT _uWeaponRange);
@@ -68,8 +73,3 @@ inline void CScript_FSM_Attack::SetAll(const string& _strWeaponName, UINT _uDefa
 }
 
 
-inline void CScript_FSM_Attack::Move(Vec2 _v2Dest)
-{
-    Pack_v2_i64 pack(_v2Dest);
-    Transition(FSM_SCUnit::MOVE, tEvent{ (DWORD_PTR)pack.i64, });
-}

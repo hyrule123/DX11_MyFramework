@@ -15,12 +15,19 @@ struct tGameEvent
 	eEVENT_TYPE Type;
 	DWORD_PTR	wParam;
 	DWORD_PTR	lParam;
+	
 };
 
-struct tEvent
+struct tFSM_Event
 {
-	DWORD_PTR wParam;
-	DWORD_PTR lParam;
+	UINT uStateID;
+	DWORD_PTR srcParam;	//Transition 조건 확인시 체크할 이벤트 파라미터
+	DWORD_PTR destParam;//Transition 성공시 새로 바뀐 FSM에서 처리할 이벤트 파라미터
+	
+	tFSM_Event() : uStateID(UINT_MAX), srcParam(), destParam() {}
+	tFSM_Event(UINT _uStateID) : uStateID(_uStateID), srcParam(), destParam() {}
+	tFSM_Event(UINT _uStateID, DWORD_PTR _srcParam) : uStateID(_uStateID), srcParam(_srcParam), destParam() {}
+	tFSM_Event(UINT _uStateID, DWORD_PTR _wParam, DWORD_PTR _destParam) : uStateID(_uStateID), srcParam(_wParam), destParam(_destParam) {}
 };
 
 struct tSquareInfo

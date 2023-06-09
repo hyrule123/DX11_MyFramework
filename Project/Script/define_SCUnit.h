@@ -51,7 +51,6 @@ namespace FSM_SCUnit
 {
     enum eSTATE : UINT
     {
-
         IDLE,
         MOVE,
         ATTACK_BEGIN_END,

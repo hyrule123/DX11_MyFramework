@@ -187,34 +187,58 @@ void CScriptHolder::start()
 		//FSM이 등록되어 있을 경우 0번 FSM을 시작 FSM으로 등록
 
 		m_pCurrentFSM = m_vecFSM[0];
-		m_pCurrentFSM->EnterState();
+		m_pCurrentFSM->EnterState(tFSM_Event{ 0u, });
 	}
 }
 
-eFSM_RESULT CScriptHolder::Transition(UINT _eStateID, tEvent _tEventMsg)
+eFSM_RESULT CScriptHolder::Transition(const tFSM_Event& _tEvent)
 {
 	//예외 처리(전환 대상이 되는 상태가 없음)
-	if (false == CheckFSMValid(_eStateID))
+	if (false == CheckFSMValid(_tEvent.uStateID))
 		return eFSM_RESULT::NULLPTR;
 
-	if (
-		//현재 State가 존재하지 않으면 바로 검사 통과
-		nullptr == m_pCurrentFSM
-		||
-		//State가 있을 경우 조건 검사
-		m_pCurrentFSM->CheckCondition(_eStateID, _tEventMsg)
-		)
+	//FSM이 비어있을 경우에는 무조건 성공
+	if (nullptr == m_pCurrentFSM)
 	{
-		//검사 통과 시 state 교체
-		if (m_pCurrentFSM)
-			m_pCurrentFSM->EndState();
-
-		m_pCurrentFSM = m_vecFSM[_eStateID];
-		m_pCurrentFSM->EnterState();
+		ChangeFSM(_tEvent.uStateID);
 		return eFSM_RESULT::ACCEPT;
 	}
 
-	return eFSM_RESULT::REJECT;
+	eFSM_RESULT result = m_pCurrentFSM->CheckCondition(_tEvent);
+	if (eFSM_RESULT::ACCEPT == result)
+	{
+		ChangeFSM(_tEvent.uStateID);
+	}
+	else if (eFSM_RESULT::RESERVE == result)
+	{
+		m_uReservedFSM = _tEvent;
+	}
+
+	return result;
+}
+
+void CScriptHolder::ChangeFSM(const tFSM_Event& _tEvent)
+{
+	if (m_pCurrentFSM)
+		m_pCurrentFSM->EndState();
+
+	m_pCurrentFSM = m_vecFSM[_tEvent.uStateID];
+	m_pCurrentFSM->EnterState(_tEvent);
+
+	ResetReservedFSM();
+}
+
+
+eFSM_RESULT CScriptHolder::ForceTransition(const tFSM_Event& _tEvent)
+{
+	if (false == CheckFSMValid(_tEvent.uStateID))
+		return eFSM_RESULT::NULLPTR;
+
+	if (m_pCurrentFSM) m_pCurrentFSM->EndState();
+	m_pCurrentFSM = m_vecFSM[_tEvent.uStateID];
+	m_pCurrentFSM->EnterState(_tEvent);
+
+	return eFSM_RESULT::ACCEPT;
 }
 
 
@@ -226,6 +250,11 @@ void CScriptHolder::tick()
 	{
 		m_vecScript[i]->tick();
 	}
+
+	//예약된 Transition 실행
+	if (UINT_MAX != m_uReservedFSM.uStateID)
+		//예외처리는 Reserve 등록할떄 했음
+		Transition(m_uReservedFSM);
 
 	if(m_pCurrentFSM) m_pCurrentFSM->OnState();
 }
