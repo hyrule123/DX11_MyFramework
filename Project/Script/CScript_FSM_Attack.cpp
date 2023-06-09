@@ -1,17 +1,18 @@
 #include "pch.h"
 
 #include "CScript_FSM_Attack.h"
-#include "CScript_FSM_Attack_BeginEnd.h"
 #include "CScript_FSM_Move_Ground.h"
 
 
 #include <Engine/CAnimator2D.h>
+#include <Engine/CTimeMgr.h>
 
 
 CScript_FSM_Attack::CScript_FSM_Attack(const string& _strKey)
 	: CFSM(_strKey, (UINT)FSM_SCUnit::eSTATE::ATTACK)
 	, m_uDefaultDMG()
 	, m_uDMGAddedPerUpgrade()
+	, m_fAtkInterval(0.5f)
 	, m_uWeaponRange()
 	, m_pTarget()
 {
@@ -21,33 +22,56 @@ CScript_FSM_Attack::~CScript_FSM_Attack()
 {
 }
 
-void CScript_FSM_Attack::init()
-{
-	m_pAtkBeginEnd = static_cast<CScript_FSM_Attack_BeginEnd*>(ScriptHolder()->GetFSM(FSM_SCUnit::ATTACK_BEGIN_END));
-	assert(nullptr != m_pAtkBeginEnd);
-}
-
 //공격 모션 시작
 void CScript_FSM_Attack::EnterState(const tFSM_Event& _tEvent)
 {
 	//TODO: Target nullptr check
+	m_pTarget = reinterpret_cast<CGameObject*>(_tEvent.destParam);
+	
 
-	CAnimator2D* pAnimator = Animator2D();
-	if (pAnimator)
+	m_eAtkState = eATTACK_STATE::BEGIN_ATTACK;
+	CAnimator2D* pAnim = Animator2D();
+	assert(nullptr != pAnim);
+
+	//공격 시작 애니메이션 재생, 실패(애니메이션 없음) 시 즉시 공격
+	if (false == pAnim->Play(FSM_SCUnit::strKey_Anim::ATTACK_BEGIN_END, eANIM_LOOPMODE::NONE, false))
 	{
-		using namespace FSM_SCUnit;
-		//공격 시작 모션 재생에 실패할 경우(시작 모션 애니메이션이 없을 경우) 바로 공격 모션으로 넘어감
-		pAnimator->Play(FSM_SCUnit::strKey_Anim::ATTACK, eANIM_LOOPMODE::NORMAL_LOOP, false);
+		m_eAtkState = eATTACK_STATE::ATTACKING;
+		pAnim->Play(FSM_SCUnit::strKey_Anim::ATTACK, eANIM_LOOPMODE::NONE, false);
 	}
+
 }
 
 void CScript_FSM_Attack::OnState()
 {
 	//애니메이션 재생이 끝났을 경우 타겟이 있는지 다시 확인 후 지속
-	CAnimator2D* pAnim2D = Animator2D();
-	if (pAnim2D && pAnim2D->IsFinished())
+	CAnimator2D* pAnim = Animator2D();
+	assert(nullptr != pAnim);
+	if (pAnim->IsFinished())
 	{
+		switch (m_eAtkState)
+		{
+		case eATTACK_STATE::BEGIN_ATTACK:
+			m_eAtkState = eATTACK_STATE::ATTACKING;
+			pAnim->Play(FSM_SCUnit::strKey_Anim::ATTACK, eANIM_LOOPMODE::NONE, false);
+			break;
+		case eATTACK_STATE::ATTACKING:
+			m_fCurInterval -= DELTA_TIME;
+			if (m_fCurInterval < 0.f)
+			{
+				m_fCurInterval = m_fAtkInterval;
 
+				//다시 공격 시작
+
+			}
+			break;
+		case eATTACK_STATE::END_ATTACK:
+			break;
+		default:
+			break;
+		}
+		
+		//공격대상이 있는지 확인 후 다시 시작
 	}
 }
 
@@ -81,12 +105,11 @@ eFSM_RESULT CScript_FSM_Attack::CheckCondition(const tFSM_Event& _tEvent)
 	return eFSM_RESULT::REJECT;
 }
 
-void CScript_FSM_Attack::Attack(CGameObject* _pTarget)
+void CScript_FSM_Attack::Attack()
 {
-	
 
-	//TODO: ATTACK
 }
+
 
 
 

@@ -391,6 +391,23 @@ bool CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bo
     return false;
 }
 
+void CAnimator2D::PlayAgain()
+{
+    if (false == m_bReverse)
+    {
+        m_iCurFrameIdx = 0;
+        
+        m_bFinish = false;
+    }
+    else
+    {
+        m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
+    }
+
+    m_fCurTime = 0.f;
+    m_bFinish = false;
+}
+
 const Vec2 CAnimator2D::GetCurFrameSize() 
 {
     Vec2 size;

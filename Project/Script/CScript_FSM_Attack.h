@@ -4,6 +4,14 @@
 
 #include "define_SCUnit.h"
 
+//dest_param: CGameObject* _pTarget
+enum class eATTACK_STATE
+{
+    BEGIN_ATTACK,
+    ATTACKING,
+    END_ATTACK
+};
+
 class CScript_FSM_Attack_BeginEnd;
 
 class CScript_FSM_Attack :
@@ -17,8 +25,6 @@ public:
     CLONE(CScript_FSM_Attack);
 
 public:
-    virtual void init() override;
-
     virtual void EnterState(const tFSM_Event& _tEvent) override;
     virtual void OnState() override;
     virtual void EndState() override;
@@ -27,7 +33,10 @@ public:
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
     virtual eFSM_RESULT CheckCondition(const tFSM_Event& _tEvent) override;
 
-    void Attack(CGameObject* _pTarget);
+private:
+    void BeginAttack();
+    void Attacking();
+    void EndAttack();
 
 private:
     //Intantiate, 업그레이드 확인용으로 사용
@@ -43,6 +52,12 @@ private:
     GETTER_SETTER(UINT, m_uDMGAddedPerUpgrade, DMGPerUpgrade);
 
 private:
+    //공격 사이의 딜레이
+    float m_fAtkInterval;
+    float m_fCurInterval;
+    GETTER_SETTER(float, m_fAtkInterval, AtkInterval);
+
+private:
     //1당 32 픽셀
     UINT m_uWeaponRange;
     GETTER_SETTER(UINT, m_uWeaponRange, WeaponRange);
@@ -52,13 +67,9 @@ private:
     CGameObject* m_pTarget;
     SETTER(CGameObject*, m_pTarget, Target);
 
-
-    //공격 시작/종료 모션 담당 클래스
 private:
-    CScript_FSM_Attack_BeginEnd* m_pAtkBeginEnd;
-
-private:
-
+    //현재 공격 상황
+    eATTACK_STATE m_eAtkState;
 
 public:
     void SetAll(const string& _strWeaponName, UINT _uDefaultDMG, UINT _uDMGAddedPerUpgrade, UINT _uWeaponRange);

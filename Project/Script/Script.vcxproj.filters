@@ -79,9 +79,6 @@
     <ClInclude Include="strKey_Script.h" />
     <ClInclude Include="strKey_Shader.h" />
     <ClInclude Include="strKey_Texture.h" />
-    <ClInclude Include="CScript_FSM_Attack_BeginEnd.h">
-      <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -121,9 +118,6 @@
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
     <ClCompile Include="CScript_FSM_Attack.cpp">
-      <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
-    </ClCompile>
-    <ClCompile Include="CScript_FSM_Attack_BeginEnd.cpp">
       <Filter>ScriptCode\CScript_SCGroundUnit\States</Filter>
     </ClCompile>
   </ItemGroup>

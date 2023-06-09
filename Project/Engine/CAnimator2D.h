@@ -82,6 +82,7 @@ public:
 
     //현재 재생중인 애니메이션을 그대로 역재생함.
     void ReverseCurrent(bool _bReverse) { m_bReverse = _bReverse; }
+    void PlayAgain();
 
     bool IsFinished() const { return m_bFinishChecked; }
 
