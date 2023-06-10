@@ -112,12 +112,6 @@
 						}
 					},
 					{
-						"CScript_FSM_Attack_BeginEnd" : 
-						{
-							"strName" : ""
-						}
-					},
-					{
 						"CScript_FSM_Attack" : 
 						{
 							"strName" : ""

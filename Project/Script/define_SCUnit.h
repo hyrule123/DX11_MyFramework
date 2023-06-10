@@ -53,7 +53,6 @@ namespace FSM_SCUnit
     {
         IDLE,
         MOVE,
-        ATTACK_BEGIN_END,
         ATTACK,
         DEATH,
         END

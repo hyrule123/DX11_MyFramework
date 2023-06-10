@@ -158,11 +158,10 @@ void CAnimator2D::finaltick()
     //재생할 애니메이션이 있을 경우 프레임 처리
     if (nullptr != m_pCurAnim)
     {
-        m_bFinishChecked = false;
-
         //재생이 끝나지 않았을 경우 현재 프레임 업데이트
         if (false == m_bFinish)
         {
+            m_bFinishChecked = false;
             //시간 추가
             m_fCurTime += DELTA_TIME;
 
@@ -206,6 +205,8 @@ void CAnimator2D::finaltick()
                 }
             }
 
+            
+
             //재생이 이번 프레임에 종료되었을 경우 다음 과정을 처리
             if (true == m_bFinish)
             {
@@ -228,7 +229,6 @@ void CAnimator2D::finaltick()
 
                     //프레임 0번으로 변경하고 리버스 모드를 반대로 바꿈
                     m_bReverse = !m_bReverse;
-
                     m_bFinish = false;
                     break;
                 default:
@@ -325,84 +325,85 @@ void CAnimator2D::AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> 
 }
 
 
-bool CAnimator2D::Play(const string& _strAnimName, eANIM_LOOPMODE _eLoopMode, bool _bReverse)
+const tAnim2D* CAnimator2D::FindAnim(const string& _strKey_Anim)
 {
-    if (nullptr != m_arrAtlasTex[m_iCurAtlasTexIdx])
+    const tAnim2D* Anim = nullptr;
+
+    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
     {
-        const tAnim2D* curanim = m_arrAtlasTex[m_iCurAtlasTexIdx]->FindAnim2D(_strAnimName);
-
-        //같은 애니메이션일 경우 바꾸지 않음. 재생 중이므로 true 반환
-        if (curanim == m_pCurAnim)
-            return true;
-
-        m_pCurAnim = curanim;
-    }
-
-    //위에서 못찾았을 경우 전체 순회돌면서 찾아봄
-    if (nullptr == m_pCurAnim)
-    {
-        for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+        if (nullptr != m_arrAtlasTex[i])
         {
-            if (nullptr != m_arrAtlasTex[i])
-            {
-                m_pCurAnim = m_arrAtlasTex[i]->FindAnim2D(_strAnimName);
-                if (nullptr != m_pCurAnim)
-                {
-                    m_iCurAtlasTexIdx = i;
-                    break;
-                }
-            }
+            Anim = m_arrAtlasTex[i]->FindAnim2D(_strKey_Anim);
+
+            if (Anim)
+                break;
         }
     }
+
+    return Anim;
+}
+
+bool CAnimator2D::Play(const string& _strKey_Anim, eANIM_LOOPMODE _eLoopMode, bool _bReverse)
+{
+    const tAnim2D* pAnim = nullptr;
+
+    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+    {
+        if (nullptr == m_arrAtlasTex[i])
+            continue;
+
+        pAnim = m_arrAtlasTex[i]->FindAnim2D(_strKey_Anim);
+        if (pAnim)
+        {
+            m_iCurAtlasTexIdx = i;
+            break;
+        }
+    }
+
+    if (nullptr == pAnim)
+        return false;
+
+    //동일한 애니메이션에 대해 재생을 요청했을 경우 그냥 냅둠(true 반환)
+    else if (pAnim == m_pCurAnim)
+        return true;
+
+    //예외처리 완료. 애니메이션 전환
+    m_pCurAnim = pAnim;
+
 
     //재생 준비
-    if (nullptr != m_pCurAnim)
-    {
-        m_eLoopMode = _eLoopMode;
-        m_bReverse = _bReverse;
+    m_eLoopMode = _eLoopMode;
+    m_bReverse = _bReverse;
 
-        //m_uCurFrame = 0u;
+    m_fCurTime = 0.f;
+    m_bFinish = false;
+    m_bFlipX = false;
 
+    m_uMaxFrameCount = m_pCurAnim->uNumFrame;
 
-        m_fCurTime = 0.f;
-        m_bFinish = false;
-        m_bFlipX = false;
+    if (false == m_bReverse)
+        m_iCurFrameIdx = 0;
+    else
+        m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
 
-        m_uMaxFrameCount = m_pCurAnim->uNumFrame;
-
-        if (false == m_bReverse)
-            m_iCurFrameIdx = 0;
-        else
-            m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
-
-        m_fTimePerFrame = m_pCurAnim->fTimePerFrame;
-        m_fFullPlayTime = m_pCurAnim->fFullPlayTime;
+    m_fTimePerFrame = m_pCurAnim->fTimePerFrame;
+    m_fFullPlayTime = m_pCurAnim->fFullPlayTime;
         
-        if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
-        {
-            Transform()->SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
-        }
-            
-        //재생준비 완료 - true 반환
-        return true;
+    if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
+    {
+        Transform()->SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
     }
-
-
-    return false;
+            
+    //재생준비 완료 - true 반환
+    return true;
 }
 
 void CAnimator2D::PlayAgain()
 {
     if (false == m_bReverse)
-    {
         m_iCurFrameIdx = 0;
-        
-        m_bFinish = false;
-    }
     else
-    {
         m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
-    }
 
     m_fCurTime = 0.f;
     m_bFinish = false;

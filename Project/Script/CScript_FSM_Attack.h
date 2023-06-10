@@ -25,6 +25,8 @@ public:
     CLONE(CScript_FSM_Attack);
 
 public:
+    virtual void init() override;
+
     virtual void EnterState(const tFSM_Event& _tEvent) override;
     virtual void OnState() override;
     virtual void EndState() override;
@@ -33,10 +35,6 @@ public:
     //상태 변경이 가능할 경우 true를 반환해 주면 상태를 변경시킬 수 있다.
     virtual eFSM_RESULT CheckCondition(const tFSM_Event& _tEvent) override;
 
-private:
-    void BeginAttack();
-    void Attacking();
-    void EndAttack();
 
 private:
     //Intantiate, 업그레이드 확인용으로 사용
@@ -68,6 +66,8 @@ private:
     SETTER(CGameObject*, m_pTarget, Target);
 
 private:
+    //Animator에 공격 시작/종료 애니메이션이 있는지 확인
+    bool m_bIsReadyAnim;
     //현재 공격 상황
     eATTACK_STATE m_eAtkState;
 
