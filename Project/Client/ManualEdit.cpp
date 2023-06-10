@@ -32,6 +32,7 @@ void ManualEdit::Edit()
 
 	//Terran-Common Animations
 	Terran_CommonAnim_Save();
+	
 
 	//Marine
 	{
@@ -44,10 +45,20 @@ void ManualEdit::Edit()
 		strKey = strKey_RES_PREFAB::MARINE;
 		MarinePrefab_Save(strKey);
 		LoadPrefab(strKey);
-
-		//Instantiate
-		
 	}
+
+	//Command Center
+	{
+		//Animation
+		CommandCenter_Anim_Save();
+		LoadAnim(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
+		LoadAnim(strKey_TEXTURE::TERRAN::CONSTRUCTION_LARGE_TBLDLRG__BMP);
+
+		string strKey = strKey_RES_PREFAB::COMMAND_CENTER;
+		CommandCenter_Prefab_Save(strKey);
+	}
+
+
 }
 
 void ManualEdit::Terran_CommonAnim_Save()
@@ -123,7 +134,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	CGameObject* pObj = new CGameObject;
-	pObj->SetLayer(SC::INGAME_LAYER_INFO::GroundUnitMain);
+	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
 
 	//Collider
 	{
@@ -186,7 +197,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 
 
-void ManualEdit::CommandCenter_Anim_Save(const string& _strKey)
+void ManualEdit::CommandCenter_Anim_Save()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 
@@ -238,7 +249,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	CGameObject* pObj = new CGameObject;
-	pObj->SetLayer(SC::INGAME_LAYER_INFO::GroundUnitMain);
+	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
 
 	//Collider
 	{
@@ -253,8 +264,12 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 		CAnimator2D* pAnim = new CAnimator2D;
 		pObj->AddComponent(pAnim);
 
-		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::MARINE_BMP);
+		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
 		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
+
+		
+		pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::CONSTRUCTION_LARGE_TBLDLRG__BMP);
+		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_1, pAtlas);
 	}
 
 	//MeshRender
@@ -278,25 +293,35 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::SCENTITY));
-		pObj->AddScript(pSCEntity);
-
 		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
 		pObj->AddScript(pFSMIdle);
-
-		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_SCRIPTS::FSM_MOVE_GROUND);
-		pObj->AddScript(pFSMGround);
-
-		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_SCRIPTS::FSM_ATTACK);
-		pObj->AddScript(pFSMAttack);
 	}
 
+	//Child(유닛 생산 점멸)
+	{
+		CGameObject* pChild = new CGameObject;
+		pChild->SetLayer(SC::LAYER_INFO::GroundUnitTop);
+		pObj->AddChildGameObj(pChild);
+
+		CMeshRender* pRenderCom = new CMeshRender;
+		pChild->AddComponent(pRenderCom);
+
+		//Material
+		Ptr<CMaterial> pMtrl = new CMaterial;
+		pMtrl->SetKey(strKey_RES_PREFAB::COMMAND_CENTER);//프리팹 키와 동일한 키를 사용
+		pRenderCom->SetMaterial(pMtrl);
+		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND);
+		pMtrl->SetShader(pShader);
+
+		//Mesh
+		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		pRenderCom->SetMesh(pMesh);
+	}
 
 	Ptr<CPrefab> pPrefab = new CPrefab;
 	pPrefab->SetKey(_strKey);
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(_strKey);
-
 }
 
 void ManualEdit::LoadAnim(const string& _strKey)

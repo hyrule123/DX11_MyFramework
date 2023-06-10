@@ -106,7 +106,7 @@ namespace SC
 
 	}
 
-	namespace INGAME_LAYER_INFO
+	namespace LAYER_INFO
 	{
 		enum idx
 		{
@@ -118,7 +118,7 @@ namespace SC
 			GroundUnitBack,
 			_06,
 			GroundUnitMain,
-			_08,
+			GroundUnitTop,
 			GroundUnitEffects,
 			_10,
 			GroundUnitAttack,
@@ -154,7 +154,7 @@ namespace SC
 		"GroundUnitBack",	//05
 		"",	//06
 		"GroundUnitMain",	//07
-		"",	//08
+		"GroundUnitTop",	//08
 		"GroundUnitEffects",	//09
 		"",	//10
 		"GroundUnitAttack",	//11

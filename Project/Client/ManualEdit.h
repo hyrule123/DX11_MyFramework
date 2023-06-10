@@ -16,7 +16,7 @@ private:
 	static void MarinePrefab_Save(const string& _strKey);
 
 	//Command Center
-	static void CommandCenter_Anim_Save(const string& _strKey);
+	static void CommandCenter_Anim_Save();
 	static void CommandCenter_Prefab_Save(const string& _strKey);
 	
 

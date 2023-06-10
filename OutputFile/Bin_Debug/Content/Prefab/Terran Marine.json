@@ -121,7 +121,7 @@
 			}
 		],
 		"m_fLifeSpan" : -8388609,
-		"m_iLayerIdx" : -1,
+		"m_iLayerIdx" : 7,
 		"m_vecChild_PREFAB" : [],
 		"strName" : "Terran Marine.json"
 	},

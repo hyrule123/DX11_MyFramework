@@ -72,18 +72,23 @@ void CreateMainGame()
 		pMoveGround->SetSpeed(100.f);
 	}
 
+	{
+		
+		
+	}
+
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
 
-	//CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::INGAME_LAYER_INFO::GroundUnitMain, SC::INGAME_LAYER_INFO::MouseCursor);
-	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::INGAME_LAYER_INFO::MouseCursor);
+	//CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::MouseCursor);
+	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::LAYER_INFO::MouseCursor);
 
-	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::INGAME_LAYER_INFO::GroundUnitMain, SC::INGAME_LAYER_INFO::GroundUnitMain);
+	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::GroundUnitMain);
 
-	for (int i = 0; i < (int)SC::INGAME_LAYER_INFO::idx::END; ++i)
+	for (int i = 0; i < (int)SC::LAYER_INFO::idx::END; ++i)
 	{
-		pLevel->SetLayerName(i, string(SC::INGAME_LAYER_INFO::strLayerName[i]));
+		pLevel->SetLayerName(i, string(SC::LAYER_INFO::strLayerName[i]));
 	}
 
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
