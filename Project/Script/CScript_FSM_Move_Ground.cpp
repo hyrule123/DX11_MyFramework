@@ -11,7 +11,7 @@
 #include <Engine/CKeyMgr.h>
 
 CScript_FSM_Move_Ground::CScript_FSM_Move_Ground(const string& _strKey)
-	: CFSM_Move_Base(_strKey, (UINT)FSM_SCUnit::eSTATE::MOVE, eSCUNIT_MOVE_TYPE::GROUND)
+	: CFSM_Move_Base(_strKey, (UINT)SC::FSM::MOVE, SC::eUNIT_MOVE_TYPE::GROUND)
 {
 }
 
@@ -24,8 +24,8 @@ void CScript_FSM_Move_Ground::EnterState(const tFSM_Event& _tEvent)
 	CAnimator2D* pAnimator = Animator2D();
 	if (pAnimator)
 	{
-		using namespace FSM_SCUnit;
-		pAnimator->Play(strKey_Anim::MOVE, eANIM_LOOPMODE::NORMAL_LOOP, false);
+		using namespace SC;
+		pAnimator->Play(FSM::strKey_Anim::MOVE, eANIM_LOOPMODE::NORMAL_LOOP, false);
 	}
 }
 
@@ -87,7 +87,7 @@ void CScript_FSM_Move_Ground::OnState()
 		if (ArriveCheck.x < 0.f || ArriveCheck.y < 0.f)
 		{
 			SetArrive(true);
-			ScriptHolder()->Transition((UINT)FSM_SCUnit::eSTATE::IDLE);
+			ScriptHolder()->Transition((UINT)SC::FSM::IDLE);
 		}
 	}
 }

@@ -9,7 +9,7 @@
 
 
 CScript_FSM_Attack::CScript_FSM_Attack(const string& _strKey)
-	: CFSM(_strKey, (UINT)FSM_SCUnit::eSTATE::ATTACK)
+	: CFSM(_strKey, (UINT)SC::FSM::ATTACK)
 	, m_uDefaultDMG()
 	, m_uDMGAddedPerUpgrade()
 	, m_fAtkInterval(0.5f)
@@ -28,7 +28,7 @@ CScript_FSM_Attack::~CScript_FSM_Attack()
 void CScript_FSM_Attack::init()
 {
 	//공격 준비 모션 애니메이션이 있는지 여부를 확인한다.
-	if (Animator2D()->FindAnim(FSM_SCUnit::strKey_Anim::ATTACK_BEGIN_END))
+	if (Animator2D()->FindAnim(SC::FSM::strKey_Anim::ATTACK_BEGIN_END))
 		m_bIsReadyAnim = true;
 
 	//Animator 유무도 확인
@@ -45,12 +45,12 @@ void CScript_FSM_Attack::EnterState(const tFSM_Event& _tEvent)
 	if (m_bIsReadyAnim)
 	{
 		m_eAtkState = eATTACK_STATE::BEGIN_ATTACK;
-		Animator2D()->Play(FSM_SCUnit::strKey_Anim::ATTACK_BEGIN_END, eANIM_LOOPMODE::NONE, false);
+		Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK_BEGIN_END, eANIM_LOOPMODE::NONE, false);
 	}
 	else
 	{
 		m_eAtkState = eATTACK_STATE::ATTACKING;
-		Animator2D()->Play(FSM_SCUnit::strKey_Anim::ATTACK, eANIM_LOOPMODE::NONE, false);
+		Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK, eANIM_LOOPMODE::NONE, false);
 	}
 }
 
@@ -66,7 +66,7 @@ void CScript_FSM_Attack::OnState()
 		{
 		case eATTACK_STATE::BEGIN_ATTACK:
 			m_eAtkState = eATTACK_STATE::ATTACKING;
-			pAnim->Play(FSM_SCUnit::strKey_Anim::ATTACK, eANIM_LOOPMODE::NONE, false);
+			pAnim->Play(SC::FSM::strKey_Anim::ATTACK, eANIM_LOOPMODE::NONE, false);
 			break;
 		case eATTACK_STATE::ATTACKING:
 			//TODO: 타겟 유무 검사(죽었는지 안 죽었는지)
@@ -102,9 +102,9 @@ void CScript_FSM_Attack::EndState()
 eFSM_RESULT CScript_FSM_Attack::CheckCondition(const tFSM_Event& _tEvent)
 {
 	//사망시 무조건 true
-	if (FSM_SCUnit::DEATH == _tEvent.uStateID)
+	if (SC::FSM::DEATH == _tEvent.uStateID)
 		return eFSM_RESULT::ACCEPT;
-	else if (FSM_SCUnit::ATTACK == _tEvent.uStateID)
+	else if (SC::FSM::ATTACK == _tEvent.uStateID)
 		return eFSM_RESULT::REJECT;
 
 	switch (m_eAtkState)
@@ -122,7 +122,7 @@ eFSM_RESULT CScript_FSM_Attack::CheckCondition(const tFSM_Event& _tEvent)
 			if (m_bIsReadyAnim)
 			{
 				m_eAtkState = eATTACK_STATE::END_ATTACK;
-				Animator2D()->Play(FSM_SCUnit::strKey_Anim::ATTACK_BEGIN_END, eANIM_LOOPMODE::NONE, true);
+				Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK_BEGIN_END, eANIM_LOOPMODE::NONE, true);
 				return eFSM_RESULT::RESERVE;
 			}
 			else

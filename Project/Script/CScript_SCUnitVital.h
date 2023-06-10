@@ -28,6 +28,6 @@ private:
     DECLARE_GETTER_SETTER(UINT, m_uDefaultArmor, DefaultArmor);
     DECLARE_GETTER_SETTER(UINT, m_uArmorAddedPerUpgrade, ArmorAddedPerUpgrade);
 
-    DECLARE_GETTER_SETTER(eSCUNIT_ARMOR_TYPE, m_eArmorType, ArmorType);
+    DECLARE_GETTER_SETTER(SC::eUNIT_ARMOR_TYPE, m_eArmorType, ArmorType);
 };
 

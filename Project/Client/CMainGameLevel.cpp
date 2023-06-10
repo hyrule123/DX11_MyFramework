@@ -46,80 +46,6 @@
 #include "ManualEdit.h"
 #include "strKey_Prefab.h"
 
-namespace INGAME_LAYER_INFO
-{
-	enum idx
-	{
-		_00,
-		TileMap,
-		_03,
-		GroundUnitShadow,
-		_04,
-		GroundUnitBack,
-		_06,
-		GroundUnitMain,
-		_08,
-		GroundUnitEffects,
-		_10,
-		GroundUnitAttack,
-		_12,
-		AirUnitShadow,
-		_14,
-		AirUnitBack,
-		_16,
-		AirUnitMain,
-		_18,
-		AirUnitBooster,
-		_20,
-		AirUnitAttack,
-		_22,
-		_23,
-		_24,
-		_25,
-		_26,
-		_27,
-		_28,
-		_29,
-		MouseCursor,
-		_31,
-		END
-	};
-
-	constexpr inline const char* strLayerName[32] = {
-	"", //00
-	"TileMap",	//01
-	"",	//02
-	"GroundUnitShadow",	//03
-	"",	//04
-	"GroundUnitBack",	//05
-	"",	//06
-	"GroundUnitMain",	//07
-	"",	//08
-	"GroundUnitEffects",	//09
-	"",	//10
-	"GroundUnitAttack",	//11
-	"",	//12
-	"AirUnitShadow",	//13
-	"",	//14
-	"AirUnitBack",	//15
-	"",	//16
-	"AirUnitMain",	//17
-	"",	//18
-	"AirUnitBooster",	//19
-	"",	//20
-	"AirUnitAttack",	//21
-	"",	//22
-	"",	//23
-	"",	//24
-	"",	//25
-	"",	//26
-	"",	//27
-	"",	//28
-	"",	//29
-	"MouseCursor",	//30
-	"",	//31
-	};
-}
 
 
 
@@ -150,14 +76,14 @@ void CreateMainGame()
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
 
-	//CCollisionMgr::GetInst()->AddLayerInteraction2D(INGAME_LAYER_INFO::GroundUnitMain, INGAME_LAYER_INFO::MouseCursor);
-	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(INGAME_LAYER_INFO::MouseCursor);
+	//CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::INGAME_LAYER_INFO::GroundUnitMain, SC::INGAME_LAYER_INFO::MouseCursor);
+	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::INGAME_LAYER_INFO::MouseCursor);
 
-	CCollisionMgr::GetInst()->AddLayerInteraction2D(INGAME_LAYER_INFO::GroundUnitMain, INGAME_LAYER_INFO::GroundUnitMain);
+	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::INGAME_LAYER_INFO::GroundUnitMain, SC::INGAME_LAYER_INFO::GroundUnitMain);
 
-	for (int i = 0; i < (int)INGAME_LAYER_INFO::idx::END; ++i)
+	for (int i = 0; i < (int)SC::INGAME_LAYER_INFO::idx::END; ++i)
 	{
-		pLevel->SetLayerName(i, string(INGAME_LAYER_INFO::strLayerName[i]));
+		pLevel->SetLayerName(i, string(SC::INGAME_LAYER_INFO::strLayerName[i]));
 	}
 
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");

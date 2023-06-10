@@ -8,7 +8,7 @@ class CFSM_Move_Base :
     public CFSM
 {
 public:
-    CFSM_Move_Base(const string& _strKey, UINT _eMyState, eSCUNIT_MOVE_TYPE _eMoveType);
+    CFSM_Move_Base(const string& _strKey, UINT _eMyState, SC::eUNIT_MOVE_TYPE _eMoveType);
     virtual ~CFSM_Move_Base();
 
     //Base 클래스이므로 disable
@@ -20,9 +20,9 @@ public:
 
 
 private:
-    const eSCUNIT_MOVE_TYPE m_eMoveType;
+    const SC::eUNIT_MOVE_TYPE m_eMoveType;
 public:
-    GETTER(eSCUNIT_MOVE_TYPE, m_eMoveType, MoveType);
+    GETTER(SC::eUNIT_MOVE_TYPE, m_eMoveType, MoveType);
 
 private:
     //이동속도

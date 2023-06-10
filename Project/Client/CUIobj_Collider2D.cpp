@@ -11,6 +11,7 @@
 
 #include <Engine/EventDispatcher.h>
 
+#include <Script/SC_Func.h>
 
 CUIobj_Collider2D::CUIobj_Collider2D()
 	: CUIobj_Component("CCollider2D", eCOMPONENT_TYPE::COLLIDER2D)
@@ -138,7 +139,7 @@ void CUIobj_Collider2D::RectEditUI()
 	if (ImGui::Button("Apply"))
 	{
 		if(0 < BuildingSize[0]&& 0 < BuildingSize[1])
-			pRect->SetSCBuildingSize(BuildingSize[0], BuildingSize[1], Offset);
+			SC_Func::SetSCBuildingSize(pRect, BuildingSize[0], BuildingSize[1], Offset);
 		else
 		{
 			ERROR_MESSAGE("Mega tile numbers must be more than 1");

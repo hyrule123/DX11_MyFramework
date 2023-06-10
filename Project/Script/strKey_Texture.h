@@ -33,11 +33,12 @@ namespace strKey_TEXTURE
 		STRKEY BOMBER_VALKYRIE__BMP = "SC/Unit/Terran/Bomber(Valkyrie).bmp";
 		STRKEY CHEMLAB_ARMORY__BMP = "SC/Unit/Terran/chemlab(Armory).bmp";
 		STRKEY CHEMLABT_ARMORY__BMP = "SC/Unit/Terran/chemlabt(Armory).bmp";
+		STRKEY COMMANDCENTER_CONTROL__BMP = "SC/Unit/Terran/CommandCenter(control).bmp";
+		STRKEY COMMANDCENTER_BUILD_CONTROLT__BMP = "SC/Unit/Terran/CommandCenter_Build(controlt).bmp";
 		STRKEY COMSAT_BMP = "SC/Unit/Terran/comsat.bmp";
 		STRKEY COMSATC_INIT__BMP = "SC/Unit/Terran/comsatc(Init).bmp";
 		STRKEY COMSATT_BMP = "SC/Unit/Terran/comsatt.bmp";
-		STRKEY CONTROL_COMMANDCENTER__BMP = "SC/Unit/Terran/control(CommandCenter).bmp";
-		STRKEY CONTROLT_COMMANDCENTER__BMP = "SC/Unit/Terran/controlt(CommandCenter).bmp";
+		STRKEY CONSTRUCTION_LARGE_TBLDLRG__BMP = "SC/Unit/Terran/Construction_Large(tbldlrg).bmp";
 		STRKEY DEPOT_BMP = "SC/Unit/Terran/depot.bmp";
 		STRKEY DEPOTT_BMP = "SC/Unit/Terran/depott.bmp";
 		STRKEY DROPSHIP_BMP = "SC/Unit/Terran/dropship.bmp";
@@ -84,8 +85,6 @@ namespace strKey_TEXTURE
 		STRKEY TB2SHAD_BMP = "SC/Unit/Terran/tb2shad.bmp";
 		STRKEY TB3SHAD_BMP = "SC/Unit/Terran/tb3shad.bmp";
 		STRKEY TBARRACK_BMP = "SC/Unit/Terran/tbarrack.bmp";
-		STRKEY TBLDLRG_INCONSTRUCTION__BMP = "SC/Unit/Terran/tbldlrg(InConstruction).bmp";
-		STRKEY TBLDLRG_BMP = "SC/Unit/Terran/tbldlrg.bmp";
 		STRKEY TBLDMED_INCONSTRUCTION2__BMP = "SC/Unit/Terran/tbldmed(InConstruction2).bmp";
 		STRKEY TBLDSML_INCONSTRUCTION3__BMP = "SC/Unit/Terran/tbldsml(InConstruction3).bmp";
 		STRKEY TBRSHAD_BARRCKS__BMP = "SC/Unit/Terran/tbrshad(Barrcks).bmp";

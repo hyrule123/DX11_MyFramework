@@ -4,7 +4,7 @@
 #include "define_SCUnit.h"
 
 CScript_FSM_Move_Hover::CScript_FSM_Move_Hover(const string& _strKey)
-    : CFSM(_strKey, FSM_SCUnit::MOVE)
+    : CFSM(_strKey, SC::FSM::MOVE)
 {
 }
 

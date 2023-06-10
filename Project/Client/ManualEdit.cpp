@@ -18,6 +18,7 @@
 #include <Engine/CScriptHolder.h>
 
 //Scripts
+#include <Script/SC_Func.h>
 #include <Script/define_SCUnit.h>
 #include <Script/CScript_FSM_Idle.h>
 #include <Script/CScript_FSM_Attack.h>
@@ -28,6 +29,9 @@
 void ManualEdit::Edit()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
+
+	//Terran-Common Animations
+	Terran_CommonAnim_Save();
 
 	//Marine
 	{
@@ -46,6 +50,35 @@ void ManualEdit::Edit()
 	}
 }
 
+void ManualEdit::Terran_CommonAnim_Save()
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	//대형건물 건설 애니메이션(초반부)
+	//기본 시간은 100초이므로 이걸 재생속도 배율을 늘려서 사용할것(34초 -> 0.34f)
+	//또한 애니메이션도 1개 뿐이므로 동일한 키값을 사용
+	{
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
+		assert(nullptr != pTex);
+
+		Ptr<CAnim2DAtlas> pAnim = new CAnim2DAtlas;
+		pAnim->SetAtlasTexture(pTex);
+
+		//UV 쪼개기 작업
+		pAnim->SetNewAnimUV(3u, 1u);
+
+		vector<UINT> vecFrame;
+		vecFrame.push_back(0);
+		vecFrame.push_back(1);
+		vecFrame.push_back(2);
+		pAnim->AddAnim2D(SC::strKey_Anim::Terran::CONSTRUCTION_LARGE, vecFrame, 100.f);
+
+		pAnim->SetKey(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
+		pAnim->Save(pAnim->GetKey());
+	}
+
+}
+
 
 void ManualEdit::MarineAnim_Save(const string& _strKey)
 {
@@ -54,12 +87,11 @@ void ManualEdit::MarineAnim_Save(const string& _strKey)
 	Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::MARINE_BMP);
 	assert(nullptr != pTex);
 
-
 	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 	
 	Atlas->SetAtlasTexture(pTex);
 
-	using namespace FSM_SCUnit;
+	using namespace SC::FSM;
 	Atlas->SetNewAnimUV_SC_Redundant(14u, 0u, 14u);
 
 	//Idle
@@ -91,6 +123,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	CGameObject* pObj = new CGameObject;
+	pObj->SetLayer(SC::INGAME_LAYER_INFO::GroundUnitMain);
 
 	//Collider
 	{
@@ -149,6 +182,121 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	pPrefab->SetKey(_strKey);
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(_strKey);
+}
+
+
+
+void ManualEdit::CommandCenter_Anim_Save(const string& _strKey)
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	//메인 스프라이트
+	{
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
+		assert(nullptr != pTex);
+		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Atlas->SetKey(pTex->GetKey());
+
+		Atlas->SetAtlasTexture(pTex);
+
+		Atlas->SetNewAnimUV(6u, 1u);
+
+		vector<UINT> vecIdx;
+		vecIdx.push_back(0);
+
+		Atlas->AddAnim2D(SC::FSM::strKey_Anim::IDLE, vecIdx, 0.1f);
+		vecIdx.clear();
+
+		//고유 건설
+		vecIdx.push_back(1);
+		vecIdx.push_back(2);
+		Atlas->AddAnim2D(SC::FSM::strKey_Anim::IN_CONSTRUCTION, vecIdx, 100.f);
+		vecIdx.clear();
+
+		//이륙
+		vecIdx.push_back(3);
+		vecIdx.push_back(4);
+		vecIdx.push_back(5);
+		Atlas->AddAnim2D(SC::FSM::strKey_Anim::LIFTOFF, vecIdx, 1.f);
+
+		Atlas->Save(Atlas->GetKey());
+	}
+
+	//생산 스프라이트(controlt)
+	//텍스처 한 장이므로 굳이 할필요가 없다
+	{
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_BUILD_CONTROLT__BMP);
+		assert(nullptr != pTex);
+		//Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		//Atlas->SetKey(pTex->GetKey());
+	}
+
+}
+
+void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	CGameObject* pObj = new CGameObject;
+	pObj->SetLayer(SC::INGAME_LAYER_INFO::GroundUnitMain);
+
+	//Collider
+	{
+		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+		pObj->AddComponent(pCol);
+
+		SC_Func::SetSCBuildingSize(pCol, 3, 2, Vec4(6.f, 5.f, 7.f, 6.f));
+	}
+
+	//CAnimator2D
+	{
+		CAnimator2D* pAnim = new CAnimator2D;
+		pObj->AddComponent(pAnim);
+
+		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::MARINE_BMP);
+		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
+	}
+
+	//MeshRender
+	{
+		CMeshRender* pRenderCom = new CMeshRender;
+		pObj->AddComponent(pRenderCom);
+
+		//Material
+		Ptr<CMaterial> pMtrl = new CMaterial;
+		pMtrl->SetKey(strKey_RES_PREFAB::MARINE);//프리팹 키와 동일한 키를 사용
+		pRenderCom->SetMaterial(pMtrl);
+		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND);
+		pMtrl->SetShader(pShader);
+
+		//Mesh
+		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		pRenderCom->SetMesh(pMesh);
+	}
+
+	//Script
+	{
+		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
+
+		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::SCENTITY));
+		pObj->AddScript(pSCEntity);
+
+		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
+		pObj->AddScript(pFSMIdle);
+
+		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_SCRIPTS::FSM_MOVE_GROUND);
+		pObj->AddScript(pFSMGround);
+
+		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_SCRIPTS::FSM_ATTACK);
+		pObj->AddScript(pFSMAttack);
+	}
+
+
+	Ptr<CPrefab> pPrefab = new CPrefab;
+	pPrefab->SetKey(_strKey);
+	pPrefab->RegisterPrefab(pObj);
+	pPrefab->Save(_strKey);
+
 }
 
 void ManualEdit::LoadAnim(const string& _strKey)

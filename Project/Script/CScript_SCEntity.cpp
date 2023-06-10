@@ -91,10 +91,10 @@ bool CScript_SCEntity::LoadJson(Json::Value* _pJVal)
 
 	try
 	{
-		m_eRace = (eSCUNIT_UNIT_RACE)jVal[strKey_SCEntity::m_eRace].asInt();
+		m_eRace = (SC::eRACE)jVal[strKey_SCEntity::m_eRace].asInt();
 		m_uPopulation = jVal[strKey_SCEntity::m_uPopulation].asUInt();
-		m_eMoveType = (eSCUNIT_MOVE_TYPE)jVal[strKey_SCEntity::m_eMoveType].asInt();
-		m_eUnitSize = (eSCUNIT_SIZE)jVal[strKey_SCEntity::m_eUnitSize].asInt();
+		m_eMoveType = (SC::eUNIT_MOVE_TYPE)jVal[strKey_SCEntity::m_eMoveType].asInt();
+		m_eUnitSize = (SC::eUNIT_SIZE)jVal[strKey_SCEntity::m_eUnitSize].asInt();
 		m_uSightRange = jVal[strKey_SCEntity::m_uSightRange].asUInt();
 		m_uCostMineral = jVal[strKey_SCEntity::m_uCostMineral].asUInt();
 		m_uCostGas = jVal[strKey_SCEntity::m_uCostGas].asUInt();

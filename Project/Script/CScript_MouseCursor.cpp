@@ -49,8 +49,8 @@ void CScript_MouseCursor::tick()
 		//아닐 경우 + 우클릭을 했을 경우 이동 스크립트를 가져와서 이동시킨다.
 		else if(KEY_TAP(eKEY::RBTN))
 		{
-			(CFSM_Move_Base*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCUnit::MOVE));
-			CFSM_Move_Base* pMoveState = (CFSM_Move_Base*)m_pSelectedGameObject->ScriptHolder()->GetFSM(FSM_SCUnit::MOVE);
+			(CFSM_Move_Base*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::MOVE));
+			CFSM_Move_Base* pMoveState = (CFSM_Move_Base*)m_pSelectedGameObject->ScriptHolder()->GetFSM(SC::FSM::MOVE);
 				
 			if (pMoveState)
 			{
@@ -60,7 +60,7 @@ void CScript_MouseCursor::tick()
 
 		else if (KEY_TAP(eKEY::A))
 		{
-			CScript_FSM_Attack* pAttackState = (CScript_FSM_Attack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)FSM_SCUnit::eSTATE::ATTACK));
+			CScript_FSM_Attack* pAttackState = (CScript_FSM_Attack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::ATTACK));
 		}
 	}
 
