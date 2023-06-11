@@ -1,6 +1,7 @@
 #pragma once
 
-
+class CAnimator2D;
+class CPrefab;
 
 class ManualEdit
 {
@@ -20,8 +21,8 @@ private:
 	static void CommandCenter_Prefab_Save(const string& _strKey);
 	
 
-	static void LoadAnim(const string& _strKey);
-	static void LoadPrefab(const string& _strKey);
+	static Ptr<CAnim2DAtlas> LoadAnim(const string& _strKey);
+	static Ptr<CPrefab> LoadPrefab(const string& _strKey);
 };
 
 

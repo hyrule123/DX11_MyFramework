@@ -1,0 +1,104 @@
+{
+	"GameObject" : 
+	{
+		"m_arrCom" : 
+		[
+			{
+				"bInheritRot" : true,
+				"bInheritScale" : true,
+				"bLockRot" : false,
+				"eComponentType" : 0,
+				"v3RelativePos" : 
+				[
+					0,
+					0,
+					0
+				],
+				"v3RelativeRot" : 
+				[
+					0,
+					0,
+					0
+				],
+				"v3RelativeScale" : 
+				[
+					1065353216,
+					1065353216,
+					1065353216
+				],
+				"v3Size" : 
+				[
+					1120403456,
+					1120403456,
+					1120403456
+				]
+			},
+			{
+				"eComponentType" : 1,
+				"m_bFollowTransformSize" : false,
+				"m_eColType" : 0,
+				"m_v3OffsetPos" : 
+				[
+					1065353216,
+					-1082130432,
+					0
+				],
+				"m_v3Size" : 
+				[
+					1118437376,
+					1112276992,
+					1065353216
+				]
+			},
+			null,
+			{
+				"eComponentType" : 3,
+				"m_arrAtlasTex" : 
+				[
+					"SC/Unit/Terran/CommandCenter(control).bmp",
+					"SC/Unit/Terran/Construction_Large(tbldlrg).bmp",
+					null,
+					null,
+					null,
+					null,
+					null,
+					null
+				]
+			},
+			null,
+			null,
+			null,
+			null,
+			{
+				"eComponentType" : 8,
+				"strKeyMesh" : "RectMesh",
+				"strKeyMtrl" : "Terran Command Center.json"
+			},
+			null,
+			null,
+			null,
+			null,
+			{
+				"eComponentType" : 13,
+				"m_vecScript_strKey" : 
+				[
+					{
+						"CScript_FSM_Idle" : 
+						{
+							"strName" : ""
+						}
+					}
+				]
+			}
+		],
+		"m_fLifeSpan" : -8388609,
+		"m_iLayerIdx" : 7,
+		"m_vecChild_PREFAB" : 
+		[
+			"Terran Command Center_Child_0.json"
+		],
+		"strName" : "Terran Command Center.json"
+	},
+	"eRES_TYPE" : 6,
+	"strName" : ""
+}

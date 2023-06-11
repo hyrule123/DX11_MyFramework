@@ -36,7 +36,7 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 	SetWindowPos(m_hWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top, 0);
 	ShowWindow(m_hWnd, true);
-
+	
 
 	// Device 초기화
 	if (FAILED(CDevice::GetInst()->init(m_hWnd, _iWidth, _iHeight)))

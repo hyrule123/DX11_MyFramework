@@ -292,6 +292,10 @@ bool CAnim2DAtlas::LoadJson(Json::Value* _jVal)
 void CAnim2DAtlas::SetAtlasTexture(Ptr<CTexture> _AtlasTex)
 {
 	m_AtlasTex = _AtlasTex;
+	if (GetKey().empty() && nullptr != m_AtlasTex)
+	{
+		SetKey(m_AtlasTex->GetKey());
+	}
 }
 
 

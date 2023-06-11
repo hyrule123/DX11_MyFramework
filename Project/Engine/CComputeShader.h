@@ -38,7 +38,8 @@ protected://아래의 값은 자식 클래스에서 직접 수정
 
 private:
     //쉐이더 컴파일 관련
-    tShaderLoadData             m_ShaderData;
+    //Blob = Binary Large Object
+    ComPtr<ID3DBlob>            m_pShaderData;
     ComPtr<ID3D11ComputeShader> m_CS;
 
     //공유 데이터를 전달하기위한 상수버퍼용 구조체
@@ -51,9 +52,13 @@ private:
     UINT                        m_uNumGroupArr[NumAxis];
     
 public:
-    void CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_LOADTYPE _eLoadType);
-    void CreateShader(const wstring& _strFileName, const string& _strFuncName);
+    HRESULT CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize);
+    HRESULT CreateShader(const wstring& _strFileName, const string& _strFuncName);
+    HRESULT CreateShader(ComPtr<ID3DBlob> _pBlob);
+private:
+    HRESULT CreateShader();
 
+public:
     void CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _ElemCountZ);
 
     void SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
@@ -62,3 +67,8 @@ public:
     bool Execute();
 };
 
+inline HRESULT CComputeShader::CreateShader(ComPtr<ID3DBlob> _pBlob)
+{
+    m_pShaderData.Swap(_pBlob);
+    return CreateShader();
+}

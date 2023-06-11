@@ -230,8 +230,6 @@ void CreateShaderCode()
 					//파일이 존재하면 스킵
 					ifstream ifpSetting(FileName);
 
-
-
 					if (true == ifpSetting.is_open())
 						ifpSetting.close();
 					
@@ -253,8 +251,6 @@ void CreateShaderCode()
 
 
 					string codeLine = string(PresetStr::ConstexprInlineConstChar);
-
-
 
 					string Key = (*dirIter).path().filename().replace_extension().string();
 

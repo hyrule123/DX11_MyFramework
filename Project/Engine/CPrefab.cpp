@@ -17,11 +17,9 @@ CPrefab::CPrefab()
 
 CPrefab::~CPrefab()
 {
-
-
 	////저장모드가 아닐 경우에만 삭제
-	//if(false == m_bSaveMode)
-	SAFE_DELETE(m_pPrefab);
+	if(false == m_bSaveMode)
+		SAFE_DELETE(m_pPrefab);
 }
 
 void CPrefab::RegisterPrefab(CGameObject* _pPrefab, bool _bIsSaveMode)

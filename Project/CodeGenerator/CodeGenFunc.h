@@ -9,7 +9,8 @@
 
 void CreateScriptCode();
 
-//쉐이더는 좀 특수한 경우(json 파일을 통해서 쉐이더 코드파일 여러개를 로드)이므로 따로 분리하였음.
+//정규화된 이름 규칙을 가진 쉐이더들의 코드를 자동 생성
+//여기서 자동 생성하지 않아도 직접 생성할 수 있음.
 void CreateShaderCode();
 
 //_PathFromContent : Content 폴더로부터의 경로

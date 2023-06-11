@@ -18,6 +18,8 @@ int main(int argc, char* argv[])
 {
     //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
     CreateScriptCode();
+
+    //정규화된 이름을 가진 쉐이더 파일에 대해 코드를 생성
     CreateShaderCode();
     
     //Generate Texture Key

@@ -16,6 +16,7 @@
 #include <Engine/CAnimator2D.h>
 #include <Engine/CMeshRender.h>
 #include <Engine/CScriptHolder.h>
+#include <Engine/CPrefab.h>
 
 //Scripts
 #include <Script/SC_Func.h>
@@ -57,8 +58,6 @@ void ManualEdit::Edit()
 		string strKey = strKey_RES_PREFAB::COMMAND_CENTER;
 		CommandCenter_Prefab_Save(strKey);
 	}
-
-
 }
 
 void ManualEdit::Terran_CommonAnim_Save()
@@ -69,11 +68,13 @@ void ManualEdit::Terran_CommonAnim_Save()
 	//기본 시간은 100초이므로 이걸 재생속도 배율을 늘려서 사용할것(34초 -> 0.34f)
 	//또한 애니메이션도 1개 뿐이므로 동일한 키값을 사용
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::CONSTRUCTION_LARGE_TBLDLRG__BMP);
 		assert(nullptr != pTex);
 
 		Ptr<CAnim2DAtlas> pAnim = new CAnim2DAtlas;
+		//pAnim->SetKey(pTex->GetKey());
 		pAnim->SetAtlasTexture(pTex);
+		
 
 		//UV 쪼개기 작업
 		pAnim->SetNewAnimUV(3u, 1u);
@@ -84,7 +85,7 @@ void ManualEdit::Terran_CommonAnim_Save()
 		vecFrame.push_back(2);
 		pAnim->AddAnim2D(SC::strKey_Anim::Terran::CONSTRUCTION_LARGE, vecFrame, 100.f);
 
-		pAnim->SetKey(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
+		
 		pAnim->Save(pAnim->GetKey());
 	}
 
@@ -218,7 +219,7 @@ void ManualEdit::CommandCenter_Anim_Save()
 		Atlas->AddAnim2D(SC::FSM::strKey_Anim::IDLE, vecIdx, 0.1f);
 		vecIdx.clear();
 
-		//고유 건설
+		//고유 건설 애니메이션
 		vecIdx.push_back(1);
 		vecIdx.push_back(2);
 		Atlas->AddAnim2D(SC::FSM::strKey_Anim::IN_CONSTRUCTION, vecIdx, 100.f);
@@ -279,7 +280,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 
 		//Material
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey(strKey_RES_PREFAB::MARINE);//프리팹 키와 동일한 키를 사용
+		pMtrl->SetKey(strKey_RES_PREFAB::COMMAND_CENTER);//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
 		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND);
 		pMtrl->SetShader(pShader);
@@ -300,8 +301,9 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	//Child(유닛 생산 점멸)
 	{
 		CGameObject* pChild = new CGameObject;
-		pChild->SetLayer(SC::LAYER_INFO::GroundUnitTop);
 		pObj->AddChildGameObj(pChild);
+
+		pChild->SetLayer(SC::LAYER_INFO::GroundUnitTop);
 
 		CMeshRender* pRenderCom = new CMeshRender;
 		pChild->AddComponent(pRenderCom);
@@ -324,16 +326,20 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	pPrefab->Save(_strKey);
 }
 
-void ManualEdit::LoadAnim(const string& _strKey)
+Ptr<CAnim2DAtlas> ManualEdit::LoadAnim(const string& _strKey)
 {
 	Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(_strKey);
 	assert(nullptr != pAtlas);
+
+	return pAtlas;
 }
 
-void ManualEdit::LoadPrefab(const string& _strKey)
+Ptr<CPrefab> ManualEdit::LoadPrefab(const string& _strKey)
 {
 	Ptr<CPrefab> pPrefab = CResMgr::GetInst()->Load<CPrefab>(_strKey);
 	assert(nullptr != pPrefab);
+
+	return pPrefab;
 }
 
 

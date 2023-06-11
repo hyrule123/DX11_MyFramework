@@ -122,75 +122,76 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 	std::streampos fileSize = CSFile.tellg();
 	CSFile.seekg(0, std::ios::beg);
 
-	m_ShaderData.pByteCode = new char[fileSize];
-	memset(m_ShaderData.pByteCode, 0, fileSize);
-	m_ShaderData.ByteCodeSize = fileSize;
-	CSFile.read(m_ShaderData.pByteCode, fileSize);
+	HRESULT hr = D3DCreateBlob(fileSize, m_pShaderData.ReleaseAndGetAddressOf());
+	if (FAILED(hr))
+		return false;
 
+	char* pBuffer = static_cast<char*>(m_pShaderData->GetBufferPointer());
+	
+	CSFile.read(pBuffer, fileSize);
 	CSFile.close();
 
-	CreateShader(m_ShaderData.pByteCode, m_ShaderData.ByteCodeSize, eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE);
+	hr = CreateShader();
+	if (FAILED(hr))
+		return false;
 
 	return true;
 }
 
 
-void CComputeShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_LOADTYPE _eLoadType)
+HRESULT CComputeShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize)
 {
-	assert(eSHADER_LOADTYPE::RUNTIME_COMPILED != _eLoadType);
-	m_ShaderData.LoadType = _eLoadType;
-	m_ShaderData.pByteCode = _pShaderByteCode;
-	m_ShaderData.ByteCodeSize = _ShaderByteCodeSize;
+	if (nullptr == _pShaderByteCode || (size_t)0 == _ShaderByteCodeSize)
+		return E_POINTER;
 
-	HRESULT result = S_OK;
+	//Blob을 새로 만들고, 데이터를 입력한다.
+	HRESULT result = D3DCreateBlob(_ShaderByteCodeSize, m_pShaderData.ReleaseAndGetAddressOf());
+	if (FAILED(result))
+		return result;
+	
+	memcpy(m_pShaderData->GetBufferPointer(), _pShaderByteCode, _ShaderByteCodeSize);
 
-	if (FAILED(DEVICE->CreateComputeShader(
-		_pShaderByteCode, _ShaderByteCodeSize,
-		nullptr,
-		m_CS.GetAddressOf())))
-	{
-		MessageBoxA(nullptr, "Compute Shader Compile Failed!", "Error", MB_OK);
-		assert(nullptr);
-	}
+	result = DEVICE->CreateComputeShader(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize(), nullptr, m_CS.GetAddressOf());
+
+	//result = DEVICE->CreateComputeShader(
+	//	_pShaderByteCode, _ShaderByteCodeSize,
+	//	nullptr,
+	//	m_CS.GetAddressOf());
+
+	return result;
 }
 
-void CComputeShader::CreateShader(const wstring& _strFileName, const string& _strFuncName)
+
+HRESULT CComputeShader::CreateShader(const wstring& _strFileName, const string& _strFuncName)
 {
 	// 1. Shader 파일 경로 받아옴
 	std::filesystem::path shaderPath(CPathMgr::GetInst()->GetPathRel_Resource(GetResType()));
 	shaderPath /= _strFileName;
 
-	//1-1. 쉐이더 로드 타입 변경
-	m_ShaderData.LoadType = eSHADER_LOADTYPE::RUNTIME_COMPILED;
-
-
-	char ShaderNameVersion[32] = {};
 	//밑의 switch 문에서 _ShaderType가 잘못되어 있을 경우가 걸러지므로 ALL로 설정
 	//2. 쉐이더 타입에 따른 다른 파라미터용 변수를 할당
-	strcpy_s(ShaderNameVersion, 32u, "cs_5_0");
 
+	HRESULT result =
+		D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+			, _strFuncName.c_str(), SHADER_NAME_VERSION::CS, 0, 0, m_pShaderData.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
 	// 3. VertexShader Compile
-	if (FAILED(D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, _strFuncName.c_str(), ShaderNameVersion, 0, 0, m_ShaderData.Blob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
+	if (FAILED(result))
 	{
-		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-			, "Compute Shader Compile Failed!!", MB_OK);
-		assert(nullptr);
+		assert(SUCCEEDED(result));
+		return result;
 	}
 
-
-	if (FAILED(DEVICE->CreateComputeShader(
-		m_ShaderData.Blob->GetBufferPointer(),
-		m_ShaderData.Blob->GetBufferSize()
-		, nullptr,
-		m_CS.GetAddressOf()
-	)))
-	{
-		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-			, "Compute Shader Compile Failed!!", MB_OK);
-	}
+	return CreateShader();
 }
+
+
+HRESULT CComputeShader::CreateShader()
+{
+	return DEVICE->CreateComputeShader(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize(), nullptr, m_CS.GetAddressOf());
+}
+
+
 
 
 #define CS_ELEM_COUNT_X eMTRLDATA_PARAM_SCALAR::INT_0

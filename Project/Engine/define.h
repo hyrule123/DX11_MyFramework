@@ -22,7 +22,11 @@
 #define FLT_MAX_NEGATIVE -FLT_MAX
 
 #define BITMASK(n) (1 << n)
-#define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, _aStrMessage, NULL, MB_OK)
+
+
+#define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, _aStrMessage, NULL, MB_OK); assert(nullptr)
+
+
 #define ERROR_RUNTIME(_stdRuntimeError) MessageBoxA(nullptr, _stdRuntimeError.what(), nullptr, MB_OK);
 
 #ifdef _DEBUG

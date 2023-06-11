@@ -33,16 +33,21 @@ CGameObject::CGameObject()
 	, m_iLayerIdx(-1)
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
 	, m_bDestroy()
-	, m_bStarted()
+	, m_bStart()
+	, m_bEnable(true)
+	, m_bPrevEnable()
 {
 	AddComponent(new CTransform);
 }
 
 CGameObject::CGameObject(const CGameObject& _other)
 	: CEntity(_other)
+	, m_arrCom{}
 	, m_iLayerIdx(_other.m_iLayerIdx)
 	, m_bDestroy()
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
+	, m_bEnable(_other.m_bEnable)
+	, m_bPrevEnable(_other.m_bPrevEnable)
 {
 	//1. 컴포넌트 목록 복사
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
@@ -166,14 +171,18 @@ void CGameObject::start()
 	}
 }
 
+void CGameObject::OnEnable()
+{
+}
+
 void CGameObject::tick()
 {
 	//자신이 파괴 대기 상태일 경우 자신과 모든 자식들에 대해 tick을 처리하지 않음
 	if (true == m_bDestroy)
 		return;
-	else if (false == m_bStarted)
+	else if (false == m_bStart)
 	{
-		m_bStarted = true;
+		m_bStart = true;
 		start();
 	}
 		
@@ -332,6 +341,8 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 
 			CPrefab* Prefab = new CPrefab;
 			Prefab->SetKey(childKey);
+
+			//Save 모드로 프리팹을 생성한 뒤 저장
 			Prefab->RegisterPrefab(m_vecChild[i], true);
 
 			bool Suc = Prefab->Save(childKey);
@@ -512,6 +523,8 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 void CGameObject::AddComponent(CComponent* _Component)
 {
 	UINT ComType = (UINT)_Component->GetType();
+
+	//동일 컴포넌트 중복 등록시 에러 발생
 	assert(nullptr == m_arrCom[ComType]);
 
 	switch ((eCOMPONENT_TYPE)ComType)
@@ -577,6 +590,7 @@ void CGameObject::AddScript(CScript* _Script)
 
 void CGameObject::AddChildGameObj(CGameObject* _Object)
 {
+	assert(_Object);
 	if (nullptr != (_Object->GetParent()))
 		_Object->GetParent()->RemoveChild(_Object);
 

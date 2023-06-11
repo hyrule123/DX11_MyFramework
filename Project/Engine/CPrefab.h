@@ -13,13 +13,14 @@ public:
 
 private:
     CGameObject* m_pPrefab;
-
-    //SaveMode로 생성시에는 파일을 제거하지 않음.
-    bool         m_bSaveMode;
 public:
     //SaveMode로 생성시에는 파일을 제거하지 않음.
     void         RegisterPrefab(CGameObject* _pPrefab, bool _bIsSaveMode = false);
 
+private:
+    //SaveMode로 생성시에는 파일을 제거하지 않음.
+    bool         m_bSaveMode;
+public:
     CGameObject* Instantiate();
 
 public:

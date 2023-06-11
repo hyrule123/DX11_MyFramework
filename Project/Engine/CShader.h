@@ -9,21 +9,15 @@ enum class eSHADER_LOADTYPE
     BYTE_CODE_FROM_FILE
 };
 
-struct tShaderLoadData
+namespace SHADER_NAME_VERSION
 {
-    eSHADER_LOADTYPE    LoadType;
-    ComPtr<ID3DBlob>    Blob;
-    char* pByteCode;
-    size_t              ByteCodeSize;
-
-    ~tShaderLoadData()
-    {
-        if (LoadType == eSHADER_LOADTYPE::BYTE_CODE_FROM_FILE)
-        {
-            delete[] pByteCode; 
-        }
-    }
-};
+    constexpr const char* VS = "vs_5_0";
+    constexpr const char* HS = "hs_5_0";
+    constexpr const char* DS = "ds_5_0";
+    constexpr const char* GS = "gs_5_0";
+    constexpr const char* PS = "ps_5_0";
+    constexpr const char* CS = "cs_5_0";
+}
 
 class CShader :
     public CRes

@@ -3,19 +3,46 @@
 	"eRES_TYPE" : 4,
 	"mapAnim" : 
 	{
-		"Construction_Large" : 
+		"IDLE" : 
+		{
+			"eAnimType" : 0,
+			"fFullPlayTime" : 1036831949,
+			"uColTotal" : 0,
+			"uNumFrame" : 1,
+			"uRowTotal" : 0,
+			"vPivot" : 4539628425446424576,
+			"vecFrame" : 
+			[
+				0
+			]
+		},
+		"IN_CONSTRUCTION" : 
 		{
 			"eAnimType" : 0,
 			"fFullPlayTime" : 1120403456,
+			"uColTotal" : 0,
+			"uNumFrame" : 2,
+			"uRowTotal" : 0,
+			"vPivot" : 4539628425446424576,
+			"vecFrame" : 
+			[
+				1,
+				2
+			]
+		},
+		"LIFTOFF" : 
+		{
+			"eAnimType" : 0,
+			"fFullPlayTime" : 1065353216,
 			"uColTotal" : 0,
 			"uNumFrame" : 3,
 			"uRowTotal" : 0,
 			"vPivot" : 4539628425446424576,
 			"vecFrame" : 
 			[
-				0,
-				1,
-				2
+				3,
+				4,
+				5
 			]
 		}
 	},
@@ -27,19 +54,28 @@
 		[
 			0,
 			0,
+			0,
+			0,
+			0,
 			0
 		],
 		"v2_UVLeftTop" : 
 		[
 			0,
+			1042983595,
 			1051372203,
-			1059760811
+			1056964608,
+			1059760811,
+			1062557014
 		],
 		"v2_UVSlice" : 
 		[
-			4575657222459796139,
-			4575657222459796139,
-			4575657222459796139
+			4575657222451407531,
+			4575657222451407531,
+			4575657222451407531,
+			4575657222451407531,
+			4575657222451407531,
+			4575657222451407531
 		]
 	}
 }

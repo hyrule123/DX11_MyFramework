@@ -35,6 +35,9 @@ public:
     //첫 tick 직전에 한 번 호출
     void start();
 
+    //disable 되었다가 enable되었을 떄 호출
+    void OnEnable();
+
 
     void tick();
     virtual void finaltick();
@@ -54,74 +57,98 @@ private:
     //Components
     CComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
     CRenderComponent*       m_RenderCom;
-
-    //Hierarchy
-    CGameObject*            m_Parent;
-    vector<CGameObject*>    m_vecChild;
-
-    //Own Scalar Data
-    tMtrlScalarData          m_MtrlScalarData;
-
-    //Layer Info
-    int                     m_iLayerIdx;
-
-    //Birth, Death
-    float                   m_fLifeSpan;
-    bool                    m_bDestroy;
-    bool                    m_bStarted;
-
 public:
-    void                SetLayer(int _iLayerIdx) { m_iLayerIdx = _iLayerIdx; }
-    int                 GetLayer() const { return m_iLayerIdx; }
-    void                SetParent(CGameObject* _pObj) { m_Parent = _pObj; }
-
-    //이벤트매니저에서 사용
-    void                DestroyRecursive();
-
-    void                SetLifeSpan(float _fLifeSpan);
-    void                SetChildTransformToUpdate();
-
-    CGameObject* GetParent() const { return m_Parent; }
-   
-    bool         IsDestroyed() const { return m_bDestroy; }
-    
-    //Master GameObject만 LevelMgr에서 tick()를 호출한다.
-    bool                IsMaster()  const { return (nullptr == m_Parent); }
-
     //Add
     void AddComponent(CComponent* _Component);
 
-    //이 함수를 직접적으로 사용하지 말고 EventMgr::DeleteComponent를 통해서 지울것
+    //CEventMgr 전용 함수. 직접 호출 시 에러 발생할 수 있음.
     void RemoveComponent(eCOMPONENT_TYPE _eComType);
 
     void AddScript(CScript* _Script);
 
-    void AddChildGameObj(CGameObject* _Object);
+private:
+    //Hierarchy
+    CGameObject*            m_Parent;
+    vector<CGameObject*>    m_vecChild;
+public:
+    void                SetParent(CGameObject* _pObj) { m_Parent = _pObj; }
+    CGameObject*        GetParent() const { return m_Parent; }
 
+    //Master GameObject만 LevelMgr에서 tick()를 호출한다.
+    bool                IsMaster()  const { return (nullptr == m_Parent); }
 
-    void RemoveChild(CGameObject* _Object);
-    
+    void                AddChildGameObj(CGameObject* _Object);
 
-    //Recursive
-    void SetParentMatrixUpdated();
+    void                RemoveChild(CGameObject* _Object);
+
 
     //기타
-    bool GetParentWorldMatrix(Matrix& _mat);
+    bool                GetParentWorldMatrix(Matrix& _mat);
 
     const vector<CGameObject*>& GetvecChilds() const { return m_vecChild; }
-    size_t GetNumChilds() const { return m_vecChild.size(); }
+    size_t              GetNumChilds() const { return m_vecChild.size(); }
+
+    //Recursive
+    void                SetParentMatrixUpdated();
+    void                SetChildTransformToUpdate();
 
 
+    //GPU에 보낼 Material Scalar Data
+private:
+    tMtrlScalarData          m_MtrlScalarData;
+public:
     void SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
     void SetMtrlScalarParam_IntFlag(eMTRLDATA_PARAM_SCALAR _intParam, INT32 _iFlag, bool _bOnOff);
 
-    
+
     int GetMtrlScalarParam_Int(eMTRLDATA_PARAM_SCALAR _Param) const;
     float GetMtrlScalarParam_Float(eMTRLDATA_PARAM_SCALAR _Param) const;
     Vec2 GetMtrlScalarParam_Vec2(eMTRLDATA_PARAM_SCALAR _Param) const;
     const Vec4& GetMtrlScalarParam_Vec4(eMTRLDATA_PARAM_SCALAR _Param) const;
     const MATRIX& GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCALAR _Param) const;
     const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
+
+
+private:
+    //Layer Info
+    int                     m_iLayerIdx;
+public:
+    void                    SetLayer(int _iLayerIdx) { m_iLayerIdx = _iLayerIdx; }
+    int                     GetLayer() const { return m_iLayerIdx; }
+
+private:
+    //Birth, Death
+    float                   m_fLifeSpan;
+public:
+    void                    SetLifeSpan(float _fLifeSpan);
+
+private:
+    bool                    m_bDestroy;
+public:
+    //CEventMgr에서 사용. 자식 오브젝트까지 재귀적으로 삭제
+    void                    DestroyRecursive();
+    bool                    IsDestroyed() const { return m_bDestroy; }
+
+private:
+    bool                    m_bStart;
+
+    bool                    m_bEnable;
+    bool                    m_bPrevEnable;
+    
+
+public:
+
+
+    
+    
+
+
+
+
+
+
+
+
 
 
 public:

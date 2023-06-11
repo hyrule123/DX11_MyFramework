@@ -10,5 +10,4 @@ namespace strKey_RES_PREFAB
 
 namespace strKey_RES_MATERIAL
 {
-
 }
