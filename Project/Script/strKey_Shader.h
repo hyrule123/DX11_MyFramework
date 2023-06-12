@@ -12,6 +12,7 @@ namespace strKey_RES_SHADER
 {
 	namespace GRAPHICS
 	{
+		STRKEY BUILDINGDOUBLELAYER = "BuildingDoubleLayer.json";
 		STRKEY DEBUG = "Debug.json";
 		STRKEY PARTICLE = "Particle.json";
 		STRKEY SCUNITGROUND = "SCUnitGround.json";

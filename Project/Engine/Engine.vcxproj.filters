@@ -679,6 +679,9 @@
     <FxCompile Include="S_2_P_TilemapComplete.hlsl">
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </FxCompile>
+    <FxCompile Include="S_P_BuildingDoubleLayer.hlsl">
+      <Filter>HLSL\06. SCUnit</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc" />

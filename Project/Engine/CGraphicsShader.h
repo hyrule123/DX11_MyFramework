@@ -4,6 +4,11 @@
 #include "global.h"
 
 //참고 - CEntity의 'Name' 변수에 쉐이더의 BaseName을 저장함.
+struct tShaderCode
+{
+    ComPtr<ID3DBlob> blob;
+    string strKey;
+};
 
 class CGraphicsShader :
     public CShader
@@ -24,7 +29,7 @@ public:
 
 private:
     //지정된 각 쉐이더별로 어떤 방식으로 로드했는지를 저장.
-    ComPtr<ID3DBlob>                m_arr_pShaderData[(int)eSHADER_TYPE::END];
+    tShaderCode                     m_arrShaderCode[(int)eSHADER_TYPE::END];
 
     ComPtr<ID3D11VertexShader>      m_VS;
     ComPtr<ID3D11HullShader>        m_HS;
@@ -55,9 +60,14 @@ private:
 public://INITIALIZE, Setter
     HRESULT CreateDefaultInputLayout();
 
-    HRESULT CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType);
+    //Compile from raw source file
     HRESULT CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType);
-    HRESULT CreateShader(ComPtr<ID3DBlob> _pBlob, eSHADER_TYPE _ShaderType);
+
+    //Compile from Byte Code(HLSL header)
+    HRESULT CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, const string& _strKeyShader = "");
+
+    //Compile from Byte Code inside of blob(cso)
+    HRESULT CreateShader(const tShaderCode& _tShaderCode, eSHADER_TYPE _ShaderType);
 private:
     HRESULT CreateShader(eSHADER_TYPE _ShaderType);
 
@@ -84,10 +94,9 @@ public:
 };
 
 
-inline HRESULT CGraphicsShader::CreateShader(ComPtr<ID3DBlob> _pBlob, eSHADER_TYPE _eShaderType)
+inline HRESULT CGraphicsShader::CreateShader(const tShaderCode& _tShaderCode, eSHADER_TYPE _eShaderType)
 {
-    //기존의 blob과 데이터를 교체하고 
-    m_arr_pShaderData[(int)_eShaderType].Swap(_pBlob);
+    m_arrShaderCode[(int)_eShaderType] = _tShaderCode;
 
     //쉐이더를 생성한다.
     return CreateShader(_eShaderType);
