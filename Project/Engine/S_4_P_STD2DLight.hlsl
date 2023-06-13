@@ -1,4 +1,4 @@
-#include "S_0_H_STD2DLight.hlsli"
+#include "S_H_STD2DLight.hlsli"
 
 void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light);
 void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light);

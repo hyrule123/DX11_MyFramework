@@ -2,7 +2,7 @@
 #include "CCollider2D_Circle.h"
 
 #include "CTransform.h"
-#include "S_0_H_Debug.hlsli"
+#include "S_H_Debug.hlsli"
 #include "CRenderMgr.h"
 
 #include "strKey_Default.h"

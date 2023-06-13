@@ -6,7 +6,7 @@
 //디버그 출력용
 #include "CRenderMgr.h"
 
-#include "S_0_H_Debug.hlsli"
+#include "S_H_Debug.hlsli"
 
 CCollider2D_OBB::CCollider2D_OBB()
 	: CCollider2D(eCOLLIDER_TYPE_2D::OBB)

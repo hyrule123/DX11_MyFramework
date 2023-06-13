@@ -103,7 +103,7 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 		{
 			for (int i = 0; i < NumAxis; ++i)
 			{
-				m_uNumThreadPerGroupArr[i] = (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)][i].asInt();
+				m_uNumThreadPerGroupArr[i] = (*_jsonVal)[RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ][i].asInt();
 			}
 		}
 

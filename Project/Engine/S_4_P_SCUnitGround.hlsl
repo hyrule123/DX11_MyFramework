@@ -1,8 +1,9 @@
-#include "S_0_H_SCUnitGround.hlsli"
+#include "S_H_SCUnitGround.hlsli"
 
 #include "S_H_Func.hlsli"
 
-float4 PS_BuildingDoubleLayer(VS_OUT _in) : SV_TARGET
+
+float4 PS_SCUnit(VS_OUT _in) : SV_TARGET
 {
 	float4 vOutColor = (float4) 0.f;
     

@@ -1,4 +1,4 @@
-#include "S_0_H_Debug.hlsli"
+#include "S_H_Debug.hlsli"
 
 float4 PS_Debug(VS_OUT _in) : SV_TARGET
 {

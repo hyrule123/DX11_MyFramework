@@ -12,7 +12,7 @@ namespace strKey_RES_SHADER
 {
 	namespace GRAPHICS
 	{
-		STRKEY BUILDINGDOUBLELAYER = "BuildingDoubleLayer.json";
+		STRKEY BUILDINGSTRUCTURE = "BuildingStructure.json";
 		STRKEY DEBUG = "Debug.json";
 		STRKEY PARTICLE = "Particle.json";
 		STRKEY SCUNITGROUND = "SCUnitGround.json";
@@ -25,10 +25,10 @@ namespace strKey_RES_SHADER
 
 	namespace COMPUTE
 	{
-		STRKEY SCMAPLOADER = "S_1_C_SCMapLoader.json";
 		STRKEY INITALIZE = "S_C_Initalize.json";
 		STRKEY PARTICLEBASIC = "S_C_ParticleBasic.json";
 		STRKEY PARTICLERAINDROP = "S_C_ParticleRainDrop.json";
+		STRKEY SCMAPLOADER = "S_C_SCMapLoader.json";
 		STRKEY SETCOLOR = "S_C_SetColor.json";
 	}
 }

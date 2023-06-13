@@ -584,57 +584,57 @@
     <None Include="S_H_FuncBitwise.hlsli">
       <Filter>HLSL</Filter>
     </None>
-    <None Include="S_0_H_STD2DLight.hlsli">
+    <None Include="S_H_STD2DLight.hlsli">
       <Filter>HLSL\03. Std2D_Light</Filter>
     </None>
-    <None Include="S_0_H_STD2D.hlsli">
+    <None Include="S_H_STD2D.hlsli">
       <Filter>HLSL\02. Std2D</Filter>
     </None>
-    <None Include="S_0_H_Test.hlsli">
+    <None Include="S_H_Test.hlsli">
       <Filter>HLSL\01. Test</Filter>
     </None>
-    <None Include="S_0_H_Debug.hlsli">
+    <None Include="S_H_Debug.hlsli">
       <Filter>HLSL\00. Debug</Filter>
     </None>
-    <None Include="S_0_H_SCMapLoader.hlsli">
+    <None Include="S_H_SCMapLoader.hlsli">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </None>
-    <None Include="S_0_H_Particle.hlsli">
+    <None Include="S_H_Particle.hlsli">
       <Filter>HLSL\05. Particle_Render</Filter>
     </None>
-    <None Include="S_0_H_SCUnitGround.hlsli">
+    <None Include="S_H_SCUnitGround.hlsli">
       <Filter>HLSL\06. SCUnit</Filter>
     </None>
-    <None Include="S_0_H_TilemapAtlas.hlsli">
+    <None Include="S_H_TilemapAtlas.hlsli">
       <Filter>HLSL\04. Tilemap\Atlas</Filter>
     </None>
-    <None Include="S_0_H_TilemapComplete.hlsli">
+    <None Include="S_H_TilemapComplete.hlsli">
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="S_1_V_STD2DLight.hlsl">
+    <FxCompile Include="S_0_V_STD2DLight.hlsl">
       <Filter>HLSL\03. Std2D_Light</Filter>
     </FxCompile>
-    <FxCompile Include="S_2_P_STD2DLight.hlsl">
+    <FxCompile Include="S_4_P_STD2DLight.hlsl">
       <Filter>HLSL\03. Std2D_Light</Filter>
     </FxCompile>
-    <FxCompile Include="S_2_P_STD2D.hlsl">
+    <FxCompile Include="S_4_P_STD2D.hlsl">
       <Filter>HLSL\02. Std2D</Filter>
     </FxCompile>
-    <FxCompile Include="S_1_V_STD2D.hlsl">
+    <FxCompile Include="S_0_V_STD2D.hlsl">
       <Filter>HLSL\02. Std2D</Filter>
     </FxCompile>
-    <FxCompile Include="S_2_P_Test.hlsl">
+    <FxCompile Include="S_4_P_Test.hlsl">
       <Filter>HLSL\01. Test</Filter>
     </FxCompile>
-    <FxCompile Include="S_1_V_Test.hlsl">
+    <FxCompile Include="S_0_V_Test.hlsl">
       <Filter>HLSL\01. Test</Filter>
     </FxCompile>
-    <FxCompile Include="S_1_V_Debug.hlsl">
+    <FxCompile Include="S_0_V_Debug.hlsl">
       <Filter>HLSL\00. Debug</Filter>
     </FxCompile>
-    <FxCompile Include="S_2_P_Debug.hlsl">
+    <FxCompile Include="S_4_P_Debug.hlsl">
       <Filter>HLSL\00. Debug</Filter>
     </FxCompile>
     <FxCompile Include="S_C_SetColor.hlsl">
@@ -649,37 +649,37 @@
     <FxCompile Include="S_C_Initalize.hlsl">
       <Filter>HLSL\99. Compute\00. Initialize</Filter>
     </FxCompile>
-    <FxCompile Include="S_1_C_SCMapLoader.hlsl">
+    <FxCompile Include="S_C_SCMapLoader.hlsl">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </FxCompile>
-    <FxCompile Include="S_2_G_Particle.hlsl">
+    <FxCompile Include="S_3_G_Particle.hlsl">
       <Filter>HLSL\05. Particle_Render</Filter>
     </FxCompile>
-    <FxCompile Include="S_3_P_Particle.hlsl">
+    <FxCompile Include="S_4_P_Particle.hlsl">
       <Filter>HLSL\05. Particle_Render</Filter>
     </FxCompile>
-    <FxCompile Include="S_1_V_Particle.hlsl">
+    <FxCompile Include="S_0_V_Particle.hlsl">
       <Filter>HLSL\05. Particle_Render</Filter>
     </FxCompile>
-    <FxCompile Include="S_2_P_SCUnitGround.hlsl">
+    <FxCompile Include="S_4_P_SCUnitGround.hlsl">
       <Filter>HLSL\06. SCUnit</Filter>
     </FxCompile>
-    <FxCompile Include="S_1_V_SCUnitGround.hlsl">
+    <FxCompile Include="S_0_V_SCUnitGround.hlsl">
       <Filter>HLSL\06. SCUnit</Filter>
     </FxCompile>
-    <FxCompile Include="S_1_V_TilemapAtlas.hlsl">
+    <FxCompile Include="S_0_V_TilemapAtlas.hlsl">
       <Filter>HLSL\04. Tilemap\Atlas</Filter>
     </FxCompile>
-    <FxCompile Include="S_2_P_TilemapAtlas.hlsl">
+    <FxCompile Include="S_4_P_TilemapAtlas.hlsl">
       <Filter>HLSL\04. Tilemap\Atlas</Filter>
     </FxCompile>
-    <FxCompile Include="S_1_V_TilemapComplete.hlsl">
+    <FxCompile Include="S_0_V_TilemapComplete.hlsl">
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </FxCompile>
-    <FxCompile Include="S_2_P_TilemapComplete.hlsl">
+    <FxCompile Include="S_4_P_TilemapComplete.hlsl">
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </FxCompile>
-    <FxCompile Include="S_P_BuildingDoubleLayer.hlsl">
+    <FxCompile Include="S_4_P_BuildingStructure.hlsl">
       <Filter>HLSL\06. SCUnit</Filter>
     </FxCompile>
   </ItemGroup>

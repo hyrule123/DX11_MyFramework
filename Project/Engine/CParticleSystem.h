@@ -1,7 +1,7 @@
 #pragma once
 #include "CRenderComponent.h"
 
-#include "S_0_H_Particle.hlsli"
+#include "S_H_Particle.hlsli"
 
 class CStructBuffer;
 class CCS_ParticleUpdate;

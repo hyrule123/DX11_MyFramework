@@ -1,4 +1,4 @@
-#include "S_0_H_Debug.hlsli"
+#include "S_H_Debug.hlsli"
 
 VS_OUT VS_Debug( VS_IN _in )
 {

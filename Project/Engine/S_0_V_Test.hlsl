@@ -1,4 +1,4 @@
-#include "S_0_H_Test.hlsli"
+#include "S_H_Test.hlsli"
 
 // vertex shader
 // LocalSpace 물체를 NDC 좌표계로 이동

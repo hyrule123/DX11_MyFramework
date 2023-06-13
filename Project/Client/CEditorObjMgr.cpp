@@ -16,7 +16,7 @@
 #include <Engine/CCollisionMgr.h>
 #include <Engine/CCollider2D_Point.h>
 
-#include <Engine/S_0_H_Debug.hlsli>
+#include <Engine/S_H_Debug.hlsli>
 
 #include <Engine/CScriptHolder.h>
 #include <Script/CScript_CameraMove.h>

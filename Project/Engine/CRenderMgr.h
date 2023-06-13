@@ -3,7 +3,7 @@
 #include "CSingleton.h"
 
 #include "define.h"
-#include "S_0_H_STD2DLight.hlsli"
+#include "S_H_STD2DLight.hlsli"
 
 class CCamera;
 class CLight2D;
