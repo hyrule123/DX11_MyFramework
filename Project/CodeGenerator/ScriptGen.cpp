@@ -62,7 +62,7 @@ void CreateScriptCode()
 	WriteCodeA(strKey, Codeline);
 	
 
-	WriteCodeA(strKey, "namespace strKey_SCRIPTS");
+	WriteCodeA(strKey, "namespace strKey_SCRIPT");
 	WriteBracketOpenA(strKey);
 	
 
@@ -123,7 +123,7 @@ void CreateScriptCode()
 	{
 		WriteBracketOpenA(ScriptMgr);
 
-		classCodeLine = string("string strKey = ") + string("string(strKey_SCRIPTS::") + iter.first + string(");");
+		classCodeLine = string("string strKey = ") + string("string(strKey_SCRIPT::") + iter.first + string(");");
 		WriteCodeA(ScriptMgr, classCodeLine);
 
 		size_t pos = iter.second.find(string(ScriptStandardSuffix));

@@ -618,6 +618,7 @@ Ptr<CRes> CResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileN
 	case eRES_TYPE::PREFAB:
 		//TODO : 프리팹 저장 기능 나중에 구현해야 됨
 		pRes = new CPrefab;
+		break;
 	case eRES_TYPE::GRAPHICS_SHADER:
 		pRes = new CGraphicsShader;
 		break;

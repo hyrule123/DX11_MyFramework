@@ -7,6 +7,8 @@ class ManualEdit
 {
 public:
 	static void Edit();
+
+	static void TestCreate();
 	
 
 private:

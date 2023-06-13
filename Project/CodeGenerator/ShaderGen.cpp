@@ -211,7 +211,7 @@ void CreateShaderCode()
 		string RawLiteral = string(PresetStr::Head);
 		fpStrKeyShader << RawLiteral;
 
-		WriteCodeA(fpStrKeyShader, "namespace strKey_RES_SHADER");
+		WriteCodeA(fpStrKeyShader, "namespace strKey_SHADER");
 		WriteBracketOpenA(fpStrKeyShader);
 		WriteCodeA(fpStrKeyShader, "namespace GRAPHICS");
 		WriteBracketOpenA(fpStrKeyShader);

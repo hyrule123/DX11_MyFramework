@@ -6,7 +6,7 @@
 
 #include <Engine/define.h>
 
-namespace strKey_SCRIPTS
+namespace strKey_SCRIPT
 {
 	STRKEY FSM_MOVE_GROUND = "CScript_FSM_Move_Ground";
 	STRKEY CAMERAMOVE = "CScript_CameraMove";

@@ -3,6 +3,8 @@
 
 #include <Engine/CResMgr.h>
 #include <Engine/CScriptMgr.h>
+#include <Engine/CRandMgr.h>
+#include <Engine/EventDispatcher.h>
 
 //string Keys
 #include <Engine/strKey_Default.h>
@@ -27,6 +29,9 @@
 #include <Script/CScript_FSM_Death.h>
 #include <Script/CScript_SCEntity.h>
 
+//HLSL Header
+#include <Engine/S_H_SCUnitGround.hlsli>
+
 void ManualEdit::Edit()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
@@ -43,7 +48,7 @@ void ManualEdit::Edit()
 		LoadAnim(strKey);
 
 		//Prefab
-		strKey = strKey_RES_PREFAB::MARINE;
+		strKey = strKey_PREFAB::MARINE;
 		MarinePrefab_Save(strKey);
 		LoadPrefab(strKey);
 	}
@@ -55,8 +60,36 @@ void ManualEdit::Edit()
 		LoadAnim(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
 		LoadAnim(strKey_TEXTURE::TERRAN::CONSTRUCTION_LARGE_TBLDLRG__BMP);
 
-		string strKey = strKey_RES_PREFAB::COMMAND_CENTER;
+		string strKey = strKey_PREFAB::COMMAND_CENTER;
 		CommandCenter_Prefab_Save(strKey);
+	}
+}
+
+void ManualEdit::TestCreate()
+{
+	for (int i = 0; i < 1; ++i)
+	{
+		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->Load<CPrefab>(strKey_PREFAB::MARINE);
+		CGameObject* Marine = MarinePrefab->Instantiate();
+
+		float randx = CRandMgr::GetInst()->GetRand<float>(-640.f, 640.f);
+		float randy = CRandMgr::GetInst()->GetRand<float>(-320.f, 320.f);
+		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f), 1);
+
+		CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_SCRIPT::FSM_MOVE_GROUND));
+
+		pMoveGround->SetSpeed(100.f);
+	}
+
+	{
+		Ptr<CPrefab> CCPrefab = CResMgr::GetInst()->Load<CPrefab>(strKey_PREFAB::COMMAND_CENTER);
+		CGameObject* CommandCenter = CCPrefab->Instantiate();
+
+		Ptr<CTexture> pFlash = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_PROD_CONTROLT__BMP);
+		Ptr<CMaterial> pMtrl = CommandCenter->RenderComponent()->GetCurMaterial();
+		pMtrl->SetTexParam((eMTRLDATA_PARAM_TEX)iTexProdIdx, pFlash);
+
+		EventDispatcher::SpawnGameObject(CommandCenter, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::GroundUnitMain);
 	}
 }
 
@@ -88,7 +121,6 @@ void ManualEdit::Terran_CommonAnim_Save()
 		
 		pAnim->Save(pAnim->GetKey());
 	}
-
 }
 
 
@@ -162,9 +194,9 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 		//Material
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey(strKey_RES_PREFAB::MARINE);//프리팹 키와 동일한 키를 사용
+		pMtrl->SetKey(strKey_PREFAB::MARINE);//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND);
+		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
 		pMtrl->SetShader(pShader);
 		
 		//Mesh
@@ -176,16 +208,16 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::SCENTITY));
+		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::SCENTITY));
 		pObj->AddScript(pSCEntity);
 		
-		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
+		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPT::FSM_IDLE));
 		pObj->AddScript(pFSMIdle);
 
-		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_SCRIPTS::FSM_MOVE_GROUND);
+		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_SCRIPT::FSM_MOVE_GROUND);
 		pObj->AddScript(pFSMGround);
 
-		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_SCRIPTS::FSM_ATTACK);
+		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_SCRIPT::FSM_ATTACK);
 		pObj->AddScript(pFSMAttack);
 	}
 	
@@ -237,7 +269,7 @@ void ManualEdit::CommandCenter_Anim_Save()
 	//생산 스프라이트(controlt)
 	//텍스처 한 장이므로 굳이 할필요가 없다
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_BUILD_CONTROLT__BMP);
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_PROD_CONTROLT__BMP);
 		assert(nullptr != pTex);
 		//Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 		//Atlas->SetKey(pTex->GetKey());
@@ -280,10 +312,12 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 
 		//Material
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey(strKey_RES_PREFAB::COMMAND_CENTER);//프리팹 키와 동일한 키를 사용
+		pMtrl->SetKey(strKey_PREFAB::COMMAND_CENTER);//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND);
+		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::BUILDINGSTRUCTURE);
 		pMtrl->SetShader(pShader);
+
+
 
 		//Mesh
 		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
@@ -294,31 +328,34 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPTS::FSM_IDLE));
+		CScript_SCEntity* pEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::SCENTITY));
+		pObj->AddScript(pEntity);
+
+		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPT::FSM_IDLE));
 		pObj->AddScript(pFSMIdle);
 	}
 
-	//Child(유닛 생산 점멸)
-	{
-		CGameObject* pChild = new CGameObject;
-		pObj->AddChildGameObj(pChild);
+	////Child(유닛 생산 점멸)
+	//{
+	//	CGameObject* pChild = new CGameObject;
+	//	pObj->AddChildGameObj(pChild);
 
-		pChild->SetLayer(SC::LAYER_INFO::GroundUnitTop);
+	//	pChild->SetLayer(SC::LAYER_INFO::GroundUnitTop);
 
-		CMeshRender* pRenderCom = new CMeshRender;
-		pChild->AddComponent(pRenderCom);
+	//	CMeshRender* pRenderCom = new CMeshRender;
+	//	pChild->AddComponent(pRenderCom);
 
-		//Material
-		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey(strKey_RES_PREFAB::COMMAND_CENTER);//프리팹 키와 동일한 키를 사용
-		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_RES_SHADER::GRAPHICS::SCUNITGROUND);
-		pMtrl->SetShader(pShader);
+	//	//Material
+	//	Ptr<CMaterial> pMtrl = new CMaterial;
+	//	pMtrl->SetKey(strKey_PREFAB::COMMAND_CENTER);//프리팹 키와 동일한 키를 사용
+	//	pRenderCom->SetMaterial(pMtrl);
+	//	Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
+	//	pMtrl->SetShader(pShader);
 
-		//Mesh
-		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
-		pRenderCom->SetMesh(pMesh);
-	}
+	//	//Mesh
+	//	Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+	//	pRenderCom->SetMesh(pMesh);
+	//}
 
 	Ptr<CPrefab> pPrefab = new CPrefab;
 	pPrefab->SetKey(_strKey);

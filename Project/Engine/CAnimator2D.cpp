@@ -288,6 +288,14 @@ void CAnimator2D::UpdateData()
 
         pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_FLAG, &iAnimFlag);
         pOwner->SetMtrlScalarParam(MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX, &m_iCurAtlasTexIdx);
+
+        union union_PackINT32
+        {
+            INT16 High;
+            INT16 Low;
+        };
+        //union_PackInt32 pack = 
+
         return;
     }
 
@@ -429,7 +437,8 @@ void CAnimator2D::UpdateAtlasTexToMtrl()
 
     CMaterial* pMtrl = GetOwner()->RenderComponent()->GetCurMaterial().Get();
 
-    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+    //TODO : 여기 되돌기기
+    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_4; ++i)
     {
         Ptr<CTexture> pTex = nullptr;
         if (nullptr != m_arrAtlasTex[i])

@@ -34,7 +34,7 @@ namespace strKey_TEXTURE
 		STRKEY CHEMLAB_ARMORY__BMP = "SC/Unit/Terran/chemlab(Armory).bmp";
 		STRKEY CHEMLABT_ARMORY__BMP = "SC/Unit/Terran/chemlabt(Armory).bmp";
 		STRKEY COMMANDCENTER_CONTROL__BMP = "SC/Unit/Terran/CommandCenter(control).bmp";
-		STRKEY COMMANDCENTER_BUILD_CONTROLT__BMP = "SC/Unit/Terran/CommandCenter_Build(controlt).bmp";
+		STRKEY COMMANDCENTER_PROD_CONTROLT__BMP = "SC/Unit/Terran/CommandCenter_Prod(controlt).bmp";
 		STRKEY COMSAT_BMP = "SC/Unit/Terran/comsat.bmp";
 		STRKEY COMSATC_INIT__BMP = "SC/Unit/Terran/comsatc(Init).bmp";
 		STRKEY COMSATT_BMP = "SC/Unit/Terran/comsatt.bmp";

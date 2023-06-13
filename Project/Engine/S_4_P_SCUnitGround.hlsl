@@ -59,11 +59,12 @@ float4 PS_SCUnit(VS_OUT _in) : SV_TARGET
 		if (all(FLT_EPSILON > abs(vOutColor.rgb - Data.MTRL_SCALAR_STD2D_COLORKEY.rgb)))
 			discard;
 		
+
+		
 		//if (all(vOutColor.rgb == Data.MTRL_SCALAR_STD2D_COLORKEY.rgb))
 		//	discard;
 	}
 	
-
-    
+	
 	return vOutColor;
 }

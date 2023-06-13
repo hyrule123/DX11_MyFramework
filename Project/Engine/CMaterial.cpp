@@ -96,11 +96,11 @@ bool CMaterial::LoadJson(Json::Value* _pJson)
 		string strKeyTex = jVal[string(RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex)][i].asString();
 		if (false == strKeyTex.empty())
 		{
-			Ptr<CTexture> pTex = pResMgr->FindRes<CTexture>(strKeyTex);
-			if (nullptr == pTex)
-			{
-				SetTexParam((eMTRLDATA_PARAM_TEX)i, pResMgr->Load<CTexture>(strKeyTex));
-			}
+			Ptr<CTexture> pTex = pResMgr->Load<CTexture>(strKeyTex);
+			assert(nullptr != pTex);
+
+			SetTexParam((eMTRLDATA_PARAM_TEX)i, pTex);
+
 		}
 	}
 	return true;

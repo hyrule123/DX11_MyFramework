@@ -196,9 +196,6 @@
     <ClInclude Include="CTilemapAtlas.h">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="SCMapDefine.h">
-      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
-    </ClInclude>
     <ClInclude Include="strKey_Default.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
@@ -213,6 +210,9 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="EventDispatcher.h" />
+    <ClInclude Include="SCMapDefine.h">
+      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">

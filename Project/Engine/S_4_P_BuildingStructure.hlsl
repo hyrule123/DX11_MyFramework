@@ -2,7 +2,10 @@
 
 #include "S_H_Func.hlsli"
 
-float4 PS_BuildingDoubleLayer(VS_OUT _in) : SV_TARGET
+
+
+
+float4 PS_BuildingStructure(VS_OUT _in) : SV_TARGET
 {
 	float4 vOutColor = (float4) 0.f;
     
@@ -60,6 +63,17 @@ float4 PS_BuildingDoubleLayer(VS_OUT _in) : SV_TARGET
 		
 		//if (all(vOutColor.rgb == Data.MTRL_SCALAR_STD2D_COLORKEY.rgb))
 		//	discard;
+	}
+	
+	
+	if (TRUE == g_CBuffer_Mtrl_Tex.bTexProd)
+	{
+		float4 vProdColor = SampleMtrlTex((uint) iTexProdIdx, g_Sampler_0, _in.vUV);
+		if (all(FLT_EPSILON < abs(vProdColor.rgb - Data.MTRL_SCALAR_STD2D_COLORKEY.rgb)))
+		{
+			vOutColor = vProdColor;
+		}
+	
 	}
 	
 

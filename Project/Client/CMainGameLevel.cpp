@@ -58,25 +58,9 @@ void CreateMainGame()
 
 	LoadRes(eRES_TYPE::PREFAB);
 
-	for (int i = 0; i < 1; ++i)
-	{
-		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->FindRes<CPrefab>(strKey_RES_PREFAB::MARINE);
-		CGameObject* Marine = MarinePrefab->Instantiate();
+	ManualEdit::TestCreate();
 
-		float randx = CRandMgr::GetInst()->GetRand<float>(-640.f, 640.f);
-		float randy = CRandMgr::GetInst()->GetRand<float>(-320.f, 320.f);
-		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f), 1);
-
-		CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_SCRIPTS::FSM_MOVE_GROUND));
-
-		pMoveGround->SetSpeed(100.f);
-	}
-
-	{
-		
-		
-	}
-
+	
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
@@ -104,12 +88,11 @@ void CreateMainGame()
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		//pObj->AddComponent(new CTransform);
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPTS::CAMERAMOVE));
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPT::CAMERAMOVE));
 
 		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), 1);
 		//pLevel->AddGameObject(pObj, 1);
 	}
-
 }
 
 void LoadRes(eRES_TYPE _eResType)

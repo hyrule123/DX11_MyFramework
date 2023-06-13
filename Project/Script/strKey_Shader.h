@@ -8,7 +8,7 @@
 //=========================================================
 
 
-namespace strKey_RES_SHADER
+namespace strKey_SHADER
 {
 	namespace GRAPHICS
 	{

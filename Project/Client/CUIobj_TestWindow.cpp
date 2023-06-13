@@ -139,7 +139,7 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 		try
 		{
 			Ptr<CCS_SCMapLoader> pMapLoader;
-			pMapLoader = pResMgr->FindRes<CComputeShader>(string(strKey_RES_SHADER::COMPUTE::SCMAPLOADER));
+			pMapLoader = pResMgr->FindRes<CComputeShader>(string(strKey_SHADER::COMPUTE::SCMAPLOADER));
 			if (nullptr == pMapLoader)
 				throw std::runtime_error("Cannot find Map Loader!!");
 			

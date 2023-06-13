@@ -5,6 +5,13 @@
 #include "S_H_Func.hlsli"
 #endif
 
+//생산 가능한 기지(불 들어오는 기지) 점멸 텍스처 표시 여부
+ENUM_BEGIN(eMTRL_SCALAR_FLAG_BUILDING_STRUCTURE, int)
+	ENUM_MEMBER(ENABLE_BUILDING, int, 1 << 31)
+ENUM_END
+//텍스처는 4번을 사용
+#define bTexProd bTEX_4
+#define iTexProdIdx 4
 
 /*
 초록색 숫자는 '시맨틱'이라고 하며,
@@ -37,7 +44,7 @@
 //MAT_1 : World Translation Matrix(Flag에서 USEVP값이 전달되었을 떄 사용함.)
 
 
-
+#ifndef __cplusplus
 struct VS_IN
 {
 	float3 vPos SEMANTIC(POSITION); // semantic  
@@ -51,6 +58,6 @@ struct VS_OUT
 	float2 vUV SEMANTIC(TEXCOORD);
     UINT32 uInstID SEMANTIC(SV_InstanceID);
 };
-
+#endif
 
 #endif

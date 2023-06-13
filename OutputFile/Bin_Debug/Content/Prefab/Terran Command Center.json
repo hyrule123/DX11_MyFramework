@@ -83,6 +83,23 @@
 				"m_vecScript_strKey" : 
 				[
 					{
+						"CScript_SCEntity" : 
+						{
+							"m_eKeyShortcut" : 0,
+							"m_eMoveType" : 0,
+							"m_eRace" : 0,
+							"m_eUnitSize" : 0,
+							"m_fBaseBuildTime" : 0,
+							"m_flagTech" : 0,
+							"m_strProdBuildingName" : "",
+							"m_uCostGas" : 0,
+							"m_uCostMineral" : 50,
+							"m_uPopulation" : 0,
+							"m_uSightRange" : 5,
+							"strName" : ""
+						}
+					},
+					{
 						"CScript_FSM_Idle" : 
 						{
 							"strName" : ""
@@ -93,10 +110,7 @@
 		],
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 7,
-		"m_vecChild_PREFAB" : 
-		[
-			"Terran Command Center_Child_0.json"
-		],
+		"m_vecChild_PREFAB" : [],
 		"strName" : "Terran Command Center.json"
 	},
 	"eRES_TYPE" : 6,

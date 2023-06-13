@@ -136,20 +136,6 @@ private:
     bool                    m_bPrevEnable;
     
 
-public:
-
-
-    
-    
-
-
-
-
-
-
-
-
-
 
 public:
     ////Components
@@ -208,6 +194,10 @@ inline void CGameObject::SetMtrlScalarParam_IntFlag(eMTRLDATA_PARAM_SCALAR _intP
 
     case eMTRLDATA_PARAM_SCALAR::INT_3: pFlag = &(m_MtrlScalarData.INT_3); break;
 
+    case eMTRLDATA_PARAM_SCALAR::INT_4: pFlag = &(m_MtrlScalarData.INT_4); break;
+
+    case eMTRLDATA_PARAM_SCALAR::INT_5: pFlag = &(m_MtrlScalarData.INT_5); break;
+
     default: return;
     }
 
@@ -263,6 +253,10 @@ inline Vec2 CGameObject::GetMtrlScalarParam_Vec2(eMTRLDATA_PARAM_SCALAR _Param) 
     case eMTRLDATA_PARAM_SCALAR::VEC2_2: return m_MtrlScalarData.VEC2_2;
 
     case eMTRLDATA_PARAM_SCALAR::VEC2_3: return m_MtrlScalarData.VEC2_3;
+
+    case eMTRLDATA_PARAM_SCALAR::VEC2_4: return m_MtrlScalarData.VEC2_4;
+
+    case eMTRLDATA_PARAM_SCALAR::VEC2_5: return m_MtrlScalarData.VEC2_5;
 
     default: return Vec2(FLT_MAX_NEGATIVE);
     }

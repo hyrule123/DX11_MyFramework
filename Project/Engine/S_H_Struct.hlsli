@@ -118,15 +118,23 @@ struct tMtrlScalarData
     INT32 INT_2;
     INT32 INT_3;
     
+    INT32 INT_4;
+    INT32 INT_5;
 	float FLOAT_0;
 	float FLOAT_1;
+    
 	float FLOAT_2;
 	float FLOAT_3;
+	float FLOAT_4;
+	float FLOAT_5;
     
 	float2 VEC2_0;
 	float2 VEC2_1;
 	float2 VEC2_2;
 	float2 VEC2_3;
+    
+	float2 VEC2_4;
+	float2 VEC2_5;
 
 	float4 VEC4_0;
 	float4 VEC4_1;
@@ -185,15 +193,21 @@ struct tMtrlTexData
 //자신의 VP 행렬을 들고 있는 카메라 상수버퍼에서의 인덱스
 #define MTRL_SCALAR_INT_CAMIDX                  MTRLDATA_PARAM_SCALAR(INT, 0)
 
-
+//STD2D 기반 쉐이더에서 사용. 플래그 지정
 #define MTRL_SCALAR_STD2D_FLAG                  MTRLDATA_PARAM_SCALAR(INT, 1)
+
+//현재 재생하고 있는 애니메이션이 몇 번째 텍스처인지
 #define MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX     MTRLDATA_PARAM_SCALAR(INT, 2)
+
+//현재 재생중인 애니메이션이 총 몇 장으로 이루어져 있는지(UINT16 x 2)
+#define MTRL_SCALAR_STD2D_ANIM_NUM_ROW_COL      MTRLDATA_PARAM_SCALAR(INT, 3)
 
 #define MTRL_SCALAR_STD2D_ANIM_UV_LEFTTOP       MTRLDATA_PARAM_SCALAR(VEC2, 0)
 #define MTRL_SCALAR_STD2D_ANIM_UV_SLICE         MTRLDATA_PARAM_SCALAR(VEC2, 1)
 #define MTRL_SCALAR_STD2D_ANIM_UV_OFFSET        MTRLDATA_PARAM_SCALAR(VEC2, 2)
 #define MTRL_SCALAR_STD2D_PIVOT                 MTRLDATA_PARAM_SCALAR(VEC2, 3)
 #define MTRL_SCALAR_STD2D_COLORKEY              MTRLDATA_PARAM_SCALAR(VEC4, 0)
+
 
 ENUM_BEGIN(eMTRL_SCALAR_STD2D_FLAG, int)
     ENUM_MEMBER(USE_VP, int, 1 << 0) //TRUE == WVP 행렬로 전달 FALSE == VP 행렬 따로 전달
@@ -202,6 +216,7 @@ ENUM_BEGIN(eMTRL_SCALAR_STD2D_FLAG, int)
     ENUM_MEMBER(NEED_FLIP_X, int, 1<<3)
     ENUM_MEMBER(USE_COLOR_KEY, int, 1<<4)
 ENUM_END
+
 
 
 ////컴퓨트쉐이더
@@ -235,11 +250,11 @@ ENUM_END
 //재질에서 전달하는 위 구조체를 인덱스 번호를 통해 접근하기 위한 열거체(C++에서만 사용함.)
 enum class eMTRLDATA_PARAM_SCALAR
 {
-    INT_0, INT_1, INT_2, INT_3,
+    INT_0, INT_1, INT_2, INT_3, INT_4, INT_5,
 
-    FLOAT_0, FLOAT_1, FLOAT_2, FLOAT_3,
+    FLOAT_0, FLOAT_1, FLOAT_2, FLOAT_3, FLOAT_4, FLOAT_5,
 
-    VEC2_0, VEC2_1, VEC2_2, VEC2_3,
+    VEC2_0, VEC2_1, VEC2_2, VEC2_3, VEC2_4, VEC2_5,
 
     VEC4_0, VEC4_1, VEC4_2, VEC4_3,
 
