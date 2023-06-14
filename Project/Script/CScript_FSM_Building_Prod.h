@@ -16,5 +16,8 @@ public:
 
 private:
     DECLARE_GETTER_SETTER(bool, m_bIsProducing, IsProducing);
+
+    bool m_bIsFlickerOn;
+    float m_fFlickerTime;
 };
 
