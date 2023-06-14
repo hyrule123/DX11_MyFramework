@@ -57,7 +57,7 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 {
 	m_ProjectionType = _Type;
 
-	m_AspectRatio = g_GlobalVal.vResolution.x / g_GlobalVal.vResolution.y;
+	m_AspectRatio = (float)g_GlobalVal.u2Res.x / (float)g_GlobalVal.u2Res.y;
 
 	switch (m_ProjectionType)
 	{
@@ -67,7 +67,7 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 		//===========
 
 		//1. 투영 행렬 생성
-		m_matProj = XMMatrixOrthographicLH(g_GlobalVal.vResolution.x, g_GlobalVal.vResolution.y, 1.f, 10000.f);
+		m_matProj = XMMatrixOrthographicLH((float)g_GlobalVal.u2Res.x, (float)g_GlobalVal.u2Res.y, 1.f, 10000.f);
 		break;
 	case ePROJ_TYPE::PERSPECTIVE:
 		//1-1. 원근 투영행렬
@@ -98,7 +98,7 @@ void CCamera::Zoom2D(float _fScale)
 	m_fZoomScale *= _fScale;
 
 	//가로세로를 같은 비율로 확장/축소하므로 AspecRatio는 변하지 않음.
-	m_matProj = XMMatrixOrthographicLH(g_GlobalVal.vResolution.x * m_fZoomScale, g_GlobalVal.vResolution.y * m_fZoomScale, 1.f, 10000.f);
+	m_matProj = XMMatrixOrthographicLH(g_GlobalVal.u2Res.x * m_fZoomScale, g_GlobalVal.u2Res.y * m_fZoomScale, 1.f, 10000.f);
 }
 
 
@@ -229,7 +229,7 @@ void CCamera::SortObject()
 				//스크린상에서의  위치 구하기
 				const Vec3& ScreenPos = WorldPos - Transform()->GetWorldPos();
 
-				const Vec2& ResHalf = g_GlobalVal.vResolution * 0.5f;
+				const Vec2& ResHalf = Vec2(g_GlobalVal.u2Res.x, g_GlobalVal.u2Res.y) * 0.5f;
 				
 				if (
 					//자신의 Left가 카메라의 Right보다 클 경우

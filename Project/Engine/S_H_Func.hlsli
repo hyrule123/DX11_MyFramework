@@ -88,7 +88,7 @@ static float GaussianFilter[5][5] =
 #define PI 3.14159265f
 #define PI_DOUBLE 6.2831853f
 
-void GaussianSample(in Texture2D _Tex_Noise, float2 _vResolution, float _NormalizedThreadID, out float3 _vOut)
+void GaussianSample(in Texture2D _Tex_Noise, float2 _vRes, float _NormalizedThreadID, out float3 _vOut)
 {
     //들어온 정규화된 스레드 ID를 UV값으로 사용한다.
     float2 vUV = float2(_NormalizedThreadID, 0.5f);
@@ -113,7 +113,7 @@ void GaussianSample(in Texture2D _Tex_Noise, float2 _vResolution, float _Normali
         vUV.y = 1.f + frac(vUV.y);
     
     //만들어진 UV를 텍스처의 사이즈에 곱해 주면 추출할 픽셀의 인덱스 번호를 얻을 수 있다.
-    int2 pixel = vUV * _vResolution;
+    int2 pixel = vUV * _vRes;
     
     //5 * 5짜리 가우시안 필터를 중점(2, 2)으로 적용하기 위해서 골라진 픽셀에서 3칸씩 밀어준다.
     //

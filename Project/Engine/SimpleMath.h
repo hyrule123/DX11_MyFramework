@@ -29,7 +29,6 @@
 #define XM_CONSTEXPR
 #endif
 
-
 struct ImVec2;
 struct ImVec4;
 
@@ -122,6 +121,7 @@ namespace DirectX
             Vector2& operator=(const Vector2&) = default;
             Vector2& operator =(FXMVECTOR V) { XMStoreFloat2(this, V); return *this; }
             Vector2& operator = (const ImVec2& _imv2);
+            
 
             Vector2(Vector2&&) = default;
             Vector2& operator=(Vector2&&) = default;

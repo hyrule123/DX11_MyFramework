@@ -73,7 +73,7 @@ void CParticleSystem::finaltick()
 		CRandMgr* pRandMgr = CRandMgr::GetInst();
 
 		//GPU에서 사용할 시드값을 전달
-		tParticleShareData rwbuffer = { (int)fData, pRandMgr->GetRand<UINT>(0u, UINT_MAX), pRandMgr->GetRand<UINT>(0u, UINT_MAX), };
+		tParticleShareData rwbuffer = { (int)fData, UINT32_2(pRandMgr->GetRand<UINT>(0u, UINT_MAX), pRandMgr->GetRand<UINT>(0u, UINT_MAX)), };
 
 		m_pSBufferRW_Shared->UploadData(&rwbuffer, 1u);
 	}
@@ -170,7 +170,7 @@ void CParticleSystem::CreateParticle()
 
 	//공유 데이터 구조화 버퍼 생성
 	CRandMgr* pRandMgr = CRandMgr::GetInst();
-	tParticleShareData rwbuffer = { (int)0, pRandMgr->GetRand<UINT>(0u, UINT_MAX), pRandMgr->GetRand<UINT>(0u, UINT_MAX), };
+	tParticleShareData rwbuffer = { (int)0, UINT32_2(pRandMgr->GetRand<UINT>(0u, UINT_MAX), pRandMgr->GetRand<UINT>(0u, UINT_MAX)), };
 
 
 	m_pSBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &rwbuffer, 1u);

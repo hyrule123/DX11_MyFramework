@@ -14,3 +14,4 @@ public:
 	static void RemoveComponent(CGameObject* _pObject, eCOMPONENT_TYPE _eType);
 };
 
+

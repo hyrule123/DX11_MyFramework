@@ -28,16 +28,19 @@ int CEngine::init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT
 {
 	// 메인 윈도우 핸들
 	m_hWnd = _hWnd;
-	g_GlobalVal.uRes_Width = _uWidth;
-	g_GlobalVal.uRes_Height = _uHeight;
 
-	g_GlobalVal.uWndRes_Width = _uWndWidth;
-	g_GlobalVal.uWndRes_Height = _uWndHeight;
+	g_GlobalVal.u2Res = UINT32_2(_uWidth, _uHeight);
+	g_GlobalVal.u2ResWnd = UINT32_2(_uWndWidth, _uWndHeight);
 
 	// 해상도에 맞는 작업영역 크기 조정
 	RECT rt = { 0, 0, (int)_uWndWidth, (int)_uWndHeight};
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
-	SetWindowPos(m_hWnd, nullptr, 100, 100, rt.right - rt.left, rt.bottom - rt.top, 0);
+
+	int scrMidX = GetSystemMetrics(SM_CXSCREEN) / 2 - (int)(g_GlobalVal.u2ResWnd.x / 2u);
+	int scrMidY = GetSystemMetrics(SM_CYSCREEN) / 2 - (int)(g_GlobalVal.u2ResWnd.y / 2u);
+
+
+	SetWindowPos(m_hWnd, nullptr, scrMidX, scrMidY, (int)_uWndWidth, (int)_uWndHeight, 0);
 	ShowWindow(m_hWnd, true);
 	
 	// Device 초기화
@@ -76,6 +79,12 @@ void CEngine::progress()
 
 void CEngine::tick()
 {
+	RECT WndRect = {};
+	GetWindowRect(m_hWnd, &WndRect);
+
+	g_GlobalVal.u2ResWnd.x = (UINT32)(WndRect.right - WndRect.left);
+	g_GlobalVal.u2ResWnd.y = (UINT32)(WndRect.top - WndRect.bottom);
+
 	// Manager Tick
 	CTimeMgr::GetInst()->tick();
 	CKeyMgr::GetInst()->tick();	

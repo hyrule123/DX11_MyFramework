@@ -108,7 +108,7 @@ void CScript_MouseCursor::CalcPos()
 	m_v2CursorPos = CKeyMgr::GetInst()->GetMouseLocalPos();
 
 	//현재 커서의 위치에서 해상도의 반만큼 빼준 후 NDC 좌표와 일치시킨다
-	m_v2CursorPos -= (g_GlobalVal.vResolution * 0.5f);
+	m_v2CursorPos -= Vec2(g_GlobalVal.u2Res.x, g_GlobalVal.u2Res.y) * 0.5f;
 
 	const Matrix& matView = CRenderMgr::GetInst()->GetCurCamera()->GetViewMatrix();
 	//뷰 매트릭스의 위치 행을 반전시켜 주면 이동행렬을 얻을 수 있음.

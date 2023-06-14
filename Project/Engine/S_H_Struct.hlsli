@@ -16,13 +16,69 @@ typedef Vector4     float4;
 typedef int         BOOL;
 
 
-struct INT32_2 { INT32 i32[2]; };
-struct INT32_3 { INT32 i32[3]; };
-struct INT32_4 { INT32 i32[4]; };
+struct INT32_2 {
+	INT32 x;
+	INT32 y;
 
-struct UINT32_2 { UINT32 u32[2]; };
-struct UINT32_3 { UINT32 u32[3]; };
-struct UINT32_4 { UINT32 u32[4]; };
+    INT32_2() : x(), y() {}
+	INT32_2(INT32 _xy) : x(_xy), y(_xy) {}
+	INT32_2(INT32 _x, INT32 _y) :x(_x), y(_y) {}
+};
+struct INT32_3 {
+	INT32 x;
+	INT32 y;
+	INT32 z;
+
+    INT32_3() : x(), y(), z() {}
+	INT32_3(INT32 _xyz) : x(_xyz), y(_xyz) {}
+	INT32_3(INT32 _x, INT32 _y, INT32 _z) : x(_x), y(_y), z(_z) {}
+	INT32_3(const INT32_2& _i32_2, INT32 _z) : x(_i32_2.x), y(_i32_2.y), z(_z) {}
+};
+struct INT32_4 {
+	INT32 x;
+	INT32 y;
+	INT32 z;
+	INT32 w;
+
+    INT32_4() : x(), y(), z(), w() {}
+	INT32_4(INT32 _xyzw) : x(_xyzw), y(_xyzw), z(_xyzw), w(_xyzw) {}
+	INT32_4(INT32 _x, INT32 _y, INT32 _z, INT32 _w) : x(_x), y(_y), z(_z), w(_w) {}
+	INT32_4(const INT32_2& _i32_2, INT32 _z, INT32 _w) : x(_i32_2.x), y(_i32_2.y), z(_z), w(_w) {}
+	INT32_4(const INT32_2& _i32_2_0, const INT32_2& _i32_2_1) : x(_i32_2_0.x), y(_i32_2_0.y), z(_i32_2_1.x), w(_i32_2_1.y) {}
+	INT32_4(const INT32_3& _i32_3, INT32 _w) : x(_i32_3.x), y(_i32_3.y), z(_i32_3.z), w(_w) {}
+};
+
+struct UINT32_2 {
+	UINT32 x;
+	UINT32 y;
+
+    UINT32_2() : x(), y() {}
+	UINT32_2(UINT32 _xy) : x(_xy), y(_xy) {}
+	UINT32_2(UINT32 _x, UINT32 _y) :x(_x), y(_y) {}
+};
+struct UINT32_3 {
+	UINT32 x;
+	UINT32 y;
+	UINT32 z;
+
+    UINT32_3() : x(), y(), z() {}
+	UINT32_3(UINT32 _xyz) : x(_xyz), y(_xyz) {}
+	UINT32_3(UINT32 _x, UINT32 _y, UINT32 _z) : x(_x), y(_y), z(_z) {}
+	UINT32_3(const UINT32_2& _i32_2, UINT32 _z) : x(_i32_2.x), y(_i32_2.y), z(_z) {}
+};
+struct UINT32_4 {
+	UINT32 x;
+	UINT32 y;
+	UINT32 z;
+	UINT32 w;
+
+    UINT32_4() : x(), y(), z(), w() {}
+	UINT32_4(UINT32 _xyzw) : x(_xyzw), y(_xyzw), z(_xyzw), w(_xyzw) {}
+	UINT32_4(UINT32 _x, UINT32 _y, UINT32 _z, UINT32 _w) : x(_x), y(_y), z(_z), w(_w) {}
+	UINT32_4(const UINT32_2& _i32_2, UINT32 _z, UINT32 _w) : x(_i32_2.x), y(_i32_2.y), z(_z), w(_w) {}
+	UINT32_4(const UINT32_2& _i32_2_0, const UINT32_2& _i32_2_1) : x(_i32_2_0.x), y(_i32_2_0.y), z(_i32_2_1.x), w(_i32_2_1.y) {}
+	UINT32_4(const UINT32_3& _i32_3, UINT32 _w) : x(_i32_3.x), y(_i32_3.y), z(_i32_3.z), w(_w) {}
+};
 struct UINT32_8 { UINT32 u32[8]; };
 struct UINT32_16 { UINT32 u32[16]; };
 
@@ -294,9 +350,12 @@ extern tCamMatrices g_matCam[(int)eCAMERA_INDEX::END];
 
 struct tGlobalValue
 {
-    float2 vResolution;
+    UINT32_2 u2Res;
+    UINT32_2 u2ResWnd;
+    
     float fDeltaTime;
     float fAccTime;
+	float2 Padding;
 };
 #ifdef __cplusplus
 extern tGlobalValue g_GlobalVal;

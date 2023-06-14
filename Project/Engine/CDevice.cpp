@@ -70,8 +70,8 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
     m_ViewPort.TopLeftY = 0.f;
 
 
-    m_ViewPort.Width = (float)g_GlobalVal.uRes_Width;
-    m_ViewPort.Height = (float)g_GlobalVal.uRes_Height;
+    m_ViewPort.Width = (float)g_GlobalVal.u2Res.x;
+    m_ViewPort.Height = (float)g_GlobalVal.u2Res.y;
 
     m_ViewPort.MinDepth = 0.f;
     m_ViewPort.MaxDepth = 1.f;
