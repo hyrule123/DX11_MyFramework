@@ -24,22 +24,24 @@ CEngine::~CEngine()
 {
 }
 
-int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
+int CEngine::init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT _uWndHeight)
 {
 	// 메인 윈도우 핸들
 	m_hWnd = _hWnd;
-	m_vResolution = Vec2((float)_iWidth, (float)_iHeight);
-	g_GlobalVal.vResolution = m_vResolution;
+	g_GlobalVal.uRes_Width = _uWidth;
+	g_GlobalVal.uRes_Height = _uHeight;
+
+	g_GlobalVal.uWndRes_Width = _uWndWidth;
+	g_GlobalVal.uWndRes_Height = _uWndHeight;
 
 	// 해상도에 맞는 작업영역 크기 조정
-	RECT rt = { 0, 0, (int)_iWidth, (int)_iHeight};
+	RECT rt = { 0, 0, (int)_uWndWidth, (int)_uWndHeight};
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
-	SetWindowPos(m_hWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top, 0);
+	SetWindowPos(m_hWnd, nullptr, 100, 100, rt.right - rt.left, rt.bottom - rt.top, 0);
 	ShowWindow(m_hWnd, true);
 	
-
 	// Device 초기화
-	if (FAILED(CDevice::GetInst()->init(m_hWnd, _iWidth, _iHeight)))
+	if (FAILED(CDevice::GetInst()->init(m_hWnd, _uWidth, _uHeight)))
 	{
 		MessageBoxW(nullptr, L"Device 초기화 실패", NULL, MB_OK);
 		return E_FAIL;

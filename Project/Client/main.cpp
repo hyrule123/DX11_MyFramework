@@ -10,6 +10,9 @@
 
 #include <Script/CScriptMgrInitializer.h>
 
+#define SC_RES_X 640
+#define SC_RES_Y 480
+
 // 전역 변수:
 HINSTANCE   hInst;                                // 현재 인스턴스입니다.
 HWND        g_hWnd;
@@ -40,7 +43,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     // CEngine 초기화
-    if (FAILED(CEngine::GetInst()->init(g_hWnd, 1280, 768)))
+    if (FAILED(CEngine::GetInst()->init(g_hWnd, SC_RES_X, SC_RES_Y, SC_RES_X * 2, SC_RES_Y * 2)))
     {
         return 0;
     }

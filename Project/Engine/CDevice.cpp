@@ -69,9 +69,9 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
     m_ViewPort.TopLeftX = 0.f;
     m_ViewPort.TopLeftY = 0.f;
 
-    Vec2 vWindowResol = CEngine::GetInst()->GetWindowResolution();
-    m_ViewPort.Width = vWindowResol.x;
-    m_ViewPort.Height = vWindowResol.y;
+
+    m_ViewPort.Width = (float)g_GlobalVal.uRes_Width;
+    m_ViewPort.Height = (float)g_GlobalVal.uRes_Height;
 
     m_ViewPort.MinDepth = 0.f;
     m_ViewPort.MaxDepth = 1.f;
