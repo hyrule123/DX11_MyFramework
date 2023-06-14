@@ -47,7 +47,7 @@ void CScript_MouseCursor::tick()
 			m_pSelectedGameObject = nullptr;
 
 		//아닐 경우 + 우클릭을 했을 경우 이동 스크립트를 가져와서 이동시킨다.
-		else if(KEY_TAP(eKEY::RBTN))
+		else if(KEY_DOWN(eKEY::RBTN))
 		{
 			(CFSM_Move_Base*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::MOVE));
 			CFSM_Move_Base* pMoveState = (CFSM_Move_Base*)m_pSelectedGameObject->ScriptHolder()->GetFSM(SC::FSM::MOVE);
@@ -58,7 +58,7 @@ void CScript_MouseCursor::tick()
 			}
 		}
 
-		else if (KEY_TAP(eKEY::A))
+		else if (KEY_DOWN(eKEY::A))
 		{
 			CScript_FSM_Attack* pAttackState = (CScript_FSM_Attack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::ATTACK));
 		}
@@ -73,7 +73,7 @@ void CScript_MouseCursor::OnCollision(CCollider* _Collider, const Vec3& _v3HitPo
 
 	//3D에서는 Ray를 통해서 해야함.
 	//충돌중인데 좌클릭을 누른 경우
-	if (KEY_TAP(eKEY::LBTN))
+	if (KEY_DOWN(eKEY::LBTN))
 	{	
 		if (eDIMENSION_TYPE::_2D == _Collider->GetDimensionType())
 		{

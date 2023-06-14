@@ -6,8 +6,9 @@
 #endif
 
 //생산 가능한 기지(불 들어오는 기지) 점멸 텍스처 표시 여부
-ENUM_BEGIN(eMTRL_SCALAR_FLAG_BUILDING_STRUCTURE, int)
-	ENUM_MEMBER(ENABLE_BUILDING, int, 1 << 31)
+ENUM_BEGIN(eMTRL_SCALAR_FLAG_BUILDING_STRUCTURE, INT32)
+	//생산 텍스처를 표시할것인지 여부에 대한 플래그값
+	ENUM_MEMBER(ENABLE_PROD_TEX, INT32, 1 << 31)
 ENUM_END
 //텍스처는 4번을 사용
 #define bTexProd bTEX_4

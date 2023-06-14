@@ -68,12 +68,15 @@ float4 PS_BuildingStructure(VS_OUT _in) : SV_TARGET
 	
 	if (TRUE == g_CBuffer_Mtrl_Tex.bTexProd)
 	{
-		float4 vProdColor = SampleMtrlTex((uint) iTexProdIdx, g_Sampler_0, _in.vUV);
-		if (all(FLT_EPSILON < abs(vProdColor.rgb - Data.MTRL_SCALAR_STD2D_COLORKEY.rgb)))
+		//
+		if (eMTRL_SCALAR_FLAG_BUILDING_STRUCTURE::ENABLE_PROD_TEX & Data.MTRL_SCALAR_STD2D_FLAG)
 		{
-			vOutColor = vProdColor;
+			float4 vProdColor = SampleMtrlTex((uint) iTexProdIdx, g_Sampler_0, _in.vUV);
+			if (all(FLT_EPSILON < abs(vProdColor.rgb - Data.MTRL_SCALAR_STD2D_COLORKEY.rgb)))
+			{
+				vOutColor = vProdColor;
+			}
 		}
-	
 	}
 	
 

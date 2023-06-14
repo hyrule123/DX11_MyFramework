@@ -124,7 +124,7 @@ void CScript_CameraMove::tick()
 {
 	ePROJ_TYPE ProjType = Camera()->GetProjType();
 	bool VTapped = false;
-	if (KEY_TAP(eKEY::V))
+	if (KEY_DOWN(eKEY::V))
 		VTapped = true;
 
 	switch (ProjType)

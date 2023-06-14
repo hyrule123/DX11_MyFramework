@@ -8,6 +8,10 @@ class CAnim2DAtlas;
 class CTexture;
 struct tAnim2D;
 
+//애니메이션이 예약한 텍스처 인덱스 : 0 ~ 3(4장)
+//나머지는 일반 텍스처 예약
+#define MAXNUM_ANIM 4
+
 class CAnimator2D 
     : public CComponent
 {
@@ -69,7 +73,8 @@ private:
 
 
 //=================== 등록된 아틀라스 텍스처 주소 관련 ======================
-    Ptr<CAnim2DAtlas>       m_arrAtlasTex[(int)eMTRLDATA_PARAM_TEX::_END];
+    //한 게임오브젝트가 들고있을 수 있는 아틀라스 텍스처를 4개로 제한
+    Ptr<CAnim2DAtlas>       m_arrAtlasTex[MAXNUM_ANIM];
     bool                    m_bNeedUpdateMtrl;
 //=========================================================================
 

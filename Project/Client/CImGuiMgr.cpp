@@ -242,7 +242,10 @@ void CImGuiMgr::CreateDefaultUI()
     AddUI(m_TestWindow);
 
     AddUI(new CUIobj_Inspector);
-    AddUI(new CUIobj_Outliner);
+    CUIobj_Outliner* Outliner = new CUIobj_Outliner;
+    Outliner->SetSaveEnable(true);
+    AddUI(Outliner);
+
     //AddUI(new CUIobj_Contents);
     //AddUI(new CUIobj_AnimEditor);
     //AddUI(new CUIobj_SCPrefabEditor);
@@ -324,7 +327,7 @@ void CImGuiMgr::finaltick()
     }
 
     //엔터키를 누를 시 IMGUI 윈도우에 대한 포커스 해제
-    if (KEY_TAP(eKEY::ENTER))
+    if (KEY_DOWN(eKEY::ENTER))
         ImGui::SetWindowFocus(nullptr);
 }
 

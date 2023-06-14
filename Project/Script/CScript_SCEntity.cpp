@@ -133,7 +133,7 @@ void CScript_SCEntity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)
 	if (iLayerCursor == _pCol->GetOwner()->GetLayer())
 	{
 		//마우스 커서가 한번 클릭됐을 경우
-		if (KEY_TAP(eKEY::LBTN))
+		if (KEY_DOWN(eKEY::LBTN))
 		{
 			
 		}

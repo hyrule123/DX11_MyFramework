@@ -28,6 +28,7 @@
 #include <Script/CScript_FSM_Move_Ground.h>
 #include <Script/CScript_FSM_Death.h>
 #include <Script/CScript_SCEntity.h>
+#include <Script/CScript_FSM_Building_Prod.h>
 
 //HLSL Header
 #include <Engine/S_H_SCUnitGround.hlsli>
@@ -84,10 +85,7 @@ void ManualEdit::TestCreate()
 	{
 		Ptr<CPrefab> CCPrefab = CResMgr::GetInst()->Load<CPrefab>(strKey_PREFAB::COMMAND_CENTER);
 		CGameObject* CommandCenter = CCPrefab->Instantiate();
-
-		Ptr<CTexture> pFlash = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_PROD_CONTROLT__BMP);
 		Ptr<CMaterial> pMtrl = CommandCenter->RenderComponent()->GetCurMaterial();
-		pMtrl->SetTexParam((eMTRLDATA_PARAM_TEX)iTexProdIdx, pFlash);
 
 		EventDispatcher::SpawnGameObject(CommandCenter, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::GroundUnitMain);
 	}
@@ -317,7 +315,9 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::BUILDINGSTRUCTURE);
 		pMtrl->SetShader(pShader);
 
+		Ptr<CTexture> pFlash = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_PROD_CONTROLT__BMP);
 
+		pMtrl->SetTexParam((eMTRLDATA_PARAM_TEX)iTexProdIdx, pFlash);
 
 		//Mesh
 		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
@@ -331,8 +331,8 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 		CScript_SCEntity* pEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::SCENTITY));
 		pObj->AddScript(pEntity);
 
-		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPT::FSM_IDLE));
-		pObj->AddScript(pFSMIdle);
+		CScript_FSM_Building_Prod* pFSMBuilding = static_cast<CScript_FSM_Building_Prod*>(pScriptMgr->GetNewScript(strKey_SCRIPT::FSM_BUILDING_PROD));
+		pObj->AddScript(pFSMBuilding);
 	}
 
 	////Child(유닛 생산 점멸)

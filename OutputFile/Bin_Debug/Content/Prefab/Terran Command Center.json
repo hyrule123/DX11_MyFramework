@@ -58,10 +58,6 @@
 					"SC/Unit/Terran/CommandCenter(control).bmp",
 					"SC/Unit/Terran/Construction_Large(tbldlrg).bmp",
 					null,
-					null,
-					null,
-					null,
-					null,
 					null
 				]
 			},
@@ -100,7 +96,7 @@
 						}
 					},
 					{
-						"CScript_FSM_Idle" : 
+						"CScript_FSM_Building_Prod" : 
 						{
 							"strName" : ""
 						}

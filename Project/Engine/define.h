@@ -8,7 +8,7 @@
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) public: virtual type* Clone() { return nullptr; assert(nullptr); }
 
-#define KEY_TAP(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::TAP		
+#define KEY_DOWN(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::DOWN		
 #define KEY_RELEASE(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::RELEASE
 #define KEY_PRESSED(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::PRESSED
 
@@ -133,11 +133,10 @@ extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
 
 enum class eKEY_STATE
 {
-	TAP,
+	DOWN,
 	PRESSED,
 	RELEASE,
 	NONE, END = NONE,
-
 };
 
 

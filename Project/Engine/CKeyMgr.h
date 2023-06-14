@@ -26,6 +26,12 @@ enum class eKEY
 	W,
 	E,
 	R,
+	T,
+	Y,
+	U,
+	I,
+	O,
+	P,
 
 	A,
 	S,

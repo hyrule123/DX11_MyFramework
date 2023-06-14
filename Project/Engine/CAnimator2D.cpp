@@ -54,7 +54,7 @@ CAnimator2D::CAnimator2D(const CAnimator2D& _other)
     , m_bNeedUpdateMtrl(true)
 
 {
-    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+    for (int i = 0; i < MAXNUM_ANIM; ++i)
     {
         m_arrAtlasTex[i] = _other.m_arrAtlasTex[i];
     }
@@ -78,7 +78,7 @@ bool CAnimator2D::SaveJson(Json::Value* _pJVal)
     {
         string strKey = string(RES_INFO::PREFAB::COMPONENT::ANIMATOR2D::JSON_KEY::m_arrAtlasTex);
         jVal[strKey] = Json::Value(Json::arrayValue);
-        for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+        for (int i = 0; i < MAXNUM_ANIM; ++i)
         {
             if (nullptr != m_arrAtlasTex[i])
             {
@@ -120,10 +120,12 @@ bool CAnimator2D::LoadJson(Json::Value* _pJVal)
             Json::Value& arrAtlasTex = jVal[strKey];
 
             int size = arrAtlasTex.size();
-            if ((int)eMTRLDATA_PARAM_TEX::_END != size)
-                throw std::runtime_error(strKey + " Array Index exceeded");
+            if (size < MAXNUM_ANIM)
+            {
+                throw(std::runtime_error("Atlas Texture Data corrupted."));
+            }
 
-            for (int i = 0u; i < size; ++i)
+            for (int i = 0u; i < MAXNUM_ANIM; ++i)
             {
                 if (arrAtlasTex[i].isNull())
                     continue;
@@ -337,7 +339,7 @@ const tAnim2D* CAnimator2D::FindAnim(const string& _strKey_Anim)
 {
     const tAnim2D* Anim = nullptr;
 
-    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+    for (int i = 0; i < MAXNUM_ANIM; ++i)
     {
         if (nullptr != m_arrAtlasTex[i])
         {
@@ -355,7 +357,7 @@ bool CAnimator2D::Play(const string& _strKey_Anim, eANIM_LOOPMODE _eLoopMode, bo
 {
     const tAnim2D* pAnim = nullptr;
 
-    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
+    for (int i = 0; i < MAXNUM_ANIM; ++i)
     {
         if (nullptr == m_arrAtlasTex[i])
             continue;
@@ -437,8 +439,7 @@ void CAnimator2D::UpdateAtlasTexToMtrl()
 
     CMaterial* pMtrl = GetOwner()->RenderComponent()->GetCurMaterial().Get();
 
-    //TODO : 여기 되돌기기
-    for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_4; ++i)
+    for (int i = 0; i < MAXNUM_ANIM; ++i)
     {
         Ptr<CTexture> pTex = nullptr;
         if (nullptr != m_arrAtlasTex[i])

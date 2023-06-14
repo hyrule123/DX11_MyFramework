@@ -9,13 +9,16 @@
 	},
 	"Inspector" : 
 	{
-		"IsActive" : true
+		"IsActive" : false
 	},
 	"MainMenu" : null,
-	"Outliner" : null,
+	"Outliner" : 
+	{
+		"IsActive" : false
+	},
 	"SCPrefabEditor" : null,
 	"TestWindow" : 
 	{
-		"IsActive" : true
+		"IsActive" : false
 	}
 }

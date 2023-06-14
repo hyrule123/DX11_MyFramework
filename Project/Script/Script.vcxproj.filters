@@ -73,6 +73,9 @@
     <ClInclude Include="SC_Func.h">
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
+    <ClInclude Include="CScript_FSM_Building_Prod.h">
+      <Filter>ScriptCode\SC\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="SC_Func.cpp">
       <Filter>ScriptCode\SC</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript_FSM_Building_Prod.cpp">
+      <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

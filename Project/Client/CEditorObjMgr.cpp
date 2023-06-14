@@ -69,7 +69,7 @@ void CEditorObjMgr::init()
 		m_pMousePicker->AddScript(Script);
 
 		CScript_MouseCursor* pScript = static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_SCRIPT::MOUSECURSOR));
-		pScript->AddFuncLBTNCallback(eKEY_STATE::TAP, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
+		pScript->AddFuncLBTNCallback(eKEY_STATE::DOWN, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
  		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
 

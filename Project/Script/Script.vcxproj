@@ -184,6 +184,7 @@ call "CodeGenerator_$(Configuration).exe" Script
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CFSM_Move_Base.h" />
+    <ClInclude Include="CScript_FSM_Building_Prod.h" />
     <ClInclude Include="CScript_FSM_Death.h" />
     <ClInclude Include="CScriptMgrInitializer.h" />
     <ClInclude Include="CScript_CameraMove.h" />
@@ -206,6 +207,7 @@ call "CodeGenerator_$(Configuration).exe" Script
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CFSM_Move_Base.cpp" />
+    <ClCompile Include="CScript_FSM_Building_Prod.cpp" />
     <ClCompile Include="CScript_FSM_Death.cpp" />
     <ClCompile Include="CScriptMgrInitializer.cpp" />
     <ClCompile Include="CScript_CameraMove.cpp" />
