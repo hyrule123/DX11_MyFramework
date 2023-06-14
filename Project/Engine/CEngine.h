@@ -11,7 +11,11 @@ private:
 	HWND	m_hWnd;
 
 	//해상도는 Global Variable에 저장
+	bool	m_bWinResChanged;
+public:
+	bool IsResChanged() const { return m_bWinResChanged; }
 
+private:
 	Vec4	m_ClearColor;
 	
 

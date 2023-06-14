@@ -17,6 +17,7 @@
 CEngine::CEngine()
 	: m_hWnd(nullptr)
 	, m_ClearColor(0.5f, 0.5f, 0.5f, 1.f)
+	, m_bWinResChanged(true)
 {
 }
 
@@ -82,8 +83,16 @@ void CEngine::tick()
 	RECT WndRect = {};
 	GetWindowRect(m_hWnd, &WndRect);
 
-	g_GlobalVal.u2ResWnd.x = (UINT32)(WndRect.right - WndRect.left);
-	g_GlobalVal.u2ResWnd.y = (UINT32)(WndRect.top - WndRect.bottom);
+	UINT32_2 u2ResWnd = {};
+	u2ResWnd.x = (UINT32)(WndRect.right - WndRect.left);
+	u2ResWnd.y = (UINT32)(WndRect.top - WndRect.bottom);
+
+	//해상도가 변했을 시 bool 값을 변경
+	if (g_GlobalVal.u2ResWnd.x != u2ResWnd.x || g_GlobalVal.u2ResWnd.y != u2ResWnd.y)
+		m_bWinResChanged = true;
+	else
+		m_bWinResChanged = false;
+
 
 	// Manager Tick
 	CTimeMgr::GetInst()->tick();

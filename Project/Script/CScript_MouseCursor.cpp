@@ -105,6 +105,9 @@ void CScript_MouseCursor::OnCollision(CCollider* _Collider, const Vec3& _v3HitPo
 
 void CScript_MouseCursor::CalcPos()
 {
+	if (KEY_DOWN(eKEY::F))
+		int a = 90;
+
 	m_v2CursorPos = CKeyMgr::GetInst()->GetMouseLocalPos();
 
 	//현재 커서의 위치에서 해상도의 반만큼 빼준 후 NDC 좌표와 일치시킨다

@@ -52,7 +52,7 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 
     if (FAILED(CreateSwapChain()))
     {
-        MessageBox(nullptr, L"스팅셈?생성 실패", L"Device 초기화 에러", MB_OK);
+        MessageBox(nullptr, L"스왑체인 생성 실패", L"Device 초기화 에러", MB_OK);
         return E_FAIL;
     }
 

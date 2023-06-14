@@ -120,10 +120,26 @@ void CKeyMgr::tick()
 
 		// Mouse 위치 갱신. 현재 위치, 이전 위치, 마우스 방향 3가지 계산
 		POINT ptMousePos = {};
-		GetCursorPos(&ptMousePos);		
+		GetCursorPos(&ptMousePos);
+
+		//게임 해상도가 반영되지 않는 실제 해상도에서의 좌표
 		ScreenToClient(CEngine::GetInst()->GetMainWnd(), &ptMousePos);
+
 		m_vPrevMousePos = m_vMouseLocalPos;
-		m_vMouseLocalPos = Vec2((float)ptMousePos.x, fabsf(g_GlobalVal.u2Res.y- (float)ptMousePos.y));
+		m_vMouseLocalPos = Vec2((float)ptMousePos.x, fabsf((float)g_GlobalVal.u2ResWnd.y- (float)ptMousePos.y));
+
+		static Vec2 Ratio = {};
+		//게임 해상도와 실제 창 크기의 비율을 구한다.
+		if (CEngine::GetInst()->IsResChanged())
+		{
+			Ratio = Vec2(
+				(float)g_GlobalVal.u2Res.x / (float)g_GlobalVal.u2ResWnd.x,
+				(float)g_GlobalVal.u2Res.y / (float)g_GlobalVal.u2ResWnd.y
+			);
+		}
+		m_vMouseLocalPos *= Ratio;
+
+
 		m_vMouseDir = m_vMouseLocalPos - m_vPrevMousePos;
 		//윈도우 창 좌표계와 DX 좌표계의 y축은 서로 반대이므로
 		//m_vMouseDir.y *= -1.f;

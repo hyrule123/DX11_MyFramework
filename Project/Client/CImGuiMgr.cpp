@@ -234,9 +234,9 @@ void CImGuiMgr::ImGuiInit(HWND _hWnd)
 
 void CImGuiMgr::CreateDefaultUI()
 {
-    m_MainMenubar = new CUI_Menubar("MainMenu", true);
-    m_OpenWindowsMenu = m_MainMenubar->AddMenu("Open Windows");
-    AddUI(m_MainMenubar);
+    //m_MainMenubar = new CUI_Menubar("MainMenu", true);
+    //m_OpenWindowsMenu = m_MainMenubar->AddMenu("Open Windows");
+    //AddUI(m_MainMenubar);
 
     m_TestWindow = new CUIobj_TestWindow;
     AddUI(m_TestWindow);
@@ -350,6 +350,9 @@ void CImGuiMgr::render()
 
 void CImGuiMgr::UpdateMainMenu()
 {
+    if (nullptr == m_MainMenubar)
+        return;
+
     m_OpenWindowsMenu->ClearChildUI();
 
     for (const auto& iter : m_mapUI)
