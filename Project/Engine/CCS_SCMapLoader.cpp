@@ -25,7 +25,7 @@ STRKEY strPath_StormLib = "StormLib_DLL_Debug.dll";
 STRKEY strPath_StormLib = "StormLib_DLL_Release.dll";
 #endif
 
-
+using namespace SC_Map;
 
 CCS_SCMapLoader::CCS_SCMapLoader()
     : m_arrpSBufferTileSet{}
@@ -45,7 +45,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     Path /= DIRECTORY_NAME::SCMAP_TILESET;
 
     //타일셋 데이터를 저장할 메모리공간 동적할당 
-    tTileSet* Tileset = new tTileSet;
+    SC_Map::tTileSet* Tileset = new SC_Map::tTileSet;
 
     try
     {
@@ -53,7 +53,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
         {
             
             //타일셋 데이터 초기화
-            memset(Tileset, 0, sizeof(tTileSet));
+            memset(Tileset, 0, sizeof(SC_Map::tTileSet));
             std::filesystem::path FullPath = Path;
 
             switch ((eTILESET_INFO)TileSetIdx)
@@ -181,8 +181,8 @@ CCS_SCMapLoader::CCS_SCMapLoader()
 
 
             //타일셋 일괄적으로 동적 할당
-            m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)eTILESET_MEMBER::END];
-            for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
+            m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)SC_Map::eTILESET_MEMBER::END];
+            for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
             {
                 //0 ~ 5번까지 일치시켜 놓았음.
                 SDesc.i_idx_t_SRVIdx = i;
@@ -191,25 +191,25 @@ CCS_SCMapLoader::CCS_SCMapLoader()
                 m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].SetDesc(SDesc);
 
                 //각자에게 맞는 구조화버퍼 공간 생성
-                switch ((eTILESET_MEMBER)i)
+                switch ((SC_Map::eTILESET_MEMBER)i)
                 {
-                case eTILESET_MEMBER::CV5:
+                case SC_Map::eTILESET_MEMBER::CV5:
                     m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(CV5), (UINT)CV5_MAX, Tileset->cv5, (UINT)CV5_MAX);
 
                     break;
-                case eTILESET_MEMBER::VX4:
+                case SC_Map::eTILESET_MEMBER::VX4:
                     m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VX4), (UINT)VX4_MAX, Tileset->vx4, (UINT)VX4_MAX);
 
                     break;
-                case eTILESET_MEMBER::VF4:
+                case SC_Map::eTILESET_MEMBER::VF4:
                     m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VF4), (UINT)VF4_MAX, Tileset->vf4, (UINT)VF4_MAX);
 
                     break;
-                case eTILESET_MEMBER::VR4:
+                case SC_Map::eTILESET_MEMBER::VR4:
                     m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VR4), (UINT)VR4_MAX, Tileset->vr4, (UINT)VR4_MAX);
 
                     break;
-                case eTILESET_MEMBER::WPE:
+                case SC_Map::eTILESET_MEMBER::WPE:
                     m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(WPE), (UINT)WPE_MAX, Tileset->wpe, (UINT)WPE_MAX);
 
                     break;
@@ -356,7 +356,7 @@ bool CCS_SCMapLoader::BindDataCS()
 void CCS_SCMapLoader::UnBindCS()
 {
     //타일셋 Unbind
-    for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
+    for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
     {
         m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].UnBind();
     }
@@ -416,120 +416,35 @@ bool CCS_SCMapLoader::LoadMap(const string& _strMapName, __out tMapData& _tMapDa
 
 bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 {
+    using namespace std;
     //tMapDataChunk 자체의 데이터 사이즈는 크지 않으므로 스택에 생성
-    tMapDataChunk arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END] = {};
+    shared_ptr<tMapDataChunk> arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END] = {};
 
-    bool bLoaded = false;
-    do
+    //읽어온 데이터를 string에 옮긴다.
+    std::string_view View(Data, Size);
+    string DataStr(View);
+
+    //멀티스레드 연습용
+    vector<future<shared_ptr<tMapDataChunk>>> vecFuture;
+    for (int i = 0; i < (int)eSCMAP_DATA_TYPE::END; ++i)
     {
-        //읽어온 데이터를 string에 옮긴다.
-        std::string_view View(Data, Size);
-        string DataStr(View);
+        vecFuture.emplace_back(std::async(std::launch::async, &CCS_SCMapLoader::MultiThread_CopyChunk, this, std::cref(DataStr), (eSCMAP_DATA_TYPE)i));
+    }
+    for (int i = 0; i < (int)eSCMAP_DATA_TYPE::END; ++i)
+    {
+        arrMapDataChunk[i] = vecFuture[i].get();
+    }
 
 
-        //Terrain tMapDataChunk 시작점(문자열) 을 찾는다.
-        size_t pos = 0;
-        pos = DataStr.find(Chunk_Terrain);
 
-        if (pos == string::npos)
-            break;
-
-        
-        {
-            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN];
-
-            char* adress = Data + pos;
-
-            //이름 복사
-            memcpy(chk->TypeName, adress, 4);
-
-            //데이터 덩어리 사이즈 복사
-            int* len = (int*)(adress + 4);
-            chk->length = *len;
-
-            chk->Data = new unsigned char[chk->length + 1];
-            memcpy(chk->Data, adress + 8, chk->length);
-        }
-
-        pos = 0;
-        pos = DataStr.find(Chunk_MapSize);
-
-        if (pos == std::string::npos)
-            break;
-                   
-        {
-            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE];
-
-            char* adress = Data + pos;
-
-            //이름 복사
-            memcpy(chk->TypeName, adress, 4);
-
-            //데이터 덩어리의 사이즈 복사
-            int* len = (int*)(adress + 4);
-            chk->length = *len;
-
-            chk->Data = new unsigned char[chk->length + 1];
-            memcpy(chk->Data, adress + 8, chk->length);            
-        }
-
-
-        pos = 0;
-        pos = DataStr.find(Chunk_TileMap);
-
-        if (pos == std::string::npos)
-            break;
-
-        {
-            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS];
-
-            char* adress = Data + pos;
-
-            //이름 복사
-            memcpy(chk->TypeName, adress, 4);
-
-            //데이터 덩어리의 사이즈 복사
-            int* len = (int*)(adress + 4);
-            chk->length = *len;
-
-            chk->Data = new unsigned char[chk->length + 1];
-            memcpy(chk->Data, adress + 8, chk->length);
-        }
-
-        pos = 0;
-        pos = DataStr.find(Chunk_UnitPlacement);
-        if (pos == std::string::npos)
-            break;
-        {
-            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::UNIT_PLACEMENT];
-
-            char* adress = Data + pos;
-
-            //이름 복사
-            memcpy(chk->TypeName, adress, 4);
-
-            //데이터 덩어리의 사이즈 복사
-            int* len = (int*)(adress + 4);
-            chk->length = *len;
-
-            chk->Data = new unsigned char[chk->length + 1];
-            memcpy(chk->Data, adress + 8, chk->length);
-        }
-
-        bLoaded = true;
-
-    } while (false);
-
-    if (false == bLoaded)
-        return false;
 
 
     //맵 사이즈 읽기
-    if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].length != 4)
+    if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->length != 4)
         return false;
 
-    m_tMapWorkSpace.uMapSizeX = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data);
-    m_tMapWorkSpace.uMapSizeY = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE].Data + 2);
+    m_tMapWorkSpace.uMapSizeX = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data);
+    m_tMapWorkSpace.uMapSizeY = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data + 2);
 
     Vec2 vMapSize = Vec2(m_tMapWorkSpace.uMapSizeX, m_tMapWorkSpace.uMapSizeY);
     SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &vMapSize);
@@ -539,17 +454,17 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     tSBufferDesc SBufferDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, idx_t_SBUFFER_MXTM, idx_u_UAV_NONE };
    
     m_pSBuffer_MXTM = new CStructBuffer(SBufferDesc);
-    UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS].length / 16u;
-    m_pSBuffer_MXTM->Create((UINT)sizeof(MXTM), DataCount, arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS].Data, DataCount);
+    UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->length / 16u;
+    m_pSBuffer_MXTM->Create((UINT)sizeof(MXTM), DataCount, arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->Data, DataCount);
     m_pSBuffer_MXTM->BindBufferSRV();
 
 
     //지형 파일 읽기
-    if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].length != 2)
+    if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN]->length != 2)
         return false;
 
     //첫 1바이트에 지형 정보가 들어있다.
-    unsigned char Info = arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN].Data[0];
+    unsigned char Info = arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN]->Data[0];
 
     //앞의 4비트는 0으로 변환
     unsigned char bitshift = 0b00001111;
@@ -575,7 +490,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
 
 
     //타일셋을 바인딩해준다.
-    for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
+    for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
     {
         m_arrpSBufferTileSet[(int)m_tMapWorkSpace.eTileSet].arrTileSetMember[i].BindBufferSRV();
     }
@@ -637,21 +552,34 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     return true;
 }
 
-void CCS_SCMapLoader::MultiThread_CopyChunk(eSCMAP_DATA_TYPE _eDataType)
+std::shared_ptr<tMapDataChunk> CCS_SCMapLoader::MultiThread_CopyChunk(const std::string& _dataStr, eSCMAP_DATA_TYPE _eDataType)
 {
-    tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN];
+    using namespace std;
+    shared_ptr<tMapDataChunk> pData = make_shared<tMapDataChunk>();
 
-    char* adress = Data + pos;
+    //위치 찾기
+    size_t pos = 0;
+    pos = _dataStr.find(strKey_SCMap[(int)_eDataType]);
 
-    //이름 복사
-    memcpy(chk->TypeName, adress, 4);
+    if (pos == string::npos)
+        return nullptr;
 
-    //데이터 덩어리 사이즈 복사
-    int* len = (int*)(adress + 4);
-    chk->length = *len;
+    {
+        const char* adress = _dataStr.data() + pos;
 
-    chk->Data = new unsigned char[chk->length + 1];
-    memcpy(chk->Data, adress + 8, chk->length);
+        //이름 복사
+        memcpy(pData->TypeName, adress, 4);
+
+        //데이터 덩어리 사이즈 복사
+        int* len = (int*)(adress + 4);
+        pData->length = *len;
+
+        pData->Data = new unsigned char[pData->length + 1];
+        memcpy(pData->Data, adress + 8, pData->length);
+    }
+
+
+    return pData;
 }
 
 

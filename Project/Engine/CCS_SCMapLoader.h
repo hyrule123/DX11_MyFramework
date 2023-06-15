@@ -22,10 +22,10 @@ public:
 
 
 private:
-    tpSBufferTileSet m_arrpSBufferTileSet[(int)eTILESET_INFO::END];
+    SC_Map::tpSBufferTileSet m_arrpSBufferTileSet[(int)eTILESET_INFO::END];
 
     //MXTM 관련
-    //Map의 tMapDataChunk 파일 아래의 지형정보
+    //Map의 SC_Map::tMapDataChunk 파일 아래의 지형정보
     CStructBuffer* m_pSBuffer_MXTM;
 
     CStructBuffer* m_pSBufferRW_Megatile;
@@ -33,7 +33,7 @@ private:
     CStructBuffer* m_pSBufferRW_Minitile;
 
     //============맵 정보=============
-    tMapData m_tMapWorkSpace;
+    SC_Map::tMapData m_tMapWorkSpace;
 
     //TODO : 나중에 맵 문제없이 로딩될경우 아래 변수는 삭제할것
     CStructBuffer* m_pSBuffer_Debug;
@@ -41,12 +41,12 @@ private:
 
 public:
     //Map 폴더 안의 맵 이름을 인자로 받아서 맵을 로드함.
-    bool LoadMap(const string& _strMapName, __out tMapData& _tMapData);
+    bool LoadMap(const string& _strMapName, __out SC_Map::tMapData& _tMapData);
 
 private:
     bool ReadMapData(char* Data, DWORD Size);
     bool UploadMapDataToCS();
 
-    void MultiThread_CopyChunk(eSCMAP_DATA_TYPE _eDataType);
+    std::shared_ptr<SC_Map::tMapDataChunk> MultiThread_CopyChunk(const std::string& _dataStr, SC_Map::eSCMAP_DATA_TYPE _eDataType);
 };
 

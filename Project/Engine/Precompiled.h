@@ -16,6 +16,8 @@
 #include <fstream>
 #include <random>
 #include <type_traits>
+#include <thread>
+#include <future>
 
 using std::vector;
 using std::list;

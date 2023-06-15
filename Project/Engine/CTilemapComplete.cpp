@@ -7,6 +7,8 @@
 
 #include "CTransform.h"
 
+using namespace SC_Map;
+
 CTilemapComplete::CTilemapComplete()
 	: CTilemap(eTILE_TYPE::COMPLETE)
 	, m_tMapData()

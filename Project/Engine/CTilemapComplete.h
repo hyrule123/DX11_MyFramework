@@ -18,7 +18,7 @@ public:
     virtual void cleanup() override {};
 
 private:
-    tMapData m_tMapData;
+    SC_Map::tMapData m_tMapData;
     bool    m_bMapLoaded;
 
 public:
