@@ -39,6 +39,7 @@ bool CUI_BasicWindow::beginUI()
 	return ImGui::BeginChild(GetStrID().c_str(), m_vSize, m_bBorder, m_WindowFlag);
 }
 
+
 void CUI_BasicWindow::endUI()
 {
 	if (nullptr == GetParent())

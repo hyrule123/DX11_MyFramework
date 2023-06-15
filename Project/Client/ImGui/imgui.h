@@ -28,6 +28,9 @@
 #define IMGUI_HAS_VIEWPORT          // Viewport WIP branch
 #define IMGUI_HAS_DOCK              // Docking WIP branch
 
+#include <d3d11.h>
+#include <Engine/SimpleMath.h>
+
 /*
 
 Index of this file:
@@ -55,6 +58,7 @@ Index of this file:
 #ifdef IMGUI_USER_CONFIG
 #include IMGUI_USER_CONFIG
 #endif
+
 #include "imconfig.h"
 
 #ifndef IMGUI_DISABLE
@@ -261,6 +265,7 @@ struct ImVec2
     float                                   x, y;
     constexpr ImVec2()                      : x(0.0f), y(0.0f) { }
     constexpr ImVec2(float _x, float _y)    : x(_x), y(_y) { }
+    ImVec2(const DirectX::SimpleMath::Vector2& _v2) : x(_v2.x), y(_v2.y) {}
     float& operator[] (size_t idx)          { IM_ASSERT(idx == 0 || idx == 1); return ((float*)(char*)this)[idx]; } // We very rarely use this [] operator, so the assert overhead is fine.
     float  operator[] (size_t idx) const    { IM_ASSERT(idx == 0 || idx == 1); return ((const float*)(const char*)this)[idx]; }
 #ifdef IM_VEC2_CLASS_EXTRA

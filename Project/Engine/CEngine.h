@@ -32,6 +32,8 @@ public:
 	void SetWndSize(UINT32 _uWidth, UINT32 _uHeight);
 	bool IsWinSizeChanged() const { return m_bWinSizeChanged; }	
 
+	bool IsMainWndFocused() const { return m_hWnd == GetFocus(); }
+
 private:
 	Vec4	m_ClearColor;
 };

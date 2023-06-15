@@ -84,7 +84,7 @@ void CKeyMgr::init()
 
 void CKeyMgr::tick()
 {
-	if (GetFocus())
+	if (CEngine::GetInst()->IsMainWndFocused())
 	{
 		size_t size = m_vecKey.size();
 		for (size_t i = 0; i < size; ++i)

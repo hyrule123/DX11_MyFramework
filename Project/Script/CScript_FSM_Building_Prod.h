@@ -15,9 +15,13 @@ public:
     virtual void tick() override;
 
 private:
+    //유닛 생산중인지 여부 저장
     DECLARE_GETTER_SETTER(bool, m_bIsProducing, IsProducing);
 
     bool m_bIsFlickerOn;
     float m_fFlickerTime;
+
+private:
+
 };
 

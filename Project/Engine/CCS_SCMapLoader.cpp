@@ -25,10 +25,7 @@ STRKEY strPath_StormLib = "StormLib_DLL_Debug.dll";
 STRKEY strPath_StormLib = "StormLib_DLL_Release.dll";
 #endif
 
-//맵 정보 읽기용
-STRKEY TerrainChunk = "ERA";
-STRKEY MapSizeChunk = "DIM";
-STRKEY TileMapChunk = "MTXM";
+
 
 CCS_SCMapLoader::CCS_SCMapLoader()
     : m_arrpSBufferTileSet{}
@@ -181,9 +178,9 @@ CCS_SCMapLoader::CCS_SCMapLoader()
             idx_t_SRV_NONE,
             idx_u_UAV_NONE
             };
+
+
             //타일셋 일괄적으로 동적 할당
-
-
             m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)eTILESET_MEMBER::END];
             for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
             {
@@ -228,7 +225,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
             fpWPE.close();
             fpVF4.close();
             //_fcloseall();
-
+            
         }
     }
     catch (const std::runtime_error& error)
@@ -432,11 +429,12 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
         //Terrain tMapDataChunk 시작점(문자열) 을 찾는다.
         size_t pos = 0;
-        pos = DataStr.find(TerrainChunk);
+        pos = DataStr.find(Chunk_Terrain);
 
         if (pos == string::npos)
             break;
 
+        
         {
             tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN];
 
@@ -454,7 +452,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
         }
 
         pos = 0;
-        pos = DataStr.find(MapSizeChunk);
+        pos = DataStr.find(Chunk_MapSize);
 
         if (pos == std::string::npos)
             break;
@@ -477,13 +475,33 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
 
         pos = 0;
-        pos = DataStr.find(TileMapChunk);
+        pos = DataStr.find(Chunk_TileMap);
 
         if (pos == std::string::npos)
             break;
 
         {
             tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS];
+
+            char* adress = Data + pos;
+
+            //이름 복사
+            memcpy(chk->TypeName, adress, 4);
+
+            //데이터 덩어리의 사이즈 복사
+            int* len = (int*)(adress + 4);
+            chk->length = *len;
+
+            chk->Data = new unsigned char[chk->length + 1];
+            memcpy(chk->Data, adress + 8, chk->length);
+        }
+
+        pos = 0;
+        pos = DataStr.find(Chunk_UnitPlacement);
+        if (pos == std::string::npos)
+            break;
+        {
+            tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::UNIT_PLACEMENT];
 
             char* adress = Data + pos;
 
@@ -541,13 +559,21 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     if (Info >= (unsigned char)8)
         Info -= (unsigned char)8;
 
-    m_tMapWorkSpace.eTileSet = static_cast<eTILESET_INFO>(Info);
+    //타일셋 정보를 등록
+    m_tMapWorkSpace.eTileSet = (eTILESET_INFO)Info;
+
+    //유닛 정보는 GPU에서 사용할 일이 없으므로 여기서 처리
+    
+
 
     return true;
 }
 
 bool CCS_SCMapLoader::UploadMapDataToCS()
 {
+
+
+
     //타일셋을 바인딩해준다.
     for (int i = 0; i < (int)eTILESET_MEMBER::END; ++i)
     {
@@ -609,6 +635,23 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     //m_pSBuffer_Debug->BindBufferUAV();
 
     return true;
+}
+
+void CCS_SCMapLoader::MultiThread_CopyChunk(eSCMAP_DATA_TYPE _eDataType)
+{
+    tMapDataChunk* chk = &arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN];
+
+    char* adress = Data + pos;
+
+    //이름 복사
+    memcpy(chk->TypeName, adress, 4);
+
+    //데이터 덩어리 사이즈 복사
+    int* len = (int*)(adress + 4);
+    chk->length = *len;
+
+    chk->Data = new unsigned char[chk->length + 1];
+    memcpy(chk->Data, adress + 8, chk->length);
 }
 
 

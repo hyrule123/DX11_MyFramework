@@ -4,6 +4,9 @@
 #include "CUI_Menu.h"
 #include "CUI_MenuItem.h"
 
+#include <Engine/CKeyMgr.h>
+#include <Engine/CEngine.h>
+
 
 CUI_Menubar::CUI_Menubar(const string& _strName, bool _bIsMainMenubar)
 	: CUI_BasicWindow(_strName)
@@ -19,11 +22,19 @@ bool CUI_Menubar::beginUI()
 {
     //메뉴바 설정에 따라 다른 함수 호출
     if (true == m_bMainMenuBar)
+    {
         return ImGui::BeginMainMenuBar();
+    }
+        
     else
     {
         return ImGui::BeginMenuBar();
     }
+}
+
+void CUI_Menubar::render_update()
+{
+
 }
 
 void CUI_Menubar::endUI()

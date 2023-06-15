@@ -46,5 +46,7 @@ public:
 private:
     bool ReadMapData(char* Data, DWORD Size);
     bool UploadMapDataToCS();
+
+    void MultiThread_CopyChunk(eSCMAP_DATA_TYPE _eDataType);
 };
 

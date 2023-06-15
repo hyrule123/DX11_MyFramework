@@ -189,15 +189,20 @@ void CImGuiMgr::ImGuiInit(HWND _hWnd)
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle& style = ImGui::GetStyle();
+
+    //IMGUI가 메인창에 붙지 않도록 설정(각자의 뷰포트를 가지도록)
+    io.ConfigViewportsNoAutoMerge = true;
+
+
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
         style.WindowRounding = 0.0f;
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
-
     //설정 파일들 로드
     std::filesystem::path origDir = CPathMgr::GetInst()->GetPathRel_Content();
+    
     origDir /= DIRECTORY_NAME::SAVED_SETTING;
     std::filesystem::path fullPath = origDir / "imgui.ini";
     io.IniFilename = NULL;
@@ -234,9 +239,9 @@ void CImGuiMgr::ImGuiInit(HWND _hWnd)
 
 void CImGuiMgr::CreateDefaultUI()
 {
-    //m_MainMenubar = new CUI_Menubar("MainMenu", true);
-    //m_OpenWindowsMenu = m_MainMenubar->AddMenu("Open Windows");
-    //AddUI(m_MainMenubar);
+    m_MainMenubar = new CUI_Menubar("MainMenu", true);
+    m_OpenWindowsMenu = m_MainMenubar->AddMenu("Open Windows");
+    AddUI(m_MainMenubar);
 
     m_TestWindow = new CUIobj_TestWindow;
     AddUI(m_TestWindow);
@@ -245,10 +250,6 @@ void CImGuiMgr::CreateDefaultUI()
     CUIobj_Outliner* Outliner = new CUIobj_Outliner;
     Outliner->SetSaveEnable(true);
     AddUI(Outliner);
-
-    //AddUI(new CUIobj_Contents);
-    //AddUI(new CUIobj_AnimEditor);
-    //AddUI(new CUIobj_SCPrefabEditor);
 }
 
 void CImGuiMgr::begin()
