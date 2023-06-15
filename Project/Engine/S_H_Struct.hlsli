@@ -351,16 +351,18 @@ extern tCamMatrices g_matCam[(int)eCAMERA_INDEX::END];
 struct tGlobalValue
 {
     UINT32_2 u2Res;
-    UINT32_2 u2ResWnd;
+	float2 v2Res;
     
-    float fDeltaTime;
-    float fAccTime;
+    UINT32_2 u2WinSize;
+	float2 v2WinSize;
+    
+	float fDeltaTime;
+	float fAccTime;
 	float2 Padding;
 };
 #ifdef __cplusplus
 extern tGlobalValue g_GlobalVal;
 #endif
-
 
 
 struct tDebugShapeInfo

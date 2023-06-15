@@ -74,6 +74,8 @@ class CKeyMgr
 	SINGLETON(CKeyMgr);
 private:
 	vector<tKeyInfo>	m_vecKey;
+
+	//현재 화면 해상도를 반영한 위치
 	Vec2				m_vMouseLocalPos;
 	Vec2				m_vPrevMousePos;
 	Vec2				m_vMouseDir;

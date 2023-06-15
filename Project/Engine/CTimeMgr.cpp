@@ -46,8 +46,10 @@ void CTimeMgr::tick()
 
 	// 누적 시간
 	m_fTime += m_fDeltaTime;
-	g_GlobalVal.fAccTime += m_fDeltaTime;
+
+	//GPU로 보낼 System Value에도 deltatime 등록
 	g_GlobalVal.fDeltaTime = m_fDeltaTime;
+	g_GlobalVal.fAccTime += m_fDeltaTime;
 
 	// 함수 호출 횟수
 	++m_iCallCount;

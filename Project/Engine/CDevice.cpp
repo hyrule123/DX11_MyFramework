@@ -24,10 +24,12 @@ CDevice::~CDevice()
     }
 }
 
-int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
+int CDevice::init(HWND _hWnd, UINT _uWidth, UINT _uHeight)
 {
     m_hWnd = _hWnd;    
-    m_vRenderResolution = Vec2((float)_iWidth, (float)_iHeight);
+    
+    g_GlobalVal.u2Res = UINT32_2(_uWidth, _uHeight);
+    g_GlobalVal.v2Res = Vec2(_uWidth, _uHeight);
 
     int iFlag = 0;
 #ifdef _DEBUG
@@ -70,8 +72,8 @@ int CDevice::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
     m_ViewPort.TopLeftY = 0.f;
 
 
-    m_ViewPort.Width = (float)g_GlobalVal.u2Res.x;
-    m_ViewPort.Height = (float)g_GlobalVal.u2Res.y;
+    m_ViewPort.Width = g_GlobalVal.v2Res.x;
+    m_ViewPort.Height = g_GlobalVal.v2Res.y;
 
     m_ViewPort.MinDepth = 0.f;
     m_ViewPort.MaxDepth = 1.f;
@@ -126,8 +128,8 @@ int CDevice::CreateSwapChain()
 
     tDesc.BufferCount = 2;              
     tDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    tDesc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
-    tDesc.BufferDesc.Height = (UINT)m_vRenderResolution.y;
+    tDesc.BufferDesc.Width = g_GlobalVal.u2Res.x;
+    tDesc.BufferDesc.Height = g_GlobalVal.u2Res.y;
     tDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     tDesc.BufferDesc.RefreshRate.Denominator = 1;
     tDesc.BufferDesc.RefreshRate.Numerator = 0;
@@ -173,8 +175,8 @@ int CDevice::CreateView()
     tDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
     // 반드시 렌더타겟과 같은 해상도로 설정해야 함
-    tDesc.Width = (UINT)m_vRenderResolution.x;
-    tDesc.Height = (UINT)m_vRenderResolution.y;
+    tDesc.Width = g_GlobalVal.u2Res.x;
+    tDesc.Height = g_GlobalVal.u2Res.y;
     tDesc.ArraySize = 1;
 
     tDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;    
@@ -263,9 +265,9 @@ void CDevice::CreateConstBuffer()
 
     //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
     CBufferTarget = eSHADER_PIPELINE_STAGE::__ALL;
-    m_arrConstBuffer[idx_b_CBUFFER_GLOBAL] = new CConstBuffer(idx_b_CBUFFER_GLOBAL);
-    m_arrConstBuffer[idx_b_CBUFFER_GLOBAL]->Create(sizeof(tGlobalValue), 1);
-    m_arrConstBuffer[idx_b_CBUFFER_GLOBAL]->SetPipelineTarget(CBufferTarget);
+    m_arrConstBuffer[idx_b_CBUFFER_SYSTEM] = new CConstBuffer(idx_b_CBUFFER_SYSTEM);
+    m_arrConstBuffer[idx_b_CBUFFER_SYSTEM]->Create(sizeof(tGlobalValue), 1);
+    m_arrConstBuffer[idx_b_CBUFFER_SYSTEM]->SetPipelineTarget(CBufferTarget);
 
 
     //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)

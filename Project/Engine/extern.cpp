@@ -6,9 +6,8 @@
 //=============================
 
 tInitSetting g_InitSetting = {};
-
-tCamMatrices g_matCam[(int)eCAMERA_INDEX::END] = {};
 tGlobalValue g_GlobalVal = {};
+tCamMatrices g_matCam[(int)eCAMERA_INDEX::END] = {};
 tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::END] = {};
 Matrix g_matViewProj;
 

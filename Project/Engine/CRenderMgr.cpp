@@ -7,6 +7,8 @@
 
 //상수버퍼 업데이트용
 #include "CTimeMgr.h"
+
+#include "CEngine.h"
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
@@ -110,7 +112,9 @@ void CRenderMgr::render()
 void CRenderMgr::UpdateBuffer()
 {
     //글로벌 정보를 tGlobalValue 상수버퍼로 업데이트
-    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_GLOBAL);
+    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_SYSTEM);
+
+    
     pConstBuffer->UploadData((void*)(&g_GlobalVal), sizeof(tGlobalValue));
     pConstBuffer->BindBuffer();
 

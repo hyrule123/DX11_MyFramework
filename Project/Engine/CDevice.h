@@ -13,8 +13,8 @@ private:
 	//Window
 	HWND							m_hWnd;
 
-	// 렌더타겟 해상도
-	Vec2							m_vRenderResolution;
+	//렌더타겟 해상도 -> GlobalVal로 옮김.
+
 
 	//Device-Context
 	ComPtr<ID3D11Device>			m_Device;		// GPU 메모리 할당 	
@@ -79,7 +79,6 @@ public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }
 	ID3D11DeviceContext* GetDeviceContext() { return m_Context.Get(); }
 	CConstBuffer* GetConstBuffer(int _idx_b_RegisterIdx) { return m_arrConstBuffer[_idx_b_RegisterIdx]; }
-	const Vec2& GetRenderResolution() { return m_vRenderResolution; }
 	ID3D11RasterizerState* GetRSState(eRASTERIZER_TYPE _Type) { return m_arrRSState[(UINT)_Type].Get(); }
 	ID3D11DepthStencilState* GetDSState(eDEPTH_STENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }
 	ID3D11BlendState* GetBSState(eBLEND_STATE_TYPE _Type) { return m_arrBSState[(UINT)_Type].Get(); }

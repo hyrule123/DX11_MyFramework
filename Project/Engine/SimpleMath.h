@@ -25,6 +25,7 @@
 #include <DirectXPackedVector.h>
 #include <DirectXCollision.h>
 
+
 #ifndef XM_CONSTEXPR
 #define XM_CONSTEXPR
 #endif

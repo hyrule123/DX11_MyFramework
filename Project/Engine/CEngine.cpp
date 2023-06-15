@@ -13,11 +13,14 @@
 #include "CRandMgr.h"
 #include "CScriptMgr.h"
 
+#include "S_H_Struct.hlsli"
+
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
 	, m_ClearColor(0.5f, 0.5f, 0.5f, 1.f)
-	, m_bWinResChanged(true)
+	, m_bWinSizeChanged(true)
+	
 {
 }
 
@@ -30,18 +33,26 @@ int CEngine::init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT
 	// 메인 윈도우 핸들
 	m_hWnd = _hWnd;
 
-	g_GlobalVal.u2Res = UINT32_2(_uWidth, _uHeight);
-	g_GlobalVal.u2ResWnd = UINT32_2(_uWndWidth, _uWndHeight);
+	g_GlobalVal.u2WinSize = UINT32_2(_uWndWidth, _uWndHeight);
+	g_GlobalVal.v2WinSize = Vec2(_uWndWidth, _uWndHeight);
 
-	// 해상도에 맞는 작업영역 크기 조정
-	RECT rt = { 0, 0, (int)_uWndWidth, (int)_uWndHeight};
-	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
+	//창을 모니터 정중앙에 표시하기 위한 Left Top 좌표 구하기
+	int MonitorSizeX = GetSystemMetrics(SM_CXSCREEN);
+	int MonitorSizeY = GetSystemMetrics(SM_CYSCREEN);
 
-	int scrMidX = GetSystemMetrics(SM_CXSCREEN) / 2 - (int)(g_GlobalVal.u2ResWnd.x / 2u);
-	int scrMidY = GetSystemMetrics(SM_CYSCREEN) / 2 - (int)(g_GlobalVal.u2ResWnd.y / 2u);
+	int scrMidX = MonitorSizeX / 2 - (int)(_uWndWidth / 2u);
+	int scrMidY = MonitorSizeY / 2 - (int)(_uWndHeight / 2u);
 
+	if (scrMidX + (int)_uWndWidth > MonitorSizeX)
+		scrMidX = 10;
+	if (scrMidY + (int)_uWndHeight > MonitorSizeY)
+		scrMidY = 10;
 
-	SetWindowPos(m_hWnd, nullptr, scrMidX, scrMidY, (int)_uWndWidth, (int)_uWndHeight, 0);
+	//위치 지정
+	SetWindowPos(m_hWnd, nullptr, scrMidX, scrMidY, 0, 0, SWP_NOSIZE);
+
+	SetWndSize(_uWndWidth, _uWndHeight);
+	
 	ShowWindow(m_hWnd, true);
 	
 	// Device 초기화
@@ -50,7 +61,6 @@ int CEngine::init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT
 		MessageBoxW(nullptr, L"Device 초기화 실패", NULL, MB_OK);
 		return E_FAIL;
 	}
-
 
 	// Manager 생성 및 초기화
 	CPathMgr::GetInst()->init();
@@ -80,20 +90,6 @@ void CEngine::progress()
 
 void CEngine::tick()
 {
-	RECT WndRect = {};
-	GetWindowRect(m_hWnd, &WndRect);
-
-	UINT32_2 u2ResWnd = {};
-	u2ResWnd.x = (UINT32)(WndRect.right - WndRect.left);
-	u2ResWnd.y = (UINT32)(WndRect.top - WndRect.bottom);
-
-	//해상도가 변했을 시 bool 값을 변경
-	if (g_GlobalVal.u2ResWnd.x != u2ResWnd.x || g_GlobalVal.u2ResWnd.y != u2ResWnd.y)
-		m_bWinResChanged = true;
-	else
-		m_bWinResChanged = false;
-
-
 	// Manager Tick
 	CTimeMgr::GetInst()->tick();
 	CKeyMgr::GetInst()->tick();	
@@ -116,8 +112,30 @@ void CEngine::render()
 	CRenderMgr::GetInst()->render();
 }
 
+void CEngine::SetWndSize(UINT32 _uWidth, UINT32 _uHeight)
+{
+	g_GlobalVal.u2WinSize.x = _uWidth; 
+	g_GlobalVal.u2WinSize.y = _uHeight; 
+	g_GlobalVal.v2WinSize = Vec2(g_GlobalVal.u2WinSize.x, g_GlobalVal.u2WinSize.y);
+	m_bWinSizeChanged = true;
+	
+	//클라이언트 영역과 윈도우 영역의 차이를 구해서 정확한 창 크기를 설정(해상도가 조금이라도 차이나면 문제 발생함)
+	RECT rc, rcClient;
+	GetWindowRect(m_hWnd, &rc);
+	GetClientRect(m_hWnd, &rcClient);
+
+	// calculate size of non-client area
+	int xExtra = rc.right - rc.left - rcClient.right;
+	int yExtra = rc.bottom - rc.top - rcClient.bottom;
+
+	// now resize based on desired client size
+	SetWindowPos(m_hWnd, 0, 0u, 0u, _uWidth + xExtra, _uHeight + yExtra, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+}
+
 void CEngine::cleartick()
 {
+	m_bWinSizeChanged = false;
+
 	CResMgr::GetInst()->cleartick();
 	CEventMgr::GetInst()->cleartick();
 }

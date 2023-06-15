@@ -126,16 +126,13 @@ void CKeyMgr::tick()
 		ScreenToClient(CEngine::GetInst()->GetMainWnd(), &ptMousePos);
 
 		m_vPrevMousePos = m_vMouseLocalPos;
-		m_vMouseLocalPos = Vec2((float)ptMousePos.x, fabsf((float)g_GlobalVal.u2ResWnd.y- (float)ptMousePos.y));
+		m_vMouseLocalPos = Vec2((float)ptMousePos.x, fabsf((float)g_GlobalVal.u2WinSize.y - (float)ptMousePos.y));
 
 		static Vec2 Ratio = {};
 		//게임 해상도와 실제 창 크기의 비율을 구한다.
-		if (CEngine::GetInst()->IsResChanged())
+		if (CEngine::GetInst()->IsWinSizeChanged())
 		{
-			Ratio = Vec2(
-				(float)g_GlobalVal.u2Res.x / (float)g_GlobalVal.u2ResWnd.x,
-				(float)g_GlobalVal.u2Res.y / (float)g_GlobalVal.u2ResWnd.y
-			);
+			Ratio = g_GlobalVal.v2Res / g_GlobalVal.v2WinSize;
 		}
 		m_vMouseLocalPos *= Ratio;
 
@@ -148,7 +145,6 @@ void CKeyMgr::tick()
 	// Window 가 focus 상태가 아니다
 	else
 	{
-		
 		size_t size = m_vecKey.size();
 		for (size_t i = 0; i < size; ++i)
 		{

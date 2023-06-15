@@ -2,25 +2,11 @@
 
 #include "CSingleton.h"
 
+
 class CEngine
 	:public CSingleton<CEngine>
 {
 	SINGLETON(CEngine);
-
-private:
-	HWND	m_hWnd;
-
-	//해상도는 Global Variable에 저장
-	bool	m_bWinResChanged;
-public:
-	bool IsResChanged() const { return m_bWinResChanged; }
-
-private:
-	Vec4	m_ClearColor;
-	
-
-public:
-	HWND GetMainWnd() { return m_hWnd ; }
 
 public:
 	int init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT _uWndHeight);
@@ -33,4 +19,19 @@ public:
 private:
 	void tick();
 	void render();
+
+private:
+	HWND	m_hWnd;
+public:
+	HWND GetMainWnd() { return m_hWnd; }
+
+private:
+	bool m_bWinSizeChanged;
+	
+public:
+	void SetWndSize(UINT32 _uWidth, UINT32 _uHeight);
+	bool IsWinSizeChanged() const { return m_bWinSizeChanged; }	
+
+private:
+	Vec4	m_ClearColor;
 };
