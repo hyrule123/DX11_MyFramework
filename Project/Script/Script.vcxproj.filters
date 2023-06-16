@@ -39,9 +39,6 @@
     <ClInclude Include="CScript_SCEntity.h">
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
-    <ClInclude Include="define_SCUnit.h">
-      <Filter>ScriptCode\SC</Filter>
-    </ClInclude>
     <ClInclude Include="CScript_FSM_Idle.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
@@ -76,6 +73,7 @@
     <ClInclude Include="CScript_FSM_Building_Prod.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
+    <ClInclude Include="define_SC.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">

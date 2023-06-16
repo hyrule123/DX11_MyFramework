@@ -23,8 +23,8 @@ public:
     CMaterial(const CMaterial& _Clone);
     CLONE(CMaterial)
 public:
-    //virtual bool Save(const std::filesystem::path& _fileName) override;
-    //virtual bool Load(const std::filesystem::path& _fileName) override;
+    virtual bool Save(const std::filesystem::path& _fileName) override;
+    virtual bool Load(const std::filesystem::path& _fileName) override;
 
     virtual bool SaveJson(Json::Value* _pJson) override;
     virtual bool LoadJson(Json::Value* _pJson) override;

@@ -2,7 +2,7 @@
 
 #include <Engine/CFSM.h>
 
-#include "define_SCUnit.h"
+#include "define_SC.h"
 
 class CFSM_Move_Base :
     public CFSM

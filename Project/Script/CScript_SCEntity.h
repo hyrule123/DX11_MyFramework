@@ -2,7 +2,7 @@
 
 #include <Engine/CKeyMgr.h>
 
-#include "define_SCUnit.h"
+#include "define_SC.h"
 
 
 class CScript_SCEntity :

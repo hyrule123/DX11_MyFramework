@@ -51,10 +51,10 @@
 
 void CreateMainGame()
 {
+	ManualEdit::Edit();
+
 	LoadRes(eRES_TYPE::TEXTURE);
 	LoadRes(eRES_TYPE::MATERIAL);
-
-	ManualEdit::Edit();
 
 	LoadRes(eRES_TYPE::PREFAB);
 

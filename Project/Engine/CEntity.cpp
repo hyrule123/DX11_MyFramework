@@ -41,7 +41,7 @@ bool CEntity::SaveJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-	jVal[string(JSON_KEY::strName)] = m_strName;
+	jVal[JSON_KEY::strName] = m_strName;
 
 	return true;
 }

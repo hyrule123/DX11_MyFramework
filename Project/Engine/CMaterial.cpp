@@ -33,6 +33,20 @@ CMaterial::CMaterial(const CMaterial& _Clone)
 	}
 }
 
+bool CMaterial::Save(const std::filesystem::path& _fileName)
+{
+	std::filesystem::path ExtAdd = _fileName;
+	ExtAdd.replace_extension(RES_INFO::MATERIAL::Ext);
+	return CRes::Save(ExtAdd);
+}
+
+bool CMaterial::Load(const std::filesystem::path& _fileName)
+{
+	std::filesystem::path ExtAdd = _fileName;
+	ExtAdd.replace_extension(RES_INFO::MATERIAL::Ext);
+	return CRes::Load(ExtAdd);
+}
+
 
 
 CMaterial::~CMaterial()
@@ -55,9 +69,8 @@ bool CMaterial::SaveJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-	jVal[string(RES_INFO::MATERIAL::JSON_KEY::strKey_Shader)] = m_pShader->GetKey();
-	//jVal[string(RES_INFO::MATERIAL::JSON_KEY::bUseInstancing)] = m_bUseInstancing;
-	jVal[string(RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex)] = Json::Value(Json::arrayValue);
+	jVal[RES_INFO::MATERIAL::JSON_KEY::strKey_Shader] = m_pShader->GetKey();
+	jVal[RES_INFO::MATERIAL::JSON_KEY::arrStrKeyTex] = Json::Value(Json::arrayValue);
 
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{

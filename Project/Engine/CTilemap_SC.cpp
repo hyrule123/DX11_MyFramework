@@ -13,7 +13,6 @@ CTilemap_SC::CTilemap_SC()
 	: CTilemap(eTILE_TYPE::COMPLETE)
 	, m_tMapData()
 	, m_bMapLoaded()
-	, m_bMapPosAdjusted()
 {
 	//메쉬는 부모 클래스에서 설정했음.
 	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_SC));
@@ -25,21 +24,14 @@ CTilemap_SC::~CTilemap_SC()
 	
 }
 
-void CTilemap_SC::start()
-{
-
-}
 
 void CTilemap_SC::tick()
 {
-	if (true == m_bMapLoaded && false == m_bMapPosAdjusted)
+	if (false == m_bUnitLoaded)
 	{
-		m_bMapPosAdjusted = true;
-
-		//Vec2 MapSize = Vec2((float)m_tMapData.uNumMegatileX, -(float)m_tMapData.uNumMegatileY);
-		//Transform()->SetRelativePosXY(MapSize);
+		m_bUnitLoaded = true;
+		LoadUnit();
 	}
-
 }
 
 bool CTilemap_SC::render()
@@ -87,7 +79,7 @@ bool CTilemap_SC::LoadMap(const string& _strMapName)
 	if (true == m_bMapLoaded && _strMapName == m_tMapData.strMapName)
 		return true;
 
-	m_bMapPosAdjusted = false;
+	m_bUnitLoaded = false;
 
 	Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(string(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER));
 
@@ -126,5 +118,9 @@ bool CTilemap_SC::LoadMap(const string& _strMapName)
 	}
 
 	return m_bMapLoaded;
+}
+
+void CTilemap_SC::LoadUnit()
+{
 }
 

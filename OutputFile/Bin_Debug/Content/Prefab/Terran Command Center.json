@@ -55,8 +55,8 @@
 				"eComponentType" : 3,
 				"m_arrAtlasTex" : 
 				[
-					"SC/Unit/Terran/CommandCenter(control).bmp",
-					"SC/Unit/Terran/Construction_Large(tbldlrg).bmp",
+					"SC/Terran/CommandCenter(control).bmp",
+					"SC/Terran/Construction_Large(tbldlrg).bmp",
 					null,
 					null
 				]
@@ -68,7 +68,7 @@
 			{
 				"eComponentType" : 8,
 				"strKeyMesh" : "RectMesh",
-				"strKeyMtrl" : "Terran Command Center.json"
+				"strKeyMtrl" : "Terran Command Center"
 			},
 			null,
 			null,
@@ -107,7 +107,7 @@
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 7,
 		"m_vecChild_PREFAB" : [],
-		"strName" : "Terran Command Center.json"
+		"strName" : "Terran Command Center"
 	},
 	"eRES_TYPE" : 6,
 	"strName" : ""

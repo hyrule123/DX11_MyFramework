@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CScript_FSM_Death.h"
 
-#include "define_SCUnit.h"
+#include "define_SC.h"
 
 #include <Engine/CAnimator2D.h>
 

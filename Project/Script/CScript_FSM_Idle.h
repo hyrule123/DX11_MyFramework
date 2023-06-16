@@ -2,7 +2,7 @@
 
 #include <Engine/CFSM.h>
 
-#include "define_SCUnit.h"
+#include "define_SC.h"
 
 class CScript_FSM_Idle :
     public CFSM

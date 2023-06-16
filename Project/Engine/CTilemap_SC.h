@@ -13,7 +13,6 @@ public:
 
 public:
     virtual void init() override {};
-    virtual void start() override;
     virtual void tick() override;
     virtual void finaltick() override {};
     virtual bool render() override;
@@ -22,9 +21,12 @@ public:
 private:
     SC_Map::tMapData m_tMapData;
     bool    m_bMapLoaded;
-    bool    m_bMapPosAdjusted;
+    bool    m_bUnitLoaded;
 
 public:
     bool LoadMap(const string& _strMapName);
+
+private:
+    void LoadUnit();
 };
 

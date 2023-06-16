@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CFSM_Move_Base.h"
-#include "define_SCUnit.h"
+#include "define_SC.h"
 
 class CScript_FSM_Move_Ground :
     public CFSM_Move_Base

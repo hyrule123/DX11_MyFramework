@@ -2,7 +2,7 @@
 
 #include <Engine/CFSM.h>
 
-#include "define_SCUnit.h"
+#include "define_SC.h"
 
 //dest_param: CGameObject* _pTarget
 enum class eATTACK_STATE

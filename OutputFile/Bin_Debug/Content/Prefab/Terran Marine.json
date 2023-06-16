@@ -55,7 +55,7 @@
 				"eComponentType" : 3,
 				"m_arrAtlasTex" : 
 				[
-					"SC/Unit/Terran/marine.bmp",
+					"SC/Terran/marine.bmp",
 					null,
 					null,
 					null
@@ -68,7 +68,7 @@
 			{
 				"eComponentType" : 8,
 				"strKeyMesh" : "RectMesh",
-				"strKeyMtrl" : "Terran Marine.json"
+				"strKeyMtrl" : "Terran Marine"
 			},
 			null,
 			null,
@@ -119,7 +119,7 @@
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 7,
 		"m_vecChild_PREFAB" : [],
-		"strName" : "Terran Marine.json"
+		"strName" : "Terran Marine"
 	},
 	"eRES_TYPE" : 6,
 	"strName" : ""

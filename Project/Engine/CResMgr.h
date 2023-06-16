@@ -161,6 +161,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
 
     if (false == pRes->Load(_fileName))
         return nullptr;
+        
 
     eRES_TYPE type = GetResType<T>();
 

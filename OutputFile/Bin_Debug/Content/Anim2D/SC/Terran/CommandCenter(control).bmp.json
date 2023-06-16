@@ -46,7 +46,7 @@
 			]
 		}
 	},
-	"strKeyAtlasTex" : "SC/Unit/Terran/CommandCenter(control).bmp",
+	"strKeyAtlasTex" : "SC/Terran/CommandCenter(control).bmp",
 	"strName" : "",
 	"vecFrameUV" : 
 	{

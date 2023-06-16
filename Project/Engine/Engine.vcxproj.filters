@@ -210,7 +210,9 @@
     <ClInclude Include="SCMapDefine.h">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClInclude>
-    <ClInclude Include="CTilemap_SC.h" />
+    <ClInclude Include="CTilemap_SC.h">
+      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -382,7 +384,9 @@
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />
-    <ClCompile Include="CTilemap_SC.cpp" />
+    <ClCompile Include="CTilemap_SC.cpp">
+      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">

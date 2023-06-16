@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CScript_FSM_Move_Hover.h"
 
-#include "define_SCUnit.h"
+#include "define_SC.h"
 
 CScript_FSM_Move_Hover::CScript_FSM_Move_Hover(const string& _strKey)
     : CFSM(_strKey, SC::FSM::MOVE)

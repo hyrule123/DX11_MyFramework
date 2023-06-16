@@ -24,22 +24,10 @@ CPrefab::~CPrefab()
 
 void CPrefab::RegisterPrefab(CGameObject* _pPrefab, bool _bIsSaveMode)
 {
-	//Prefab은 레이어에 등록되어 실행되는 용도가 아님.
-	//assert(0 > _pPrefab->GetLayer());
+	assert(_pPrefab);
 
 	m_pPrefab = _pPrefab;
 	m_bSaveMode = _bIsSaveMode;
-
-	const string& strKey = GetKey();
-	if (strKey.empty())
-	{
-		ERROR_MESSAGE("You must set string Key!!");
-		DEBUG_BREAK;
-		return;
-	}
-
-	if (m_pPrefab)
-		m_pPrefab->SetName(GetKey());
 }
 
 CGameObject* CPrefab::Instantiate()
@@ -51,8 +39,11 @@ CGameObject* CPrefab::Instantiate()
 
 bool CPrefab::Save(const std::filesystem::path& _fileName)
 {
+	SetKey(_fileName.string());
+
 	const std::filesystem::path& prefabPath = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::PREFAB);
 	std::filesystem::path filePath = prefabPath / _fileName;
+	filePath += RES_INFO::PREFAB::Ext;
 
 	std::ofstream saveFile(filePath);
 	if (saveFile.is_open())
@@ -76,6 +67,7 @@ bool CPrefab::Load(const std::filesystem::path& _fileName)
 {
 	const std::filesystem::path& prefabPath = CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::PREFAB);
 	std::filesystem::path filePath = prefabPath / _fileName;
+	filePath += RES_INFO::PREFAB::Ext;
 
 	std::ifstream loadFile(filePath);
 	if (loadFile.is_open())
@@ -88,6 +80,8 @@ bool CPrefab::Load(const std::filesystem::path& _fileName)
 
 		if (false == LoadJson(&jsonLoad))
 			return false;
+
+		
 
 		return true;
 	}
@@ -102,9 +96,11 @@ bool CPrefab::SaveJson(Json::Value* _pJVal)
 	else if (false == CRes::SaveJson(_pJVal))
 		return false;
 
-	Json::Value& jVal = *_pJVal;
+	if (m_pPrefab->GetName().empty())
+		m_pPrefab->SetName(GetName());
 
-	string strKey = string(RES_INFO::JSON_KEY::GameObject);
+	Json::Value& jVal = *_pJVal;
+	string strKey = RES_INFO::JSON_KEY::GameObject;
 	jVal[strKey] = Json::Value(Json::ValueType::objectValue);
 
 	Json::Value& jsonGameObject = jVal[strKey];

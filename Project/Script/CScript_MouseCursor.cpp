@@ -9,7 +9,7 @@
 
 #include <Engine/CGameObject.h>
 
-#include "define_SCUnit.h"
+#include "define_SC.h"
 #include "CScript_FSM_Move_Ground.h"
 #include "CScript_FSM_Attack.h"
 

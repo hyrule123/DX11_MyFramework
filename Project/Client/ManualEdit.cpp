@@ -5,6 +5,7 @@
 #include <Engine/CScriptMgr.h>
 #include <Engine/CRandMgr.h>
 #include <Engine/EventDispatcher.h>
+#include <Engine/CAnim2DAtlas.h>
 
 //string Keys
 #include <Engine/strKey_Default.h>
@@ -22,7 +23,7 @@
 
 //Scripts
 #include <Script/SC_Func.h>
-#include <Script/define_SCUnit.h>
+#include <Script/define_SC.h>
 #include <Script/CScript_FSM_Idle.h>
 #include <Script/CScript_FSM_Attack.h>
 #include <Script/CScript_FSM_Move_Ground.h>
@@ -49,7 +50,7 @@ void ManualEdit::Edit()
 		LoadAnim(strKey);
 
 		//Prefab
-		strKey = strKey_PREFAB::MARINE;
+		strKey = SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE);
 		MarinePrefab_Save(strKey);
 		LoadPrefab(strKey);
 	}
@@ -61,7 +62,7 @@ void ManualEdit::Edit()
 		LoadAnim(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
 		LoadAnim(strKey_TEXTURE::TERRAN::CONSTRUCTION_LARGE_TBLDLRG__BMP);
 
-		string strKey = strKey_PREFAB::COMMAND_CENTER;
+		string strKey = SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER);
 		CommandCenter_Prefab_Save(strKey);
 	}
 }
@@ -70,7 +71,7 @@ void ManualEdit::TestCreate()
 {
 	for (int i = 0; i < 1; ++i)
 	{
-		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->Load<CPrefab>(strKey_PREFAB::MARINE);
+		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
 		CGameObject* Marine = MarinePrefab->Instantiate();
 
 		float randx = CRandMgr::GetInst()->GetRand<float>(-640.f, 640.f);
@@ -83,7 +84,7 @@ void ManualEdit::TestCreate()
 	}
 
 	{
-		Ptr<CPrefab> CCPrefab = CResMgr::GetInst()->Load<CPrefab>(strKey_PREFAB::COMMAND_CENTER);
+		Ptr<CPrefab> CCPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
 		CGameObject* CommandCenter = CCPrefab->Instantiate();
 		Ptr<CMaterial> pMtrl = CommandCenter->RenderComponent()->GetCurMaterial();
 
@@ -165,6 +166,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	CGameObject* pObj = new CGameObject;
+	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
 	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
 
 	//Collider
@@ -192,7 +194,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 		//Material
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey(strKey_PREFAB::MARINE);//프리팹 키와 동일한 키를 사용
+		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
 		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
 		pMtrl->SetShader(pShader);
@@ -219,9 +221,10 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 		pObj->AddScript(pFSMAttack);
 	}
 	
+	
+	
 
 	Ptr<CPrefab> pPrefab = new CPrefab;
-	pPrefab->SetKey(_strKey);
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(_strKey);
 }
@@ -280,6 +283,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	CGameObject* pObj = new CGameObject;
+	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
 	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
 
 	//Collider
@@ -310,7 +314,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 
 		//Material
 		Ptr<CMaterial> pMtrl = new CMaterial;
-		pMtrl->SetKey(strKey_PREFAB::COMMAND_CENTER);//프리팹 키와 동일한 키를 사용
+		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
 		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::BUILDINGSTRUCTURE);
 		pMtrl->SetShader(pShader);
@@ -357,10 +361,26 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	//	pRenderCom->SetMesh(pMesh);
 	//}
 
+	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
+
 	Ptr<CPrefab> pPrefab = new CPrefab;
 	pPrefab->SetKey(_strKey);
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(_strKey);
+}
+
+void ManualEdit::Resources_Anim_Save()
+{
+
+}
+
+void ManualEdit::Resources_Prefab_Save()
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	{
+		//string strKey = strKey_R
+	}
 }
 
 Ptr<CAnim2DAtlas> ManualEdit::LoadAnim(const string& _strKey)
