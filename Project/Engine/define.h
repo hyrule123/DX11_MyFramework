@@ -66,9 +66,10 @@ private: _Type_ _Var_;\
 public: _Type_ Get##_FuncName_() const { return _Var_; }\
 public: void Set##_FuncName_(_Type_ _##_FuncName_) { _Var_ = _##_FuncName_; }
 
+//이 값 이상이면 깊이 프리셋을 설정하지 않았다고 간주한다.
+constexpr float DEPTH_PRESET_MAX = 100000.f;
 
-
-
+//Global Variable
 extern const string g_voidStr;
 
 //새로운 컴포넌트를 만들어줄 경우

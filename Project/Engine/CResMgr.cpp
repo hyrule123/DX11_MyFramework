@@ -396,7 +396,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	//	if (true == pShader->Load(ShaderPath))
 	//		AddRes<CGraphicsShader>(pShader->GetKey(), pShader);
 	//	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-	//	//	pShader->SetKey(strKey_RES_DEFAULT::SHADER::TILEMAP_COMPLETE);
+	//	//	pShader->SetKey(strKey_RES_DEFAULT::SHADER::TILEMAP_SC);
 	//	//	pShader->CreateShader((void*)g_VS_Tilemap_Complete, sizeof(g_VS_Tilemap_Complete), eSHADER_TYPE::__VERTEX);
 	//	//	pShader->CreateShader((void*)g_PS_Tilemap_Complete, sizeof(g_PS_Tilemap_Complete), eSHADER_TYPE::__PIXEL);
 	//	//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
@@ -571,7 +571,7 @@ void CResMgr::CreateDefaultMaterial()
 		Ptr<CMaterial> pMtrl = new CMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE)));
 
-		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE));
+		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_SC));
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 

@@ -364,7 +364,7 @@ void CCS_SCMapLoader::UnBindCS()
     //맵 정보는 제거
     SAFE_DELETE(m_pSBuffer_MXTM);
 
-    UINT numTile = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;
+    UINT numTile = m_tMapWorkSpace.uNumMegatileX * m_tMapWorkSpace.uNumMegatileY;
     m_tMapWorkSpace.vecMegaTile.resize(numTile);
     m_pSBufferRW_Megatile->GetData(m_tMapWorkSpace.vecMegaTile.data(), sizeof(tMegaTile) * numTile);
     SAFE_DELETE(m_pSBufferRW_Megatile);
@@ -443,10 +443,10 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->length != 4)
         return false;
 
-    m_tMapWorkSpace.uMapSizeX = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data);
-    m_tMapWorkSpace.uMapSizeY = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data + 2);
+    m_tMapWorkSpace.uNumMegatileX = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data);
+    m_tMapWorkSpace.uNumMegatileY = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data + 2);
 
-    Vec2 vMapSize = Vec2(m_tMapWorkSpace.uMapSizeX, m_tMapWorkSpace.uMapSizeY);
+    Vec2 vMapSize = Vec2(m_tMapWorkSpace.uNumMegatileX, m_tMapWorkSpace.uNumMegatileY);
     SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &vMapSize);
 
     //MXTM(TILEMAP_ATLAS) 생성 및 전송
@@ -477,8 +477,16 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     //타일셋 정보를 등록
     m_tMapWorkSpace.eTileSet = (eTILESET_INFO)Info;
 
-    //유닛 정보는 GPU에서 사용할 일이 없으므로 여기서 처리
-    
+    //유닛 정보
+    //유효성 체크(데이터가 36바이트 단위이므로 36바이트로 나누어 떨어져야 함
+    if (0 != arrMapDataChunk[(int)eSCMAP_DATA_TYPE::UNIT_PLACEMENT]->length % sizeof(SC_Map::tUnitData))
+        return false;
+
+    size_t NumData = arrMapDataChunk[(int)eSCMAP_DATA_TYPE::UNIT_PLACEMENT]->length / sizeof(SC_Map::tUnitData);
+
+    //저장된 데이터를 형변환한 후 데이터를 옮긴다.
+    tUnitData* pUnitData = (tUnitData*)(arrMapDataChunk)[(int)eSCMAP_DATA_TYPE::UNIT_PLACEMENT]->Data;
+    m_tMapWorkSpace.vecUnitData = vector<SC_Map::tUnitData>(pUnitData, pUnitData + NumData);
 
 
     return true;
@@ -486,8 +494,6 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
 
 bool CCS_SCMapLoader::UploadMapDataToCS()
 {
-
-
 
     //타일셋을 바인딩해준다.
     for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
@@ -508,7 +514,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     SAFE_DELETE(m_pSBufferRW_Megatile);
     m_pSBufferRW_Megatile = new CStructBuffer(Desc);
 
-    UINT numTile = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;
+    UINT numTile = m_tMapWorkSpace.uNumMegatileX * m_tMapWorkSpace.uNumMegatileY;
     m_pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);
     m_pSBufferRW_Megatile->BindBufferUAV();
 
@@ -527,7 +533,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     //타겟이 될 텍스처를 동적할당하고, UAV에 바인딩
     m_tMapWorkSpace.pMapTex = new CTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
-    m_tMapWorkSpace.pMapTex->Create(32u * m_tMapWorkSpace.uMapSizeX, 32u * m_tMapWorkSpace.uMapSizeY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+    m_tMapWorkSpace.pMapTex->Create(32u * m_tMapWorkSpace.uNumMegatileX, 32u * m_tMapWorkSpace.uNumMegatileY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
     m_tMapWorkSpace.pMapTex->BindData_UAV(idx_u_TEXTURERW_TARGET);
 
     //맵 이름으로 키를 설정한다.
@@ -535,14 +541,14 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
 
 
     //필요한 그룹의 수 계산
-    CalcGroupNumber(32u * m_tMapWorkSpace.uMapSizeX, 32u * m_tMapWorkSpace.uMapSizeY, 1u);
+    CalcGroupNumber(32u * m_tMapWorkSpace.uNumMegatileX, 32u * m_tMapWorkSpace.uNumMegatileY, 1u);
 
 
     //디버그용 쉐이더 바인딩
     //tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, idx_t_SRV_NONE, idx_u_SBUFFERRW_DEBUG };
     //m_pSBuffer_Debug = new CStructBuffer(SDesc);
 
-    //int mapsize = m_tMapWorkSpace.uMapSizeX * m_tMapWorkSpace.uMapSizeY;
+    //int mapsize = m_tMapWorkSpace.uNumMegatileX * m_tMapWorkSpace.uNumMegatileY;
     //m_DebugData = new tMtrlScalarData[mapsize];
     //size_t bytesize = sizeof(tMtrlScalarData) * mapsize;
     //memset(m_DebugData, 0, bytesize);

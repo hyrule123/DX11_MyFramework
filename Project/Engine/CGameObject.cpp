@@ -219,6 +219,7 @@ void CGameObject::finaltick()
 		}
 	}
 		
+	
 
 	//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER; ++i)

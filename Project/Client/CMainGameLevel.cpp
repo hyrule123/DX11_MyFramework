@@ -60,20 +60,31 @@ void CreateMainGame()
 
 	ManualEdit::TestCreate();
 
-	
 
+	//Layer 세팅
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
-	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
+
+	//Layer 이름 세팅
+	for (int i = 0; i < (int)SC::LAYER_INFO::idx::END; ++i)
+	{
+		pLevel->SetLayerName(i, string(SC::LAYER_INFO::strLayerName[i]));
+	}
+
+	//Layer Z 정보 세팅
 
 	//CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::MouseCursor);
 	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::LAYER_INFO::MouseCursor);
 
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::GroundUnitMain);
 
-	for (int i = 0; i < (int)SC::LAYER_INFO::idx::END; ++i)
-	{
-		pLevel->SetLayerName(i, string(SC::LAYER_INFO::strLayerName[i]));
-	}
+
+
+	
+
+	
+	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
+
+
 
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
 	Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");

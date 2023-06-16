@@ -74,6 +74,8 @@ private:
     //Size는 자신에게만 적용되는 고유값이므로 재귀형으로 전달할 필요 없음.
     bool    m_bSizeUpdated;
 
+    float    m_fYsortDepthPreset;
+
 public:
     //inline Setter
 
@@ -139,13 +141,16 @@ public:
     const Matrix& GetWorldMatWithoutSize() const { return m_matWorldWithoutSize; }
     const Matrix& GetWorldMat() const { return m_matWorld; }
 
-
+    void SetYsortDepthPreset(float _fYsortDepthPreset) { m_fYsortDepthPreset = _fYsortDepthPreset; }
 
     //호출 시점: CGameObject에서 finaltick() 순회 끝난 이후
     //갱신 여부를 전부 끔
     void ClearUpdateState();
-
 private:
+
+    //Scale 적용 안된 단순 bottom - y sorting 용도(OBB 등에는 사용하지 말것)
+    Vec3 GetSimpleBottom() const { return GetWorldPos() - m_v3Size; }
+
     void UpdateMyTransform();
 
     //부모의 트랜스폼 행렬을 받아서 최종적인 월드행렬을 업데이트 한다.
@@ -214,4 +219,5 @@ inline void CTransform::ClearUpdateState()
     m_bNeedMyUpdate = false;
     m_bNeedParentUpdate = false;
     m_bSizeUpdated = false;
+    m_fYsortDepthPreset = DEPTH_PRESET_MAX;
 }

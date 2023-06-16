@@ -3,13 +3,15 @@
 
 #include "define.h"
 
+
+
 class CGameObject;
 class CLayer :
     public CEntity
 {
 public:
     CLayer();
-    ~CLayer();
+    virtual ~CLayer();
     CLONE(CLayer);
 
 public:
@@ -17,12 +19,7 @@ public:
     void finaltick();
     
 private:
-    int             m_iLayerIdx;
     vector<CGameObject*>    m_vecObject;
-    
-public:
-    void SetLayerIdx(int _idx) { m_iLayerIdx = _idx; }
-
 public:
     void AddGameObject(CGameObject* _Object);
 
@@ -33,5 +30,26 @@ public:
     const vector<CGameObject*>& GetvecObj() const { return m_vecObject; }
 
     void RemoveDestroyed();
+
+
+private:
+    int             m_iLayerIdx;
+public:
+    void SetLayerIdx(int _idx) { m_iLayerIdx = _idx; }
+
+    
+private:
+    float   m_fDepthPreset;
+    bool    m_bEnableYsorting;
+public:
+    //이 값의 간격을 너무 좁게하면 YSorting과 동시에 사용 시 깊이 판정에 에러가 발생할 수 있음.
+    void SetDepthPreset(float _fDepthPreset, bool _bEnableYsorting) { m_fDepthPreset = _fDepthPreset; m_bEnableYsorting = _bEnableYsorting; }
+    void SetDepthPresetOff() { m_fDepthPreset = DEPTH_PRESET_MAX - 100.f; }
+    float GetDepthPreset() const { return m_fDepthPreset; }
+
+    bool IsYsorting() const { return m_bEnableYsorting; }
+
+private:
+    bool Y_Sort(CGameObject* _pObj_L, CGameObject* _pObj_R);
 };
 

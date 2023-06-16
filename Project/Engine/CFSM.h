@@ -6,7 +6,7 @@ class CGameObject;
 class CTransform;
 class CRenderComponent;
 class CAnimator2D;
-class CTilemapComplete;
+class CTilemap_SC;
 
 //같은 FSM 범주 안의 클래스들은 enum class를 공유하는 헤더파일을 만들어서 사용해 줄것
 class CFSM

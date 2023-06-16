@@ -47,7 +47,7 @@ namespace strKey_RES_DEFAULT
 		STRKEY STD2D = "std2D.json";
 		STRKEY STD2D_LIGHT = "std2DLight.json";
 		
-		STRKEY TILEMAP_COMPLETE = "TilemapComplete.json";
+		STRKEY TILEMAP_SC = "TilemapComplete.json";
 		STRKEY TILEMAP_ATLAS = "TilemapAtlas.json";
 
 		STRKEY PARTICLE_RENDER = "ParticleRender.json";

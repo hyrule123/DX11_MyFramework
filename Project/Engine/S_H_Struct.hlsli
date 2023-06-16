@@ -358,7 +358,8 @@ struct tGlobalValue
     
 	float fDeltaTime;
 	float fAccTime;
-	float2 Padding;
+	float fMapSizeX;
+	float fMapSizeY;
 };
 #ifdef __cplusplus
 extern tGlobalValue g_GlobalVal;

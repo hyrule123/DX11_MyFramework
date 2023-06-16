@@ -191,7 +191,6 @@ void CCamera::cleanup()
 
 void CCamera::SortObject()
 {
-	
 	CRenderMgr* pRenderMgr = CRenderMgr::GetInst();
 
 	for (UINT32 i = 0; i < MAX_LAYER; ++i)
@@ -201,8 +200,13 @@ void CCamera::SortObject()
 		if (false == (mask & m_LayerFlag))
 			continue;
 
+		CLayer& Layer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i);
+
 		//카메라가 출력하고자 하는 레이어의 오브젝트 리스트를 받아와서
-		const vector<CGameObject*>& vecObj = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i).GetvecObj();
+		const vector<CGameObject*>& vecObj = Layer.GetvecObj();
+		float DepthPreset = Layer.GetDepthPreset();
+		bool bYSorting = Layer.IsYsorting();
+		
 		
 		size_t size = vecObj.size();
 		for (size_t i = 0; i < size; ++i)
@@ -249,6 +253,7 @@ void CCamera::SortObject()
 					)
 					continue;
 			}
+
 
 
 			//쉐이더 도메인을 받아와서

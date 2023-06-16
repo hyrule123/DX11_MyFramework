@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CTilemapComplete.h"
+#include "CTilemap_SC.h"
 
 #include "CResMgr.h"
 #include "strKey_Default.h"
@@ -9,25 +9,45 @@
 
 using namespace SC_Map;
 
-CTilemapComplete::CTilemapComplete()
+CTilemap_SC::CTilemap_SC()
 	: CTilemap(eTILE_TYPE::COMPLETE)
 	, m_tMapData()
 	, m_bMapLoaded()
+	, m_bMapPosAdjusted()
 {
 	//메쉬는 부모 클래스에서 설정했음.
-	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE));
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_SC));
 	SetMaterial(pMtrl);
 }
 
-CTilemapComplete::~CTilemapComplete()
+CTilemap_SC::~CTilemap_SC()
 {
 	
 }
 
-bool CTilemapComplete::render()
+void CTilemap_SC::start()
+{
+
+}
+
+void CTilemap_SC::tick()
+{
+	if (true == m_bMapLoaded && false == m_bMapPosAdjusted)
+	{
+		m_bMapPosAdjusted = true;
+
+		//Vec2 MapSize = Vec2((float)m_tMapData.uNumMegatileX, -(float)m_tMapData.uNumMegatileY);
+		//Transform()->SetRelativePosXY(MapSize);
+	}
+
+}
+
+bool CTilemap_SC::render()
 {
 	if (false == m_bMapLoaded)
 		return true;
+	
+	
 
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
@@ -62,10 +82,12 @@ bool CTilemapComplete::render()
 	return true;
 }
 
-bool CTilemapComplete::LoadMap(const string& _strMapName)
+bool CTilemap_SC::LoadMap(const string& _strMapName)
 {
 	if (true == m_bMapLoaded && _strMapName == m_tMapData.strMapName)
 		return true;
+
+	m_bMapPosAdjusted = false;
 
 	Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(string(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER));
 
@@ -85,7 +107,22 @@ bool CTilemapComplete::LoadMap(const string& _strMapName)
 	if (true == m_bMapLoaded)
 	{
 		GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_tMapData.pMapTex);
-		Transform()->SetSize(Vec3(m_tMapData.uMapSizeX * 32.f, m_tMapData.uMapSizeY * 32.f, 1.f));
+
+		CTransform* pTF = Transform();
+
+		g_GlobalVal.fMapSizeX = (float)m_tMapData.uNumMegatileX * 32.f;
+		g_GlobalVal.fMapSizeY = (float)m_tMapData.uNumMegatileY * 32.f;
+		
+		pTF->SetSize(Vec3(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY, 1.f));
+
+
+		//스타크래프트 맵의 좌표는 Left Top이 원점이므로
+		//맵의 좌측 상단을 원점으로 맞춰준다(2사분면에 집어넣어준다)
+		//y축만 음수로 뒤집으면 되니까 좌표 맞추기가 편해짐
+		Vec2 MapPos = Vec2(g_GlobalVal.fMapSizeX, -g_GlobalVal.fMapSizeY);
+		MapPos /= 2.f;
+		
+		pTF->SetRelativePosXY(MapPos);
 	}
 
 	return m_bMapLoaded;

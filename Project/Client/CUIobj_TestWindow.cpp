@@ -13,7 +13,7 @@
 #include <Engine/CTransform.h>
 #include <Engine/CMeshRender.h>
 #include <Engine/strKey_Default.h>
-#include <Engine/CTilemapComplete.h>
+#include <Engine/CTilemap_SC.h>
 #include <Script/strKey_Shader.h>
 
 #include <Engine/EventDispatcher.h>
@@ -147,7 +147,7 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 			CTilemap* pTilemap = m_pTestObj->Tilemap();
 			if (eTILE_TYPE::COMPLETE == pTilemap->GetTileType())
 			{
-				bLoaded = (static_cast<CTilemapComplete*>(pTilemap))->LoadMap(_tCombo.strName);
+				bLoaded = (static_cast<CTilemap_SC*>(pTilemap))->LoadMap(_tCombo.strName);
 			}
 
 			if (false == bLoaded)
@@ -171,7 +171,7 @@ void CUIobj_TestWindow::CreateTestObj()
 
 	m_pTestObj->SetName("MapObj");
 	
-	CTilemapComplete* TilemapComp = new CTilemapComplete;
+	CTilemap_SC* TilemapComp = new CTilemap_SC;
 	m_pTestObj->AddComponent(TilemapComp);
 
 	EventDispatcher::SpawnGameObject(m_pTestObj, Vec3(0.f, 0.f, 1000.f), 0);

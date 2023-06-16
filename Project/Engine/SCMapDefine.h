@@ -1,6 +1,6 @@
 #pragma once
 
-//CCS_SCMapLoader과 CTilemapComplete 쉐이더에서 공유하는 구조체들을 모아놓은 헤더
+//CCS_SCMapLoader과 CTilemap_SC 쉐이더에서 공유하는 구조체들을 모아놓은 헤더
 
 
 #include "ptr.h"
@@ -14,7 +14,7 @@ namespace SC_Map
         UINT16 PosX;
         UINT16 PosY;
         UINT16 ID;          //유닛 ID
-        UINT16 Unknown0;         //알려지지 않음
+        UINT16 LinkedUnitFlag;         //애드온, 나이더스 커널 등 연결된 유닛 유무
         UINT16 Property;    //유닛 속성(아래 참고 - 아직 사용하지는 않음)
 
         UINT16 UpgradableProperty;  //유닛의 상태변화에 적용가능한 속성(체력통 증가, 마나통 증가 등등) - 사용 X
@@ -22,15 +22,14 @@ namespace SC_Map
         UINT8 Owner;
         UINT8 HPPercent;
         UINT8 ShieldPercent;
-        UINT8 ManaPercent;
+        UINT8 EnergyPercent;
 
-        UINT16 Resources;
+        UINT32 Resources;
         UINT16 NumUnitInContainer;
 
-        UINT16 Unknown1;
-        UINT8  CurState;    //클로킹, 버로우 등 현재 상태(비트 마스크)
-
-        UINT8 Padding;
+        UINT16 UnitStateFlag;
+        UINT32 Unused;
+        UINT32 LinkedUnitClassInst; //연결된 유닛(애드온, 나이더스 커널)의 인스턴스 정보
     };
 
     /*
@@ -69,15 +68,16 @@ namespace SC_Map
     struct tMapData
     {
         string strMapName;
-        UINT uMapSizeX;
-        UINT uMapSizeY;
+        UINT uNumMegatileX;
+        UINT uNumMegatileY;
         eTILESET_INFO eTileSet;
         Ptr<CTexture> pMapTex;
         vector<tMegaTile> vecMegaTile;
         vector<tMiniTile> vecMiniTile;
+        vector<tUnitData> vecUnitData;
 
 
-        tMapData() : strMapName(), uMapSizeX(), uMapSizeY(), eTileSet()
+        tMapData() : strMapName(), uNumMegatileX(), uNumMegatileY(), eTileSet()
         {}
     };
 

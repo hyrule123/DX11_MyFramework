@@ -30,6 +30,7 @@ CTransform::CTransform()
 	, m_bNeedMyUpdate(true)
 	, m_bNeedParentUpdate(true)
 	, m_fLongestDiagonalLen()
+	, m_fYsortDepthPreset(DEPTH_PRESET_MAX)
 	//Matrix와 Vector 변수는 자체 생성자를 통해 초기화 됨.
 {
 }
@@ -56,9 +57,13 @@ void CTransform::finaltick()
 		UpdateParentMatrix();
 	}
 
+
+	bool Updated = false;
 	//둘중에 하나라도 업데이트 되었을 경우 월드행렬을 새로 계산한다.
 	if (m_bNeedMyUpdate || m_bNeedParentUpdate || m_bSizeUpdated)
 	{
+		Updated = true;
+
 		//부모 행렬이 있을 경우 부모행렬을 곱해줌.
 		if (GetOwner()->GetParent())
 			m_matWorldWithoutSize = m_matRelative * m_matParent;
@@ -71,9 +76,20 @@ void CTransform::finaltick()
 		//행렬의 1 ~ 3 부분을 전부 제곱한 뒤, 제곱근을 씌운다. 그러면 가장 긴 대각선의 길이가 나온다.
 		//sqrt(11제곱 + 12제곱 + 13제곱 + 21제곱 + 22제곱 + 23제곱 + 31제곱 + 32제곱 + 33제곱)
 		m_fLongestDiagonalLen = sqrtf(m_matWorld.Axis((int)eAXIS3D::X).LengthSquared() + m_matWorld.Axis((int)eAXIS3D::Y).LengthSquared() + m_matWorld.Axis((int)eAXIS3D::Z).LengthSquared());
-		
-		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &m_matWorld);
 	}
+
+	//깊이 프리셋 최대값보다 조금이라도 작을 시 Y Sorting을 적용
+	if (m_fYsortDepthPreset < DEPTH_PRESET_MAX)
+	{
+		Updated = true;
+		//프리셋값에 y값을 더할경우 정렬을 하지 않고도 Y Sorting이 가능
+		//Y값이 높을수록 위에 있으므로(2D)
+		//Y값은 맵사이즈만큼 줄여서 사용
+		m_matWorld.m[3][2] = m_fYsortDepthPreset + (m_matWorld.m[3][1] / g_GlobalVal.fMapSizeY);
+	}
+
+	if (Updated)
+		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &m_matWorld);
 }
 
 bool CTransform::SaveJson(Json::Value* _pJson)

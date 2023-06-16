@@ -3,8 +3,12 @@
 
 #include "CGameObject.h"
 
+#include "CTransform.h"
+
 CLayer::CLayer()
 	: m_iLayerIdx(-1)
+	, m_fDepthPreset(DEPTH_PRESET_MAX - 100.f)
+	, m_bEnableYsorting()
 {
 }
 
@@ -35,6 +39,8 @@ void CLayer::finaltick()
 	size_t size = m_vecObject.size();
 	for (size_t i = 0; i < size; ++i)
 	{
+		m_vecObject[i]->Transform();
+
 		if (true == m_vecObject[i]->IsMaster())
 			m_vecObject[i]->finaltick();
 	}
@@ -45,6 +51,12 @@ void CLayer::AddGameObject(CGameObject* _Object)
 	assert(nullptr != _Object);
 
 	m_vecObject.push_back(_Object);
+
+	//깊이 프리셋값이 설정되어 있을 경우 해당 값으로 깊이값을 설정해준다.
+	if (m_fDepthPreset > DEPTH_PRESET_MAX)
+	{
+		_Object->Transform()->SetRelativePosZ(m_fDepthPreset);
+	}
 }
 
 void CLayer::RemoveGameObject(CGameObject* _Object)
@@ -77,5 +89,12 @@ void CLayer::RemoveDestroyed()
 			return isDestroyed;
 		}),
 		m_vecObject.end());
+}
+
+bool CLayer::Y_Sort(CGameObject* _pObj_L, CGameObject* _pObj_R)
+{
+
+
+	return false;
 }
 

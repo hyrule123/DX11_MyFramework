@@ -190,9 +190,6 @@
     <ClInclude Include="jsoncpp.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
-    <ClInclude Include="CTilemapComplete.h">
-      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
-    </ClInclude>
     <ClInclude Include="CTilemapAtlas.h">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
@@ -213,11 +210,9 @@
     <ClInclude Include="SCMapDefine.h">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClInclude>
+    <ClInclude Include="CTilemap_SC.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp">
-      <Filter>_Default</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>_Default</Filter>
     </ClCompile>
@@ -374,9 +369,6 @@
     <ClCompile Include="CCS_SCMapLoader.cpp">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClCompile>
-    <ClCompile Include="CTilemapComplete.cpp">
-      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
-    </ClCompile>
     <ClCompile Include="CTilemapAtlas.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClCompile>
@@ -390,6 +382,7 @@
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />
+    <ClCompile Include="CTilemap_SC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">
