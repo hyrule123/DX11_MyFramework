@@ -679,6 +679,9 @@
     <FxCompile Include="S_4_P_BuildingStructure.hlsl">
       <Filter>HLSL\06. SCUnit</Filter>
     </FxCompile>
+    <FxCompile Include="S_4_P_Mineral.hlsl">
+      <Filter>HLSL\06. SCUnit</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc" />

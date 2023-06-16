@@ -10,12 +10,13 @@ namespace strKey_SCRIPT
 {
 	STRKEY FSM_MOVE_GROUND = "CScript_FSM_Move_Ground";
 	STRKEY CAMERAMOVE = "CScript_CameraMove";
-	STRKEY MOUSECURSOR = "CScript_MouseCursor";
 	STRKEY FSM_ATTACK = "CScript_FSM_Attack";
 	STRKEY FSM_MOVE_HOVER = "CScript_FSM_Move_Hover";
 	STRKEY FSM_BUILDING_PROD = "CScript_FSM_Building_Prod";
 	STRKEY FSM_DEATH = "CScript_FSM_Death";
 	STRKEY FSM_IDLE = "CScript_FSM_Idle";
+	STRKEY MINERAL = "CScript_Mineral";
+	STRKEY MOUSECURSOR = "CScript_MouseCursor";
 	STRKEY SCENTITY = "CScript_SCEntity";
 	STRKEY SCUNITVITAL = "CScript_SCUnitVital";
 	STRKEY TESTOBJ = "CScript_TestObj";

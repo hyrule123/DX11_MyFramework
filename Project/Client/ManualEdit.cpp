@@ -65,6 +65,11 @@ void ManualEdit::Edit()
 		string strKey = SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER);
 		CommandCenter_Prefab_Save(strKey);
 	}
+
+	//Mineral
+	{
+		Resources_Prefab_Save();
+	}
 }
 
 void ManualEdit::TestCreate()
@@ -89,6 +94,14 @@ void ManualEdit::TestCreate()
 		Ptr<CMaterial> pMtrl = CommandCenter->RenderComponent()->GetCurMaterial();
 
 		EventDispatcher::SpawnGameObject(CommandCenter, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::GroundUnitMain);
+	}
+
+	{
+		Ptr<CPrefab> pPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::strKey_PREFAB::MINERAL);
+
+		CGameObject* Mineral = pPrefab->Instantiate();
+		
+		EventDispatcher::SpawnGameObject(Mineral, Vec3(100.f, 100.f, 100.f), SC::LAYER_INFO::GroundUnitMain);
 	}
 }
 
@@ -339,28 +352,6 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 		pObj->AddScript(pFSMBuilding);
 	}
 
-	////Child(유닛 생산 점멸)
-	//{
-	//	CGameObject* pChild = new CGameObject;
-	//	pObj->AddChildGameObj(pChild);
-
-	//	pChild->SetLayer(SC::LAYER_INFO::GroundUnitTop);
-
-	//	CMeshRender* pRenderCom = new CMeshRender;
-	//	pChild->AddComponent(pRenderCom);
-
-	//	//Material
-	//	Ptr<CMaterial> pMtrl = new CMaterial;
-	//	pMtrl->SetKey(strKey_PREFAB::COMMAND_CENTER);//프리팹 키와 동일한 키를 사용
-	//	pRenderCom->SetMaterial(pMtrl);
-	//	Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
-	//	pMtrl->SetShader(pShader);
-
-	//	//Mesh
-	//	Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
-	//	pRenderCom->SetMesh(pMesh);
-	//}
-
 	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
 
 	Ptr<CPrefab> pPrefab = new CPrefab;
@@ -371,16 +362,148 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 
 void ManualEdit::Resources_Anim_Save()
 {
+	//CResMgr* pResMgr = CResMgr::GetInst();
 
+	////Mineral01
+	//{
+	//	Ptr<CTexture> Mineral01 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
+	//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+
+	//	Atlas->SetAtlasTexture(Mineral01);
+	//	Atlas->SetNewAnimUV(4u, 1u);
+
+	//	vector<UINT> vecFrame;
+	//	vecFrame.push_back(0u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_WEAR_0, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(1u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_2, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(2u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_1, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(3u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_0, vecFrame, 0.1f);
+
+	//	Atlas->Save(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
+	//}
+
+	////Mineral02
+	//{
+	//	Ptr<CTexture> Mineral01 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN02_BMP);
+	//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+
+	//	Atlas->SetAtlasTexture(Mineral01);
+	//	Atlas->SetNewAnimUV(4u, 1u);
+
+	//	vector<UINT> vecFrame;
+	//	vecFrame.push_back(0u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_3, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(1u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_2, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(2u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_1, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(3u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_0, vecFrame, 0.1f);
+
+	//	Atlas->Save(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
+	//}
+
+	////Mineral03
+	//{
+	//	Ptr<CTexture> Mineral01 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN03_BMP);
+	//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+
+	//	Atlas->SetAtlasTexture(Mineral01);
+	//	Atlas->SetNewAnimUV(4u, 1u);
+
+	//	vector<UINT> vecFrame;
+	//	vecFrame.push_back(0u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_3, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(1u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_2, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(2u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_1, vecFrame, 0.1f);
+
+	//	vecFrame.clear();
+	//	vecFrame.push_back(3u);
+	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_0, vecFrame, 0.1f);
+
+	//	Atlas->Save(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
+	//}
 }
 
 void ManualEdit::Resources_Prefab_Save()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 
+	CGameObject* pObj = new CGameObject;
+	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::MINERAL_FIELD_TYPE_1));
+	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
+
+	//Collider
 	{
-		//string strKey = strKey_R
+		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+		pObj->AddComponent(pCol);
+
+		SC_Func::SetSCBuildingSize(pCol, 2, 2, Vec4(0.f));
 	}
+
+
+	//MeshRender
+	{
+		CMeshRender* pRenderCom = new CMeshRender;
+		pObj->AddComponent(pRenderCom);
+
+
+		//Material
+		Ptr<CMaterial> pMtrl = new CMaterial;
+		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::MINERAL_FIELD_TYPE_1));//프리팹 키와 동일한 키를 사용
+
+		pRenderCom->SetMaterial(pMtrl);
+
+		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::MINERAL
+		);
+		pMtrl->SetShader(pShader);
+
+		//미네랄 텍스처 등록
+		Ptr<CTexture> Mineral1 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
+		Ptr<CTexture> Mineral2 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN02_BMP);
+		Ptr<CTexture> Mineral3 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN03_BMP);
+		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Mineral1);
+		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_1, Mineral2);
+		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_2, Mineral3);
+
+
+		//Mesh
+		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		pRenderCom->SetMesh(pMesh);
+	}
+
+	//Script
+	{
+		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
+
+		pObj->AddScript(pScriptMgr->GetNewScript(strKey_SCRIPT::MINERAL));
+	}
+
+
+	Ptr<CPrefab> pPrefab = new CPrefab;
+	pPrefab->RegisterPrefab(pObj);
+	pPrefab->Save(SC::strKey_PREFAB::MINERAL);
 }
 
 Ptr<CAnim2DAtlas> ManualEdit::LoadAnim(const string& _strKey)

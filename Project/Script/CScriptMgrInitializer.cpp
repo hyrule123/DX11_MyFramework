@@ -10,12 +10,13 @@
 //Created Scripts
 #include "CScript_FSM_Move_Ground.h"
 #include "CScript_CameraMove.h"
-#include "CScript_MouseCursor.h"
 #include "CScript_FSM_Attack.h"
 #include "CScript_FSM_Move_Hover.h"
 #include "CScript_FSM_Building_Prod.h"
 #include "CScript_FSM_Death.h"
 #include "CScript_FSM_Idle.h"
+#include "CScript_Mineral.h"
+#include "CScript_MouseCursor.h"
 #include "CScript_SCEntity.h"
 #include "CScript_SCUnitVital.h"
 #include "CScript_TestObj.h"
@@ -31,11 +32,6 @@ void CScriptMgrInitializer::init()
 	{
 		string strKey = string(strKey_SCRIPT::CAMERAMOVE);
 		CScript* newScript = new CScript_CameraMove(strKey);
-		pMgr->AddBaseScript(strKey, newScript);
-	}
-	{
-		string strKey = string(strKey_SCRIPT::MOUSECURSOR);
-		CScript* newScript = new CScript_MouseCursor(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{
@@ -61,6 +57,16 @@ void CScriptMgrInitializer::init()
 	{
 		string strKey = string(strKey_SCRIPT::FSM_IDLE);
 		CScript* newScript = new CScript_FSM_Idle(strKey);
+		pMgr->AddBaseScript(strKey, newScript);
+	}
+	{
+		string strKey = string(strKey_SCRIPT::MINERAL);
+		CScript* newScript = new CScript_Mineral(strKey);
+		pMgr->AddBaseScript(strKey, newScript);
+	}
+	{
+		string strKey = string(strKey_SCRIPT::MOUSECURSOR);
+		CScript* newScript = new CScript_MouseCursor(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 	{

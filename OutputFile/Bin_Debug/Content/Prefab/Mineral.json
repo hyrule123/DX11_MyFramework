@@ -1,0 +1,99 @@
+{
+	"GameObject" : 
+	{
+		"m_arrCom" : 
+		[
+			{
+				"bInheritRot" : true,
+				"bInheritScale" : true,
+				"bLockRot" : false,
+				"eComponentType" : 0,
+				"v3RelativePos" : 
+				[
+					0,
+					0,
+					0
+				],
+				"v3RelativeRot" : 
+				[
+					0,
+					0,
+					0
+				],
+				"v3RelativeScale" : 
+				[
+					1065353216,
+					1065353216,
+					1065353216
+				],
+				"v3Size" : 
+				[
+					1120403456,
+					1120403456,
+					1120403456
+				]
+			},
+			{
+				"eComponentType" : 1,
+				"m_bFollowTransformSize" : false,
+				"m_eColType" : 0,
+				"m_v3OffsetPos" : 
+				[
+					0,
+					0,
+					0
+				],
+				"m_v3Size" : 
+				[
+					1115684864,
+					1115684864,
+					1065353216
+				]
+			},
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			{
+				"eComponentType" : 8,
+				"strKeyMesh" : "RectMesh",
+				"strKeyMtrl" : "Mineral"
+			},
+			null,
+			null,
+			null,
+			null,
+			{
+				"eComponentType" : 13,
+				"m_vecScript_strKey" : 
+				[
+					{
+						"CScript_Mineral" : 
+						{
+							"m_eKeyShortcut" : 0,
+							"m_eMoveType" : 0,
+							"m_eRace" : 0,
+							"m_eUnitSize" : 0,
+							"m_fBaseBuildTime" : 0,
+							"m_flagTech" : 0,
+							"m_strProdBuildingName" : "",
+							"m_uCostGas" : 0,
+							"m_uCostMineral" : 50,
+							"m_uPopulation" : 0,
+							"m_uSightRange" : 5,
+							"strName" : ""
+						}
+					}
+				]
+			}
+		],
+		"m_fLifeSpan" : -8388609,
+		"m_iLayerIdx" : 7,
+		"m_vecChild_PREFAB" : [],
+		"strName" : "Mineral"
+	},
+	"eRES_TYPE" : 6,
+	"strName" : ""
+}

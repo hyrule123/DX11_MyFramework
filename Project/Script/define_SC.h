@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Engine/define.h>
 
 //두 상태를 동시에 가질 수 있으므로 
 namespace SC
@@ -85,6 +86,8 @@ namespace SC
 			STRKEY_DECLARE(BUILD_UNIT);
 
 			STRKEY_DECLARE(LIFTOFF);
+
+
 		}
 	}
 
@@ -93,9 +96,27 @@ namespace SC
 	{
 		namespace Terran
 		{
-			STRKEY(CONSTRUCTION_LARGE) = "Construction_Large";
+			STRKEY_DECLARE(CONSTRUCTION_LARGE);
+
 
 		}
+
+		namespace Neutral
+		{
+			STRKEY_DECLARE(MINERAL_WEAR_0);
+			STRKEY_DECLARE(MINERAL_WEAR_1);
+			STRKEY_DECLARE(MINERAL_WEAR_2);
+			STRKEY_DECLARE(MINERAL_WEAR_3);
+
+			STRKEY_DECLARE(VESPENE_NORMAL);
+			STRKEY_DECLARE(VESPENE_DEPLETE);
+		}
+	}
+
+	//ID - strKey배열에 지정되어있지 않은 이름을 저장하는 곳
+	namespace strKey_PREFAB
+	{
+		STRKEY MINERAL = "Mineral";
 	}
 
 
@@ -179,6 +200,7 @@ namespace SC
 		};
 	}
 
+	
 
 	enum class eUNIT_ID : UINT8
 	{

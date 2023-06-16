@@ -14,6 +14,20 @@ ENUM_END
 #define bTexProd bTEX_4
 #define iTexProdIdx 4
 
+//Mineral 관련(미네랄은 모두 4장짜리 아틀라스 - UV로 넘겨줄 필요 없이 픽셀 쉐이더에서 계산
+//애니메이션을 사용하지 않으므로 애니메이션이 사용하는 Scalar Param을 사용한다.
+//어떤 미네랄 아틀라스를 사용해야 하는지
+#define MTRL_SCALAR_MINERAL_TEXINDEX	  MTRLDATA_PARAM_SCALAR(INT, 2)
+//현재 미네랄을 얼마나 소모했는지
+#define MTRL_SCALAR_MINERAL_WEAR_LEVEL     MTRLDATA_PARAM_SCALAR(INT, 3)
+
+ENUM_BEGIN(eMINERAL_ATLAS_TYPE, INT32)
+	ENUM_MEMBER(_1, INT32, 0)
+	ENUM_MEMBER(_2, INT32, 1)
+	ENUM_MEMBER(_3, INT32, 2)
+ENUM_END
+
+
 /*
 초록색 숫자는 '시맨틱'이라고 하며,
 같은 이름의 시맨틱은 다른 쉐이더로 넘어갈 때 같은 속성의 값이 들어온다.

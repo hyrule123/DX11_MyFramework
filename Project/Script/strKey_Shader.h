@@ -14,6 +14,7 @@ namespace strKey_SHADER
 	{
 		STRKEY BUILDINGSTRUCTURE = "BuildingStructure.json";
 		STRKEY DEBUG = "Debug.json";
+		STRKEY MINERAL = "Mineral.json";
 		STRKEY PARTICLE = "Particle.json";
 		STRKEY SCUNITGROUND = "SCUnitGround.json";
 		STRKEY STD2D = "STD2D.json";

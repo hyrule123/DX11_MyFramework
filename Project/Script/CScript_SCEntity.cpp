@@ -124,7 +124,7 @@ void CScript_SCEntity::init()
 
 void CScript_SCEntity::start()
 {
-	assert(nullptr != ScriptHolder()->Animator2D());
+	//assert(nullptr != ScriptHolder()->Animator2D());
 }
 
 void CScript_SCEntity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)

@@ -3,7 +3,7 @@
 	"eRES_TYPE" : 4,
 	"mapAnim" : 
 	{
-		"Construction_Large" : 
+		"CONSTRUCTION_LARGE" : 
 		{
 			"eAnimType" : 0,
 			"fFullPlayTime" : 1120403456,
