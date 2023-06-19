@@ -1,3 +1,4 @@
+
 #pragma once
 #include "CScript_SCEntity.h"
 
@@ -13,7 +14,7 @@ public:
     CLONE(CScript_Mineral);
 
     virtual ~CScript_Mineral();
-    
+
 
 public:
     virtual void init() override;
@@ -23,7 +24,7 @@ private:
     eMINERAL_ATLAS_TYPE m_eMineralAtlasType;
 public:
     void SetMineralAtlasType(eMINERAL_ATLAS_TYPE _eType) { m_eMineralAtlasType = _eType; }
-    
+
 private:
     int m_iMineralMax;
     GETTER_SETTER(int, m_iMineralMax, MineralRemain);

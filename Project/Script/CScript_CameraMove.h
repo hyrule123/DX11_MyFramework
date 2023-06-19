@@ -2,6 +2,8 @@
 
 #include <Engine/CScript.h>
 
+
+
 class CScript_CameraMove :
     public CScript
 {

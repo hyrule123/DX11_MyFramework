@@ -74,12 +74,10 @@
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
     <ClInclude Include="define_SC.h" />
-    <ClInclude Include="CScript_Mineral.h">
-      <Filter>ScriptCode\SC\Components</Filter>
-    </ClInclude>
     <ClInclude Include="CScript_TilemapLoadUnit.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
+    <ClInclude Include="CScript_Mineral.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -127,14 +125,9 @@
     <ClCompile Include="CScript_FSM_Building_Prod.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_Mineral.cpp">
-      <Filter>ScriptCode\SC\Components</Filter>
-    </ClCompile>
     <ClCompile Include="CScript_TilemapLoadUnit.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
+    <ClCompile Include="CScript_Mineral.cpp" />
   </ItemGroup>
 </Project>

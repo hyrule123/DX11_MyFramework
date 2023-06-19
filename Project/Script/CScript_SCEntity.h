@@ -4,7 +4,6 @@
 
 #include "define_SC.h"
 
-
 class CScript_SCEntity :
     public CScript
 {
