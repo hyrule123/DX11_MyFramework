@@ -20,4 +20,5 @@ namespace strKey_SCRIPT
 	STRKEY SCENTITY = "CScript_SCEntity";
 	STRKEY SCUNITVITAL = "CScript_SCUnitVital";
 	STRKEY TESTOBJ = "CScript_TestObj";
+	STRKEY TILEMAPLOADUNIT = "CScript_TilemapLoadUnit";
 }

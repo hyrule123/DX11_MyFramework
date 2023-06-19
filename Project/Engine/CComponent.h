@@ -64,5 +64,6 @@ public:
     CCollider2D*        Collider2D()        { return m_pOwner->Collider2D(); }
     CCollider3D*        Collider3D()        { return m_pOwner->Collider3D(); }
     CRenderComponent*   RenderComponent()   { return m_pOwner->RenderComponent(); }
+    CTilemap*           Tilemap()           { return m_pOwner->Tilemap(); }
 };
 

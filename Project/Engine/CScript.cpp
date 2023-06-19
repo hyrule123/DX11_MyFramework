@@ -6,6 +6,7 @@
 #include "CKeyMgr.h"
 
 
+
 CScript::CScript(const string& _strKey)
 	: m_strKey(_strKey)
 	, m_pHolder()

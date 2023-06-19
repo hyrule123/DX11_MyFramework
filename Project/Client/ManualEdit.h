@@ -7,7 +7,6 @@ class ManualEdit
 {
 public:
 	static void Edit();
-
 	static void TestCreate();
 	
 
@@ -27,6 +26,8 @@ private:
 
 	static Ptr<CAnim2DAtlas> LoadAnim(const string& _strKey);
 	static Ptr<CPrefab> LoadPrefab(const string& _strKey);
+
+
 };
 
 

@@ -21,21 +21,16 @@ float4 PS_Mineral(VS_OUT _in) : SV_TARGET
 		Data = g_SBuffer_Mtrl_Scalar[_in.uInstID];
 	}
     
-    
     //메인텍스처가 존재하지 않을경우는 무조건 마젠타 색상을 return;
 	if (FALSE == g_CBuffer_Mtrl_Tex.bTEX_0)
 	{
 		vOutColor = float4(1.f, 0.f, 1.f, 1.f);
 	}
 	
-	vOutColor = SampleMtrlTex((uint) Data.MTRL_SCALAR_MINERAL_TEXINDEX, g_Sampler_0, _in.vUV);
-	return vOutColor;
 	
-	_in.vUV.y = (0.25f * _in.vUV.y) + 0.25f * (float) Data.MTRL_SCALAR_MINERAL_WEAR_LEVEL;
-	
+	_in.vUV.x = (0.25f * _in.vUV.x) + 0.25f * (float) Data.MTRL_SCALAR_MINERAL_WEAR_LEVEL;
 	
 	vOutColor = SampleMtrlTex((uint)Data.MTRL_SCALAR_MINERAL_TEXINDEX, g_Sampler_0, _in.vUV);
-	
 	
 	//Alpha Check 
 	if (0.f == vOutColor.a)

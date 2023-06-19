@@ -27,6 +27,8 @@ public:
     bool LoadMap(const string& _strMapName);
 
 private:
-    void LoadUnit();
+    std::function<void(const SC_Map::tMapData&)> m_funcLoadUnit;
+public:
+    void SetFunc_LoadUnit(std::function<void(const SC_Map::tMapData&)> _func) { m_funcLoadUnit = _func; }
 };
 

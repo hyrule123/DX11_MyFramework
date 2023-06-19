@@ -5,7 +5,6 @@
 #include <Engine/CScriptMgr.h>
 #include <Engine/CRandMgr.h>
 #include <Engine/EventDispatcher.h>
-#include <Engine/CAnim2DAtlas.h>
 
 //string Keys
 #include <Engine/strKey_Default.h>
@@ -20,6 +19,7 @@
 #include <Engine/CMeshRender.h>
 #include <Engine/CScriptHolder.h>
 #include <Engine/CPrefab.h>
+#include <Engine/CTransform.h>
 
 //Scripts
 #include <Script/SC_Func.h>
@@ -454,6 +454,8 @@ void ManualEdit::Resources_Prefab_Save()
 	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::MINERAL_FIELD_TYPE_1));
 	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
 
+
+
 	//Collider
 	{
 		CCollider2D_Rect* pCol = new CCollider2D_Rect;
@@ -487,11 +489,22 @@ void ManualEdit::Resources_Prefab_Save()
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_1, Mineral2);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_2, Mineral3);
 
+		//Transform
+		{
+			Vec2 size = Mineral1->GetSize();
+			//4장 고정이므로 1/4
+			size.x *= 0.25f;
+
+			pObj->Transform()->SetSize(Vec3(size, 1.f));
+		}
+
 
 		//Mesh
 		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
 		pRenderCom->SetMesh(pMesh);
 	}
+
+
 
 	//Script
 	{

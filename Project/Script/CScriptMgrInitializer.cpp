@@ -20,6 +20,7 @@
 #include "CScript_SCEntity.h"
 #include "CScript_SCUnitVital.h"
 #include "CScript_TestObj.h"
+#include "CScript_TilemapLoadUnit.h"
 
 void CScriptMgrInitializer::init()
 {
@@ -82,6 +83,11 @@ void CScriptMgrInitializer::init()
 	{
 		string strKey = string(strKey_SCRIPT::TESTOBJ);
 		CScript* newScript = new CScript_TestObj(strKey);
+		pMgr->AddBaseScript(strKey, newScript);
+	}
+	{
+		string strKey = string(strKey_SCRIPT::TILEMAPLOADUNIT);
+		CScript* newScript = new CScript_TilemapLoadUnit(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 }

@@ -13,6 +13,8 @@ CTilemap_SC::CTilemap_SC()
 	: CTilemap(eTILE_TYPE::COMPLETE)
 	, m_tMapData()
 	, m_bMapLoaded()
+	, m_bUnitLoaded()
+	, m_funcLoadUnit()
 {
 	//메쉬는 부모 클래스에서 설정했음.
 	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_SC));
@@ -30,7 +32,10 @@ void CTilemap_SC::tick()
 	if (false == m_bUnitLoaded)
 	{
 		m_bUnitLoaded = true;
-		LoadUnit();
+
+		//로드 함수 호출
+		if (m_funcLoadUnit)
+			m_funcLoadUnit(m_tMapData);
 	}
 }
 
@@ -120,7 +125,5 @@ bool CTilemap_SC::LoadMap(const string& _strMapName)
 	return m_bMapLoaded;
 }
 
-void CTilemap_SC::LoadUnit()
-{
-}
+
 

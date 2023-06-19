@@ -5,6 +5,7 @@
 
 class CGameObject;
 class CCollider;
+class CTilemap_SC;
 
 class CScript :
     public CEntity
@@ -49,6 +50,7 @@ public:
     CCamera* Camera() const { return m_pHolder->Camera(); }
     CRenderComponent* RenderCom() const { return m_pHolder->RenderComponent(); }
     CAnimator2D* Animator2D() const { return m_pHolder->Animator2D(); }
+    CTilemap* Tilemap() const { return m_pHolder->Tilemap(); }
 
     CGameObject* GetOwner() const { return m_pHolder->GetOwner(); }
 };
