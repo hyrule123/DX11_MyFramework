@@ -111,7 +111,7 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 		throw(error);
 	}
 	//생성된 HLSL 파일 순회 끝
-	vector<string> vecStrModified;
+	set<string> setStrModified;
 
 
 	bool bNewShaderDetected = false;
@@ -144,7 +144,8 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 			InitShaderSettingGraphics(JsonInfo, mapIter);
 			bAnythingChanged = true;
 			bNewShaderDetected = true;
-			vecStrModified.push_back(mapIter.first);
+
+			setStrModified.insert(mapIter.first);
 		}
 
 
@@ -173,7 +174,7 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 					JsonInfo[strKey] = mapIter.second.FileName[i] + RES_INFO::SHADER::Ext_ShaderCode;
 					bModifyDetected = true;
 					bAnythingChanged = true;
-					vecStrModified.push_back(mapIter.first);
+					setStrModified.insert(mapIter.first);
 				}
 			}
 		}
@@ -198,9 +199,10 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 			ERROR_MESSAGE("Failed to open Modified.txt");
 		}
 		ModifiedList << "\n===Recent modified Shader file===\n\n";
-		for (size_t i = 0; i < vecStrModified.size(); ++i)
+
+		for (const auto& iter : setStrModified)
 		{
-			ModifiedList << vecStrModified[i] + "\n";
+			ModifiedList << iter + "\n";
 		}
 
 		ModifiedList.close();
@@ -356,7 +358,7 @@ void CreateComputeShaderCode(std::ofstream& _outFile_StrKey)
 				size_t strPos = Key.find(prefix);
 				if (string::npos != strPos)
 				{
-					Key.erase((size_t)0, prefix.length());
+					Key.erase((size_t)0, prefix.length() + 1);
 				}
 
 				transform(Key.begin(), Key.end(), Key.begin(), ::toupper);

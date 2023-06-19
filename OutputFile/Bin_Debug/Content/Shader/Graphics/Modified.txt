@@ -1,5 +1,2 @@
 
 ===Recent modified Shader file===
-
-Mineral
-Mineral
