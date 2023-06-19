@@ -5,6 +5,7 @@
 namespace PresetPath
 {
 	STRKEY ScriptProj = "./Project/Script";
+	STRKEY EngineProj = "./Project/Engine";
 
 #ifdef _DEBUG
 	STRKEY Content = "./OutputFile/Bin_Debug/Content";
@@ -36,6 +37,13 @@ namespace PresetStr
 //=========================================================
 
 )";
+}
+
+namespace Regex_Keyword
+{
+	//[   numthreads   ( %d, %d, %d )   ]
+	//[ ] 안에 둘러싸여 있고, 공백 갯수에 상관없이 숫자 3개를 추출
+	STRKEY Numthread = R"(\[\s*numthreads\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\).*\])";
 }
 
 

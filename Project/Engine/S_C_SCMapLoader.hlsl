@@ -8,7 +8,7 @@ uint ExtractWPEColorIdxFromVR4(in uint _uMiniTileIdx, in uint2 _u2GroupThreadID,
 //uint4 GetColorFromWPE(in uint Idx);
 
 
-[numthreads(32, 32, 1)]
+[numthreads (32, 32, 1)]
 void CS_SCMapLoader(uint3 _uDTID : SV_DispatchThreadID, uint3 _uGTID : SV_GroupThreadID,
 uint3 _uGroupID : SV_GroupID)
 {

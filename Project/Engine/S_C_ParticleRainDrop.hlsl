@@ -26,6 +26,7 @@ void CS_Particle_RainDrop( uint3 dtID : SV_DispatchThreadID )
 	}
 	
 	
+	
 	if (true == g_SBufferRW_ParticleTransform[idx].bActive)
 	{
 		g_SBufferRW_ParticleTransform[idx].fAge += g_CBuffer_GlobalData.fDeltaTime;

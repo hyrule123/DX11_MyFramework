@@ -42,18 +42,31 @@ void InitShaderSettingCompute(Json::Value& _jVal, const filesystem::path& _fileP
 
 void CreateShaderCode()
 {
+	filesystem::path strKeyFilePath = filesystem::path(PresetPath::ScriptProj) / PresetPath::strKey_Shader;
+	std::ofstream outFile_strKey(strKeyFilePath);
+	if (false == outFile_strKey.is_open())
+	{
+		ERROR_MESSAGE("Failed to Write Shader strKey");
+		return;
+	}
+
+	CreateGraphicsShaderCode(outFile_strKey);
+	CreateComputeShaderCode(outFile_strKey);
+}
+
+void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
+{
 	//first(Key) = json파일의 이름
+	//쉐이더의 공통 키값 + 각 쉐이더 파일의 이름을 저장할 공간 생성
 	map<string, tShaderSetting> mapShaderInfo;
 
-	filesystem::path ContentDir(PresetPath::Content);
-	filesystem::path GSShaderDir = ContentDir / RES_INFO::SHADER::GRAPHICS::DirName;
+	filesystem::path GSShaderDir = filesystem::path(PresetPath::Content) / RES_INFO::SHADER::GRAPHICS::DirName;
 
 	//Content/Shader/Graphics 폴더 안의 파일을 순회돌아준다.
 	filesystem::directory_iterator dirIter;
 	try
 	{
 		dirIter = filesystem::directory_iterator(GSShaderDir);
-
 
 		filesystem::directory_iterator dirIterEnd = std::filesystem::end(dirIter);
 		for (dirIter; dirIter != dirIterEnd; ++dirIter)
@@ -176,6 +189,7 @@ void CreateShaderCode()
 		}
 	}
 
+
 	if (bNewShaderDetected || bModifyDetected)
 	{
 		ofstream ModifiedList(std::filesystem::path(GSShaderDir) / "Modified.txt");
@@ -200,128 +214,184 @@ void CreateShaderCode()
 			MessageBoxA(nullptr, "Modification of existing Shader detected.\nPlease check Modified.txt", nullptr, MB_OK);
 		}
 	}
-	
 
-	filesystem::path filePath(PresetPath::ScriptProj);
-	filePath /= PresetPath::strKey_Shader;
-	std::ofstream fpStrKeyShader(filePath);
-	if (true == fpStrKeyShader.is_open())
+
+	//쉐이더 문자열 키 등록
+	//그래픽 쉐이더 Key 작성
+	//머릿글프리셋 삽입
+	string RawLiteral = string(PresetStr::Head);
+	_outFile_StrKey << RawLiteral;
+
+	WriteCodeA(_outFile_StrKey, "namespace strKey_SHADER");
+	WriteBracketOpenA(_outFile_StrKey);
+	WriteCodeA(_outFile_StrKey, "namespace GRAPHICS");
+	WriteBracketOpenA(_outFile_StrKey);
+
+	for (const auto& GSIter : mapShaderInfo)
 	{
-		//머릿글프리셋 삽입
-		string RawLiteral = string(PresetStr::Head);
-		fpStrKeyShader << RawLiteral;
+		string codeLine = string(PresetStr::ConstexprInlineConstChar);
 
-		WriteCodeA(fpStrKeyShader, "namespace strKey_SHADER");
-		WriteBracketOpenA(fpStrKeyShader);
-		WriteCodeA(fpStrKeyShader, "namespace GRAPHICS");
-		WriteBracketOpenA(fpStrKeyShader);
-		
-		for(const auto& GSIter : mapShaderInfo)
+		//JSON 파일 명
+		string strKeyUpper = GSIter.first;
+		size_t pos = strKeyUpper.find('.');
+		if (string::npos != pos)
+			strKeyUpper.erase(pos, string::npos);
+		transform(strKeyUpper.begin(), strKeyUpper.end(), strKeyUpper.begin(), ::toupper);
+		codeLine += strKeyUpper;
+		codeLine += " = \"";
+
+		//CSO 파일 명
+		codeLine += GSIter.first + string(RES_INFO::SHADER::Ext_ShaderSetting) + "\";";
+
+		WriteCodeA(_outFile_StrKey, codeLine);
+	}
+	WriteBracketCloseA(_outFile_StrKey);
+}
+
+void CreateComputeShaderCode(std::ofstream& _outFile_StrKey)
+{
+	WriteCodeA(_outFile_StrKey);
+
+	WriteCodeA(_outFile_StrKey, "namespace COMPUTE");
+	WriteBracketOpenA(_outFile_StrKey);
+
+	filesystem::path CSShaderDir(PresetPath::Content);
+	CSShaderDir /= DIRECTORY_NAME::SHADER_COMPUTE;
+	try
+	{
+		//발견한 파일 목록
+		vector<string> vecFoundFile;
+
+		filesystem::directory_iterator dirIter = filesystem::directory_iterator(CSShaderDir);
+		for (; false == dirIter._At_end(); ++dirIter)
 		{
-			string codeLine = string(PresetStr::ConstexprInlineConstChar);
-
-			//JSON 파일 명
-			string strKeyUpper = GSIter.first;
-			size_t pos = strKeyUpper.find('.');
-			if (string::npos != pos)
-				strKeyUpper.erase(pos, string::npos);
-			transform(strKeyUpper.begin(), strKeyUpper.end(), strKeyUpper.begin(), ::toupper);
-			codeLine += strKeyUpper;
-			codeLine += " = \"";
-
-			//CSO 파일 명
-			codeLine += GSIter.first + string(RES_INFO::SHADER::Ext_ShaderSetting) + "\";";
-
-			WriteCodeA(fpStrKeyShader, codeLine);
-		}
-		WriteBracketCloseA(fpStrKeyShader);
-		WriteCodeA(fpStrKeyShader);
-
-
-		WriteCodeA(fpStrKeyShader, "namespace COMPUTE");
-		WriteBracketOpenA(fpStrKeyShader);
-
-
-		filesystem::path CSShaderDir(ContentDir);
-		CSShaderDir /= DIRECTORY_NAME::SHADER_COMPUTE;
-		try
-		{
-			dirIter = filesystem::directory_iterator(CSShaderDir);
-			for (; false == dirIter._At_end(); ++dirIter)
+			if (false == (*dirIter).is_directory())
 			{
-				if (false == (*dirIter).is_directory())
+				//cso 파일을 읽었을 때만 진행.
+				filesystem::path FileName = dirIter->path();
+				if (0 != FileName.extension().compare(RES_INFO::SHADER::Ext_ShaderCode))
+					continue;
+				FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderSetting);
+
+				//HLSL파일(소스코드) 존재 여부 및 스레드 수 체크
+				int numThread[3] = { -1, -1, -1 };
 				{
-					//cso 파일을 읽었을 때만 진행.
-					filesystem::path FileName = dirIter->path();
-					if (0 != FileName.extension().compare(RES_INFO::SHADER::Ext_ShaderCode))
-						continue;
+					std::filesystem::path hlslFile = PresetPath::EngineProj;
+					hlslFile /= FileName.filename().replace_extension("hlsl");
 
-					FileName.replace_extension(RES_INFO::SHADER::Ext_ShaderSetting);
-
-					//파일이 존재하면 스킵
-					ifstream ifpSetting(FileName);
-
-					if (true == ifpSetting.is_open())
-						ifpSetting.close();
-					
-					//파일이 존재하지 않을 시 파일을 생성
-					else
+					std::ifstream fHLSL(hlslFile);
+					if (fHLSL.is_open())
 					{
-						ofstream outFile(FileName);
-
-						if (outFile.is_open())
+						string strLine;
+						while (std::getline(fHLSL, strLine))
 						{
-							Json::Value ShaderVal;
-							InitShaderSettingCompute(ShaderVal, FileName.lexically_relative(CSShaderDir));
+							std::regex regexKey(Regex_Keyword::Numthread);	//정규식
+							std::smatch numMatch;	//조건에 일치하는 값들을 추출해놓은 위치
+							//원문, 일치하는 값 저장소, 정규식 위치
 
-							outFile << ShaderVal;
-
-							outFile.close();
+							//일치하고, 일치하는 부분의 사이즈가 4개일 경우
+							if (std::regex_search(strLine, numMatch, regexKey) && (size_t)4 == numMatch.size())
+							{
+								//0번 인덱스에는 일치하는 부분의 시작과 끝 부분 전체가 들어있다.
+								numThread[0] = std::stoi(numMatch[1]);
+								numThread[1] = std::stoi(numMatch[2]);
+								numThread[2] = std::stoi(numMatch[3]);
+							}
 						}
 					}
+				}
 
 
-					string codeLine = string(PresetStr::ConstexprInlineConstChar);
+				{
+					//파일 오픈
+					ifstream fSetting(FileName);
+					Json::Value CShaderJVal;
 
-					string Key = (*dirIter).path().filename().replace_extension().string();
-
-					string Value = Key;
-
-
-					size_t strPos = Key.find_last_of("_");
-					if (string::npos != strPos)
+					//코드 파일이 없는데 설정 파일이 있을 경우 json 파일을 제거
+					if (-1 == numThread[0] && fSetting.is_open())
 					{
-						Key.erase((size_t)0, strPos + (size_t)1);
+						fSetting.close();
+						std::filesystem::remove(FileName);
+						continue;
 					}
 
-					transform(Key.begin(), Key.end(), Key.begin(), ::toupper);
+					//파일이 없을 경우 json 값을 초기화
+					else if (false == fSetting.is_open())
+					{
+						//경로에서 ShaderDir까지를 빼준다(lexically_relative)
+						InitShaderSettingCompute(CShaderJVal, FileName.lexically_relative(CSShaderDir));
 
-					codeLine += Key;
-					codeLine += " = \"";
-					codeLine += Value + string(RES_INFO::SHADER::Ext_ShaderSetting) + "\";";
+						//새로 발견한 컴퓨트쉐이더 파일 이름을 넣어준다.
+						vecFoundFile.push_back(FileName.filename().string());
+					}
 
-					WriteCodeA(fpStrKeyShader, codeLine);
+					fSetting.close();
+
+
+					//스레드 갯수를 입력
+					for (int i = 0; i < 3; ++i)
+					{
+						CShaderJVal[RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ][i] = numThread[i];
+					}
+
+					//컴퓨트쉐이더 파일 저장
+					{
+						ofstream ofSetting(FileName);
+
+						if (false == ofSetting.is_open())
+							throw(std::runtime_error("Failed to Save Compute Shader Json File!!"));
+
+						ofSetting << CShaderJVal;
+						ofSetting.close();
+					}
 				}
+
+				string codeLine = string(PresetStr::ConstexprInlineConstChar);
+
+				string Key = (*dirIter).path().filename().replace_extension().string();
+
+				string Value = Key;
+
+				string prefix = RES_INFO::SHADER::COMPUTE::Prefix;
+				size_t strPos = Key.find(prefix);
+				if (string::npos != strPos)
+				{
+					Key.erase((size_t)0, prefix.length());
+				}
+
+				transform(Key.begin(), Key.end(), Key.begin(), ::toupper);
+
+				codeLine += Key;
+				codeLine += " = \"";
+				codeLine += Value + string(RES_INFO::SHADER::Ext_ShaderSetting) + "\";";
+
+				WriteCodeA(_outFile_StrKey, codeLine);
 			}
-			WriteBracketCloseA(fpStrKeyShader);
-
-			WriteBracketCloseA(fpStrKeyShader);
-			WriteCodeA(fpStrKeyShader);
-
-			fpStrKeyShader.close();
 		}
-		catch (const std::filesystem::filesystem_error& error)
+		WriteBracketCloseA(_outFile_StrKey);
+
+		WriteBracketCloseA(_outFile_StrKey);
+		WriteCodeA(_outFile_StrKey);
+
+		_outFile_StrKey.close();
+
+		if (false == vecFoundFile.empty())
 		{
-			MessageBoxA(nullptr, error.what(), NULL, MB_OK);
-			fpStrKeyShader.close();
-			throw(error);
+			string msg = "New Compute shader Found!!\n===List===\n";
+			for (size_t i = 0; i < vecFoundFile.size(); ++i)
+			{
+				msg += vecFoundFile[i] + '\n';
+			}
+
+			MessageBoxA(nullptr, msg.c_str(), nullptr, MB_OK);
 		}
-
 	}
-
-
-
-
+	catch (const std::filesystem::filesystem_error& error)
+	{
+		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+		_outFile_StrKey.close();
+		throw(error);
+	}
 
 }
 
@@ -356,3 +426,5 @@ void InitShaderSettingCompute(Json::Value& _jVal, const filesystem::path& _fileP
 
 	dummy.SaveJson(&_jVal);
 }
+
+

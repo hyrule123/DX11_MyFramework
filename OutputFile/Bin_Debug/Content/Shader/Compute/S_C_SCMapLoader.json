@@ -1,10 +1,8 @@
 {
-	"eRES_TYPE" : 8,
-	"strName" : "S_C_SCMapLoader.cso",
 	"uarrNumThreadXYZ" : 
 	[
-		1,
-		1,
+		32,
+		32,
 		1
 	]
 }
