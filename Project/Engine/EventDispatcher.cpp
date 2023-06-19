@@ -8,10 +8,15 @@
 
 void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
-	assert(0 <= _LayerIdx && _LayerIdx < MAX_LAYER);
-
 	_pNewObject->Transform()->SetRelativePos(_vWorldPos);
-	_pNewObject->SetLayer(_LayerIdx);
+
+	if (0 <= _LayerIdx)
+		_pNewObject->SetLayer(_LayerIdx);
+	else
+	{
+		assert(0 <= _pNewObject->GetLayer() && _pNewObject->GetLayer() < MAX_LAYER);
+	}
+
 
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::CREATE_OBJECT;
@@ -19,6 +24,7 @@ void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos,
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }
+
 
 void EventDispatcher::DestroyGameObj(CGameObject* _pObject)
 {

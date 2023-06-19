@@ -18,13 +18,17 @@ CScript_TilemapLoadUnit::~CScript_TilemapLoadUnit()
 
 void CScript_TilemapLoadUnit::init()
 {
-	static_cast<CTilemap_SC*>(Tilemap())->SetFunc_LoadUnit(std::bind(&CScript_TilemapLoadUnit::LoadUnit, this, std::placeholders::_1));
+	CTilemap_SC* pTilemapSC = dynamic_cast<CTilemap_SC*>(Tilemap());
+	assert(pTilemapSC);
+
+	pTilemapSC->SetFunc_LoadUnit(std::bind(&CScript_TilemapLoadUnit::LoadUnit, this, std::placeholders::_1));
 }
 
 void CScript_TilemapLoadUnit::LoadUnit(const SC_Map::tMapData& _data)
 {
 	using namespace SC_Map;
 	using namespace SC;
+
 	size_t size = _data.vecUnitData.size();
 	for (size_t i = 0; i < size; ++i)
 	{

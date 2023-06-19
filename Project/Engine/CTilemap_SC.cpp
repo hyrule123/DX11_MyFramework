@@ -29,7 +29,7 @@ CTilemap_SC::~CTilemap_SC()
 
 void CTilemap_SC::tick()
 {
-	if (false == m_bUnitLoaded)
+	if (m_bMapLoaded && false == m_bUnitLoaded)
 	{
 		m_bUnitLoaded = true;
 
@@ -44,8 +44,6 @@ bool CTilemap_SC::render()
 	if (false == m_bMapLoaded)
 		return true;
 	
-	
-
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
 

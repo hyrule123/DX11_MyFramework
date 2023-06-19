@@ -9,7 +9,7 @@
 	},
 	"Inspector" : 
 	{
-		"IsActive" : false
+		"IsActive" : true
 	},
 	"MainMenu" : null,
 	"Outliner" : 

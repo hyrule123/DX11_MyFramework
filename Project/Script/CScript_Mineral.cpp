@@ -1,11 +1,18 @@
 
 #include "pch.h"
+
+#include <Engine/EventDispatcher.h>
+
 #include "CScript_Mineral.h"
+
+#define MINERAL_WEAR_LEVEL_3 250
+#define MINERAL_WEAR_LEVEL_2 500
+#define MINERAL_WEAR_LEVEL_1 750
 
 CScript_Mineral::CScript_Mineral(const string& _strKey)
 	: CScript_SCEntity(_strKey)
 	, m_eMineralAtlasType()
-	, m_iMineralMax(5000)
+	, m_iMineralMax(1000)
 {
 	m_iCurMineral = m_iMineralMax;
 }
@@ -22,19 +29,17 @@ void CScript_Mineral::init()
 
 void CScript_Mineral::tick()
 {
-	//#define MTRL_SCALAR_MINERAL_TEXINDEX	  MTRLDATA_PARAM_SCALAR(INT, 2)
-	//현재 미네랄을 얼마나 소모했는지
-	//#define MTRL_SCALAR_MINERAL_REMAINING     MTRLDATA_PARAM_SCALAR(INT, 3)
+	int iWearLevel = 0;
 
-	int WearLevel = (int)(((float)(m_iMineralMax - m_iCurMineral) / (float)m_iMineralMax) * 4.f);
-	if (4 <= WearLevel)
-		WearLevel = 3;
+	if (m_iCurMineral < MINERAL_WEAR_LEVEL_3)
+		iWearLevel = 3;
+	else if (m_iCurMineral < MINERAL_WEAR_LEVEL_2)
+		iWearLevel = 2;
+	else if (m_iCurMineral < MINERAL_WEAR_LEVEL_1)
+		iWearLevel = 1;
 
+	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_WEAR_LEVEL, &iWearLevel);
 
-	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_WEAR_LEVEL, &WearLevel);
-
-	if (KEY_DOWN(eKEY::I))
-	{
-		m_iCurMineral -= 1000;
-	}
+	if (m_iCurMineral < 0)
+		EventDispatcher::DestroyGameObj(GetOwner());
 }

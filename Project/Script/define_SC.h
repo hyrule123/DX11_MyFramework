@@ -110,6 +110,8 @@ namespace SC
 
 			STRKEY_DECLARE(VESPENE_NORMAL);
 			STRKEY_DECLARE(VESPENE_DEPLETE);
+
+
 		}
 	}
 
@@ -117,6 +119,7 @@ namespace SC
 	namespace strKey_PREFAB
 	{
 		STRKEY MINERAL = "Mineral";
+		STRKEY MAPOBJ = "MapObj";
 	}
 
 
@@ -154,10 +157,10 @@ namespace SC
 			_22,
 			_23,
 			_24,
-			_25,
+			UI,
 			_26,
 			_27,
-			_28,
+			Camera,
 			_29,
 			MouseCursor,
 			_31,
@@ -190,10 +193,10 @@ namespace SC
 		"",	//22
 		"",	//23
 		"",	//24
-		"",	//25
+		"UI",	//25
 		"",	//26
 		"",	//27
-		"",	//28
+		"Camera",	//28
 		"",	//29
 		"MouseCursor",	//30
 		"",	//31

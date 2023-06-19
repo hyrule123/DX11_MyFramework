@@ -21,8 +21,9 @@ private:
 	static void CommandCenter_Anim_Save();
 	static void CommandCenter_Prefab_Save(const string& _strKey);
 	
-	static void Resources_Anim_Save();
 	static void Resources_Prefab_Save();
+
+	static void Map_Prefab_Save();
 
 	static Ptr<CAnim2DAtlas> LoadAnim(const string& _strKey);
 	static Ptr<CPrefab> LoadPrefab(const string& _strKey);

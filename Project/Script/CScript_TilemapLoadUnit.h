@@ -17,6 +17,6 @@ public:
     virtual void init() override;
 
 private:
-    void LoadUnit(const SC_Map::tMapData& _data);
+    void LoadUnit(const SC_Map::tMapData& _pMapData);
 };
 

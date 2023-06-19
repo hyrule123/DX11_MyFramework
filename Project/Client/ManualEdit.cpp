@@ -34,6 +34,8 @@
 //HLSL Header
 #include <Engine/S_H_SCUnitGround.hlsli>
 
+#include <Engine/CTilemap_SC.h>
+
 void ManualEdit::Edit()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
@@ -70,10 +72,17 @@ void ManualEdit::Edit()
 	{
 		Resources_Prefab_Save();
 	}
+
+	//Map
+	{
+		Map_Prefab_Save();
+	}
 }
 
 void ManualEdit::TestCreate()
 {
+	CResMgr* pResMgr = CResMgr::GetInst();
+
 	for (int i = 0; i < 1; ++i)
 	{
 		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
@@ -81,7 +90,7 @@ void ManualEdit::TestCreate()
 
 		float randx = CRandMgr::GetInst()->GetRand<float>(-640.f, 640.f);
 		float randy = CRandMgr::GetInst()->GetRand<float>(-320.f, 320.f);
-		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f), 1);
+		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f));
 
 		CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_SCRIPT::FSM_MOVE_GROUND));
 
@@ -89,7 +98,7 @@ void ManualEdit::TestCreate()
 	}
 
 	{
-		Ptr<CPrefab> CCPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
+		Ptr<CPrefab> CCPrefab = pResMgr->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
 		CGameObject* CommandCenter = CCPrefab->Instantiate();
 		Ptr<CMaterial> pMtrl = CommandCenter->RenderComponent()->GetCurMaterial();
 
@@ -97,11 +106,19 @@ void ManualEdit::TestCreate()
 	}
 
 	{
-		Ptr<CPrefab> pPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::strKey_PREFAB::MINERAL);
+		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::strKey_PREFAB::MINERAL);
 
 		CGameObject* Mineral = pPrefab->Instantiate();
 		
 		EventDispatcher::SpawnGameObject(Mineral, Vec3(100.f, 100.f, 100.f), SC::LAYER_INFO::GroundUnitMain);
+	}
+
+
+	//Map Object
+	{
+		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::strKey_PREFAB::MAPOBJ);
+		assert(nullptr != pPrefab);
+		EventDispatcher::SpawnGameObject(pPrefab->Instantiate(), Vec3::Zero);
 	}
 }
 
@@ -360,91 +377,6 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	pPrefab->Save(_strKey);
 }
 
-void ManualEdit::Resources_Anim_Save()
-{
-	//CResMgr* pResMgr = CResMgr::GetInst();
-
-	////Mineral01
-	//{
-	//	Ptr<CTexture> Mineral01 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
-	//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-
-	//	Atlas->SetAtlasTexture(Mineral01);
-	//	Atlas->SetNewAnimUV(4u, 1u);
-
-	//	vector<UINT> vecFrame;
-	//	vecFrame.push_back(0u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_WEAR_0, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(1u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_2, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(2u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_1, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(3u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_0, vecFrame, 0.1f);
-
-	//	Atlas->Save(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
-	//}
-
-	////Mineral02
-	//{
-	//	Ptr<CTexture> Mineral01 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN02_BMP);
-	//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-
-	//	Atlas->SetAtlasTexture(Mineral01);
-	//	Atlas->SetNewAnimUV(4u, 1u);
-
-	//	vector<UINT> vecFrame;
-	//	vecFrame.push_back(0u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_3, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(1u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_2, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(2u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_1, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(3u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_0, vecFrame, 0.1f);
-
-	//	Atlas->Save(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
-	//}
-
-	////Mineral03
-	//{
-	//	Ptr<CTexture> Mineral01 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN03_BMP);
-	//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-
-	//	Atlas->SetAtlasTexture(Mineral01);
-	//	Atlas->SetNewAnimUV(4u, 1u);
-
-	//	vector<UINT> vecFrame;
-	//	vecFrame.push_back(0u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_3, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(1u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_2, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(2u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_1, vecFrame, 0.1f);
-
-	//	vecFrame.clear();
-	//	vecFrame.push_back(3u);
-	//	Atlas->AddAnim2D(SC::strKey_Anim::Neutral::MINERAL_REMAIN_0, vecFrame, 0.1f);
-
-	//	Atlas->Save(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
-	//}
-}
 
 void ManualEdit::Resources_Prefab_Save()
 {
@@ -454,14 +386,12 @@ void ManualEdit::Resources_Prefab_Save()
 	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::MINERAL_FIELD_TYPE_1));
 	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
 
-
-
 	//Collider
 	{
 		CCollider2D_Rect* pCol = new CCollider2D_Rect;
 		pObj->AddComponent(pCol);
 
-		SC_Func::SetSCBuildingSize(pCol, 2, 2, Vec4(0.f));
+		SC_Func::SetSCBuildingSize(pCol, 2, 1, Vec4(0.f));
 	}
 
 
@@ -517,6 +447,33 @@ void ManualEdit::Resources_Prefab_Save()
 	Ptr<CPrefab> pPrefab = new CPrefab;
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(SC::strKey_PREFAB::MINERAL);
+}
+
+void ManualEdit::Map_Prefab_Save()
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	CGameObject* pObj = new CGameObject;
+	pObj->SetName(SC::strKey_PREFAB::MAPOBJ);
+	pObj->SetLayer(SC::LAYER_INFO::TileMap);
+
+	//MeshRender
+	{
+		//재질과 메쉬는 해당 클래스에서 설정함.
+		CTilemap_SC* TilemapComp = new CTilemap_SC;
+		pObj->AddComponent(TilemapComp);
+	}
+
+	//Script
+	{
+		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
+
+		pObj->AddScript(pScriptMgr->GetNewScript(strKey_SCRIPT::TILEMAPLOADUNIT));
+	}
+
+	Ptr<CPrefab> pPrefab = new CPrefab;
+	pPrefab->RegisterPrefab(pObj);
+	pPrefab->Save(SC::strKey_PREFAB::MAPOBJ);
 }
 
 Ptr<CAnim2DAtlas> ManualEdit::LoadAnim(const string& _strKey)

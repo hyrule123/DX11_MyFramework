@@ -22,6 +22,8 @@
 
 #include <Engine/CRandMgr.h>
 
+#include <Script/define_SC.h>
+
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
 	, m_pTestObj()
@@ -35,9 +37,6 @@ CUIobj_TestWindow::~CUIobj_TestWindow()
 
 void CUIobj_TestWindow::init()
 {
-	CreateTestObj();
-
-
     CUI_Button* pButton = (CUI_Button*)FindChildUIByName("TestButton");
 
 	CUI_ComboBox* pCombo = new CUI_ComboBox("MapChange");
@@ -95,6 +94,9 @@ void CUIobj_TestWindow::init()
 
 void CUIobj_TestWindow::render_update()
 {
+	if (nullptr == m_pTestObj)
+		FindTestObj();
+
 	if (ImGui::Button("Save GameObject"))
 	{
 		std::filesystem::path TestSave = "ParentTest.json";
@@ -115,7 +117,7 @@ void CUIobj_TestWindow::render_update()
 		delete pPrefab;
 	}
 
-	if (ImGui::Button("Load GameObjet"))
+	if (ImGui::Button("Load GameObject"))
 	{
 		Ptr<CPrefab> prefab = CResMgr::GetInst()->Load<CPrefab>("ParentTest.json");
 
@@ -163,16 +165,9 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 	}
 }
 
-void CUIobj_TestWindow::CreateTestObj()
+void CUIobj_TestWindow::FindTestObj()
 {
-	//Ptr<CTexture> MapTex = pMapLoader->GetMap();
+	m_pTestObj = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(SC::strKey_PREFAB::MAPOBJ);
 
-	m_pTestObj = new CGameObject;
-
-	m_pTestObj->SetName("MapObj");
-	
-	CTilemap_SC* TilemapComp = new CTilemap_SC;
-	m_pTestObj->AddComponent(TilemapComp);
-
-	EventDispatcher::SpawnGameObject(m_pTestObj, Vec3(0.f, 0.f, 1000.f), 0);
+	assert(m_pTestObj);
 }

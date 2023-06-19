@@ -10,11 +10,11 @@
 
 //트랜스폼 상속
 #include "CTransform.h"
+#include "CTilemap_SC.h"
+
 
 //생명주기 계산용
 #include "CTimeMgr.h"
-
-#include "CTransform.h"
 
 #include "strKey_Default.h"
 #include "jsoncpp.h"
@@ -445,6 +445,7 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 			case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
 				break;
 			case eCOMPONENT_TYPE::TILEMAP:
+				pCom = new CTilemap_SC;
 				break;
 			case eCOMPONENT_TYPE::LANDSCAPE:
 				break;

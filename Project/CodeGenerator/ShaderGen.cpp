@@ -283,7 +283,7 @@ void CreateComputeShaderCode(std::ofstream& _outFile_StrKey)
 
 					std::ifstream fHLSL(hlslFile);
 					if (fHLSL.is_open())
-					{
+					{	
 						string strLine;
 						while (std::getline(fHLSL, strLine))
 						{

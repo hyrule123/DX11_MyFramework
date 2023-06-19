@@ -18,6 +18,6 @@ private:
 
 private:
     void LoadMapData(const struct tComboItem& _tCombo);
-    void CreateTestObj();
+    void FindTestObj();
 };
 

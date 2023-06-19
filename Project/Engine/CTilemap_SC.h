@@ -29,6 +29,6 @@ public:
 private:
     std::function<void(const SC_Map::tMapData&)> m_funcLoadUnit;
 public:
-    void SetFunc_LoadUnit(std::function<void(const SC_Map::tMapData&)> _func) { m_funcLoadUnit = _func; }
+    void SetFunc_LoadUnit(std::function<void(const SC_Map::tMapData&)> _pFunc) { m_funcLoadUnit = _pFunc; }
 };
 

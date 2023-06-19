@@ -1,0 +1,72 @@
+{
+	"GameObject" : 
+	{
+		"m_arrCom" : 
+		[
+			{
+				"bInheritRot" : true,
+				"bInheritScale" : true,
+				"bLockRot" : false,
+				"eComponentType" : 0,
+				"v3RelativePos" : 
+				[
+					0,
+					0,
+					0
+				],
+				"v3RelativeRot" : 
+				[
+					0,
+					0,
+					0
+				],
+				"v3RelativeScale" : 
+				[
+					1065353216,
+					1065353216,
+					1065353216
+				],
+				"v3Size" : 
+				[
+					1120403456,
+					1120403456,
+					1120403456
+				]
+			},
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			{
+				"eComponentType" : 10,
+				"strKeyMesh" : "RectMesh",
+				"strKeyMtrl" : "TilemapComplete.json"
+			},
+			null,
+			null,
+			{
+				"eComponentType" : 13,
+				"m_vecScript_strKey" : 
+				[
+					{
+						"CScript_TilemapLoadUnit" : 
+						{
+							"strName" : ""
+						}
+					}
+				]
+			}
+		],
+		"m_fLifeSpan" : -8388609,
+		"m_iLayerIdx" : 1,
+		"m_vecChild_PREFAB" : [],
+		"strName" : "MapObj"
+	},
+	"eRES_TYPE" : 6,
+	"strName" : ""
+}

@@ -77,7 +77,9 @@
     <ClInclude Include="CScript_TilemapLoadUnit.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
-    <ClInclude Include="CScript_Mineral.h" />
+    <ClInclude Include="CScript_Mineral.h">
+      <Filter>ScriptCode\SC\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -128,6 +130,11 @@
     <ClCompile Include="CScript_TilemapLoadUnit.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_Mineral.cpp" />
+    <ClCompile Include="CScript_Mineral.cpp">
+      <Filter>ScriptCode\SC\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

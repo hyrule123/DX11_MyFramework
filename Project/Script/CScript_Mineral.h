@@ -28,6 +28,8 @@ public:
 private:
     int m_iMineralMax;
     GETTER_SETTER(int, m_iMineralMax, MineralRemain);
+    int m_iMineralsEachLevel;
+
 private:
     int m_iCurMineral;
 
