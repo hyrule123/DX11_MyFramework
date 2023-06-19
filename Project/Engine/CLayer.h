@@ -39,13 +39,10 @@ public:
 
     
 private:
-    float   m_fDepthPreset;
     bool    m_bEnableYsorting;
 public:
     //이 값의 간격을 너무 좁게하면 YSorting과 동시에 사용 시 깊이 판정에 에러가 발생할 수 있음.
-    void SetDepthPreset(float _fDepthPreset, bool _bEnableYsorting) { m_fDepthPreset = _fDepthPreset; m_bEnableYsorting = _bEnableYsorting; }
-    void SetDepthPresetOff() { m_fDepthPreset = DEPTH_PRESET_MAX - 100.f; }
-    float GetDepthPreset() const { return m_fDepthPreset; }
+    void SetDepthPreset(float _fDepthPreset, bool _bEnableYsorting) { m_bEnableYsorting = _bEnableYsorting; }
 
     bool IsYsorting() const { return m_bEnableYsorting; }
 
