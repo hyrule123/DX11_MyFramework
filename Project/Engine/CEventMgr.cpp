@@ -16,7 +16,20 @@ CEventMgr::CEventMgr()
 
 CEventMgr::~CEventMgr()
 {
-
+	//이벤트 매니저에 이벤트가 남아있을 경우 여기에만 포인터가 남아 있으면 메모리 릭이 발생한다
+	if (false == m_vecEvent.empty())
+	{
+		size_t size = m_vecEvent.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			//오브젝트 생성 = 여기서만 주소를 들고 있으므로 메모리릭 발생 위험성 있음
+			if (eEVENT_TYPE::SPAWN_OBJECT == m_vecEvent[i].Type)
+			{
+				CGameObject* pObj = reinterpret_cast<CGameObject*>(m_vecEvent[i].lParam);
+				SAFE_DELETE(pObj);
+			}
+		}
+	}
 }
 
 void CEventMgr::SpawnNewGameObj(const tGameEvent& _event)
@@ -99,7 +112,7 @@ void CEventMgr::ProcessEvent()
 	{
 		switch (m_vecEvent[i].Type)
 		{
-		case eEVENT_TYPE::CREATE_OBJECT:
+		case eEVENT_TYPE::SPAWN_OBJECT:
 			SpawnNewGameObj(m_vecEvent[i]);
 			break;
 		case eEVENT_TYPE::DELETE_OBJECT:

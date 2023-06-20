@@ -6,6 +6,12 @@
 #include <Engine/EventDispatcher.h>
 #include <Engine/CResMgr.h>
 
+//Unload
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
+#include <Engine/CLayer.h>
+#include <Engine/CGameObject.h>
+
 #include <Engine/S_H_SCUnitGround.hlsli>
 
 CScript_TilemapUnitLoader::CScript_TilemapUnitLoader(const string& _strKey)
@@ -23,42 +29,70 @@ void CScript_TilemapUnitLoader::init()
 	CTilemap_SC* pTilemapSC = dynamic_cast<CTilemap_SC*>(Tilemap());
 	assert(pTilemapSC);
 
-	pTilemapSC->SetFunc_LoadUnit(std::bind(&CScript_TilemapUnitLoader::LoadUnit, this, std::placeholders::_1));
+	std::function<void(const SC_Map::tMapData&)> pFuncLoad = std::bind(&CScript_TilemapUnitLoader::LoadUnit, this, std::placeholders::_1);
+	std::function<void(void)> pFuncUnload = std::bind(&CScript_TilemapUnitLoader::UnloadUnit, this);
+
+	pTilemapSC->SetFunc_LoadUnit(pFuncLoad, pFuncUnload);
 }
 
 void CScript_TilemapUnitLoader::LoadUnit(const SC_Map::tMapData& _data)
 {
 	using namespace SC_Map;
 	using namespace SC;
-	UINT16 Mineral1 = (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_1;
-	UINT16 Mineral2 = (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_2;
-	UINT16 Mineral3 = (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_3;
+
 
 	size_t size = _data.vecUnitData.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		const tUnitData& unit = _data.vecUnitData[i];
-		
-		//미네랄 1 ~ 3 은 같은 프리팹을 사용(내부 변수만 바꿔주면 됨)
-		if (Mineral1 <= unit.ID && unit.ID <= Mineral3)
+
+		int MineralType = 0;
+		switch (unit.ID)
 		{
-			Ptr<CPrefab> MPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(eUNIT_ID::MINERAL_FIELD_TYPE_1));
-			
-			assert(nullptr != MPrefab);
+		case (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_1:
+			MineralType = (int)eMINERAL_ATLAS_TYPE::_1;
+		case (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_2:
+			MineralType = (int)eMINERAL_ATLAS_TYPE::_2;
+		case (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_3:
+			MineralType = (int)eMINERAL_ATLAS_TYPE::_3;
+			{
+				Ptr<CPrefab> MPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(eUNIT_ID::MINERAL_FIELD_TYPE_1));
 
-			CGameObject* pMineral = MPrefab->Instantiate();
-			EventDispatcher::SpawnGameObject(pMineral, Vec3((float)unit.PosX, -(float)unit.PosY, 10.f), LAYER_INFO::GroundUnitMain);
+				assert(nullptr != MPrefab);
 
-			int MineralType = 0;
+				CGameObject* pMineral = MPrefab->Instantiate();
+				EventDispatcher::SpawnGameObject(pMineral, Vec3((float)unit.PosX, -(float)unit.PosY, 10.f));
 
-			if (Mineral1 == unit.ID)
-				MineralType = (int)eMINERAL_ATLAS_TYPE::_1;
-			else if (Mineral2 == unit.ID)
-				MineralType = (int)eMINERAL_ATLAS_TYPE::_2;
-			else if (Mineral3 == unit.ID)
-				MineralType = (int)eMINERAL_ATLAS_TYPE::_3;
+				pMineral->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
+			}
+			break;
 
-			pMineral->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
+		case (UINT16)SC::eUNIT_ID::VESPENE_GEYSER:
+		{
+			Ptr<CPrefab> VPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(eUNIT_ID::VESPENE_GEYSER));
+
+			assert(nullptr != VPrefab);
+
+			CGameObject* pVespene = VPrefab->Instantiate();
+			EventDispatcher::SpawnGameObject(pVespene, Vec3((float)unit.PosX, -(float)unit.PosY, 10.f));
+		}
+		break;
+
+
+		default:
+			break;
 		}
 	}
 }
+
+void CScript_TilemapUnitLoader::UnloadUnit()
+{
+	CLayer& ResourceLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(SC::LAYER_INFO::Resource);
+	const vector<CGameObject*>& vecObj = ResourceLayer.GetvecObj();
+	size_t size = vecObj.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		EventDispatcher::DestroyGameObj(vecObj[i]);
+	}
+}
+

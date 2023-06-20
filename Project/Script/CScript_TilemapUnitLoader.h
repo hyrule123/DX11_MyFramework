@@ -18,5 +18,6 @@ public:
 
 private:
     void LoadUnit(const SC_Map::tMapData& _pMapData);
+    void UnloadUnit();
 };
 

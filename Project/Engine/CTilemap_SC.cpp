@@ -7,6 +7,13 @@
 
 #include "CTransform.h"
 
+//유닛 로드 및 언로드 용
+#include "CLevelMgr.h"
+#include "CLevel.h"
+#include "CLayer.h"
+#include "EventDispatcher.h"
+#include "CGameObject.h"
+
 using namespace SC_Map;
 
 CTilemap_SC::CTilemap_SC()
@@ -82,7 +89,13 @@ bool CTilemap_SC::LoadMap(const string& _strMapName)
 	if (true == m_bMapLoaded && _strMapName == m_tMapData.strMapName)
 		return true;
 
+	if (m_bUnitLoaded)
+	{
+		assert(m_funcUnloadUnit);
+		m_funcUnloadUnit();
+	}
 	m_bUnitLoaded = false;
+	
 
 	Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(string(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER));
 
@@ -122,6 +135,7 @@ bool CTilemap_SC::LoadMap(const string& _strMapName)
 
 	return m_bMapLoaded;
 }
+
 
 
 

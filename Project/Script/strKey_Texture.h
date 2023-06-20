@@ -246,12 +246,8 @@ namespace strKey_TEXTURE
 	}
 	namespace THINGY
 	{
-		STRKEY GEYSMOK1_VESPENEGEYSER__BMP = "SC/thingy/geysmok1(VespeneGeyser).bmp";
-		STRKEY GEYSMOK2_VESPENEGEYSER__BMP = "SC/thingy/geysmok2(VespeneGeyser).bmp";
-		STRKEY GEYSMOK3_VESPENEGEYSER__BMP = "SC/thingy/geysmok3(VespeneGeyser).bmp";
-		STRKEY GEYSMOK4_VESPENEGEYSER__BMP = "SC/thingy/geysmok4(VespeneGeyser).bmp";
-		STRKEY GEYSMOK5_VESPENEGEYSER__BMP = "SC/thingy/geysmok5(VespeneGeyser).bmp";
-		STRKEY GEYSMOS1_VESPENEGEYSER__BMP = "SC/thingy/geysmos1(VespeneGeyser).bmp";
+		STRKEY VSMOKE_GEYSMOK1__BMP = "SC/thingy/VSmoke(geysmok1).bmp";
+		STRKEY VSMOKEDEPLETE_GEYSMOK4__BMP = "SC/thingy/VSmokeDeplete(geysmok4).bmp";
 	}
 	namespace NEUTRAL
 	{
@@ -260,6 +256,7 @@ namespace strKey_TEXTURE
 		STRKEY GASTANK_BMP = "SC/Neutral/gastank.bmp";
 		STRKEY GENERATE_GENERATOR__BMP = "SC/Neutral/Generate(Generator).bmp";
 		STRKEY GEYSER_BMP = "SC/Neutral/geyser.bmp";
+		STRKEY GEYSER_ORIGINAL_BMP = "SC/Neutral/geyser_Original.bmp";
 		STRKEY GEYSHAD_BMP = "SC/Neutral/geyshad.bmp";
 		STRKEY MIN01_BMP = "SC/Neutral/min01.bmp";
 		STRKEY MIN01SHA_BMP = "SC/Neutral/min01sha.bmp";

@@ -97,8 +97,6 @@ namespace SC
 		namespace Terran
 		{
 			STRKEY_DECLARE(CONSTRUCTION_LARGE);
-
-
 		}
 
 		namespace Neutral
@@ -108,10 +106,8 @@ namespace SC
 			STRKEY_DECLARE(MINERAL_WEAR_2);
 			STRKEY_DECLARE(MINERAL_WEAR_3);
 
-			STRKEY_DECLARE(VESPENE_NORMAL);
-			STRKEY_DECLARE(VESPENE_DEPLETE);
-
-
+			STRKEY_DECLARE(VESPENE_SMOKE_1);
+			STRKEY_DECLARE(VESPENE_SMOKE_1_DEPLETE);
 		}
 	}
 
@@ -120,6 +116,7 @@ namespace SC
 	{
 		STRKEY MINERAL = "Mineral";
 		STRKEY MAPOBJ = "MapObj";
+		STRKEY VESPENE_SMOKE = "Vespene_Smoke";
 	}
 
 
@@ -138,7 +135,7 @@ namespace SC
 			GroundUnitShadow,
 			_04,
 			GroundUnitBack,
-			_06,
+			Resource,
 			GroundUnitMain,
 			GroundUnitTop,
 			GroundUnitEffects,
@@ -174,7 +171,7 @@ namespace SC
 		"GroundUnitShadow",	//03
 		"",	//04
 		"GroundUnitBack",	//05
-		"",	//06
+		"Resource",	//06
 		"GroundUnitMain",	//07
 		"GroundUnitTop",	//08
 		"GroundUnitEffects",	//09

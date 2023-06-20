@@ -53,14 +53,14 @@ private:
     bool    m_bInheritScale;
     bool    m_bInheritRot;
     bool    m_bLockRotation; //자신의 회전 방지
-    
+
     //자신의 사이즈 정보가 반영되지 않은 행렬
     //자식 Transform에 값을 넘겨줄 떄 이 행렬로 넘겨줘야 해서 별도로 분리함.
     Matrix  m_matWorldWithoutSize;
 
     //부모로부터 상속받아 최종적으로 만들어진 월드행렬
     Matrix  m_matWorld;
-    
+
 
     //상속 형태로 업데이트가 필요한지 여부를 저장.
     //위치가 변하지 않았는데 굳이 월드행렬을 업데이트 할 필요가 없음.
@@ -129,6 +129,9 @@ public:
 
     const Vec3& GetRelativePos() const { return m_v3RelativePos; }
     Vec3 GetWorldPos() const { return Vec3(m_matWorldWithoutSize.m[3]); }
+    float GetWorldPosX() const { return m_matWorldWithoutSize.m[3][0]; }
+    float GetWorldPosY() const { return m_matWorldWithoutSize.m[3][1]; }
+    float GetWorldPosZ() const { return m_matWorldWithoutSize.m[3][2]; }
     const Vec3& GetRelativeScale() const { return m_v3RelativeScale; }
     Vec3 GetWorldScale() const;
     const Vec3& GetRelativeRot() const { return m_v3RelativeRot; }

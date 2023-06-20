@@ -64,8 +64,15 @@ void CreateMainGame()
 
 		bool bYSort = false;
 
-		if (i == (int)SC::LAYER_INFO::GroundUnitMain)
+		switch (i)
+		{
+		case (int)SC::LAYER_INFO::GroundUnitMain:
+		case (int)SC::LAYER_INFO::Resource:
 			bYSort = true;
+
+		default:
+			break;
+		}
 
 		Layer.SetPresetZDepth_Ysort((MAX_LAYER - 1 - i) * LAYER_2D_Z_INTERVAL, bYSort);
 	}
@@ -73,6 +80,7 @@ void CreateMainGame()
 	//Layer Z 정보 세팅
 	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::LAYER_INFO::MouseCursor);
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::GroundUnitMain);
+	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::Resource, SC::LAYER_INFO::GroundUnitMain);
 
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
 
@@ -81,7 +89,7 @@ void CreateMainGame()
 	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
 
 	{
-		// Camera
+		// Camera	
 		CGameObject* pObj = new CGameObject;
 		pObj->SetName("Camera");
 		CCamera* Cam = new CCamera;

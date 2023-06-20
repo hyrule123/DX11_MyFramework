@@ -16,6 +16,8 @@ public:
     void init() override;
     void tick() override;
 
+    void render_update() override;
+
 private:
     CGameObject* m_pTarget;
     CUIobj_Component* m_arrComUI[(UINT)eCOMPONENT_TYPE::END];

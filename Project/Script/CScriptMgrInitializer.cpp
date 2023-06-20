@@ -21,6 +21,8 @@
 #include "CScript_SCEntity.h"
 #include "CScript_SCUnitVital.h"
 #include "CScript_TestObj.h"
+#include "CScript_Vespene.h"
+#include "CScript_VespeneSmoke.h"
 
 void CScriptMgrInitializer::init()
 {
@@ -88,6 +90,16 @@ void CScriptMgrInitializer::init()
 	{
 		string strKey = string(strKey_SCRIPT::TESTOBJ);
 		CScript* newScript = new CScript_TestObj(strKey);
+		pMgr->AddBaseScript(strKey, newScript);
+	}
+	{
+		string strKey = string(strKey_SCRIPT::VESPENE);
+		CScript* newScript = new CScript_Vespene(strKey);
+		pMgr->AddBaseScript(strKey, newScript);
+	}
+	{
+		string strKey = string(strKey_SCRIPT::VESPENESMOKE);
+		CScript* newScript = new CScript_VespeneSmoke(strKey);
 		pMgr->AddBaseScript(strKey, newScript);
 	}
 }

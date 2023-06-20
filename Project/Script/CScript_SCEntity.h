@@ -27,6 +27,8 @@ public:
 
 
 public:
+    DECLARE_GETTER_SETTER(SC::eUNIT_ID, m_eUnitID, UnitID);
+
     //종족 정보
     DECLARE_GETTER_SETTER(SC::eRACE, m_eRace, Race);
     DECLARE_GETTER_SETTER(UINT, m_uPopulation, Population);

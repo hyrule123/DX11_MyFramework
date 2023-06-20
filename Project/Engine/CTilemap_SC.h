@@ -28,7 +28,16 @@ public:
 
 private:
     std::function<void(const SC_Map::tMapData&)> m_funcLoadUnit;
+    std::function<void(void)> m_funcUnloadUnit;
 public:
-    void SetFunc_LoadUnit(std::function<void(const SC_Map::tMapData&)> _pFunc) { m_funcLoadUnit = _pFunc; }
+    void SetFunc_LoadUnit(std::function<void(const SC_Map::tMapData&)> _pFuncLoad, std::function<void(void)> _pFuncUnload);
+    
 };
 
+
+inline void CTilemap_SC::SetFunc_LoadUnit(std::function<void(const SC_Map::tMapData&)> _pFuncLoad, std::function<void(void)> _pFuncUnload)
+{
+    assert(_pFuncLoad && _pFuncUnload);
+    m_funcLoadUnit = _pFuncLoad; 
+    m_funcUnloadUnit = _pFuncUnload;
+}

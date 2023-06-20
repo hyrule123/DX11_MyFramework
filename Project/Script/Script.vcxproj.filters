@@ -80,6 +80,12 @@
     <ClInclude Include="CScript_Mineral.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
+    <ClInclude Include="CScript_VespeneSmoke.h">
+      <Filter>ScriptCode\SC\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript_Vespene.h">
+      <Filter>ScriptCode\SC\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -131,6 +137,12 @@
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
     <ClCompile Include="CScript_Mineral.cpp">
+      <Filter>ScriptCode\SC\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript_VespeneSmoke.cpp">
+      <Filter>ScriptCode\SC\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript_Vespene.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
   </ItemGroup>

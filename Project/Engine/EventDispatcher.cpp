@@ -19,7 +19,7 @@ void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos,
 
 
 	tGameEvent evn = {};
-	evn.Type = eEVENT_TYPE::CREATE_OBJECT;
+	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pNewObject);
 
 	CEventMgr::GetInst()->AddEvent(evn);

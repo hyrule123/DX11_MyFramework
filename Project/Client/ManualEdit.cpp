@@ -70,7 +70,13 @@ void ManualEdit::Edit()
 
 	//Mineral
 	{
-		Resources_Prefab_Save();
+		Mineral_Prefab_Save();
+	}
+
+	//Gas
+	{
+		Vespene_Anim_Save();
+		Vespene_Prefab_Save();
 	}
 
 	//Map
@@ -105,12 +111,21 @@ void ManualEdit::TestCreate()
 		EventDispatcher::SpawnGameObject(CommandCenter, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::GroundUnitMain);
 	}
 
+
+	//Mineral
 	{
 		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::strKey_PREFAB::MINERAL);
 
 		CGameObject* Mineral = pPrefab->Instantiate();
 		
-		EventDispatcher::SpawnGameObject(Mineral, Vec3(100.f, 100.f, 100.f), SC::LAYER_INFO::GroundUnitMain);
+		EventDispatcher::SpawnGameObject(Mineral, Vec3(100.f, 100.f, 100.f));
+	}
+
+	//Vespene
+	{
+		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
+		CGameObject* Vespene = pPrefab->Instantiate();
+		EventDispatcher::SpawnGameObject(Vespene, Vec3(0.f, 100.f, 100.f));
 	}
 
 
@@ -305,7 +320,6 @@ void ManualEdit::CommandCenter_Anim_Save()
 		//Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 		//Atlas->SetKey(pTex->GetKey());
 	}
-
 }
 
 void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
@@ -378,13 +392,13 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 }
 
 
-void ManualEdit::Resources_Prefab_Save()
+void ManualEdit::Mineral_Prefab_Save()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	CGameObject* pObj = new CGameObject;
 	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::MINERAL_FIELD_TYPE_1));
-	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
+	pObj->SetLayer(SC::LAYER_INFO::Resource);
 
 	//Collider
 	{
@@ -449,6 +463,172 @@ void ManualEdit::Resources_Prefab_Save()
 	pPrefab->Save(SC::strKey_PREFAB::MINERAL);
 }
 
+void ManualEdit::Vespene_Anim_Save()
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	//일반 연기
+	{
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::THINGY::VSMOKE_GEYSMOK1__BMP);
+		assert(nullptr != pTex);
+		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Atlas->SetKey(pTex->GetKey());
+
+		Atlas->SetAtlasTexture(pTex);
+
+		Atlas->SetNewAnimUV(8u, 1u);
+
+		vector<UINT> vecIdx;
+		for (int i = 0; i < 8; ++i)
+		{
+			vecIdx.push_back(i);
+		}
+		
+		Atlas->AddAnim2D(SC::strKey_Anim::Neutral::VESPENE_SMOKE_1, vecIdx, 0.7f);
+		vecIdx.clear();
+
+		Atlas->Save(Atlas->GetKey());
+	}
+
+	//고갈 연기
+	{
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::THINGY::VSMOKEDEPLETE_GEYSMOK4__BMP);
+		assert(nullptr != pTex);
+		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Atlas->SetKey(pTex->GetKey());
+
+		Atlas->SetAtlasTexture(pTex);
+
+		Atlas->SetNewAnimUV(8u, 1u);
+
+		vector<UINT> vecIdx;
+		for (int i = 0; i < 8; ++i)
+		{
+			vecIdx.push_back(i);
+		}
+
+		Atlas->AddAnim2D(SC::strKey_Anim::Neutral::VESPENE_SMOKE_1_DEPLETE, vecIdx, 1.f);
+		vecIdx.clear();
+
+		Atlas->Save(Atlas->GetKey());
+	}
+}
+
+void ManualEdit::Vespene_Prefab_Save()
+{
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	CGameObject* pObj = new CGameObject;
+	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
+	pObj->SetLayer(SC::LAYER_INFO::Resource);
+
+	//Collider
+	{
+		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+		pObj->AddComponent(pCol);
+
+		pCol->SetFollowTransformSize(false);
+		SC_Func::SetSCBuildingSize(pCol, 4, 2, Vec4(0.f, 0.f, 0.f, 0.f));
+	}
+
+	//Transform
+	{
+		pObj->Transform()->SetSize(pObj->Collider2D()->GetCollSize());
+	}
+
+
+	//MeshRender
+	{
+		CMeshRender* pRenderCom = new CMeshRender;
+		pObj->AddComponent(pRenderCom);
+
+		//Material
+		Ptr<CMaterial> pMtrl = new CMaterial;
+		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));//프리팹 키와 동일한 키를 사용
+		pRenderCom->SetMaterial(pMtrl);
+		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
+		pMtrl->SetShader(pShader);
+
+		Ptr<CTexture> VespeneTex = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::GEYSER_BMP);
+		assert(nullptr != VespeneTex);
+		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, VespeneTex);
+
+		//Mesh
+		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		pRenderCom->SetMesh(pMesh);
+	}
+
+	//Script
+	{
+		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
+
+		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::VESPENE));
+		pObj->AddScript(pSCEntity);
+
+		//가스 스크립트 추가할것
+	}
+
+
+	//Child
+	constexpr int numSmoke = 3;
+	for(int i = 0; i < numSmoke; ++i)
+	{	
+		CGameObject* pChild = new CGameObject;
+		pChild->SetName(SC::strKey_PREFAB::VESPENE_SMOKE);
+		pChild->SetLayer(SC::LAYER_INFO::Resource);
+
+		pObj->AddChildGameObj(pChild);
+
+		//Transform
+		{
+			//셋 다 동일한 프리팹 파일을 사용하기 때문에 현재 구조상 스크립트에서 위치를 직접 설정해줘야 함
+			pChild->Transform()->SetRelativePosXY(Vec2(0.f, 0.f));
+		}
+
+		//CAnimator2D
+		{
+			CAnimator2D* pAnim = new CAnimator2D;
+			pChild->AddComponent(pAnim);
+
+			Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::THINGY::VSMOKE_GEYSMOK1__BMP);
+			pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
+
+
+			pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::THINGY::VSMOKEDEPLETE_GEYSMOK4__BMP);
+			pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_1, pAtlas);
+		}
+
+		//MeshRender
+		{
+			CMeshRender* pRenderCom = new CMeshRender;
+			pChild->AddComponent(pRenderCom);
+
+			//Material
+			Ptr<CMaterial> pMtrl = new CMaterial;
+			pMtrl->SetKey(SC::strKey_PREFAB::VESPENE_SMOKE);//프리팹 키와 똑같은 키를 사용
+			pRenderCom->SetMaterial(pMtrl);
+			Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
+			pMtrl->SetShader(pShader);
+
+			//Mesh
+			Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+			pRenderCom->SetMesh(pMesh);
+		}
+
+		//Script
+		{
+			CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
+
+			CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::VESPENESMOKE));
+			pChild->AddScript(pSCEntity);
+		}
+	}
+
+	Ptr<CPrefab> pPrefab = new CPrefab;
+	pPrefab->RegisterPrefab(pObj);
+	pPrefab->Save(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
+}
+
 void ManualEdit::Map_Prefab_Save()
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
@@ -492,27 +672,3 @@ Ptr<CPrefab> ManualEdit::LoadPrefab(const string& _strKey)
 	return pPrefab;
 }
 
-
-
-//CResMgr* pResMgr = CResMgr::GetInst();
-//Reaver
-//{
-//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(strKey_TEXTURE::)));
-
-//	Atlas->SetNewAnimUV_SC_Redundant(9u, 0u, 9u);
-//	Atlas->AddAnim2D_SC_Redundant("MOVE", 0u, 9u, 1.f);
-
-//	pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::), Atlas);
-//}
-
-//Corsair
-//{
-//	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
-//	Atlas->SetAtlasTexture(pResMgr->FindRes<CTexture>(string(RES_TEXTURE::CORSAIR_BMP)));
-
-//	Atlas->SetNewAnimUV(17u, 5u, 0u, 17u, 0u, 5u);
-//	Atlas->AddAnim2D("MOVE", 0u, 17u, 0u, 5u, 0.3f, eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP);
-
-//	pResMgr->AddRes<CAnim2DAtlas>(string(RES_TEXTURE::CORSAIR_BMP), Atlas);
-//}

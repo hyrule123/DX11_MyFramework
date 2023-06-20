@@ -32,6 +32,5 @@ private:
 
 private:
     int m_iCurMineral;
-
 };
 

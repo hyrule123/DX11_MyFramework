@@ -55,14 +55,14 @@ void CLayer::AddGameObject(CGameObject* _Object)
 	m_vecObject.push_back(_Object);
 
 	_Object->SetLayer(m_iLayerIdx);
-
+		
 	//프리셋 깊이가 설정되어 있을 경우
 	if (FLT_MAX_NEGATIVE < m_fPresetZDepth)
 	{
 		if (_Object->IsMaster())
 			_Object->Transform()->SetRelativePosZ(m_fPresetZDepth);
 		else
-			_Object->Transform()->SetRelativePosZ(2.f);
+			_Object->Transform()->SetRelativePosZ(-1.f);
 	}
 }
 

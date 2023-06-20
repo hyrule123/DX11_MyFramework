@@ -592,7 +592,8 @@ void CGameObject::AddScript(CScript* _Script)
 
 void CGameObject::AddChildGameObj(CGameObject* _Object)
 {
-	assert(_Object);
+	//nullptr이나 자기 자신을 인자로 호출했을 경우 오류 발생			
+	assert(_Object && this != _Object);
 	if (nullptr != (_Object->GetParent()))
 		_Object->GetParent()->RemoveChild(_Object);
 

@@ -20,8 +20,11 @@ private:
 	//Command Center
 	static void CommandCenter_Anim_Save();
 	static void CommandCenter_Prefab_Save(const string& _strKey);
-	
-	static void Resources_Prefab_Save();
+
+	static void Mineral_Prefab_Save();
+
+	static void Vespene_Anim_Save();
+	static void Vespene_Prefab_Save();
 
 	static void Map_Prefab_Save();
 

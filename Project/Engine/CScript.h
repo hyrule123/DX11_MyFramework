@@ -43,6 +43,12 @@ private:
 public:
     virtual void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }
     CScriptHolder* ScriptHolder() const { return m_pHolder; }
+
+private:
+    bool m_bEnable;
+public:
+    void SetEnable(bool _bEnable) { m_bEnable = _bEnable; }
+    bool GetEnable() const { return m_bEnable; }
     
 public:
     CTransform* Transform() const { return m_pHolder->Transform(); }

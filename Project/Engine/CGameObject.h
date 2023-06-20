@@ -284,6 +284,7 @@ inline const Vec4& CGameObject::GetMtrlScalarParam_Vec4(eMTRLDATA_PARAM_SCALAR _
 
 inline const MATRIX& CGameObject::GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCALAR _Param) const
 {
+
     switch (_Param)
     {
     case eMTRLDATA_PARAM_SCALAR::MAT_0: return m_MtrlScalarData.MAT_0;
@@ -299,12 +300,10 @@ inline const MATRIX& CGameObject::GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCAL
 }
 
 
-inline void CGameObject::YSort(float _MinZ)
+inline void CGameObject::YSort(float _MaxZ)
 {
     enum xyz { x, y, z };
-    //m_MtrlScalarData[(int)MTRL_SCALAR_MAT_WORLD];
-
-    m_MtrlScalarData.MAT_1.m[3][z] = _MinZ + (m_MtrlScalarData.MAT_1.m[3][y] / g_GlobalVal.v2Res.y);
+    m_MtrlScalarData.MAT_1.m[3][z] = _MaxZ - (m_MtrlScalarData.MAT_1.m[3][y] / g_GlobalVal.v2Res.y);
 }
 
 

@@ -28,8 +28,8 @@
 				],
 				"v3Size" : 
 				[
+					1124073472,
 					1115684864,
-					1119879168,
 					1065353216
 				]
 			},
@@ -45,8 +45,8 @@
 				],
 				"m_v3Size" : 
 				[
+					1124073472,
 					1115684864,
-					1107296256,
 					1065353216
 				]
 			},
@@ -59,7 +59,7 @@
 			{
 				"eComponentType" : 8,
 				"strKeyMesh" : "RectMesh",
-				"strKeyMtrl" : "Mineral"
+				"strKeyMtrl" : "VESPENE_GEYSER"
 			},
 			null,
 			null,
@@ -70,7 +70,7 @@
 				"m_vecScript_strKey" : 
 				[
 					{
-						"CScript_Mineral" : 
+						"CScript_Vespene" : 
 						{
 							"m_eKeyShortcut" : 0,
 							"m_eMoveType" : 0,
@@ -91,8 +91,13 @@
 		],
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 6,
-		"m_vecChild_PREFAB" : [],
-		"strName" : "Mineral"
+		"m_vecChild_PREFAB" : 
+		[
+			"Vespene_Smoke.json",
+			"Vespene_Smoke.json",
+			"Vespene_Smoke.json"
+		],
+		"strName" : "VESPENE_GEYSER"
 	},
 	"eRES_TYPE" : 6,
 	"strName" : ""

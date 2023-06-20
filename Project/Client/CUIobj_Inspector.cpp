@@ -22,6 +22,9 @@
 
 #include <Engine/jsoncpp.h>
 
+//Event Dispatcher
+#include <Engine/EventDispatcher.h>
+
 CUIobj_Inspector::CUIobj_Inspector()
 	: CUI_BasicWindow("Inspector")
 	, m_pTarget(nullptr)
@@ -74,19 +77,37 @@ void CUIobj_Inspector::init()
 
 void CUIobj_Inspector::tick()
 {
-	////매 tick마다 컴포넌트의 유뮤를 확인하여 갱신
-	//if (nullptr != m_pTarget)
-	//{
-	//	for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
-	//	{
-	//		bool b = nullptr != m_pTarget->GetComponent((eCOMPONENT_TYPE)i);
-	//		
-	//		if (nullptr != m_arrComUI[i])
-	//		{
-	//			m_arrComUI[i]->SetActive(b);
-	//		}
-	//	}
-	//}
+	//매 tick마다 컴포넌트의 유뮤를 확인하여 갱신
+	if (nullptr != m_pTarget)
+	{
+		for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
+		{
+			bool b = nullptr != m_pTarget->GetComponent((eCOMPONENT_TYPE)i);
+			
+			if (nullptr != m_arrComUI[i])
+			{
+				m_arrComUI[i]->SetActive(b);
+			}
+		}
+	}
+}
+
+void CUIobj_Inspector::render_update()
+{
+	if (m_pTarget)
+	{
+		int Layer = m_pTarget->GetLayer();
+		//IMGUI에 받아온 값을 표시
+		ImGui::Text("Layer Index");
+		ImGui::SameLine(100.f);
+		bool Changed = ImGui::DragInt("##Layer", &Layer);
+
+		//if (Changed)
+		//{
+		//	EventDispatcher::
+		//}
+	}
+
 }
 
 

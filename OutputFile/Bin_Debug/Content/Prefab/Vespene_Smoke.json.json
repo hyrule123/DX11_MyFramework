@@ -28,30 +28,23 @@
 				],
 				"v3Size" : 
 				[
-					1115684864,
-					1119879168,
-					1065353216
+					1120403456,
+					1120403456,
+					1120403456
 				]
 			},
+			null,
+			null,
 			{
-				"eComponentType" : 1,
-				"m_bFollowTransformSize" : false,
-				"m_eColType" : 0,
-				"m_v3OffsetPos" : 
+				"eComponentType" : 3,
+				"m_arrAtlasTex" : 
 				[
-					0,
-					0,
-					0
-				],
-				"m_v3Size" : 
-				[
-					1115684864,
-					1107296256,
-					1065353216
+					"SC/thingy/VSmoke(geysmok1).bmp",
+					"SC/thingy/VSmokeDeplete(geysmok4).bmp",
+					null,
+					null
 				]
 			},
-			null,
-			null,
 			null,
 			null,
 			null,
@@ -59,7 +52,7 @@
 			{
 				"eComponentType" : 8,
 				"strKeyMesh" : "RectMesh",
-				"strKeyMtrl" : "Mineral"
+				"strKeyMtrl" : "Vespene_Smoke"
 			},
 			null,
 			null,
@@ -70,7 +63,7 @@
 				"m_vecScript_strKey" : 
 				[
 					{
-						"CScript_Mineral" : 
+						"CScript_VespeneSmoke" : 
 						{
 							"m_eKeyShortcut" : 0,
 							"m_eMoveType" : 0,
@@ -92,7 +85,7 @@
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 6,
 		"m_vecChild_PREFAB" : [],
-		"strName" : "Mineral"
+		"strName" : "Vespene_Smoke"
 	},
 	"eRES_TYPE" : 6,
 	"strName" : ""

@@ -245,9 +245,9 @@ void CImGuiMgr::CreateDefaultUI()
     AddUI(m_TestWindow);
 
     AddUI(new CUIobj_Inspector);
-    CUIobj_Outliner* Outliner = new CUIobj_Outliner;
-    Outliner->SetSaveEnable(true);
-    AddUI(Outliner);
+    //CUIobj_Outliner* Outliner = new CUIobj_Outliner;
+    //Outliner->SetSaveEnable(true);
+    //AddUI(Outliner);
 }
 
 void CImGuiMgr::begin()
