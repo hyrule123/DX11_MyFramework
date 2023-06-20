@@ -18,10 +18,9 @@ public:
 
 private:
     float m_AspectRatio;
-    ePROJ_TYPE m_ProjectionType;
+    ePROJ_TYPE m_eProjectionType;
 
     Matrix m_matView;
-
     Matrix m_matProj;
 
     float m_fZoomScale;
@@ -32,7 +31,7 @@ private:
 
 public:
     void SetProjType(ePROJ_TYPE _Type);
-    ePROJ_TYPE GetProjType() const { return m_ProjectionType; }
+    ePROJ_TYPE GetProjType() const { return m_eProjectionType; }
 
 
     void SetCamIndex(eCAMERA_INDEX _Idx);

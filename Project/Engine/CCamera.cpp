@@ -4,6 +4,7 @@
 //카메라의 위치를 얻어오기 위함
 #include "CTransform.h"
 
+
 //화면 해상도 얻어오기 위함
 #include "CDevice.h"
 
@@ -11,6 +12,7 @@
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CLayer.h"
+
 
 //레이어 정보 받아와서 분류용
 #include "CRenderComponent.h"
@@ -28,18 +30,18 @@
 CCamera::CCamera():
 	CComponent(eCOMPONENT_TYPE::CAMERA)
 	, m_AspectRatio()
-	, m_ProjectionType(ePROJ_TYPE::ORTHOGRAPHY)
+	, m_eProjectionType(ePROJ_TYPE::ORTHOGRAPHY)
 	, m_iCamIdx(-1)
 	, m_LayerFlag(UINT32_MAX)
 	, m_fZoomScale(1.f)
 {
-	SetProjType(m_ProjectionType);
+	SetProjType(m_eProjectionType);
 }
 
 CCamera::CCamera(const CCamera& _other)
 	: CComponent(_other)
 	, m_AspectRatio(_other.m_AspectRatio)
-	, m_ProjectionType(_other.m_ProjectionType)
+	, m_eProjectionType(_other.m_eProjectionType)
 	, m_matView()	// finaltick()에서 매 tick마다 계산 됨
 	, m_matProj(_other.m_matProj)
 	, m_iCamIdx(-1)
@@ -55,11 +57,11 @@ CCamera::~CCamera()
 
 void CCamera::SetProjType(ePROJ_TYPE _Type)
 {
-	m_ProjectionType = _Type;
+	m_eProjectionType = _Type;
 
 	m_AspectRatio = g_GlobalVal.v2Res.x / g_GlobalVal.v2Res.y;
 
-	switch (m_ProjectionType)
+	switch (m_eProjectionType)
 	{
 	case ePROJ_TYPE::ORTHOGRAPHY:
 		//===========
@@ -67,11 +69,11 @@ void CCamera::SetProjType(ePROJ_TYPE _Type)
 		//===========
 
 		//1. 투영 행렬 생성
-		m_matProj = XMMatrixOrthographicLH(g_GlobalVal.v2Res.x, g_GlobalVal.v2Res.y, 1.f, 10000.f);
+		m_matProj = XMMatrixOrthographicLH(g_GlobalVal.v2Res.x, g_GlobalVal.v2Res.y, 1.f, 5000.f);
 		break;
 	case ePROJ_TYPE::PERSPECTIVE:
 		//1-1. 원근 투영행렬
-		m_matProj = XMMatrixPerspectiveFovLH(0.5f * XM_PI, m_AspectRatio, 1.f, 10000.f);
+		m_matProj = XMMatrixPerspectiveFovLH(0.5f * XM_PI, m_AspectRatio, 1.f, 5000.f);
 		break;
 	}
 
@@ -92,7 +94,7 @@ void CCamera::SetCamIndex(eCAMERA_INDEX _Idx)
 
 void CCamera::Zoom2D(float _fScale)
 {
-	if (ePROJ_TYPE::ORTHOGRAPHY != m_ProjectionType)
+	if (ePROJ_TYPE::ORTHOGRAPHY != m_eProjectionType)
 		return;
 
 	m_fZoomScale *= _fScale;
@@ -104,7 +106,7 @@ void CCamera::Zoom2D(float _fScale)
 void CCamera::init()
 {
 	//기본 설정으로 투영행렬을 생성
-	SetProjType(m_ProjectionType);
+	SetProjType(m_eProjectionType);
 }
 
 void CCamera::finaltick()
@@ -204,9 +206,9 @@ void CCamera::SortObject()
 
 		//카메라가 출력하고자 하는 레이어의 오브젝트 리스트를 받아와서
 		const vector<CGameObject*>& vecObj = Layer.GetvecObj();
-		float DepthPreset = Layer.GetDepthPreset();
-		bool bYSorting = Layer.IsYsorting();
-		
+
+		float fDepthZ = Layer.GetPresetZDepth();
+		bool bYSorting = Layer.GetYSortType();
 		
 		size_t size = vecObj.size();
 		for (size_t i = 0; i < size; ++i)
@@ -224,7 +226,7 @@ void CCamera::SortObject()
 			
 			
 			//2D 직교 행렬을 사용중일 경우 2D 컬링 진행.
-			if (ePROJ_TYPE::ORTHOGRAPHY == m_ProjectionType)
+			if (ePROJ_TYPE::ORTHOGRAPHY == m_eProjectionType)
 			{
 				const Vec3& WorldPos = vecObj[i]->Transform()->GetWorldPos();
 				float SideLen = vecObj[i]->Transform()->GetAABBSideLen();
@@ -252,8 +254,14 @@ void CCamera::SortObject()
 					(ScreenPos.y + SideLen) < -ResHalf.y
 					)
 					continue;
-			}
 
+				//카메라가 Y소팅을 하는 지금 시점은 Transform이 이미 위치값을 GameObject에 등록해놓은 상태임
+				//게임오브젝트 내부에서 Z값을 덮어씌워줘야 함
+				if (bYSorting)
+				{
+					vecObj[i]->YSort(fDepthZ);
+				}
+			}
 
 
 			//쉐이더 도메인을 받아와서

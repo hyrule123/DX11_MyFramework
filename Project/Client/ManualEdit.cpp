@@ -468,7 +468,7 @@ void ManualEdit::Map_Prefab_Save()
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-		pObj->AddScript(pScriptMgr->GetNewScript(strKey_SCRIPT::TILEMAPLOADUNIT));
+		pObj->AddScript(pScriptMgr->GetNewScript(strKey_SCRIPT::TILEMAPUNITLOADER));
 	}
 
 	Ptr<CPrefab> pPrefab = new CPrefab;

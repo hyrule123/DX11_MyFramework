@@ -160,10 +160,10 @@ namespace SC
 			UI,
 			_26,
 			_27,
-			Camera,
+			_28,
 			_29,
 			MouseCursor,
-			_31,
+			Camera,
 			END
 		};
 
@@ -196,10 +196,10 @@ namespace SC
 		"UI",	//25
 		"",	//26
 		"",	//27
-		"Camera",	//28
+		"",	//28
 		"",	//29
 		"MouseCursor",	//30
-		"",	//31
+		"Camera",	//31
 		};
 	}
 
@@ -632,9 +632,9 @@ namespace SC
 		"PROTOSS_TEMPLE",
 		"XEL_NAGA_TEMPLE",
 
+		"Mineral",	//세 개는 모두 같은 게임오브젝트를 사용(내부 변수를 다르게 해줘야함)
 		"Mineral",
-		"MINERAL_FIELD_TYPE_2",
-		"MINERAL_FIELD_TYPE_3",
+		"Mineral",
 
 		"CAVE",
 		"CAVE_IN",

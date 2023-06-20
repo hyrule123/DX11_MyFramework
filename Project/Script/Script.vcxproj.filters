@@ -74,7 +74,7 @@
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
     <ClInclude Include="define_SC.h" />
-    <ClInclude Include="CScript_TilemapLoadUnit.h">
+    <ClInclude Include="CScript_TilemapUnitLoader.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
     <ClInclude Include="CScript_Mineral.h">
@@ -127,7 +127,7 @@
     <ClCompile Include="CScript_FSM_Building_Prod.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_TilemapLoadUnit.cpp">
+    <ClCompile Include="CScript_TilemapUnitLoader.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
     <ClCompile Include="CScript_Mineral.cpp">

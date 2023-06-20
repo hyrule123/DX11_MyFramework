@@ -3,6 +3,7 @@
 #include "CSingleton.h"
 
 
+
 class CEngine
 	:public CSingleton<CEngine>
 {

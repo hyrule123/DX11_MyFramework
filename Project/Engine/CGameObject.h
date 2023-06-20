@@ -108,6 +108,10 @@ public:
     const MATRIX& GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCALAR _Param) const;
     const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
 
+    //CCamera에서 호출.
+    //Transform에서 등록한 World Matrix의 위치 부분 Z값에 _MinZ(Z 기준값 또는 최솟값) + (Y값 / 현재 해상도)로 덮어씌움
+    void YSort(float _MinZ);
+
 
 private:
     //Layer Info
@@ -293,3 +297,14 @@ inline const MATRIX& CGameObject::GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCAL
     default: return MATRIX::Zero;
     }
 }
+
+
+inline void CGameObject::YSort(float _MinZ)
+{
+    enum xyz { x, y, z };
+    //m_MtrlScalarData[(int)MTRL_SCALAR_MAT_WORLD];
+
+    m_MtrlScalarData.MAT_1.m[3][z] = _MinZ + (m_MtrlScalarData.MAT_1.m[3][y] / g_GlobalVal.v2Res.y);
+}
+
+

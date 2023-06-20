@@ -20,7 +20,6 @@ CEngine::CEngine()
 	: m_hWnd(nullptr)
 	, m_ClearColor(0.5f, 0.5f, 0.5f, 1.f)
 	, m_bWinSizeChanged(true)
-	
 {
 }
 

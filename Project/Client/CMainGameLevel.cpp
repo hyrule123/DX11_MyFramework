@@ -7,6 +7,7 @@
 
 #include <Engine/CLevel.h>
 #include <Engine/CLevelMgr.h>
+#include <Engine/CLayer.h>
 
 #include <Engine/ptr.h>
 #include <Engine/CTexture.h>
@@ -38,8 +39,7 @@
 #include "ManualEdit.h"
 #include "strKey_Prefab.h"
 
-
-
+#define LAYER_2D_Z_INTERVAL 100.f
 
 void CreateMainGame()
 {
@@ -58,14 +58,20 @@ void CreateMainGame()
 	//Layer 이름 세팅
 	for (int i = 0; i < (int)SC::LAYER_INFO::idx::END; ++i)
 	{
-		pLevel->SetLayerName(i, string(SC::LAYER_INFO::strLayerName[i]));
+		CLayer& Layer = pLevel->GetLayer(i);
+
+		Layer.SetName(SC::LAYER_INFO::strLayerName[i]);
+
+		bool bYSort = false;
+
+		if (i == (int)SC::LAYER_INFO::GroundUnitMain)
+			bYSort = true;
+
+		Layer.SetPresetZDepth_Ysort((MAX_LAYER - 1 - i) * LAYER_2D_Z_INTERVAL, bYSort);
 	}
 
 	//Layer Z 정보 세팅
-
-	//CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::MouseCursor);
 	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::LAYER_INFO::MouseCursor);
-
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::GroundUnitMain);
 
 	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
@@ -85,7 +91,7 @@ void CreateMainGame()
 		//pObj->AddComponent(new CTransform);
 		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPT::CAMERAMOVE));
 
-		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, -100.f), SC::LAYER_INFO::Camera);
+		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::Camera);
 	}
 }
 

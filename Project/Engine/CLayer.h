@@ -3,8 +3,6 @@
 
 #include "define.h"
 
-
-
 class CGameObject;
 class CLayer :
     public CEntity
@@ -37,16 +35,12 @@ private:
 public:
     void SetLayerIdx(int _idx) { m_iLayerIdx = _idx; }
 
-    
+
 private:
-    bool    m_bEnableYsorting;
+    float   m_fPresetZDepth;
+    bool    m_bYSort;
 public:
-    //이 값의 간격을 너무 좁게하면 YSorting과 동시에 사용 시 깊이 판정에 에러가 발생할 수 있음.
-    void SetDepthPreset(float _fDepthPreset, bool _bEnableYsorting) { m_bEnableYsorting = _bEnableYsorting; }
-
-    bool IsYsorting() const { return m_bEnableYsorting; }
-
-private:
-    bool Y_Sort(CGameObject* _pObj_L, CGameObject* _pObj_R);
+    void    SetPresetZDepth_Ysort(float _fPresetZDepth, bool eYSortType) { m_fPresetZDepth = _fPresetZDepth; m_bYSort = eYSortType; }
+    float   GetPresetZDepth() const { return m_fPresetZDepth; }
+    bool    GetYSortType() const { return m_bYSort; }
 };
-

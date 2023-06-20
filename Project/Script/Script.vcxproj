@@ -198,7 +198,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CScript_FSM_Move_Hover.h" />
     <ClInclude Include="CScript_TestObj.h" />
     <ClInclude Include="CScript_SCUnitVital.h" />
-    <ClInclude Include="CScript_TilemapLoadUnit.h" />
+    <ClInclude Include="CScript_TilemapUnitLoader.h" />
     <ClInclude Include="defineScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -223,7 +223,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClCompile Include="CScript_FSM_Move_Hover.cpp" />
     <ClCompile Include="CScript_TestObj.cpp" />
     <ClCompile Include="CScript_SCUnitVital.cpp" />
-    <ClCompile Include="CScript_TilemapLoadUnit.cpp" />
+    <ClCompile Include="CScript_TilemapUnitLoader.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

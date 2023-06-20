@@ -54,7 +54,7 @@
 				"m_vecScript_strKey" : 
 				[
 					{
-						"CScript_TilemapLoadUnit" : 
+						"CScript_TilemapUnitLoader" : 
 						{
 							"strName" : ""
 						}
