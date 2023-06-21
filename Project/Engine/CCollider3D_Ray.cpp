@@ -3,6 +3,7 @@
 
 CCollider3D_Ray::CCollider3D_Ray()
 	: CCollider3D(eCOLLIDER_TYPE_3D::LINE)
+	, m_fLength()
 {
 }
 

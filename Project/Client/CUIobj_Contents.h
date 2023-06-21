@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CUI_BasicWIndow.h"
+#include <Engine/strKey_Default.h>
 
 class CUI_Tree;
 

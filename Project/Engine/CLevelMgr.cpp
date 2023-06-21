@@ -23,10 +23,6 @@
 #include "CTilemap.h"
 
 //컴퓨트쉐이더 테스트
-#include "CCS_SetColor.h"
-
-#include "CParticleSystem.h"
-
 #include "strKey_Default.h"
 
 #include "CTimeMgr.h"

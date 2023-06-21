@@ -1,4 +1,5 @@
 #pragma once
+
 #include "CComputeShader.h"
 
 #include "S_H_SCMapLoader.hlsli"

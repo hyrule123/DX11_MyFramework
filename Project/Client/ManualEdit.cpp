@@ -1,10 +1,14 @@
 #include "pch.h"
 #include "ManualEdit.h"
 
-#include <Engine/CResMgr.h>
+
 #include <Engine/CScriptMgr.h>
 #include <Engine/CRandMgr.h>
 #include <Engine/EventDispatcher.h>
+
+//Resource
+#include <Engine/CResMgr.h>
+#include <Engine/CAnim2DAtlas.h>
 
 //string Keys
 #include <Engine/strKey_Default.h>

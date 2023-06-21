@@ -2,6 +2,7 @@
 #include "CComputeShader.h"
 
 #include "ptr.h"
+
 class CStructBuffer;
 class CConstBuffer;
 class CParticleSystem;

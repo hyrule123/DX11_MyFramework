@@ -18,6 +18,8 @@
 #include "CStructBuffer.h"
 #include "CTexture.h"
 #include "CResMgr.h"
+#include "CStructBuffer.h"
+#include "CTexture.h"
 
 #ifdef _DEBUG
 STRKEY strPath_StormLib = "StormLib_DLL_Debug.dll";
@@ -580,7 +582,7 @@ std::shared_ptr<tMapDataChunk> CCS_SCMapLoader::MultiThread_CopyChunk(const std:
         int* len = (int*)(adress + 4);
         pData->length = *len;
 
-        pData->Data = new unsigned char[pData->length + 1];
+        pData->Data = new unsigned char[pData->length];
         memcpy(pData->Data, adress + 8, pData->length);
     }
 

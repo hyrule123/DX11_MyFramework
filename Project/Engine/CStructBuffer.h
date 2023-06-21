@@ -4,6 +4,8 @@
 
 #include "define.h"
 
+#include "S_H_Register.hlsli"
+
 struct tSBufferDesc
 {
     //자신의 공유정보를 담고있는 상수버퍼 내부에서의 인덱스

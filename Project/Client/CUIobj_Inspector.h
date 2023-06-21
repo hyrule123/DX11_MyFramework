@@ -2,6 +2,7 @@
 #include "CUI_BasicWindow.h"
 
 class CUIobj_Component;
+class CGameObject;
 
 //특정 게임오브젝트의 현재 상태를 확인하는 클래스.
 

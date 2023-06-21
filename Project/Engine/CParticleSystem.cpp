@@ -18,7 +18,6 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
-
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(eCOMPONENT_TYPE::PARTICLE_SYSTEM)
 	, m_tModuleData{}

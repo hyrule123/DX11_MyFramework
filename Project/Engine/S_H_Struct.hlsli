@@ -30,7 +30,7 @@ struct INT32_3 {
 	INT32 z;
 
     INT32_3() : x(), y(), z() {}
-	INT32_3(INT32 _xyz) : x(_xyz), y(_xyz) {}
+	INT32_3(INT32 _xyz) : x(_xyz), y(_xyz), z() {}
 	INT32_3(INT32 _x, INT32 _y, INT32 _z) : x(_x), y(_y), z(_z) {}
 	INT32_3(const INT32_2& _i32_2, INT32 _z) : x(_i32_2.x), y(_i32_2.y), z(_z) {}
 };
@@ -62,9 +62,9 @@ struct UINT32_3 {
 	UINT32 z;
 
     UINT32_3() : x(), y(), z() {}
-	UINT32_3(UINT32 _xyz) : x(_xyz), y(_xyz) {}
+	UINT32_3(UINT32 _xyz) : x(_xyz), y(_xyz), z(_xyz) {}
 	UINT32_3(UINT32 _x, UINT32 _y, UINT32 _z) : x(_x), y(_y), z(_z) {}
-	UINT32_3(const UINT32_2& _i32_2, UINT32 _z) : x(_i32_2.x), y(_i32_2.y), z(_z) {}
+	UINT32_3(const UINT32_2& _xy, UINT32 _z) : x(_xy.x), y(_xy.y), z(_z) {}
 };
 struct UINT32_4 {
 	UINT32 x;

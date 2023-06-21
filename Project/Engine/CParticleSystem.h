@@ -3,9 +3,9 @@
 
 #include "S_H_Particle.hlsli"
 
+
 class CStructBuffer;
 class CCS_ParticleUpdate;
-
 class CCamera;
 
 class CParticleSystem :
@@ -42,9 +42,6 @@ private:
     tParticleModule m_tModuleData;
     float m_AccTime;
     
-
-
-
     //2.파티클 처리용 컴퓨트쉐이더 주소
     Ptr<CCS_ParticleUpdate> m_pCSParticle;
 
@@ -54,8 +51,6 @@ private:
 
     ////파티클에 사용될 텍스처. - Material에 정의되어 있음.
 
-    
-
 public:
     void CreateParticle();
 
@@ -63,6 +58,5 @@ public:
     //나중에 파티클을 여러 종류로 구현하게 되면 
     //필요한 파티클을 키로 찾아서 사용하는 방식
     void SetParticleCS(const string& _strKeyCS);
-
 };
 

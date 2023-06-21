@@ -1,7 +1,12 @@
 #pragma once
 
+#include <Engine/Ptr.h>
+
 class CAnimator2D;
 class CPrefab;
+class CAnim2DAtlas;
+
+
 
 class ManualEdit
 {
