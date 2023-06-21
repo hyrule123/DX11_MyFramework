@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "define.h"
 
 typedef struct tVertex
 {
@@ -15,7 +15,6 @@ struct tGameEvent
 	eEVENT_TYPE Type;
 	DWORD_PTR	wParam;
 	DWORD_PTR	lParam;
-	
 };
 
 struct tFSM_Event
@@ -67,7 +66,7 @@ struct tOBB2D
 	Vec2 m_v2Axis[2];
 };
 
-
+//unordered_map용 비교 함수
 struct tLightHashFunc_UINT32
 {
 	size_t operator()(const UINT32& _ukey) const
@@ -91,6 +90,62 @@ struct tLightHashFunc_DWORD_PTR
 		return static_cast<DWORD_PTR>(_ukey);
 	}
 };
+
+struct tHasher_String
+{
+	using hash_type = std::hash<std::string_view>;
+	using is_transparent = void;
+
+	std::size_t operator()(const char* str) const { return hash_type{}(str); }
+	std::size_t operator()(std::string_view str) const { return hash_type{}(str); }
+	std::size_t operator()(std::string const& str) const { return hash_type{}(str); }
+};
+
+
+
+//map용 비교 함수가 있는 구조체
+struct tInstancingKey
+{
+	//High
+	DWORD_PTR pMesh;
+
+	//Low
+	DWORD_PTR pMtrl;
+
+	bool operator<(const tInstancingKey& _other) const
+	{
+		//High 부분에서 값이 차이나면 무조건 클수밖에 없음
+		if (pMesh < _other.pMesh)
+			return true;
+
+		//High가 같을 경우 Low의 값이 차이나면 True 리턴
+		else if (pMesh == _other.pMesh && pMtrl < _other.pMtrl)
+			return true;
+
+		//이외의 경우에는 false
+		return false;
+	}
+};
+
+struct tString_Operator
+{
+	bool operator()(const std::string& _lStr, const std::string& _rStr) const
+	{
+		return (_lStr < _rStr);
+	}
+
+	bool operator()(const std::string& _lStr, const std::string_view& _rStr) const
+	{
+		return (_lStr < _rStr);
+	}
+
+	bool operator()(const std::string_view& _lStr, const std::string& _rStr) const
+	{
+		return (_lStr < _rStr);
+	}
+};
+
+
 
 
 

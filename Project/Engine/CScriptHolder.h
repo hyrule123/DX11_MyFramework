@@ -61,7 +61,7 @@ private:
 
 public:
     bool AddScript(CScript* _pScript);
-    CScript* FindScript(const string& _strKey);
+    CScript* FindScript(const string_view _strKey);
 
     const vector<CScript*>& GetScripts() const { return m_vecScript; }
 

@@ -6,7 +6,7 @@
 
 
 
-bool ConvertMultibyteToUnicode(__in const string& _src, __out wstring& _dest)
+bool ConvertMultibyteToUnicode(__in const string_view _src, __out wstring& _dest)
 {
 	_dest.clear();
 
@@ -66,7 +66,7 @@ bool ConvertUnicodeToUTF8(__in const wstring& _src, __out string& _dest)
 	return true;
 }
 
-wstring ConvertMultibyteToUnicode(const string& _src)
+wstring ConvertMultibyteToUnicode(const string_view _src)
 {
 	wstring result;
 

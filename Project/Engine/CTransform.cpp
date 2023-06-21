@@ -18,7 +18,7 @@
 #include "strKey_Default.h"
 #include "jsoncpp.h"
 
-
+#include "struct.h"
 
 CTransform::CTransform()
 	: m_pOwner()

@@ -149,7 +149,7 @@ bool CScriptHolder::AddScript(CScript* _pScript)
 }
 
 
-CScript* CScriptHolder::FindScript(const string& _strViewKey)
+CScript* CScriptHolder::FindScript(const string_view _strViewKey)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)

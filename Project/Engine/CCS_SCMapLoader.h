@@ -42,7 +42,7 @@ private:
 
 public:
     //Map 폴더 안의 맵 이름을 인자로 받아서 맵을 로드함.
-    bool LoadMap(const string& _strMapName, __out SC_Map::tMapData& _tMapData);
+    bool LoadMap(const string_view _strMapName, __out SC_Map::tMapData& _tMapData);
 
 private:
     bool ReadMapData(char* Data, DWORD Size);

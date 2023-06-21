@@ -20,13 +20,13 @@ CCS_ParticleUpdate::CCS_ParticleUpdate()
 {
 }
 
-CCS_ParticleUpdate::CCS_ParticleUpdate(const string& _strFileKey)
+CCS_ParticleUpdate::CCS_ParticleUpdate(const string_view _strFileKey)
 	: CCS_ParticleUpdate()
 {
 	std::filesystem::path FilePath = _strFileKey;
 
 	if (false == Load(FilePath))
-		throw(std::runtime_error(string("Compute Shader\n") + _strFileKey + string("\nLoad Failed")));
+		throw(std::runtime_error(string("Compute Shader\n") + FilePath.string() + string("\nLoad Failed")));
 }
 
 CCS_ParticleUpdate::CCS_ParticleUpdate(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ)

@@ -17,7 +17,7 @@ CEntity::CEntity()
 {
 }
 
-CEntity::CEntity(const string& _strName)
+CEntity::CEntity(const string_view _strName)
 	: m_strName(_strName)
 	, m_iID(g_iNextID++)
 {

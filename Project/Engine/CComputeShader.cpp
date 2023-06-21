@@ -163,7 +163,7 @@ HRESULT CComputeShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteC
 }
 
 
-HRESULT CComputeShader::CreateShader(const wstring& _strFileName, const string& _strFuncName)
+HRESULT CComputeShader::CreateShader(const wstring& _strFileName, const string_view _strFuncName)
 {
 	// 1. Shader 파일 경로 받아옴
 	std::filesystem::path shaderPath(CPathMgr::GetInst()->GetPathRel_Resource(GetResType()));
@@ -174,7 +174,7 @@ HRESULT CComputeShader::CreateShader(const wstring& _strFileName, const string& 
 
 	HRESULT result =
 		D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-			, _strFuncName.c_str(), SHADER_NAME_VERSION::CS, 0, 0, m_pShaderData.GetAddressOf(), m_ErrBlob.GetAddressOf());
+			, string(_strFuncName).c_str(), SHADER_NAME_VERSION::CS, 0, 0, m_pShaderData.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
 	// 3. VertexShader Compile
 	if (FAILED(result))

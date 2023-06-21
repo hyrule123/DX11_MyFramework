@@ -14,7 +14,7 @@ class CCS_ParticleUpdate :
 private:
     CCS_ParticleUpdate();
 public:
-    CCS_ParticleUpdate(const string& _strFileKey);
+    CCS_ParticleUpdate(const string_view _strFileKey);
     CCS_ParticleUpdate(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ);
     virtual ~CCS_ParticleUpdate();
 

@@ -84,8 +84,8 @@ public:
     //애니메이션 데이터는 텍스처와 동일한 이름을 사용할것
     void AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex);
 
-    const tAnim2D* FindAnim(const string& _strKey_Anim);
-    bool Play(const string& _strKey_Anim, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
+    const tAnim2D* FindAnim(const string_view _strKey_Anim);
+    bool Play(const string_view _strKey_Anim, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
 
     //현재 재생중인 애니메이션을 그대로 역재생함.
     void ReverseCurrent() { m_bReverse = !m_bReverse; }

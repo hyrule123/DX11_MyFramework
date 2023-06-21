@@ -175,7 +175,7 @@ void CParticleSystem::CreateParticle()
 	m_pSBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &rwbuffer, 1u);
 }
 
-void CParticleSystem::SetParticleCS(const string& _ResKeyCS)
+void CParticleSystem::SetParticleCS(const string_view _ResKeyCS)
 {
 	m_pCSParticle = CResMgr::GetInst()->FindRes<CComputeShader>(_ResKeyCS);
 }

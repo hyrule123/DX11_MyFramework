@@ -54,12 +54,12 @@ void CLevelMgr::AddNewGameObj(CGameObject* _pObj)
 	m_pCurLevel->AddNewGameObj(_pObj);
 }
 
-CGameObject* CLevelMgr::FindObjectByName(const string& _Name)
+CGameObject* CLevelMgr::FindObjectByName(const string_view _Name)
 {
 	return m_pCurLevel->FindObjectByName(_Name);
 }
 
-void CLevelMgr::FindObjectALLByName(const string& _Name, vector<CGameObject*>& _vecObj)
+void CLevelMgr::FindObjectALLByName(const string_view _Name, vector<CGameObject*>& _vecObj)
 {
 	m_pCurLevel->FindObjectALLByName(_Name, _vecObj);
 }

@@ -5,6 +5,8 @@
 
 #include <UtilLib_DLL/json/forwards.h>
 
+#include "struct.h"
+
 enum class eANIM_TYPE
 {
     SEQUENTIAL,         //순차 재생
@@ -89,7 +91,7 @@ private:
 
     //개별 애니메이션의 프레임 번호가 저장되어있는 벡터를 들고있는 변수
     //실제 애니메이션이 저장되는 장소
-    unordered_map<string, tAnim2D> m_mapAnim;
+    unordered_map<string, tAnim2D, tHasher_String, std::equal_to<>> m_mapAnim;
 
     //그리드 형태의 애니메이션일 경우 사용
     UINT m_uRowTotal;
@@ -120,28 +122,28 @@ public:
 
     //애니메이션 생성 메소드
     //================================================================================================================
-    tAnim2D* AddAnim2D(const string& _strAnimKey, const tAnim2D& _vecAnimFrameIdx, 
+    tAnim2D* AddAnim2D(const string_view _strAnimKey, const tAnim2D& _vecAnimFrameIdx, 
          float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
 
-    tAnim2D* AddAnim2D(const string& _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f));
+    tAnim2D* AddAnim2D(const string_view _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f));
 
     //애니메이션을 만들때는 전체 열의 갯수만 받음. 나머지는 안에서 계산함
-    tAnim2D* AddAnim2D(const string& _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
+    tAnim2D* AddAnim2D(const string_view _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
     
     tAnim2D* AddAnim2D_SC_Redundant(
-        const string& _strAnimKey, UINT _uRowStart, UINT _uRowPitch,
+        const string_view _strAnimKey, UINT _uRowStart, UINT _uRowPitch,
         float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
 
     //각 스프라이트가 연속된 정수가 아닌 떨어진 숫자일 경우 사용
-    tAnim2D* AddAnim2D_vecRowIndex(const string& _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f));
+    tAnim2D* AddAnim2D_vecRowIndex(const string_view _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot = Vec2(0.5f, 0.5f));
     //=================================================================================================================
 
 
-    const tAnim2D* FindAnim2D(const string& _AnimIdxStrKey);
+    const tAnim2D* FindAnim2D(const string_view _AnimIdxStrKey);
     
     const tAnimFrameUV& GetFrameUVData(int _iIdx) { return m_vecFrameUV[_iIdx]; }
 

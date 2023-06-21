@@ -7,7 +7,7 @@
 
 
 
-CScript::CScript(const string& _strKey)
+CScript::CScript(const string_view _strKey)
 	: m_strKey(_strKey)
 	, m_pHolder()
 {

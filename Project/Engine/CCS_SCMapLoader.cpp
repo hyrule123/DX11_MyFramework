@@ -399,7 +399,7 @@ void CCS_SCMapLoader::Debug()
     //}
 }
 
-bool CCS_SCMapLoader::LoadMap(const string& _strMapName, __out tMapData& _tMapData)
+bool CCS_SCMapLoader::LoadMap(const string_view _strMapName, __out tMapData& _tMapData)
 {
     _tMapData = tMapData();
     m_tMapWorkSpace.strMapName = _strMapName;

@@ -53,7 +53,7 @@ private:
     
 public:
     HRESULT CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize);
-    HRESULT CreateShader(const wstring& _strFileName, const string& _strFuncName);
+    HRESULT CreateShader(const wstring& _strFileName, const string_view _strFuncName);
     HRESULT CreateShader(ComPtr<ID3DBlob> _pBlob);
 private:
     HRESULT CreateShader();

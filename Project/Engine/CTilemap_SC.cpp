@@ -84,7 +84,7 @@ bool CTilemap_SC::render()
 	return true;
 }
 
-bool CTilemap_SC::LoadMap(const string& _strMapName)
+bool CTilemap_SC::LoadMap(const string_view _strMapName)
 {
 	if (true == m_bMapLoaded && _strMapName == m_tMapData.strMapName)
 		return true;

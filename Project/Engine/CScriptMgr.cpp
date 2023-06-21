@@ -16,7 +16,7 @@ CScriptMgr::~CScriptMgr()
 	}
 }
 
-void CScriptMgr::AddBaseScript(const string& _strKey, CScript* _pScript)
+void CScriptMgr::AddBaseScript(const string_view _strKey, CScript* _pScript)
 {
 	if (nullptr == _pScript || _strKey.empty())
 		return;
@@ -26,7 +26,7 @@ void CScriptMgr::AddBaseScript(const string& _strKey, CScript* _pScript)
 	m_mapScript.insert(std::make_pair(_strKey, _pScript));
 }
 
-CScript* CScriptMgr::GetNewScript(const string& _strKey)
+CScript* CScriptMgr::GetNewScript(const string_view _strKey)
 {
 	const auto& iter = m_mapScript.find(_strKey);
 

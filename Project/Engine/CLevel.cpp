@@ -76,21 +76,21 @@ void CLevel::AddNewGameObj_Recursive(CGameObject* _pObj)
 	}
 }
 
-void CLevel::SetLayerName(int _iLayer, const string& _sLayerName)
+void CLevel::SetLayerName(int _iLayer, const string_view _sLayerName)
 {
 	assert(0 <= _iLayer && _iLayer < MAX_LAYER);
 
 	m_arrLayer[_iLayer].SetName(_sLayerName);
 }
 
-const string& CLevel::GetLayerName(int _iLayer)
+const string_view CLevel::GetLayerName(int _iLayer)
 {
 	assert(0 <= _iLayer && _iLayer < MAX_LAYER);
 
 	return m_arrLayer[_iLayer].GetName();
 }
 
-int CLevel::GetLayerIdxByName(const string& _sLayerName)
+int CLevel::GetLayerIdxByName(const string_view _sLayerName)
 {
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
@@ -102,7 +102,7 @@ int CLevel::GetLayerIdxByName(const string& _sLayerName)
 	return -1;
 }
 
-CGameObject* CLevel::FindObjectByName(const string& _Name)
+CGameObject* CLevel::FindObjectByName(const string_view _Name)
 {
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
@@ -124,7 +124,7 @@ CGameObject* CLevel::FindObjectByName(const string& _Name)
 	return nullptr;
 }
 
-void CLevel::FindObjectALLByName(const string& _Name, vector<CGameObject*>& _out)
+void CLevel::FindObjectALLByName(const string_view _Name, vector<CGameObject*>& _out)
 {
 	_out.clear();
 

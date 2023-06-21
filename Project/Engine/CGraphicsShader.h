@@ -61,10 +61,10 @@ public://INITIALIZE, Setter
     HRESULT CreateDefaultInputLayout();
 
     //Compile from raw source file
-    HRESULT CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType);
+    HRESULT CreateShader(const wstring& _strFileName, const string_view _strFuncName, eSHADER_TYPE _ShaderType);
 
     //Compile from Byte Code(HLSL header)
-    HRESULT CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, const string& _strKeyShader = "");
+    HRESULT CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, const string_view _strKeyShader = "");
 
     //Compile from Byte Code inside of blob(cso)
     HRESULT CreateShader(const tShaderCode& _tShaderCode, eSHADER_TYPE _ShaderType);

@@ -314,7 +314,7 @@ HRESULT CGraphicsShader::CreateDefaultInputLayout()
 }
 
 
-HRESULT CGraphicsShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, const string& _strKeyShader)
+HRESULT CGraphicsShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, const string_view _strKeyShader)
 {
 	if (nullptr == _pShaderByteCode || (size_t)0 == _ShaderByteCodeSize)
 		return E_POINTER;
@@ -329,7 +329,7 @@ HRESULT CGraphicsShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByte
 	return CreateShader(sCode, _ShaderType);
 }
 
-HRESULT CGraphicsShader::CreateShader(const wstring& _strFileName, const string& _strFuncName, eSHADER_TYPE _ShaderType)
+HRESULT CGraphicsShader::CreateShader(const wstring& _strFileName, const string_view _strFuncName, eSHADER_TYPE _ShaderType)
 {
 	// 1. Shader 파일 경로 받아옴
 	std::filesystem::path shaderPath = GETRESPATH;
@@ -365,9 +365,11 @@ HRESULT CGraphicsShader::CreateShader(const wstring& _strFileName, const string&
 		break;
 	}
 
+
+
 	// Shader Compile
 	HRESULT hr = D3DCompileFromFile(shaderPath.wstring().c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, _strFuncName.c_str(), ShaderNameVersion, 0, 0, m_arrShaderCode[(int)_ShaderType].blob.ReleaseAndGetAddressOf(), m_ErrBlob.ReleaseAndGetAddressOf());
+		, string(_strFuncName).c_str(), ShaderNameVersion, 0, 0, m_arrShaderCode[(int)_ShaderType].blob.ReleaseAndGetAddressOf(), m_ErrBlob.ReleaseAndGetAddressOf());
 
 	if(FAILED(hr))
 	{
@@ -425,7 +427,7 @@ HRESULT CGraphicsShader::CreateShader(eSHADER_TYPE _ShaderType)
 	}
 }
 
-//void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const string& _strFuncName)
+//void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const string_view _strFuncName)
 //{
 //	// Shader 파일 경로
 //	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();
@@ -447,7 +449,7 @@ HRESULT CGraphicsShader::CreateShader(eSHADER_TYPE _ShaderType)
 //	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
 //}
 //
-//void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string& _strFuncName)
+//void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string_view _strFuncName)
 //{
 //	// Shader 파일 경로
 //	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();

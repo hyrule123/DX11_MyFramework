@@ -27,14 +27,14 @@ private:
     eLEVEL_STATE m_CurState;
 
 public:
-    void SetLayerName(int _iLayer, const string& _sLayerName);
-    const string& GetLayerName(int _iLayer);
+    void SetLayerName(int _iLayer, const string_view _sLayerName);
+    const string_view GetLayerName(int _iLayer);
 
-    int GetLayerIdxByName(const string& _sLayerName);
+    int GetLayerIdxByName(const string_view _sLayerName);
     CLayer& GetLayer(UINT _iLayer);
 
-    CGameObject* FindObjectByName(const string& _Name);
-    void FindObjectALLByName(const string& _Name, vector<CGameObject*>& _out);
+    CGameObject* FindObjectByName(const string_view _Name);
+    void FindObjectALLByName(const string_view _Name, vector<CGameObject*>& _out);
 
     void SetState(eLEVEL_STATE _eState);
 

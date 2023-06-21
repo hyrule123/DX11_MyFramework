@@ -327,6 +327,7 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 			//자식 오브젝트의 이름을 받아온다.
 			string childKey = m_vecChild[i]->GetName();
 
+			//이름이 없을 경우 직접 이름을 생성
 			if (childKey.empty())
 			{
 				childKey = GetName();

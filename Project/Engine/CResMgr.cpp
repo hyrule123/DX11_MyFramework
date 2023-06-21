@@ -267,7 +267,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	{
 		if (false == GSDirIter->is_directory())
 		{
-			const string& fileName = GSDirIter->path().extension().string();
+			const string_view fileName = GSDirIter->path().extension().string();
 
 			//.json 파일일 경우 동적할당하고 로드한다.
 			if (string::npos != fileName.find(RES_INFO::SHADER::Ext_ShaderSetting))

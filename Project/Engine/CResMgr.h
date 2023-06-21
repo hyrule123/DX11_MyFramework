@@ -1,7 +1,7 @@
 #pragma once
 #include "CSingleton.h"
 
-#include "define.h"
+#include "struct.h"
 
 #include "ptr.h"
 #include "CPathMgr.h"
@@ -29,7 +29,7 @@ public:
     void cleartick() { m_bResUpdated = false; }
     
 private:
-    unordered_map<string, Ptr<CRes>> m_arrRes[(UINT)eRES_TYPE::END];
+    unordered_map<string, Ptr<CRes>, tHasher_String, std::equal_to<>> m_arrRes[(UINT)eRES_TYPE::END];
     unordered_map<std::type_index, eRES_TYPE> m_umapResClassTypeIndex;
 
     //리소스 정보가 업데이트 되면 true로 변경
@@ -59,15 +59,15 @@ public:
     eRES_TYPE GetResType();
 
     template<typename T>
-    Ptr<T> FindRes(const string& _strKey);
+    Ptr<T> FindRes(const string_view _strKey);
 
     //map에서 데이터를 제거한다. 
     //레퍼런스 카운트가 0이 되지 않으면 실제로 데이터가 제거되지 않으므로 주의할 것.
     template<typename T>
-    void DeleteRes(const string& _strKey);
+    void DeleteRes(const string_view _strKey);
 
     template<typename T>
-    void AddRes(const string& _strKey, Ptr<T>& _Res);
+    void AddRes(const string_view _strKey, Ptr<T>& _Res);
 
     
     //파일명 = 키일떄 사용
@@ -77,11 +77,11 @@ public:
     //파일명 규칙 : 특정 리소스 폴더 아래부터의 주소
     //ex) Content/Texture/Marine/Marine.bmp -> Marine/Marine.bmp
     template<typename T>
-    Ptr<T> Load(const std::filesystem::path& _fileName, const string& _strKey);
+    Ptr<T> Load(const std::filesystem::path& _fileName, const string_view _strKey);
 
-    const unordered_map<string, Ptr<CRes>>& GetResMap(eRES_TYPE _ResType);
+    unordered_map<string, Ptr<CRes>, tHasher_String, std::equal_to<>> const& GetResMap(eRES_TYPE _ResType);
 
-    Ptr<CTexture> CreateTexture(const string& _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
+    Ptr<CTexture> CreateTexture(const string_view _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
 };
 
 template<typename T>
@@ -97,7 +97,7 @@ inline eRES_TYPE CResMgr::GetResType()
 
 
 template<typename T>
-inline Ptr<T> CResMgr::FindRes(const string& _strKey)
+inline Ptr<T> CResMgr::FindRes(const string_view _strKey)
 {
     eRES_TYPE resType = GetResType<T>();
 
@@ -112,7 +112,7 @@ inline Ptr<T> CResMgr::FindRes(const string& _strKey)
 }
 
 template<typename T>
-inline void CResMgr::DeleteRes(const string& _strKey)
+inline void CResMgr::DeleteRes(const string_view _strKey)
 {
     eRES_TYPE Type = GetResType<T>();
 
@@ -128,7 +128,7 @@ inline void CResMgr::DeleteRes(const string& _strKey)
 
 
 template<typename T>
-inline void CResMgr::AddRes(const string& _strKey, Ptr<T>& _Res)
+inline void CResMgr::AddRes(const string_view _strKey, Ptr<T>& _Res)
 {
     // 중복키로 리소스 추가하려는 경우
     assert( ! FindRes<T>(_strKey).Get() );
@@ -147,7 +147,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName)
 
 
 template<typename T>
-inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string& _strKey)
+inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string_view _strKey)
 {
     //CRes를 상속받는 클래스가 아닐 경우 컴파일 중지
     static_assert(std::is_base_of<CRes, T>::value);
@@ -173,12 +173,12 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
 }
 
 
-inline const unordered_map<string, Ptr<CRes>>& CResMgr::GetResMap(eRES_TYPE _ResType)
+inline unordered_map<string, Ptr<CRes>, tHasher_String, std::equal_to<>> const& CResMgr::GetResMap(eRES_TYPE _ResType)
 {
     return m_arrRes[(UINT)_ResType];
 }
 
-inline Ptr<CTexture> CResMgr::CreateTexture(const string& _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage)
+inline Ptr<CTexture> CResMgr::CreateTexture(const string_view _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage)
 {
     Ptr<CTexture> pTex = FindRes<CTexture>(_strKey);
 

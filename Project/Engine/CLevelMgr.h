@@ -18,8 +18,8 @@ public:
 
 
     void AddNewGameObj(CGameObject* _pObj);
-    CGameObject* FindObjectByName(const string& _Name);
-    void FindObjectALLByName(const string& _Name, vector<CGameObject*>& _vecObj);
+    CGameObject* FindObjectByName(const string_view _Name);
+    void FindObjectALLByName(const string_view _Name, vector<CGameObject*>& _vecObj);
 
 
 public:

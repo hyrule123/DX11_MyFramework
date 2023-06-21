@@ -6,7 +6,7 @@ class CEntity
 {
 public:
 	CEntity();
-	CEntity(const string& _strName);
+	CEntity(const string_view _strName);
 
 
 	CEntity(const CEntity& _other);
@@ -29,7 +29,7 @@ private:
 	const UINT32  m_iID;
 
 public:
-	virtual void SetName(const string& _strName) {  m_strName = _strName; }
+	virtual void SetName(const string_view _strName) {  m_strName = _strName; }
 	const string& GetName() { return m_strName; }
 	UINT32 GetID() { return m_iID; }
 

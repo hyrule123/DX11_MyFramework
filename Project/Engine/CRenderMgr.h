@@ -3,7 +3,10 @@
 #include "CSingleton.h"
 
 #include "define.h"
+#include "struct.h"
+
 #include "S_H_STD2DLight.hlsli"
+
 
 class CCamera;
 class CLight2D;
@@ -19,28 +22,7 @@ struct tRenderInfo
 	CCamera* pCam;
 };
 
-struct tInstancingKey
-{
-	//High
-	DWORD_PTR pMesh;
 
-	//Low
-	DWORD_PTR pMtrl;
-
-	bool operator<(const tInstancingKey& _other) const
-	{
-		//High 부분에서 값이 차이나면 무조건 클수밖에 없음
-		if (pMesh < _other.pMesh)
-			return true;
-
-		//High가 같을 경우 Low의 값이 차이나면 True 리턴
-		else if (pMesh == _other.pMesh && pMtrl < _other.pMtrl)
-			return true;
-
-		//이외의 경우에는 false
-		return false;
-	}
-};
 
 
 

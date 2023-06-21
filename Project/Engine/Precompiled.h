@@ -10,6 +10,7 @@
 #include <map>
 #include <unordered_map>
 #include <string>
+#include <string_view>
 #include <queue>
 #include <iterator>
 #include <filesystem>
@@ -28,6 +29,7 @@ using std::make_pair;
 using std::wstring;
 using std::string;
 using std::u8string;
+using std::string_view;
 using std::wstring_view;
 using std::u8string_view;
 

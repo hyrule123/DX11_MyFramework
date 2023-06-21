@@ -11,7 +11,7 @@ class CScript :
     public CEntity
 {
 public:
-    CScript(const string& _strKey);
+    CScript(const string_view _strKey);
 
     CScript(const CScript& _other);
     virtual CScript* Clone() = 0;
@@ -38,7 +38,7 @@ private:
 public:
     const string& GetKey() const { return m_strKey; }
 
-private:
+private:    
     CScriptHolder* m_pHolder;
 public:
     virtual void SetHolder(CScriptHolder* _pHolder) { m_pHolder = _pHolder; }

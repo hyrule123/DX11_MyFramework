@@ -32,7 +32,7 @@ private:
     //std::filesystem::path         m_RelativePath;
 
 public:
-    void SetKey(const string& _strKey) { m_strKey = _strKey; }
+    void SetKey(const string_view _strKey) { m_strKey = _strKey; }
     const string& GetKey() { return m_strKey; }
 
     eRES_TYPE GetResType() const { return m_eResType; }

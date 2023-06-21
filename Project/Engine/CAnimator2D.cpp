@@ -335,7 +335,7 @@ void CAnimator2D::AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> 
 }
 
 
-const tAnim2D* CAnimator2D::FindAnim(const string& _strKey_Anim)
+const tAnim2D* CAnimator2D::FindAnim(const string_view _strKey_Anim)
 {
     const tAnim2D* Anim = nullptr;
 
@@ -353,7 +353,7 @@ const tAnim2D* CAnimator2D::FindAnim(const string& _strKey_Anim)
     return Anim;
 }
 
-bool CAnimator2D::Play(const string& _strKey_Anim, eANIM_LOOPMODE _eLoopMode, bool _bReverse)
+bool CAnimator2D::Play(const string_view _strKey_Anim, eANIM_LOOPMODE _eLoopMode, bool _bReverse)
 {
     const tAnim2D* pAnim = nullptr;
 

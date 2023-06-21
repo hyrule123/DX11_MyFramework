@@ -24,7 +24,7 @@ private:
     bool    m_bUnitLoaded;
 
 public:
-    bool LoadMap(const string& _strMapName);
+    bool LoadMap(const string_view _strMapName);
 
 private:
     std::function<void(const SC_Map::tMapData&)> m_funcLoadUnit;
