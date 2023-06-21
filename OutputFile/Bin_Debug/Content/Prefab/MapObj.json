@@ -68,5 +68,6 @@
 		"strName" : "MapObj"
 	},
 	"eRES_TYPE" : 6,
+	"strKey" : "MapObj",
 	"strName" : ""
 }

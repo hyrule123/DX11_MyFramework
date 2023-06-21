@@ -84,7 +84,6 @@ bool CRes::Load(const std::filesystem::path& _fileName)
 {
 	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
 	std::filesystem::path FilePath = GETRESPATH;
-
 	FilePath /= _fileName;
 
 	//키값이 지정되지 않았을 경우 파일명을 키값으로 사용

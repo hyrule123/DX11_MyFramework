@@ -95,5 +95,6 @@
 		"strName" : "Mineral"
 	},
 	"eRES_TYPE" : 6,
+	"strKey" : "Mineral",
 	"strName" : ""
 }

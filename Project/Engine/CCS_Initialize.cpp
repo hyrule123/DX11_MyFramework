@@ -7,16 +7,16 @@
 
 #include "strKey_Default.h"
 
-#include "DefaultShader/S_C_Initalize.h"
-
 CCS_Initialize::CCS_Initialize()
 	: CComputeShader(1u, 1u, 1u)
 	, m_pSBuffer_InitSetting()
 {
 	SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::INITALIZE);
+	Load(GetKey());
 
-	HRESULT hr = CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
-	assert(SUCCEEDED(hr));
+
+	//HRESULT hr = CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
+	//assert(SUCCEEDED(hr));
 }
 
 CCS_Initialize::~CCS_Initialize()

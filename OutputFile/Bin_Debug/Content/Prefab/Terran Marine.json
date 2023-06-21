@@ -122,5 +122,6 @@
 		"strName" : "Terran Marine"
 	},
 	"eRES_TYPE" : 6,
+	"strKey" : "Terran Marine",
 	"strName" : ""
 }

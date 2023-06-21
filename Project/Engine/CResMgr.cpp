@@ -242,192 +242,173 @@ void CResMgr::CreateDefaultShader()
 	CreateDefaultComputeShader();
 }
 
-#include "DefaultShader/S_0_V_Debug.h"
-#include "DefaultShader/S_4_P_Debug.h"
 
-#include "DefaultShader/S_0_V_STD2D.h"
-#include "DefaultShader/S_4_P_STD2D.h"
-
-#include "DefaultShader/S_0_V_STD2DLight.h"
-#include "DefaultShader/S_4_P_STD2DLight.h"
-
-#include "DefaultShader/S_0_V_TilemapAtlas.h"
-#include "DefaultShader/S_4_P_TilemapAtlas.h"
-
-#include "DefaultShader/S_0_V_Particle.h"
-#include "DefaultShader/S_3_G_Particle.h"
-#include "DefaultShader/S_4_P_Particle.h"
-
-#include "DefaultShader/S_0_V_Tilemap_SC.h"
-#include "DefaultShader/S_4_P_Tilemap_SC.h"
 bool CResMgr::CreateDefaultGraphicsShader()
 {
-	{
-		// ============
-		// Debug Shader
-		// ============
-		// Topology: LineStrip
-		// Rasterizer: No Culling
-		// Blend State: Default
-		// Depth Stemcil: No Test, No Write
-		// Shader Domain: Opaque
+	//{
+	//	// ============
+	//	// Debug Shader
+	//	// ============
+	//	// Topology: LineStrip
+	//	// Rasterizer: No Culling
+	//	// Blend State: Default
+	//	// Depth Stemcil: No Test, No Write
+	//	// Shader Domain: Opaque
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
+	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+	//	pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
-		//쉐이더 설정 세팅
-		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
-		pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
-		pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::NO_TEST_NO_WRITE);
-		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
+	//	//쉐이더 설정 세팅
+	//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_NONE);
+	//	pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
+	//	pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::NO_TEST_NO_WRITE);
+	//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 
-		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_Debug, sizeof(g_VS_Debug), eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_Debug, sizeof(g_PS_Debug), eSHADER_TYPE::__PIXEL);
+	//	//쉐이더 컴파일
+	//	pShader->CreateShaderFromHeader(g_VS_Debug, sizeof(g_VS_Debug), eSHADER_TYPE::__VERTEX);
+	//	pShader->CreateShaderFromHeader(g_PS_Debug, sizeof(g_PS_Debug), eSHADER_TYPE::__PIXEL);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG, pShader);
-	}
-
-
-	{
-		// ============
-		// STD2D Shader
-		// ============
-		// Topology: TriangleList
-		// Rasterizer: CULL_BACK(백페이스 컬링)
-		// Blend State: Default
-		// Depth Stemcil: LESS
-		// Shader Domain: Opaque
-
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
-
-		//쉐이더 설정 세팅
-		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
-		pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::LESS);
-		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
-
-		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_STD2D, sizeof(g_VS_STD2D), eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_STD2D, sizeof(g_PS_STD2D), eSHADER_TYPE::__PIXEL);
-
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2D, pShader);
-	}
+	//	AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG, pShader);
+	//}
 
 
-	{
-		// ============
-		// STD2D Light Shader
-		// ============
-		// Topology: TriangleList
-		// Rasterizer: CULL_BACK(백페이스 컬링)
-		// Blend State: Default
-		// Depth Stemcil: LESS
-		// Shader Domain: Opaque
+	//{
+	//	// ============
+	//	// STD2D Shader
+	//	// ============
+	//	// Topology: TriangleList
+	//	// Rasterizer: CULL_BACK(백페이스 컬링)
+	//	// Blend State: Default
+	//	// Depth Stemcil: LESS
+	//	// Shader Domain: Opaque
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
+	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+	//	pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
-		//쉐이더 설정 세팅
-		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
-		pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::LESS);
-		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
+	//	//쉐이더 설정 세팅
+	//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+	//	pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
+	//	pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::LESS);
+	//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 
-		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_STD2D_Light, sizeof(g_VS_STD2D_Light), eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_STD2D_Light, sizeof(g_PS_STD2D_Light), eSHADER_TYPE::__PIXEL);
+	//	//쉐이더 컴파일
+	//	pShader->CreateShaderFromHeader(g_VS_STD2D, sizeof(g_VS_STD2D), eSHADER_TYPE::__VERTEX);
+	//	pShader->CreateShaderFromHeader(g_PS_STD2D, sizeof(g_PS_STD2D), eSHADER_TYPE::__PIXEL);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2DLIGHT, pShader);
-	}
+	//	AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2D, pShader);
+	//}
 
-	{
-		// ============
-		// TilemapAtlas
-		// ============
-		// Topology: TriangleList
-		// Rasterizer: CULL_BACK(백페이스 컬링)
-		// Blend State: Default
-		// Depth Stemcil: LESS
-		// Shader Domain: Opaque
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
+	//{
+	//	// ============
+	//	// STD2D Light Shader
+	//	// ============
+	//	// Topology: TriangleList
+	//	// Rasterizer: CULL_BACK(백페이스 컬링)
+	//	// Blend State: Default
+	//	// Depth Stemcil: LESS
+	//	// Shader Domain: Opaque
 
-		//쉐이더 설정 세팅
-		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
-		pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::LESS);
-		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
+	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+	//	pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
-		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), eSHADER_TYPE::__PIXEL);
+	//	//쉐이더 설정 세팅
+	//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+	//	pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
+	//	pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::LESS);
+	//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPATLAS, pShader);
-	}
+	//	//쉐이더 컴파일
+	//	pShader->CreateShaderFromHeader(g_VS_STD2D_Light, sizeof(g_VS_STD2D_Light), eSHADER_TYPE::__VERTEX);
+	//	pShader->CreateShaderFromHeader(g_PS_STD2D_Light, sizeof(g_PS_STD2D_Light), eSHADER_TYPE::__PIXEL);
 
-	{
-		// ============
-		// Tilemap Complete
-		// ============
-		// Topology: TriangleList
-		// Rasterizer: CULL_BACK(백페이스 컬링)
-		// Blend State: Default
-		// Depth Stemcil: LESS
-		// Shader Domain: Opaque
-		
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
+	//	AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2DLIGHT, pShader);
+	//}
 
-		//쉐이더 설정 세팅
-		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
-		pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::LESS);
-		pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
+	//{
+	//	// ============
+	//	// TilemapAtlas
+	//	// ============
+	//	// Topology: TriangleList
+	//	// Rasterizer: CULL_BACK(백페이스 컬링)
+	//	// Blend State: Default
+	//	// Depth Stemcil: LESS
+	//	// Shader Domain: Opaque
 
-		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_Tilemap_SC, sizeof(g_VS_Tilemap_SC), eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_Tilemap_SC, sizeof(g_PS_Tilemap_SC), eSHADER_TYPE::__PIXEL);
+	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+	//	pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE, pShader);
-	}
+	//	//쉐이더 설정 세팅
+	//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+	//	pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
+	//	pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::LESS);
+	//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 
-	{
-		// ============
-		// Particle
-		// ============
-		// Topology: Point List
-		// Rasterizer: CULL_BACK(백페이스 컬링)
-		// Blend State: Alpha Blend
-		// Depth Stemcil: NO Write
-		// Shader Domain: Transparent
+	//	//쉐이더 컴파일
+	//	pShader->CreateShaderFromHeader(g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), eSHADER_TYPE::__VERTEX);
+	//	pShader->CreateShaderFromHeader(g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), eSHADER_TYPE::__PIXEL);
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
-		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
+	//	AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPATLAS, pShader);
+	//}
 
-		//쉐이더 설정 세팅
-		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-		pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
-		pShader->SetBlendState(eBLEND_STATE_TYPE::ALPHA_BLEND);
-		pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::NO_WRITE);
-		pShader->SetShaderDomain(eSHADER_DOMAIN::_TRANSPARENT);
+	//{
+	//	// ============
+	//	// Tilemap Complete
+	//	// ============
+	//	// Topology: TriangleList
+	//	// Rasterizer: CULL_BACK(백페이스 컬링)
+	//	// Blend State: Default
+	//	// Depth Stemcil: LESS
+	//	// Shader Domain: Opaque
+	//	
+	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+	//	pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
-		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_Particle, sizeof(g_VS_Particle), eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_GS_Particle, sizeof(g_GS_Particle), eSHADER_TYPE::__GEOMETRY);
-		pShader->CreateShaderFromHeader(g_PS_Particle, sizeof(g_PS_Particle), eSHADER_TYPE::__PIXEL);
+	//	//쉐이더 설정 세팅
+	//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+	//	pShader->SetBlendState(eBLEND_STATE_TYPE::DEFAULT);
+	//	pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::LESS);
+	//	pShader->SetShaderDomain(eSHADER_DOMAIN::_OPAQUE);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE, pShader);
-	}
-	
+	//	//쉐이더 컴파일
+	//	pShader->CreateShaderFromHeader(g_VS_Tilemap_SC, sizeof(g_VS_Tilemap_SC), eSHADER_TYPE::__VERTEX);
+	//	pShader->CreateShaderFromHeader(g_PS_Tilemap_SC, sizeof(g_PS_Tilemap_SC), eSHADER_TYPE::__PIXEL);
 
+	//	AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE, pShader);
+	//}
+
+	//{
+	//	// ============
+	//	// Particle
+	//	// ============
+	//	// Topology: Point List
+	//	// Rasterizer: CULL_BACK(백페이스 컬링)
+	//	// Blend State: Alpha Blend
+	//	// Depth Stemcil: NO Write
+	//	// Shader Domain: Transparent
+
+	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+	//	pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
+
+	//	//쉐이더 설정 세팅
+	//	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	//	pShader->SetRasterizerState(eRASTERIZER_TYPE::CULL_BACK);
+	//	pShader->SetBlendState(eBLEND_STATE_TYPE::ALPHA_BLEND);
+	//	pShader->SetDepthStencilState(eDEPTH_STENCIL_TYPE::NO_WRITE);
+	//	pShader->SetShaderDomain(eSHADER_DOMAIN::_TRANSPARENT);
+
+	//	//쉐이더 컴파일
+	//	pShader->CreateShaderFromHeader(g_VS_Particle, sizeof(g_VS_Particle), eSHADER_TYPE::__VERTEX);
+	//	pShader->CreateShaderFromHeader(g_GS_Particle, sizeof(g_GS_Particle), eSHADER_TYPE::__GEOMETRY);
+	//	pShader->CreateShaderFromHeader(g_PS_Particle, sizeof(g_PS_Particle), eSHADER_TYPE::__PIXEL);
+
+	//	AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE, pShader);
+	//}
 
 	std::filesystem::path GSDir(CPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::GRAPHICS_SHADER));
 

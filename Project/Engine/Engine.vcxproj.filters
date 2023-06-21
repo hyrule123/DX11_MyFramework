@@ -401,9 +401,6 @@
     <Filter Include="HLSL\02. Std2D">
       <UniqueIdentifier>{c73311b6-268a-452a-b46c-ffcc31b0df37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HLSL\01. Test">
-      <UniqueIdentifier>{847b22ce-0079-497b-84dd-2686cdecdae2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HLSL\05. Particle_Render">
       <UniqueIdentifier>{58580cd2-1a84-459b-887a-60873a309d25}</UniqueIdentifier>
     </Filter>
@@ -533,9 +530,6 @@
     <Filter Include="_Default">
       <UniqueIdentifier>{bf35e007-92a1-401c-bb41-cafe9c4fd5e1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HLSL\00. Debug">
-      <UniqueIdentifier>{3964de6a-5569-49d3-84a2-49fbf7126a03}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HLSL\99. Compute">
       <UniqueIdentifier>{32db0407-1029-4935-bd20-af2104ddee58}</UniqueIdentifier>
     </Filter>
@@ -569,6 +563,9 @@
     <Filter Include="_Source\06. Component\11. ScriptHolder">
       <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HLSL\01. Debug">
+      <UniqueIdentifier>{3964de6a-5569-49d3-84a2-49fbf7126a03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -587,11 +584,8 @@
     <None Include="S_H_STD2D.hlsli">
       <Filter>HLSL\02. Std2D</Filter>
     </None>
-    <None Include="S_H_Test.hlsli">
-      <Filter>HLSL\01. Test</Filter>
-    </None>
     <None Include="S_H_Debug.hlsli">
-      <Filter>HLSL\00. Debug</Filter>
+      <Filter>HLSL\01. Debug</Filter>
     </None>
     <None Include="S_H_SCMapLoader.hlsli">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
@@ -622,17 +616,11 @@
     <FxCompile Include="S_0_V_STD2D.hlsl">
       <Filter>HLSL\02. Std2D</Filter>
     </FxCompile>
-    <FxCompile Include="S_4_P_Test.hlsl">
-      <Filter>HLSL\01. Test</Filter>
-    </FxCompile>
-    <FxCompile Include="S_0_V_Test.hlsl">
-      <Filter>HLSL\01. Test</Filter>
-    </FxCompile>
     <FxCompile Include="S_0_V_Debug.hlsl">
-      <Filter>HLSL\00. Debug</Filter>
+      <Filter>HLSL\01. Debug</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_Debug.hlsl">
-      <Filter>HLSL\00. Debug</Filter>
+      <Filter>HLSL\01. Debug</Filter>
     </FxCompile>
     <FxCompile Include="S_C_SetColor.hlsl">
       <Filter>HLSL\99. Compute\01. SetColor</Filter>

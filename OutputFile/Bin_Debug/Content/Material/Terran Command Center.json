@@ -11,6 +11,7 @@
 		""
 	],
 	"eRES_TYPE" : 2,
+	"strKey" : "Terran Command Center",
 	"strKey_Shader" : "BuildingStructure.json",
 	"strName" : ""
 }

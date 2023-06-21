@@ -11,6 +11,7 @@
 		""
 	],
 	"eRES_TYPE" : 2,
+	"strKey" : "Vespene_Smoke",
 	"strKey_Shader" : "SCUnitGround.json",
 	"strName" : ""
 }
