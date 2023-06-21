@@ -45,13 +45,13 @@ public:
     CScriptHolder* ScriptHolder() const { return m_pHolder; }
 
 private:
-    bool m_bEnable;
+    bool m_bDisable;
 public:
-    void SetEnable(bool _bEnable) { m_bEnable = _bEnable; }
-    bool GetEnable() const { return m_bEnable; }
+    void SetEnable(bool _bEnable) { m_bDisable = _bEnable; }
+    bool GetEnable() const { return m_bDisable; }
     
 public:
-    CTransform* Transform() const { return m_pHolder->Transform(); }
+    CTransform& Transform() const { return m_pHolder->Transform(); }
     CMeshRender* MeshRender() const { return m_pHolder->MeshRender(); }
     CCamera* Camera() const { return m_pHolder->Camera(); }
     CRenderComponent* RenderCom() const { return m_pHolder->RenderComponent(); }

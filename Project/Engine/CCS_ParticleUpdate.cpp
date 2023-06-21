@@ -67,7 +67,7 @@ bool CCS_ParticleUpdate::BindDataCS()
 		return false;
 
 	//파티클 컴포넌트의 월드위치를 컴퓨트쉐이더의 버퍼에 담아서 전달한다.
-	SetParticleOwnerPos(m_pBufferOwner->Transform()->GetWorldPos());
+	SetParticleOwnerPos(m_pBufferOwner->Transform().GetWorldPos());
 
 	//스레드 그룹 수 계산. 파티클은 무조건 배열 형태이므로 x축으로 스레드를 배열한다.
 	CalcGroupNumber(m_pSBuffer_Transform->GetCapacity(), 1u, 1u);

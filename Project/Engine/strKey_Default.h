@@ -268,6 +268,8 @@ namespace RES_INFO
 
 		namespace JSON_KEY
 		{
+			STRKEY_DECLARE(m_Transform);
+
 			//CComponent* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
 			STRKEY_DECLARE(m_arrCom);
 

@@ -33,8 +33,8 @@ void CScript_FSM_Move_Ground::OnState()
 {
 	if (false == IsArrived())
 	{
-		CTransform* pTransform = Transform();
-		Vec2 pos = pTransform->GetRelativePos().XY();
+		CTransform& pTransform = Transform();
+		Vec2 pos = pTransform.GetRelativePos().XY();
 
 		//이동하기 전 거리 차이를 계산한다.
 		const Vec2& PrevDist = GetDestination() -pos;
@@ -70,15 +70,15 @@ void CScript_FSM_Move_Ground::OnState()
 		}
 #endif
 
-		float CurAngle = Transform()->GetRelativeRot().z;
+		float CurAngle = Transform().GetRelativeRot().z;
 
-		pTransform->SetRelativeRotZ(acos);
+		pTransform.SetRelativeRotZ(acos);
 
 		Move *= GetSpeed() * DELTA_TIME;
 
 		//이동 후 거리 계산
 		const Vec2& AfterPos = pos + Move;
-		pTransform->SetRelativePosXY(AfterPos);
+		pTransform.SetRelativePosXY(AfterPos);
 
 		//이동 후 위치와 이동 전 위치를 곱한다. 만약 음수가 나올 경우 목적지를 지나친 것이다.
 		const Vec2& ArriveCheck = (GetDestination() - AfterPos) * PrevDist;

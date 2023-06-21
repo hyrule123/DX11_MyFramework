@@ -133,9 +133,6 @@
     <ClInclude Include="CUIobj_Component.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Transform.h">
-      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\00. Transform UI</Filter>
-    </ClInclude>
     <ClInclude Include="CUIobj_Collider2D.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\01. Collider2D UI</Filter>
     </ClInclude>
@@ -274,9 +271,6 @@
     </ClCompile>
     <ClCompile Include="CUIobj_Component.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="CUIobj_Transform.cpp">
-      <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\00. Transform UI</Filter>
     </ClCompile>
     <ClCompile Include="CUIobj_Collider2D.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\01. Collider2D UI</Filter>

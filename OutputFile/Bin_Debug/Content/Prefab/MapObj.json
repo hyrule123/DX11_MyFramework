@@ -1,38 +1,38 @@
 {
 	"GameObject" : 
 	{
+		"m_Transform" : 
+		{
+			"bInheritRot" : true,
+			"bInheritScale" : true,
+			"bLockRot" : false,
+			"v3RelativePos" : 
+			[
+				0,
+				0,
+				0
+			],
+			"v3RelativeRot" : 
+			[
+				0,
+				0,
+				0
+			],
+			"v3RelativeScale" : 
+			[
+				1065353216,
+				1065353216,
+				1065353216
+			],
+			"v3Size" : 
+			[
+				1120403456,
+				1120403456,
+				1120403456
+			]
+		},
 		"m_arrCom" : 
 		[
-			{
-				"bInheritRot" : true,
-				"bInheritScale" : true,
-				"bLockRot" : false,
-				"eComponentType" : 0,
-				"v3RelativePos" : 
-				[
-					0,
-					0,
-					0
-				],
-				"v3RelativeRot" : 
-				[
-					0,
-					0,
-					0
-				],
-				"v3RelativeScale" : 
-				[
-					1065353216,
-					1065353216,
-					1065353216
-				],
-				"v3Size" : 
-				[
-					1120403456,
-					1120403456,
-					1120403456
-				]
-			},
 			null,
 			null,
 			null,
@@ -43,14 +43,14 @@
 			null,
 			null,
 			{
-				"eComponentType" : 10,
+				"eComponentType" : 9,
 				"strKeyMesh" : "RectMesh",
 				"strKeyMtrl" : "TilemapComplete.json"
 			},
 			null,
 			null,
 			{
-				"eComponentType" : 13,
+				"eComponentType" : 12,
 				"m_vecScript_strKey" : 
 				[
 					{

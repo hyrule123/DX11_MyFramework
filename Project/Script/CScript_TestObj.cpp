@@ -33,8 +33,8 @@ void CScript_TestObj::init()
 
 void CScript_TestObj::tick()
 {
-	Vec3 Scale = Transform()->GetRelativeScale();
-	Vec3 Rot = Transform()->GetRelativeRot();
+	Vec3 Scale = Transform().GetRelativeScale();
+	Vec3 Rot = Transform().GetRelativeRot();
 
 	if (KEY_PRESSED(eKEY::E))
 	{
@@ -42,6 +42,6 @@ void CScript_TestObj::tick()
 		Rot += Vec3(0.f, 0.f, 1.f) * DELTA_TIME;
 	}
 
-	Transform()->SetRelativeRot(Rot);
-	Transform()->SetRelativeScale(Scale);
+	Transform().SetRelativeRot(Rot);
+	Transform().SetRelativeScale(Scale);
 }

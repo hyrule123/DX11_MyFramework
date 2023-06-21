@@ -73,7 +73,7 @@ void CCollider2D_Circle::UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos)
 
 void CCollider2D_Circle::DebugRender()
 {
-	CTransform* pTransform = Transform();
+	const CTransform& pTransform = Transform();
 
 	const Matrix& matOffset = Matrix::CreateTranslation(GetCenterPos());
 

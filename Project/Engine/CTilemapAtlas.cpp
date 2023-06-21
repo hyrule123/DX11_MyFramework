@@ -47,7 +47,7 @@ bool CTilemapAtlas::render()
 	CMaterial* pMtrl = GetCurMaterial().Get();
 
 	//트랜스폼 업데이트 시켜줌
-	//Transform()->UpdateData();
+	//Transform().UpdateData();
 
 	UINT count = GetTileCountX();
 	pOwner->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_X, &count);

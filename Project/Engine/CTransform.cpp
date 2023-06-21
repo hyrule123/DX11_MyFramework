@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CTransform.h"
 
+#include "CGameObject.h"
+
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
@@ -19,7 +21,7 @@
 
 
 CTransform::CTransform()
-	: CComponent(eCOMPONENT_TYPE::TRANSFORM)
+	: m_pOwner()
 	, m_v3Size(100.f, 100.f, 100.f)
 	, m_v3RelativeScale(1.f, 1.f, 1.f)
 	, m_bIsDefaultScale(true)
@@ -65,7 +67,7 @@ void CTransform::finaltick()
 		Updated = true;
 
 		//부모 행렬이 있을 경우 부모행렬을 곱해줌.
-		if (GetOwner()->GetParent())
+		if (m_pOwner->GetParent())
 			m_matWorldWithoutSize = m_matRelative * m_matParent;
 		else
 			m_matWorldWithoutSize = m_matRelative;
@@ -89,7 +91,7 @@ void CTransform::finaltick()
 	}
 
 	if (Updated)
-		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &m_matWorld);
+		m_pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &m_matWorld);
 }
 
 bool CTransform::SaveJson(Json::Value* _pJson)
@@ -100,9 +102,7 @@ bool CTransform::SaveJson(Json::Value* _pJson)
 	//Transform 항목을 하나 만들어서 그 안에 저장
 	Json::Value& jVal = (*_pJson);
 
-	//상위 컴포넌트 항목들도 마찬가지로 내부에 저장한다.
-	if (false == CComponent::SaveJson(&jVal))
-		return false;
+	
 
 	
 	{//사이즈 X, Y, Z 순서로 저장
@@ -149,8 +149,6 @@ bool CTransform::SaveJson(Json::Value* _pJson)
 bool CTransform::LoadJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
-		return false;
-	else if (false == CComponent::LoadJson(_pJson))
 		return false;
 
 	Json::Value& jVal = (*_pJson);
@@ -279,7 +277,7 @@ void CTransform::UpdateParentMatrix()
 	//부모 오브젝트가 있을 경우 부모의 월드행렬을 받아온다. 
 	//성공 시 true가 반환되므로 이 때는 상속 과정을 시작하면 됨
 	bool bWorldDirInherit = false;
-	if (true == GetOwner()->GetParentWorldMatrix(m_matParent))
+	if (true == m_pOwner->GetParentWorldMatrix(m_matParent))
 	{
 		if (true == m_bInheritRot)
 		{
@@ -320,3 +318,11 @@ void CTransform::UpdateParentMatrix()
 	}
 }
 
+void CTransform::SetMyUpdate()
+{
+	//이미 설정이 되어 있다면 return
+	if (true == m_bNeedMyUpdate)
+		return;
+	m_bNeedMyUpdate = true;
+	m_pOwner->SetChildTransformToUpdate();
+}

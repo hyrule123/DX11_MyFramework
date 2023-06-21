@@ -45,7 +45,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>true</EnableUnitySupport>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -53,7 +53,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>true</EnableUnitySupport>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -183,7 +183,6 @@
     <ClInclude Include="CUIobj_ScriptHolder.h" />
     <ClInclude Include="CUI_Structs.h" />
     <ClInclude Include="CUIobj_Tilemap.h" />
-    <ClInclude Include="CUIobj_Transform.h" />
     <ClInclude Include="CUI_BasicWIndow.h" />
     <ClInclude Include="CUIobj_TestWindow.h" />
     <ClInclude Include="CUI_Tree.h" />
@@ -231,7 +230,6 @@
     <ClCompile Include="CUI_PopupWIndow.cpp" />
     <ClCompile Include="CUIobj_ScriptHolder.cpp" />
     <ClCompile Include="CUIobj_Tilemap.cpp" />
-    <ClCompile Include="CUIobj_Transform.cpp" />
     <ClCompile Include="CUI_BasicWindow.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>

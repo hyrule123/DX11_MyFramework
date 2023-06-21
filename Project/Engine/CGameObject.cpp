@@ -27,28 +27,32 @@
 #include "CResMgr.h"
 
 CGameObject::CGameObject()
-	: m_arrCom{}
+	: m_Transform()
+	, m_arrCom{}
 	, m_RenderCom()
 	, m_Parent()
 	, m_iLayerIdx(-1)
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
 	, m_bDestroy()
 	, m_bStart()
-	, m_bEnable(true)
+	, m_bDisable(false)
 	, m_bPrevEnable()
 {
-	AddComponent(new CTransform);
+	m_Transform.SetOwner(this);
 }
 
 CGameObject::CGameObject(const CGameObject& _other)
 	: CEntity(_other)
+	, m_Transform(_other.m_Transform)
 	, m_arrCom{}
 	, m_iLayerIdx(_other.m_iLayerIdx)
 	, m_bDestroy()
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
-	, m_bEnable(_other.m_bEnable)
+	, m_bDisable(_other.m_bDisable)
 	, m_bPrevEnable(_other.m_bPrevEnable)
 {
+	m_Transform.SetOwner(this);
+
 	//1. 컴포넌트 목록 복사
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
@@ -178,14 +182,13 @@ void CGameObject::OnEnable()
 void CGameObject::tick()
 {
 	//자신이 파괴 대기 상태일 경우 자신과 모든 자식들에 대해 tick을 처리하지 않음
-	if (true == m_bDestroy)
+	if (m_bDestroy || m_bDisable)
 		return;
 	else if (false == m_bStart)
 	{
 		m_bStart = true;
 		start();
 	}
-		
 
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
@@ -209,6 +212,8 @@ void CGameObject::finaltick()
 		cleanup();
 		return;
 	}
+	else if (m_bDisable)
+		return;
 	else if (FLT_MAX_NEGATIVE != m_fLifeSpan)
 	{
 		m_fLifeSpan -= DELTA_TIME;
@@ -219,7 +224,7 @@ void CGameObject::finaltick()
 		}
 	}
 		
-	
+	m_Transform.finaltick();
 
 	//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER; ++i)
@@ -235,9 +240,8 @@ void CGameObject::finaltick()
 	}
 
 
-	//자녀 포함 모든 컴포넌트가 업데이트 되면 업데이트 상황 초기화
-	if (nullptr != m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])
-		static_cast<CTransform*>(m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM])->ClearUpdateState();
+	//자녀 포함 모든 컴포넌트가 업데이트 되면 트랜스폼의 업데이트 상황 초기화
+	m_Transform.ClearUpdateState();
 }
 
 bool CGameObject::render()
@@ -291,7 +295,10 @@ bool CGameObject::SaveJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-	string strKeyarrCom = string(RES_INFO::PREFAB::JSON_KEY::m_arrCom);
+	jVal[RES_INFO::PREFAB::JSON_KEY::m_Transform] = Json::Value(Json::ValueType::objectValue);
+	m_Transform.SaveJson(&jVal[RES_INFO::PREFAB::JSON_KEY::m_Transform]);
+
+	string strKeyarrCom = RES_INFO::PREFAB::JSON_KEY::m_arrCom;
 	jVal[strKeyarrCom] = Json::Value(Json::ValueType::arrayValue);
 	for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
 	{
@@ -380,6 +387,15 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
+
+	//트랜스폼 정보는 없어도 로딩이 되도록
+	{
+		constexpr const char* strKey = RES_INFO::PREFAB::JSON_KEY::m_Transform;
+		if (jVal.isMember(strKey))
+			m_Transform.LoadJson(&jVal[strKey]);
+	}
+
+
 	string strKeyarrCom = string(RES_INFO::PREFAB::JSON_KEY::m_arrCom);
 	if (jVal.isMember(strKeyarrCom))
 	{
@@ -395,11 +411,6 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 			CComponent* pCom = nullptr;
 			switch ((eCOMPONENT_TYPE)i)
 			{
-			case eCOMPONENT_TYPE::TRANSFORM:
-			{
-				Transform()->LoadJson(&jsonComponent);
-				break;
-			}
 				
 			case eCOMPONENT_TYPE::COLLIDER2D:
 			{
@@ -531,7 +542,6 @@ void CGameObject::AddComponent(CComponent* _Component)
 
 	switch ((eCOMPONENT_TYPE)ComType)
 	{
-	case eCOMPONENT_TYPE::TRANSFORM:
 	case eCOMPONENT_TYPE::COLLIDER2D:
 	case eCOMPONENT_TYPE::COLLIDER3D:
 	case eCOMPONENT_TYPE::ANIMATOR2D:
@@ -621,8 +631,7 @@ void CGameObject::RemoveChild(CGameObject* _Object)
 
 void CGameObject::SetParentMatrixUpdated()
 {
-	if (nullptr != Transform())
-		Transform()->SetParentUpdate();
+	Transform().SetParentUpdate();
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
@@ -634,19 +643,18 @@ void CGameObject::SetParentMatrixUpdated()
 bool CGameObject::GetParentWorldMatrix(Matrix& _mat)
 {
 	//부모 오브젝트가 없거나 트랜스폼이 없을 경우 false 반환
-	if (nullptr == m_Parent || nullptr == m_Parent->Transform())
+	if (nullptr == m_Parent)
 		return false;
 
 	//있을 경우 인자에 그대로 대입, true 반환.
-	_mat = m_Parent->Transform()->GetWorldMatWithoutSize();
+	_mat = m_Parent->Transform().GetWorldMatWithoutSize();
 	return true;
 }
 
 
 void CGameObject::SetChildTransformToUpdate()
 {
-	if (nullptr != Transform())
-		Transform()->SetParentUpdate();
+	Transform().SetParentUpdate();
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)

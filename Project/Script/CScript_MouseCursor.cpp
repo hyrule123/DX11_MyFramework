@@ -84,8 +84,8 @@ void CScript_MouseCursor::OnCollision(CCollider* _Collider, const Vec3& _v3HitPo
 			else
 			{
 				//새로 들어온 오브젝트의 Z축이 더 앞에 있을 경우 해당 오브젝트를 등록한다.
-				float originalZ = m_pObj_ZCheck->Transform()->GetWorldPos().z;
-				float newZ = _Collider->GetOwner()->Transform()->GetWorldPos().z;
+				float originalZ = m_pObj_ZCheck->Transform().GetWorldPos().z;
+				float newZ = _Collider->GetOwner()->Transform().GetWorldPos().z;
 				if (newZ < originalZ)
 					m_pObj_ZCheck = _Collider->GetOwner();
 			}
@@ -118,5 +118,5 @@ void CScript_MouseCursor::CalcPos()
 	m_v2CursorPos.x += Pos.x;
 	m_v2CursorPos.y += Pos.y;
 
-	Transform()->SetRelativePos(Vec3(m_v2CursorPos, 0.f));
+	Transform().SetRelativePos(Vec3(m_v2CursorPos, 0.f));
 }

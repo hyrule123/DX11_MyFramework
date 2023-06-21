@@ -42,7 +42,7 @@ void CScript_Vespene::init()
 		default:
 			break;
 		}
-		vecObj[i]->Transform()->SetRelativePosXY(Pos);
+		vecObj[i]->Transform().SetRelativePosXY(Pos);
 	}
 	
 }

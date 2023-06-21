@@ -283,8 +283,8 @@ void CEditorObjMgr::CreateEditorCamera()
 	pCam->SetLayerFlag(UINT32_MAX);
 	pCam->SetCamIndex(eCAMERA_INDEX::EDITOR);
 
-	CTransform* pTransform = m_pEditorCam->Transform();
-	pTransform->SetRelativePos(Vec3(0.f, 0.f, -100.f));
+	CTransform& pTransform = m_pEditorCam->Transform();
+	pTransform.SetRelativePos(Vec3(0.f, 0.f, -100.f));
 
 	m_pEditorCam->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPT::CAMERAMOVE));
 

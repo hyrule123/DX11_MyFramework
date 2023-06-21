@@ -40,9 +40,9 @@ public:
     
 
 private:
-    CGameObject*         m_pOwner;
-    const eCOMPONENT_TYPE m_eComponentType;
-    bool                 m_bIsDisabled;
+    CGameObject*            m_pOwner;
+    const eCOMPONENT_TYPE   m_eComponentType;
+    bool                    m_bIsDisabled;
 
 public:
     //inline Setter
@@ -57,7 +57,7 @@ public:
     bool isDisabled() const { return m_bIsDisabled; }
 
 public:
-    CTransform*         Transform()         { return m_pOwner->Transform(); }
+    CTransform&         Transform()         { return m_pOwner->Transform(); }
     CMeshRender*        MeshRender()        { return m_pOwner->MeshRender(); }
     CCamera*            Camera()            { return m_pOwner->Camera(); }
     CAnimator2D*        Animator2D()        { return m_pOwner->Animator2D(); }

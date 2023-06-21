@@ -1,27 +1,34 @@
 #pragma once
-#include "CComponent.h"
 
+#include "CEntity.h"
 
+#include "define.h"
+#include <UtilLib_DLL/json/forwards.h>
+
+class CGameObject;
 class CTransform :
-    public CComponent
+    public CEntity
 {
 public:
     CTransform();
+
     //단순 Value만 저장 중이므로 기본 복사 생성자로도 충분함.
     virtual ~CTransform();
+
+    CTransform(const CTransform& _other) = default;
     CLONE(CTransform);
 
 public:
-    virtual void finaltick() override;
-    virtual void cleanup() override {};
-    //void UpdateData();
+    void finaltick();
 
 public:
-    bool SaveJson(Json::Value* _pJson) override;
-    bool LoadJson(Json::Value* _pJson) override;
+    bool SaveJson(Json::Value* _pJson);
+    bool LoadJson(Json::Value* _pJson);
 
+private:
+    CGameObject* m_pOwner;
 public:
-
+    void SetOwner(CGameObject* _pObj) { m_pOwner = _pObj; }
 
 private:
     Vec3    m_v3Size;
@@ -183,19 +190,8 @@ inline void CTransform::SetRelativeScale(float _x, float _y, float _z)
     m_bIsDefaultScale = false;
 }
 
-inline void CTransform::SetMyUpdate()
-{
-    //이미 설정이 되어 있다면 return
-    if (true == m_bNeedMyUpdate)
-        return;
-    m_bNeedMyUpdate = true; 
-    GetOwner()->SetChildTransformToUpdate();
-}
+
  
-//inline float CTransform::GetAABBSideLen() const
-//{
-//    return (Vec3(m_matSize._11, m_matSize._22, m_matSize._33) * GetWorldScale()).Length();
-//}
 
 inline Vec3 CTransform::GetWorldSize() const
 {

@@ -1,40 +1,40 @@
 {
 	"GameObject" : 
 	{
+		"m_Transform" : 
+		{
+			"bInheritRot" : true,
+			"bInheritScale" : true,
+			"bLockRot" : false,
+			"v3RelativePos" : 
+			[
+				0,
+				0,
+				0
+			],
+			"v3RelativeRot" : 
+			[
+				0,
+				0,
+				0
+			],
+			"v3RelativeScale" : 
+			[
+				1065353216,
+				1065353216,
+				1065353216
+			],
+			"v3Size" : 
+			[
+				1120403456,
+				1120403456,
+				1120403456
+			]
+		},
 		"m_arrCom" : 
 		[
 			{
-				"bInheritRot" : true,
-				"bInheritScale" : true,
-				"bLockRot" : false,
 				"eComponentType" : 0,
-				"v3RelativePos" : 
-				[
-					0,
-					0,
-					0
-				],
-				"v3RelativeRot" : 
-				[
-					0,
-					0,
-					0
-				],
-				"v3RelativeScale" : 
-				[
-					1065353216,
-					1065353216,
-					1065353216
-				],
-				"v3Size" : 
-				[
-					1120403456,
-					1120403456,
-					1120403456
-				]
-			},
-			{
-				"eComponentType" : 1,
 				"m_bFollowTransformSize" : false,
 				"m_eColType" : 0,
 				"m_v3OffsetPos" : 
@@ -52,7 +52,7 @@
 			},
 			null,
 			{
-				"eComponentType" : 3,
+				"eComponentType" : 2,
 				"m_arrAtlasTex" : 
 				[
 					"SC/Terran/CommandCenter(control).bmp",
@@ -66,7 +66,7 @@
 			null,
 			null,
 			{
-				"eComponentType" : 8,
+				"eComponentType" : 7,
 				"strKeyMesh" : "RectMesh",
 				"strKeyMtrl" : "Terran Command Center"
 			},
@@ -75,7 +75,7 @@
 			null,
 			null,
 			{
-				"eComponentType" : 13,
+				"eComponentType" : 12,
 				"m_vecScript_strKey" : 
 				[
 					{

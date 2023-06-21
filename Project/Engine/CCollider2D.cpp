@@ -87,7 +87,7 @@ void CCollider2D::UpdateCollider()
 
 //void CCollider2D::UpdateSimpleCollider(Vec4& _vSimpleCollLBRTPos)
 //{
-//	CTransform* pTransform = Transform();
+//	const CTransform& pTransform = Transform();
 //
 //	if (nullptr != pTransform)
 //	{

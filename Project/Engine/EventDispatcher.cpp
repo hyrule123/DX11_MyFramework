@@ -8,7 +8,7 @@
 
 void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx)
 {
-	_pNewObject->Transform()->SetRelativePos(_vWorldPos);
+	_pNewObject->Transform().SetRelativePos(_vWorldPos);
 
 	if (0 <= _LayerIdx)
 		_pNewObject->SetLayer(_LayerIdx);

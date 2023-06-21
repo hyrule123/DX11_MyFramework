@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "CUIobj_Inspector.h"
 
+#include "macroFunc_Imgui.h"
+
 //CComponents
-#include "CUIobj_Transform.h"
 #include "CUIobj_Collider2D.h"
 #include "CUIobj_Animator2D.h"
 #include "CUIobj_Light2D.h"
@@ -31,11 +32,6 @@ CUIobj_Inspector::CUIobj_Inspector()
 	, m_arrComUI{}
 {
 	SetSaveEnable(true);
-
-
-	m_arrComUI[(UINT)eCOMPONENT_TYPE::TRANSFORM] = new CUIobj_Transform;
-	m_arrComUI[(UINT)eCOMPONENT_TYPE::TRANSFORM]->SetSize(0.f, 150.f);
-	AddChildUI(m_arrComUI[(UINT)eCOMPONENT_TYPE::TRANSFORM]);
 	
 	m_arrComUI[(UINT)eCOMPONENT_TYPE::MESH_RENDER] = new CUIobj_MeshRender;
 	m_arrComUI[(UINT)eCOMPONENT_TYPE::MESH_RENDER]->SetSize(0.f, 150.f);
@@ -102,10 +98,8 @@ void CUIobj_Inspector::render_update()
 		ImGui::SameLine(100.f);
 		bool Changed = ImGui::DragInt("##Layer", &Layer);
 
-		//if (Changed)
-		//{
-		//	EventDispatcher::
-		//}
+		TransformIndicator();
+
 	}
 
 }
@@ -118,6 +112,58 @@ void CUIobj_Inspector::SetTarget(CGameObject* _pTarget)
 	{
 		if (nullptr != m_arrComUI[i])
 			m_arrComUI[i]->SetTarget(_pTarget);
+	}
+}
+
+void CUIobj_Inspector::TransformIndicator()
+{
+	//타겟 오브젝트가 있을 경우에는 컴포넌트 구분을 표시
+	IMGUI_Indicator(GetName().c_str(), ImColorPreset::DarkRed);
+	CTransform& pTransform = m_pTarget->Transform();
+
+	//값을 수정도 가능해야 하므로 일반 value로 받아온다.
+	Vec3 vPos = pTransform.GetRelativePos();
+	Vec3 vSize = pTransform.GetSize();
+	Vec3 vScale = pTransform.GetRelativeScale();
+	Vec3 vRot = (pTransform.GetRelativeRot() / XM_PI) * 180.f;
+
+
+	//IMGUI에 받아온 값을 표시
+	ImGui::Text("Position");
+	ImGui::SameLine(100.f);
+	bool PosChanged = ImGui::DragFloat3("##Relative Position", vPos);
+
+
+	ImGui::Text("Size");
+	ImGui::SameLine(100.f);
+	bool SizeChanged = ImGui::DragFloat3("##Size", vSize, 1.f, 0.f, FLT_MAX);
+
+
+	ImGui::Text("Scale");
+	ImGui::SameLine(100.f);
+	bool ScaleChanged = ImGui::DragFloat3("##Relative Scale", vScale, 0.1f, 0.f, FLT_MAX);
+
+
+	ImGui::Text("Rotation");
+	ImGui::SameLine(100.f);
+	bool RotationChanged = ImGui::DragFloat3("##Relative Rotation", vRot);
+
+
+
+	//값이 변경되었을 경우 다시 값을 설정.
+	if (true == PosChanged)
+		pTransform.SetRelativePos(vPos);
+
+	else if (true == SizeChanged)
+		pTransform.SetSize(vSize);
+
+	else if (true == ScaleChanged)
+		pTransform.SetRelativeScale(vScale);
+
+	else if (true == RotationChanged)
+	{
+		vRot = (vRot / 180.f) * XM_PI;
+		pTransform.SetRelativeRot(vRot);
 	}
 }
 

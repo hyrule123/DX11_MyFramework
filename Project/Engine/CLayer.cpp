@@ -58,9 +58,9 @@ void CLayer::AddGameObject(CGameObject* _Object)
 	if (FLT_MAX_NEGATIVE < m_fPresetZDepth)
 	{
 		if (_Object->IsMaster())
-			_Object->Transform()->SetRelativePosZ(m_fPresetZDepth);
+			_Object->Transform().SetRelativePosZ(m_fPresetZDepth);
 		else
-			_Object->Transform()->SetRelativePosZ(-1.f);
+			_Object->Transform().SetRelativePosZ(-1.f);
 	}
 }
 

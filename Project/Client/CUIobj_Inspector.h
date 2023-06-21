@@ -20,16 +20,16 @@ public:
     void render_update() override;
 
 private:
+    virtual void Save(Json::Value& _Save) override;
+    virtual void Load(Json::Value& _Load) override;
+
+private:
     CGameObject* m_pTarget;
     CUIobj_Component* m_arrComUI[(UINT)eCOMPONENT_TYPE::END];
 
 public:
     void SetTarget(CGameObject* _pTarget);
 
-
-
 private:
-    virtual void Save(Json::Value& _Save) override;
-    virtual void Load(Json::Value& _Load) override;
-
+    void TransformIndicator();
 };

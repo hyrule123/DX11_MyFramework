@@ -21,33 +21,33 @@ CScript_CameraMove::~CScript_CameraMove()
 
 void CScript_CameraMove::Camera2DMove()
 {
-	CTransform* pTransform = Transform();
-	Vec3 CamPos = pTransform->GetRelativePos();
-	Vec3 CamRot = pTransform->GetRelativeRot();
+	CTransform& pTransform = Transform();
+	Vec3 CamPos = pTransform.GetRelativePos();
+	Vec3 CamRot = pTransform.GetRelativeRot();
 
 	float DT = DELTA_TIME;
 
 	if (KEY_PRESSED(eKEY::W))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::UP);
+		Vec3 Dir = pTransform.GetRelativeDir(eDIR_TYPE::UP);
 
 		CamPos += DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(eKEY::S))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::UP);
+		Vec3 Dir = pTransform.GetRelativeDir(eDIR_TYPE::UP);
 
 		CamPos -= DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(eKEY::A))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
+		Vec3 Dir = pTransform.GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos -= DT * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(eKEY::D))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
+		Vec3 Dir = pTransform.GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos += DT * m_CamSpeed * Dir;
 	}
@@ -68,38 +68,38 @@ void CScript_CameraMove::Camera2DMove()
 		CamRot.y += DT * XM_PI;
 	}
 
-	pTransform->SetRelativeRot(CamRot);
-	pTransform->SetRelativePos(CamPos);
+	pTransform.SetRelativeRot(CamRot);
+	pTransform.SetRelativePos(CamPos);
 }
 
 void CScript_CameraMove::Camera3DMove()
 {
-	CTransform* pTransform = Transform();
-	Vec3 CamPos = pTransform->GetRelativePos();
-	Vec3 CamRot = pTransform->GetRelativeRot();
+	CTransform& pTransform = Transform();
+	Vec3 CamPos = pTransform.GetRelativePos();
+	Vec3 CamRot = pTransform.GetRelativeRot();
 
 
 	if (KEY_PRESSED(eKEY::W))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::FRONT);
+		Vec3 Dir = pTransform.GetRelativeDir(eDIR_TYPE::FRONT);
 
 		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(eKEY::S))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::FRONT);
+		Vec3 Dir = pTransform.GetRelativeDir(eDIR_TYPE::FRONT);
 
 		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(eKEY::A))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
+		Vec3 Dir = pTransform.GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos -= DELTA_TIME * m_CamSpeed * Dir;
 	}
 	if (KEY_PRESSED(eKEY::D))
 	{
-		Vec3 Dir = pTransform->GetRelativeDir(eDIR_TYPE::RIGHT);
+		Vec3 Dir = pTransform.GetRelativeDir(eDIR_TYPE::RIGHT);
 
 		CamPos += DELTA_TIME * m_CamSpeed * Dir;
 	}
@@ -116,8 +116,8 @@ void CScript_CameraMove::Camera3DMove()
 		CamRot.x -= DELTA_TIME * MouseDir.y * m_TurningForceRad;
 	}
 
-	pTransform->SetRelativePos(CamPos);
-	pTransform->SetRelativeRot(CamRot);
+	pTransform.SetRelativePos(CamPos);
+	pTransform.SetRelativeRot(CamRot);
 }
 
 void CScript_CameraMove::tick()

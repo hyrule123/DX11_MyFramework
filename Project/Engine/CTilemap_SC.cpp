@@ -116,12 +116,12 @@ bool CTilemap_SC::LoadMap(const string& _strMapName)
 	{
 		GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_tMapData.pMapTex);
 
-		CTransform* pTF = Transform();
+		CTransform& pTF = Transform();
 
 		g_GlobalVal.fMapSizeX = (float)m_tMapData.uNumMegatileX * 32.f;
 		g_GlobalVal.fMapSizeY = (float)m_tMapData.uNumMegatileY * 32.f;
 		
-		pTF->SetSize(Vec3(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY, 1.f));
+		pTF.SetSize(Vec3(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY, 1.f));
 
 
 		//스타크래프트 맵의 좌표는 Left Top이 원점이므로
@@ -130,7 +130,7 @@ bool CTilemap_SC::LoadMap(const string& _strMapName)
 		Vec2 MapPos = Vec2(g_GlobalVal.fMapSizeX, -g_GlobalVal.fMapSizeY);
 		MapPos /= 2.f;
 		
-		pTF->SetRelativePosXY(MapPos);
+		pTF.SetRelativePosXY(MapPos);
 	}
 
 	return m_bMapLoaded;

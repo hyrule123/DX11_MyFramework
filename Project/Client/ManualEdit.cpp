@@ -443,7 +443,7 @@ void ManualEdit::Mineral_Prefab_Save()
 			//4장 고정이므로 1/4
 			size.x *= 0.25f;
 
-			pObj->Transform()->SetSize(Vec3(size, 1.f));
+			pObj->Transform().SetSize(Vec3(size, 1.f));
 		}
 
 
@@ -537,7 +537,7 @@ void ManualEdit::Vespene_Prefab_Save()
 
 	//Transform
 	{
-		pObj->Transform()->SetSize(pObj->Collider2D()->GetCollSize());
+		pObj->Transform().SetSize(pObj->Collider2D()->GetCollSize());
 	}
 
 
@@ -586,7 +586,7 @@ void ManualEdit::Vespene_Prefab_Save()
 		//Transform
 		{
 			//셋 다 동일한 프리팹 파일을 사용하기 때문에 현재 구조상 스크립트에서 위치를 직접 설정해줘야 함
-			pChild->Transform()->SetRelativePosXY(Vec2(0.f, 0.f));
+			pChild->Transform().SetRelativePosXY(Vec2(0.f, 0.f));
 		}
 
 		//CAnimator2D

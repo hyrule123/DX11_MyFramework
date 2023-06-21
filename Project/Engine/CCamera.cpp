@@ -112,10 +112,10 @@ void CCamera::init()
 void CCamera::finaltick()
 {
 	//트랜스폼이 업데이트 되지 않았을 경우 자신도 업데이트 할 필요 없음
-	if (false == Transform()->IsUpdated())
+	if (false == Transform().IsUpdated())
 		return;
 
-	Vec3 vCamPos = Transform()->GetWorldPos();
+	Vec3 vCamPos = Transform().GetWorldPos();
 
 	//뷰행렬 = 카메라 앞으로 월드행렬의 물체들을 끌어오는 작업.
 	//도로 끌어오는 작업이므로 월드행렬에 배치했던 순서의 역순으로 작업을 해주면 된다.
@@ -153,11 +153,11 @@ void CCamera::finaltick()
 	//이런 직교행렬은 전치행렬이 자신의 역행렬이 되는 특징을 가지고 있다.
 	//회전행렬은 직교행렬이고, 역행렬은 돌렸던 걸 다시 원상복귀시키는 행렬이므로 
 	//회전행렬을 직교하면 현재 회전각의 반대 방향으로 돌릴 수 있게 된다.
-	//const Vec3& vecRot = Transform()->GetRelativeRot();
+	//const Vec3& vecRot = Transform().GetRelativeRot();
 	//const XMVECTOR& vecQut = XMQuaternionRotationRollPitchYawFromVector(vecRot);
 	//Matrix tempmat = Matrix::CreateFromQuaternion(vecQut);
 	//m_matView *= tempmat.Transpose();
-	const Matrix& matRot = Transform()->GetWorldRotMat();
+	const Matrix& matRot = Transform().GetWorldRotMat();
 	m_matView *= matRot.Transpose();
 
 	//3. transform 상수버퍼 구조체에 업데이트 -> 안함. 나중에 render때 일괄적으로 view 행렬과 proj 행렬을 곱할 예정.
@@ -228,11 +228,11 @@ void CCamera::SortObject()
 			//2D 직교 행렬을 사용중일 경우 2D 컬링 진행.
 			if (ePROJ_TYPE::ORTHOGRAPHY == m_eProjectionType)
 			{
-				const Vec3& WorldPos = vecObj[i]->Transform()->GetWorldPos();
-				float SideLen = vecObj[i]->Transform()->GetAABBSideLen();
+				const Vec3& WorldPos = vecObj[i]->Transform().GetWorldPos();
+				float SideLen = vecObj[i]->Transform().GetAABBSideLen();
 
 				//스크린상에서의  위치 구하기
-				const Vec3& ScreenPos = WorldPos - Transform()->GetWorldPos();
+				const Vec3& ScreenPos = WorldPos - Transform().GetWorldPos();
 
 				
 				const Vec2& ResHalf = g_GlobalVal.v2Res * 0.5f;

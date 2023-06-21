@@ -28,11 +28,10 @@ CCollider2D_OBB::~CCollider2D_OBB()
 void CCollider2D_OBB::UpdateCollider()
 {
 	//충돌체 주소를 가져온다.
-	CTransform* pTransform = GetOwner()->Transform();
-	assert(nullptr != pTransform);
-	//자신의 OBB 정보를 계산한다.
+	const CTransform& pTransform = GetOwner()->Transform();
 
-	const Matrix& WorldMat = pTransform->GetWorldMatWithoutSize();
+	//자신의 OBB 정보를 계산한다.
+	const Matrix& WorldMat = pTransform.GetWorldMatWithoutSize();
 	const Vec3& Size = GetCollSize();
 
 	for (int i = 0; i < (int)eAXIS2D::END; ++i)

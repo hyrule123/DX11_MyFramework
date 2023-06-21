@@ -84,7 +84,7 @@ void CParticleSystem::finaltick()
 
 	//렌더링하고 나면 PrevPos를 업데이트
 	m_tModuleData.vOwnerPrevWorldPos = m_tModuleData.vOwnerCurWorldPos;
-	m_tModuleData.vOwnerCurWorldPos = Transform()->GetWorldPos();
+	m_tModuleData.vOwnerCurWorldPos = Transform().GetWorldPos();
 }
 
 bool CParticleSystem::render()
@@ -93,7 +93,7 @@ bool CParticleSystem::render()
 	if (nullptr == m_pCSParticle || false == m_bIsCreated)
 		return true;
 
-	//Transform()->UpdateData();
+	//Transform().UpdateData();
 
 	CMaterial* pMtrl = GetCurMaterial().Get();
 	pMtrl->BindData();

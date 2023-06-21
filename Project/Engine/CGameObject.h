@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+#include "CTransform.h"
+
 class CComponent;
 class CTransform;
 class CCollider2D;
@@ -54,6 +56,7 @@ public:
 public:
 
 private:
+    CTransform              m_Transform;
     //Components
     CComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
     CRenderComponent*       m_RenderCom;
@@ -136,7 +139,7 @@ public:
 private:
     bool                    m_bStart;
 
-    bool                    m_bEnable;
+    bool                    m_bDisable;
     bool                    m_bPrevEnable;
     
 
@@ -145,7 +148,7 @@ public:
     ////Components
     CComponent*         GetComponent(eCOMPONENT_TYPE _type) const { return (CComponent*)m_arrCom[(UINT)_type]; }
 
-    CTransform*         Transform() const { return (CTransform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
+    CTransform&         Transform() { return m_Transform; }
 
     CCollider2D*        Collider2D() const { return (CCollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER2D]; }
     CCollider3D*        Collider3D() const { return (CCollider3D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER3D]; }
