@@ -19,15 +19,13 @@ CLayer::~CLayer()
 	size_t size = m_vecObject.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		if (nullptr == m_vecObject[i]->GetParent())
+		if (m_vecObject[i]->IsMaster())
 			SAFE_DELETE(m_vecObject[i]);
 	}
 }
 
 void CLayer::tick()
 {
-	assert(0 <= m_iLayerIdx && m_iLayerIdx < MAX_LAYER);
-
 	size_t size = m_vecObject.size();
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -84,13 +82,16 @@ void CLayer::RemoveGameObject(CGameObject* _Object)
 
 void CLayer::RemoveDestroyed()
 {
+	if (m_iLayerIdx == 6)
+		int a = 0;
+
 	//Destroy 상태의 오브젝트를 vector에서 제거
 	m_vecObject.erase(std::remove_if(m_vecObject.begin(), m_vecObject.end(),
-		[](CGameObject* _Obj)->bool
+		[](CGameObject*& _Obj)->bool
 		{
 			bool isDestroyed = _Obj->IsDestroyed();
 
-			if (isDestroyed)
+			if (isDestroyed && _Obj->IsMaster())
 				delete _Obj;
 
 			return isDestroyed;

@@ -55,6 +55,13 @@ void CEventMgr::DestroyGameObj(const tGameEvent& _event)
 		return;
 
 	_pObj->DestroyRecursive();
+
+	//만약 부모 오브젝트는 삭제 대상이 아닐 경우 부모로부터 연결 해제
+	CGameObject* pParent = _pObj->GetParent();
+	if (pParent && false == pParent->IsDestroyed())
+	{
+		pParent->RemoveChild(_pObj);
+	}
 }
 
 
