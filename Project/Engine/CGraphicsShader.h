@@ -7,6 +7,11 @@
 struct tShaderCode
 {
     ComPtr<ID3DBlob> blob;
+
+    //헤더 파일로부터 컴파일 했을 경우 여기에 주소만 저장(삭제 x)
+    const unsigned char* pByteCode;
+    size_t               ByteCodeSize;
+
     string strKey;
 };
 
@@ -57,19 +62,28 @@ private:
 private:
 
 
-public://INITIALIZE, Setter
-    HRESULT CreateDefaultInputLayout();
-
+public:
     //Compile from raw source file
-    HRESULT CreateShader(const wstring& _strFileName, const string_view _strFuncName, eSHADER_TYPE _ShaderType);
+    //런타임에 컴파일해서 쉐이더를 만드는 방식에 사용
+    //cso파일과 마찬가지로 Contents/Shader/Graphics/ 아래에 저장할것
+    HRESULT CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName, eSHADER_TYPE _ShaderType);
 
-    //Compile from Byte Code(HLSL header)
-    HRESULT CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, const string_view _strKeyShader = "");
+    //Compile from Header(헤더 파일의 경우 이미 데이터가 프로그램에 삽입되므로 복사 필요 x)
+    //엔진 내부 기본 쉐이더들을 위한 함수
+    //엔진 내부 기본 쉐이더와 직접 만든 쉐이더를 동시에 사용 불가.
+    HRESULT CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize, eSHADER_TYPE _eShaderType);
 
     //Compile from Byte Code inside of blob(cso)
+    //바이트 코드의 경우 메모리 릭 방지를 위해 ComPtr<ID3DBlob>에 넣어서 전달할 것
     HRESULT CreateShader(const tShaderCode& _tShaderCode, eSHADER_TYPE _ShaderType);
+
+    
 private:
-    HRESULT CreateShader(eSHADER_TYPE _ShaderType);
+    //Vertex Buffer 생성 후 입력조립기 생성
+    HRESULT CreateDefaultInputLayout();
+
+    //최종 내부 쉐이더 컴파일 코드
+    HRESULT CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize, eSHADER_TYPE _ShaderType);
 
 public:
 
@@ -93,11 +107,12 @@ public:
     virtual void BindData() override;
 };
 
-
 inline HRESULT CGraphicsShader::CreateShader(const tShaderCode& _tShaderCode, eSHADER_TYPE _eShaderType)
 {
     m_arrShaderCode[(int)_eShaderType] = _tShaderCode;
 
     //쉐이더를 생성한다.
-    return CreateShader(_eShaderType);
+    return CreateShaderPrivate(_tShaderCode.blob->GetBufferPointer(), _tShaderCode.blob->GetBufferSize(), _eShaderType);
 }
+
+

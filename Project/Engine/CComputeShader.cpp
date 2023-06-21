@@ -132,7 +132,7 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 	CSFile.read(pBuffer, fileSize);
 	CSFile.close();
 
-	hr = CreateShader();
+	hr = CreateShaderPrivate(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize());
 	if (FAILED(hr))
 		return false;
 
@@ -140,37 +140,26 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 }
 
 
-HRESULT CComputeShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize)
+HRESULT CComputeShader::CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize)
 {
-	if (nullptr == _pShaderByteCode || (size_t)0 == _ShaderByteCodeSize)
+	if (nullptr == _pByteCode)
 		return E_POINTER;
 
-	//Blob을 새로 만들고, 데이터를 입력한다.
-	HRESULT result = D3DCreateBlob(_ShaderByteCodeSize, m_pShaderData.ReleaseAndGetAddressOf());
-	if (FAILED(result))
-		return result;
-	
-	memcpy(m_pShaderData->GetBufferPointer(), _pShaderByteCode, _ShaderByteCodeSize);
+	m_pByteCode = _pByteCode;
+	m_ByteCodeSize = _ByteCodeSize;
 
-	result = DEVICE->CreateComputeShader(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize(), nullptr, m_CS.GetAddressOf());
-
-	//result = DEVICE->CreateComputeShader(
-	//	_pShaderByteCode, _ShaderByteCodeSize,
-	//	nullptr,
-	//	m_CS.GetAddressOf());
-
-	return result;
+	return CreateShaderPrivate((const void*)_pByteCode, _ByteCodeSize);
 }
 
 
-HRESULT CComputeShader::CreateShader(const wstring& _strFileName, const string_view _strFuncName)
+HRESULT CComputeShader::CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName)
 {
 	// 1. Shader 파일 경로 받아옴
 	std::filesystem::path shaderPath(CPathMgr::GetInst()->GetPathRel_Resource(GetResType()));
-	shaderPath /= _strFileName;
+	shaderPath /= _FileName;
 
-	//밑의 switch 문에서 _ShaderType가 잘못되어 있을 경우가 걸러지므로 ALL로 설정
-	//2. 쉐이더 타입에 따른 다른 파라미터용 변수를 할당
+	if (GetKey().empty())
+		SetKey(_FileName.string());
 
 	HRESULT result =
 		D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
@@ -183,22 +172,20 @@ HRESULT CComputeShader::CreateShader(const wstring& _strFileName, const string_v
 		return result;
 	}
 
-	return CreateShader();
+	return CreateShaderPrivate(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize());
 }
 
-
-HRESULT CComputeShader::CreateShader()
+HRESULT CComputeShader::CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize)
 {
-	return DEVICE->CreateComputeShader(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize(), nullptr, m_CS.GetAddressOf());
+	assert(_pByteCode && _ByteCodeSize);
+
+	return DEVICE->CreateComputeShader(_pByteCode, _ByteCodeSize, nullptr, m_CS.GetAddressOf());
 }
-
-
 
 
 #define CS_ELEM_COUNT_X eMTRLDATA_PARAM_SCALAR::INT_0
 #define CS_ELEM_COUNT_Y eMTRLDATA_PARAM_SCALAR::INT_1
 #define CS_ELEM_COUNT_Z eMTRLDATA_PARAM_SCALAR::INT_2
-
 void CComputeShader::CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _ElemCountZ)
 {
 

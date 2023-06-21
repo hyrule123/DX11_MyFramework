@@ -27,6 +27,10 @@ CRes::~CRes()
 
 bool CRes::Save(const std::filesystem::path& _fileName)
 {
+	//엔진 내부에서 생성되는 기본 리소스일경우 저장 하지 않음
+	if (m_bEngineDefaultRes)
+		return true;
+
 	//ResType을 인덱스로 써서 상대경로를 받아올 수 있다.
 	std::filesystem::path FilePath = GETRESPATH;
 	FilePath /= _fileName;
@@ -70,8 +74,8 @@ bool CRes::SaveJson(Json::Value* _pJson)
 		return false;
 
 	(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE)] = (int)m_eResType;
-	//(*_pJson)[string(RES_INFO::JSON_KEY::strKey)] = m_strKey;
-	(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE)] = (int)m_eResType;
+	(*_pJson)[string(RES_INFO::JSON_KEY::strKey)] = m_strKey;
+	//(*_pJson)[string(RES_INFO::JSON_KEY::eRES_TYPE)] = (int)m_eResType;
 
 	return true;
 }

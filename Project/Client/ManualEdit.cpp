@@ -245,7 +245,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
+		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
 		pMtrl->SetShader(pShader);
 		
 		//Mesh
@@ -364,7 +364,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::BUILDINGSTRUCTURE);
+		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::BUILDINGSTRUCTURE);
 		pMtrl->SetShader(pShader);
 
 		Ptr<CTexture> pFlash = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_PROD_CONTROLT__BMP);
@@ -651,7 +651,6 @@ void ManualEdit::Map_Prefab_Save()
 	//Script
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
-
 		pObj->AddScript(pScriptMgr->GetNewScript(strKey_SCRIPT::TILEMAPUNITLOADER));
 	}
 

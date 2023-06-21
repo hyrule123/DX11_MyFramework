@@ -254,22 +254,6 @@ if (false == jVal.isMember(_strKey))\
 	return true;
 }
 
-//bool CGraphicsShader::Load(const std::filesystem::path& _fileName)
-//{
-//	std::filesystem::path shaderPath = RELATIVE_PATH::SHADER_GRAPHICS::A;
-//	shaderPath /= _fileName;
-//
-//	std::ifstream fpShader(shaderPath);
-//	if (fpShader.is_open())
-//	{
-//		Json::Value shaderInfo;
-//		fpShader >> shaderInfo;
-//
-//		return LoadJson(&shaderInfo);
-//	}
-//	
-//	return false;
-//}
 
 HRESULT CGraphicsShader::CreateDefaultInputLayout()
 {
@@ -306,34 +290,85 @@ HRESULT CGraphicsShader::CreateDefaultInputLayout()
 	LayoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	LayoutDesc[1].InstanceDataStepRate = 0;
 	
+	const tShaderCode& shaderCode = m_arrShaderCode[(int)eSHADER_TYPE::__VERTEX];
 
-	//Vertex Buffer Blob을 참조해서 입력 레이아웃을 생성한다.
-	ComPtr<ID3DBlob>& VSData = m_arrShaderCode[(int)eSHADER_TYPE::__VERTEX].blob;
-	return DEVICE->CreateInputLayout(LayoutDesc, uNumDesc, VSData->GetBufferPointer(), VSData->GetBufferSize(), m_InputLayout.ReleaseAndGetAddressOf());
+	if (shaderCode.pByteCode)
+		return DEVICE->CreateInputLayout(LayoutDesc, uNumDesc, shaderCode.pByteCode, shaderCode.ByteCodeSize, m_InputLayout.ReleaseAndGetAddressOf());
+	else if (shaderCode.blob)
+	{
+		//Vertex Buffer Blob을 참조해서 입력 레이아웃을 생성한다.
+		const ComPtr<ID3DBlob>& VSData = shaderCode.blob;
+		return DEVICE->CreateInputLayout(LayoutDesc, uNumDesc, VSData->GetBufferPointer(), VSData->GetBufferSize(), m_InputLayout.ReleaseAndGetAddressOf());
+	}
 
+	return E_FAIL;
 }
 
 
-HRESULT CGraphicsShader::CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize, eSHADER_TYPE _ShaderType, const string_view _strKeyShader)
-{
-	if (nullptr == _pShaderByteCode || (size_t)0 == _ShaderByteCodeSize)
-		return E_POINTER;
 
-	tShaderCode sCode = {};
-	HRESULT hr = D3DCreateBlob(_ShaderByteCodeSize, sCode.blob.GetAddressOf());
-	if (FAILED(hr))
+HRESULT CGraphicsShader::CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize, eSHADER_TYPE _eShaderType)
+{
+	SetEngineDefaultRes(true);
+
+	m_arrShaderCode[(int)_eShaderType].blob.ReleaseAndGetAddressOf();
+	m_arrShaderCode[(int)_eShaderType].pByteCode = _pByteCode;
+	m_arrShaderCode[(int)_eShaderType].ByteCodeSize = _ByteCodeSize;
+
+	return CreateShaderPrivate(_pByteCode, _ByteCodeSize, _eShaderType);
+}
+
+
+HRESULT CGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize, eSHADER_TYPE _ShaderType)
+{
+	assert(_pByteCode && _ByteCodeSize);
+
+	int i = (int)_ShaderType;
+
+	switch (_ShaderType)
+	{
+	case eSHADER_TYPE::__VERTEX:
+	{
+		HRESULT hr = DEVICE->CreateVertexShader(_pByteCode, _ByteCodeSize, nullptr, m_VS.ReleaseAndGetAddressOf());
+
+		if (SUCCEEDED(hr))
+			CreateDefaultInputLayout();
+
 		return hr;
 
-	memcpy(sCode.blob->GetBufferPointer(), _pShaderByteCode, _ShaderByteCodeSize);
+		break;
+	}
 
-	return CreateShader(sCode, _ShaderType);
+	case eSHADER_TYPE::__HULL:
+		return DEVICE->CreateHullShader(_pByteCode, _ByteCodeSize, nullptr, m_HS.ReleaseAndGetAddressOf());
+		break;
+
+	case eSHADER_TYPE::__DOMAIN:
+		return DEVICE->CreateDomainShader(_pByteCode, _ByteCodeSize, nullptr, m_DS.ReleaseAndGetAddressOf());
+		break;
+
+	case eSHADER_TYPE::__GEOMETRY:
+		return DEVICE->CreateGeometryShader(_pByteCode, _ByteCodeSize, nullptr, m_GS.ReleaseAndGetAddressOf());
+		break;
+
+	case eSHADER_TYPE::__PIXEL:
+		return DEVICE->CreatePixelShader(_pByteCode, _ByteCodeSize, nullptr, m_PS.ReleaseAndGetAddressOf());
+		break;
+
+	default:
+		return E_FAIL;
+	}
+
+	return E_FAIL;
 }
 
-HRESULT CGraphicsShader::CreateShader(const wstring& _strFileName, const string_view _strFuncName, eSHADER_TYPE _ShaderType)
+HRESULT CGraphicsShader::CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName, eSHADER_TYPE _ShaderType)
 {
+	if (GetKey().empty())
+		SetKey(_FileName.string());
+
 	// 1. Shader 파일 경로 받아옴
 	std::filesystem::path shaderPath = GETRESPATH;
-	shaderPath /= _strFileName;
+	shaderPath /= _FileName;
 
 	char ShaderNameVersion[32] = {};
 	//2. 쉐이더 타입에 따른 다른 파라미터용 변수를 할당
@@ -365,11 +400,11 @@ HRESULT CGraphicsShader::CreateShader(const wstring& _strFileName, const string_
 		break;
 	}
 
-
+	ComPtr<ID3DBlob> pBlob = m_arrShaderCode[(int)_ShaderType].blob;
 
 	// Shader Compile
 	HRESULT hr = D3DCompileFromFile(shaderPath.wstring().c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, string(_strFuncName).c_str(), ShaderNameVersion, 0, 0, m_arrShaderCode[(int)_ShaderType].blob.ReleaseAndGetAddressOf(), m_ErrBlob.ReleaseAndGetAddressOf());
+		, string(_strFuncName).c_str(), ShaderNameVersion, 0, 0, pBlob.ReleaseAndGetAddressOf(), m_ErrBlob.ReleaseAndGetAddressOf());
 
 	if(FAILED(hr))
 	{
@@ -379,149 +414,13 @@ HRESULT CGraphicsShader::CreateShader(const wstring& _strFileName, const string_
 		return hr;
 	}
 
-	return CreateShader(_ShaderType);
+	m_arrShaderCode[(int)_ShaderType].pByteCode = nullptr;
+	m_arrShaderCode[(int)_ShaderType].ByteCodeSize = (size_t)0;
+
+
+	return CreateShaderPrivate(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), _ShaderType);
 }
 
-
-
-HRESULT CGraphicsShader::CreateShader(eSHADER_TYPE _ShaderType)
-{
-	int i = (int)_ShaderType;
-	ComPtr<ID3DBlob>& Data = m_arrShaderCode[i].blob;
-	const void* pBuffer = Data->GetBufferPointer();
-	size_t BufferSize = Data->GetBufferSize();
-
-	switch (_ShaderType)
-	{
-	case eSHADER_TYPE::__VERTEX:
-	{
-		HRESULT hr = DEVICE->CreateVertexShader(pBuffer, BufferSize, nullptr, m_VS.ReleaseAndGetAddressOf());
-
-		if (SUCCEEDED(hr))
-			CreateDefaultInputLayout();
-		
-		return hr;
-
-		break;
-	}
-
-		
-	case eSHADER_TYPE::__HULL:
-		return DEVICE->CreateHullShader(pBuffer, BufferSize, nullptr, m_HS.ReleaseAndGetAddressOf());
-		break;
-
-	case eSHADER_TYPE::__DOMAIN:
-		return DEVICE->CreateDomainShader(pBuffer, BufferSize, nullptr, m_DS.ReleaseAndGetAddressOf());
-		break;
-
-	case eSHADER_TYPE::__GEOMETRY:
-		return DEVICE->CreateGeometryShader(pBuffer, BufferSize, nullptr, m_GS.ReleaseAndGetAddressOf());
-		break;
-
-	case eSHADER_TYPE::__PIXEL:
-		return DEVICE->CreatePixelShader(pBuffer, BufferSize, nullptr, m_PS.ReleaseAndGetAddressOf());
-		break;
-
-	default:
-		return E_FAIL;
-	}
-}
-
-//void CGraphicsShader::CreateVertexShader(const wstring& _strFileName, const string_view _strFuncName)
-//{
-//	// Shader 파일 경로
-//	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();
-//	strShaderFile += _strFileName;
-//
-//	// VertexShader Compile
-//	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-//		, _strFuncName.c_str(), "vs_5_0", 0, 0, m_VSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
-//	{
-//		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-//			, "Vertex Shader Compile Failed!!", MB_OK);
-//	}
-//
-//	// 컴파일된 객체로 VertexShader, PixelShader 를 만든다.
-//	DEVICE->CreateVertexShader(m_VSBlob->GetBufferPointer(), m_VSBlob->GetBufferSize()
-//		, nullptr, m_VS.GetAddressOf());
-//
-//	m_ShaderLoadType[eShaderType]
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
-//}
-//
-//void CGraphicsShader::CreatePixelShader(const wstring& _strFileName, const string_view _strFuncName)
-//{
-//	// Shader 파일 경로
-//	wstring strShaderFile = CPathMgr::GetInst()->GetContentAbsPathW();
-//	strShaderFile += _strFileName;
-//
-//
-//	// PixelShader Compile	
-//	if (FAILED(D3DCompileFromFile(strShaderFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-//		, _strFuncName.c_str(), "ps_5_0", 0, 0, m_PSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf())))
-//	{
-//		MessageBoxA(nullptr, (const char*)m_ErrBlob->GetBufferPointer()
-//			, "Pixel Shader Compile Failed!!", MB_OK);
-//	}
-//
-//	// 컴파일된 객체로 PixelShader 를 만든다.
-//	DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer(), m_PSBlob->GetBufferSize()
-//		, nullptr, m_PS.GetAddressOf());
-//
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__PIXEL);
-//}
-
-//void CGraphicsShader::CreateVertexShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize)
-//{
-//
-//	D3DCreateBlob(_ShaderByteCodeSize, &m_Blob[(int)eSHADER_TYPE::__VERTEX]);
-//
-//	//Vertex Shader Compilation by included header
-//	DEVICE->CreateVertexShader(_pShaderByteCode, _ShaderByteCodeSize, nullptr, m_VS.GetAddressOf());
-//	
-//	// InputLayout 생성
-//	D3D11_INPUT_ELEMENT_DESC LayoutDesc[3] = {};
-//
-//	LayoutDesc[0].SemanticName = "POSITION";
-//	LayoutDesc[0].SemanticIndex = 0;
-//	LayoutDesc[0].AlignedByteOffset = 0;
-//	LayoutDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-//	LayoutDesc[0].InputSlot = 0;
-//	LayoutDesc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-//	LayoutDesc[0].InstanceDataStepRate = 0;
-//
-//	LayoutDesc[1].SemanticName = "COLOR";
-//	LayoutDesc[1].SemanticIndex = 0;
-//	LayoutDesc[1].AlignedByteOffset = 12;
-//	LayoutDesc[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-//	LayoutDesc[1].InputSlot = 0;
-//	LayoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-//	LayoutDesc[1].InstanceDataStepRate = 0;
-//
-//	LayoutDesc[2].SemanticName = "TEXCOORD";
-//	LayoutDesc[2].SemanticIndex = 0;
-//	LayoutDesc[2].AlignedByteOffset = 28;
-//	LayoutDesc[2].Format = DXGI_FORMAT_R32G32_FLOAT;
-//	LayoutDesc[2].InputSlot = 0;
-//	LayoutDesc[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-//	LayoutDesc[2].InstanceDataStepRate = 0;
-//	
-//
-//	if (FAILED(DEVICE->CreateDefaultInputLayout(LayoutDesc, 3
-//		, _pShaderByteCode, _ShaderByteCodeSize
-//		, m_InputLayout.GetAddressOf())))
-//	{
-//		assert(nullptr);
-//	}
-//
-//	AddPipeLineStage(eSHADER_PIPELINE_STAGE::__VERTEX);
-//
-//}
-//
-//void CGraphicsShader::CreatePixelShader(void* _pShaderByteCode, size_t _ShaderByteCodeSize)
-//{
-//	DEVICE->CreatePixelShader(g_test_VS, sizeof(g_test_PS), nullptr, m_PS.GetAddressOf());
-//}
 
 void CGraphicsShader::BindData()
 {

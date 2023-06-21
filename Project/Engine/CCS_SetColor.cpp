@@ -7,14 +7,14 @@
 
 #include "strKey_Default.h"
 
-STRKEY CSFileName_SetColor = "S_C_SetColor";
+#include "DefaultShader/S_C_SetColor.h"
 
 CCS_SetColor::CCS_SetColor()
 {
-	std::filesystem::path FilePath = CSFileName_SetColor;
-	FilePath += RES_INFO::SHADER::Ext_ShaderSetting;
-	if (false == Load(FilePath))
-		throw(std::runtime_error("Compute Shader\n\"S_C_SetColor\"\nCompile Failed!!"));
+	SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::SETCOLOR);
+
+	HRESULT hr = CreateShaderFromHeader(g_CS_SetColor , sizeof(g_CS_SetColor));
+	assert(SUCCEEDED(hr));
 
 	UINT Target = eSHADER_PIPELINE_STAGE::__ALL;
 	m_StructBufferTest = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::SETCOLOR, idx_t_SBUFFER_SETCOLOR, idx_u_SETCOLOR_SBUFFERRW });

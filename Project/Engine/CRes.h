@@ -26,10 +26,11 @@ public:
 
 private:
     int             m_iRefCount;
-
     eRES_TYPE       m_eResType;
     string          m_strKey;
     //std::filesystem::path         m_RelativePath;
+
+    bool            m_bEngineDefaultRes;
 
 public:
     void SetKey(const string_view _strKey) { m_strKey = _strKey; }
@@ -38,6 +39,9 @@ public:
     eRES_TYPE GetResType() const { return m_eResType; }
 
     int GetRefCount() const { return m_iRefCount; }
+
+    void SetEngineDefaultRes(bool _bDefault) { m_bEngineDefaultRes = _bDefault; }
+    bool IsEngineDefaultRes() const { return m_bEngineDefaultRes; }
 
 private:
     void AddRef() { ++m_iRefCount; }

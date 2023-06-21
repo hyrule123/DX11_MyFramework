@@ -135,8 +135,8 @@ inline void CResMgr::AddRes(const string_view _strKey, Ptr<T>& _Res)
 
     eRES_TYPE type = GetResType<T>();
 
-    m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
     _Res->SetKey(_strKey);
+    m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
 }
 
 template<typename T>

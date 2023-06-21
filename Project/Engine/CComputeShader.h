@@ -40,6 +40,11 @@ private:
     //쉐이더 컴파일 관련
     //Blob = Binary Large Object
     ComPtr<ID3DBlob>            m_pShaderData;
+
+    //헤더에서 컴파일 시
+    const unsigned char* m_pByteCode;
+    size_t               m_ByteCodeSize;
+
     ComPtr<ID3D11ComputeShader> m_CS;
 
     //공유 데이터를 전달하기위한 상수버퍼용 구조체
@@ -52,11 +57,11 @@ private:
     UINT                        m_uNumGroupArr[NumAxis];
     
 public:
-    HRESULT CreateShader(char* _pShaderByteCode, size_t _ShaderByteCodeSize);
-    HRESULT CreateShader(const wstring& _strFileName, const string_view _strFuncName);
+    HRESULT CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize);
+    HRESULT CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName);
     HRESULT CreateShader(ComPtr<ID3DBlob> _pBlob);
 private:
-    HRESULT CreateShader();
+    HRESULT CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize);
 
 public:
     void CalcGroupNumber(UINT _ElemCountX, UINT _ElemCountY, UINT _ElemCountZ);
@@ -70,5 +75,7 @@ public:
 inline HRESULT CComputeShader::CreateShader(ComPtr<ID3DBlob> _pBlob)
 {
     m_pShaderData.Swap(_pBlob);
-    return CreateShader();
+    return CreateShaderPrivate(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize());
 }
+
+
