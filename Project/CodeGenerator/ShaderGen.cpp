@@ -108,6 +108,7 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 	catch (const filesystem::filesystem_error& error)
 	{
 		MessageBoxA(nullptr, "Unable to Iterate Directory.", nullptr, MB_OK);
+		assert(false);
 		throw(error);
 	}
 	//생성된 HLSL 파일 순회 끝
@@ -204,7 +205,6 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 		{
 			ModifiedList << iter + "\n";
 		}
-
 		ModifiedList.close();
 
 		if (bNewShaderDetected)

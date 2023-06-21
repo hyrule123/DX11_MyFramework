@@ -22,7 +22,7 @@ void CScript_FSM_Death::EnterState(const tFSM_Event& _tEvent)
     CAnimator2D* pAnimator = Animator2D();
     assert(pAnimator);
 
-    pAnimator->Play(SC::FSM::strKey_Anim::DEATH, eANIM_LOOPMODE::NONE, false);
+    pAnimator->Play(SC::FSM::strKey_Anim::DEATH, eANIM_PLAYMODE::NONE, false);
 
     //충돌체 제거
     EventDispatcher::RemoveComponent(GetOwner(), eCOMPONENT_TYPE::COLLIDER2D);

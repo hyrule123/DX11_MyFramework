@@ -24,7 +24,7 @@ CAnimator2D::CAnimator2D()
     , m_bFinishChecked()
     , m_fTimePerFrame()
     , m_fFullPlayTime()
-    , m_eLoopMode()
+    , m_ePlayMode()
     , m_bReverse()
     , m_bFlipX()
     , m_iCurAtlasTexIdx()
@@ -46,7 +46,7 @@ CAnimator2D::CAnimator2D(const CAnimator2D& _other)
     , m_uMaxFrameCount(_other.m_uMaxFrameCount)
     , m_fTimePerFrame(_other.m_fTimePerFrame)
     , m_fFullPlayTime(_other.m_fFullPlayTime)
-    , m_eLoopMode(_other.m_eLoopMode)
+    , m_ePlayMode(_other.m_ePlayMode)
     , m_bReverse(_other.m_bReverse)
     , m_bFlipX(_other.m_bFlipX)
     , m_iCurAtlasTexIdx(_other.m_iCurAtlasTexIdx)
@@ -213,12 +213,17 @@ void CAnimator2D::finaltick()
             if (true == m_bFinish)
             {
                 //역재생이나 루프가 설정되어있을 경우
-                switch (m_eLoopMode)
+                switch (m_ePlayMode)
                 {
-                case eANIM_LOOPMODE::NONE:
+                case eANIM_PLAYMODE::NONE:
                     //해줄거 없음
                     break;
-                case eANIM_LOOPMODE::NORMAL_LOOP:
+                case eANIM_PLAYMODE::DISABLE_AFTER_PLAY:
+                {
+                    RenderComponent()->SetDisable(true);
+                }
+                    break;
+                case eANIM_PLAYMODE::NORMAL_LOOP:
                     //프레임을 다시 0번으로 변경
                     if (false == m_bReverse)
                         m_iCurFrameIdx = 0;
@@ -227,7 +232,7 @@ void CAnimator2D::finaltick()
 
                     m_bFinish = false;
                     break;
-                case eANIM_LOOPMODE::ZIG_ZAG:
+                case eANIM_PLAYMODE::ZIG_ZAG:
 
                     //프레임 0번으로 변경하고 리버스 모드를 반대로 바꿈
                     m_bReverse = !m_bReverse;
@@ -353,7 +358,7 @@ const tAnim2D* CAnimator2D::FindAnim(const string_view _strKey_Anim)
     return Anim;
 }
 
-bool CAnimator2D::Play(const string_view _strKey_Anim, eANIM_LOOPMODE _eLoopMode, bool _bReverse)
+bool CAnimator2D::Play(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlayMode, bool _bReverse)
 {
     const tAnim2D* pAnim = nullptr;
 
@@ -382,7 +387,7 @@ bool CAnimator2D::Play(const string_view _strKey_Anim, eANIM_LOOPMODE _eLoopMode
 
 
     //재생 준비
-    m_eLoopMode = _eLoopMode;
+    m_ePlayMode = _ePlayMode;
     m_bReverse = _bReverse;
 
     m_fCurTime = 0.f;
@@ -403,7 +408,69 @@ bool CAnimator2D::Play(const string_view _strKey_Anim, eANIM_LOOPMODE _eLoopMode
     {
         Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
     }
+
+    RenderComponent()->SetDisable(false);
+    SetDisable(false);
             
+    //재생준비 완료 - true 반환
+    return true;
+}
+
+bool CAnimator2D::PreparePlay(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlayMode, bool _bReverse)
+{
+    const tAnim2D* pAnim = nullptr;
+
+    for (int i = 0; i < MAXNUM_ANIM; ++i)
+    {
+        if (nullptr == m_arrAtlasTex[i])
+            continue;
+
+        pAnim = m_arrAtlasTex[i]->FindAnim2D(_strKey_Anim);
+        if (pAnim)
+        {
+            m_iCurAtlasTexIdx = i;
+            break;
+        }
+    }
+
+    if (nullptr == pAnim)
+        return false;
+
+    //동일한 애니메이션에 대해 재생을 요청했을 경우 그냥 냅둠(true 반환)
+    else if (pAnim == m_pCurAnim)
+        return true;
+
+    //예외처리 완료. 애니메이션 전환
+    m_pCurAnim = pAnim;
+
+
+    //재생 준비
+    m_ePlayMode = _ePlayMode;
+    m_bReverse = _bReverse;
+
+    m_fCurTime = 0.f;
+    m_bFinish = true;
+    m_bFinishChecked = true;
+    m_bFlipX = false;
+
+    m_uMaxFrameCount = m_pCurAnim->uNumFrame;
+
+    if (false == m_bReverse)
+        m_iCurFrameIdx = 0;
+    else
+        m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
+
+    m_fTimePerFrame = m_pCurAnim->fTimePerFrame;
+    m_fFullPlayTime = m_pCurAnim->fFullPlayTime;
+
+    if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
+    {
+        Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
+    }
+
+    RenderComponent()->SetDisable(true);
+    SetDisable(true);
+
     //재생준비 완료 - true 반환
     return true;
 }
@@ -417,6 +484,9 @@ void CAnimator2D::PlayAgain()
 
     m_fCurTime = 0.f;
     m_bFinish = false;
+
+    RenderComponent()->SetDisable(false);
+    SetDisable(false);
 }
 
 const Vec2 CAnimator2D::GetCurFrameSize() 

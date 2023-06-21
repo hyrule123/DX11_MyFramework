@@ -66,7 +66,7 @@ private:
     float                   m_fTimePerFrame;
     float                   m_fFullPlayTime;
 
-    eANIM_LOOPMODE          m_eLoopMode;
+    eANIM_PLAYMODE          m_ePlayMode;
     bool                    m_bReverse;
     bool                    m_bFlipX;
 //========================================================
@@ -85,7 +85,11 @@ public:
     void AddAtlasTex(eMTRLDATA_PARAM_TEX _eTexParam, Ptr<CAnim2DAtlas> _pAtlasTex);
 
     const tAnim2D* FindAnim(const string_view _strKey_Anim);
-    bool Play(const string_view _strKey_Anim, eANIM_LOOPMODE _eLoopMode, bool _bReverse);
+    bool Play(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlayMode, bool _bReverse);
+
+    //재생 '준비'만 해놓고 대기
+    //PlayAgain()을 통해서 재생
+    bool PreparePlay(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlayMode, bool _bReverse);
 
     //현재 재생중인 애니메이션을 그대로 역재생함.
     void ReverseCurrent() { m_bReverse = !m_bReverse; }

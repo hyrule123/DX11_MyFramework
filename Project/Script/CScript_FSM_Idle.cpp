@@ -76,7 +76,7 @@ void CScript_FSM_Idle::EnterState(const tFSM_Event& _tEvent)
     if (pAnimator)
     {
         using namespace SC;
-        pAnimator->Play(FSM::strKey_Anim::IDLE, eANIM_LOOPMODE::NORMAL_LOOP, false);
+        pAnimator->Play(FSM::strKey_Anim::IDLE, eANIM_PLAYMODE::NORMAL_LOOP, false);
     }
 }
 

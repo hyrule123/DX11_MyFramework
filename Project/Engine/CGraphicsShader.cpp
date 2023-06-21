@@ -25,7 +25,6 @@ CGraphicsShader::CGraphicsShader()
 	, m_arrShaderCode{}
 	, m_bUseInstancing()
 {
-	
 }
 
 CGraphicsShader::~CGraphicsShader()

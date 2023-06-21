@@ -45,12 +45,12 @@ void CScript_FSM_Attack::EnterState(const tFSM_Event& _tEvent)
 	if (m_bIsReadyAnim)
 	{
 		m_eAtkState = eATTACK_STATE::BEGIN_ATTACK;
-		Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK_BEGIN_END, eANIM_LOOPMODE::NONE, false);
+		Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK_BEGIN_END, eANIM_PLAYMODE::NONE, false);
 	}
 	else
 	{
 		m_eAtkState = eATTACK_STATE::ATTACKING;
-		Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK, eANIM_LOOPMODE::NONE, false);
+		Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK, eANIM_PLAYMODE::NONE, false);
 	}
 }
 
@@ -66,7 +66,7 @@ void CScript_FSM_Attack::OnState()
 		{
 		case eATTACK_STATE::BEGIN_ATTACK:
 			m_eAtkState = eATTACK_STATE::ATTACKING;
-			pAnim->Play(SC::FSM::strKey_Anim::ATTACK, eANIM_LOOPMODE::NONE, false);
+			pAnim->Play(SC::FSM::strKey_Anim::ATTACK, eANIM_PLAYMODE::NONE, false);
 			break;
 		case eATTACK_STATE::ATTACKING:
 			//TODO: 타겟 유무 검사(죽었는지 안 죽었는지)
@@ -122,7 +122,7 @@ eFSM_RESULT CScript_FSM_Attack::CheckCondition(const tFSM_Event& _tEvent)
 			if (m_bIsReadyAnim)
 			{
 				m_eAtkState = eATTACK_STATE::END_ATTACK;
-				Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK_BEGIN_END, eANIM_LOOPMODE::NONE, true);
+				Animator2D()->Play(SC::FSM::strKey_Anim::ATTACK_BEGIN_END, eANIM_PLAYMODE::NONE, true);
 				return eFSM_RESULT::RESERVE;
 			}
 			else

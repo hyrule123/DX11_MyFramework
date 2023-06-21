@@ -19,7 +19,6 @@ namespace strKey_SHADER
 		STRKEY SCUNITGROUND = "SCUnitGround.json";
 		STRKEY STD2D = "STD2D.json";
 		STRKEY STD2DLIGHT = "STD2DLight.json";
-		STRKEY TEST = "Test.json";
 		STRKEY TILEMAPATLAS = "TilemapAtlas.json";
 		STRKEY TILEMAPCOMPLETE = "TilemapComplete.json";
 	}

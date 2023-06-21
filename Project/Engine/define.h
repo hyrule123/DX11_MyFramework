@@ -322,9 +322,10 @@ enum class eLEVEL_STATE
 	STOP
 };
 
-enum class eANIM_LOOPMODE
+enum class eANIM_PLAYMODE
 {
 	NONE,
+	DISABLE_AFTER_PLAY,
 	NORMAL_LOOP,
 	ZIG_ZAG
 };
