@@ -52,7 +52,7 @@ private:
 	bool m_bEditorCamMode;
 
 	//카메라가 쉐이더 도메인에 따라 분류한 결과를 저장
-	vector<tRenderInfo>    m_arrvecShaderDomain[(UINT)eSHADER_DOMAIN::_END];
+	vector<tRenderInfo>    m_arrvecShaderDomain[(UINT)def_Shader::eSHADER_DOMAIN::_END];
 
 	//Key: Mesh + Mtrl 주소 담긴 구조체, Value: 동일 조건으로 인스턴싱 될 객체의 정보 vector
 	map<tInstancingKey, vector<tMtrlScalarData>> m_mapInstancing;
@@ -79,7 +79,7 @@ public:
 	bool IsEditorCamMode() const { return m_bEditorCamMode; }
 
 	//렌더링 단계 관련
-	void AddRenderQueue(tRenderInfo _pRenderCom, eSHADER_DOMAIN _eShaderDomain);
+	void AddRenderQueue(tRenderInfo _pRenderCom, def_Shader::eSHADER_DOMAIN _eShaderDomain);
 
 	void AddInstancingQueue(const tInstancingKey& _Key, const tMtrlScalarData& _Value);
 	void InstancedRender();
@@ -116,7 +116,7 @@ inline CCamera* CRenderMgr::GetCurCamera()
 }
 
 
-inline void CRenderMgr::AddRenderQueue(tRenderInfo _pRenderCom, eSHADER_DOMAIN _eShaderDomain)
+inline void CRenderMgr::AddRenderQueue(tRenderInfo _pRenderCom, def_Shader::eSHADER_DOMAIN _eShaderDomain)
 {
 	m_arrvecShaderDomain[(int)_eShaderDomain].push_back(_pRenderCom);
 }

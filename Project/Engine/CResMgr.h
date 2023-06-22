@@ -15,6 +15,8 @@
 #include "CComputeShader.h"
 #include "CAnim2DAtlas.h"
 
+#include <type_traits>
+
 //새 Res 추가
 //1. define.h enum에 Res 타입 추가했는지 확인
 //2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
@@ -55,7 +57,7 @@ public:
 
     Ptr<CRes> Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName);
 
-    template <typename T>
+    template <typename T,typename TBase = CRes>
     eRES_TYPE GetResType();
 
     template<typename T>
@@ -84,9 +86,23 @@ public:
     Ptr<CTexture> CreateTexture(const string_view _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
 };
 
-template<typename T>
+template<typename T,typename TBase>
 inline eRES_TYPE CResMgr::GetResType()
 {
+    bool is_derived = std::is_base_of_v<TBase, T>;
+    bool is_TBase_equal_to_CRes = std::is_same_v<TBase, CRes>;
+
+    //TBase를 상속한 리소스 타입이지만 TBase가 CRes가 아닐 때
+    if(is_derived && false == is_TBase_equal_to_CRes)
+    {
+        const auto& iter = m_umapResClassTypeIndex.find(std::type_index(typeid(TBase)));
+
+        if (iter == m_umapResClassTypeIndex.end())
+            return eRES_TYPE::UNKNOWN;
+
+        return iter->second;
+    }
+    
     const auto& iter = m_umapResClassTypeIndex.find(std::type_index(typeid(T)));
 
     if (iter == m_umapResClassTypeIndex.end())

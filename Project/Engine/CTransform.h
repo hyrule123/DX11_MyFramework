@@ -88,6 +88,7 @@ public:
 
     //사이즈의 경우 전체를 갱신할 필요 없음.
     void SetSize(const Vec3& _vSize);
+    void SetSizeXY(const Vec2& _v2Size);
 
     void SetRelativePos(const Vec3& _vPos) { m_v3RelativePos = _vPos; SetMyUpdate(); }
     void SetRelativePosXY(const Vec2& _vPos) { m_v3RelativePos.x = _vPos.x; m_v3RelativePos.y = _vPos.y; SetMyUpdate(); }
@@ -171,6 +172,12 @@ private:
 inline void CTransform::SetSize(const Vec3& _vSize)
 {
     m_v3Size = _vSize;
+    m_bSizeUpdated = true;
+}
+
+inline void CTransform::SetSizeXY(const Vec2& _v2Size)
+{
+    m_v3Size = _v2Size;
     m_bSizeUpdated = true;
 }
 

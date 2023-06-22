@@ -34,7 +34,7 @@ public:
 
 struct tShaderSetting
 {
-	string FileName[(int)eSHADER_TYPE::END];
+	string FileName[(int)def_Shader::eSHADER_TYPE::END];
 };
 
 void InitShaderSettingGraphics(Json::Value& _jVal, const pair<string, tShaderSetting>& _mapPair);
@@ -86,7 +86,7 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 				string SFileNameBase = SFileName.replace_extension("").string();
 
 				//이름을 통해서 어떤 파이프라인인지를 유추한다.
-				for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
+				for (int i = 0; i < (int)def_Shader::eSHADER_TYPE::END; ++i)
 				{
 					size_t strPos = SFileNameBase.find(RES_INFO::SHADER::GRAPHICS::arrPrefix[i]);
 					if (string::npos != strPos)
@@ -164,7 +164,7 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 		{
 			//데이터 확인 후 쉐이더 파이프라인 단계에 차이점이 있을 경우 파이프라인 단계값을 갱신하고 파일로 내보낸다.
 			//변경점이 없으면 파일로 내보내지 않는다.
-			for (int i = 0; i < (int)eSHADER_TYPE::END; ++i)
+			for (int i = 0; i < (int)def_Shader::eSHADER_TYPE::END; ++i)
 			{
 				using namespace RES_INFO::SHADER;
 				const string strKey = GRAPHICS::JSON_KEY::arr_strKey_PipeLine[i];

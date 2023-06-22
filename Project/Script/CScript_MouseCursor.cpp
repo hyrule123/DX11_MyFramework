@@ -39,7 +39,7 @@ void CScript_MouseCursor::tick()
 	{
 		m_pSelectedGameObject = m_pObj_ZCheck;
 		m_pObj_ZCheck = nullptr;
-	}
+	}	
 
 	if (m_pSelectedGameObject)
 	{
@@ -47,7 +47,7 @@ void CScript_MouseCursor::tick()
 		if (m_pSelectedGameObject->IsDestroyed())
 			m_pSelectedGameObject = nullptr;
 
-		//아닐 경우 + 우클릭을 했을 경우 이동 스크립트를 가져와서 이동시킨다.
+		//아닐 경우 + 우클릭을 했을 경우 이동 크립트를 가져와서 이동시킨다.
 		else if(KEY_DOWN(eKEY::RBTN))
 		{
 			(CFSM_Move_Base*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::MOVE));

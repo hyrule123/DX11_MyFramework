@@ -256,7 +256,6 @@ namespace strKey_TEXTURE
 		STRKEY GASTANK_BMP = "SC/Neutral/gastank.bmp";
 		STRKEY GENERATE_GENERATOR__BMP = "SC/Neutral/Generate(Generator).bmp";
 		STRKEY GEYSER_BMP = "SC/Neutral/geyser.bmp";
-		STRKEY GEYSER_ORIGINAL_BMP = "SC/Neutral/geyser_Original.bmp";
 		STRKEY GEYSHAD_BMP = "SC/Neutral/geyshad.bmp";
 		STRKEY MIN01_BMP = "SC/Neutral/min01.bmp";
 		STRKEY MIN01SHA_BMP = "SC/Neutral/min01sha.bmp";

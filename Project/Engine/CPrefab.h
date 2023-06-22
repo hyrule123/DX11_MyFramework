@@ -16,6 +16,7 @@ private:
 public:
     //SaveMode로 생성시에는 파일을 제거하지 않음.
     void         RegisterPrefab(CGameObject* _pPrefab, bool _bIsSaveMode = false);
+    bool         IsAvailable() const { return nullptr != m_pPrefab; }
 
 private:
     //SaveMode로 생성시에는 파일을 제거하지 않음.

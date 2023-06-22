@@ -3,9 +3,25 @@
 
 #ifdef __cplusplus
 
+struct tMapInfo
+{
+    UINT32 uNumMegatileX;
+    UINT32 uNumMegatileY;
+    eTILESET_INFO eTileSet;
+    UINT32 Padding;
+};
+
 #else
 
 #include "S_H_Register.hlsli"
+
+struct tMapInfo
+{
+	UINT32 uNumMegatileX;
+	UINT32 uNumMegatileY;
+	UINT32 eTileSet;
+	UINT32 Padding;
+};
 
 #endif
 

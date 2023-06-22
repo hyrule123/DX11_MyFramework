@@ -19,7 +19,7 @@ public:
     virtual void cleanup() override {};
 
 private:
-    SC_Map::tMapData m_tMapData;
+    shared_ptr<SC_Map::tMapData> m_pMapData;
     bool    m_bMapLoaded;
     bool    m_bUnitLoaded;
 
@@ -27,15 +27,15 @@ public:
     bool LoadMap(const string_view _strMapName);
 
 private:
-    std::function<void(const SC_Map::tMapData&)> m_funcLoadUnit;
+    std::function<void(const shared_ptr<SC_Map::tMapData> _pMapData)> m_funcLoadUnit;
     std::function<void(void)> m_funcUnloadUnit;
 public:
-    void SetFunc_LoadUnit(std::function<void(const SC_Map::tMapData&)> _pFuncLoad, std::function<void(void)> _pFuncUnload);
+    void SetFunc_LoadUnit(std::function<void(const shared_ptr<SC_Map::tMapData> _pMapData)> _pFuncLoad, std::function<void(void)> _pFuncUnload);
     
 };
 
 
-inline void CTilemap_SC::SetFunc_LoadUnit(std::function<void(const SC_Map::tMapData&)> _pFuncLoad, std::function<void(void)> _pFuncUnload)
+inline void CTilemap_SC::SetFunc_LoadUnit(std::function<void(const shared_ptr<SC_Map::tMapData> _pMapData)> _pFuncLoad, std::function<void(void)> _pFuncUnload)
 {
     assert(_pFuncLoad && _pFuncUnload);
     m_funcLoadUnit = _pFuncLoad; 

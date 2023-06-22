@@ -251,7 +251,17 @@ struct tMtrlTexData
 
 //STD2D 기반 쉐이더에서 사용. 플래그 지정
 #define MTRL_SCALAR_STD2D_FLAG                  MTRLDATA_PARAM_SCALAR(INT, 1)
+ENUM_BEGIN(eMTRL_SCALAR_STD2D_FLAG, int)
+    ENUM_MEMBER(USE_VP, int, 1 << 0) //TRUE == WVP 행렬로 전달 FALSE == VP 행렬 따로 전달
+    ENUM_MEMBER(USE_ANIM, int, 1<<1)
+    ENUM_MEMBER(USE_PIVOT, int, 1<<2)
+    ENUM_MEMBER(NEED_FLIP_X, int, 1<<3)
+    ENUM_MEMBER(USE_COLOR_KEY, int, 1<<4)
+ENUM_END
 
+/////////////////////////////////////////////////////
+//              ANIMATION 관련
+////////////////////////////////////////////////////
 //현재 재생하고 있는 애니메이션이 몇 번째 텍스처인지
 #define MTRL_SCALAR_STD2D_ANIM_TEXATLAS_IDX     MTRLDATA_PARAM_SCALAR(INT, 2)
 
@@ -265,13 +275,7 @@ struct tMtrlTexData
 #define MTRL_SCALAR_STD2D_COLORKEY              MTRLDATA_PARAM_SCALAR(VEC4, 0)
 
 
-ENUM_BEGIN(eMTRL_SCALAR_STD2D_FLAG, int)
-    ENUM_MEMBER(USE_VP, int, 1 << 0) //TRUE == WVP 행렬로 전달 FALSE == VP 행렬 따로 전달
-    ENUM_MEMBER(USE_ANIM, int, 1<<1)
-    ENUM_MEMBER(USE_PIVOT, int, 1<<2)
-    ENUM_MEMBER(NEED_FLIP_X, int, 1<<3)
-    ENUM_MEMBER(USE_COLOR_KEY, int, 1<<4)
-ENUM_END
+
 
 
 

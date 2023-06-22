@@ -19,12 +19,14 @@
 #include <type_traits>
 #include <thread>
 #include <future>
+#include <memory>
 
 using std::vector;
 using std::list;
 using std::map;
 using std::unordered_map;
 using std::make_pair;
+using std::shared_ptr;
 
 using std::wstring;
 using std::string;

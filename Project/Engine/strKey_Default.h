@@ -495,7 +495,7 @@ namespace RES_INFO
 		namespace GRAPHICS
 		{
 			STRKEY DirName = DIRECTORY_NAME::SHADER_GRAPHICS;
-			STRKEY arrPrefix[(int)eSHADER_TYPE::END] =
+			STRKEY arrPrefix[(int)def_Shader::eSHADER_TYPE::END] =
 			{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
 
 			//각 쉐이더마다 들어가야할 설정값
@@ -518,7 +518,7 @@ namespace RES_INFO
 				STRKEY_DECLARE(m_bUseInstancing);
 
 
-				constexpr inline const char* arr_strKey_PipeLine[(int)eSHADER_TYPE::END] =
+				constexpr inline const char* arr_strKey_PipeLine[(int)def_Shader::eSHADER_TYPE::END] =
 				{
 					"_0_VERTEX",
 					"_1_HULL",

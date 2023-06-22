@@ -66,21 +66,62 @@ namespace SC_Map
         x - 알려지지 않음 / 사용되지 않음
     */
 
+    //스타크래프트 맵 데이터 속 "ERA" 안에 들어있는 정보 
+    enum class eTILESET_INFO : UINT8
+    {
+        BADLANDS = 0x00,
+        SPACE_PLATFORM = 0x01,
+        INSTALLATION = 0x02,
+        ASH_WORLD = 0x03,
+        JUNGLE = 0x04,
+        DESERT = 0x05,
+        ICE = 0x06,
+        TWILIGHT = 0x07,
+        END = 0x08
+    };
+
+
+
+#include "S_H_TilemapComplete.hlsli"
     class ::CTexture;
     struct tMapData
     {
+        tMapInfo MapInfo;
+
+        bool bMapLoaded;
         string strMapName;
-        UINT uNumMegatileX;
-        UINT uNumMegatileY;
-        eTILESET_INFO eTileSet;
         Ptr<CTexture> pMapTex;
+
         vector<tMegaTile> vecMegaTile;
         vector<tMiniTile> vecMiniTile;
         vector<tUnitData> vecUnitData;
 
+        //MXTM 관련
+        //Map의 SC_Map::tMapDataChunk 파일 아래의 지형정보
+        CStructBuffer* pSBuffer_MXTM;
+        CStructBuffer* pSBufferRW_Megatile;
+        CStructBuffer* pSBufferRW_Minitile;
 
-        tMapData() : strMapName(), uNumMegatileX(), uNumMegatileY(), eTileSet()
+        tMapData() 
+            : MapInfo{}
+            , bMapLoaded()
+            , strMapName()
+            , pMapTex()
+            , vecMegaTile()
+            , vecMiniTile()
+            , vecUnitData()
+
+            , pSBuffer_MXTM()
+            , pSBufferRW_Megatile()
+            , pSBufferRW_Minitile()
         {}
+
+        ~tMapData()
+        {
+            SAFE_DELETE(pSBuffer_MXTM);
+            SAFE_DELETE(pSBufferRW_Megatile);
+            SAFE_DELETE(pSBufferRW_Minitile);
+        }
     };
 
     enum class eTILESET_MEMBER

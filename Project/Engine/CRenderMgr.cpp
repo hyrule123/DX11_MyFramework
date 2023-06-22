@@ -28,7 +28,7 @@ CRenderMgr::CRenderMgr()
     //구조화버퍼 생성
     m_pSBuffer_Instancing = new CStructBuffer(tSBufferDesc{
         eSTRUCT_BUFFER_TYPE::READ_ONLY,
-        eSHADER_PIPELINE_STAGE::__ALL,
+        def_Shader::eSHADER_PIPELINE_STAGE::__ALL,
         eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR
         , idx_t_SBUFFER_MTRL_SCALAR,
         idx_u_UAV_NONE }
@@ -77,7 +77,7 @@ void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 void CRenderMgr::init()
 {
     //광원정보는 픽셀에서만 필요, 8번 텍스처 레지스터에 바인딩 되어있음.
-    m_pLight2DStructBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, eSHADER_PIPELINE_STAGE::__PIXEL, eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D, idx_t_SBUFFER_LIGHT2D, idx_u_UAV_NONE
+    m_pLight2DStructBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, def_Shader::eSHADER_PIPELINE_STAGE::__PIXEL, eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D, idx_t_SBUFFER_LIGHT2D, idx_u_UAV_NONE
         });
     m_pLight2DStructBuffer->Create((UINT)sizeof(tLightInfo), 10, nullptr, 0u);
 }
@@ -162,7 +162,7 @@ void CRenderMgr::renderAll()
     //나중에 3D 과정 가면 코드를 변경할 것
     //나중에 혹시 별도의 렌더타겟에 렌더링하는 코드가 생길 경우
     //해당 파트도 처리해줄 방법을 가지고 있어야 함.
-    for (UINT i = 0; i < (UINT)eSHADER_DOMAIN::_END; ++i)
+    for (UINT i = 0; i < (UINT)def_Shader::eSHADER_DOMAIN::_END; ++i)
     {
         size_t size = m_arrvecShaderDomain[i].size();
         for (size_t j = 0; j < size; j++)

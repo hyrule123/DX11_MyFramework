@@ -12,6 +12,6 @@
 	],
 	"eRES_TYPE" : 2,
 	"strKey" : "VESPENE_GEYSER",
-	"strKey_Shader" : "SCUnitGround.json",
+	"strKey_Shader" : "VespineGeyser.json",
 	"strName" : ""
 }

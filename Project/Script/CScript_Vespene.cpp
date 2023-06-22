@@ -3,6 +3,9 @@
 
 #include <Engine/CTransform.h>
 
+
+
+
 CScript_Vespene::CScript_Vespene(const string& _strKey)
 	:CScript_SCEntity(_strKey)
 {
@@ -16,6 +19,7 @@ void CScript_Vespene::init()
 {
 	CScript_SCEntity::init();
 
+	//자식 오브젝트(연기) 들의 위치 지정
 	enum ePos
 	{
 		Left,

@@ -17,7 +17,10 @@ public:
     virtual void init() override;
 
 private:
-    void LoadUnit(const SC_Map::tMapData& _pMapData);
+    vector<Vec2> m_vecStartLocation;
+
+private:
+    void LoadUnit(const shared_ptr<SC_Map::tMapData> _pMapData);
     void UnloadUnit();
 };
 

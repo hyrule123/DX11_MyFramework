@@ -15,11 +15,11 @@
 //==========================================
 
 //Register Number
-#define idx_b_CBUFFER_CAM_MATIRCES			REGISTER_IDX(b, 0)
+#define idx_b_CBUFFER_CAM_MATIRCES				REGISTER_IDX(b, 0)
 #define idx_b_CBUFFER_MTRL_SCALAR				REGISTER_IDX(b, 1)
-#define idx_b_CBUFFER_MTRL_TEX				REGISTER_IDX(b, 2)
+#define idx_b_CBUFFER_MTRL_TEX					REGISTER_IDX(b, 2)
 #define idx_b_CBUFFER_SYSTEM					REGISTER_IDX(b, 3)
-#define idx_b_CBUFFER_SBUFFER_SHAREDATA		REGISTER_IDX(b, 4)
+#define idx_b_CBUFFER_SBUFFER_SHAREDATA			REGISTER_IDX(b, 4)
 #define idx_b_CBUFFER_PARTICLE_MODULEDATA		REGISTER_IDX(b, 5)
 #define idx_b_END								6
 

@@ -140,79 +140,82 @@ enum class eKEY_STATE
 	NONE, END = NONE,
 };
 
-
-//================
-//	Shader Flags
-//================
-namespace eSHADER_PIPELINE_STAGE
+namespace def_Shader
 {
-	enum FLAG : UINT
+	enum class eBLEND_STATE_TYPE
 	{
-		__NONE = 0,
-		__VERTEX = BITMASK(0),
-		__HULL = BITMASK(1),
-		__DOMAIN = BITMASK(2),
-		__GEOMETRY = BITMASK(3),
-		__PIXEL = BITMASK(4),
-		__COMPUTE = BITMASK(5),
-
-		__ALL  = UINT8_MAX
+		DEFAULT = 0,
+		MASK = 1,
+		ALPHA_BLEND = 2,
+		ONE_ONE = 3,	//1:1로 섞는 방식 - 컬러키가 검은색인 이미지에 대한 처리
+		END
 	};
+
+	enum class eDEPTH_STENCIL_TYPE
+	{
+		LESS = 0,
+		LESS_EQUAL = 1,
+		GREATER = 2,
+		GREATER_EQUAL = 3,
+		NO_WRITE = 4,			//깊이버퍼에 깊이를 기록하지 않음.
+		NO_TEST_NO_WRITE = 5,	//깊이 테스트랄 거지치 않고 무조건 픽셀에 색상을 입력. 깊이 버퍼에도 기록하지 않음.
+		END
+	};
+
+	enum class eRASTERIZER_TYPE
+	{
+		CULL_BACK = 0,
+		CULL_FRONT = 1,
+		CULL_NONE = 2,
+		WIRE_FRAME = 3,
+		END
+	};
+
+
+	enum class eSHADER_DOMAIN
+	{
+		_UNDEFINED = -1,
+		_OPAQUE = 0,
+		_MASK = 1,
+		_TRANSPARENT = 2,
+		_POST_PROCESS = 3,
+		_UI = 4,
+		_END
+	};
+
+	namespace eSHADER_PIPELINE_STAGE
+	{
+		enum FLAG : UINT
+		{
+			__NONE = 0,
+			__VERTEX = BITMASK(0),
+			__HULL = BITMASK(1),
+			__DOMAIN = BITMASK(2),
+			__GEOMETRY = BITMASK(3),
+			__PIXEL = BITMASK(4),
+			__COMPUTE = BITMASK(5),
+
+			__ALL = UINT8_MAX
+		};
+	}
+
+	//
+	enum D3D_PRIMITIVE_TOPOLOGY;
+
+
+	enum class eSHADER_TYPE
+	{
+		__VERTEX = 0,
+		__HULL = 1,
+		__DOMAIN = 2,
+		__GEOMETRY = 3,
+		__PIXEL = 4,
+		END
+	};
+
+
+
 }
-
-//
-enum D3D_PRIMITIVE_TOPOLOGY;
-
-
-enum class eSHADER_TYPE
-{
-	__VERTEX,
-	__HULL,
-	__DOMAIN,
-	__GEOMETRY,
-	__PIXEL,
-	END
-};
-
-enum class eRASTERIZER_TYPE
-{
-	CULL_BACK,
-	CULL_FRONT,
-	CULL_NONE,
-	WIRE_FRAME,
-	END
-};
-
-enum class eDEPTH_STENCIL_TYPE
-{
-	LESS,
-	LESS_EQUAL,
-	GREATER,
-	GREATER_EQUAL,
-	NO_WRITE,			//깊이버퍼에 깊이를 기록하지 않음.
-	NO_TEST_NO_WRITE,	//깊이 테스트랄 거지치 않고 무조건 픽셀에 색상을 입력. 깊이 버퍼에도 기록하지 않음.
-	END
-};
-
-enum class eBLEND_STATE_TYPE
-{
-	DEFAULT,
-	MASK,
-	ALPHA_BLEND,
-	ONE_ONE,	//1:1로 섞는 방식 - 컬러키가 검은색인 이미지에 대한 처리
-	END
-};
-
-enum class eSHADER_DOMAIN
-{
-	_UNDEFINED = -1,
-	_OPAQUE,
-	_MASK,
-	_TRANSPARENT,
-	_POST_PROCESS,
-	_UI,
-	_END
-};
 
 
 enum class eAXIS2D : UINT
@@ -330,18 +333,6 @@ enum class eANIM_PLAYMODE
 	ZIG_ZAG
 };
 
-//스타크래프트 맵 데이터 속 "ERA" 안에 들어있는 정보 
-enum class eTILESET_INFO : UINT8
-{
-	BADLANDS = 0x00,
-	SPACE_PLATFORM = 0x01,
-	INSTALLATION = 0x02,
-	ASH_WORLD = 0x03,
-	JUNGLE = 0x04,
-	DESERT = 0x05,
-	ICE = 0x06,
-	TWILIGHT = 0x07,
-	END = 0x08
-};
+
 
 #include "S_H_Struct.hlsli"

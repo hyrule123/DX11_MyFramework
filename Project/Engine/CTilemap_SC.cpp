@@ -18,8 +18,7 @@ using namespace SC_Map;
 
 CTilemap_SC::CTilemap_SC()
 	: CTilemap(eTILE_TYPE::COMPLETE)
-	, m_tMapData()
-	, m_bMapLoaded()
+	, m_pMapData()
 	, m_bUnitLoaded()
 	, m_funcLoadUnit()
 {
@@ -42,10 +41,11 @@ void CTilemap_SC::tick()
 
 		//로드 함수 호출
 		if (m_funcLoadUnit)
-			m_funcLoadUnit(m_tMapData);
+			m_funcLoadUnit(m_pMapData);
 	}
 }
 
+//인스턴싱 X
 bool CTilemap_SC::render()
 {
 	if (false == m_bMapLoaded)
@@ -86,7 +86,7 @@ bool CTilemap_SC::render()
 
 bool CTilemap_SC::LoadMap(const string_view _strMapName)
 {
-	if (true == m_bMapLoaded && _strMapName == m_tMapData.strMapName)
+	if (true == m_bMapLoaded && _strMapName == m_pMapData->strMapName)
 		return true;
 
 	if (m_bUnitLoaded)
@@ -95,31 +95,34 @@ bool CTilemap_SC::LoadMap(const string_view _strMapName)
 		m_funcUnloadUnit();
 	}
 	m_bUnitLoaded = false;
-	
 
-	Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(string(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER));
+	Ptr<CCS_SCMapLoader> pLoader = CResMgr::GetInst()->FindRes<CComputeShader>(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER);
+
 
 	//기존 리소스가 있을 시 제거 요청
-	if (nullptr != m_tMapData.pMapTex)
+	if (m_pMapData && nullptr != m_pMapData->pMapTex)
 	{
-		m_tMapData.pMapTex = nullptr;
+		m_pMapData->pMapTex = nullptr;
 		GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, nullptr);
-		CResMgr::GetInst()->DeleteRes<CTexture>(m_tMapData.strMapName);
+		CResMgr::GetInst()->DeleteRes<CTexture>(m_pMapData->strMapName);
 	}
-		
-	//데이터 초기화
-	m_tMapData = tMapData();
 
-	m_bMapLoaded = pLoader->LoadMap(_strMapName, m_tMapData);
+	//데이터 초기화
+	m_pMapData = pLoader->LoadMap(_strMapName);
+
+	if (m_pMapData && m_pMapData->bMapLoaded)
+		m_bMapLoaded = true;
+	else
+		m_bMapLoaded = false;
 
 	if (true == m_bMapLoaded)
 	{
-		GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_tMapData.pMapTex);
+		GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_pMapData->pMapTex);
 
 		CTransform& pTF = Transform();
 
-		g_GlobalVal.fMapSizeX = (float)m_tMapData.uNumMegatileX * 32.f;
-		g_GlobalVal.fMapSizeY = (float)m_tMapData.uNumMegatileY * 32.f;
+		g_GlobalVal.fMapSizeX = (float)m_pMapData->MapInfo.uNumMegatileX * 32.f;
+		g_GlobalVal.fMapSizeY = (float)m_pMapData->MapInfo.uNumMegatileY * 32.f;
 		
 		pTF.SetSize(Vec3(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY, 1.f));
 

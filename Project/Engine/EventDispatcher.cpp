@@ -6,7 +6,10 @@
 #include "CGameObject.h"
 #include "CTransform.h"
 
-void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos, int _LayerIdx)
+#include "CPrefab.h"
+
+//깊이 프리셋 값이 설정되어 있을 경우 WorldPos의 Z값은 무시됨.
+void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, const Vec3& _vWorldPos, int _LayerIdx)
 {
 	_pNewObject->Transform().SetRelativePos(_vWorldPos);
 
@@ -24,6 +27,41 @@ void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, Vec3 _vWorldPos,
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }
+
+CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec2& _vWorldPosXY)
+{
+	assert(nullptr != _Prefab && _Prefab->IsAvailable());
+	CGameObject* pObj = _Prefab->Instantiate();
+	assert(pObj);
+	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
+
+	pObj->Transform().SetRelativePosXY(_vWorldPosXY);
+
+	tGameEvent evn = {};
+	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
+	evn.lParam = reinterpret_cast<DWORD_PTR>(pObj);
+
+	CEventMgr::GetInst()->AddEvent(evn);
+
+	return pObj;
+}
+
+CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab)
+{
+	assert(nullptr != _Prefab && _Prefab->IsAvailable());
+	CGameObject* pObj = _Prefab->Instantiate();
+	assert(pObj);
+	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
+
+	tGameEvent evn = {};
+	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
+	evn.lParam = reinterpret_cast<DWORD_PTR>(pObj);
+
+	CEventMgr::GetInst()->AddEvent(evn);
+
+	return pObj;
+}
+
 
 
 void EventDispatcher::DestroyGameObj(CGameObject* _pObject)

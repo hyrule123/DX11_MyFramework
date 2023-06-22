@@ -537,7 +537,7 @@ void ManualEdit::Vespene_Prefab_Save()
 
 	//Transform
 	{
-		pObj->Transform().SetSize(pObj->Collider2D()->GetCollSize());
+		pObj->Transform().SetSizeXY(Vec2(SC::UNIT_INFO::VespeneGeyser::Size));
 	}
 
 
@@ -550,7 +550,7 @@ void ManualEdit::Vespene_Prefab_Save()
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
+		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::VESPINEGEYSER);
 		pMtrl->SetShader(pShader);
 
 		Ptr<CTexture> VespeneTex = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::GEYSER_BMP);
@@ -586,7 +586,7 @@ void ManualEdit::Vespene_Prefab_Save()
 		//Transform
 		{
 			//셋 다 동일한 프리팹 파일을 사용하기 때문에 현재 구조상 스크립트에서 위치를 직접 설정해줘야 함
-			pChild->Transform().SetRelativePosXY(Vec2(0.f, 0.f));
+			//pChild->Transform().SetRelativePosXY(Vec2(0.f, 0.f));
 		}
 
 		//CAnimator2D

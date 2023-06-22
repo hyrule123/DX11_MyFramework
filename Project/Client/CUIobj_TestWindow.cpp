@@ -153,9 +153,11 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 			}
 
 			if (false == bLoaded)
+			{
+				DEBUG_BREAK;
 				throw std::runtime_error("Map Load Failed!!");
-
-			
+			}
+				
 		}
 		catch (const std::exception& error)
 		{

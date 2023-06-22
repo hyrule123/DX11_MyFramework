@@ -65,7 +65,7 @@ public:
 
     //Setter Getter Adder
     void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV = _eSHADER_PIPELINE_FLAG; }
-    void AddPipelineTarget(eSHADER_PIPELINE_STAGE::FLAG _Stage) { m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV |= (UINT)_Stage; }
+    void AddPipelineTarget(def_Shader::eSHADER_PIPELINE_STAGE::FLAG _Stage) { m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV |= (UINT)_Stage; }
 
     UINT GetCapacity() const { return m_uElementCapacity; }
 

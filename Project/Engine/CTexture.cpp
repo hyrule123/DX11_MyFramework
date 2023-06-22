@@ -164,32 +164,32 @@ void CTexture::BindData_SRV(int _iRegisterNum, UINT _eSHADER_PIPELINE_STAGE)
 	m_flagCurBoundPipeline = _eSHADER_PIPELINE_STAGE;
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::SRV;
 
-	if (eSHADER_PIPELINE_STAGE::__VERTEX & _eSHADER_PIPELINE_STAGE)
+	if (def_Shader::eSHADER_PIPELINE_STAGE::__VERTEX & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__HULL & _eSHADER_PIPELINE_STAGE)
+	if (def_Shader::eSHADER_PIPELINE_STAGE::__HULL & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__DOMAIN & _eSHADER_PIPELINE_STAGE)
+	if (def_Shader::eSHADER_PIPELINE_STAGE::__DOMAIN & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__GEOMETRY & _eSHADER_PIPELINE_STAGE)
+	if (def_Shader::eSHADER_PIPELINE_STAGE::__GEOMETRY & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__PIXEL & _eSHADER_PIPELINE_STAGE)
+	if (def_Shader::eSHADER_PIPELINE_STAGE::__PIXEL & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
 
-	if (eSHADER_PIPELINE_STAGE::__COMPUTE & _eSHADER_PIPELINE_STAGE)
+	if (def_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE & _eSHADER_PIPELINE_STAGE)
 	{
 		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	}
@@ -219,32 +219,32 @@ void CTexture::UnBind()
 
 		ID3D11ShaderResourceView* pSrv = nullptr;
 
-		if (eSHADER_PIPELINE_STAGE::__VERTEX & m_flagCurBoundPipeline)
+		if (def_Shader::eSHADER_PIPELINE_STAGE::__VERTEX & m_flagCurBoundPipeline)
 		{
 			CONTEXT->VSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
 		}
 
-		if (eSHADER_PIPELINE_STAGE::__HULL & m_flagCurBoundPipeline)
+		if (def_Shader::eSHADER_PIPELINE_STAGE::__HULL & m_flagCurBoundPipeline)
 		{
 			CONTEXT->HSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
 		}
 
-		if (eSHADER_PIPELINE_STAGE::__DOMAIN & m_flagCurBoundPipeline)
+		if (def_Shader::eSHADER_PIPELINE_STAGE::__DOMAIN & m_flagCurBoundPipeline)
 		{
 			CONTEXT->DSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
 		}
 
-		if (eSHADER_PIPELINE_STAGE::__GEOMETRY & m_flagCurBoundPipeline)
+		if (def_Shader::eSHADER_PIPELINE_STAGE::__GEOMETRY & m_flagCurBoundPipeline)
 		{
 			CONTEXT->GSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
 		}
 
-		if (eSHADER_PIPELINE_STAGE::__PIXEL & m_flagCurBoundPipeline)
+		if (def_Shader::eSHADER_PIPELINE_STAGE::__PIXEL & m_flagCurBoundPipeline)
 		{
 			CONTEXT->PSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
 		}
 
-		if (eSHADER_PIPELINE_STAGE::__COMPUTE & m_flagCurBoundPipeline)
+		if (def_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE & m_flagCurBoundPipeline)
 		{
 			CONTEXT->CSSetShaderResources(m_iCurBoundRegister, 1, &pSrv);
 		}

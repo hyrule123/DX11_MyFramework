@@ -35,7 +35,7 @@ public:
 
     //이동 타입(지상, 호버링, 공중)
     DECLARE_GETTER_SETTER(SC::eUNIT_MOVE_TYPE, m_eMoveType, MoveType);
-    DECLARE_GETTER_SETTER(SC::eUNIT_SIZE, m_eUnitSize, UnitSizeType);
+    DECLARE_GETTER_SETTER(SC::eUNIT_SIZE_TYPE, m_eUnitSize, UnitSizeType);
 
     //시야
     DECLARE_GETTER_SETTER(UINT, m_uSightRange, SightRange);

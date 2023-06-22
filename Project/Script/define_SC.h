@@ -13,7 +13,7 @@ namespace SC
 		ZERG
 	};
 
-	enum class eUNIT_SIZE
+	enum class eUNIT_SIZE_TYPE
 	{
 		SMALL,
 		MEDIUM,
@@ -86,8 +86,6 @@ namespace SC
 			STRKEY_DECLARE(BUILD_UNIT);
 
 			STRKEY_DECLARE(LIFTOFF);
-
-
 		}
 	}
 
@@ -122,7 +120,10 @@ namespace SC
 
 	namespace UNIT_INFO
 	{
-
+		namespace VespeneGeyser
+		{
+			constexpr float Size[2] = { 128.f, 64.f };
+		}
 	}
 
 	namespace LAYER_INFO

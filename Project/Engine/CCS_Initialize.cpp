@@ -29,7 +29,7 @@ bool CCS_Initialize::BindDataCS()
 	////INT64에 1을 넣어서 전달한다. HLSL에서는 이 값을 INT32형태로 읽어들인다.
 	g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
 
-	m_pSBuffer_InitSetting = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, eSHADER_PIPELINE_STAGE::__ALL, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, idx_t_INIT_SETTING, idx_u_INIT_SETTING });
+	m_pSBuffer_InitSetting = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, def_Shader::eSHADER_PIPELINE_STAGE::__ALL, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, idx_t_INIT_SETTING, idx_u_INIT_SETTING });
 	m_pSBuffer_InitSetting->Create(sizeof(tInitSetting), 1u, &g_InitSetting, 1u);
 
 	//UAV와 바인딩
