@@ -19,11 +19,19 @@ using namespace SC_Map;
 CTilemap_SC::CTilemap_SC()
 	: CTilemap(eTILE_TYPE::COMPLETE)
 	, m_pMapData()
+	, m_bMapLoaded()
 	, m_bUnitLoaded()
 	, m_funcLoadUnit()
+
 {
 	//메쉬는 부모 클래스에서 설정했음.
 	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_SC));
+	Ptr<CGraphicsShader> pShader = CResMgr::GetInst()->Load<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPSC);
+
+	assert(nullptr != pShader);
+
+	pMtrl->SetShader(pShader);
+
 	SetMaterial(pMtrl);
 }
 

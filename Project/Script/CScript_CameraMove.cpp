@@ -7,6 +7,7 @@
 //마우스 좌표 받아오는 용도
 #include <Engine/CKeyMgr.h>
 #include <Engine/CTimeMgr.h>
+#include <Engine/CRenderMgr.h>
 
 CScript_CameraMove::CScript_CameraMove(const string& _strKey)
 	: CScript(_strKey)
@@ -122,10 +123,31 @@ void CScript_CameraMove::Camera3DMove()
 
 void CScript_CameraMove::tick()
 {
+	//자신이 현재 찍고있는 카메라일 경우에만 스크립트 작동
+	if (Camera() != CRenderMgr::GetInst()->GetCurCamera())
+		return;
+
+
 	ePROJ_TYPE ProjType = Camera()->GetProjType();
 	bool VTapped = false;
-	if (KEY_DOWN(eKEY::V))
-		VTapped = true;
+
+	
+
+	if (eCAMERA_INDEX::EDITOR == Camera()->GetCamIndex())
+	{
+		CKeyMgr* pKeyMgr = CKeyMgr::GetInst();
+
+		if (eKEY_STATE::PRESSED == pKeyMgr->GetKeyState(eKEY::LCTRL))
+		{
+			if (eKEY_STATE::DOWN == pKeyMgr->GetKeyState(eKEY::V))
+			{
+				GetOwner()->Transform().SetRelativePos(Vec3(0.f, 0.f, 0.f));
+				GetOwner()->Transform().SetRelativeRot(Vec3(0.f, 0.f, 0.f));
+			}
+		}
+		else if (eKEY_STATE::DOWN == pKeyMgr->GetKeyState(eKEY::V))
+			VTapped = true;
+	}
 
 	switch (ProjType)
 	{
@@ -152,6 +174,7 @@ void CScript_CameraMove::tick()
 		break;
 	}
 	}
+
 
 
 }

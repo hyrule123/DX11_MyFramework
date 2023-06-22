@@ -3,6 +3,7 @@
 //CCS_SCMapLoader과 CTilemap_SC 쉐이더에서 공유하는 구조체들을 모아놓은 헤더
 
 #include "ptr.h"
+#include "S_H_Struct.hlsli"
 #include "S_H_SCMapLoader.hlsli"
 
 #include "CStructBuffer.h"
@@ -67,7 +68,7 @@ namespace SC_Map
     */
 
     //스타크래프트 맵 데이터 속 "ERA" 안에 들어있는 정보 
-    enum class eTILESET_INFO : UINT8
+    enum class eTILESET_INFO : UINT32
     {
         BADLANDS = 0x00,
         SPACE_PLATFORM = 0x01,
@@ -82,11 +83,10 @@ namespace SC_Map
 
 
 
-#include "S_H_TilemapComplete.hlsli"
     class ::CTexture;
     struct tMapData
     {
-        tMapInfo MapInfo;
+        tMapInfo_SC MapInfo;
 
         bool bMapLoaded;
         string strMapName;

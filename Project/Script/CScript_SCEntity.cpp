@@ -22,6 +22,7 @@
 #include "defineScript.h"
 #include "CScript_FSM_Idle.h"
 #include "CScript_FSM_Move_Ground.h"
+#include "define_SC.h"
 
 namespace strKey_SCEntity
 {
@@ -130,7 +131,7 @@ void CScript_SCEntity::start()
 void CScript_SCEntity::OnCollision(CCollider* _pCol, const Vec3& _v3HitPoint)
 {
 	//커서가 자신과 충돌중임을 확인했을 경우
-	if (iLayerCursor == _pCol->GetOwner()->GetLayer())
+	if (SC::LAYER_INFO::MouseCursor == _pCol->GetOwner()->GetLayer())
 	{
 		//마우스 커서가 한번 클릭됐을 경우
 		if (KEY_DOWN(eKEY::LBTN))

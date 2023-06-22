@@ -207,7 +207,7 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="EventDispatcher.h" />
-    <ClInclude Include="SCMapDefine.h">
+    <ClInclude Include="define_SCMap.h">
       <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </ClInclude>
     <ClInclude Include="CTilemap_SC.h">
@@ -602,6 +602,9 @@
     <None Include="S_H_TilemapComplete.hlsli">
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </None>
+    <None Include="S_H_Tilemap_SC.hlsli">
+      <Filter>HLSL\04. Tilemap\Complete</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="S_0_V_STD2DLight.hlsl">
@@ -672,6 +675,12 @@
     </FxCompile>
     <FxCompile Include="S_4_P_VespineGeyser.hlsl">
       <Filter>HLSL\06. SCUnit</Filter>
+    </FxCompile>
+    <FxCompile Include="S_4_P_Tilemap_SC.hlsl">
+      <Filter>HLSL\04. Tilemap\Complete</Filter>
+    </FxCompile>
+    <FxCompile Include="S_0_V_Tilemap_SC.hlsl">
+      <Filter>HLSL\04. Tilemap\Complete</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

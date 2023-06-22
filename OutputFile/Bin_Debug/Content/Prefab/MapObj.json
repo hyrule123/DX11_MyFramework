@@ -45,7 +45,7 @@
 			{
 				"eComponentType" : 9,
 				"strKeyMesh" : "RectMesh",
-				"strKeyMtrl" : "TilemapComplete.json"
+				"strKeyMtrl" : "Tilemap_SC.json"
 			},
 			null,
 			null,

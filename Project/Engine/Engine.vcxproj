@@ -253,7 +253,7 @@
     <ClInclude Include="jsoncpp.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SCMapDefine.h" />
+    <ClInclude Include="define_SCMap.h" />
     <ClInclude Include="strKey_Default.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="pch.h" />
@@ -328,6 +328,30 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <FxCompile Include="S_0_V_Tilemap_SC.hlsl">
+      <FileType>Document</FileType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_Tilemap_SC</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_Tilemap_SC</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <None Include="S_H_Tilemap_SC.hlsli">
+      <FileType>Document</FileType>
+    </None>
+    <FxCompile Include="S_4_P_Tilemap_SC.hlsl">
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Graphics\%(Filename).cso</ObjectFileOutput>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_Tilemap_SC</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS_Tilemap_SC</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="S_4_P_VespineGeyser.hlsl">
       <FileType>Document</FileType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_VespineGeyser</EntryPointName>

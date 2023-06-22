@@ -4,7 +4,7 @@
 
 #include "S_H_SCMapLoader.hlsli"
 
-#include "SCMapDefine.h"
+#include "define_SCMap.h"
 
 
 class CStructBuffer;

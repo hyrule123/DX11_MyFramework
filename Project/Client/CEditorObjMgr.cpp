@@ -32,6 +32,7 @@
 
 #include <Script/defineScript.h>
 
+#include <Script/define_SC.h>
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}
@@ -71,13 +72,9 @@ void CEditorObjMgr::init()
 		CScript_MouseCursor* pScript = static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_SCRIPT::MOUSECURSOR));
 		pScript->AddFuncLBTNCallback(eKEY_STATE::DOWN, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
- 		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), iLayerCursor);
+ 		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::MouseCursor);
 
-		CCollisionMgr* pMgr = CCollisionMgr::GetInst();
-		for (int i = 0; i < 32; ++i)
-		{
-			pMgr->AddLayerInteraction2D(iLayerCursor, i);
-		}
+		CCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::LAYER_INFO::MouseCursor);
 	}
 }
 
@@ -229,8 +226,6 @@ void CEditorObjMgr::render()
 
 void CEditorObjMgr::CreateDebugShape()
 {
-	
-
 	for (int i = 0; i < (int)eDEBUGSHAPE_TYPE::END; ++i)
 	{
 		m_arrDebugShape[i] = new CGameObject;

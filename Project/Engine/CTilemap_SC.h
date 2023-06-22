@@ -1,7 +1,7 @@
 #pragma once
 #include "CTilemap.h"
 
-#include "SCMapDefine.h"
+#include "define_SCMap.h"
 
 class CTilemap_SC :
     public CTilemap

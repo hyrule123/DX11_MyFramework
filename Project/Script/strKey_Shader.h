@@ -21,6 +21,7 @@ namespace strKey_SHADER
 		STRKEY STD2DLIGHT = "STD2DLight.json";
 		STRKEY TILEMAPATLAS = "TilemapAtlas.json";
 		STRKEY TILEMAPCOMPLETE = "TilemapComplete.json";
+		STRKEY TILEMAP_SC = "Tilemap_SC.json";
 		STRKEY VESPINEGEYSER = "VespineGeyser.json";
 	}
 

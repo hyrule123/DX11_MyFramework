@@ -456,7 +456,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
         Info -= (unsigned char)8;
 
     //타일셋 정보를 등록
-    m_pMapWorkSpace->MapInfo.eTileSet = (eTILESET_INFO)Info;
+    m_pMapWorkSpace->MapInfo.eTileSet = Info;
 
     //유닛 정보
     //유효성 체크(데이터가 36바이트 단위이므로 36바이트로 나누어 떨어져야 함
