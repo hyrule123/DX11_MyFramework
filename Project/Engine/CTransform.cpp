@@ -255,7 +255,7 @@ void CTransform::UpdateMyTransform()
 	}
 
 	//2. 회전행렬
-	Matrix matRot = MATRIX::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(m_v3RelativeRot.y, m_v3RelativeRot.x, m_v3RelativeRot.z));
+	Matrix matRot = MATRIX::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(m_v3RelativeRot.y, m_v3RelativeRot.x, m_v3RelativeRot.z)	 );
 	//회전행렬으로부터 직관적 방향을 계산한다.
 	m_vRelativeDir[(UINT)eDIR_TYPE::FRONT] = matRot.Forward();
 	m_vRelativeDir[(UINT)eDIR_TYPE::RIGHT] = matRot.Right();

@@ -13,6 +13,8 @@
 #include "CLayer.h"
 #include "EventDispatcher.h"
 #include "CGameObject.h"
+#include "CDevice.h"
+#include "CConstBuffer.h"
 
 using namespace SC_Map;
 
@@ -58,14 +60,13 @@ bool CTilemap_SC::render()
 {
 	if (false == m_bMapLoaded)
 		return true;
-	
+
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	CGameObject* pOwner = GetOwner();
 
 	//메쉬와 재질 둘 중 하나라도 없을 경우 아예 여기에 들어오지 않으므로 따로 검사해 줄 필요 없음.
 	CMesh* pmesh = GetMesh().Get();
 	CMaterial* pmtrl = GetCurMaterial().Get();
-
 
 	//재질에 자신의 Mtrl Scalar Data를 등록해 놓고 만약 정점 갯수가 6개(Rect )보다 많다면
 	//플래그를 켜주고 WVP 행렬 형태로 전송한다.
@@ -85,9 +86,23 @@ bool CTilemap_SC::render()
 
 	BindMtrlScalarDataToCBuffer();
 
-	// 메쉬 그리기 명령
+	//맵 정보 바인딩
+	g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].iData0 = (int)m_pMapData->eTileSet;
+	g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].iData1 = (int)m_pMapData->uNumMegatileX;
+	g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].iData2 = (int)m_pMapData->uNumMegatileY;
 
+	//맵 데이터 바인딩
+	m_pMapData->pSBuffer_MXTM->BindBufferSRV();
+	m_pMapData->pSBufferRW_Megatile->BindBufferSRV();
+	m_pMapData->pSBufferRW_Minitile->BindBufferSRV();
+
+	// 메쉬 그리기 명령
 	pmesh->render();
+
+	//맵 데이터 언바인드
+	m_pMapData->pSBuffer_MXTM->UnBind();
+	m_pMapData->pSBufferRW_Megatile->UnBind();
+	m_pMapData->pSBufferRW_Minitile->UnBind();
 
 	return true;
 }
@@ -129,8 +144,8 @@ bool CTilemap_SC::LoadMap(const string_view _strMapName)
 
 		CTransform& pTF = Transform();
 
-		g_GlobalVal.fMapSizeX = (float)m_pMapData->MapInfo.uNumMegatileX * 32.f;
-		g_GlobalVal.fMapSizeY = (float)m_pMapData->MapInfo.uNumMegatileY * 32.f;
+		g_GlobalVal.fMapSizeX = (float)m_pMapData->uNumMegatileX * 32.f;
+		g_GlobalVal.fMapSizeY = (float)m_pMapData->uNumMegatileY * 32.f;
 		
 		pTF.SetSize(Vec3(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY, 1.f));
 

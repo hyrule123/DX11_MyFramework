@@ -105,7 +105,9 @@ struct tMiniTile
 #define idx_t_SBUFFER_WPE REGISTER_IDX(t, 4)
 
 
-#define idx_t_SBUFFER_MXTM REGISTER_IDX(t, 5)
+#define idx_t_SBUFFER_MXTM REGISTER_IDX(t, 9)
+#define idx_t_SBUFFER_MEGATILE REGISTER_IDX(t, 10)
+#define idx_t_SBUFFER_MINITILE REGISTER_IDX(t, 11)
 
 #define idx_t_TEXTURE_TARGET REGISTER_IDX(t, 6)
 

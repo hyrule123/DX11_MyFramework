@@ -68,7 +68,7 @@ void CScript_TilemapUnitLoader::LoadUnit(const shared_ptr<SC_Map::tMapData> _pMa
 
 			CGameObject* pVespene = EventDispatcher::SpawnPrefab(VPrefab, Vec2((float)unit.PosX, -(float)unit.PosY));
 
-			float CurTileSet = (float)_pMapData->MapInfo.eTileSet;
+			float CurTileSet = (float)_pMapData->eTileSet;
 			pVespene->SetMtrlScalarParam(MTRL_SCALAR_FLOAT_VESPINE_SPRITE, &CurTileSet);
 		}
 		break;

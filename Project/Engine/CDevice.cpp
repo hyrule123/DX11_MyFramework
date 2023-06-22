@@ -284,13 +284,6 @@ void CDevice::CreateConstBuffer()
 
     m_arrConstBuffer[idx_b_CBUFFER_PARTICLE_MODULEDATA]->Create(sizeof(tParticleModule), 1);
     m_arrConstBuffer[idx_b_CBUFFER_PARTICLE_MODULEDATA]->SetPipelineTarget(CBufferTarget);
-
-    //맵 정보가 들어가있는 상수버퍼
-    CBufferTarget = def_Shader::eSHADER_PIPELINE_STAGE::__ALL;
-    m_arrConstBuffer[idx_b_CBUFFER_SC_MAP_INFO] = new CConstBuffer(idx_b_CBUFFER_SC_MAP_INFO);
-
-    m_arrConstBuffer[idx_b_CBUFFER_SC_MAP_INFO]->Create(sizeof(tMapInfo_SC), 1);
-    m_arrConstBuffer[idx_b_CBUFFER_SC_MAP_INFO]->SetPipelineTarget(CBufferTarget);
 }
 
 

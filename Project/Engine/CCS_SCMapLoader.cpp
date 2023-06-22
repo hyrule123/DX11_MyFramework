@@ -354,12 +354,12 @@ void CCS_SCMapLoader::UnBindCS()
     //타일셋 Unbind
     for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
     {
-        m_arrpSBufferTileSet[(int)m_pMapWorkSpace->MapInfo.eTileSet].arrTileSetMember[i].UnBind();
+        m_arrpSBufferTileSet[(int)m_pMapWorkSpace->eTileSet].arrTileSetMember[i].UnBind();
     }
  
     
     //맵 데이터를 CPU 메모리로 복사 후 구조화 버퍼를 언바인드
-    UINT numTile = m_pMapWorkSpace->MapInfo.uNumMegatileX * m_pMapWorkSpace->MapInfo.uNumMegatileY;
+    UINT numTile = m_pMapWorkSpace->uNumMegatileX * m_pMapWorkSpace->uNumMegatileY;
     m_pMapWorkSpace->vecMegaTile.resize(numTile);
     m_pMapWorkSpace->pSBufferRW_Megatile->GetData(m_pMapWorkSpace->vecMegaTile.data(), sizeof(tMegaTile) * numTile);
     m_pMapWorkSpace->pSBufferRW_Megatile->UnBind();
@@ -425,10 +425,10 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->length != 4)
         return false;
 
-    m_pMapWorkSpace->MapInfo.uNumMegatileX = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data);
-    m_pMapWorkSpace->MapInfo.uNumMegatileY = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data + 2);
+    m_pMapWorkSpace->uNumMegatileX = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data);
+    m_pMapWorkSpace->uNumMegatileY = (int)*(unsigned short*)(arrMapDataChunk[(int)eSCMAP_DATA_TYPE::MAPSIZE]->Data + 2);
 
-    Vec2 vMapSize = Vec2(m_pMapWorkSpace->MapInfo.uNumMegatileX, m_pMapWorkSpace->MapInfo.uNumMegatileY);
+    Vec2 vMapSize = Vec2(m_pMapWorkSpace->uNumMegatileX, m_pMapWorkSpace->uNumMegatileY);
     SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &vMapSize);
 
     //MXTM(TILEMAP_ATLAS) 생성 및 전송
@@ -456,7 +456,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
         Info -= (unsigned char)8;
 
     //타일셋 정보를 등록
-    m_pMapWorkSpace->MapInfo.eTileSet = Info;
+    m_pMapWorkSpace->eTileSet = (eTILESET_INFO)Info;
 
     //유닛 정보
     //유효성 체크(데이터가 36바이트 단위이므로 36바이트로 나누어 떨어져야 함
@@ -479,49 +479,62 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     //타일셋을 바인딩해준다.
     for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
     {
-        m_arrpSBufferTileSet[(int)m_pMapWorkSpace->MapInfo.eTileSet].arrTileSetMember[i].BindBufferSRV();
+        m_arrpSBufferTileSet[(int)m_pMapWorkSpace->eTileSet].arrTileSetMember[i].BindBufferSRV();
     }
 
     tSBufferDesc Desc = {};
-    Desc.eCBufferIdx = eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE;
-    Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_WRITE;
-    Desc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV = def_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE;
-    Desc.i_idx_t_SRVIdx = idx_t_SRV_NONE;
     
+    Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_WRITE;
+
+    UINT numTile = m_pMapWorkSpace->uNumMegatileX * m_pMapWorkSpace->uNumMegatileY;
+    {
+        //MEGATILE
+        using namespace def_Shader::eSHADER_PIPELINE_STAGE;
+        UINT flagPipeline = __VERTEX || __PIXEL || __COMPUTE;
+        Desc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV = flagPipeline;
+        Desc.i_idx_t_SRVIdx = idx_t_SBUFFER_MEGATILE;
+
+        //Megatile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
+        Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_MEGATILE;
+        SAFE_DELETE(m_pMapWorkSpace->pSBufferRW_Megatile);
+
+        //***************** 메가타일에 Tilemap 정보가 들어있는 공유데이터도 넣어놓음 *************
+        Desc.eCBufferIdx = eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE;
+        m_pMapWorkSpace->pSBufferRW_Megatile = new CStructBuffer(Desc);
+
+        
+        m_pMapWorkSpace->pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);
+        m_pMapWorkSpace->pSBufferRW_Megatile->BindBufferUAV();
+    }
 
 
-    //Megatile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
-    Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_MEGATILE;
-    SAFE_DELETE(m_pMapWorkSpace->pSBufferRW_Megatile);
-    m_pMapWorkSpace->pSBufferRW_Megatile = new CStructBuffer(Desc);
+    {
+        //Minitile
+        Desc.i_idx_t_SRVIdx = idx_t_SBUFFER_MINITILE;
+        Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_MINITILE;
+        SAFE_DELETE(m_pMapWorkSpace->pSBufferRW_Minitile);
+        Desc.eCBufferIdx = eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE;
+        m_pMapWorkSpace->pSBufferRW_Minitile = new CStructBuffer(Desc);
 
-    UINT numTile = m_pMapWorkSpace->MapInfo.uNumMegatileX * m_pMapWorkSpace->MapInfo.uNumMegatileY;
-    m_pMapWorkSpace->pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);
-    m_pMapWorkSpace->pSBufferRW_Megatile->BindBufferUAV();
+        //메가타일 하나당 16개의 미니타일이 존재
+        numTile *= 16;
+        m_pMapWorkSpace->pSBufferRW_Minitile->Create(sizeof(tMiniTile), numTile, nullptr, 0u);
+        m_pMapWorkSpace->pSBufferRW_Minitile->BindBufferUAV();
+    }
 
-
-    //Minitile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
-    Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_MINITILE;
-    SAFE_DELETE(m_pMapWorkSpace->pSBufferRW_Minitile);
-    m_pMapWorkSpace->pSBufferRW_Minitile = new CStructBuffer(Desc);
-
-    //메가타일 하나당 16개의 미니타일이 존재
-    numTile *= 16;
-    m_pMapWorkSpace->pSBufferRW_Minitile->Create(sizeof(tMiniTile), numTile, nullptr, 0u);
-    m_pMapWorkSpace->pSBufferRW_Minitile->BindBufferUAV();
     
 
     //타겟이 될 텍스처를 동적할당하고, UAV에 바인딩
     m_pMapWorkSpace->pMapTex = new CTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
-    m_pMapWorkSpace->pMapTex->Create(32u * m_pMapWorkSpace->MapInfo.uNumMegatileX, 32u * m_pMapWorkSpace->MapInfo.uNumMegatileY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+    m_pMapWorkSpace->pMapTex->Create(32u * m_pMapWorkSpace->uNumMegatileX, 32u * m_pMapWorkSpace->uNumMegatileY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
     m_pMapWorkSpace->pMapTex->BindData_UAV(idx_u_TEXTURERW_TARGET);
 
     //맵 이름으로 키를 설정한다.
     m_pMapWorkSpace->pMapTex->SetKey(m_pMapWorkSpace->strMapName);
 
     //필요한 그룹의 수 계산
-    CalcGroupNumber(32u * m_pMapWorkSpace->MapInfo.uNumMegatileX, 32u * m_pMapWorkSpace->MapInfo.uNumMegatileY, 1u);
+    CalcGroupNumber(32u * m_pMapWorkSpace->uNumMegatileX, 32u * m_pMapWorkSpace->uNumMegatileY, 1u);
 
 
     return true;

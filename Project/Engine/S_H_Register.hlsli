@@ -21,8 +21,7 @@
 #define idx_b_CBUFFER_SYSTEM					REGISTER_IDX(b, 3)
 #define idx_b_CBUFFER_SBUFFER_SHAREDATA			REGISTER_IDX(b, 4)
 #define idx_b_CBUFFER_PARTICLE_MODULEDATA		REGISTER_IDX(b, 5)
-#define idx_b_CBUFFER_SC_MAP_INFO				REGISTER_IDX(b, 6)
-#define idx_b_END								7
+#define idx_b_END								6
 
 	
 //eCBUFFER_IDX_SBUFFER_SHAREDATA Inner Index
@@ -80,13 +79,6 @@ cbuffer CBuffer_ParticleModule : register(idx_b_CBUFFER_PARTICLE_MODULEDATA)
 {
 	tParticleModule g_CBuffer_ParticleModule;
 }
-
-//TileMapComplete에서 사용
-cbuffer CBuffer_MapInfo_SC : register(idx_b_CBUFFER_SC_MAP_INFO)
-{
-	tMapInfo_SC g_CBuffer_MapInfo_SC;
-}
-
 
 	#endif
 

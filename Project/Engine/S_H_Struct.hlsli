@@ -485,14 +485,5 @@ struct tParticleModule
 };
 
 
-struct tMapInfo_SC
-{
-	UINT32 uNumMegatileX;
-	UINT32 uNumMegatileY;
-	UINT32 eTileSet;
-	UINT32 Padding;
-};
-
-
 #endif
 

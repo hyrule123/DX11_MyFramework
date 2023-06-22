@@ -86,7 +86,9 @@ namespace SC_Map
     class ::CTexture;
     struct tMapData
     {
-        tMapInfo_SC MapInfo;
+        UINT32 uNumMegatileX;
+        UINT32 uNumMegatileY;
+        eTILESET_INFO eTileSet;
 
         bool bMapLoaded;
         string strMapName;
@@ -103,7 +105,9 @@ namespace SC_Map
         CStructBuffer* pSBufferRW_Minitile;
 
         tMapData() 
-            : MapInfo{}
+            : uNumMegatileX()
+            , uNumMegatileY()
+            , eTileSet()
             , bMapLoaded()
             , strMapName()
             , pMapTex()

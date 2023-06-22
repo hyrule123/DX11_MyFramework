@@ -6,7 +6,7 @@
 // Topology: TriangleList
 // Rasterizer: CULL_BACK(백페이스 컬링)
 // Blend State: NONE
-// Depth Stemcil: Less
+// Depth Stencil: Less
 // Shader Domain: Opaque
 // Instancing: True
 // Animation: No

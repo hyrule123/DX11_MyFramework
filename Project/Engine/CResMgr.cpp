@@ -252,7 +252,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	//	// Topology: LineStrip
 	//	// Rasterizer: No Culling
 	//	// Blend State: Default
-	//	// Depth Stemcil: No Test, No Write
+	//	// Depth Stencil: No Test, No Write
 	//	// Shader Domain: Opaque
 
 	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
@@ -280,7 +280,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	//	// Topology: TriangleList
 	//	// Rasterizer: CULL_BACK(백페이스 컬링)
 	//	// Blend State: Default
-	//	// Depth Stemcil: LESS
+	//	// Depth Stencil: LESS
 	//	// Shader Domain: Opaque
 
 	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
@@ -308,7 +308,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	//	// Topology: TriangleList
 	//	// Rasterizer: CULL_BACK(백페이스 컬링)
 	//	// Blend State: Default
-	//	// Depth Stemcil: LESS
+	//	// Depth Stencil: LESS
 	//	// Shader Domain: Opaque
 
 	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
@@ -335,7 +335,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	//	// Topology: TriangleList
 	//	// Rasterizer: CULL_BACK(백페이스 컬링)
 	//	// Blend State: Default
-	//	// Depth Stemcil: LESS
+	//	// Depth Stencil: LESS
 	//	// Shader Domain: Opaque
 
 	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
@@ -362,7 +362,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	//	// Topology: TriangleList
 	//	// Rasterizer: CULL_BACK(백페이스 컬링)
 	//	// Blend State: Default
-	//	// Depth Stemcil: LESS
+	//	// Depth Stencil: LESS
 	//	// Shader Domain: Opaque
 	//	
 	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
@@ -389,7 +389,7 @@ bool CResMgr::CreateDefaultGraphicsShader()
 	//	// Topology: Point List
 	//	// Rasterizer: CULL_BACK(백페이스 컬링)
 	//	// Blend State: Alpha Blend
-	//	// Depth Stemcil: NO Write
+	//	// Depth Stencil: NO Write
 	//	// Shader Domain: Transparent
 
 	//	Ptr<CGraphicsShader> pShader = new CGraphicsShader;
