@@ -14,7 +14,8 @@ public:
 	static void SpawnGameObject(CGameObject* _pNewObject, const Vec3& _vWorldPos, int _LayerIdx = -1);
 
 	//프리팹(리소스)를 넣어서 게임오브젝트를 스폰시킬 경우 해당 게임오브젝트의 주소를 리턴해줌(추가적인 설정을 할수있게)	
-	static CGameObject* SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec2& _vWorldPosXY);
+	static CGameObject* SpawnPrefab2D(Ptr<CPrefab> _Prefab, const Vec2& _vWorldPosXY);
+	static CGameObject* SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec3& _vWorldPos);
 	static CGameObject* SpawnPrefab(Ptr<CPrefab> _Prefab);
 
 	static void DestroyGameObj(CGameObject* _pObject);

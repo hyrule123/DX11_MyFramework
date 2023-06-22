@@ -27,6 +27,10 @@ namespace strKey_SHADER
 
 	namespace COMPUTE
 	{
+		STRKEY INITALIZE = "S_C_Initalize.json";
+		STRKEY PARTICLEBASIC = "S_C_ParticleBasic.json";
+		STRKEY PARTICLERAINDROP = "S_C_ParticleRainDrop.json";
 		STRKEY SCMAPLOADER = "S_C_SCMapLoader.json";
+		STRKEY SETCOLOR = "S_C_SetColor.json";
 	}
 }

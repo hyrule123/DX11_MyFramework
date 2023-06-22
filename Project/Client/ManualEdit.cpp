@@ -120,16 +120,13 @@ void ManualEdit::TestCreate()
 	{
 		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::strKey_PREFAB::MINERAL);
 
-		CGameObject* Mineral = pPrefab->Instantiate();
-		
-		EventDispatcher::SpawnGameObject(Mineral, Vec3(100.f, 100.f, 100.f));
+		//EventDispatcher::SpawnPrefab(pPrefab, Vec2(100.f, 100.f));
 	}
 
 	//Vespene
 	{
 		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
-		CGameObject* Vespene = pPrefab->Instantiate();
-		EventDispatcher::SpawnGameObject(Vespene, Vec3(0.f, 100.f, 100.f));
+		EventDispatcher::SpawnPrefab2D(pPrefab, Vec2(-100.f, 100.f));
 	}
 
 

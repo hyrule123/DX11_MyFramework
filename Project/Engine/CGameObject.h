@@ -305,8 +305,14 @@ inline const MATRIX& CGameObject::GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCAL
 
 inline void CGameObject::YSort(float _MaxZ)
 {
+    //부모일 경우 자신의 Y값을 깊이값에 반영
+    //자식일 경우 부모의 깊이값 + 자신의 상대값을 반영
     enum xyz { x, y, z };
-    m_MtrlScalarData.MAT_1.m[3][z] = _MaxZ - (m_MtrlScalarData.MAT_1.m[3][y] / g_GlobalVal.v2Res.y);
+    if (IsMaster())
+        m_MtrlScalarData.MAT_1.m[3][z] = _MaxZ + (m_MtrlScalarData.MAT_1.m[3][y] / g_GlobalVal.v2Res.y);
+    else
+        m_MtrlScalarData.MAT_1.m[3][z] = GetParent()->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD).m[3][z] + Transform().GetRelativePos().z;
+        
 }
 
 

@@ -28,7 +28,7 @@ void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, const Vec3& _vWo
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
-CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec2& _vWorldPosXY)
+CGameObject* EventDispatcher::SpawnPrefab2D(Ptr<CPrefab> _Prefab, const Vec2& _vWorldPosXY)
 {
 	assert(nullptr != _Prefab && _Prefab->IsAvailable());
 	CGameObject* pObj = _Prefab->Instantiate();
@@ -36,6 +36,24 @@ CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec2& _vWo
 	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
 
 	pObj->Transform().SetRelativePosXY(_vWorldPosXY);
+
+	tGameEvent evn = {};
+	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
+	evn.lParam = reinterpret_cast<DWORD_PTR>(pObj);
+
+	CEventMgr::GetInst()->AddEvent(evn);
+
+	return pObj;
+}
+
+CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec3& _vWorldPos)
+{
+	assert(nullptr != _Prefab && _Prefab->IsAvailable());
+	CGameObject* pObj = _Prefab->Instantiate();
+	assert(pObj);
+	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
+
+	pObj->Transform().SetRelativePos(_vWorldPos);
 
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
