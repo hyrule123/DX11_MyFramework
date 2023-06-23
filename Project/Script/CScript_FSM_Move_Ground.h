@@ -7,7 +7,7 @@ class CScript_FSM_Move_Ground :
     public CFSM_Move_Base
 {
 public:
-    CScript_FSM_Move_Ground(const string& _strKey);
+    CScript_FSM_Move_Ground(const string_view _strKey);
     virtual ~CScript_FSM_Move_Ground();
 
     CScript_FSM_Move_Ground(const CScript_FSM_Move_Ground& _other) = default;

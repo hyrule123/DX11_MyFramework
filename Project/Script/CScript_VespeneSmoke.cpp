@@ -13,7 +13,7 @@
 #define SMOKE_DELAY_MIN 0.5f
 #define SMOKE_DELAY_MAX 1.f
 
-CScript_VespeneSmoke::CScript_VespeneSmoke(const string& _strKey)
+CScript_VespeneSmoke::CScript_VespeneSmoke(const string_view _strKey)
 	: CScript_SCEntity(_strKey)
 	, m_fRandVal()
 {

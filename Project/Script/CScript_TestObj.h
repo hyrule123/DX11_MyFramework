@@ -7,7 +7,7 @@ class CScript_TestObj :
 {
     
 public:
-    CScript_TestObj(const string& _strKey);
+    CScript_TestObj(const string_view _strKey);
     virtual ~CScript_TestObj();
 
     CLONE(CScript_TestObj);

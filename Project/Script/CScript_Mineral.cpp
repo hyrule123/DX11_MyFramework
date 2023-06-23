@@ -9,7 +9,7 @@ constexpr int MINERAL_WEAR_LEVEL_3 = 250;
 constexpr int MINERAL_WEAR_LEVEL_2 = 500;
 constexpr int MINERAL_WEAR_LEVEL_1 = 750;
 
-CScript_Mineral::CScript_Mineral(const string& _strKey)
+CScript_Mineral::CScript_Mineral(const string_view _strKey)
 	: CScript_SCEntity(_strKey)
 	, m_eMineralAtlasType()
 	, m_iMineralLeft(1500)

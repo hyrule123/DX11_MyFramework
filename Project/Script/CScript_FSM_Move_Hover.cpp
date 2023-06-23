@@ -3,7 +3,7 @@
 
 #include "define_SC.h"
 
-CScript_FSM_Move_Hover::CScript_FSM_Move_Hover(const string& _strKey)
+CScript_FSM_Move_Hover::CScript_FSM_Move_Hover(const string_view _strKey)
     : CFSM(_strKey, SC::FSM::MOVE)
 {
 }

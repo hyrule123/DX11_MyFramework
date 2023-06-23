@@ -3,7 +3,7 @@
 
 #include "CScript_SCUnitVital.h"
 
-CScript_SCUnitVital::CScript_SCUnitVital(const string& _strKey)
+CScript_SCUnitVital::CScript_SCUnitVital(const string_view _strKey)
     : CScript(_strKey)
     , m_uMaxHP(100u)
     , m_fCurHP()

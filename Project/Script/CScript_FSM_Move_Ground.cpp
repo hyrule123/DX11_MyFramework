@@ -10,7 +10,7 @@
 
 #include <Engine/CKeyMgr.h>
 
-CScript_FSM_Move_Ground::CScript_FSM_Move_Ground(const string& _strKey)
+CScript_FSM_Move_Ground::CScript_FSM_Move_Ground(const string_view _strKey)
 	: CFSM_Move_Base(_strKey, (UINT)SC::FSM::MOVE, SC::eUNIT_MOVE_TYPE::GROUND)
 {
 }

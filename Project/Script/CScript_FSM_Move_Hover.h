@@ -6,7 +6,7 @@ class CScript_FSM_Move_Hover
 	: public CFSM
 {
 public:
-    CScript_FSM_Move_Hover(const string& _strKey);
+    CScript_FSM_Move_Hover(const string_view _strKey);
     virtual ~CScript_FSM_Move_Hover();
 
     CScript_FSM_Move_Hover(const CScript_FSM_Move_Hover& _other);

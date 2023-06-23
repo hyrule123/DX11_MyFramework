@@ -6,7 +6,7 @@
 
 
 
-CScript_Vespene::CScript_Vespene(const string& _strKey)
+CScript_Vespene::CScript_Vespene(const string_view _strKey)
 	:CScript_SCEntity(_strKey)
 {
 }

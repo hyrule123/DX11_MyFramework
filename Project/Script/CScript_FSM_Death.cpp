@@ -7,7 +7,7 @@
 
 #include <Engine/EventDispatcher.h>
 
-CScript_FSM_Death::CScript_FSM_Death(const string& _strKey)
+CScript_FSM_Death::CScript_FSM_Death(const string_view _strKey)
     :CFSM(_strKey, SC::FSM::DEATH)
 {
 }

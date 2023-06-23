@@ -7,7 +7,7 @@
 #include <Engine/CTimeMgr.h>
 #include <Engine/CRandMgr.h>
 
-CScript_FSM_Building_Prod::CScript_FSM_Building_Prod(const string& _strKey)
+CScript_FSM_Building_Prod::CScript_FSM_Building_Prod(const string_view _strKey)
 	: CScript_FSM_Idle(_strKey)
 	, m_bIsProducing(false)
 	, m_bIsFlickerOn()

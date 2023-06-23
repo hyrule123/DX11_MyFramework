@@ -8,7 +8,7 @@
 #include <Engine/CTimeMgr.h>
 
 
-CScript_FSM_Attack::CScript_FSM_Attack(const string& _strKey)
+CScript_FSM_Attack::CScript_FSM_Attack(const string_view _strKey)
 	: CFSM(_strKey, (UINT)SC::FSM::ATTACK)
 	, m_uDefaultDMG()
 	, m_uDMGAddedPerUpgrade()

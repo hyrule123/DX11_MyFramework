@@ -39,7 +39,7 @@ namespace strKey_SCEntity
 	STRKEY_DECLARE(m_flagTech);
 };
 
-CScript_SCEntity::CScript_SCEntity(const string& _strKey)
+CScript_SCEntity::CScript_SCEntity(const string_view _strKey)
 	: CScript(_strKey)
 	, m_eRace()
 	, m_uPopulation()

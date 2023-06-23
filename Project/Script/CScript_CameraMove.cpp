@@ -9,7 +9,7 @@
 #include <Engine/CTimeMgr.h>
 #include <Engine/CRenderMgr.h>
 
-CScript_CameraMove::CScript_CameraMove(const string& _strKey)
+CScript_CameraMove::CScript_CameraMove(const string_view _strKey)
 	: CScript(_strKey)
 	, m_CamSpeed(400.f)
 	, m_TurningForceRad(XM_PI)

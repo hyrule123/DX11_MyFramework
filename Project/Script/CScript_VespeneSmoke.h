@@ -5,7 +5,7 @@ class CScript_VespeneSmoke :
     public CScript_SCEntity
 {
 public:
-    CScript_VespeneSmoke(const string& _strKey);
+    CScript_VespeneSmoke(const string_view _strKey);
 
     CScript_VespeneSmoke(const CScript_VespeneSmoke& _other) = default;
     CLONE(CScript_VespeneSmoke);

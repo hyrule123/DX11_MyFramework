@@ -8,6 +8,7 @@
 
 namespace strKey_SCRIPT
 {
+	STRKEY MAINCAMSC_INGAME = "CScript_MainCamSC_InGame";
 	STRKEY FSM_MOVE_GROUND = "CScript_FSM_Move_Ground";
 	STRKEY CAMERAMOVE = "CScript_CameraMove";
 	STRKEY FSM_ATTACK = "CScript_FSM_Attack";

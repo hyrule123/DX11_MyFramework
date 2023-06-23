@@ -17,7 +17,7 @@
 #include "strKey_Script.h"
 #include "CScript_Mineral.h"
 
-CScript_TilemapUnitLoader::CScript_TilemapUnitLoader(const string& _strKey)
+CScript_TilemapUnitLoader::CScript_TilemapUnitLoader(const string_view _strKey)
 	: CScript(_strKey)
 {
 }

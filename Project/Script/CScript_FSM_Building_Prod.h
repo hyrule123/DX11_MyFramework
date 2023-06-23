@@ -6,7 +6,7 @@ class CScript_FSM_Building_Prod :
     public CScript_FSM_Idle
 {
 public:
-    CScript_FSM_Building_Prod(const string& _strKey);
+    CScript_FSM_Building_Prod(const string_view _strKey);
     virtual ~CScript_FSM_Building_Prod();
 
     CScript_FSM_Building_Prod(const CScript_FSM_Building_Prod& _other) = default;

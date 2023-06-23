@@ -8,7 +8,7 @@ class CScript_FSM_Idle :
     public CFSM
 {
 public:
-    CScript_FSM_Idle(const string& _strKey);
+    CScript_FSM_Idle(const string_view _strKey);
     virtual ~CScript_FSM_Idle();
     CLONE(CScript_FSM_Idle);
 

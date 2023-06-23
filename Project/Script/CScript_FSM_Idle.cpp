@@ -5,7 +5,7 @@
 
 #include "CScript_SCEntity.h"
 
-CScript_FSM_Idle::CScript_FSM_Idle(const string& _strKey)
+CScript_FSM_Idle::CScript_FSM_Idle(const string_view _strKey)
     : CFSM(_strKey, (UINT)SC::FSM::IDLE)
 {
 }

@@ -8,7 +8,7 @@ class CScript_Mineral :
     public CScript_SCEntity
 {
 public:
-    CScript_Mineral(const string& _strKey);
+    CScript_Mineral(const string_view _strKey);
 
     CScript_Mineral(const CScript_Mineral& _other) = default;
     CLONE(CScript_Mineral);

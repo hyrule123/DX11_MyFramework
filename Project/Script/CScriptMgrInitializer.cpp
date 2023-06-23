@@ -8,6 +8,7 @@
 
 
 //Created Scripts
+#include "CScript_MainCamSC_InGame.h"
 #include "CScript_FSM_Move_Ground.h"
 #include "CScript_CameraMove.h"
 #include "CScript_FSM_Attack.h"
@@ -27,6 +28,11 @@
 void CScriptMgrInitializer::init()
 {
 	CScriptMgr* pMgr = CScriptMgr::GetInst();
+	{
+		string strKey = string(strKey_SCRIPT::MAINCAMSC_INGAME);
+		CScript* newScript = new CScript_MainCamSC_InGame(strKey);
+		pMgr->AddBaseScript(strKey, newScript);
+	}
 	{
 		string strKey = string(strKey_SCRIPT::FSM_MOVE_GROUND);
 		CScript* newScript = new CScript_FSM_Move_Ground(strKey);

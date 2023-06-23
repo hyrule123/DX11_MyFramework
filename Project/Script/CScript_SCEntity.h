@@ -8,7 +8,7 @@ class CScript_SCEntity :
     public CScript
 {
 public:
-    CScript_SCEntity(const string& _strKey);
+    CScript_SCEntity(const string_view _strKey);
 
     CScript_SCEntity(const CScript_SCEntity& _other) = default;
     CLONE(CScript_SCEntity);

@@ -6,7 +6,7 @@ class CScript_TilemapUnitLoader :
     public CScript
 {
 public:
-    CScript_TilemapUnitLoader(const string& _strKey);
+    CScript_TilemapUnitLoader(const string_view _strKey);
 
     CScript_TilemapUnitLoader(const CScript_TilemapUnitLoader& _other) = default;
     CLONE(CScript_TilemapUnitLoader);

@@ -18,7 +18,7 @@ class CScript_FSM_Attack :
     public CFSM
 {
 public:
-    CScript_FSM_Attack(const string& _strKey);
+    CScript_FSM_Attack(const string_view _strKey);
     virtual ~CScript_FSM_Attack();
 
     CScript_FSM_Attack(const CScript_FSM_Attack& _other) = default;

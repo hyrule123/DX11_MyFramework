@@ -8,7 +8,7 @@ class CScript_CameraMove :
     public CScript
 {
 public:
-    CScript_CameraMove(const string& _strKey);
+    CScript_CameraMove(const string_view _strKey);
     virtual ~CScript_CameraMove();
 
     CLONE(CScript_CameraMove);

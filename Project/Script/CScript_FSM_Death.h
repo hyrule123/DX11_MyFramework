@@ -5,7 +5,7 @@ class CScript_FSM_Death :
     public CFSM
 {
 public:
-    CScript_FSM_Death(const string& _strKey);
+    CScript_FSM_Death(const string_view _strKey);
 
     CScript_FSM_Death(const CScript_FSM_Death& _other) = default;
     CLONE(CScript_FSM_Death);

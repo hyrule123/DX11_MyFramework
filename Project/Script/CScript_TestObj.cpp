@@ -8,7 +8,7 @@
 #include <Engine/CTimeMgr.h>
 #include <Engine/CKeyMgr.h>
 
-CScript_TestObj::CScript_TestObj(const string& _strKey)
+CScript_TestObj::CScript_TestObj(const string_view _strKey)
 	: CScript(_strKey)
 	, m_ColorKey(1.f, 1.f, 1.f, 1.f)
 	, m_MoveSpeed(400.f)

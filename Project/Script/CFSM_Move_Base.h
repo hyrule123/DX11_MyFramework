@@ -8,7 +8,7 @@ class CFSM_Move_Base :
     public CFSM
 {
 public:
-    CFSM_Move_Base(const string& _strKey, UINT _eMyState, SC::eUNIT_MOVE_TYPE _eMoveType);
+    CFSM_Move_Base(const string_view _strKey, UINT _eMyState, SC::eUNIT_MOVE_TYPE _eMoveType);
     virtual ~CFSM_Move_Base();
 
     //Base 클래스이므로 disable

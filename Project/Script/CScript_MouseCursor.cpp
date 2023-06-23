@@ -16,7 +16,7 @@
 
 #include <Engine/S_H_Struct.hlsli>
 
-CScript_MouseCursor::CScript_MouseCursor(const string& _strKey)
+CScript_MouseCursor::CScript_MouseCursor(const string_view _strKey)
 	: CScript(_strKey)
 	, m_arrpFuncLBTNCallback{}
 	, m_arrpFuncRBTNCallback{}

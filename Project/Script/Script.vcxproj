@@ -191,6 +191,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CScript_FSM_Death.h" />
     <ClInclude Include="CScriptMgrInitializer.h" />
     <ClInclude Include="CScript_CameraMove.h" />
+    <ClInclude Include="CScript_MainCamSC_InGame.h" />
     <ClInclude Include="CScript_Mineral.h" />
     <ClInclude Include="CScript_MouseCursor.h" />
     <ClInclude Include="CScript_FSM_Attack.h" />
@@ -218,6 +219,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClCompile Include="CScript_FSM_Death.cpp" />
     <ClCompile Include="CScriptMgrInitializer.cpp" />
     <ClCompile Include="CScript_CameraMove.cpp" />
+    <ClCompile Include="CScript_MainCamSC_InGame.cpp" />
     <ClCompile Include="CScript_Mineral.cpp" />
     <ClCompile Include="CScript_MouseCursor.cpp" />
     <ClCompile Include="CScript_FSM_Attack.cpp" />

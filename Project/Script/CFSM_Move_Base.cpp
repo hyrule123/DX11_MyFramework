@@ -3,7 +3,7 @@
 
 #include "CScript_SCEntity.h"
 
-CFSM_Move_Base::CFSM_Move_Base(const string& _strKey, UINT _eMyState, SC::eUNIT_MOVE_TYPE _eMoveType)
+CFSM_Move_Base::CFSM_Move_Base(const string_view _strKey, UINT _eMyState, SC::eUNIT_MOVE_TYPE _eMoveType)
 	: CFSM(_strKey, _eMyState)
 	, m_eMoveType(_eMoveType)
 	, m_fSpeed(10.f)
