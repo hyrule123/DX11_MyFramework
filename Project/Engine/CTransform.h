@@ -90,9 +90,12 @@ public:
     void SetSize(const Vec3& _vSize);
     void SetSizeXY(const Vec2& _v2Size);
 
-    void SetRelativePos(const Vec3& _vPos) { m_v3RelativePos = _vPos; SetMyUpdate(); }
-    void SetRelativePosXY(const Vec2& _vPos) { m_v3RelativePos.x = _vPos.x; m_v3RelativePos.y = _vPos.y; SetMyUpdate(); }
+    void SetRelativePos(const Vec3& _v3Pos) { m_v3RelativePos = _v3Pos; SetMyUpdate(); }
+    void SetRelativePosXY(const Vec2& _v2Pos) { m_v3RelativePos.x = _v2Pos.x; m_v3RelativePos.y = _v2Pos.y; SetMyUpdate(); }
     void SetRelativePos(float _x, float _y, float _z) { m_v3RelativePos = Vec3(_x, _y, _z); SetMyUpdate(); }
+    void AddRelativePos(const Vec3& _v3Pos) { m_v3RelativePos += _v3Pos; SetMyUpdate(); }
+    void AddRelativePosXY(const Vec2& _v2Pos) { m_v3RelativePos += _v2Pos; SetMyUpdate(); }
+
 
     void SetRelativeScale(const Vec3& _vScale);
     void SetRelativeScale(float _x, float _y, float _z);

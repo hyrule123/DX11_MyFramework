@@ -46,7 +46,6 @@ void ManualEdit::Edit()
 
 	//Terran-Common Animations
 	Terran_CommonAnim_Save();
-	
 
 	//Marine
 	{
@@ -91,6 +90,8 @@ void ManualEdit::Edit()
 
 void ManualEdit::TestCreate()
 {
+	return;
+
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	for (int i = 0; i < 1; ++i)
@@ -130,12 +131,7 @@ void ManualEdit::TestCreate()
 	}
 
 
-	//Map Object
-	{
-		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::strKey_PREFAB::MAPOBJ);
-		assert(nullptr != pPrefab);
-		EventDispatcher::SpawnGameObject(pPrefab->Instantiate(), Vec3::Zero);
-	}
+
 }
 
 void ManualEdit::Terran_CommonAnim_Save()

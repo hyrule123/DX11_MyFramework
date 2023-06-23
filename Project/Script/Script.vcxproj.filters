@@ -86,7 +86,9 @@
     <ClInclude Include="CScript_Vespene.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
-    <ClInclude Include="CScript_MainCamSC_InGame.h" />
+    <ClInclude Include="CScript_MainCamSC_InGame.h">
+      <Filter>ScriptCode\SC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -146,7 +148,9 @@
     <ClCompile Include="CScript_Vespene.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CScript_MainCamSC_InGame.cpp" />
+    <ClCompile Include="CScript_MainCamSC_InGame.cpp">
+      <Filter>ScriptCode\SC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

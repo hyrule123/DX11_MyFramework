@@ -86,7 +86,15 @@ void CreateMainGame()
 
 	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
 	Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");
-	Ptr<CTexture> Fighter = CResMgr::GetInst()->FindRes<CTexture>("Fighter");
+
+	CResMgr* pResMgr = CResMgr::GetInst();
+
+	//Map Object
+	{
+		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::strKey_PREFAB::MAPOBJ);
+		assert(nullptr != pPrefab);
+		EventDispatcher::SpawnGameObject(pPrefab->Instantiate(), Vec3::Zero);
+	}
 
 	{
 		// Camera	
@@ -97,7 +105,7 @@ void CreateMainGame()
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		//pObj->AddComponent(new CTransform);
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPT::CAMERAMOVE));
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPT::MAINCAMSC_INGAME));
 
 		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::Camera);
 	}

@@ -281,6 +281,7 @@ namespace DirectX
             // Assignment operators
             Vector3& operator= (const XMVECTORF32& F) { x = F.f[0]; y = F.f[1]; z = F.f[2]; return *this; }
             Vector3& operator+= (const Vector3& V);
+            void operator+=(const Vector2& V2);
             Vector3& operator-= (const Vector3& V);
             Vector3& operator*= (const Vector3& V);
             Vector3& operator*= (float S);

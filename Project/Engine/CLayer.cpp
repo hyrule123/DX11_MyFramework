@@ -16,11 +16,19 @@ CLayer::CLayer()
 
 CLayer::~CLayer()
 {
-	size_t size = m_vecObject.size();
-	for (size_t i = 0; i < size; ++i)
+	//댕글링 포인터를 방지하기 위해 partition 먼저 진행후 Master 오브젝트만 제거
+	auto iterEnd = std::partition(m_vecObject.begin(), m_vecObject.end(),
+		[](CGameObject* _pObj)->bool
+		{
+			return _pObj->IsMaster();
+		}
+	);
+
+	size_t vecEnd = iterEnd - m_vecObject.begin();
+	for (size_t i = 0; i < vecEnd; ++i)
 	{
-		if (m_vecObject[i]->IsMaster())
-			SAFE_DELETE(m_vecObject[i]);
+		if (m_vecObject[i])
+			delete m_vecObject[i];
 	}
 }
 

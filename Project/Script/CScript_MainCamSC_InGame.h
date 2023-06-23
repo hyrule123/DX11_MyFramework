@@ -2,6 +2,7 @@
 
 #include <Engine/CScript.h>
 
+class CCamera;
 class CScript_MainCamSC_InGame :
     public CScript
 {
@@ -17,7 +18,13 @@ public:
     void tick() override;
 
 private:
+    void CameraMove();
 
+private:
+    DECLARE_GETTER_SETTER(float, m_fCamSpeed, CamSpeed);
+
+private:
+    CCamera* m_pCam;
 
 };
 
