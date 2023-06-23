@@ -23,7 +23,7 @@ CRenderMgr::CRenderMgr()
     : m_arrCam{}
     , m_bDebugRenderUpdated()
     , m_pLight2DStructBuffer()
-    , m_bEditorCamMode(true)
+    , m_bEditorCamMode(false)
 {
     //구조화버퍼 생성
     m_pSBuffer_Instancing = new CStructBuffer(tSBufferDesc{

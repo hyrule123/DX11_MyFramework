@@ -22,5 +22,7 @@ private:
 private:
     void LoadUnit(const shared_ptr<SC_Map::tMapData> _pMapData);
     void UnloadUnit();
+
+    void StartLocation();
 };
 
