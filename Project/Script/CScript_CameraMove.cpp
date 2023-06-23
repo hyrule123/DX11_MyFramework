@@ -11,7 +11,7 @@
 
 CScript_CameraMove::CScript_CameraMove(const string_view _strKey)
 	: CScript(_strKey)
-	, m_CamSpeed(400.f)
+	, m_CamSpeed(1000.f)
 	, m_TurningForceRad(XM_PI)
 {
 }

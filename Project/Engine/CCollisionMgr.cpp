@@ -18,7 +18,6 @@
 #include "struct.h"
 
 
-
 CCollisionMgr::CCollisionMgr()
 	: m_iNum2DGridX()
 	, m_iNum2DGridY()
@@ -110,6 +109,7 @@ void CCollisionMgr::tick()
 	//2D 충돌 검사
 	for (int i = 0; i < m_iNum2DGridTotalIndex; ++i)
 	{
+
 		size_t size = m_vec2DGrid[i].vecColl.size();
 		//충돌은 최소 2개가 있어야 진행 가능하므로 2사이즈가 2개 이하일 경우 비워주고 다음 벡터에 대해 충돌검사 진행
 		if (size < 2)

@@ -24,6 +24,10 @@
 
 #include <Script/define_SC.h>
 
+//카메라 위치 받아오기 용
+#include <Engine/CRenderMgr.h>
+#include <Engine/CCamera.h>
+
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
 	, m_pMapObj()
@@ -113,6 +117,24 @@ void CUIobj_TestWindow::render_update()
 	if (ImGui::Button("Map Debug: MiniTile"))
 	{
 		pTilemap->SetTilemapDebugMode(eTILEMAP_DEBUGMODE::MINITILE);
+	}
+
+	if (ImGui::Button("Spawn Marines"))
+	{
+		CCamera* pCam = CRenderMgr::GetInst()->GetCurCamera();
+		const Vec2& CamPos = pCam->GetOwner()->Transform().GetRelativePos().XY();
+
+		Ptr<CPrefab> Marine = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
+
+		for (int i = 0; i < 10; ++i)
+		{
+			Vec2 RandVal = Vec2(640.f, 480.f) * 0.5f;
+			RandVal.x = CRandMgr::GetInst()->GetRand<float>(-RandVal.x, RandVal.x);
+			RandVal.y = CRandMgr::GetInst()->GetRand<float>(-RandVal.y, RandVal.y);
+			RandVal += CamPos;
+
+			EventDispatcher::SpawnPrefab2D(Marine, RandVal);
+		}
 	}
 
 	//if (ImGui::Button("Save GameObject"))
