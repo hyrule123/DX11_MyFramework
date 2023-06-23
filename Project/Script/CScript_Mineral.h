@@ -26,11 +26,7 @@ public:
     void SetMineralAtlasType(eMINERAL_ATLAS_TYPE _eType) { m_eMineralAtlasType = _eType; }
 
 private:
-    int m_iMineralMax;
-    GETTER_SETTER(int, m_iMineralMax, MineralRemain);
-    int m_iMineralsEachLevel;
-
-private:
-    int m_iCurMineral;
+    int m_iMineralLeft;
+    GETTER_SETTER(int, m_iMineralLeft, MineralLeft);
 };
 

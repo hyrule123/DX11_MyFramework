@@ -490,7 +490,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     {
         //MEGATILE
         using namespace def_Shader::eSHADER_PIPELINE_STAGE;
-        UINT flagPipeline = __VERTEX || __PIXEL || __COMPUTE;
+        UINT flagPipeline = __VERTEX | __PIXEL | __COMPUTE;
         Desc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV = flagPipeline;
         Desc.i_idx_t_SRVIdx = idx_t_SBUFFER_MEGATILE;
 

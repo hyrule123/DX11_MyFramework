@@ -23,7 +23,7 @@ namespace strKey_TEXTURE
 	}
 	namespace NOISE
 	{
-		STRKEY NOISE_01_PNG = "noise/noise_01.png";
+		STRKEY NOISE_01_PNG = "Noise/noise_01.png";
 	}
 	namespace PROTOSS
 	{

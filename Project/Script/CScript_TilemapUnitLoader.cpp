@@ -14,6 +14,9 @@
 
 #include <Engine/S_H_SCUnitGround.hlsli>
 
+#include "strKey_Script.h"
+#include "CScript_Mineral.h"
+
 CScript_TilemapUnitLoader::CScript_TilemapUnitLoader(const string& _strKey)
 	: CScript(_strKey)
 {
@@ -40,36 +43,66 @@ void CScript_TilemapUnitLoader::LoadUnit(const shared_ptr<SC_Map::tMapData> _pMa
 	using namespace SC_Map;
 	using namespace SC;
 
-
 	size_t size = _pMapData->vecUnitData.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		const tUnitData& unit = _pMapData->vecUnitData[i];
 
-		int MineralType = -1;
-		
+		Ptr<CPrefab> UnitPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName((SC::eUNIT_ID)unit.ID));
 
+		//아직 해당 유닛의 프리팹이 만들어지지 않았을 경우 continue
+		if (nullptr == UnitPrefab)
+			continue;
+
+		//유닛 생성. Y좌표계는 반전해줘야 함
+		CGameObject* SpawnedObj = EventDispatcher::SpawnPrefab2D(UnitPrefab, Vec2((float)unit.PosX, -(float)unit.PosY));
+
+		//유닛에 따라서 추가적인 작업을 해야 할 경우 여기서 해줄것
 		switch (unit.ID)
 		{
 		case (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_1:
-			MineralType = (int)eMINERAL_ATLAS_TYPE::_1;
+		{
+			//미네랄 스프라이트 설정
+			int MineralType = 0;
+			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
+
+			//미네랄 남은 자원량 설정
+			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_SCRIPT::MINERAL));
+			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
+			
 			break;
+		}
+
 		case (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_2:
-			MineralType = (int)eMINERAL_ATLAS_TYPE::_2;
+		{
+			//미네랄 스프라이트 설정
+			int MineralType = 0;
+			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
+
+			//미네랄 남은 자원량 설정
+			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_SCRIPT::MINERAL));
+			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
+
 			break;
+		}
+
 		case (UINT16)SC::eUNIT_ID::MINERAL_FIELD_TYPE_3:
-			MineralType = (int)eMINERAL_ATLAS_TYPE::_3;
+		{
+			//미네랄 스프라이트 설정
+			int MineralType = 0;
+			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
+
+			//미네랄 남은 자원량 설정
+			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_SCRIPT::MINERAL));
+			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
+
 			break;
+		}
+
 		case (UINT16)SC::eUNIT_ID::VESPENE_GEYSER:
 		{
-			Ptr<CPrefab> VPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(eUNIT_ID::VESPENE_GEYSER));
-
-			assert(nullptr != VPrefab);
-
-			CGameObject* pVespene = EventDispatcher::SpawnPrefab2D(VPrefab, Vec2((float)unit.PosX, -(float)unit.PosY));
-
 			float CurTileSet = (float)_pMapData->eTileSet;
-			pVespene->SetMtrlScalarParam(MTRL_SCALAR_FLOAT_VESPINE_SPRITE, &CurTileSet);
+			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_FLOAT_VESPINE_SPRITE, &CurTileSet);
 		}
 		break;
 
@@ -86,19 +119,6 @@ void CScript_TilemapUnitLoader::LoadUnit(const shared_ptr<SC_Map::tMapData> _pMa
 			break;
 		}
 
-
-		if (-1 != MineralType)
-		{
-			Ptr<CPrefab> MPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(eUNIT_ID::MINERAL_FIELD_TYPE_1));
-
-			assert(nullptr != MPrefab);
-
-			CGameObject* pMineral = MPrefab->Instantiate();
-
-			EventDispatcher::SpawnGameObject(pMineral, Vec3((float)unit.PosX, -(float)unit.PosY, 10.f));
-
-			pMineral->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
-		}
 	}
 }
 
