@@ -14,10 +14,11 @@ public:
     virtual void render_update() override;
 
 private:
-    class CGameObject* m_pTestObj;
+    class CGameObject* m_pMapObj;
 
 private:
     void LoadMapData(const struct tComboItem& _tCombo);
     void FindTestObj();
+    void ChangeDebugMode(int _iMode);
 };
 

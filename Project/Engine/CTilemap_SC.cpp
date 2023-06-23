@@ -16,6 +16,11 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
+#include "S_H_Tilemap_SC.hlsli"
+
+//디버그 출력 확인용
+#include "CRenderMgr.h"
+
 using namespace SC_Map;
 
 CTilemap_SC::CTilemap_SC()
@@ -24,6 +29,7 @@ CTilemap_SC::CTilemap_SC()
 	, m_bMapLoaded()
 	, m_bUnitLoaded()
 	, m_funcLoadUnit()
+	, m_eDebugMode()
 
 {
 	//메쉬는 부모 클래스에서 설정했음.
@@ -45,13 +51,24 @@ CTilemap_SC::~CTilemap_SC()
 
 void CTilemap_SC::tick()
 {
-	if (m_bMapLoaded && false == m_bUnitLoaded)
+	if (m_bMapLoaded)
 	{
-		m_bUnitLoaded = true;
+		//디버그 모드 설정
+		int DebugMode = DEBUGMODE_TILE_NONE;
+		if (CRenderMgr::GetInst()->IsEditorCamMode())
+			DebugMode = (int)m_eDebugMode;
+		GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_INT_DEBUGMODE, &DebugMode);
 
-		//로드 함수 호출
-		if (m_funcLoadUnit)
-			m_funcLoadUnit(m_pMapData);
+
+		//맵 로딩 후 유닛이 로드되지 않았을 경우 유닛 로드
+		if (false == m_bUnitLoaded)
+		{
+			m_bUnitLoaded = true;
+
+			//로드 함수 호출
+			if (m_funcLoadUnit)
+				m_funcLoadUnit(m_pMapData);
+		}
 	}
 }
 
@@ -148,6 +165,32 @@ bool CTilemap_SC::LoadMap(const string_view _strMapName)
 		g_GlobalVal.fMapSizeY = (float)m_pMapData->uNumMegatileY * 32.f;
 		
 		pTF.SetSize(Vec3(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY, 1.f));
+
+		//#define MTRL_SCALAR_VEC2_MAPSIZE	  MTRLDATA_PARAM_SCALAR(VEC2, 2)
+		{
+			Vec2 MapSize = Vec2(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY);
+			GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &MapSize);
+		}
+
+		UINT MapSizeX = m_pMapData->uNumMegatileX;
+		UINT MapSizeY = m_pMapData->uNumMegatileY;
+
+		//#define MTRL_SCALAR_VEC2_MEGATILESIZE MTRLDATA_PARAM_SCALAR(VEC2, 0)
+		{
+			Vec2 MapSize = Vec2(MapSizeX, MapSizeY);
+			GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_VEC2_MEGATILESIZE, &MapSize);
+		}
+
+		//#define MTRL_SCALAR_VEC2_MINITILESIZE MTRLDATA_PARAM_SCALAR(VEC2, 1)
+		{
+			//메가타일에는 각 미니타일 4개씩이 들어있다.
+			MapSizeX *= 4u;
+			MapSizeY *= 4u;
+			Vec2 MapSize = Vec2(MapSizeX, MapSizeY);
+			GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_VEC2_MINITILESIZE, &MapSize);
+		}
+		
+
 
 
 		//스타크래프트 맵의 좌표는 Left Top이 원점이므로

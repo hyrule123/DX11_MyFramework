@@ -1,8 +1,8 @@
 #include "S_H_STD2DLight.hlsli"
 
-VS_OUT VS_std2D_Light(VS_IN _in)
+VS_OUT_Light VS_std2D_Light(VS_IN_Light _in)
 {
-	VS_OUT output = (VS_OUT) 0.f;
+	VS_OUT_Light output = (VS_OUT_Light) 0.f;
 	
 	//인스턴싱인지 아닌지에 따라서 다른 곳에서 데이터를 받아온다.
 	tMtrlScalarData Data = GetMtrlScalarData(_in.uInstID);

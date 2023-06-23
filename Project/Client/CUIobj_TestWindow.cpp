@@ -26,7 +26,7 @@
 
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
-	, m_pTestObj()
+	, m_pMapObj()
 {
 	SetSaveEnable(true);
 }
@@ -94,37 +94,55 @@ void CUIobj_TestWindow::init()
 
 void CUIobj_TestWindow::render_update()
 {
-	if (nullptr == m_pTestObj)
+	if (nullptr == m_pMapObj)
 		FindTestObj();
 
-	if (ImGui::Button("Save GameObject"))
+	CTilemap_SC* pTilemap = static_cast<CTilemap_SC*>(m_pMapObj->Tilemap());
+	if (nullptr == pTilemap)
+		return;
+	if (ImGui::Button("Map Debug: None"))
 	{
-		std::filesystem::path TestSave = "ParentTest.json";
-		CPrefab* pPrefab = new CPrefab;
-
-		pPrefab->SetKey(TestSave.string());
-
-		CLevel* level = CLevelMgr::GetInst()->GetCurLevel();
-
-		CGameObject* pObj = level->FindObjectByName("ParentTest");
-
-		pPrefab->RegisterPrefab(pObj, true);
-
-		pPrefab->SetKey(TestSave.string());
-
-		pPrefab->Save(TestSave);
-
-		delete pPrefab;
+		pTilemap->SetTilemapDebugMode(eTILEMAP_DEBUGMODE::NONE);
 	}
 
-	if (ImGui::Button("Load GameObject"))
+	if (ImGui::Button("Map Debug: MegaTile"))
 	{
-		Ptr<CPrefab> prefab = CResMgr::GetInst()->Load<CPrefab>("ParentTest.json");
-
-		CGameObject* pObj = prefab->Instantiate();
-
-		EventDispatcher::SpawnGameObject(pObj, Vec3(CRandMgr::GetInst()->GetRand(-640.f, 640.f), CRandMgr::GetInst()->GetRand(-320.f, 320.f), 0.f), 0);
+		pTilemap->SetTilemapDebugMode(eTILEMAP_DEBUGMODE::MEGATILE);
 	}
+
+	if (ImGui::Button("Map Debug: MiniTile"))
+	{
+		pTilemap->SetTilemapDebugMode(eTILEMAP_DEBUGMODE::MINITILE);
+	}
+
+	//if (ImGui::Button("Save GameObject"))
+	//{
+	//	std::filesystem::path TestSave = "ParentTest.json";
+	//	CPrefab* pPrefab = new CPrefab;
+
+	//	pPrefab->SetKey(TestSave.string());
+
+	//	CLevel* level = CLevelMgr::GetInst()->GetCurLevel();
+
+	//	CGameObject* pObj = level->FindObjectByName("ParentTest");
+
+	//	pPrefab->RegisterPrefab(pObj, true);
+
+	//	pPrefab->SetKey(TestSave.string());
+
+	//	pPrefab->Save(TestSave);
+
+	//	delete pPrefab;
+	//}
+
+	//if (ImGui::Button("Load GameObject"))
+	//{
+	//	Ptr<CPrefab> prefab = CResMgr::GetInst()->Load<CPrefab>("ParentTest.json");
+
+	//	CGameObject* pObj = prefab->Instantiate();
+
+	//	EventDispatcher::SpawnGameObject(pObj, Vec3(CRandMgr::GetInst()->GetRand(-640.f, 640.f), CRandMgr::GetInst()->GetRand(-320.f, 320.f), 0.f), 0);
+	//}
 
 }
 
@@ -146,7 +164,7 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 				throw std::runtime_error("Cannot find Map Loader!!");
 			
 			bool bLoaded = false;
-			CTilemap* pTilemap = m_pTestObj->Tilemap();
+			CTilemap* pTilemap = m_pMapObj->Tilemap();
 			if (eTILE_TYPE::COMPLETE == pTilemap->GetTileType())
 			{
 				bLoaded = (static_cast<CTilemap_SC*>(pTilemap))->LoadMap(_tCombo.strName);
@@ -169,7 +187,12 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 
 void CUIobj_TestWindow::FindTestObj()
 {
-	m_pTestObj = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(SC::strKey_PREFAB::MAPOBJ);
+	m_pMapObj = CLevelMgr::GetInst()->GetCurLevel()->FindObjectByName(SC::strKey_PREFAB::MAPOBJ);
 
-	assert(m_pTestObj);
+	assert(m_pMapObj);
+}
+
+void CUIobj_TestWindow::ChangeDebugMode(int _iMode)
+{
+
 }

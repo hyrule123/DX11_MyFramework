@@ -3,6 +3,13 @@
 
 #include "define_SCMap.h"
 
+enum class eTILEMAP_DEBUGMODE
+{
+    NONE,
+    MEGATILE,
+    MINITILE
+};
+
 class CTilemap_SC :
     public CTilemap
 {
@@ -31,6 +38,11 @@ private:
     std::function<void(void)> m_funcUnloadUnit;
 public:
     void SetFunc_LoadUnit(std::function<void(const shared_ptr<SC_Map::tMapData> _pMapData)> _pFuncLoad, std::function<void(void)> _pFuncUnload);
+
+private:
+    eTILEMAP_DEBUGMODE m_eDebugMode;
+public:
+    void SetTilemapDebugMode(eTILEMAP_DEBUGMODE _eMode) { m_eDebugMode = _eMode; }
     
 };
 

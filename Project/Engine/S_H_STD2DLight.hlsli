@@ -68,14 +68,14 @@ StructuredBuffer<tLightInfo> g_SBuffer_Light2D : register(idx_t_SBUFFER_LIGHT2D)
 
 #endif
 
-struct VS_IN
+struct VS_IN_Light
 {
 	float3 vLocalPos SEMANTIC(POSITION);
 	float2 vUV SEMANTIC(TEXCOORD);
 	UINT32 uInstID SEMANTIC(SV_InstanceID);
 };
 
-struct VS_OUT
+struct VS_OUT_Light
 {
 	float3 vWorldPos SEMANTIC(POSITION);
 	float2 vUV SEMANTIC(TEXCOORD);

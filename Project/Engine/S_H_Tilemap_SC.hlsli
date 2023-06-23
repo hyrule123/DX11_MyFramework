@@ -1,23 +1,27 @@
 #ifndef S_0_H_TILEMAP_SC
 #define S_0_H_TILEMAP_SC
 
+#include "S_H_SCMapLoader.hlsli"
+
 #ifdef __cplusplus
 
 #else
 
 #include "S_H_Register.hlsli"
-#include "S_H_SCMapLoader.hlsli"
-
-#endif
 
 //MXTM은 상위 헤더에 정의되어 있음
 StructuredBuffer<tMegaTile> g_SBuffer_MegaTile : register(idx_t_SBUFFER_MEGATILE);
 StructuredBuffer<tMiniTile> g_SBuffer_MiniTile : register(idx_t_SBUFFER_MINITILE);
 
+#endif
+
+
+
+
 
 
 // ============
-// VespineGeyser
+// Tilemap_SC
 // ============
 // Topology: TriangleList
 // Rasterizer: CULL_BACK(백페이스 컬링)
@@ -52,13 +56,25 @@ StructuredBuffer<tMiniTile> g_SBuffer_MiniTile : register(idx_t_SBUFFER_MINITILE
 //Data 0 = eTileSet
 //Data 1 = Mega Tile Size X
 //Data 2 = Mega Tile Size Y
-#define TILE_SET iData0
-#define MEGA_TILE_SIZE_X  iData1
+#define TILE_SET			iData0
+#define MEGA_TILE_SIZE_X	iData1
 #define MEGA_TILE_SIZE_Y	iData2
+
+//아래 3개는 SCMapLoader에 정의되어 있음.
+//#define MTRL_SCALAR_VEC2_MAPSIZE	  MTRLDATA_PARAM_SCALAR(VEC2, 0)
+//#define MTRL_SCALAR_VEC2_MINITILESIZE MTRLDATA_PARAM_SCALAR(VEC2, 1)
+//#define MTRL_SCALAR_VEC2_MEGATILESIZE MTRLDATA_PARAM_SCALAR(VEC2, 2)
+
+
+
+#define MTRL_SCALAR_INT_DEBUGMODE MTRLDATA_PARAM_SCALAR(INT, 2)
+#define DEBUGMODE_TILE_NONE		0
+#define DEBUGMODE_MEGATILE 1
+#define DEBUGMODE_MINITILE 2
 
 
 //Texture Info
-//1. geyser.bmp
+//1. Tilemap Texture(한장짜리)
 //2. 
 //3. 
 //4. 

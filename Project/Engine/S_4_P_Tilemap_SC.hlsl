@@ -7,15 +7,35 @@ float4 PS_Tilemap_SC(VS_OUT _in) : SV_TARGET
 	if (FALSE == g_CBuffer_Mtrl_Tex.bTEX_0)
 		return float4(1.f, 0.f, 1.f, 1.f);
 	
-	float2 MapSizeXY = float2((float) g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_X,
-	(float) g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_Y);
+	vOutColor = g_tex_0.Sample(g_Sampler_0, _in.vUV);
 	
-	MapSizeXY *= _in.vUV;
+	int DebugMode = g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_INT_DEBUGMODE;
 	
-	int index = (int) MapSizeXY.x + (int) MapSizeXY.y * g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_Y;
+	if (DEBUGMODE_MEGATILE == DebugMode)
+	{
+		//아래 3개는 SCMapLoader에 정의되어 있음.
+		//#define MTRL_SCALAR_VEC2_MAPSIZE	  MTRLDATA_PARAM_SCALAR(VEC2, 0)
+		//#define MTRL_SCALAR_VEC2_MINITILESIZE MTRLDATA_PARAM_SCALAR(VEC2, 1)
+		//#define MTRL_SCALAR_VEC2_MEGATILESIZE MTRLDATA_PARAM_SCALAR(VEC2, 2)
+
+		int2 MyMegatilePos = (int2) (g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_VEC2_MEGATILESIZE * _in.vUV);
+		
+		int index = MyMegatilePos.y * g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_X
+		 + MyMegatilePos.x;
 	
-	if (g_SBuffer_MegaTile[index].bBuildUnable == TRUE)
-		return float4(1.f, 0.f, 1.f, 1.f);
+		if (g_SBuffer_MegaTile[index].bBuildUnable == TRUE)
+			vOutColor *= float4(1.f, 0.f, 0.f, 1.f);
+	}
+	else if (DEBUGMODE_MINITILE == DebugMode)
+	{
+		int2 MyMinitilePos = (int2) (g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_VEC2_MINITILESIZE * _in.vUV);
+		
+		int index = MyMinitilePos.y * g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_X * 8u
+		 + MyMinitilePos.x;
 	
-	return g_tex_0.Sample(g_Sampler_0, _in.vUV);
+		if (g_SBuffer_MiniTile[index].bWalkable == FALSE)
+			vOutColor *= float4(1.f, 0.f, 1.f, 1.f);
+	}
+	
+	return vOutColor;
 }
