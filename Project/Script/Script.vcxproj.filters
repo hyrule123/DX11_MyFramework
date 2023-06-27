@@ -19,7 +19,7 @@
     <Filter Include="ScriptCode\SC\Components">
       <UniqueIdentifier>{8f550a72-4cfb-4fa4-8e8a-7e5b93a8c5f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_HLSL, Shader">
+    <Filter Include="_HLSL, Shader User">
       <UniqueIdentifier>{d065df42-c96f-4ecd-b692-884b9a93280b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -157,5 +157,43 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="S_H_SCMapLoader.hlsli">
+      <Filter>_HLSL, Shader User</Filter>
+    </None>
+    <None Include="S_H_SCUnitGround.hlsli">
+      <Filter>_HLSL, Shader User</Filter>
+    </None>
+    <None Include="S_H_Tilemap_SC.hlsli">
+      <Filter>_HLSL, Shader User</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="S_0_V_SCUnitGround.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
+    <FxCompile Include="S_0_V_Tilemap_SC.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
+    <FxCompile Include="S_4_P_BuildingStructure.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
+    <FxCompile Include="S_4_P_Mineral.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
+    <FxCompile Include="S_4_P_SCUnitGround.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
+    <FxCompile Include="S_4_P_Tilemap_SC.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
+    <FxCompile Include="S_4_P_VespineGeyser.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
+    <FxCompile Include="S_C_ParticleRainDrop.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
+    <FxCompile Include="S_C_SCMapLoader.hlsl">
+      <Filter>_HLSL, Shader User</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

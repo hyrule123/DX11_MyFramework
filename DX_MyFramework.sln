@@ -22,11 +22,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Batch", "Batch", "{B8645D11
 		Batches.txt = Batches.txt
 		Copy_DirectXTex.bat = Copy_DirectXTex.bat
 		Copy_Engine.bat = Copy_Engine.bat
+		Copy_HLSL_Header.bat = Copy_HLSL_Header.bat
 		Copy_Script.bat = Copy_Script.bat
 		Copy_StormLib_DLL.bat = Copy_StormLib_DLL.bat
 		Copy_UtilLib_DLL.bat = Copy_UtilLib_DLL.bat
 		exclude_list.txt = exclude_list.txt
 		exclude_list_stormlib.txt = exclude_list_stormlib.txt
+		HLSL_Copy_To_Script_Proj.txt = HLSL_Copy_To_Script_Proj.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StormLib_DLL", "Project\StormLib_DLL\StormLib_vs19_dll.vcxproj", "{C751E21F-DBD1-48E1-9D99-D2C9178630A6}"

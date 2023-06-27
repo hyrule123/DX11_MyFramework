@@ -32,5 +32,6 @@ if exist .\OutputFile\Bin_%Mode%\Content\Shader\Graphics\*.json (
 xcopy /d /s /y /i .\OutputFile\Bin_%Mode%\Content\Shader\Graphics\*.json .\JsonBackup\%Mode%\
 )
 
+
 :: 1번 Argument에 아무것도 들어오지 않았을 경우(== 직접 실행했을 경우) 일시 정지
 if "%1"=="" pause

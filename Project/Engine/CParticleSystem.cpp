@@ -9,7 +9,7 @@
 
 #include "CTransform.h"
 
-#include "CCS_ParticleUpdate.h"
+#include "CCS_ParticleUpdater.h"
 
 #include "CTimeMgr.h"
 #include "CRandMgr.h"

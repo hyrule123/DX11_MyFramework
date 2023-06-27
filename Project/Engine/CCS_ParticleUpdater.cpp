@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CCS_ParticleUpdate.h"
+#include "CCS_ParticleUpdater.h"
 
 #include "CResMgr.h"
 
@@ -12,7 +12,7 @@
 
 
 
-CCS_ParticleUpdate::CCS_ParticleUpdate()
+CCS_ParticleUpdater::CCS_ParticleUpdater()
 	: m_pBufferOwner()
 	, m_pSBuffer_Transform()
 	, m_pSBufferRW_Shared()
@@ -20,8 +20,8 @@ CCS_ParticleUpdate::CCS_ParticleUpdate()
 {
 }
 
-CCS_ParticleUpdate::CCS_ParticleUpdate(const string_view _strFileKey)
-	: CCS_ParticleUpdate()
+CCS_ParticleUpdater::CCS_ParticleUpdater(const string_view _strFileKey)
+	: CCS_ParticleUpdater()
 {
 	std::filesystem::path FilePath = _strFileKey;
 
@@ -29,7 +29,7 @@ CCS_ParticleUpdate::CCS_ParticleUpdate(const string_view _strFileKey)
 		throw(std::runtime_error(string("Compute Shader\n") + FilePath.string() + string("\nLoad Failed")));
 }
 
-CCS_ParticleUpdate::CCS_ParticleUpdate(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ)
+CCS_ParticleUpdater::CCS_ParticleUpdater(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ)
 	: CComputeShader(_uNumThreadsX, _uNumThreadsY, _uNumThreadsZ)
 	, m_pBufferOwner()
 	, m_pSBuffer_Transform()
@@ -39,11 +39,11 @@ CCS_ParticleUpdate::CCS_ParticleUpdate(UINT _uNumThreadsX, UINT _uNumThreadsY, U
 	
 }
 
-CCS_ParticleUpdate::~CCS_ParticleUpdate()
+CCS_ParticleUpdater::~CCS_ParticleUpdater()
 {
 }
 
-bool CCS_ParticleUpdate::BindDataCS()
+bool CCS_ParticleUpdater::BindDataCS()
 {
 	if (nullptr == m_Tex_Noise)
 	{
@@ -84,7 +84,7 @@ bool CCS_ParticleUpdate::BindDataCS()
 	return true;
 }
 
-void CCS_ParticleUpdate::UnBindCS()
+void CCS_ParticleUpdater::UnBindCS()
 {
 	//계산 후 UAV 바인딩을 해제.
 	m_pSBuffer_Transform->UnBind();

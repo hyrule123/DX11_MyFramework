@@ -16,6 +16,7 @@ public:
     virtual ~CCS_SetColor();
 
 protected:
+    virtual HRESULT InitCS() override;
     virtual bool BindDataCS() override;
     virtual void UnBindCS() override;
 

@@ -167,19 +167,19 @@
       <Filter>_Source\07. Resource\04. Animation</Filter>
     </ClInclude>
     <ClInclude Include="S_H_Struct.hlsli">
-      <Filter>HLSL</Filter>
+      <Filter>_HLSL, Shader Default</Filter>
     </ClInclude>
     <ClInclude Include="S_H_Register.hlsli">
-      <Filter>HLSL</Filter>
+      <Filter>_HLSL, Shader Default</Filter>
     </ClInclude>
     <ClInclude Include="CCS_SetColor.h">
-      <Filter>HLSL\99. Compute\01. SetColor</Filter>
+      <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </ClInclude>
-    <ClInclude Include="CCS_ParticleUpdate.h">
-      <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
+    <ClInclude Include="CCS_ParticleUpdater.h">
+      <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
     </ClInclude>
     <ClInclude Include="CCS_Initialize.h">
-      <Filter>HLSL\99. Compute\00. Initialize</Filter>
+      <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
     </ClInclude>
     <ClInclude Include="Precompiled.h">
       <Filter>_Source\00. Header</Filter>
@@ -205,7 +205,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="DefaultShader.h">
-      <Filter>HLSL</Filter>
+      <Filter>_HLSL, Shader Default</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -354,13 +354,13 @@
       <Filter>_Source\07. Resource\04. Animation</Filter>
     </ClCompile>
     <ClCompile Include="CCS_SetColor.cpp">
-      <Filter>HLSL\99. Compute\01. SetColor</Filter>
+      <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </ClCompile>
-    <ClCompile Include="CCS_ParticleUpdate.cpp">
-      <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
+    <ClCompile Include="CCS_ParticleUpdater.cpp">
+      <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
     </ClCompile>
     <ClCompile Include="CCS_Initialize.cpp">
-      <Filter>HLSL\99. Compute\00. Initialize</Filter>
+      <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
     </ClCompile>
     <ClCompile Include="CTilemapAtlas.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
@@ -377,21 +377,6 @@
     <ClCompile Include="EventDispatcher.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="HLSL">
-      <UniqueIdentifier>{a640b417-9758-45de-a560-7a7e4c1cd383}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\04. Tilemap">
-      <UniqueIdentifier>{9a510dc5-4843-468a-a81b-ea058635b7a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\03. Std2D_Light">
-      <UniqueIdentifier>{cb98d268-0a45-4839-84eb-7c46da8e0594}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\02. Std2D">
-      <UniqueIdentifier>{c73311b6-268a-452a-b46c-ffcc31b0df37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\05. Particle_Render">
-      <UniqueIdentifier>{58580cd2-1a84-459b-887a-60873a309d25}</UniqueIdentifier>
-    </Filter>
     <Filter Include="_Source">
       <UniqueIdentifier>{f7c4fb8b-3b9f-43d1-af3b-ecee090c360c}</UniqueIdentifier>
     </Filter>
@@ -518,24 +503,6 @@
     <Filter Include="_Default">
       <UniqueIdentifier>{bf35e007-92a1-401c-bb41-cafe9c4fd5e1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HLSL\99. Compute">
-      <UniqueIdentifier>{32db0407-1029-4935-bd20-af2104ddee58}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\99. Compute\01. SetColor">
-      <UniqueIdentifier>{331293f5-72fc-4f40-8d18-862dff123db4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\99. Compute\02. ParticleUpdate">
-      <UniqueIdentifier>{6b416682-fb15-4520-9fa1-32a5f07bb67b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\99. Compute\00. Initialize">
-      <UniqueIdentifier>{4f9e5be7-6004-4164-a2a8-f66d39e88551}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\04. Tilemap\Atlas">
-      <UniqueIdentifier>{328d1bdd-ac35-4338-94ee-38868282e811}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\04. Tilemap\Complete">
-      <UniqueIdentifier>{4b69cd83-ba81-495e-9e5c-977b8dd6a0b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="_Source\03. Manager\09. RandMgr">
       <UniqueIdentifier>{5aea2cf4-799a-4c50-9422-eb7b85e28049}</UniqueIdentifier>
     </Filter>
@@ -545,7 +512,40 @@
     <Filter Include="_Source\06. Component\11. ScriptHolder">
       <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HLSL\01. Debug">
+    <Filter Include="_HLSL, Shader Default">
+      <UniqueIdentifier>{a640b417-9758-45de-a560-7a7e4c1cd383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\04. Tilemap">
+      <UniqueIdentifier>{9a510dc5-4843-468a-a81b-ea058635b7a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\04. Tilemap\Atlas">
+      <UniqueIdentifier>{328d1bdd-ac35-4338-94ee-38868282e811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\04. Tilemap\Complete">
+      <UniqueIdentifier>{4b69cd83-ba81-495e-9e5c-977b8dd6a0b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\03. Std2D_Light">
+      <UniqueIdentifier>{cb98d268-0a45-4839-84eb-7c46da8e0594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\02. Std2D">
+      <UniqueIdentifier>{c73311b6-268a-452a-b46c-ffcc31b0df37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\05. Particle_Render">
+      <UniqueIdentifier>{58580cd2-1a84-459b-887a-60873a309d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\99. Compute">
+      <UniqueIdentifier>{32db0407-1029-4935-bd20-af2104ddee58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\99. Compute\01. SetColor">
+      <UniqueIdentifier>{331293f5-72fc-4f40-8d18-862dff123db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\99. Compute\02. ParticleUpdate">
+      <UniqueIdentifier>{6b416682-fb15-4520-9fa1-32a5f07bb67b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\99. Compute\00. Initialize">
+      <UniqueIdentifier>{4f9e5be7-6004-4164-a2a8-f66d39e88551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL, Shader Default\01. Debug">
       <UniqueIdentifier>{3964de6a-5569-49d3-84a2-49fbf7126a03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -555,78 +555,78 @@
     </None>
     <None Include="cpp.hint" />
     <None Include="S_H_Func.hlsli">
-      <Filter>HLSL</Filter>
+      <Filter>_HLSL, Shader Default</Filter>
     </None>
     <None Include="S_H_FuncBitwise.hlsli">
-      <Filter>HLSL</Filter>
+      <Filter>_HLSL, Shader Default</Filter>
     </None>
     <None Include="S_H_STD2DLight.hlsli">
-      <Filter>HLSL\03. Std2D_Light</Filter>
+      <Filter>_HLSL, Shader Default\03. Std2D_Light</Filter>
     </None>
     <None Include="S_H_STD2D.hlsli">
-      <Filter>HLSL\02. Std2D</Filter>
+      <Filter>_HLSL, Shader Default\02. Std2D</Filter>
     </None>
     <None Include="S_H_Debug.hlsli">
-      <Filter>HLSL\01. Debug</Filter>
+      <Filter>_HLSL, Shader Default\01. Debug</Filter>
     </None>
     <None Include="S_H_Particle.hlsli">
-      <Filter>HLSL\05. Particle_Render</Filter>
+      <Filter>_HLSL, Shader Default\05. Particle_Render</Filter>
     </None>
     <None Include="S_H_TilemapAtlas.hlsli">
-      <Filter>HLSL\04. Tilemap\Atlas</Filter>
+      <Filter>_HLSL, Shader Default\04. Tilemap\Atlas</Filter>
     </None>
     <None Include="S_H_TilemapComplete.hlsli">
-      <Filter>HLSL\04. Tilemap\Complete</Filter>
+      <Filter>_HLSL, Shader Default\04. Tilemap\Complete</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="S_0_V_STD2DLight.hlsl">
-      <Filter>HLSL\03. Std2D_Light</Filter>
+      <Filter>_HLSL, Shader Default\03. Std2D_Light</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_STD2DLight.hlsl">
-      <Filter>HLSL\03. Std2D_Light</Filter>
+      <Filter>_HLSL, Shader Default\03. Std2D_Light</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_STD2D.hlsl">
-      <Filter>HLSL\02. Std2D</Filter>
+      <Filter>_HLSL, Shader Default\02. Std2D</Filter>
     </FxCompile>
     <FxCompile Include="S_0_V_STD2D.hlsl">
-      <Filter>HLSL\02. Std2D</Filter>
+      <Filter>_HLSL, Shader Default\02. Std2D</Filter>
     </FxCompile>
     <FxCompile Include="S_0_V_Debug.hlsl">
-      <Filter>HLSL\01. Debug</Filter>
+      <Filter>_HLSL, Shader Default\01. Debug</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_Debug.hlsl">
-      <Filter>HLSL\01. Debug</Filter>
+      <Filter>_HLSL, Shader Default\01. Debug</Filter>
     </FxCompile>
     <FxCompile Include="S_C_SetColor.hlsl">
-      <Filter>HLSL\99. Compute\01. SetColor</Filter>
+      <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </FxCompile>
     <FxCompile Include="S_C_ParticleBasic.hlsl">
-      <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
+      <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
     </FxCompile>
     <FxCompile Include="S_C_Initalize.hlsl">
-      <Filter>HLSL\99. Compute\00. Initialize</Filter>
+      <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
     </FxCompile>
     <FxCompile Include="S_3_G_Particle.hlsl">
-      <Filter>HLSL\05. Particle_Render</Filter>
+      <Filter>_HLSL, Shader Default\05. Particle_Render</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_Particle.hlsl">
-      <Filter>HLSL\05. Particle_Render</Filter>
+      <Filter>_HLSL, Shader Default\05. Particle_Render</Filter>
     </FxCompile>
     <FxCompile Include="S_0_V_Particle.hlsl">
-      <Filter>HLSL\05. Particle_Render</Filter>
+      <Filter>_HLSL, Shader Default\05. Particle_Render</Filter>
     </FxCompile>
     <FxCompile Include="S_0_V_TilemapAtlas.hlsl">
-      <Filter>HLSL\04. Tilemap\Atlas</Filter>
+      <Filter>_HLSL, Shader Default\04. Tilemap\Atlas</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_TilemapAtlas.hlsl">
-      <Filter>HLSL\04. Tilemap\Atlas</Filter>
+      <Filter>_HLSL, Shader Default\04. Tilemap\Atlas</Filter>
     </FxCompile>
     <FxCompile Include="S_0_V_TilemapComplete.hlsl">
-      <Filter>HLSL\04. Tilemap\Complete</Filter>
+      <Filter>_HLSL, Shader Default\04. Tilemap\Complete</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_TilemapComplete.hlsl">
-      <Filter>HLSL\04. Tilemap\Complete</Filter>
+      <Filter>_HLSL, Shader Default\04. Tilemap\Complete</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

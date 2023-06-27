@@ -288,7 +288,7 @@ ENUM_END
 #define MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION      MTRLDATA_PARAM_SCALAR(VEC2, 0)
 
 
-//CCS_ParticleUpdate
+//CCS_ParticleUpdater
 #define MTRL_SCALAR_OWNER_OBJ_POS MTRLDATA_PARAM_SCALAR(VEC4, 0)
 //============================================================================
 

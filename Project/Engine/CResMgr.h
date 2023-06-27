@@ -14,6 +14,7 @@
 #include "CPrefab.h"
 #include "CComputeShader.h"
 #include "CAnim2DAtlas.h"
+#include "CComputeShader.h"
 
 #include <type_traits>
 
@@ -49,7 +50,7 @@ private:
     void CreateDefaultMaterial();
     void LoadDefaultTexture();
 
-
+    bool LoadUserGraphicsShaderAll();
 
 public:
     bool IsUpdated() const { return m_bResUpdated; }
@@ -69,8 +70,24 @@ public:
 
     template<typename T>
     void AddRes(const string_view _strKey, Ptr<T>& _Res);
+private:
+    //SFINAE(Substitution Failure Is Not An Error)를 통한 리소스 초기화 함수 오버로딩 연습
+    //취소 - 여러 개의 타입에 대해 오버로딩이 모호함.
+    // 
+    //함수 설명:
+    //위 함수는 T가 CComputeShader일 경우에 호출되고
+    //아래 함수는 T가 CComputeShader가 아닐 경우에 호출됨.
+    //같은 표현인데 느낌표만 붙인거임
+    //SFINAE를 이용해서 한 쪽으로 캐스팅이 실패하면 다른 오버로딩 함수가 호출되도록 결정 됨.
+    //template<typename T>
+    //typename std::enable_if<std::is_base_of<CComputeShader, T>::value>::type
+    //     initRes(Ptr<T>& _Res);
+
+    //template <typename T, typename = std::enable_if_t<!std::is_base_of<CComputeShader, T>::value>>
+    //   void initRes(Ptr<T>& _Res);
 
     
+public:
     //파일명 = 키일떄 사용
     template<typename T>
     Ptr<T>Load(const std::filesystem::path& _fileName);
@@ -145,6 +162,8 @@ inline void CResMgr::DeleteRes(const string_view _strKey)
 template<typename T>
 inline void CResMgr::AddRes(const string_view _strKey, Ptr<T>& _Res)
 {
+    static_assert(std::is_base_of<CRes, T>::value, "Type T is not Derived class of CRes!!");
+
     // 중복키로 리소스 추가하려는 경우
     assert( ! FindRes<T>(_strKey).Get() );
 
@@ -152,7 +171,11 @@ inline void CResMgr::AddRes(const string_view _strKey, Ptr<T>& _Res)
 
     _Res->SetKey(_strKey);
     m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
+
+
 }
+
+
 
 template<typename T>
 inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName)

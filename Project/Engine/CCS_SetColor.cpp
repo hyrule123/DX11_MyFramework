@@ -11,10 +11,24 @@
 
 CCS_SetColor::CCS_SetColor()
 {
+}
+
+CCS_SetColor::~CCS_SetColor()
+{
+	delete m_StructBufferTest;
+}
+
+HRESULT CCS_SetColor::InitCS()
+{
 	SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::SETCOLOR);
 
-	HRESULT hr = CreateShaderFromHeader(g_CS_SetColor , sizeof(g_CS_SetColor));
-	assert(SUCCEEDED(hr));
+	HRESULT hr = CreateShaderFromHeader(g_CS_SetColor, sizeof(g_CS_SetColor));
+	
+	if (FAILED(hr))
+	{
+		assert(SUCCEEDED(hr));
+		return hr;
+	}
 
 	UINT Target = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
 	m_StructBufferTest = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::SETCOLOR, idx_t_SBUFFER_SETCOLOR, idx_u_SETCOLOR_SBUFFERRW });
@@ -33,11 +47,8 @@ CCS_SetColor::CCS_SetColor()
 
 	//SRV에 바인딩5
 	m_StructBufferTest->BindBufferSRV();
-}
 
-CCS_SetColor::~CCS_SetColor()
-{
-	delete m_StructBufferTest;
+	return S_OK;
 }
 
 bool CCS_SetColor::BindDataCS()

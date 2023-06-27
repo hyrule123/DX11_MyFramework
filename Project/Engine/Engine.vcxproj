@@ -205,7 +205,7 @@
     <ClInclude Include="CComputeShader.h" />
     <ClInclude Include="CConstBuffer.h" />
     <ClInclude Include="CCS_Initialize.h" />
-    <ClInclude Include="CCS_ParticleUpdate.h" />
+    <ClInclude Include="CCS_ParticleUpdater.h" />
     <ClInclude Include="CCS_SetColor.h" />
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CEngine.h" />
@@ -275,7 +275,7 @@
     <ClCompile Include="CComputeShader.cpp" />
     <ClCompile Include="CConstBuffer.cpp" />
     <ClCompile Include="CCS_Initialize.cpp" />
-    <ClCompile Include="CCS_ParticleUpdate.cpp" />
+    <ClCompile Include="CCS_ParticleUpdater.cpp" />
     <ClCompile Include="CCS_SetColor.cpp" />
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CEngine.cpp">

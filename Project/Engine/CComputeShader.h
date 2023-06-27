@@ -26,14 +26,16 @@ private://미사용
 
 
 protected://아래의 함수만 재정의해서 사용해주면 됨.
+
+    //이 함수를 재정의해서 각자 사용할 컴퓨트쉐이더를 세팅해 놓도록 강제.
+    //호출 타이밍: 생성자
+    virtual HRESULT InitCS() = 0;
+
     //BindDataCS에서 true를 반환 시에만 나머지 과정이 진행됨.
     virtual bool BindDataCS() = 0;
     virtual void UnBindCS() = 0;
 
-private:
-    //이 함수를 재정의해서 각자 사용할 컴퓨트쉐이더를 세팅해 놓는다.
-    //호출 타이밍: init()
-    virtual HRESULT LoadCS() = 0;
+
 
 
 
@@ -44,10 +46,6 @@ private:
     //쉐이더 컴파일 관련
     //Blob = Binary Large Object
     ComPtr<ID3DBlob>            m_pShaderData;
-
-    //헤더에서 컴파일 시
-    const unsigned char* m_pByteCode;
-    size_t               m_ByteCodeSize;
 
     ComPtr<ID3D11ComputeShader> m_CS;
 

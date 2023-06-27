@@ -6,7 +6,7 @@
 #include "strKey_Default.h"
 
 #include "CCS_SetColor.h"
-#include "CCS_ParticleUpdate.h"
+#include "CCS_ParticleUpdater.h"
 #include "CCS_Initialize.h"
 
 #include "CAnim2DAtlas.h"
@@ -413,10 +413,6 @@ bool CResMgr::CreateDefaultGraphicsShader()
 
 
 
-
-
-
-
 bool CResMgr::CreateDefaultComputeShader()
 {
 	//컴퓨트쉐이더는 클래스에 종속적이므로 수동으로 로드해줘야 한다.
@@ -448,7 +444,7 @@ bool CResMgr::CreateDefaultComputeShader()
 	//ParticleUpdate 클래스는 여러개의 파티클 쉐이더를 처리해야 하므로 생성자로 기본 이름을 받고 있음.
 	try
 	{
-		Ptr<CComputeShader> pCS = new CCS_ParticleUpdate(string(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC));
+		Ptr<CComputeShader> pCS = new CCS_ParticleUpdater(string(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC));
 		pCS->SetEngineDefaultRes(true);
 		AddRes(pCS->GetKey(), pCS);
 	}
@@ -459,7 +455,7 @@ bool CResMgr::CreateDefaultComputeShader()
 
 	try
 	{
-		Ptr<CComputeShader> pCS = new CCS_ParticleUpdate(string(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLERAINDROP));
+		Ptr<CComputeShader> pCS = new CCS_ParticleUpdater(string(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLERAINDROP));
 		pCS->SetEngineDefaultRes(true);
 		AddRes(pCS->GetKey(), pCS);
 	}
@@ -594,10 +590,8 @@ bool CResMgr::LoadUserGraphicsShaderAll()
 			}
 		}
 	}
-}
 
-bool CResMgr::LoadUserComputeShaderAll()
-{
+	return true;
 }
 
 
