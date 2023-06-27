@@ -18,11 +18,6 @@ CComputeShader::CComputeShader()
 	, m_uNumThreadPerGroupArr{1u, 1u, 1u}
 	, m_CBuffer_CSShared{}
 {
-	HRESULT hr = InitCS();
-	if (FAILED(hr))
-	{
-		DEBUG_BREAK;
-	}
 }
 
 CComputeShader::CComputeShader(UINT _uThreadX, UINT _uThreadY, UINT _uThreadZ)

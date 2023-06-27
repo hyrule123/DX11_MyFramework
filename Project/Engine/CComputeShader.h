@@ -1,13 +1,16 @@
 #pragma once
 #include "CShader.h"
 
-
+//컴퓨트쉐이더의 HLSL 코드는 C++ CComputeShader 클래스에 종속됨
+//하나의 HLSL CS = 하나의 CComputeShader 클래스
+//그러므로 상속받아서 만드는 생성자에서 컴퓨트쉐이더를 로드해주면 된다.
 
 //컴퓨트쉐이더는 MtrlConst 상수버퍼를 같이 사용한다.
 class CComputeShader :
     public CShader
 {
 public:
+    //ComputeShader
     CComputeShader();
     CComputeShader(UINT _uThreadX, UINT _uThreadY, UINT _uThreadZ);
 
@@ -26,16 +29,9 @@ private://미사용
 
 
 protected://아래의 함수만 재정의해서 사용해주면 됨.
-
-    //이 함수를 재정의해서 각자 사용할 컴퓨트쉐이더를 세팅해 놓도록 강제.
-    //호출 타이밍: 생성자
-    virtual HRESULT InitCS() = 0;
-
     //BindDataCS에서 true를 반환 시에만 나머지 과정이 진행됨.
     virtual bool BindDataCS() = 0;
     virtual void UnBindCS() = 0;
-
-
 
 
 

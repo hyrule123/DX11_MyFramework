@@ -422,6 +422,7 @@ bool CResMgr::CreateDefaultComputeShader()
 		pCS->SetEngineDefaultRes(true);
 
 		//Initialize 컴퓨트쉐이더는 초기화와 동시에 한번 실행시켜서 초기 데이터를 등록한다.
+		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::INITALIZE);
 		AddRes(pCS->GetKey(), pCS);
 		pCS->Execute();
 	}
@@ -434,6 +435,7 @@ bool CResMgr::CreateDefaultComputeShader()
 	{
 		Ptr<CComputeShader>pCS = new CCS_SetColor;
 		pCS->SetEngineDefaultRes(true);
+		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::SETCOLOR);
 		AddRes(pCS->GetKey(), pCS);
 	}
 	catch (const std::runtime_error& error)

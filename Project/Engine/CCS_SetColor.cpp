@@ -11,19 +11,8 @@
 
 CCS_SetColor::CCS_SetColor()
 {
-}
-
-CCS_SetColor::~CCS_SetColor()
-{
-	delete m_StructBufferTest;
-}
-
-HRESULT CCS_SetColor::InitCS()
-{
-	SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::SETCOLOR);
-
 	HRESULT hr = CreateShaderFromHeader(g_CS_SetColor, sizeof(g_CS_SetColor));
-	
+
 	if (FAILED(hr))
 	{
 		assert(SUCCEEDED(hr));
@@ -47,8 +36,11 @@ HRESULT CCS_SetColor::InitCS()
 
 	//SRV에 바인딩5
 	m_StructBufferTest->BindBufferSRV();
+}
 
-	return S_OK;
+CCS_SetColor::~CCS_SetColor()
+{
+	delete m_StructBufferTest;
 }
 
 bool CCS_SetColor::BindDataCS()

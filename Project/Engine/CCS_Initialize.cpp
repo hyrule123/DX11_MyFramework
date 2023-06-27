@@ -15,6 +15,10 @@ CCS_Initialize::CCS_Initialize()
 	: CComputeShader(1u, 1u, 1u)
 	, m_pSBuffer_InitSetting()
 {
+	HRESULT hr = CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
+
+	if (FAILED(hr))
+		assert(SUCCEEDED(hr));
 }
 
 CCS_Initialize::~CCS_Initialize()
@@ -68,13 +72,5 @@ void CCS_Initialize::UnBindCS()
 	unsigned char IsLittleEndian = *(unsigned char*)&(g_InitSetting.bIsLittleEndian);
 	if (static_cast<unsigned char>(1u) == IsLittleEndian)
 		g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
-}
-
-HRESULT CCS_Initialize::InitCS()
-{
-	SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::INITALIZE);
-	HRESULT hr = CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
-	assert(SUCCEEDED(hr));
-	return hr;
 }
 
