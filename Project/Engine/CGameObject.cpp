@@ -457,7 +457,8 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 			case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
 				break;
 			case eCOMPONENT_TYPE::TILEMAP:
-				pCom = new CTilemap_SC;
+				//TODO: 타일맵 수정
+				//pCom = new CTilemap_SC;
 				break;
 			case eCOMPONENT_TYPE::LANDSCAPE:
 				break;

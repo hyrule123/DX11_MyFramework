@@ -396,5 +396,5 @@ OutputFile/[Bb]in_Debug/*
 Unity_*.cpp
 
 # Exclude Compiled Shader Header Path
-CompiledShaderHeader/
+DefaultShader/
 *.inc

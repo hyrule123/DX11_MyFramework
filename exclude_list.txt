@@ -1,5 +1,5 @@
 targetver.h
 pch.h
 framework.h
-DefaultShader\*.h
+DefaultShader\
 src\

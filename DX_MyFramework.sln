@@ -1,3 +1,4 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
@@ -18,11 +19,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{CF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Batch", "Batch", "{B8645D11-22A5-4AAD-87A8-54BBF5CAFDF8}"
 	ProjectSection(SolutionItems) = preProject
+		Batches.txt = Batches.txt
 		Copy_DirectXTex.bat = Copy_DirectXTex.bat
 		Copy_Engine.bat = Copy_Engine.bat
 		Copy_Script.bat = Copy_Script.bat
 		Copy_StormLib_DLL.bat = Copy_StormLib_DLL.bat
 		Copy_UtilLib_DLL.bat = Copy_UtilLib_DLL.bat
+		exclude_list.txt = exclude_list.txt
+		exclude_list_stormlib.txt = exclude_list_stormlib.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StormLib_DLL", "Project\StormLib_DLL\StormLib_vs19_dll.vcxproj", "{C751E21F-DBD1-48E1-9D99-D2C9178630A6}"
@@ -52,6 +56,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Project\Client\Cl
 	ProjectSection(ProjectDependencies) = postProject
 		{6BF45ED1-4F33-49AE-8FAE-B84ACB919FB2} = {6BF45ED1-4F33-49AE-8FAE-B84ACB919FB2}
 		{7E0E511C-FB50-47F0-B655-99DC30AB0FE5} = {7E0E511C-FB50-47F0-B655-99DC30AB0FE5}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "솔루션 항목", "솔루션 항목", "{CFB46A5B-1F8F-4AA7-B141-A6C89A8955AF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Global

@@ -204,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="EventDispatcher.h" />
+    <ClInclude Include="DefaultShader.h">
+      <Filter>HLSL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
