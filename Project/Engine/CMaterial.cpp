@@ -134,7 +134,7 @@ void CMaterial::BindData()
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{
 		if (true == IsTexture((eMTRLDATA_PARAM_TEX)i))
-			m_arrTex[i]->BindData_SRV(i, def_Shader::eSHADER_PIPELINE_STAGE::__PIXEL);
+			m_arrTex[i]->BindData_SRV(i, define_Shader::eSHADER_PIPELINE_STAGE::__PIXEL);
 	}
 	//Texture Const Buffer Update
 	CConstBuffer* CMtrlTexBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_TEX);

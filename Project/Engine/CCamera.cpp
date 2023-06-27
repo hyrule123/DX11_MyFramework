@@ -267,10 +267,10 @@ void CCamera::SortObject()
 
 
 			//쉐이더 도메인을 받아와서
-			def_Shader::eSHADER_DOMAIN dom = pRenderCom->GetCurMaterial()->GetShader()->GetShaderDomain();
+			define_Shader::eSHADER_DOMAIN dom = pRenderCom->GetCurMaterial()->GetShader()->GetShaderDomain();
 
 			//만약 쉐이더 도메인이 등록되어있지 않을 경우 assert 처리
-			assert((def_Shader::eSHADER_DOMAIN)0 <= dom && dom < def_Shader::eSHADER_DOMAIN::_END);
+			assert((define_Shader::eSHADER_DOMAIN)0 <= dom && dom < define_Shader::eSHADER_DOMAIN::_END);
 
 			//도메인이 등록되어 있을 경우 CRenderMgr의 출력 대기열에 등록한다.
 			pRenderMgr->AddRenderQueue(tRenderInfo{ pRenderCom, this }, dom);

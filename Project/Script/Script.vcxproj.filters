@@ -19,6 +19,9 @@
     <Filter Include="ScriptCode\SC\Components">
       <UniqueIdentifier>{8f550a72-4cfb-4fa4-8e8a-7e5b93a8c5f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="_HLSL, Shader">
+      <UniqueIdentifier>{d065df42-c96f-4ecd-b692-884b9a93280b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CScript_CameraMove.h">

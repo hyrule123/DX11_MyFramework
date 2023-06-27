@@ -10,7 +10,7 @@
 
 //트랜스폼 상속
 #include "CTransform.h"
-#include "CTilemap_SC.h"
+
 
 
 //생명주기 계산용

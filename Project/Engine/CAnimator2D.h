@@ -97,7 +97,6 @@ public:
 
     bool IsFinished() const { return m_bFinishChecked; }
 
-    //TODO : 임시
     const Vec2  GetCurFrameSize();
     const tAnim2D* GetCurAnim() const { return m_pCurAnim; }
 

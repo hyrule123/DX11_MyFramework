@@ -119,6 +119,7 @@ namespace DIRECTORY_NAME
 	
 
 	STRKEY SHADER_ROOT = "Shader";
+	STRKEY SHADER_CSO = "Shader/Bin";
 	STRKEY SHADER_GRAPHICS = RES_ARR[(int)eRES_TYPE::GRAPHICS_SHADER];
 	STRKEY SHADER_COMPUTE = RES_ARR[(int)eRES_TYPE::COMPUTE_SHADER];
 
@@ -497,7 +498,7 @@ namespace RES_INFO
 		namespace GRAPHICS
 		{
 			STRKEY DirName = DIRECTORY_NAME::SHADER_GRAPHICS;
-			STRKEY arrPrefix[(int)def_Shader::eSHADER_TYPE::END] =
+			STRKEY arrPrefix[(int)define_Shader::eSHADER_TYPE::END] =
 			{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
 
 			//각 쉐이더마다 들어가야할 설정값
@@ -520,7 +521,7 @@ namespace RES_INFO
 				STRKEY_DECLARE(m_bUseInstancing);
 
 
-				constexpr inline const char* arr_strKey_PipeLine[(int)def_Shader::eSHADER_TYPE::END] =
+				constexpr inline const char* arr_strKey_PipeLine[(int)define_Shader::eSHADER_TYPE::END] =
 				{
 					"_0_VERTEX",
 					"_1_HULL",

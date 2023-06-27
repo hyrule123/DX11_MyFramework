@@ -246,25 +246,25 @@ void CDevice::ClearTarget(float(&_color)[4])
 void CDevice::CreateConstBuffer()
 {
     //Vertex Shader에만 상수버퍼를 전달 + Light 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
-    UINT CBufferTarget = def_Shader::eSHADER_PIPELINE_STAGE::__ALL;
+    UINT CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[idx_b_CBUFFER_CAM_MATIRCES] = new CConstBuffer(idx_b_CBUFFER_CAM_MATIRCES);
     m_arrConstBuffer[idx_b_CBUFFER_CAM_MATIRCES]->Create(sizeof(tCamMatrices), (int)eCAMERA_INDEX::END);
     m_arrConstBuffer[idx_b_CBUFFER_CAM_MATIRCES]->SetPipelineTarget(CBufferTarget);
 
     //Vertex + Pixel Shader에만 상수버퍼를 전달
-    CBufferTarget = def_Shader::eSHADER_PIPELINE_STAGE::__ALL;
+    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[idx_b_CBUFFER_MTRL_SCALAR] = new CConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
     m_arrConstBuffer[idx_b_CBUFFER_MTRL_SCALAR]->Create(sizeof(tMtrlScalarData), 1);
     m_arrConstBuffer[idx_b_CBUFFER_MTRL_SCALAR]->SetPipelineTarget(CBufferTarget);
 
-    CBufferTarget = def_Shader::eSHADER_PIPELINE_STAGE::__PIXEL;
+    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__PIXEL;
     m_arrConstBuffer[idx_b_CBUFFER_MTRL_TEX] = new CConstBuffer(idx_b_CBUFFER_MTRL_TEX);
     m_arrConstBuffer[idx_b_CBUFFER_MTRL_TEX]->Create(sizeof(tMtrlTexData), 1);
     m_arrConstBuffer[idx_b_CBUFFER_MTRL_TEX]->SetPipelineTarget(CBufferTarget);
 
 
     //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
-    CBufferTarget = def_Shader::eSHADER_PIPELINE_STAGE::__ALL;
+    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[idx_b_CBUFFER_SYSTEM] = new CConstBuffer(idx_b_CBUFFER_SYSTEM);
     m_arrConstBuffer[idx_b_CBUFFER_SYSTEM]->Create(sizeof(tGlobalValue), 1);
     m_arrConstBuffer[idx_b_CBUFFER_SYSTEM]->SetPipelineTarget(CBufferTarget);
@@ -272,14 +272,14 @@ void CDevice::CreateConstBuffer()
 
     //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
     //이 값을 전달할 버퍼 데이터는 g_arrSBufferShareData(extern.cpp)이다.
-    CBufferTarget = def_Shader::eSHADER_PIPELINE_STAGE::__ALL;
+    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
     m_arrConstBuffer[idx_b_CBUFFER_SBUFFER_SHAREDATA] = new CConstBuffer(idx_b_CBUFFER_SBUFFER_SHAREDATA);
     m_arrConstBuffer[idx_b_CBUFFER_SBUFFER_SHAREDATA]->Create(sizeof(tSBufferInfo), (UINT)eCBUFFER_SBUFFER_SHAREDATA_IDX::END);
     m_arrConstBuffer[idx_b_CBUFFER_SBUFFER_SHAREDATA]->SetPipelineTarget(CBufferTarget);
 
     
     //파티클 모듈 데이터를 전달할 상수 버퍼
-    CBufferTarget = def_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE;
+    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE;
     m_arrConstBuffer[idx_b_CBUFFER_PARTICLE_MODULEDATA] = new CConstBuffer(idx_b_CBUFFER_PARTICLE_MODULEDATA);
 
     m_arrConstBuffer[idx_b_CBUFFER_PARTICLE_MODULEDATA]->Create(sizeof(tParticleModule), 1);
@@ -292,24 +292,24 @@ HRESULT CDevice::CreateRasterizeState()
     D3D11_RASTERIZER_DESC Desc = {};
 
     //1. 기본값은 nullptr로 지정해준다.(기본설정을 굳이 생성할필요X)
-    m_arrRSState[(UINT)def_Shader::eRASTERIZER_TYPE::CULL_BACK] = nullptr;
+    m_arrRSState[(UINT)define_Shader::eRASTERIZER_TYPE::CULL_BACK] = nullptr;
 
     //2. 프론트페이스 컬링
     Desc.CullMode = D3D11_CULL_FRONT;
     Desc.FillMode = D3D11_FILL_SOLID;
 
     HRESULT Result = S_OK;
-    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)def_Shader::eRASTERIZER_TYPE::CULL_FRONT]);
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)define_Shader::eRASTERIZER_TYPE::CULL_FRONT]);
 
     //3. 컬링 하지 않음
     Desc.CullMode = D3D11_CULL_NONE;
     Desc.FillMode = D3D11_FILL_SOLID;
-    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)def_Shader::eRASTERIZER_TYPE::CULL_NONE]);
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)define_Shader::eRASTERIZER_TYPE::CULL_NONE]);
 
     //3.와이어프레임
     Desc.CullMode = D3D11_CULL_NONE;
     Desc.FillMode = D3D11_FILL_WIREFRAME;
-    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)def_Shader::eRASTERIZER_TYPE::WIRE_FRAME]);
+    Result = DEVICE->CreateRasterizerState(&Desc, &m_arrRSState[(UINT)define_Shader::eRASTERIZER_TYPE::WIRE_FRAME]);
 
 
     return Result;
@@ -319,48 +319,48 @@ HRESULT CDevice::CreateDepthStencilState()
 {
     HRESULT Result = S_OK;
 
-    for (UINT i = 0; i < (UINT)def_Shader::eDEPTH_STENCIL_TYPE::END; ++i)
+    for (UINT i = 0; i < (UINT)define_Shader::eDEPTH_STENCIL_TYPE::END; ++i)
     {
         D3D11_DEPTH_STENCIL_DESC Desc = {};
 
-        switch ((def_Shader::eDEPTH_STENCIL_TYPE)i)
+        switch ((define_Shader::eDEPTH_STENCIL_TYPE)i)
         {
-        case def_Shader::eDEPTH_STENCIL_TYPE::LESS:
+        case define_Shader::eDEPTH_STENCIL_TYPE::LESS:
 
             //이건 기본값이므로 nullptr을 준다.
             m_arrDSState[i] = nullptr;
             continue;
             break;
 
-        case def_Shader::eDEPTH_STENCIL_TYPE::LESS_EQUAL:
+        case define_Shader::eDEPTH_STENCIL_TYPE::LESS_EQUAL:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case def_Shader::eDEPTH_STENCIL_TYPE::GREATER:
+        case define_Shader::eDEPTH_STENCIL_TYPE::GREATER:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_GREATER;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case def_Shader::eDEPTH_STENCIL_TYPE::GREATER_EQUAL:
+        case define_Shader::eDEPTH_STENCIL_TYPE::GREATER_EQUAL:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_GREATER_EQUAL;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             Desc.StencilEnable = false;
             break;
 
-        case def_Shader::eDEPTH_STENCIL_TYPE::NO_WRITE:
+        case define_Shader::eDEPTH_STENCIL_TYPE::NO_WRITE:
             Desc.DepthEnable = true;
             Desc.DepthFunc = D3D11_COMPARISON_LESS;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
             Desc.StencilEnable = false;
             break;
 
-        case def_Shader::eDEPTH_STENCIL_TYPE::NO_TEST_NO_WRITE:
+        case define_Shader::eDEPTH_STENCIL_TYPE::NO_TEST_NO_WRITE:
             Desc.DepthEnable = false;
             Desc.DepthFunc = D3D11_COMPARISON_NEVER;
             Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
@@ -382,18 +382,18 @@ HRESULT CDevice::CreateBlendState()
 {
     HRESULT Result = S_OK;
 
-    for (int i = 0; i < (UINT)def_Shader::eBLEND_STATE_TYPE::END; ++i)
+    for (int i = 0; i < (UINT)define_Shader::eBLEND_STATE_TYPE::END; ++i)
     {
         D3D11_BLEND_DESC Desc = {};
 
-        switch ((def_Shader::eBLEND_STATE_TYPE)i)
+        switch ((define_Shader::eBLEND_STATE_TYPE)i)
         {
-        case def_Shader::eBLEND_STATE_TYPE::DEFAULT:
+        case define_Shader::eBLEND_STATE_TYPE::DEFAULT:
             m_arrBSState[i] = nullptr;
             continue;
             break;
 
-        case def_Shader::eBLEND_STATE_TYPE::MASK:
+        case define_Shader::eBLEND_STATE_TYPE::MASK:
             //Alpha-To-Coverage 기능을 활성화한다.
             //Alpha-To-Coverage 기능은 
             Desc.AlphaToCoverageEnable = true;
@@ -419,7 +419,7 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
             break;
 
-        case def_Shader::eBLEND_STATE_TYPE::ALPHA_BLEND:
+        case define_Shader::eBLEND_STATE_TYPE::ALPHA_BLEND:
             Desc.AlphaToCoverageEnable = false;
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;
@@ -446,7 +446,7 @@ HRESULT CDevice::CreateBlendState()
             Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
             break;
-        case def_Shader::eBLEND_STATE_TYPE::ONE_ONE: 
+        case define_Shader::eBLEND_STATE_TYPE::ONE_ONE: 
             Desc.AlphaToCoverageEnable = true;
             Desc.IndependentBlendEnable = false;
             Desc.RenderTarget[0].BlendEnable = true;

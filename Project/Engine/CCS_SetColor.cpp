@@ -19,7 +19,7 @@ CCS_SetColor::CCS_SetColor()
 	//HRESULT hr = CreateShaderFromHeader(g_CS_SetColor , sizeof(g_CS_SetColor));
 	//assert(SUCCEEDED(hr));
 
-	UINT Target = def_Shader::eSHADER_PIPELINE_STAGE::__ALL;
+	UINT Target = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
 	m_StructBufferTest = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::SETCOLOR, idx_t_SBUFFER_SETCOLOR, idx_u_SETCOLOR_SBUFFERRW });
 
 	for (int i = 0; i < 1280u; ++i)

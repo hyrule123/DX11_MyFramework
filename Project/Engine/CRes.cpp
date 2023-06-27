@@ -35,6 +35,7 @@ bool CRes::Save(const std::filesystem::path& _fileName)
 	std::filesystem::path FilePath = GETRESPATH;
 	FilePath /= _fileName;
 
+	//해당 디렉토리가 존재하는지 확인 후 존재하지 않을 경우 디렉토리를 생성한다.
 	const std::filesystem::path& parentDir = FilePath.parent_path();
 	if (false == std::filesystem::exists(parentDir))
 	{

@@ -181,9 +181,6 @@
     <ClInclude Include="CCS_Initialize.h">
       <Filter>HLSL\99. Compute\00. Initialize</Filter>
     </ClInclude>
-    <ClInclude Include="CCS_SCMapLoader.h">
-      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
-    </ClInclude>
     <ClInclude Include="Precompiled.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
@@ -207,12 +204,6 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="EventDispatcher.h" />
-    <ClInclude Include="define_SCMap.h">
-      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="CTilemap_SC.h">
-      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -368,9 +359,6 @@
     <ClCompile Include="CCS_Initialize.cpp">
       <Filter>HLSL\99. Compute\00. Initialize</Filter>
     </ClCompile>
-    <ClCompile Include="CCS_SCMapLoader.cpp">
-      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
-    </ClCompile>
     <ClCompile Include="CTilemapAtlas.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClCompile>
@@ -384,9 +372,6 @@
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />
-    <ClCompile Include="CTilemap_SC.cpp">
-      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HLSL">
@@ -542,12 +527,6 @@
     <Filter Include="HLSL\99. Compute\00. Initialize">
       <UniqueIdentifier>{4f9e5be7-6004-4164-a2a8-f66d39e88551}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HLSL\99. Compute\03. SCMapLoader">
-      <UniqueIdentifier>{36c6709e-97ed-477e-b686-406ee9c3ef75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HLSL\06. SCUnit">
-      <UniqueIdentifier>{5c312d34-64b3-4759-81d1-fa0f86253401}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HLSL\04. Tilemap\Atlas">
       <UniqueIdentifier>{328d1bdd-ac35-4338-94ee-38868282e811}</UniqueIdentifier>
     </Filter>
@@ -587,22 +566,13 @@
     <None Include="S_H_Debug.hlsli">
       <Filter>HLSL\01. Debug</Filter>
     </None>
-    <None Include="S_H_SCMapLoader.hlsli">
-      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
-    </None>
     <None Include="S_H_Particle.hlsli">
       <Filter>HLSL\05. Particle_Render</Filter>
-    </None>
-    <None Include="S_H_SCUnitGround.hlsli">
-      <Filter>HLSL\06. SCUnit</Filter>
     </None>
     <None Include="S_H_TilemapAtlas.hlsli">
       <Filter>HLSL\04. Tilemap\Atlas</Filter>
     </None>
     <None Include="S_H_TilemapComplete.hlsli">
-      <Filter>HLSL\04. Tilemap\Complete</Filter>
-    </None>
-    <None Include="S_H_Tilemap_SC.hlsli">
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </None>
   </ItemGroup>
@@ -628,17 +598,11 @@
     <FxCompile Include="S_C_SetColor.hlsl">
       <Filter>HLSL\99. Compute\01. SetColor</Filter>
     </FxCompile>
-    <FxCompile Include="S_C_ParticleRainDrop.hlsl">
-      <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
-    </FxCompile>
     <FxCompile Include="S_C_ParticleBasic.hlsl">
       <Filter>HLSL\99. Compute\02. ParticleUpdate</Filter>
     </FxCompile>
     <FxCompile Include="S_C_Initalize.hlsl">
       <Filter>HLSL\99. Compute\00. Initialize</Filter>
-    </FxCompile>
-    <FxCompile Include="S_C_SCMapLoader.hlsl">
-      <Filter>HLSL\99. Compute\03. SCMapLoader</Filter>
     </FxCompile>
     <FxCompile Include="S_3_G_Particle.hlsl">
       <Filter>HLSL\05. Particle_Render</Filter>
@@ -648,12 +612,6 @@
     </FxCompile>
     <FxCompile Include="S_0_V_Particle.hlsl">
       <Filter>HLSL\05. Particle_Render</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_SCUnitGround.hlsl">
-      <Filter>HLSL\06. SCUnit</Filter>
-    </FxCompile>
-    <FxCompile Include="S_0_V_SCUnitGround.hlsl">
-      <Filter>HLSL\06. SCUnit</Filter>
     </FxCompile>
     <FxCompile Include="S_0_V_TilemapAtlas.hlsl">
       <Filter>HLSL\04. Tilemap\Atlas</Filter>
@@ -665,21 +623,6 @@
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_TilemapComplete.hlsl">
-      <Filter>HLSL\04. Tilemap\Complete</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_BuildingStructure.hlsl">
-      <Filter>HLSL\06. SCUnit</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_Mineral.hlsl">
-      <Filter>HLSL\06. SCUnit</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_VespineGeyser.hlsl">
-      <Filter>HLSL\06. SCUnit</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_Tilemap_SC.hlsl">
-      <Filter>HLSL\04. Tilemap\Complete</Filter>
-    </FxCompile>
-    <FxCompile Include="S_0_V_Tilemap_SC.hlsl">
       <Filter>HLSL\04. Tilemap\Complete</Filter>
     </FxCompile>
   </ItemGroup>

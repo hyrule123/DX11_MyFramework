@@ -11,11 +11,14 @@ enum class eSHADER_LOADTYPE
 
 namespace SHADER_NAME_VERSION
 {
-    constexpr const char* VS = "vs_5_0";
-    constexpr const char* HS = "hs_5_0";
-    constexpr const char* DS = "ds_5_0";
-    constexpr const char* GS = "gs_5_0";
-    constexpr const char* PS = "ps_5_0";
+    constexpr const char* GS[(int)define_Shader::eSHADER_TYPE::END]
+        = {
+        "vs_5_0",
+        "hs_5_0",
+        "ds_5_0",
+        "gs_5_0",
+        "ps_5_0"
+    };
     constexpr const char* CS = "cs_5_0";
 }
 

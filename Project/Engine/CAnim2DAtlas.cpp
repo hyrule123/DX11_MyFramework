@@ -99,7 +99,6 @@ bool CAnim2DAtlas::Load(const std::filesystem::path& _fileName)
 	return CRes::Load(AddExt);
 }
 
-//TODO : 여기 작성
 bool CAnim2DAtlas::SaveJson(Json::Value* _jVal)
 {
 	if (nullptr == _jVal)

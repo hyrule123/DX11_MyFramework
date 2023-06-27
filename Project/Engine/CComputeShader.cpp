@@ -110,7 +110,8 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 	}
 		
 
-	std::filesystem::path ShaderPath = CPathMgr::GetInst()->GetPathRel_Resource(GetResType());
+	std::filesystem::path ShaderPath = CPathMgr::GetInst()->GetPathRel_Content();
+	ShaderPath /= DIRECTORY_NAME::SHADER_CSO;
 	ShaderPath /= GetKey();
 	ShaderPath.replace_extension(RES_INFO::SHADER::Ext_ShaderCode);
 

@@ -140,7 +140,7 @@ enum class eKEY_STATE
 	NONE, END = NONE,
 };
 
-namespace def_Shader
+namespace define_Shader
 {
 	enum class eBLEND_STATE_TYPE
 	{

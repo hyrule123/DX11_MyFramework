@@ -42,14 +42,14 @@ private:
 	ComPtr<ID3D11SamplerState>		m_Sampler[2];
 
 	// Rasterizer
-	ComPtr<ID3D11RasterizerState>	m_arrRSState[(UINT)def_Shader::eRASTERIZER_TYPE::END];
+	ComPtr<ID3D11RasterizerState>	m_arrRSState[(UINT)define_Shader::eRASTERIZER_TYPE::END];
 
 	//Output Merger
 	////Depth Stencil State
-	ComPtr<ID3D11DepthStencilState>	m_arrDSState[(UINT)def_Shader::eDEPTH_STENCIL_TYPE::END];
+	ComPtr<ID3D11DepthStencilState>	m_arrDSState[(UINT)define_Shader::eDEPTH_STENCIL_TYPE::END];
 
 	////Blend State
-	ComPtr<ID3D11BlendState>		m_arrBSState[(UINT)def_Shader::eBLEND_STATE_TYPE::END];
+	ComPtr<ID3D11BlendState>		m_arrBSState[(UINT)define_Shader::eBLEND_STATE_TYPE::END];
 
 
 
@@ -79,8 +79,8 @@ public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }
 	ID3D11DeviceContext* GetDeviceContext() { return m_Context.Get(); }
 	CConstBuffer* GetConstBuffer(int _idx_b_RegisterIdx) { return m_arrConstBuffer[_idx_b_RegisterIdx]; }
-	ID3D11RasterizerState* GetRSState(def_Shader::eRASTERIZER_TYPE _Type) { return m_arrRSState[(UINT)_Type].Get(); }
-	ID3D11DepthStencilState* GetDSState(def_Shader::eDEPTH_STENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }
-	ID3D11BlendState* GetBSState(def_Shader::eBLEND_STATE_TYPE _Type) { return m_arrBSState[(UINT)_Type].Get(); }
+	ID3D11RasterizerState* GetRSState(define_Shader::eRASTERIZER_TYPE _Type) { return m_arrRSState[(UINT)_Type].Get(); }
+	ID3D11DepthStencilState* GetDSState(define_Shader::eDEPTH_STENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }
+	ID3D11BlendState* GetBSState(define_Shader::eBLEND_STATE_TYPE _Type) { return m_arrBSState[(UINT)_Type].Get(); }
 };
 

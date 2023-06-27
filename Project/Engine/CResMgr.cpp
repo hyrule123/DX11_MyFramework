@@ -7,7 +7,6 @@
 
 #include "CCS_SetColor.h"
 #include "CCS_ParticleUpdate.h"
-#include "CCS_SCMapLoader.h"
 #include "CCS_Initialize.h"
 
 #include "CAnim2DAtlas.h"
@@ -503,8 +502,9 @@ bool CResMgr::CreateDefaultComputeShader()
 
 	try
 	{
-		Ptr<CComputeShader> pCS = new CCS_SCMapLoader;
-		AddRes(pCS->GetKey(), pCS);
+		//TODO : 여기 수정할 것
+		//Ptr<CComputeShader> pCS = new CCS_SCMapLoader;
+		//AddRes(pCS->GetKey(), pCS);
 	}
 	catch (const std::runtime_error& error)
 	{
@@ -616,10 +616,9 @@ Ptr<CRes> CResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileN
 		pRes = new CAnim2DAtlas;
 		break;
 	case eRES_TYPE::SOUND:
-		//아직 클래스가 없음
+		//TODO: 아직 클래스가 없음
 		break;
 	case eRES_TYPE::PREFAB:
-		//TODO : 프리팹 저장 기능 나중에 구현해야 됨
 		pRes = new CPrefab;
 		break;
 	case eRES_TYPE::GRAPHICS_SHADER:
