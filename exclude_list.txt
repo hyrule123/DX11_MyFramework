@@ -2,4 +2,5 @@ targetver.h
 pch.h
 framework.h
 DefaultShader\
+DefaultShader.h
 src\

@@ -37,13 +37,12 @@ private:
     //리소스 정보가 업데이트 되면 true로 변경
     bool    m_bResUpdated;
 
-
-
-public:
+private:
     void CreateResClassTypeIndex();
-    void CreateDefaultMesh();
 
+    void CreateDefaultMesh();
     void CreateDefaultShader();
+
     bool CreateDefaultGraphicsShader();
     bool CreateDefaultComputeShader();
 

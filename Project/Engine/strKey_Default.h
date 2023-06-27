@@ -58,23 +58,22 @@ namespace strKey_RES_DEFAULT
 	{
 		namespace GRAPHICS
 		{
-			STRKEY DEBUG = "Debug.json";
-			STRKEY PARTICLE = "Particle.json";
-			STRKEY STD2D = "STD2D.json";
-			STRKEY STD2DLIGHT = "STD2DLight.json";
-			STRKEY TEST = "Test.json";
-			STRKEY TILEMAPATLAS = "TilemapAtlas.json";
-			STRKEY TILEMAPCOMPLETE = "TilemapComplete.json";
-			STRKEY TILEMAPSC = "Tilemap_SC.json";
+			STRKEY DEBUG = "Debug";
+			STRKEY PARTICLE = "Particle";
+			STRKEY STD2D = "STD2D";
+			STRKEY STD2DLIGHT = "STD2DLight";
+			STRKEY TILEMAPATLAS = "TilemapAtlas";
+			STRKEY TILEMAPCOMPLETE = "TilemapComplete";
+			STRKEY TILEMAPSC = "Tilemap_SC";
 		}
 
 		namespace COMPUTE
 		{
-			STRKEY SCMAPLOADER = "S_C_SCMapLoader.json";
-			STRKEY INITALIZE = "S_C_Initalize.json";
-			STRKEY PARTICLEBASIC = "S_C_ParticleBasic.json";
-			STRKEY PARTICLERAINDROP = "S_C_ParticleRainDrop.json";
-			STRKEY SETCOLOR = "S_C_SetColor.json";
+			STRKEY SCMAPLOADER = "S_C_SCMapLoader";
+			STRKEY INITALIZE = "S_C_Initalize";
+			STRKEY PARTICLEBASIC = "S_C_ParticleBasic";
+			STRKEY PARTICLERAINDROP = "S_C_ParticleRainDrop";
+			STRKEY SETCOLOR = "S_C_SetColor";
 		}
 	}
 	

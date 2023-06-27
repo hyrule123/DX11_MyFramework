@@ -1,6 +1,6 @@
 #include "S_H_STD2DLight.hlsli"
 
-VS_OUT_Light VS_std2D_Light(VS_IN_Light _in)
+VS_OUT_Light VS_STD2D_Light(VS_IN_Light _in)
 {
 	VS_OUT_Light output = (VS_OUT_Light) 0.f;
 	

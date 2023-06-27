@@ -20,6 +20,7 @@
 #include <thread>
 #include <future>
 #include <memory>
+#include <fstream>
 
 using std::vector;
 using std::list;

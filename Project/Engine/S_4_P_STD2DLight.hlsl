@@ -3,7 +3,7 @@
 void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light);
 void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light);
 
-float4 PS_std2D_Light(VS_OUT_Light _in) : SV_TARGET
+float4 PS_STD2D_Light(VS_OUT_Light _in) : SV_TARGET
 {
     float4 vOutColor = (float4)0.f;
     

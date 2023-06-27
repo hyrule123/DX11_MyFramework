@@ -146,10 +146,16 @@ HRESULT CComputeShader::CreateShaderFromHeader(const unsigned char* _pByteCode, 
 	if (nullptr == _pByteCode)
 		return E_POINTER;
 
-	m_pByteCode = _pByteCode;
-	m_ByteCodeSize = _ByteCodeSize;
+	HRESULT hr = D3DCreateBlob(_ByteCodeSize, m_pShaderData.ReleaseAndGetAddressOf());
+	if (FAILED(hr))
+	{
+		DEBUG_BREAK;
+		return hr;
+	}
 
-	return CreateShaderPrivate((const void*)_pByteCode, _ByteCodeSize);
+	memcpy_s(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize(), _pByteCode, _ByteCodeSize);
+
+	return CreateShaderPrivate(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize());
 }
 
 

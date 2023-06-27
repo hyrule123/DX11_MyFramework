@@ -25,11 +25,15 @@ private://미사용
     virtual void BindData() final {};
 
 
-
 protected://아래의 함수만 재정의해서 사용해주면 됨.
     //BindDataCS에서 true를 반환 시에만 나머지 과정이 진행됨.
     virtual bool BindDataCS() = 0;
     virtual void UnBindCS() = 0;
+
+private:
+    //이 함수를 재정의해서 각자 사용할 컴퓨트쉐이더를 세팅해 놓는다.
+    //호출 타이밍: init()
+    virtual HRESULT LoadCS() = 0;
 
 
 
