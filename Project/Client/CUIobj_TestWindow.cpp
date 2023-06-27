@@ -28,6 +28,9 @@
 #include <Engine/CRenderMgr.h>
 #include <Engine/CCamera.h>
 
+#include <Engine/CScriptHolder.h>
+#include <Script/CScript_FSM_Attack.h>
+
 CUIobj_TestWindow::CUIobj_TestWindow()
 	: CUI_BasicWindow("TestWindow")
 	, m_pMapObj()
@@ -133,7 +136,9 @@ void CUIobj_TestWindow::render_update()
 			RandVal.y = CRandMgr::GetInst()->GetRand<float>(-RandVal.y, RandVal.y);
 			RandVal += CamPos;
 
-			EventDispatcher::SpawnPrefab2D(Marine, RandVal);
+			CGameObject* pObj = EventDispatcher::SpawnPrefab2D(Marine, RandVal);
+
+			pObj->ScriptHolder()->Transition(SC::FSM::ATTACK);
 		}
 	}
 
