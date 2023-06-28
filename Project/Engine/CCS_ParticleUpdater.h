@@ -19,7 +19,6 @@ public:
     virtual ~CCS_ParticleUpdater();
 
 public:
-    virtual HRESULT InitCS() override { return S_OK; };
     virtual bool BindDataCS() override;
     virtual void UnBindCS() override;
 

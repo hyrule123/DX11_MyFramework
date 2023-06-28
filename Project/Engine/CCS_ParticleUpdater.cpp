@@ -18,6 +18,7 @@ CCS_ParticleUpdater::CCS_ParticleUpdater()
 	, m_pSBufferRW_Shared()
 	, m_pCBuffer_ModuleData()
 {
+	//TODO: 컴퓨트쉐이더 연결하기
 }
 
 CCS_ParticleUpdater::CCS_ParticleUpdater(const string_view _strFileKey)

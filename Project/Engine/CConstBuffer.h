@@ -20,7 +20,6 @@ private:
     UINT                    m_iElementCount;
 
     UINT                    m_ePIPELINE_STAGE_flags;
-        
 
 public:
     void Create(UINT _iElementSize, UINT _iElementCount);
@@ -31,7 +30,5 @@ public:
     //기본 플래그는 MAX값으로 전달됨. 따로 지정할 경우 특정 파이프라인에만 상수버퍼가 설정된다.
     //기본값은 NONE이며, NONE 이외의 값이 전달될 경우 해당 값을 사용.
     void BindBuffer(UINT _eSHADER_PIPELINE_FLAG = define_Shader::eSHADER_PIPELINE_STAGE::__NONE);
-
-
 };
 

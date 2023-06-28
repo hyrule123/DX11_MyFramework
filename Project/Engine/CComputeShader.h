@@ -1,6 +1,7 @@
 #pragma once
 #include "CShader.h"
 
+//=============사용법============
 //컴퓨트쉐이더의 HLSL 코드는 C++ CComputeShader 클래스에 종속됨
 //하나의 HLSL CS = 하나의 CComputeShader 클래스
 //그러므로 상속받아서 만드는 생성자에서 컴퓨트쉐이더를 로드해주면 된다.
