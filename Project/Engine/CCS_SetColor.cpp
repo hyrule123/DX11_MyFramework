@@ -13,11 +13,7 @@ CCS_SetColor::CCS_SetColor()
 {
 	HRESULT hr = CreateShaderFromHeader(g_CS_SetColor, sizeof(g_CS_SetColor));
 
-	if (FAILED(hr))
-	{
-		assert(SUCCEEDED(hr));
-		return hr;
-	}
+	assert(SUCCEEDED(hr));
 
 	UINT Target = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
 	m_StructBufferTest = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::SETCOLOR, REGISLOT_t_SBUFFER_SETCOLOR, REGISLOT_u_SETCOLOR_SBUFFERRW });
