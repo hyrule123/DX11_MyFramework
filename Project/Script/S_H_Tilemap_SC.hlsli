@@ -10,8 +10,8 @@
 #include "S_H_Register.hlsli"
 
 //MXTM은 상위 헤더에 정의되어 있음
-StructuredBuffer<tMegaTile> g_SBuffer_MegaTile : register(idx_t_SBUFFER_MEGATILE);
-StructuredBuffer<tMiniTile> g_SBuffer_MiniTile : register(idx_t_SBUFFER_MINITILE);
+StructuredBuffer<tMegaTile> g_SBuffer_MegaTile : register(REGISLOT_t_SBUFFER_MEGATILE);
+StructuredBuffer<tMiniTile> g_SBuffer_MiniTile : register(REGISLOT_t_SBUFFER_MINITILE);
 
 #endif
 

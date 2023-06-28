@@ -13,15 +13,15 @@ struct tSBufferDesc
     UINT flag_eSHADER_PIPELINE_STAGE_FLAG_SRV;
     eCBUFFER_SBUFFER_SHAREDATA_IDX eCBufferIdx;
 
-    int i_idx_t_SRVIdx;
-    int i_idx_u_UAVIdx;
+    int i_REGISLOT_t_SRVIdx;
+    int i_REGISLOT_u_UAVIdx;
 
     //tSBufferDesc()
     //    : eSBufferType()
     //    , flag_eSHADER_PIPELINE_STAGE_FLAG_SRV()
     //    , eCBufferIdx(eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE)
-    //    , i_idx_t_SRVIdx(idx_t_SRV_NONE)
-    //    , i_idx_u_UAVIdx(idx_u_UAV_NONE)
+    //    , i_REGISLOT_t_SRVIdx(REGISLOT_t_SRV_NONE)
+    //    , i_REGISLOT_u_UAVIdx(REGISLOT_u_UAV_NONE)
     //{}
 };
 

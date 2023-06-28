@@ -46,7 +46,7 @@ struct tParticleTransform
 
 #else
 
-StructuredBuffer<tParticleTransform> g_SBuffer_ParticleTransform : register(idx_t_SBUFFER_PARTICLE_TRANSFORM);
+StructuredBuffer<tParticleTransform> g_SBuffer_ParticleTransform : register(REGISLOT_t_SBUFFER_PARTICLE_TRANSFORM);
 
 #endif
 
@@ -71,8 +71,8 @@ struct GS_OUT
 #ifndef __cplusplus
 
 #include "S_H_Func.hlsli"
-RWStructuredBuffer<tParticleTransform> g_SBufferRW_ParticleTransform : register(idx_u_PARTICLE_SBUFFERRW);
-RWStructuredBuffer<tParticleShareData> g_SBufferRW_Particle_Shared : register(idx_u_PARTICLE_SBUFFERRW_SHAREDATA);
+RWStructuredBuffer<tParticleTransform> g_SBufferRW_ParticleTransform : register(REGISLOT_u_PARTICLE_SBUFFERRW);
+RWStructuredBuffer<tParticleShareData> g_SBufferRW_Particle_Shared : register(REGISLOT_u_PARTICLE_SBUFFERRW_SHAREDATA);
 
 #endif
 

@@ -100,22 +100,22 @@ struct tMiniTile
 
 
 //0~5까지 데이터는 현재 CCS_SCMapLoader에서 enum 번호로 사용 중이므로 함부로 변경하지 말것
-#define idx_t_SBUFFER_CV5 REGISTER_IDX(t, 0)
-#define idx_t_SBUFFER_VX4 REGISTER_IDX(t, 1)
-#define idx_t_SBUFFER_VF4 REGISTER_IDX(t, 2)
-#define idx_t_SBUFFER_VR4 REGISTER_IDX(t, 3)
-#define idx_t_SBUFFER_WPE REGISTER_IDX(t, 4)
+#define REGISLOT_t_SBUFFER_CV5 REGISTER_SLOT(t, 0)
+#define REGISLOT_t_SBUFFER_VX4 REGISTER_SLOT(t, 1)
+#define REGISLOT_t_SBUFFER_VF4 REGISTER_SLOT(t, 2)
+#define REGISLOT_t_SBUFFER_VR4 REGISTER_SLOT(t, 3)
+#define REGISLOT_t_SBUFFER_WPE REGISTER_SLOT(t, 4)
 
 
-#define idx_t_SBUFFER_MXTM REGISTER_IDX(t, 9)
-#define idx_t_SBUFFER_MEGATILE REGISTER_IDX(t, 10)
-#define idx_t_SBUFFER_MINITILE REGISTER_IDX(t, 11)
+#define REGISLOT_t_SBUFFER_MXTM REGISTER_SLOT(t, 9)
+#define REGISLOT_t_SBUFFER_MEGATILE REGISTER_SLOT(t, 10)
+#define REGISLOT_t_SBUFFER_MINITILE REGISTER_SLOT(t, 11)
 
-#define idx_t_TEXTURE_TARGET REGISTER_IDX(t, 6)
+#define REGISLOT_t_TEXTURE_TARGET REGISTER_SLOT(t, 6)
 
-#define idx_u_TEXTURERW_TARGET REGISTER_IDX(u, 0)
-#define idx_u_SBUFFERRW_MEGATILE REGISTER_IDX(u, 1)
-#define idx_u_SBUFFERRW_MINITILE REGISTER_IDX(u, 2)
+#define REGISLOT_u_TEXTURERW_TARGET REGISTER_SLOT(u, 0)
+#define REGISLOT_u_SBUFFERRW_MEGATILE REGISTER_SLOT(u, 1)
+#define REGISLOT_u_SBUFFERRW_MINITILE REGISTER_SLOT(u, 2)
 
 
 #ifdef __cplusplus
@@ -124,18 +124,18 @@ struct tMiniTile
 
 
 
-StructuredBuffer<MXTM> g_SBuffer_MXTM : register(idx_t_SBUFFER_MXTM);
+StructuredBuffer<MXTM> g_SBuffer_MXTM : register(REGISLOT_t_SBUFFER_MXTM);
 
-StructuredBuffer<CV5> g_SBuffer_CV5 : register(idx_t_SBUFFER_CV5);
-StructuredBuffer<VX4> g_SBuffer_VX4 : register(idx_t_SBUFFER_VX4);
-StructuredBuffer<VR4> g_SBuffer_VR4 : register(idx_t_SBUFFER_VR4);
-StructuredBuffer<WPE> g_SBuffer_WPE : register(idx_t_SBUFFER_WPE);
-StructuredBuffer<VF4> g_SBuffer_VF4 : register(idx_t_SBUFFER_VF4);
+StructuredBuffer<CV5> g_SBuffer_CV5 : register(REGISLOT_t_SBUFFER_CV5);
+StructuredBuffer<VX4> g_SBuffer_VX4 : register(REGISLOT_t_SBUFFER_VX4);
+StructuredBuffer<VR4> g_SBuffer_VR4 : register(REGISLOT_t_SBUFFER_VR4);
+StructuredBuffer<WPE> g_SBuffer_WPE : register(REGISLOT_t_SBUFFER_WPE);
+StructuredBuffer<VF4> g_SBuffer_VF4 : register(REGISLOT_t_SBUFFER_VF4);
 
-RWStructuredBuffer<tMegaTile> g_SBufferRW_MegaTile : register(idx_u_SBUFFERRW_MEGATILE);
-RWStructuredBuffer<tMiniTile> g_SBufferRW_MiniTile : register(idx_u_SBUFFERRW_MINITILE);
+RWStructuredBuffer<tMegaTile> g_SBufferRW_MegaTile : register(REGISLOT_u_SBUFFERRW_MEGATILE);
+RWStructuredBuffer<tMiniTile> g_SBufferRW_MiniTile : register(REGISLOT_u_SBUFFERRW_MINITILE);
 
-RWTexture2D<float4> g_TexRW_SCMap : register(idx_u_TEXTURERW_TARGET);
+RWTexture2D<float4> g_TexRW_SCMap : register(REGISLOT_u_TEXTURERW_TARGET);
 
 	
 #endif

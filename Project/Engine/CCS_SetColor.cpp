@@ -20,7 +20,7 @@ CCS_SetColor::CCS_SetColor()
 	}
 
 	UINT Target = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
-	m_StructBufferTest = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::SETCOLOR, idx_t_SBUFFER_SETCOLOR, idx_u_SETCOLOR_SBUFFERRW });
+	m_StructBufferTest = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::SETCOLOR, REGISLOT_t_SBUFFER_SETCOLOR, REGISLOT_u_SETCOLOR_SBUFFERRW });
 
 	for (int i = 0; i < 1280u; ++i)
 	{
@@ -45,7 +45,7 @@ CCS_SetColor::~CCS_SetColor()
 
 bool CCS_SetColor::BindDataCS()
 {
-	m_OutTex->BindData_UAV(idx_u_SETCOLOR_TEXTURERW);
+	m_OutTex->BindData_UAV(REGISLOT_u_SETCOLOR_TEXTURERW);
 
 	m_StructBufferTest->UploadData((void*)m_vecSBuffer, 1280u);
 	m_StructBufferTest->BindBufferUAV();

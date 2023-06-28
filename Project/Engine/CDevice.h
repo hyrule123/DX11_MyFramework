@@ -71,7 +71,7 @@ private:
 public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }
 	ID3D11DeviceContext* GetDeviceContext() { return m_Context.Get(); }
-	CConstBuffer* GetConstBuffer(int _idx_b_RegisterIdx) { return m_vecConstBuffer[_idx_b_RegisterIdx]; }
+	CConstBuffer* GetConstBuffer(int _REGISLOT_b_RegisterIdx) { return m_vecConstBuffer[_REGISLOT_b_RegisterIdx]; }
 	ID3D11RasterizerState* GetRSState(define_Shader::eRASTERIZER_TYPE _Type) { return m_arrRSState[(UINT)_Type].Get(); }
 	ID3D11DepthStencilState* GetDSState(define_Shader::eDEPTH_STENCIL_TYPE _Type) { return m_arrDSState[(UINT)_Type].Get(); }
 	ID3D11BlendState* GetBSState(define_Shader::eBLEND_STATE_TYPE _Type) { return m_arrBSState[(UINT)_Type].Get(); }

@@ -110,7 +110,7 @@ bool CRenderComponent::LoadJson(Json::Value* _pJVal)
 
 void CRenderComponent::BindMtrlScalarDataToCBuffer()
 {
-	static CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
+	static CConstBuffer* pCBuffer = CDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_MTRL_SCALAR);
 	const tMtrlScalarData& pMtrlData = GetOwner()->GetMtrlScalarData();
 	pCBuffer->UploadData((void*)&pMtrlData);
 	pCBuffer->BindBuffer();

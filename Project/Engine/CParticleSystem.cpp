@@ -29,10 +29,10 @@ CParticleSystem::CParticleSystem()
 
 
 	UINT ShaderTarget = define_Shader::eSHADER_PIPELINE_STAGE::__GEOMETRY | define_Shader::eSHADER_PIPELINE_STAGE::__PIXEL;
-	m_pSBufferRW_ParticleTransform = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, ShaderTarget, eCBUFFER_SBUFFER_SHAREDATA_IDX::PARTICLE, idx_t_SBUFFER_PARTICLE_TRANSFORM, idx_u_PARTICLE_SBUFFERRW });
+	m_pSBufferRW_ParticleTransform = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, ShaderTarget, eCBUFFER_SBUFFER_SHAREDATA_IDX::PARTICLE, REGISLOT_t_SBUFFER_PARTICLE_TRANSFORM, REGISLOT_u_PARTICLE_SBUFFERRW });
 
 	//컴퓨트쉐이더 전용
-	m_pSBufferRW_Shared = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, define_Shader::eSHADER_PIPELINE_STAGE::__NONE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,idx_t_SRV_NONE, idx_u_PARTICLE_SBUFFERRW_SHAREDATA });
+	m_pSBufferRW_Shared = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, define_Shader::eSHADER_PIPELINE_STAGE::__NONE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,REGISLOT_t_SRV_NONE, REGISLOT_u_PARTICLE_SBUFFERRW_SHAREDATA });
 }
 
 CParticleSystem::~CParticleSystem()
@@ -54,7 +54,7 @@ void CParticleSystem::finaltick()
 	//여기는 데이터 업로드만 담당.
 
 	//모듈데이터 전송
-	static CConstBuffer* const s_CBuffer_ModuleData = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_PARTICLE_MODULEDATA);
+	static CConstBuffer* const s_CBuffer_ModuleData = CDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA);
 	s_CBuffer_ModuleData->UploadData(&m_tModuleData);
 	//s_CBuffer_ModuleData->BindBuffer(define_Shader::eSHADER_PIPELINE_STAGE::__ALL);
 

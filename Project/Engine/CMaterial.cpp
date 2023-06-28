@@ -137,7 +137,7 @@ void CMaterial::BindData()
 			m_arrTex[i]->BindData_SRV(i, define_Shader::eSHADER_PIPELINE_STAGE::__PIXEL);
 	}
 	//Texture Const Buffer Update
-	CConstBuffer* CMtrlTexBuffer = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_TEX);
+	CConstBuffer* CMtrlTexBuffer = CDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_MTRL_TEX);
 	CMtrlTexBuffer->UploadData(&m_MtrlTex);
 	CMtrlTexBuffer->BindBuffer();
 }
@@ -153,7 +153,7 @@ void CMaterial::BindData()
 //	}
 //	else
 //	{
-//		m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(idx_b_CBUFFER_MTRL_SCALAR);
+//		m_CBufferMtrlScalar = CDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_MTRL_SCALAR);
 //	}
 //}
 
