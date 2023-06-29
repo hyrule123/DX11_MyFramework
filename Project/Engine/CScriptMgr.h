@@ -13,7 +13,7 @@ class CScriptMgr
 	SINGLETON(CScriptMgr);
 
 protected:
-	map<string, CScript*, std::less<>> m_mapScript;
+	unordered_map<string, CScript*, tHasher_String, std::equal_to<>> m_mapScript;
 
 public:
 	void AddBaseScript(const string_view _strKey, CScript* _pScript);

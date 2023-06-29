@@ -67,7 +67,7 @@ void CreateScriptCode()
 	
 
 	
-	const string& BaseCode = string(PresetStr::ConstexprInlineConstChar);
+	const string& BaseCode = define_Preset::Keyword::ConstexprInlineConstChar;
 	for (const auto& iter : mapScripts)
 	{
 		string FinalCodeLine = BaseCode + iter.first + " = ";

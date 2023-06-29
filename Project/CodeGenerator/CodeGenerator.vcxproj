@@ -155,6 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CDirTree.cpp" />
+    <ClCompile Include="CDirTreeNode.cpp" />
     <ClCompile Include="MacroFunc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -166,9 +168,15 @@
     <ClCompile Include="ShaderGen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CDirTree.h" />
     <ClInclude Include="CodeGenFunc.h" />
+    <ClInclude Include="define_PresetString.h" />
+    <ClInclude Include="CDirTreeNode.h" />
     <ClInclude Include="MacroFunc.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ScriptGen.h" />
+    <ClInclude Include="ShaderGen.h" />
+    <ClInclude Include="StrKeyGen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

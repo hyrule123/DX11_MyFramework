@@ -221,7 +221,7 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 	//쉐이더 문자열 키 등록
 	//그래픽 쉐이더 Key 작성
 	//머릿글프리셋 삽입
-	string RawLiteral = string(PresetStr::Head);
+	string RawLiteral = string(define_Preset::Keyword::Head);
 	_outFile_StrKey << RawLiteral;
 
 	WriteCodeA(_outFile_StrKey, "namespace strKey_SHADER");
@@ -231,7 +231,7 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 
 	for (const auto& GSIter : mapShaderInfo)
 	{
-		string codeLine = string(PresetStr::ConstexprInlineConstChar);
+		string codeLine = string(define_Preset::Keyword::ConstexprInlineConstChar);
 
 		//JSON 파일 명
 		string strKeyUpper = GSIter.first;
@@ -348,7 +348,7 @@ void CreateComputeShaderCode(std::ofstream& _outFile_StrKey)
 					}
 				}
 
-				string codeLine = string(PresetStr::ConstexprInlineConstChar);
+				string codeLine = string(define_Preset::Keyword::ConstexprInlineConstChar);
 
 				string Key = (*dirIter).path().filename().replace_extension().string();
 
