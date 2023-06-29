@@ -20,7 +20,7 @@ float4 PS_Tilemap_SC(VS_OUT _in) : SV_TARGET
 
 		int2 MyMegatilePos = (int2) (g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_VEC2_MEGATILESIZE * _in.vUV);
 		
-		int index = MyMegatilePos.y * g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_X
+		int index = MyMegatilePos.y * g_CBuffer_SBufferData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_X
 		 + MyMegatilePos.x;
 	
 		if (g_SBuffer_MegaTile[index].bBuildUnable == TRUE)
@@ -30,7 +30,7 @@ float4 PS_Tilemap_SC(VS_OUT _in) : SV_TARGET
 	{
 		int2 MyMinitilePos = (int2) (g_CBuffer_Mtrl_Scalar.MTRL_SCALAR_VEC2_MINITILESIZE * _in.vUV);
 		
-		int index = MyMinitilePos.y * g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_X * 8u
+		int index = MyMinitilePos.y * g_CBuffer_SBufferData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE].MEGA_TILE_SIZE_X * 8u
 		 + MyMinitilePos.x;
 	
 		if (g_SBuffer_MiniTile[index].bWalkable == FALSE)

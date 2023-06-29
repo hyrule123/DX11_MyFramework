@@ -71,7 +71,7 @@ public:
     int CreateView();
 
 public:
-    // _PipelineStage : eSHADER_PIPELINE_STAGE::FLAG
+    // _PipelineStage : ePIPELINE_STAGE_FLAG::FLAG
     void BindData_SRV(int _iRegisterNum, UINT _eSHADER_PIPELINE_STAGE);
 
     //Bind Texture data to Compute Shader 

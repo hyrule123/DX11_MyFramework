@@ -4,7 +4,7 @@ echo Copying HLSL Default Headers to Script Project
 set source_dir=.\Project\Engine
 set destination_dir=.\Project\Script
 for /f %%f in (HLSL_Copy_To_Script_Proj.txt) do (
-    xcopy "%source_dir%\%%f" "%destination_dir%" /d /s /y /i
+    xcopy "%source_dir%\%%f" "%destination_dir%" /d /s /y /i /r
 
     :: 참조용 파일 읽기 전용으로 변경
     attrib +r "%destination_dir%\%%f"

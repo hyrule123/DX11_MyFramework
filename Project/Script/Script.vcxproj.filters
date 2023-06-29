@@ -19,8 +19,23 @@
     <Filter Include="ScriptCode\SC\Components">
       <UniqueIdentifier>{8f550a72-4cfb-4fa4-8e8a-7e5b93a8c5f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_HLSL, Shader User">
+    <Filter Include="_HLSL_GS">
+      <UniqueIdentifier>{c1c30afc-f357-4a25-b58a-98732dd3cd01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL_GS\TilemapSC">
+      <UniqueIdentifier>{7a5ed414-bae0-42f2-ba04-20610c05c470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL_GS\SCUnitGround">
+      <UniqueIdentifier>{a62b3720-accb-4c0a-a09d-15f8e17d6ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL_CS">
       <UniqueIdentifier>{d065df42-c96f-4ecd-b692-884b9a93280b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL_CS\CS_Particle_Raindrop">
+      <UniqueIdentifier>{4ea34f20-3e1d-4f01-8892-fb8df30a4eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL_CS\CS_SCMapLoader">
+      <UniqueIdentifier>{c632b493-7510-4dbf-aa3b-aa50750dcb62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +107,12 @@
     <ClInclude Include="CScript_MainCamSC_InGame.h">
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
+    <ClInclude Include="CCS_SCMapLoader.h">
+      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="define_SCMap.h">
+      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -154,46 +175,49 @@
     <ClCompile Include="CScript_MainCamSC_InGame.cpp">
       <Filter>ScriptCode\SC</Filter>
     </ClCompile>
+    <ClCompile Include="CCS_SCMapLoader.cpp">
+      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-    <None Include="S_H_SCMapLoader.hlsli">
-      <Filter>_HLSL, Shader User</Filter>
-    </None>
     <None Include="S_H_SCUnitGround.hlsli">
-      <Filter>_HLSL, Shader User</Filter>
+      <Filter>_HLSL_GS\SCUnitGround</Filter>
     </None>
     <None Include="S_H_Tilemap_SC.hlsli">
-      <Filter>_HLSL, Shader User</Filter>
+      <Filter>_HLSL_GS\TilemapSC</Filter>
+    </None>
+    <None Include="S_H_SCMapLoader.hlsli">
+      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="S_0_V_SCUnitGround.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
-    </FxCompile>
-    <FxCompile Include="S_0_V_Tilemap_SC.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_BuildingStructure.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_Mineral.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
+      <Filter>_HLSL_GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_SCUnitGround.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
+      <Filter>_HLSL_GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_Tilemap_SC.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
+      <Filter>_HLSL_GS\TilemapSC</Filter>
+    </FxCompile>
+    <FxCompile Include="S_0_V_Tilemap_SC.hlsl">
+      <Filter>_HLSL_GS\TilemapSC</Filter>
+    </FxCompile>
+    <FxCompile Include="S_4_P_Mineral.hlsl">
+      <Filter>_HLSL_GS\SCUnitGround</Filter>
+    </FxCompile>
+    <FxCompile Include="S_4_P_BuildingStructure.hlsl">
+      <Filter>_HLSL_GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_VespineGeyser.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
+      <Filter>_HLSL_GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_C_ParticleRainDrop.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
+      <Filter>_HLSL_CS\CS_Particle_Raindrop</Filter>
     </FxCompile>
     <FxCompile Include="S_C_SCMapLoader.hlsl">
-      <Filter>_HLSL, Shader User</Filter>
+      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

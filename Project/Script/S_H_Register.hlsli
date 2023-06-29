@@ -18,23 +18,12 @@
 #define REGISLOT_b_CBUFFER_CAM_MATIRCES				REGISTER_SLOT(b, 0)
 #define REGISLOT_b_CBUFFER_MTRL_SCALAR				REGISTER_SLOT(b, 1)
 #define REGISLOT_b_CBUFFER_MTRL_TEX					REGISTER_SLOT(b, 2)
-#define REGISLOT_b_CBUFFER_SYSTEM					REGISTER_SLOT(b, 3)
+#define REGISLOT_b_CBUFFER_GLOBAL					REGISTER_SLOT(b, 3)
 #define REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA		REGISTER_SLOT(b, 4)
 #define REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA		REGISTER_SLOT(b, 5)
 #define REGISLOT_b_END								6
 
 	
-//eCBUFFER_IDX_SBUFFER_SHAREDATA Inner Index
-//상수 버퍼 'SBUFFERINFO' 내부의 인덱스 번호를 지정하는 열거체
-ENUM_BEGIN(eCBUFFER_SBUFFER_SHAREDATA_IDX, int)
-	ENUM_MEMBER(NONE, int, -1)
-	ENUM_MEMBER(MTRL_SCALAR, int, 0)
-	ENUM_MEMBER(LIGHT2D, int, 1)
-	ENUM_MEMBER(TILE, int, 2)
-	ENUM_MEMBER(SETCOLOR, int, 3)
-	ENUM_MEMBER(PARTICLE, int, 4)
-	ENUM_MEMBER(END, int, 5)
-ENUM_END
 
 
 
@@ -42,7 +31,7 @@ ENUM_END
 	
 
 //아래의 CBuffer_SBUFFER_SHARED_DATA에 전달되는 상수버퍼
-extern tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::END];
+extern tSBufferInfo g_arrSBufferShareData;
 
 #else
 
@@ -64,14 +53,14 @@ cbuffer CBuffer_Material_Tex : register(REGISLOT_b_CBUFFER_MTRL_TEX)
 
 
 	//게임의 각종 정보를 넘겨주기 위한 상수버퍼
-cbuffer CBuffer_Global : register(REGISLOT_b_CBUFFER_SYSTEM)
+cbuffer CBuffer_Global : register(REGISLOT_b_CBUFFER_GLOBAL)
 {
 	tGlobalValue g_CBuffer_GlobalData;
 };
 	 
 cbuffer CBuffer_SBUFFER_SHARED_DATA : register(REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA)
 {
-	tSBufferInfo g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::END];
+	tSBufferInfo g_CBuffer_SBufferData;
 }
 
 

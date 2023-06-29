@@ -101,7 +101,7 @@ float4 PS_STD2D_Light(VS_OUT_Light _in) : SV_TARGET
 
 void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 {
-	for (uint i = 0; i < g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D].uSBufferCount; ++i)
+	for (uint i = 0; i < g_CBuffer_SBufferData.uSBufferCount; ++i)
     {  
         if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
         {
@@ -152,7 +152,7 @@ void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light)
 {
     //여기선 노말값까지 감안해줘야 함.    
-    for (uint i = 0; i < g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D].uSBufferCount; ++i)
+    for (uint i = 0; i < g_CBuffer_SBufferData.uSBufferCount; ++i)
     {
         if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
         {

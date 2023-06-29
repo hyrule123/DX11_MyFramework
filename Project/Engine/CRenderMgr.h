@@ -46,7 +46,7 @@ private:
 
 	//빛 관련 구조화 버퍼 변수
 	vector<tLightInfo>		m_vecLight2DStruct;
-	CStructBuffer*			m_pLight2DStructBuffer;
+	std::unique_ptr<CStructBuffer>			m_pLight2DStructBuffer;
 
 	//에디터 카메라 모드인지를 저장하는 변수(Ctrl + E)버튼으로 확인 중
 	bool m_bEditorCamMode;
@@ -58,7 +58,7 @@ private:
 	map<tInstancingKey, vector<tMtrlScalarData>> m_mapInstancing;
 
 	//인스턴싱용 SBuffer
-	CStructBuffer* m_pSBuffer_Instancing;
+	std::unique_ptr<CStructBuffer> m_pSBuffer_Instancing;
 
 public:
 	//inline getter

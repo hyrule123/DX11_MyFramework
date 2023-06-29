@@ -18,6 +18,8 @@
 
 #include "CConstBuffer.h"
 
+constexpr int MAX_LIGHTS = 10;
+
 
 CRenderMgr::CRenderMgr()
     : m_arrCam{}
@@ -25,24 +27,11 @@ CRenderMgr::CRenderMgr()
     , m_pLight2DStructBuffer()
     , m_bEditorCamMode(false)
 {
-    //구조화버퍼 생성
-    m_pSBuffer_Instancing = new CStructBuffer(tSBufferDesc{
-        eSTRUCT_BUFFER_TYPE::READ_ONLY,
-        define_Shader::eSHADER_PIPELINE_STAGE::__ALL,
-        eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR
-        , REGISLOT_t_SBUFFER_MTRL_SCALAR,
-        REGISLOT_u_UAV_NONE }
-    );
-    m_pSBuffer_Instancing->Create((UINT)sizeof(tMtrlScalarData), 100u, nullptr, 0u);
 }
 
 CRenderMgr::~CRenderMgr()
 {
-    SAFE_DELETE(m_pLight2DStructBuffer);
-    SAFE_DELETE(m_pSBuffer_Instancing);
 }
-
-
 
 
 void CRenderMgr::RegisterCamera(CCamera* _pCam, eCAMERA_INDEX _idx)
@@ -76,10 +65,32 @@ void CRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 
 void CRenderMgr::init()
 {
-    //광원정보는 픽셀에서만 필요, 8번 텍스처 레지스터에 바인딩 되어있음.
-    m_pLight2DStructBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, define_Shader::eSHADER_PIPELINE_STAGE::__PIXEL, eCBUFFER_SBUFFER_SHAREDATA_IDX::LIGHT2D, REGISLOT_t_SBUFFER_LIGHT2D, REGISLOT_u_UAV_NONE
-        });
-    m_pLight2DStructBuffer->Create((UINT)sizeof(tLightInfo), 10, nullptr, 0u);
+    
+    {
+        //인스턴싱용 구조화 버퍼 생성
+        tSBufferClassDesc Desc = {};
+        Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
+        Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
+        Desc.i_REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MTRL_SCALAR;
+        Desc.i_REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
+
+        m_pSBuffer_Instancing = std::make_unique<CStructBuffer>();
+        m_pSBuffer_Instancing->SetDesc(Desc);
+        m_pSBuffer_Instancing->Create((UINT)sizeof(tMtrlScalarData), 100u, nullptr, 0u);
+    }
+
+    {
+        //인스턴싱용 구조화 버퍼 생성
+        tSBufferClassDesc Desc = {};
+        Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
+        Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL;
+        Desc.i_REGISLOT_t_SRV = REGISLOT_t_SBUFFER_LIGHT2D;
+        Desc.i_REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
+
+        m_pLight2DStructBuffer = std::make_unique<CStructBuffer>();
+        m_pLight2DStructBuffer->SetDesc(Desc);
+        m_pLight2DStructBuffer->Create((UINT)sizeof(tLightInfo), MAX_LIGHTS, nullptr, 0u);
+    }
 }
 
 void CRenderMgr::tick()
@@ -112,7 +123,7 @@ void CRenderMgr::render()
 void CRenderMgr::UpdateBuffer()
 {
     //글로벌 정보를 tGlobalValue 상수버퍼로 업데이트
-    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_SYSTEM);
+    CConstBuffer* pConstBuffer = CDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_GLOBAL);
 
     
     pConstBuffer->UploadData((void*)(&g_GlobalVal), sizeof(tGlobalValue));

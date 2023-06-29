@@ -8,7 +8,7 @@ inline tMtrlScalarData GetMtrlScalarData(uint _uInstanceID)
 {
 	tMtrlScalarData Data = (tMtrlScalarData) 0.f;
     
-	if (0 != g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR].uSBufferCount)
+	if (0 != g_CBuffer_SBufferData.uSBufferCount)
 	{
 		Data = g_SBuffer_Mtrl_Scalar[_uInstanceID];
 	}

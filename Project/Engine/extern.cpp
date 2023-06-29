@@ -8,7 +8,7 @@
 tInitSetting g_InitSetting = {};
 tGlobalValue g_GlobalVal = {};
 tCamMatrices g_matCam[(int)eCAMERA_INDEX::END] = {};
-tSBufferInfo g_arrSBufferShareData[(int)eCBUFFER_SBUFFER_SHAREDATA_IDX::END] = {};
+tSBufferInfo g_SBufferShareData = {};
 Matrix g_matViewProj;
 
 const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::MESH_RENDER;

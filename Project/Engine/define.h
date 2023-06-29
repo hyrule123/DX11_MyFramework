@@ -183,7 +183,7 @@ namespace define_Shader
 		_END
 	};
 
-	namespace eSHADER_PIPELINE_STAGE
+	namespace ePIPELINE_STAGE_FLAG
 	{
 		enum FLAG : UINT
 		{

@@ -2,6 +2,23 @@
 
 #include "define.h"
 
+struct tConstBufferClassDesc
+{
+	int                     iRegisterNum;
+
+	UINT                    uElementSize;
+	UINT                    uElementCount;
+
+	UINT                    PipelineStageBindFlag;
+
+	tConstBufferClassDesc()
+		: iRegisterNum(-1)
+		, uElementSize()
+		, uElementCount()
+		, PipelineStageBindFlag(UINT8_MAX)  //기본설정: 전체 파이프라인에 바인딩
+	{}
+};
+
 typedef struct tVertex
 {
 	Vec3 vPos;

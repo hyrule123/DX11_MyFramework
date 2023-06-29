@@ -52,7 +52,7 @@ StructuredBuffer<tMiniTile> g_SBuffer_MiniTile : register(REGISLOT_t_SBUFFER_MIN
 //ENUM_END
 
 
-//g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE]
+//g_CBuffer_SBufferData[eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE]
 //Data 0 = eTileSet
 //Data 1 = Mega Tile Size X
 //Data 2 = Mega Tile Size Y

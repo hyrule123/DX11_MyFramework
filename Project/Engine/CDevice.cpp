@@ -20,7 +20,8 @@ CDevice::CDevice()
 
 CDevice::~CDevice()
 {
-    for (int i = 0; i < REGISLOT_b_END; ++i)
+    size_t size = m_vecConstBuffer.size();
+    for (int i = 0; i < size; ++i)
     {
         SAFE_DELETE(m_vecConstBuffer[i]);
     }
@@ -108,7 +109,7 @@ int CDevice::init(HWND _hWnd, UINT _uWidth, UINT _uHeight)
     }
 
     // 상수버퍼 생성
-    CreateConstBuffer();
+    CreateDefaultConstBuffer();
 
 
     return S_OK; // E_FAIL;
@@ -245,47 +246,87 @@ void CDevice::ClearTarget(float(&_color)[4])
 }
 
 
-void CDevice::CreateConstBuffer()
+void CDevice::CreateDefaultConstBuffer()
 {
-    //Vertex Shader에만 상수버퍼를 전달 + Light 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
-    UINT CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_CAM_MATIRCES] = new CConstBuffer(REGISLOT_b_CBUFFER_CAM_MATIRCES);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_CAM_MATIRCES]->Create(sizeof(tCamMatrices), (int)eCAMERA_INDEX::END);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_CAM_MATIRCES]->SetPipelineTarget(CBufferTarget);
+    tConstBufferClassDesc Desc = {};
 
-    //Vertex + Pixel Shader에만 상수버퍼를 전달
-    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_MTRL_SCALAR] = new CConstBuffer(REGISLOT_b_CBUFFER_MTRL_SCALAR);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_MTRL_SCALAR]->Create(sizeof(tMtrlScalarData), 1);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_MTRL_SCALAR]->SetPipelineTarget(CBufferTarget);
+    {
+        //Vertex Shader에만 상수버퍼를 전달 + Light 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
+        Desc.iRegisterNum = REGISLOT_b_CBUFFER_CAM_MATIRCES;
+        Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
+        Desc.uElementSize = (UINT)sizeof(tCamMatrices);
+        Desc.uElementCount = (UINT)eCAMERA_INDEX::END;
 
-    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__PIXEL;
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_MTRL_TEX] = new CConstBuffer(REGISLOT_b_CBUFFER_MTRL_TEX);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_MTRL_TEX]->Create(sizeof(tMtrlTexData), 1);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_MTRL_TEX]->SetPipelineTarget(CBufferTarget);
+        //상수버퍼 생성 확인
+        CConstBuffer* pBuffer = CreateConstBuffer(Desc);
+        assert(pBuffer);
+        pBuffer = nullptr;
+    }
+
+    {
+        //Vertex + Pixel Shader에만 상수버퍼를 전달
+        Desc.iRegisterNum = REGISLOT_b_CBUFFER_MTRL_SCALAR;
+        Desc.uElementSize = (UINT)sizeof(tMtrlScalarData);
+        Desc.uElementCount = 1u;
+
+        //상수버퍼 생성 확인
+        CConstBuffer* pBuffer = CreateConstBuffer(Desc);
+        assert(pBuffer);
+        pBuffer = nullptr;
+    }
+
+    {
+        //텍스처의 경우 Pixel Shader에만 데이터를 전달한다.
+        Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL;
+        Desc.iRegisterNum = REGISLOT_b_CBUFFER_MTRL_TEX;
+        Desc.uElementSize = sizeof(tMtrlTexData);
+        Desc.uElementCount = 1u;
+        CreateConstBuffer(Desc);
+
+        //상수버퍼 생성 확인
+        CConstBuffer* pBuffer = CreateConstBuffer(Desc);
+        assert(pBuffer);
+        pBuffer = nullptr;
+    }
+
+    {
+        //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
+        Desc.iRegisterNum = REGISLOT_b_CBUFFER_GLOBAL;
+        Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
+        Desc.uElementSize = (UINT)sizeof(tGlobalValue);
+        Desc.uElementCount = 1u;
+        CreateConstBuffer(Desc);
+
+        //상수버퍼 생성 확인
+        CConstBuffer* pBuffer = CreateConstBuffer(Desc);
+        assert(pBuffer);
+        pBuffer = nullptr;
+    }
+
+    {
+        //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
+        Desc.iRegisterNum = REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA;
+        Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
+        Desc.uElementSize = (UINT)sizeof(tParticleModule);
+        Desc.uElementCount = 1u;
+        CreateConstBuffer(Desc);
+
+        //상수버퍼 생성 확인
+        CConstBuffer* pBuffer = CreateConstBuffer(Desc);
+        assert(pBuffer);
+        pBuffer = nullptr;
+    }
 
 
-    //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
-    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_SYSTEM] = new CConstBuffer(REGISLOT_b_CBUFFER_SYSTEM);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_SYSTEM]->Create(sizeof(tGlobalValue), 1);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_SYSTEM]->SetPipelineTarget(CBufferTarget);
-
-
-    //구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
-    //이 값을 전달할 버퍼 데이터는 g_arrSBufferShareData(extern.cpp)이다.
-    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__ALL;
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA] = new CConstBuffer(REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA]->Create(sizeof(tSBufferInfo), (UINT)eCBUFFER_SBUFFER_SHAREDATA_IDX::END);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA]->SetPipelineTarget(CBufferTarget);
+    ////구조화 버퍼의 공유 자원을 보내는 상수 버퍼(ex. 등록된 구조화 버퍼의 count)
+    ////이 값을 전달할 버퍼 데이터는 g_arrSBufferShareData(extern.cpp)이다.
+    //CBufferTarget = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
+    //m_vecConstBuffer[REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA] = new CConstBuffer(REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA);
+    //m_vecConstBuffer[REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA]->Create(sizeof(tSBufferInfo), (UINT)eCBUFFER_SBUFFER_SHAREDATA_IDX::END);
+    //m_vecConstBuffer[REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA]->SetPipelineTarget(CBufferTarget);
 
     
-    //파티클 모듈 데이터를 전달할 상수 버퍼
-    CBufferTarget = define_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE;
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA] = new CConstBuffer(REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA);
 
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA]->Create(sizeof(tParticleModule), 1);
-    m_vecConstBuffer[REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA]->SetPipelineTarget(CBufferTarget);
 }
 
 
@@ -478,3 +519,32 @@ HRESULT CDevice::CreateBlendState()
 
     return Result;
 }
+
+CConstBuffer* CDevice::CreateConstBuffer(tConstBufferClassDesc const& _tDesc)
+{
+    //이미 해당 레지스터 번호에 생성된 상수 버퍼가 있을 경우 생성 불가.
+    if (_tDesc.iRegisterNum < 0 || nullptr != m_vecConstBuffer[_tDesc.iRegisterNum])
+    {
+        DEBUG_BREAK;
+        return nullptr;
+    }
+
+    CConstBuffer* pCBuffer = new CConstBuffer;
+    HRESULT hr = pCBuffer->Create(_tDesc);
+
+    if (FAILED(hr))
+    {
+        DEBUG_BREAK;
+        SAFE_DELETE(pCBuffer);
+        return nullptr;
+    }
+
+    //벡터 크기 조절 후 데이터 삽입
+    if (m_vecConstBuffer.size() <= _tDesc.iRegisterNum)
+        m_vecConstBuffer.resize((size_t)(_tDesc.iRegisterNum + 1));
+
+    m_vecConstBuffer[_tDesc.iRegisterNum] = pCBuffer;
+
+    return pCBuffer;
+}
+

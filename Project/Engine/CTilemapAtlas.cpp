@@ -1,4 +1,7 @@
 #include "pch.h"
+
+#include "define.h"
+
 #include "CTilemapAtlas.h"
 
 #include "CStructBuffer.h"
@@ -17,14 +20,27 @@ CTilemapAtlas::CTilemapAtlas()
 {
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_ATLAS)));
 
-	UINT Target = define_Shader::eSHADER_PIPELINE_STAGE::__VERTEX | define_Shader::eSHADER_PIPELINE_STAGE::__PIXEL;
-	m_SBuffer = new CStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_ONLY, Target, eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE, REGISLOT_t_SBUFFER_TILE, REGISLOT_u_UAV_NONE });
+	tSBufferClassDesc Desc = {};
+	Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
+	Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX | define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL;
+	Desc.i_REGISLOT_t_SRV = REGISLOT_t_SBUFFER_TILE;
+	Desc.i_REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
+
+	m_SBuffer = std::make_unique<CStructBuffer>();
+	m_SBuffer->SetDesc(Desc);
 	m_SBuffer->Create(sizeof(tTile), GetTileCountX() * GetTileCountY(), nullptr, 0u);
 }
 
 CTilemapAtlas::~CTilemapAtlas()
 {
-	SAFE_DELETE(m_SBuffer);
+}
+
+CTilemapAtlas::CTilemapAtlas(CTilemapAtlas const& _other)
+	: CTilemap(eTILE_TYPE::ATLAS)
+	, m_vSliceSize(_other.m_vSliceSize)
+	, m_vecTile(_other.m_vecTile)
+	, m_SBuffer(_other.m_SBuffer->Clone())
+{
 }
 
 

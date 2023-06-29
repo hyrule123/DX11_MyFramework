@@ -10,7 +10,7 @@ float4 PS_STD2D(VS_OUT _in) : SV_TARGET
     
 	tMtrlScalarData Data = (tMtrlScalarData) 0.f;
     
-	if (0 == g_CBuffer_SBuffer_ShareData[eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR].uSBufferCount)
+	if (0 == g_CBuffer_SBufferData.uSBufferCount)
 	{
 		Data = g_CBuffer_Mtrl_Scalar;
 	}

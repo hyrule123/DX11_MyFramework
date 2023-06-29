@@ -27,7 +27,6 @@ public:
 	CDummyCompute() {};
 	virtual ~CDummyCompute() {};
 
-	virtual HRESULT InitCS() override { return S_OK; }
 	virtual bool BindDataCS() override { return true; };
 	virtual void UnBindCS() override {};
 };

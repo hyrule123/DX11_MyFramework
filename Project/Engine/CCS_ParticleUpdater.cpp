@@ -78,9 +78,9 @@ bool CCS_ParticleUpdater::BindDataCS()
 
 	m_pSBufferRW_Shared->BindBufferUAV();
 
-	m_pCBuffer_ModuleData->BindBuffer(define_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE);
+	m_pCBuffer_ModuleData->BindBuffer(define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE);
 
-	m_Tex_Noise->BindData_SRV(REGISLOT_t_TEXUTRE_NOISE, define_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE);
+	m_Tex_Noise->BindData_SRV(REGISLOT_t_TEXUTRE_NOISE, define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE);
 
 	return true;
 }

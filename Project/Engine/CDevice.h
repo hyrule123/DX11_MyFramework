@@ -63,10 +63,13 @@ private:
 	int CreateSwapChain();
 	int CreateView();
 	int CreateSampler();
-	void CreateConstBuffer();
+	void CreateDefaultConstBuffer();
 	HRESULT CreateRasterizeState();
 	HRESULT CreateDepthStencilState();
 	HRESULT CreateBlendState();
+
+public:
+	CConstBuffer* CreateConstBuffer(tConstBufferClassDesc const& _tDesc);
 
 public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }

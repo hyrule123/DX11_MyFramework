@@ -21,7 +21,7 @@ protected:
 
 private:
     Ptr<CTexture>   m_OutTex;
-    CStructBuffer*   m_StructBufferTest;
+    std::unique_ptr<CStructBuffer>   m_StructBufferTest;
     Vec4            m_vecSBuffer[1280];
 
 public:

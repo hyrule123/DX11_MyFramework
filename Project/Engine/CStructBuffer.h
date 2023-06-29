@@ -6,23 +6,30 @@
 
 #include "S_H_Register.hlsli"
 
-struct tSBufferDesc
+//============사용법==============
+//1. 클래스 생성
+//2. 아래의 tSBufferClassDesc 작성 후 SetDesc() 함수로 제출
+//3. Create() 함수
+
+
+
+struct tSBufferClassDesc
 {
     //자신의 공유정보를 담고있는 상수버퍼 내부에서의 인덱스
     eSTRUCT_BUFFER_TYPE eSBufferType; 
-    UINT flag_eSHADER_PIPELINE_STAGE_FLAG_SRV;
-    eCBUFFER_SBUFFER_SHAREDATA_IDX eCBufferIdx;
 
-    int i_REGISLOT_t_SRVIdx;
-    int i_REGISLOT_u_UAVIdx;
+    //SRV 
+    UINT flag_PipelineBindTarget_SRV;
 
-    //tSBufferDesc()
-    //    : eSBufferType()
-    //    , flag_eSHADER_PIPELINE_STAGE_FLAG_SRV()
-    //    , eCBufferIdx(eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE)
-    //    , i_REGISLOT_t_SRVIdx(REGISLOT_t_SRV_NONE)
-    //    , i_REGISLOT_u_UAVIdx(REGISLOT_u_UAV_NONE)
-    //{}
+    int i_REGISLOT_t_SRV;
+    int i_REGISLOT_u_UAV;
+
+    tSBufferClassDesc()
+        : eSBufferType()
+        , flag_PipelineBindTarget_SRV()
+        , i_REGISLOT_t_SRV(REGISLOT_t_SRV_NONE)
+        , i_REGISLOT_u_UAV(REGISLOT_u_UAV_NONE)
+    {}
 };
 
 
@@ -30,23 +37,25 @@ class CStructBuffer
     : public CEntity
 {
 public:
-    //아무 인자 없이 생성할 경우 반드시 SetInfo를 해 줄것.
+    //아무 인자 없이 생성할 경우 반드시 SetDesc를 해 줄것.
     CStructBuffer();
-    CStructBuffer(const tSBufferDesc& _tDesc);
-    CStructBuffer(tSBufferDesc&& _tDesc);
+    CStructBuffer(const tSBufferClassDesc& _tDesc);
+    CStructBuffer(tSBufferClassDesc&& _tDesc);
+
     virtual ~CStructBuffer();
     CLONE_DISABLE(CStructBuffer)
 
 private:
-    tSBufferDesc                m_tSBufferDesc;
+    D3D11_BUFFER_DESC           m_BufferDesc;
+
+    tSBufferClassDesc           m_tSBufferClassDesc;
     bool                        m_bSBufferDescSet;
    
     UINT                        m_uElementStride;   //구조체 하나 당 바이트 갯수
     UINT                        m_uElementCount;    //현재 등록한 구조체의 갯수
     UINT                        m_uElementCapacity; //현재 확보되어있는 구조체의 갯수
 
-
-    D3D11_BUFFER_DESC           m_BufferDesc;
+    
     ComPtr<ID3D11Buffer>        m_StructBuffer;
 
     ComPtr<ID3D11ShaderResourceView> m_SRV;
@@ -61,11 +70,11 @@ private:
     
 
 public:
-    void SetDesc(const tSBufferDesc& _tDesc);
+    void SetDesc(const tSBufferClassDesc& _tDesc);
 
     //Setter Getter Adder
-    void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV = _eSHADER_PIPELINE_FLAG; }
-    void AddPipelineTarget(define_Shader::eSHADER_PIPELINE_STAGE::FLAG _Stage) { m_tSBufferDesc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV |= (UINT)_Stage; }
+    void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_tSBufferClassDesc.flag_PipelineBindTarget_SRV = _eSHADER_PIPELINE_FLAG; }
+    void AddPipelineTarget(define_Shader::ePIPELINE_STAGE_FLAG::FLAG _Stage) { m_tSBufferClassDesc.flag_PipelineBindTarget_SRV |= (UINT)_Stage; }
 
     UINT GetCapacity() const { return m_uElementCapacity; }
 
@@ -101,9 +110,9 @@ private:
 };
 
 
-inline void CStructBuffer::SetDesc(const tSBufferDesc& _tDesc)
+inline void CStructBuffer::SetDesc(const tSBufferClassDesc& _tDesc)
 {
-    m_tSBufferDesc = _tDesc; 
+    m_tSBufferClassDesc = _tDesc; 
     m_bSBufferDescSet = true;
     SetDefaultDesc();
 }

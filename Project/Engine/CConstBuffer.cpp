@@ -3,12 +3,9 @@
 
 #include "CDevice.h"
 
-CConstBuffer::CConstBuffer(UINT _iRegisterNum)
+CConstBuffer::CConstBuffer()
 	: m_Desc{}
-	, m_iRegisterNum(_iRegisterNum)
-	, m_iElementSize(0)
-	, m_iElementCount(0)
-	, m_ePIPELINE_STAGE_flags(UINT8_MAX)
+	, m_CBufferClassDesc{}
 {
 }
 
@@ -16,18 +13,24 @@ CConstBuffer::~CConstBuffer()
 {
 }
 
-void CConstBuffer::Create(UINT _iElementSize, UINT _iElementCount)
+HRESULT CConstBuffer::Create(tConstBufferClassDesc const& _tDesc)
 {
-	m_iElementSize = _iElementSize;
-	m_iElementCount = _iElementCount;
 
-	UINT iBufferSize = m_iElementSize * _iElementCount;
+	if (_tDesc.iRegisterNum < 0)
+		return E_FAIL;
+
+	UINT uBufferTotalSize = _tDesc.uElementSize * _tDesc.uElementCount;
+	if (0u == uBufferTotalSize)
+		return E_FAIL;
+
+	m_CBufferClassDesc = _tDesc;
+
 
 	// 16바이트 단위 메모리 정렬이 되어있지 않을 경우 에러를 발생시킨다.
-	assert(!(iBufferSize % 16));	
+	assert(!(uBufferTotalSize % 16));
 
 	// 상수버퍼 생성
-	m_Desc.ByteWidth = iBufferSize;
+	m_Desc.ByteWidth = uBufferTotalSize;
 	m_Desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	m_Desc.Usage = D3D11_USAGE_DYNAMIC;
 	m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -44,11 +47,11 @@ void CConstBuffer::UploadData(const void* _pSrc, UINT _iSize)
 	UINT size = _iSize;
 	if (0 == _iSize)
 	{
-		size = m_iElementSize * m_iElementCount;
+		size = m_CBufferClassDesc.uElementSize * m_CBufferClassDesc.uElementCount;
 	}
 
 	// 상수버퍼 크기보다 더 큰 데이터가 입력으로 들어온 경우
-	assert(!(size > m_iElementSize * m_iElementCount));
+	assert(!(size > m_CBufferClassDesc.uElementSize * m_CBufferClassDesc.uElementCount));
 
 	// SysMem -> GPU Mem
 
@@ -64,34 +67,34 @@ void CConstBuffer::UploadData(const void* _pSrc, UINT _iSize)
 void CConstBuffer::BindBuffer(UINT _eSHADER_PIPELINE_FLAG)
 {
 	//인자로 NONE이 아닌 플래그값이 들어왔을 경우 해당 플래그값을 타겟으로 바인딩한다.
-	if (define_Shader::eSHADER_PIPELINE_STAGE::__NONE == _eSHADER_PIPELINE_FLAG)
-		_eSHADER_PIPELINE_FLAG = m_ePIPELINE_STAGE_flags;
+	if (define_Shader::ePIPELINE_STAGE_FLAG::__NONE == _eSHADER_PIPELINE_FLAG)
+		_eSHADER_PIPELINE_FLAG = m_CBufferClassDesc.PipelineStageBindFlag;
 
 
 	ID3D11DeviceContext* pContext = CONTEXT;
-	if (_eSHADER_PIPELINE_FLAG & define_Shader::eSHADER_PIPELINE_STAGE::__VERTEX)
+	if (_eSHADER_PIPELINE_FLAG & define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX)
 	{
-		pContext->VSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->VSSetConstantBuffers(m_CBufferClassDesc.iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (_eSHADER_PIPELINE_FLAG & define_Shader::eSHADER_PIPELINE_STAGE::__HULL)
+	if (_eSHADER_PIPELINE_FLAG & define_Shader::ePIPELINE_STAGE_FLAG::__HULL)
 	{
-		pContext->HSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->HSSetConstantBuffers(m_CBufferClassDesc.iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (_eSHADER_PIPELINE_FLAG & define_Shader::eSHADER_PIPELINE_STAGE::__DOMAIN)
+	if (_eSHADER_PIPELINE_FLAG & define_Shader::ePIPELINE_STAGE_FLAG::__DOMAIN)
 	{
-		pContext->DSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->DSSetConstantBuffers(m_CBufferClassDesc.iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (_eSHADER_PIPELINE_FLAG & define_Shader::eSHADER_PIPELINE_STAGE::__GEOMETRY)
+	if (_eSHADER_PIPELINE_FLAG & define_Shader::ePIPELINE_STAGE_FLAG::__GEOMETRY)
 	{
-		pContext->GSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->GSSetConstantBuffers(m_CBufferClassDesc.iRegisterNum, 1, m_CB.GetAddressOf());
 	}	
-	if (_eSHADER_PIPELINE_FLAG & define_Shader::eSHADER_PIPELINE_STAGE::__PIXEL)
+	if (_eSHADER_PIPELINE_FLAG & define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL)
 	{
-		pContext->PSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->PSSetConstantBuffers(m_CBufferClassDesc.iRegisterNum, 1, m_CB.GetAddressOf());
 	}
-	if (_eSHADER_PIPELINE_FLAG & define_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE)
+	if (_eSHADER_PIPELINE_FLAG & define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE)
 	{
-		pContext->CSSetConstantBuffers(m_iRegisterNum, 1, m_CB.GetAddressOf());
+		pContext->CSSetConstantBuffers(m_CBufferClassDesc.iRegisterNum, 1, m_CB.GetAddressOf());
 	}
 }
 

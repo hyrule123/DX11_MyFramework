@@ -186,6 +186,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCS_SCMapLoader.h" />
     <ClInclude Include="CFSM_Move_Base.h" />
     <ClInclude Include="CScript_FSM_Building_Prod.h" />
     <ClInclude Include="CScript_FSM_Death.h" />
@@ -205,6 +206,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CScript_Vespene.h" />
     <ClInclude Include="CScript_VespeneSmoke.h" />
     <ClInclude Include="defineScript.h" />
+    <ClInclude Include="define_SCMap.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="define_SC.h" />
@@ -214,6 +216,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="strKey_Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCS_SCMapLoader.cpp" />
     <ClCompile Include="CFSM_Move_Base.cpp" />
     <ClCompile Include="CScript_FSM_Building_Prod.cpp" />
     <ClCompile Include="CScript_FSM_Death.cpp" />
