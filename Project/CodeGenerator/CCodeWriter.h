@@ -3,12 +3,7 @@
 #include "define_PresetString.h"
 
 #include "pch.h"
-
-#include <type_traits>
-
 #include "MacroFunc.h"
-
-
 
 template <typename T>
 class CCodeWriter

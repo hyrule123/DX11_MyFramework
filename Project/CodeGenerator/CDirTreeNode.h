@@ -1,9 +1,7 @@
 #pragma once
 
 #include "pch.h"
-
 #include "CCodeWriter.h"
-
 #include "MacroFunc.h"
 
 class CDirTreeNode
@@ -30,10 +28,15 @@ public:
 
 	bool IsRoot() const { return (nullptr == m_pParent); }
 	bool IsLeaf() const { return m_vecChild.empty(); }
+	bool IsReady() const { return !m_DirName.empty(); }
 
 private:
 	stdfs::path	  m_DirName;
 	vector<stdfs::path>	  m_vecFileName;
+
+	//DirTree에서 사용
+private:
+	void Clear();
 };
 
 
@@ -41,15 +44,16 @@ private:
 template <typename T>
 HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 {
+
 	CCodeWriter<T>& writer = _pCodeWriter;
 
 	if (IsRoot())
 	{
-		writer.WriteCode(CONV_PRESET_STR(T, define_Preset::Keyword::Head));
+		writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::Head));
 
-		writer.WriteCode(CONV_STRING(T, "//Base Path: "));
+		writer.WriteCode(T_STRING(T, "//Base Path: "));
 		
-		std::basic_string<T> strCode(CONV_STRING(T, "//"));
+		std::basic_string<T> strCode(T_STRING(T, "//"));
 		strCode += m_DirName.string<T>();
 
 		writer.WriteCode(strCode);
@@ -60,13 +64,49 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 		writer.WriteCode();
 		writer.WriteCode();
 
-		strCode = std::basic_string<T>(CONV_STRING(T, "namespace strKey_"));
+		strCode = NEW_T_STRING(T, "namespace strKey_");
+
+		strCode += MacroFunc::UpperCase<T>(m_DirName.filename().string<T>());
+
+		writer.WriteCode(strCode);
+	}
+	else
+	{
+		std::basic_string<T> strCode = NEW_T_STRING(T, "namespace ");
+		strCode += MacroFunc::UpperCase<T>(m_DirName.filename().string<T>());
+		writer.WriteCode(strCode);
 	}
 
-	stdfs::path pt;
 
-	writer.WriteCode(CONV_PRESET_STR(define_Preset::))
+	//중괄호 열고 자신의 파일목록 작성
+	{
+		
+		size_t size = m_vecFileName.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			std::basic_string<T> strCode(T_STRING(T, "STRKEY "));
+			strCode += MacroFunc::ConvertToVarName<T>(m_vecFileName[i].string<T>());
+			strCode += T_STRING(T, " = \"");
+			strCode += m_vecFileName[i].string<T>();
+			strCode += T_STRING(T, "\";");
+			writer.WriteCode(strCode);
+		}
+	}
 
+	//자식 노드가 있을 경우 재귀 호출 
+	{
+		size_t size = m_vecChild.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			HRESULT hr = m_vecChild[i]->WriteStrKey(_pCodeWriter);
+			if (FAILED(hr))
+			{
+				return E_FAIL;
+			}
+				
+		}
+	}
 
-		return E_NOTIMPL;
+	return S_OK;
 }
+

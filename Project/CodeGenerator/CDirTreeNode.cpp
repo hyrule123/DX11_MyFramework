@@ -24,6 +24,18 @@ CDirTreeNode::~CDirTreeNode()
 	}
 }
 
+void CDirTreeNode::Clear()
+{
+	size_t size = m_vecChild.size();
+	for (size_t i = (size_t)0; i < size; ++i)
+	{
+		SAFE_DELETE(m_vecChild[i]);
+	}
+	m_vecChild.clear();
+	m_DirName.clear();
+	m_pParent = nullptr;
+}
+
 HRESULT CDirTreeNode::InitRecursive(stdfs::path const& _path, std::vector<stdfs::path> const& _vecExtensionFilter)
 {
 	//들어온 Path 자체가 폴더 경로가 아닐 경우에는 실패 반환
@@ -48,7 +60,7 @@ HRESULT CDirTreeNode::InitRecursive(stdfs::path const& _path, std::vector<stdfs:
 				{
 					//확장자를 소문자로 바꿔서 비교(인자로 들어온 확장자 filter의 경우 CDirTree에서 변환했음)
 					const stdfs::path& fileName = dirIter.path().filename();
-					const string& lowerExt = MacroFunc::LowerCase(fileName.extension().string());
+					const string& lowerExt = MacroFunc::LowerCase<char>(fileName.extension().string());
 						
 					for (size_t i = 0; i < _vecExtensionFilter.size(); ++i)
 					{

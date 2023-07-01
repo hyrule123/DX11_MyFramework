@@ -1,9 +1,11 @@
 #pragma once
 
+#ifndef DEBUG_BREAK
 #ifdef _DEBUG
 #define DEBUG_BREAK DebugBreak()
 #else
 #define DEBUG_BREAK
+#endif
 #endif
 
 
@@ -12,37 +14,44 @@
 #define PRESET(_VarNameBase, _String) \
 constexpr const char* _VarNameBase##_A = _String;\
 constexpr const wchar_t* _VarNameBase##_W = L##_String;\
-constexpr const char8_t* _VarNameBase##_U8 = u8##_String;
+constexpr const char8_t* _VarNameBase##_U8 = u8##_String
 
 namespace define_Preset
 {
 	namespace Path
 	{
-		PRESET(ScriptProj, "./Project/Script")
-		PRESET(EngineProj, "./Project/Engine")
+		PRESET(ScriptProj, "./Project/Script");
+		PRESET(EngineProj, "./Project/Engine");
 
 
 #ifdef _DEBUG
-		PRESET(Content, "./OutputFile/Bin_Debug/Content")
+		PRESET(Content, "./OutputFile/Bin_Debug/Content");
 #else
-		PRESET(Content, "./OutputFile/Bin_Release/Content")
+		PRESET(Content, "./OutputFile/Bin_Release/Content");
 #endif
 
-		PRESET(strKey_Script, "strKey_Script.h")
-		PRESET(strKey_Shader, "strKey_Shader.h")
-		PRESET(strKey_Texture, "strKey_Texture.h")
-		PRESET(strKey_Prefab, "strKey_Prefab.h")
+		PRESET(strKey_Script, "strKey_Script.h");
+		PRESET(strKey_Shader, "strKey_Shader.h");
+		PRESET(strKey_Texture, "strKey_Texture.h");
+		PRESET(strKey_Prefab, "strKey_Prefab.h");
 	}
 
 	namespace Keyword
 	{
-		PRESET(IncludeBegin, "#include \"")
+		PRESET(IncludeBegin, "#include \"");
 
-		PRESET(NameSpace, "namespace ")
-		PRESET(ConstexprInlineConstChar, "PRESET(")
-		PRESET(EqualDoubleQuotation, ", \"")
-		PRESET(EnumClass, "enum class ")
-		PRESET(strKey, "strKey_")
+		PRESET(NameSpace, "namespace ");
+		PRESET(ConstexprInlineConstChar, "PRESET(");
+		PRESET(EqualDoubleQuotation, ", \"");
+		PRESET(EnumClass, "enum class ");
+		PRESET(strKey, "strKey_");
+
+		PRESET(DefineSTRKEY, R"(
+#ifndef STRKEY
+#define STRKEY constexpr inline const char*
+#endif
+)");
+
 
 		PRESET(Head, R"(
 #pragma once
@@ -61,7 +70,7 @@ namespace define_Preset
 	{
 		//[   numthreads   ( %d, %d, %d )   ]
 		//[ ] 안에 둘러싸여 있고, 공백 갯수에 상관없이 숫자 3개를 추출
-		PRESET(Numthread, R"(\[\s*numthreads\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\).*\])")
+		PRESET(Numthread, R"(\[\s*numthreads\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\).*\])");
 	}
 
 	namespace VarNameFilter

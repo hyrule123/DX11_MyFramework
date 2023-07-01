@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "CCodeWriter.h"
 
 template <typename T>
@@ -40,7 +42,7 @@ inline void CCodeWriter<T>::WriteCode(const std::basic_string_view<T> _strCode)
 	if (false == IsOpen())
 		return;
 
-	m_ofs << CONV_CHAR(T, '\t');
+	m_ofs << T_CHAR(T, '\t');
 
 	//공란으로 넣을 경우 한줄 내리기만 하고 끝
 	if (true == _strCode.empty())
@@ -48,7 +50,7 @@ inline void CCodeWriter<T>::WriteCode(const std::basic_string_view<T> _strCode)
 
 	//현재 들여쓰기 단계만큼 들여쓰기를 해준다.
 	for (int i = 0; i < m_iIndentation; ++i)
-		m_ofs << CONV_CHAR(T, '\t');
+		m_ofs << T_CHAR(T, '\t');
 
 	//코드 작성
 	m_ofs << _strCode;
@@ -58,7 +60,7 @@ template<typename T>
 inline void CCodeWriter<T>::OpenBracket()
 {
 	//먼저 중괄호를 추가한뒤
-	WriteCode(CONV_CHAR(T, '{'));
+	WriteCode(T_CHAR(T, '{'));
 
 	//들여쓰기 값을 늘려준다.
 	++m_iIndentation;
@@ -75,9 +77,9 @@ inline void CCodeWriter<T>::CloseBracket(bool _bAddSemiColon)
 
 	//WriteCode 호출
 	if (true == _bAddSemiColon)
-		WriteCode(CONV_STRING(T, "};"));
+		WriteCode(T_STRING(T, "};"));
 	else
-		WriteCode(CONV_CHAR(T, '}'));
+		WriteCode(T_CHAR(T, '}'));
 }
 
 template<typename T>
@@ -92,7 +94,7 @@ inline void CCodeWriter<T>::CloseBracketAll()
 template<typename T>
 inline void CCodeWriter<T>::IncludeFile(const std::basic_string<T> _strIncludeFileName)
 {
-	std::basic_string<T> include(CONV_PRESET_STR(T, define_Preset::Keyword::IncludeBegin));
+	std::basic_string<T> include(T_PRESET_STR(T, define_Preset::Keyword::IncludeBegin));
 	include += _strIncludeFileName;
 	include += std::char_traits<T>::to_char_type('\"');
 

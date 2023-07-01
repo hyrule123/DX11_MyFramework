@@ -1,6 +1,6 @@
 #pragma once
 
-class CDirTreeNode;
+#include "CDirTreeNode.h"
 class CDirTree
 {
 public:
@@ -8,9 +8,10 @@ public:
 	~CDirTree();
 
 	HRESULT InitRecursive(stdfs::path const& _RootPath, vector<stdfs::path> const& _vecExtFilter);
+
 	HRESULT CreateStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName);
 
 private:
-	CDirTreeNode* m_pRootDir;
+	CDirTreeNode m_RootDir;
 };
 
