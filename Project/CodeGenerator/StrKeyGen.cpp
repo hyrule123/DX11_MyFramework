@@ -6,6 +6,9 @@
 #include "MacroFunc.h"
 #include "StrKeyGen.h"
 
+#include "CDirTree.h"
+#include "CDirTreeNode.h"
+
 /*
 알고리즘 정리
 1. 폴더 전체 재귀순회
@@ -121,7 +124,7 @@ void StrKeyGen::CreateStrKey(const std::filesystem::path& _PathFromContent, cons
 				for (size_t i = 0; i < size; ++i)
 				{
 					const auto& vec = iter->second;
-					CodeLine = define_Preset::Keyword::ConstexprInlineConstChar;
+					CodeLine = define_Preset::Keyword::ConstexprInlineConstChar_A;
 					{
 						string varName = vec[i].filename().string();
 						UpperCaseA(varName);
@@ -131,7 +134,7 @@ void StrKeyGen::CreateStrKey(const std::filesystem::path& _PathFromContent, cons
 						);
 						CodeLine += varName;
 					}
-					CodeLine += define_Preset::Keyword::EqualDoubleQuotation;
+					CodeLine += define_Preset::Keyword::EqualDoubleQuotation_A;
 					CodeLine += iter->second[i].string();
 					CodeLine += "\";";
 					std::replace(CodeLine.begin(), CodeLine.end(), '\\', '/');
@@ -163,6 +166,7 @@ void StrKeyGen::CreateStrKey(const std::filesystem::path& _PathFromContent, cons
 	}
 
 }
+
 
 
 void StrKeyGen::CreateStrKey_Hierarchy(const std::filesystem::path& _PathFromContent, const std::filesystem::path& _HeaderFilename, const vector<string>& _vecExtension)
@@ -323,27 +327,27 @@ void StrKeyGen::CreateStrKey_EnumArray(const std::filesystem::path& _PathFromCon
 	//Value: 파일 명
 	
 	
-	try
-	{
-		std::filesystem::path RootPath = define_Preset::Path::Content / _PathFromContent;
-		for (const auto& entry : std::filesystem::recursive_directory_iterator(RootPath))
-		{
-			//폴더명일 경우에는 pass
-			if (entry.is_directory())
-				continue;
+	//try
+	//{
+	//	std::filesystem::path RootPath = define_Preset::Path::Content / _PathFromContent;
+	//	for (const auto& entry : std::filesystem::recursive_directory_iterator(RootPath))
+	//	{
+	//		//폴더명일 경우에는 pass
+	//		if (entry.is_directory())
+	//			continue;
 
-			//해당 디렉토리 파일명을 저장하는 vector를 가져옴
-			vector<string>& vecDirFile = mapDirectory[entry.path().parent_path().string()];
+	//		//해당 디렉토리 파일명을 저장하는 vector를 가져옴
+	//		vector<string>& vecDirFile = mapDirectory[entry.path().parent_path().string()];
 
-			//파일명을 push_back
-			vecDirFile.push_back(entry.path().parent_path().string());
+	//		//파일명을 push_back
+	//		vecDirFile.push_back(entry.path().parent_path().string());
 
-		}
+	//	}
 
-		std::filesystem::recursive_directory_iterator iterBegin = RootPath;
-		au
-		
-	}
+	//	std::filesystem::recursive_directory_iterator iterBegin = RootPath;
+	//	au
+	//	
+	//}
 }
 
 

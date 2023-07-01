@@ -117,7 +117,7 @@ void CCollisionMgr::tick()
 			m_vec2DGrid[i].vecColl.clear();
 			continue;
 		}
-			
+		
 		//그리드 내부를 ID 순서대로 정렬한다.
 		std::sort(m_vec2DGrid[i].vecColl.begin(), m_vec2DGrid[i].vecColl.end(),
 			[](CCollider2D* _pColA, CCollider2D* _pColB)->bool

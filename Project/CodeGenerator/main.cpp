@@ -4,11 +4,12 @@
 #include "CodeGenFunc.h"
 
 #include <Engine/strKey_Default.h>
-
-
 #include "MacroFunc.h"
 
-int g_iIndentation = 0;
+#include "CDirTree.h"
+#include "CDirTreeNode.h"
+
+int m_iIndentation = 0;
 
 //한글 경로 지원 안함.(어차피 여기서 지원해도 Unity Build에서 지원 안됨)
 //argv[1] = 처리해야할 작업의 종류(ex. Script)
@@ -17,26 +18,33 @@ int g_iIndentation = 0;
 int main(int argc, char* argv[])
 {
     //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
-    CreateScriptCode();
+    //CreateScriptCode();
 
     //정규화된 이름을 가진 쉐이더 파일에 대해 코드를 생성
-    CreateShaderCode();
+    //CreateShaderCode();
     
     //Generate Texture Key
     {
-        vector<string> vecExtension;
+        vector<stdfs::path> vecExtension;
         for (size_t i = 0; i < (size_t)RES_INFO::TEXTURE::Ext::idx::END; ++i)
         {
             vecExtension.push_back(RES_INFO::TEXTURE::Ext::arr[i]);
         }
-        CreateStrKey(RES_INFO::TEXTURE::DirName, PresetPath::strKey_Texture, vecExtension);
+
+        CDirTree TexTree;
+        stdfs::path TexPath = define_Preset::Path::Content_A;
+        TexPath /= RES_INFO::TEXTURE::DirName;
+        TexTree.InitRecursive(TexPath, vecExtension);
+
+
+        //CreateStrKey(RES_INFO::TEXTURE::DirName, define_Preset::Path::strKey_Texture, vecExtension);
     }
 
     //Generate Prefab Key
     //{
     //    vector<string> vecExt;
     //    vecExt.push_back(RES_INFO::PREFAB::Ext);
-    //    CreateStrKey(RES_INFO::PREFAB::DirName, PresetPath::strKey_Prefab, vecExt);
+    //    CreateStrKey(RES_INFO::PREFAB::DirName, define_Preset::Path::strKey_Prefab, vecExt);
     //}
     //
 

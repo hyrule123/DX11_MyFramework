@@ -42,7 +42,7 @@ void InitShaderSettingCompute(Json::Value& _jVal, const filesystem::path& _fileP
 
 void CreateShaderCode()
 {
-	filesystem::path strKeyFilePath = filesystem::path(PresetPath::ScriptProj) / PresetPath::strKey_Shader;
+	filesystem::path strKeyFilePath = filesystem::path(define_Preset::Path::ScriptProj) / define_Preset::Path::strKey_Shader;
 	std::ofstream outFile_strKey(strKeyFilePath);
 	if (false == outFile_strKey.is_open())
 	{
@@ -60,7 +60,7 @@ void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey)
 	//쉐이더의 공통 키값 + 각 쉐이더 파일의 이름을 저장할 공간 생성
 	map<string, tShaderSetting> mapShaderInfo;
 
-	filesystem::path GSShaderDir = filesystem::path(PresetPath::Content) / RES_INFO::SHADER::GRAPHICS::DirName;
+	filesystem::path GSShaderDir = filesystem::path(define_Preset::Path::Content) / RES_INFO::SHADER::GRAPHICS::DirName;
 
 	//Content/Shader/Graphics 폴더 안의 파일을 순회돌아준다.
 	filesystem::directory_iterator dirIter;
@@ -257,7 +257,7 @@ void CreateComputeShaderCode(std::ofstream& _outFile_StrKey)
 	WriteCodeA(_outFile_StrKey, "namespace COMPUTE");
 	WriteBracketOpenA(_outFile_StrKey);
 
-	filesystem::path CSShaderDir(PresetPath::Content);
+	filesystem::path CSShaderDir(define_Preset::Path::Content);
 	CSShaderDir /= DIRECTORY_NAME::SHADER_COMPUTE;
 	try
 	{
@@ -278,7 +278,7 @@ void CreateComputeShaderCode(std::ofstream& _outFile_StrKey)
 				//HLSL파일(소스코드) 존재 여부 및 스레드 수 체크
 				int numThread[3] = { -1, -1, -1 };
 				{
-					std::filesystem::path hlslFile = PresetPath::EngineProj;
+					std::filesystem::path hlslFile = define_Preset::Path::EngineProj;
 					hlslFile /= FileName.filename().replace_extension("hlsl");
 
 					std::ifstream fHLSL(hlslFile);
@@ -287,7 +287,7 @@ void CreateComputeShaderCode(std::ofstream& _outFile_StrKey)
 						string strLine;
 						while (std::getline(fHLSL, strLine))
 						{
-							std::regex regexKey(Regex_Keyword::Numthread);	//정규식
+							std::regex regexKey(define_Preset::Regex_Keyword::Numthread);	//정규식
 							std::smatch numMatch;	//조건에 일치하는 값들을 추출해놓은 위치
 							//원문, 일치하는 값 저장소, 정규식 위치
 
