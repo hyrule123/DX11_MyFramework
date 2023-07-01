@@ -29,7 +29,6 @@
     </ClCompile>
     <ClCompile Include="CDirTreeNode.cpp" />
     <ClCompile Include="CDirTree.cpp" />
-    <ClCompile Include="CCodeWriter.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -56,5 +55,8 @@
     <ClInclude Include="CDirTreeNode.h" />
     <ClInclude Include="CDirTree.h" />
     <ClInclude Include="CCodeWriter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CCodeWriter.inl" />
   </ItemGroup>
 </Project>

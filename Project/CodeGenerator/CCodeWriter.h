@@ -1,8 +1,6 @@
 #pragma once
 
 #include "define_PresetString.h"
-
-#include "pch.h"
 #include "MacroFunc.h"
 
 template <typename T>
@@ -70,4 +68,4 @@ public:
 };
 
 
-
+#include "CCodeWriter.inl"

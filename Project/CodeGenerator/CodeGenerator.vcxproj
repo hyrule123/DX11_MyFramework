@@ -155,7 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CCodeWriter.inl" />
+    <None Include="CCodeWriter.inl">
+      <FileType>Document</FileType>
+    </None>
     <ClCompile Include="CDirTree.cpp" />
     <ClCompile Include="CDirTreeNode.cpp" />
     <ClCompile Include="MacroFunc.cpp" />

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CDirTreeNode.h"
+class CDirTreeNode;
 class CDirTree
 {
 public:
@@ -12,6 +12,6 @@ public:
 	HRESULT CreateStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName);
 
 private:
-	CDirTreeNode m_RootDir;
+	CDirTreeNode* m_RootDir;
 };
 

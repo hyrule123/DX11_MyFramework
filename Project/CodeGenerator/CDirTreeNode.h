@@ -51,6 +51,8 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 	{
 		writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::Head));
 
+		writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::DefineSTRKEY));
+
 		writer.WriteCode(T_STRING(T, "//Base Path: "));
 		
 		std::basic_string<T> strCode(T_STRING(T, "//"));
@@ -80,7 +82,8 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 
 	//중괄호 열고 자신의 파일목록 작성
 	{
-		
+		writer.OpenBracket();
+
 		size_t size = m_vecFileName.size();
 		for (size_t i = 0; i < size; ++i)
 		{
@@ -106,6 +109,9 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 				
 		}
 	}
+
+	writer.CloseBracket();
+	writer.WriteCode();
 
 	return S_OK;
 }

@@ -1,5 +1,3 @@
-#include "pch.h"
-
 #include "CCodeWriter.h"
 
 template <typename T>
@@ -20,11 +18,11 @@ inline HRESULT CCodeWriter<T>::Open(stdfs::path const& _path)
 {
 	m_ofs.close();
 
-	if (false == stdfs::exists(_path))
-	{
-		DEBUG_BREAK;
-		return ERROR_PATH_NOT_FOUND;
-	}
+	//if (false == stdfs::exists(_path))
+	//{
+	//	DEBUG_BREAK;
+	//	return ERROR_PATH_NOT_FOUND;
+	//}
 
 	m_ofs.open(_path);
 	if (false == m_ofs.is_open())
@@ -42,7 +40,8 @@ inline void CCodeWriter<T>::WriteCode(const std::basic_string_view<T> _strCode)
 	if (false == IsOpen())
 		return;
 
-	m_ofs << T_CHAR(T, '\t');
+	//내려쓰기
+	m_ofs << T_CHAR(T, '\n');
 
 	//공란으로 넣을 경우 한줄 내리기만 하고 끝
 	if (true == _strCode.empty())
@@ -54,6 +53,7 @@ inline void CCodeWriter<T>::WriteCode(const std::basic_string_view<T> _strCode)
 
 	//코드 작성
 	m_ofs << _strCode;
+
 }
 
 template<typename T>

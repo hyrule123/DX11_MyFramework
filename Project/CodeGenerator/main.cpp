@@ -7,7 +7,7 @@
 #include "MacroFunc.h"
 
 #include "CDirTree.h"
-#include "CDirTreeNode.h"
+
 
 int m_iIndentation = 0;
 
@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
         TexPath /= RES_INFO::TEXTURE::DirName;
         TexTree.InitRecursive(TexPath, vecExtension);
 
-        TexTree.CreateStrKey("D:\\Users\\ekdrn\\Desktop", "Test.txt");
+        TexTree.CreateStrKey("D:\\Users\\ekdrn\\Desktop", "Test.h");
 
         //CreateStrKey(RES_INFO::TEXTURE::DirName, define_Preset::Path::strKey_Texture, vecExtension);
     }
