@@ -18,6 +18,7 @@ public:
 	template <typename T>
 	HRESULT WriteStrKey(CCodeWriter<T>& _pCodeWriter);
 
+
 private:
 	CDirTreeNode* m_pParent;
 	std::vector<CDirTreeNode*> m_vecChild;

@@ -196,8 +196,8 @@
     <ClInclude Include="CRandMgr.h">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CScriptMgr.h">
-      <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
+    <ClInclude Include="CUserClassMgr.h">
+      <Filter>_Source\03. Manager\10. UserClassMgr</Filter>
     </ClInclude>
     <ClInclude Include="CFSM.h">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
@@ -368,8 +368,8 @@
     <ClCompile Include="CRandMgr.cpp">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CScriptMgr.cpp">
-      <Filter>_Source\03. Manager\10. ScriptMgr</Filter>
+    <ClCompile Include="CUserClassMgr.cpp">
+      <Filter>_Source\03. Manager\10. UserClassMgr</Filter>
     </ClCompile>
     <ClCompile Include="CFSM.cpp">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
@@ -506,9 +506,6 @@
     <Filter Include="_Source\03. Manager\09. RandMgr">
       <UniqueIdentifier>{5aea2cf4-799a-4c50-9422-eb7b85e28049}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_Source\03. Manager\10. ScriptMgr">
-      <UniqueIdentifier>{fe30ff2c-2244-4ddf-b23b-4a8458bd34a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="_Source\06. Component\11. ScriptHolder">
       <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
     </Filter>
@@ -547,6 +544,9 @@
     </Filter>
     <Filter Include="_HLSL, Shader Default\01. Debug">
       <UniqueIdentifier>{3964de6a-5569-49d3-84a2-49fbf7126a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Source\03. Manager\10. UserClassMgr">
+      <UniqueIdentifier>{fe30ff2c-2244-4ddf-b23b-4a8458bd34a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

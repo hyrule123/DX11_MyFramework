@@ -4,7 +4,7 @@
 #include "strKey_Script.h"
 
 class CScript;
-class CScriptMgrInitializer
+class CUserClassInitializer
 {
 public:
 	static void init();

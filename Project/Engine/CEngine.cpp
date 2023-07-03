@@ -11,7 +11,7 @@
 #include "CEventMgr.h"
 #include "CCollisionMgr.h"
 #include "CRandMgr.h"
-#include "CScriptMgr.h"
+#include "CUserClassMgr.h"
 
 #include "S_H_Struct.hlsli"
 
@@ -73,7 +73,7 @@ int CEngine::init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT
 	CEventMgr::GetInst();
 	CCollisionMgr::GetInst();
 
-	CScriptMgr::GetInst();
+	CUserClassMgr::GetInst();
 
 	return S_OK;
 }

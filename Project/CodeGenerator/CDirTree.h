@@ -17,6 +17,8 @@ public:
 	HRESULT CreateStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName);
 
 
+
+
 private:
 	CDirTreeNode m_RootDir;
 
@@ -50,8 +52,14 @@ inline HRESULT CDirTree::CreateStrKey(stdfs::path const& _DirPath, stdfs::path c
 		return ERROR_PATH_NOT_FOUND;
 	}
 
-	m_RootDir.WriteStrKey(Writer);
-	return S_OK;
+	HRESULT hr = m_RootDir.WriteStrKey(Writer);
+
+	if (FAILED(hr))
+		return hr;
+
+	hr = Writer.SaveAll();
+
+	return hr;
 }
 
 

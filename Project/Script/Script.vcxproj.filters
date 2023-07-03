@@ -66,7 +66,7 @@
     <ClInclude Include="CScript_FSM_Move_Hover.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
-    <ClInclude Include="CScriptMgrInitializer.h">
+    <ClInclude Include="CUserClassInitializer.h">
       <Filter>Generated</Filter>
     </ClInclude>
     <ClInclude Include="CFSM_Move_Base.h">
@@ -139,7 +139,7 @@
     <ClCompile Include="CScript_FSM_Move_Hover.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="CScriptMgrInitializer.cpp">
+    <ClCompile Include="CUserClassInitializer.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
     <ClCompile Include="CFSM_Move_Base.cpp">
