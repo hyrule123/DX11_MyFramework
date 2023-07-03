@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
         TexPath /= RES_INFO::TEXTURE::DirName;
         TexTree.InitRecursive(TexPath, vecExtension);
 
-        TexTree.CreateStrKey("D:\\Users\\ekdrn\\Desktop", "Test.h");
+        TexTree.CreateStrKey<char>("D:\\Users\\ekdrn\\Desktop", "Test.h");
 
         //CreateStrKey(RES_INFO::TEXTURE::DirName, define_Preset::Path::strKey_Texture, vecExtension);
     }

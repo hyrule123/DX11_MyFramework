@@ -59,7 +59,7 @@ public:
 
 
 	void WriteCode(const std::basic_string_view<T> _strCode = std::basic_string_view<T>());
-	void WriteCode(const T _char) { WriteCode(std::basic_string_view<T>(&_char, sizeof(T))); }
+	//void WriteCode(const T _char) { WriteCode(std::basic_string_view<T>(&_char, sizeof(T))); }
 
 	void OpenBracket();
 	void CloseBracket(bool _bAddSemiColon = false);

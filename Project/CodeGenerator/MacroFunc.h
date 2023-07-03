@@ -29,7 +29,7 @@ public:
 #define T_C_PRESET_STR(T, _PresetSTr) MacroFunc::T_CStringView<T>(_PresetStr##_A, _PresetStr##_W, _PresetStr##_U8)
 
 //한글자
-#define T_CHAR(T, _char) std::char_traits<T>::to_char_type(_char)
+//#define T_CHAR(T, _char) std::char_traits<T>::to_char_type(_char)
 
 //새로운 T타입 문자열 생성
 #define NEW_T_STRING(T, _str) std::basic_string<T>(T_STRING(T, _str))

@@ -44,7 +44,6 @@ private:
 template <typename T>
 HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 {
-
 	CCodeWriter<T>& writer = _pCodeWriter;
 
 	if (IsRoot())
@@ -54,18 +53,17 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 		writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::DefineSTRKEY));
 
 		writer.WriteCode(T_STRING(T, "//Base Path: "));
-		
+
 		std::basic_string<T> strCode(T_STRING(T, "//"));
 		strCode += m_DirName.string<T>();
 
 		writer.WriteCode(strCode);
 
-		//루트 노드의 경우 이름도 알맞게 바꿔줘야 함
+		//루트 노드의 경우 이름도 알맞게 바꿔줘야 함.
+		writer.WriteCode();
+		writer.WriteCode();
+
 		strCode.clear();
-
-		writer.WriteCode();
-		writer.WriteCode();
-
 		strCode = NEW_T_STRING(T, "namespace strKey_");
 
 		strCode += MacroFunc::UpperCase<T>(m_DirName.filename().string<T>());
@@ -93,6 +91,7 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 			strCode += m_vecFileName[i].string<T>();
 			strCode += T_STRING(T, "\";");
 			writer.WriteCode(strCode);
+
 		}
 	}
 
