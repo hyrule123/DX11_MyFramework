@@ -183,7 +183,7 @@
     <ClInclude Include="CCodeWriter.h" />
     <ClInclude Include="CDirTree.h" />
     <ClInclude Include="CodeGenFunc.h" />
-    <ClInclude Include="define_PresetString.h" />
+    <ClInclude Include="define_CodeGen.h" />
     <ClInclude Include="CDirTreeNode.h" />
     <ClInclude Include="MacroFunc.h" />
     <ClInclude Include="pch.h" />

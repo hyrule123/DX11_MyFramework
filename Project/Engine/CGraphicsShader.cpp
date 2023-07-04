@@ -44,29 +44,29 @@ bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 
 	//순회를 돌면서 비트마스크를 만들어준뒤 json 파일에 저장한다.
 	int flagPipeline = 0;
-	for (int i = 0; i < (int)define_Shader::eSHADER_TYPE::END; ++i)
+	for (int i = 0; i < (int)define_Shader::eGS_TYPE::END; ++i)
 	{
 		bool bExist = false;
 
-		switch ((define_Shader::eSHADER_TYPE)i)
+		switch ((define_Shader::eGS_TYPE)i)
 		{
-		case define_Shader::eSHADER_TYPE::__VERTEX:
+		case define_Shader::eGS_TYPE::__VERTEX:
 			if (nullptr != m_VS.Get())
 				bExist = true;
 			break;
-		case define_Shader::eSHADER_TYPE::__HULL:
+		case define_Shader::eGS_TYPE::__HULL:
 			if(nullptr != m_HS.Get())
 				bExist = true;
 			break;
-		case define_Shader::eSHADER_TYPE::__DOMAIN:
+		case define_Shader::eGS_TYPE::__DOMAIN:
 			if (nullptr != m_DS.Get())
 				bExist = true;
 			break;
-		case define_Shader::eSHADER_TYPE::__GEOMETRY:
+		case define_Shader::eGS_TYPE::__GEOMETRY:
 			if (nullptr != m_GS.Get())
 				bExist = true;
 			break;
-		case define_Shader::eSHADER_TYPE::__PIXEL:
+		case define_Shader::eGS_TYPE::__PIXEL:
 			if (nullptr != m_PS.Get())
 				bExist = true;
 			break;
@@ -90,7 +90,7 @@ bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 	jVal[GRAPHICS::JSON_KEY::m_bUseInstancing] = m_bUseInstancing;
 
 	//쉐이더의 이름을 저장(없어도 저장)
-	for (int i = 0; i < (int)define_Shader::eSHADER_TYPE::END; ++i)
+	for (int i = 0; i < (int)define_Shader::eGS_TYPE::END; ++i)
 	{
 		jVal[GRAPHICS::JSON_KEY::arr_strKey_PipeLine[i]] = m_arrShaderCode[i].strKey;
 	}
@@ -166,7 +166,7 @@ if (false == jVal.isMember(_strKey))\
 		}
 
 
-		for (int i = 0; i < (int)define_Shader::eSHADER_TYPE::END; ++i)
+		for (int i = 0; i < (int)define_Shader::eGS_TYPE::END; ++i)
 		{
 			const string strKey = RES_INFO::SHADER::GRAPHICS::JSON_KEY::arr_strKey_PipeLine[i];
 			if (false == jVal.isMember(strKey))
@@ -179,7 +179,7 @@ if (false == jVal.isMember(_strKey))\
 			if (sFileName.empty())
 			{
 				//버텍스 쉐이더가 없을 경우에는 에러 발생
-				if ((int)define_Shader::eSHADER_TYPE::__VERTEX == i)
+				if ((int)define_Shader::eGS_TYPE::__VERTEX == i)
 				{
 					string errmsg = "Vertex shader must exist but it is not.";
 					errmsg += "\nPipeline Name : ";
@@ -220,7 +220,7 @@ if (false == jVal.isMember(_strKey))\
 
 			//읽어온 바이트 코드로부터 쉐이더를 로딩해준다.
 			//실패시 동적할당 해제하고 오류 발생
-			hr = CreateShader(sCode, (define_Shader::eSHADER_TYPE)i);
+			hr = CreateShader(sCode, (define_Shader::eGS_TYPE)i);
 			if (FAILED(hr))
 			{
 				throw(std::runtime_error(string("Shader Blob Creation Failed.\nError Code: ") + std::to_string(hr)));
@@ -276,7 +276,7 @@ HRESULT CGraphicsShader::CreateDefaultInputLayout()
 	LayoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	LayoutDesc[1].InstanceDataStepRate = 0;
 	
-	const tShaderCode& shaderCode = m_arrShaderCode[(int)define_Shader::eSHADER_TYPE::__VERTEX];
+	const tShaderCode& shaderCode = m_arrShaderCode[(int)define_Shader::eGS_TYPE::__VERTEX];
 
 	//Vertex Buffer Blob을 참조해서 입력 레이아웃을 생성한다.
 	const ComPtr<ID3DBlob>& VSData = shaderCode.blob;
@@ -287,7 +287,7 @@ HRESULT CGraphicsShader::CreateDefaultInputLayout()
 
 
 
-HRESULT CGraphicsShader::CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize, define_Shader::eSHADER_TYPE _eShaderType)
+HRESULT CGraphicsShader::CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize, define_Shader::eGS_TYPE _eShaderType)
 {
 	//헤더 형태로 만드는 쉐이더는 무조건 엔진 내부 기본 리소스라고 가정한다.
 	SetEngineDefaultRes(true);
@@ -313,7 +313,7 @@ HRESULT CGraphicsShader::CreateShaderFromHeader(const unsigned char* _pByteCode,
 }
 
 
-HRESULT CGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize, define_Shader::eSHADER_TYPE _ShaderType)
+HRESULT CGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize, define_Shader::eGS_TYPE _ShaderType)
 {
 	assert(_pByteCode && _ByteCodeSize);
 
@@ -321,7 +321,7 @@ HRESULT CGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _Byt
 
 	switch (_ShaderType)
 	{
-	case define_Shader::eSHADER_TYPE::__VERTEX:
+	case define_Shader::eGS_TYPE::__VERTEX:
 	{
 		HRESULT hr = DEVICE->CreateVertexShader(_pByteCode, _ByteCodeSize, nullptr, m_VS.ReleaseAndGetAddressOf());
 
@@ -333,19 +333,19 @@ HRESULT CGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _Byt
 		break;
 	}
 
-	case define_Shader::eSHADER_TYPE::__HULL:
+	case define_Shader::eGS_TYPE::__HULL:
 		return DEVICE->CreateHullShader(_pByteCode, _ByteCodeSize, nullptr, m_HS.ReleaseAndGetAddressOf());
 		break;
 
-	case define_Shader::eSHADER_TYPE::__DOMAIN:
+	case define_Shader::eGS_TYPE::__DOMAIN:
 		return DEVICE->CreateDomainShader(_pByteCode, _ByteCodeSize, nullptr, m_DS.ReleaseAndGetAddressOf());
 		break;
 
-	case define_Shader::eSHADER_TYPE::__GEOMETRY:
+	case define_Shader::eGS_TYPE::__GEOMETRY:
 		return DEVICE->CreateGeometryShader(_pByteCode, _ByteCodeSize, nullptr, m_GS.ReleaseAndGetAddressOf());
 		break;
 
-	case define_Shader::eSHADER_TYPE::__PIXEL:
+	case define_Shader::eGS_TYPE::__PIXEL:
 		return DEVICE->CreatePixelShader(_pByteCode, _ByteCodeSize, nullptr, m_PS.ReleaseAndGetAddressOf());
 		break;
 
@@ -356,7 +356,7 @@ HRESULT CGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _Byt
 	return E_FAIL;
 }
 
-HRESULT CGraphicsShader::CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName, define_Shader::eSHADER_TYPE _ShaderType)
+HRESULT CGraphicsShader::CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName, define_Shader::eGS_TYPE _ShaderType)
 {
 	if (GetKey().empty())
 		SetKey(_FileName.string());

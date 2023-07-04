@@ -15,18 +15,14 @@ CDirTree::~CDirTree()
 {
 }
 
-HRESULT CDirTree::InitRecursive(stdfs::path const& _RootPath, vector<stdfs::path> const& _vecExtFilter)
+HRESULT CDirTree::SearchRecursive(stdfs::path const& _RootPath, vector<stdfs::path>& _vecExtFilter, vector<stdfs::path>& _vecExcludeDir)
 {
 	m_RootDir.Clear();
 
-	//필터 확장자를 소문자로 변환
-	vector<stdfs::path> vecExtLower;
-	for (size_t i = 0; i < _vecExtFilter.size(); ++i)
-	{
-		vecExtLower.push_back(MacroFunc::LowerCase<char>(_vecExtFilter[i].string()));
-	}
+	MacroFunc::ConvertPathToLowerCase(_vecExtFilter);
+	MacroFunc::ConvertPathToLowerCase(_vecExcludeDir);
 
-	return m_RootDir.InitRecursive(_RootPath, vecExtLower);
+	return m_RootDir.SearchRecursive( _RootPath, _vecExtFilter, _vecExcludeDir);
 }
 
 

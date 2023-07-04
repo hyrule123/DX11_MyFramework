@@ -17,12 +17,6 @@ int m_iIndentation = 0;
 //시작 지점 = $(SolutionDir) : 상대 경로로 작업해주면 된다.
 int main(int argc, char* argv[])
 {
-    //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
-    //CreateScriptCode();
-
-    //정규화된 이름을 가진 쉐이더 파일에 대해 코드를 생성
-    //CreateShaderCode();
-    
     //Generate Texture Key
     {
         vector<stdfs::path> vecExtension;
@@ -30,15 +24,41 @@ int main(int argc, char* argv[])
         {
             vecExtension.push_back(RES_INFO::TEXTURE::Ext::arr[i]);
         }
+        vector<stdfs::path> vecExcludeDir;
 
         CDirTree TexTree;
-        stdfs::path TexPath = define_Preset::Path::Content_A;
+        stdfs::path TexPath = define_Preset::Path::Content::A;
         TexPath /= RES_INFO::TEXTURE::DirName;
-        TexTree.InitRecursive(TexPath, vecExtension);
+        TexTree.SearchRecursive(TexPath, vecExtension, vecExcludeDir);
 
-        TexTree.CreateStrKey<char>("D:\\Users\\ekdrn\\Desktop", "Test.h");
+        TexTree.CreateStrKey<char>("D:\\Users\\ekdrn\\Desktop", "TextureKeys.h");
 
         //CreateStrKey(RES_INFO::TEXTURE::DirName, define_Preset::Path::strKey_Texture, vecExtension);
+    }
+
+    //Generate Shader Key
+    {
+        vector<stdfs::path> vecExtension;
+        for (size_t i = 0; i < (size_t)RES_INFO::TEXTURE::Ext::idx::END; ++i)
+        {
+            vecExtension.push_back(RES_INFO::SHADER::Ext_ShaderCode);
+        }
+        vector<stdfs::path> vecExcludeDir;
+        //vecExcludeDir.push_back(RES_INFO::SHADER::ByteCodeDir);
+
+        CDirTree TexTree;
+        stdfs::path TexPath = define_Preset::Path::Content::A;
+        TexPath /= RES_INFO::SHADER::DirNameRoot;
+        TexPath /= RES_INFO::SHADER::ByteCodeDir;
+        TexTree.SearchRecursive(TexPath, vecExtension, vecExcludeDir);
+
+        TexTree.CreateShaderClassCode<char>("D:\\Users\\ekdrn\\Desktop", "ShaderTest.h");
+
+        //TexTree.CreateShaderClassCode()
+        
+
+        //CreateStrKey(RES_INFO::TEXTURE::DirName, define_Preset::Path::strKey_Texture, vecExtension);
+
     }
 
     //Generate Prefab Key

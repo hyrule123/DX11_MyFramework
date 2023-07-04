@@ -11,7 +11,7 @@ enum class eSHADER_LOADTYPE
 
 namespace SHADER_NAME_VERSION
 {
-    constexpr const char* GS[(int)define_Shader::eSHADER_TYPE::END]
+    constexpr const char* GS[(int)define_Shader::eGS_TYPE::END]
         = {
         "vs_5_0",
         "hs_5_0",

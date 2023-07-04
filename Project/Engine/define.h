@@ -203,7 +203,7 @@ namespace define_Shader
 	enum D3D_PRIMITIVE_TOPOLOGY;
 
 
-	enum class eSHADER_TYPE
+	enum class eGS_TYPE
 	{
 		__VERTEX = 0,
 		__HULL = 1,

@@ -12,9 +12,12 @@
 //#define PRESET constexpr inline const char*
 
 #define PRESET(_VarNameBase, _String) \
-constexpr const char* _VarNameBase##_A = _String;\
-constexpr const wchar_t* _VarNameBase##_W = L##_String;\
-constexpr const char8_t* _VarNameBase##_U8 = u8##_String
+namespace _VarNameBase {\
+constexpr const char* A = _String;\
+constexpr const wchar_t* W = L##_String;\
+constexpr const char8_t* U8 = u8##_String;\
+}
+
 
 namespace define_Preset
 {
@@ -105,11 +108,25 @@ namespace define_Preset
 }
 
 
+#include <Engine/CComputeShader.h>
+namespace define_ShaderGen
+{
+	//순수가상함수 풀고 저장기능만 사용하기 위한 더미 클래스
+	class CDummyCompute
+		: public CComputeShader
+	{
+	public:
+		CDummyCompute() {};
+		virtual ~CDummyCompute() {};
+
+		virtual bool BindDataCS() override { return true; };
+		virtual void UnBindCS() override {};
+	};
 
 
-
-
-
-
-
+	struct tShaderSetting
+	{
+		stdfs::path FileName[(int)define_Shader::eGS_TYPE::END];
+	};
+}
 

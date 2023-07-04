@@ -49,12 +49,12 @@
     <ClInclude Include="MacroFunc.h">
       <Filter>GenCode</Filter>
     </ClInclude>
-    <ClInclude Include="define_PresetString.h">
-      <Filter>GenCode</Filter>
-    </ClInclude>
     <ClInclude Include="CDirTreeNode.h" />
     <ClInclude Include="CDirTree.h" />
     <ClInclude Include="CCodeWriter.h" />
+    <ClInclude Include="define_CodeGen.h">
+      <Filter>Default</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="CCodeWriter.inl" />

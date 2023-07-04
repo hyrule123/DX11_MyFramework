@@ -23,7 +23,7 @@ public:
 
 private:
     //지정된 각 쉐이더별로 어떤 방식으로 로드했는지를 저장.
-    tShaderCode                     m_arrShaderCode[(int)define_Shader::eSHADER_TYPE::END];
+    tShaderCode                     m_arrShaderCode[(int)define_Shader::eGS_TYPE::END];
 
     ComPtr<ID3D11VertexShader>      m_VS;
     ComPtr<ID3D11HullShader>        m_HS;
@@ -55,16 +55,16 @@ public:
     //Compile from raw source file
     //런타임에 컴파일해서 쉐이더를 만드는 방식에 사용
     //cso파일과 마찬가지로 Contents/Shader/Graphics/ 아래에 저장할것
-    HRESULT CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName, define_Shader::eSHADER_TYPE _ShaderType);
+    HRESULT CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName, define_Shader::eGS_TYPE _ShaderType);
 
     //Compile from Header(헤더 파일의 경우 이미 데이터가 프로그램에 삽입되므로 복사 필요 x)
     //엔진 내부 기본 쉐이더들을 위한 함수
     //엔진 내부 기본 쉐이더와 직접 만든 쉐이더를 동시에 사용 불가.
-    HRESULT CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize, define_Shader::eSHADER_TYPE _eShaderType);
+    HRESULT CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize, define_Shader::eGS_TYPE _eShaderType);
 
     //Compile from Byte Code inside of blob(cso)
     //바이트 코드의 경우 메모리 릭 방지를 위해 ComPtr<ID3DBlob>에 넣어서 전달할 것
-    HRESULT CreateShader(const tShaderCode& _tShaderCode, define_Shader::eSHADER_TYPE _ShaderType);
+    HRESULT CreateShader(const tShaderCode& _tShaderCode, define_Shader::eGS_TYPE _ShaderType);
 
     
 private:
@@ -72,7 +72,7 @@ private:
     HRESULT CreateDefaultInputLayout();
 
     //최종 내부 쉐이더 컴파일 코드
-    HRESULT CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize, define_Shader::eSHADER_TYPE _ShaderType);
+    HRESULT CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize, define_Shader::eGS_TYPE _ShaderType);
 
 public:
 
@@ -96,7 +96,7 @@ public:
     virtual void BindData() override;
 };
 
-inline HRESULT CGraphicsShader::CreateShader(const tShaderCode& _tShaderCode, define_Shader::eSHADER_TYPE _eShaderType)
+inline HRESULT CGraphicsShader::CreateShader(const tShaderCode& _tShaderCode, define_Shader::eGS_TYPE _eShaderType)
 {
     m_arrShaderCode[(int)_eShaderType] = _tShaderCode;
 

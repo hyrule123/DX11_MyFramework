@@ -1,6 +1,6 @@
 #pragma once
 
-#include "define_PresetString.h"
+#include "define_CodeGen.h"
 
 
 #define STATIC_ASSERT_IS_STRING static_assert(std::is_same_v<T, char> || std::is_same_v<T, wchar_t> || std::is_same_v<T, char8_t>)
@@ -25,8 +25,8 @@ public:
 #define T_C_STRING(T, _Cstr) MacroFunc::T_CStringView<T>(_str, L##_str, u8##_str)
 
 //define_Preset에 정의된 constexpr inline const char* 타입 변수에 사용
-#define T_PRESET_STR(T, _PresetStr) MacroFunc::T_StringView<T>(_PresetStr##_A, _PresetStr##_W, _PresetStr##_U8)
-#define T_C_PRESET_STR(T, _PresetSTr) MacroFunc::T_CStringView<T>(_PresetStr##_A, _PresetStr##_W, _PresetStr##_U8)
+#define T_PRESET_STR(T, _PresetStr) MacroFunc::T_StringView<T>(_PresetStr##::A, _PresetStr##::W, _PresetStr##::U8)
+#define T_C_PRESET_STR(T, _PresetSTr) MacroFunc::T_CStringView<T>(_PresetStr##::A, _PresetStr##::W, _PresetStr##::U8)
 
 //한글자
 //#define T_CHAR(T, _char) std::char_traits<T>::to_char_type(_char)
@@ -71,6 +71,8 @@ public:
 	template <typename T>
 	inline static std::basic_string<T> ConvertToVarName(const std::basic_string_view<T> _strView);
 
+
+	static std::vector<stdfs::path>& ConvertPathToLowerCase(std::vector<stdfs::path>& _vecPath);
 
 private:
 	MacroFunc() = delete;

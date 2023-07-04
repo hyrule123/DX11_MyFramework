@@ -264,8 +264,8 @@ bool CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(define_Shader::eSHADER_DOMAIN::_OPAQUE);
 
 		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_Debug, sizeof(g_VS_Debug), define_Shader::eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_Debug, sizeof(g_PS_Debug), define_Shader::eSHADER_TYPE::__PIXEL);
+		pShader->CreateShaderFromHeader(g_VS_Debug, sizeof(g_VS_Debug), define_Shader::eGS_TYPE::__VERTEX);
+		pShader->CreateShaderFromHeader(g_PS_Debug, sizeof(g_PS_Debug), define_Shader::eGS_TYPE::__PIXEL);
 
 		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG, pShader);
 	}
@@ -292,8 +292,8 @@ bool CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(define_Shader::eSHADER_DOMAIN::_OPAQUE);
 
 		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_STD2D, sizeof(g_VS_STD2D), define_Shader::eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_STD2D, sizeof(g_PS_STD2D), define_Shader::eSHADER_TYPE::__PIXEL);
+		pShader->CreateShaderFromHeader(g_VS_STD2D, sizeof(g_VS_STD2D), define_Shader::eGS_TYPE::__VERTEX);
+		pShader->CreateShaderFromHeader(g_PS_STD2D, sizeof(g_PS_STD2D), define_Shader::eGS_TYPE::__PIXEL);
 
 		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2D, pShader);
 	}
@@ -320,8 +320,8 @@ bool CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(define_Shader::eSHADER_DOMAIN::_OPAQUE);
 
 		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_STD2D_Light, sizeof(g_VS_STD2D_Light), define_Shader::eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_STD2D_Light, sizeof(g_PS_STD2D_Light), define_Shader::eSHADER_TYPE::__PIXEL);
+		pShader->CreateShaderFromHeader(g_VS_STD2D_Light, sizeof(g_VS_STD2D_Light), define_Shader::eGS_TYPE::__VERTEX);
+		pShader->CreateShaderFromHeader(g_PS_STD2D_Light, sizeof(g_PS_STD2D_Light), define_Shader::eGS_TYPE::__PIXEL);
 
 		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2DLIGHT, pShader);
 	}
@@ -347,8 +347,8 @@ bool CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(define_Shader::eSHADER_DOMAIN::_OPAQUE);
 
 		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), define_Shader::eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), define_Shader::eSHADER_TYPE::__PIXEL);
+		pShader->CreateShaderFromHeader(g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), define_Shader::eGS_TYPE::__VERTEX);
+		pShader->CreateShaderFromHeader(g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), define_Shader::eGS_TYPE::__PIXEL);
 
 		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPATLAS, pShader);
 	}
@@ -374,8 +374,8 @@ bool CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(define_Shader::eSHADER_DOMAIN::_OPAQUE);
 
 		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_Tilemap_Complete, sizeof(g_VS_Tilemap_Complete), define_Shader::eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_PS_Tilemap_Complete, sizeof(g_PS_Tilemap_Complete), define_Shader::eSHADER_TYPE::__PIXEL);
+		pShader->CreateShaderFromHeader(g_VS_Tilemap_Complete, sizeof(g_VS_Tilemap_Complete), define_Shader::eGS_TYPE::__VERTEX);
+		pShader->CreateShaderFromHeader(g_PS_Tilemap_Complete, sizeof(g_PS_Tilemap_Complete), define_Shader::eGS_TYPE::__PIXEL);
 
 		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE, pShader);
 	}
@@ -401,9 +401,9 @@ bool CResMgr::CreateDefaultGraphicsShader()
 		pShader->SetShaderDomain(define_Shader::eSHADER_DOMAIN::_TRANSPARENT);
 
 		//쉐이더 컴파일
-		pShader->CreateShaderFromHeader(g_VS_Particle, sizeof(g_VS_Particle), define_Shader::eSHADER_TYPE::__VERTEX);
-		pShader->CreateShaderFromHeader(g_GS_Particle, sizeof(g_GS_Particle), define_Shader::eSHADER_TYPE::__GEOMETRY);
-		pShader->CreateShaderFromHeader(g_PS_Particle, sizeof(g_PS_Particle), define_Shader::eSHADER_TYPE::__PIXEL);
+		pShader->CreateShaderFromHeader(g_VS_Particle, sizeof(g_VS_Particle), define_Shader::eGS_TYPE::__VERTEX);
+		pShader->CreateShaderFromHeader(g_GS_Particle, sizeof(g_GS_Particle), define_Shader::eGS_TYPE::__GEOMETRY);
+		pShader->CreateShaderFromHeader(g_PS_Particle, sizeof(g_PS_Particle), define_Shader::eGS_TYPE::__PIXEL);
 
 		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE, pShader);
 	}

@@ -491,13 +491,14 @@ namespace RES_INFO
 	namespace SHADER
 	{
 		STRKEY DirNameRoot = "Shader";
+		STRKEY ByteCodeDir = "CSO";
 		STRKEY Ext_ShaderSetting = ".json";
 		STRKEY Ext_ShaderCode = ".cso";
 
 		namespace GRAPHICS
 		{
 			STRKEY DirName = DIRECTORY_NAME::SHADER_GRAPHICS;
-			STRKEY arrPrefix[(int)define_Shader::eSHADER_TYPE::END] =
+			STRKEY arrPrefix[(int)define_Shader::eGS_TYPE::END] =
 			{ "_V_" , "_H_" , "_D_" ,"_G_" ,"_P_" };
 
 			//각 쉐이더마다 들어가야할 설정값
@@ -520,7 +521,7 @@ namespace RES_INFO
 				STRKEY_DECLARE(m_bUseInstancing);
 
 
-				constexpr inline const char* arr_strKey_PipeLine[(int)define_Shader::eSHADER_TYPE::END] =
+				constexpr inline const char* arr_strKey_PipeLine[(int)define_Shader::eGS_TYPE::END] =
 				{
 					"_0_VERTEX",
 					"_1_HULL",
