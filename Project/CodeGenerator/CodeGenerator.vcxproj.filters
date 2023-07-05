@@ -12,15 +12,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="ScriptGen.cpp">
-      <Filter>GenCode</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderGen.cpp">
-      <Filter>GenCode</Filter>
-    </ClCompile>
-    <ClCompile Include="StrKeyGen.cpp">
-      <Filter>GenCode</Filter>
-    </ClCompile>
     <ClCompile Include="MacroFunc.cpp">
       <Filter>GenCode</Filter>
     </ClCompile>
@@ -34,16 +25,7 @@
     <ClInclude Include="pch.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="ScriptGen.h">
-      <Filter>GenCode</Filter>
-    </ClInclude>
     <ClInclude Include="CodeGenFunc.h">
-      <Filter>GenCode</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderGen.h">
-      <Filter>GenCode</Filter>
-    </ClInclude>
-    <ClInclude Include="StrKeyGen.h">
       <Filter>GenCode</Filter>
     </ClInclude>
     <ClInclude Include="MacroFunc.h">
@@ -58,5 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CCodeWriter.inl" />
+    <None Include="CDirTree.inl" />
   </ItemGroup>
 </Project>

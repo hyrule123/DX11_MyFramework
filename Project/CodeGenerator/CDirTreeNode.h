@@ -5,6 +5,13 @@
 #include "MacroFunc.h"
 
 
+struct tDirTreeFilters
+{
+	std::vector<std::filesystem::path> vecExtInclude;
+	std::vector<std::filesystem::path> vecIncludeKeyword;
+	std::vector<std::filesystem::path> vecExcludeKeyword;
+};
+
 struct tShaderGroup
 {
 	stdfs::path FileName[(int)define_Shader::eGS_TYPE::END];
@@ -19,15 +26,17 @@ private:
 	~CDirTreeNode();
 
 public:
-	HRESULT SearchRecursive(stdfs::path const& _path, std::vector<stdfs::path> const& _vecExtensionFilter, std::vector<stdfs::path> const& _vecFolderExclude = std::vector<stdfs::path>());
+	HRESULT SearchRecursive(stdfs::path const& _path, tDirTreeFilters const& _Filter);
 
 	template <typename T>
-	HRESULT WriteStrKey(CCodeWriter<T>& _CodeWriter);
-
+	HRESULT WriteStrKey(CCodeWriter<T>& _CodeWriter, bool _bEraseExtension);
 
 	//쉐이더 파일 전체 확인해서 쉐이더 그룹으로 정리해서 반환
 	template <typename T>
-	HRESULT WriteShaderCode(__out std::unordered_map<stdfs::path, tShaderGroup>& _umapShaderSetting, __out std::vector<stdfs::path> _vecComputeShader);
+	HRESULT WriteComputeShaderCode(CCodeWriter<T>& _CodeWriter);
+
+
+	HRESULT WriteGraphicsShaderStrKey(std::unordered_map<stdfs::path, tShaderGroup>& _umapShaderGroup);
 
 
 private:
@@ -53,10 +62,11 @@ private:
 
 
 template <typename T>
-HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
+HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter, bool _bEraseExtension)
 {
 	CCodeWriter<T>& writer = _pCodeWriter;
 
+	
 	if (IsRoot())
 	{
 		std::basic_string<T> strCode = NEW_T_STRING(T, "namespace strKey_");
@@ -88,7 +98,12 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 				strCode += "/";
 			}
 
-			strCode += m_vecFileName[i].string<T>();
+			if (_bEraseExtension)
+				strCode += m_vecFileName[i].filename().replace_extension("").string<T>();
+			else
+				strCode += m_vecFileName[i].string<T>();
+				
+
 			strCode += T_STRING(T, "\";");
 			writer.WriteCode(strCode);
 		}
@@ -99,7 +114,7 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 		size_t size = m_vecChild.size();
 		for (size_t i = 0; i < size; ++i)
 		{
-			HRESULT hr = m_vecChild[i]->WriteStrKey(_pCodeWriter);
+			HRESULT hr = m_vecChild[i]->WriteStrKey(_pCodeWriter, _bEraseExtension);
 			if (FAILED(hr))
 			{
 				return E_FAIL;
@@ -116,53 +131,79 @@ HRESULT CDirTreeNode::WriteStrKey(CCodeWriter<T>& _pCodeWriter)
 
 
 template<typename T>
-inline HRESULT CDirTreeNode::WriteShaderCode(__out std::unordered_map<stdfs::path, tShaderGroup>& _umapShaderSetting, __out std::vector<stdfs::path> _vecComputeShader)
+inline HRESULT CDirTreeNode::WriteComputeShaderCode(CCodeWriter<T>& _CodeWriter)
+{
+	//순회를 돌면서 각 버퍼에 코드 작성
+	//0번 버퍼: include
+	//1번 버퍼: 클래스 생성
+	for(size_t i = 0; i < m_vecFileName.size(); ++i)
+	{
+		//0번 버퍼에 include 작성
+		{
+			const std::basic_string<T>& FileName = m_vecFileName[i].filename().string<T>();
+
+			std::basic_string<T> strCode;
+			strCode += T_PRESET_STR(T, define_Preset::Keyword::IncludeBegin);
+			strCode += FileName;
+			strCode += T_STRING(T, "\"");
+			_CodeWriter.WriteCode(strCode);
+		}
+
+		//1번 버퍼에 클래스 생성 코드 작성
+		{
+			const std::basic_string<T>& ClassName = m_vecFileName[i].filename().replace_extension("").string<T>();
+
+			std::basic_string<T> strCode;
+			strCode += T_PRESET_STR(T, define_Preset::Keyword::T_Constructor);
+			strCode += ClassName;
+			strCode += T_STRING(T, ");");
+			_CodeWriter.WriteCode(strCode, 1);
+		}
+	}
+
+	return S_OK;
+}
+
+inline HRESULT CDirTreeNode::WriteGraphicsShaderStrKey(std::unordered_map<stdfs::path, tShaderGroup>& _umapShaderGroup)
 {
 	//CCodeWriter<T>& writer = _CodeWriter;
 
-	size_t size = m_vecFileName.size();
-	for (size_t i = 0; i < size; ++i)
+	for (size_t i = 0; i < m_vecFileName.size(); ++i)
 	{
-		//새로 복사를 하나 받아서
-		stdfs::path FileNamePath = m_vecFileName[i];
+		//string으로 변경
+		string strFileName = m_vecFileName[i].string();
 
-		//확장자를 json으로 바꿔주고 string으로 변경
-		string ShaderGroupName = FileNamePath.replace_extension(RES_INFO::SHADER::Ext_ShaderSetting).string();
-
-		bool bFoundGS = false;
-		static const int GSEnd = (int)define_Shader::eGS_TYPE::END;
-		for (int j = 0; j < size; ++j)
+		for (int j = 0; j < (int)define_Shader::eGS_TYPE::END; ++j)
 		{
-			size_t Pos = ShaderGroupName.find(RES_INFO::SHADER::GRAPHICS::arrPrefix[j]);
+			size_t Pos = strFileName.find(RES_INFO::SHADER::GRAPHICS::arrPrefix[j]);
 			if (string::npos != Pos)
 			{
 				//쉐이더별로 지정한 접두사가 있을 경우 해당 접두사를 제거한다.
-				ShaderGroupName.erase(0, Pos + strlen(RES_INFO::SHADER::GRAPHICS::arrPrefix[j]));
+				strFileName.erase(0, Pos + strlen(RES_INFO::SHADER::GRAPHICS::arrPrefix[j]));
+
+				//파일의 확장자를 json으로 변경하고, 키값으로 사용.
+				stdfs::path ShaderGroupName = strFileName;
+				ShaderGroupName.replace_extension(RES_INFO::SHADER::Ext_ShaderSetting);
 
 				//쉐이더 그룹명에 각 쉐이더 파이프라인의 데이터를 담은 파일의 이름을 추가한다.
-				_umapShaderSetting[ShaderGroupName].FileName[j] = m_vecFileName[i];
-
-				bFoundGS = true;
+				_umapShaderGroup[ShaderGroupName].FileName[j] = m_vecFileName[i];
 
 				break;
 			}
 		}
-
-		//그래픽 쉐이더가 아닐 경우 컴퓨트 쉐이더인지 확인
-		if (false == bFoundGS)
-		{
-			size_t Pos = ShaderGroupName.find(RES_INFO::SHADER::COMPUTE::Prefix);
-			if (string::npos != Pos)
-			{
-				//쉐이더별로 지정한 접두사가 있을 경우 해당 접두사를 제거한다.
-				ShaderGroupName.erase(0, Pos + (size_t)1);
-
-				_vecComputeShader.push_back(ShaderGroupName);
-			}
-		}
 	}
 
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		m_vecChild[i]->WriteGraphicsShaderStrKey(_umapShaderGroup);
+	}
 
 	return S_OK;
 }
+
+
+
+
+
+
 

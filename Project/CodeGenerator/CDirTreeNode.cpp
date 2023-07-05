@@ -36,12 +36,13 @@ void CDirTreeNode::Clear()
 	m_pParent = nullptr;
 }
 
-HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, std::vector<stdfs::path> const& _vecExtensionFilter, std::vector<stdfs::path> const& _vecFolderExclude)
+HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters const& _Filter)
 {
 	//들어온 Path 자체가 폴더 경로가 아닐 경우에는 실패 반환
 	if (false == stdfs::is_directory(_path))
 		return E_INVALIDARG;
 
+	//디렉토리 이름을 등록
 	if (IsRoot())
 		m_DirName = _path;
 	else
@@ -51,20 +52,36 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, std::vector<stdf
 	{
 		for (const auto& dirIter : stdfs::directory_iterator(_path))
 		{
-			//폴더가 아닐 경우 확장자를 확인하고, 일치하는 경우에만 파일명을 등록
+			//대소문자 가리지 않고 비교를 위해 소문자로 변경
+			const wstring& LowerFileName = MacroFunc::LowerCase<wchar_t>(dirIter.path().filename().wstring());
+
+			//제외 항목 검사
+			bool bExclude = false;
+			for (size_t i = 0; i < _Filter.vecExcludeKeyword.size(); ++i)
+			{
+				if (std::wstring::npos != LowerFileName.find(_Filter.vecExcludeKeyword[i]))
+				{
+					bExclude = true;
+					break;
+				}
+			}
+			if (bExclude)
+				continue;
+
+
+			//포함 항목 검사
+			
+			//파일명일 경우 - 확장자 및 파일명을 확인하고, 일치하는 경우에만 파일명을 등록
 			if (false == dirIter.is_directory())
 			{
-
 				bool bPushFileName = false;
-				if (_vecExtensionFilter.empty())
+				if (_Filter.vecIncludeKeyword.empty())
 					bPushFileName = true;
 				else
 				{
-					//확장자를 소문자로 바꿔서 비교(인자로 들어온 확장자 filter의 경우 CDirTree에서 변환했음)
-					const wstring& lowerExt = MacroFunc::LowerCase<wchar_t>(dirIter.path().filename().extension().wstring());
-					for (size_t i = 0; i < _vecExtensionFilter.size(); ++i)
+					for (size_t i = 0; i < _Filter.vecIncludeKeyword.size(); ++i)
 					{
-						if (lowerExt == _vecExtensionFilter[i])
+						if (std::wstring::npos != LowerFileName.find(_Filter.vecIncludeKeyword[i]))
 						{
 							bPushFileName = true;
 							break;
@@ -72,39 +89,35 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, std::vector<stdf
 					}
 				}
 
+				//마지막으로 확장자가 일치하는지 확인하고 파일 삽입
 				if (bPushFileName)
 				{
-					m_vecFileName.push_back(dirIter.path().filename());
+					for (size_t i = 0; i < _Filter.vecExtInclude.size(); ++i)
+					{
+						//확장자의 경우 정확히 일치하는지 확인
+						if (_Filter.vecExtInclude[i].wstring() == MacroFunc::LowerCase<wchar_t>(dirIter.path().filename().extension().wstring()))
+						{
+							m_vecFileName.push_back(dirIter.path().filename());
+							break;
+						}
+					}
 				}
 			}
 
+			//폴더명일 경우
 			else
 			{
-				//제외 대상 폴더인지 확인
-				bool bExclude = false;
-				for (size_t i = 0; i < _vecFolderExclude.size(); ++i)
-				{
-					if (_vecFolderExclude[i] == MacroFunc::LowerCase<wchar_t>(_path.filename().wstring()))
-					{
-						bExclude = true;
-						break;
-					}
-				}
-				if (bExclude)
-					continue;
-
 				//폴더를 발견했을 경우 새 노드를 생성 후 재귀호출
 				CDirTreeNode* pNode = new CDirTreeNode;
 				AddChild(pNode);
 
-				HRESULT hr = pNode->SearchRecursive(dirIter.path(), _vecExtensionFilter);
+				HRESULT hr = pNode->SearchRecursive(dirIter.path(), _Filter);
 
 				if (FAILED(hr))
 				{
 					SAFE_DELETE(pNode);
 					return E_FAIL;
 				}
-				
 			}
 		}
 	}

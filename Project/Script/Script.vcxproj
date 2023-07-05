@@ -190,7 +190,8 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CFSM_Move_Base.h" />
     <ClInclude Include="CScript_FSM_Building_Prod.h" />
     <ClInclude Include="CScript_FSM_Death.h" />
-    <ClInclude Include="CUserClassInitializer.h" />
+    <ClInclude Include="strKey_GS.h" />
+    <ClInclude Include="UserClassInitializer.h" />
     <ClInclude Include="CScript_CameraMove.h" />
     <ClInclude Include="CScript_MainCamSC_InGame.h" />
     <ClInclude Include="CScript_Mineral.h" />
@@ -220,7 +221,6 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClCompile Include="CFSM_Move_Base.cpp" />
     <ClCompile Include="CScript_FSM_Building_Prod.cpp" />
     <ClCompile Include="CScript_FSM_Death.cpp" />
-    <ClCompile Include="CUserClassInitializer.cpp" />
     <ClCompile Include="CScript_CameraMove.cpp" />
     <ClCompile Include="CScript_MainCamSC_InGame.cpp" />
     <ClCompile Include="CScript_Mineral.cpp" />
@@ -242,6 +242,7 @@ call "CodeGenerator_$(Configuration).exe" Script
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SC_Func.cpp" />
+    <ClCompile Include="UserClassInitializer_Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

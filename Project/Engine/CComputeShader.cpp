@@ -113,7 +113,7 @@ bool CComputeShader::LoadJson(Json::Value* _jsonVal)
 	std::filesystem::path ShaderPath = CPathMgr::GetInst()->GetPathRel_Content();
 	ShaderPath /= DIRECTORY_NAME::SHADER_CSO;
 	ShaderPath /= GetKey();
-	ShaderPath.replace_extension(RES_INFO::SHADER::Ext_ShaderCode);
+	ShaderPath.replace_extension(RES_INFO::SHADER::Ext_ShaderByteCode);
 
 	std::ios_base::openmode openMode = std::ios::in | std::ios::ate | std::ios::binary;
 	std::ifstream CSFile(ShaderPath, openMode);

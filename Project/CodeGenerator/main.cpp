@@ -19,85 +19,48 @@ int main(int argc, char* argv[])
 {
     //Generate Texture Key
     {
-        vector<stdfs::path> vecExtension;
+        tDirTreeFilters Filter;
+
         for (size_t i = 0; i < (size_t)RES_INFO::TEXTURE::Ext::idx::END; ++i)
         {
-            vecExtension.push_back(RES_INFO::TEXTURE::Ext::arr[i]);
+            Filter.vecExtInclude.push_back(RES_INFO::TEXTURE::Ext::arr[i]);
         }
-        vector<stdfs::path> vecExcludeDir;
 
-        CDirTree TexTree;
-        stdfs::path TexPath = define_Preset::Path::Content::A;
-        TexPath /= RES_INFO::TEXTURE::DirName;
-        TexTree.SearchRecursive(TexPath, vecExtension, vecExcludeDir);
+        CDirTree DirTree;
+        stdfs::path DirPath = define_Preset::Path::Content::A;
+        DirPath /= RES_INFO::TEXTURE::DirName;
+        DirTree.SearchRecursive(DirPath, Filter);
 
-        TexTree.CreateStrKey<char>("D:\\Users\\ekdrn\\Desktop", "TextureKeys.h");
-
-        //CreateStrKey(RES_INFO::TEXTURE::DirName, define_Preset::Path::strKey_Texture, vecExtension);
+        DirTree.CreateStrKey<char>(define_Preset::Path::ScriptProj::A, define_Preset::Path::strKey_Texture::A, false);
     }
 
-    //Generate Shader Key
+    //Generate Compute Shader Key
     {
-        vector<stdfs::path> vecExtension;
-        for (size_t i = 0; i < (size_t)RES_INFO::TEXTURE::Ext::idx::END; ++i)
-        {
-            vecExtension.push_back(RES_INFO::SHADER::Ext_ShaderCode);
-        }
-        vector<stdfs::path> vecExcludeDir;
-        //vecExcludeDir.push_back(RES_INFO::SHADER::ByteCodeDir);
+        tDirTreeFilters Filter;
+        Filter.vecIncludeKeyword.push_back(RES_INFO::SHADER::COMPUTE::CS_ClassPrefix);
+        Filter.vecExtInclude.push_back(".h");
 
-        CDirTree TexTree;
-        stdfs::path TexPath = define_Preset::Path::Content::A;
-        TexPath /= RES_INFO::SHADER::DirNameRoot;
-        TexPath /= RES_INFO::SHADER::ByteCodeDir;
-        TexTree.SearchRecursive(TexPath, vecExtension, vecExcludeDir);
+        CDirTree DirTree;
+        stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
+        DirTree.SearchRecursive(DirPath, Filter);
 
-        TexTree.CreateShaderClassCode<char>("D:\\Users\\ekdrn\\Desktop", "ShaderTest.h");
-
-        //TexTree.CreateShaderClassCode()
-        
-
-        //CreateStrKey(RES_INFO::TEXTURE::DirName, define_Preset::Path::strKey_Texture, vecExtension);
-
+        DirTree.CreateComputerShaderCode<char>(DirPath, "UserClassInitializer_Shader.cpp");
     }
 
-    //Generate Prefab Key
-    //{
-    //    vector<string> vecExt;
-    //    vecExt.push_back(RES_INFO::PREFAB::Ext);
-    //    CreateStrKey(RES_INFO::PREFAB::DirName, define_Preset::Path::strKey_Prefab, vecExt);
-    //}
-    //
+    //Generate Graphics Shader Key
+    {
+        tDirTreeFilters Filter;
+        Filter.vecExtInclude.push_back(RES_INFO::SHADER::Ext_ShaderSourceCode);
 
-    ////argument가 만족되지 않으면 디버그 모드로 작동
-    //if (1 == argc)
-    //{
-    //    MessageBoxA(nullptr, "No Parameters sent.\nWork in Debug Mode.", "Notification", MB_OK);
+        CDirTree DirTree;
+        stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
+        DirTree.SearchRecursive(DirPath, Filter);
 
+        stdfs::path TargetPath = define_Preset::Path::ScriptProj::A;
 
+        DirTree.CreateGraphicsShaderStrKey<char>(TargetPath, define_Preset::Path::strKey_GS::A);
+    }
 
-    //    //MessageBoxA(nullptr, argv[0], "Test", MB_OK);
-    //    //CreateShaderCode();
-    //    return 0;
-    //}
-
-
-    //작업 타입을 비교 후 대응되는 함수를 호출한다.
-    //if (0 == strcmp("Script", argv[1]))
-    //{
-    //    //MessageBoxA(nullptr, "Generating Script and Shader code.", "Noti", MB_OK);
-    //    CreateScriptCode();
-    //    CreateShaderCode();
-
-
-    //    vector<string> vecExtension;
-    //    for (size_t i = 0; i < (int)RES_INFO::TEXTURE::eTEX_TYPE::END; ++i)
-    //    {
-    //        vecExtension.push_back(string(RES_INFO::TEXTURE::ExtensionArr[i]));
-    //    }
-    //    //CreateStrKey(RES_INFO::TEXTURE::DirName, "strKey_Texture.h", vecExtension);
-    //}
-    //    
 
     return 0;
 }

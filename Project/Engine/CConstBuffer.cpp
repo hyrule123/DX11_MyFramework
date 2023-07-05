@@ -35,10 +35,14 @@ HRESULT CConstBuffer::Create(tConstBufferClassDesc const& _tDesc)
 	m_Desc.Usage = D3D11_USAGE_DYNAMIC;
 	m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	if (FAILED(DEVICE->CreateBuffer(&m_Desc, nullptr, m_CB.GetAddressOf())))
+	HRESULT hr = DEVICE->CreateBuffer(&m_Desc, nullptr, m_CB.GetAddressOf());
+	if (FAILED(hr))
 	{
-		assert(nullptr);
+		assert(SUCCEEDED(hr));
+		return hr;
 	}
+
+	return hr;
 }
 
 void CConstBuffer::UploadData(const void* _pSrc, UINT _iSize)

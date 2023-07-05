@@ -34,7 +34,8 @@ namespace define_Preset
 #endif
 
 		PRESET(strKey_Script, "strKey_Script.h");
-		PRESET(strKey_Shader, "strKey_Shader.h");
+		PRESET(strKey_CS, "strKey_CS.h");
+		PRESET(strKey_GS, "strKey_GS.h");
 		PRESET(strKey_Texture, "strKey_Texture.h");
 		PRESET(strKey_Prefab, "strKey_Prefab.h");
 	}
@@ -66,6 +67,12 @@ namespace define_Preset
 //=========================================================
 
 )");
+
+
+		PRESET(define_T_Constructor, R"(#define CONSTRUCTOR_T(_Type) pMgr->AddBaseCS(#_Type, Constructor_T<_Type>))"
+);
+		PRESET(T_Constructor, "CONSTRUCTOR_T(");
+
 
 	}
 
