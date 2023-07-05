@@ -14,12 +14,12 @@
 
 //일단 여기서 몰아서 성공킬예정
 //나중에 지우고 분산시킬것
-#include "CPathMgr.h"
-#include "CStructBuffer.h"
-#include "CTexture.h"
-#include "CResMgr.h"
-#include "CStructBuffer.h"
-#include "CTexture.h"
+#include <Engine/CPathMgr.h>
+#include <Engine/CStructBuffer.h>
+#include <Engine/CTexture.h>
+#include <Engine/CResMgr.h>
+#include <Engine/CStructBuffer.h>
+#include <Engine/CTexture.h>
 
 #ifdef _DEBUG
 STRKEY strPath_StormLib = "StormLib_DLL_Debug.dll";
@@ -30,7 +30,8 @@ STRKEY strPath_StormLib = "StormLib_DLL_Release.dll";
 using namespace SC_Map;
 
 CCS_SCMapLoader::CCS_SCMapLoader()
-    : m_arrpSBufferTileSet{}
+    : CComputeShader(32u, 32u, 1u)
+    , m_arrpSBufferTileSet{}
     , m_pMapWorkSpace()
 {
     std::filesystem::path FilePath(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER);
@@ -176,20 +177,16 @@ CCS_SCMapLoader::CCS_SCMapLoader()
             //fread(Tileset->vf4, sizeof(VF4), VF4_MAX, fpVF4);
 
             //Desc 작성해서 SBuffer 생성
-            tSBufferDesc SDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY,
-            def_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE,
-            eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,
-            idx_t_SRV_NONE,
-            idx_u_UAV_NONE
-            };
-
+            tSBufferDesc SDesc = {};
+            SDesc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
+            SDesc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
 
             //타일셋 일괄적으로 동적 할당
             m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)SC_Map::eTILESET_MEMBER::END];
             for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
             {
                 //0 ~ 5번까지 일치시켜 놓았음.
-                SDesc.i_idx_t_SRVIdx = i;
+                SDesc.REGISLOT_t_SRV = i;
 
                 //Desc 설정
                 m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].SetDesc(SDesc);
@@ -432,10 +429,14 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &vMapSize);
 
     //MXTM(TILEMAP_ATLAS) 생성 및 전송
-    tSBufferDesc SBufferDesc = { eSTRUCT_BUFFER_TYPE::READ_ONLY, def_Shader::eSHADER_PIPELINE_STAGE::__COMPUTE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE, idx_t_SBUFFER_MXTM, idx_u_UAV_NONE };
-   
+    tSBufferDesc SBufferDesc = {};
+    SBufferDesc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
+    SBufferDesc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
+    SBufferDesc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MXTM;
+
     SAFE_DELETE(m_pMapWorkSpace->pSBuffer_MXTM);
     m_pMapWorkSpace->pSBuffer_MXTM = new CStructBuffer(SBufferDesc);
+
     UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->length / 16u;
     m_pMapWorkSpace->pSBuffer_MXTM->Create((UINT)sizeof(MXTM), DataCount, arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->Data, DataCount);
     m_pMapWorkSpace->pSBuffer_MXTM->BindBufferSRV();
@@ -489,20 +490,16 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     UINT numTile = m_pMapWorkSpace->uNumMegatileX * m_pMapWorkSpace->uNumMegatileY;
     {
         //MEGATILE
-        using namespace def_Shader::eSHADER_PIPELINE_STAGE;
+        using namespace define_Shader::ePIPELINE_STAGE_FLAG;
         UINT flagPipeline = __VERTEX | __PIXEL | __COMPUTE;
-        Desc.flag_eSHADER_PIPELINE_STAGE_FLAG_SRV = flagPipeline;
-        Desc.i_idx_t_SRVIdx = idx_t_SBUFFER_MEGATILE;
+        Desc.flag_PipelineBindTarget_SRV = flagPipeline;
+        Desc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MEGATILE;
+        Desc.REGISLOT_u_UAV = REGISLOT_u_SBUFFERRW_MEGATILE;
 
         //Megatile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
-        Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_MEGATILE;
         SAFE_DELETE(m_pMapWorkSpace->pSBufferRW_Megatile);
 
-        //***************** 메가타일에 Tilemap 정보가 들어있는 공유데이터도 넣어놓음 *************
-        Desc.eCBufferIdx = eCBUFFER_SBUFFER_SHAREDATA_IDX::TILE;
         m_pMapWorkSpace->pSBufferRW_Megatile = new CStructBuffer(Desc);
-
-        
         m_pMapWorkSpace->pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);
         m_pMapWorkSpace->pSBufferRW_Megatile->BindBufferUAV();
     }
@@ -510,10 +507,10 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
 
     {
         //Minitile
-        Desc.i_idx_t_SRVIdx = idx_t_SBUFFER_MINITILE;
-        Desc.i_idx_u_UAVIdx = idx_u_SBUFFERRW_MINITILE;
+        Desc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MINITILE;
+        Desc.REGISLOT_u_UAV = REGISLOT_u_SBUFFERRW_MINITILE;
+
         SAFE_DELETE(m_pMapWorkSpace->pSBufferRW_Minitile);
-        Desc.eCBufferIdx = eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE;
         m_pMapWorkSpace->pSBufferRW_Minitile = new CStructBuffer(Desc);
 
         //메가타일 하나당 16개의 미니타일이 존재
@@ -528,7 +525,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     m_pMapWorkSpace->pMapTex = new CTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
     m_pMapWorkSpace->pMapTex->Create(32u * m_pMapWorkSpace->uNumMegatileX, 32u * m_pMapWorkSpace->uNumMegatileY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-    m_pMapWorkSpace->pMapTex->BindData_UAV(idx_u_TEXTURERW_TARGET);
+    m_pMapWorkSpace->pMapTex->BindData_UAV(REGISLOT_u_TEXTURERW_TARGET);
 
     //맵 이름으로 키를 설정한다.
     m_pMapWorkSpace->pMapTex->SetKey(m_pMapWorkSpace->strMapName);

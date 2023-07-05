@@ -15,6 +15,15 @@ CDirTreeNode::CDirTreeNode()
 {
 }
 
+CDirTreeNode::CDirTreeNode(CDirTreeNode* _pParent)
+	: m_pParent(_pParent)
+	, m_vecChild()
+	, m_DirName()
+	, m_vecFileName()
+{
+	assert(_pParent);
+}
+
 CDirTreeNode::~CDirTreeNode()
 {
 	size_t size = m_vecChild.size();
@@ -108,23 +117,63 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters 
 			else
 			{
 				//폴더를 발견했을 경우 새 노드를 생성 후 재귀호출
-				CDirTreeNode* pNode = new CDirTreeNode;
-				AddChild(pNode);
-
+				CDirTreeNode* pNode = new CDirTreeNode(this);
 				HRESULT hr = pNode->SearchRecursive(dirIter.path(), _Filter);
-
-				if (FAILED(hr))
+				
+				if (ERROR_EMPTY == hr)
 				{
 					SAFE_DELETE(pNode);
-					return E_FAIL;
+					continue;
 				}
+				else if (FAILED(hr))
+				{
+					SAFE_DELETE(pNode);
+					return hr;
+				}
+
+
+				AddChild(pNode);
 			}
 		}
+
+		//순회를 다 돌았는데 자식 노드도 없고 자신에게 파일도 안들어 있을경우 -> ERROR_EMPTY 반환
+		//ERROR_EMPTY가 반환되면 해당 노드가 제거됨.
+		if (IsLeaf() && m_vecFileName.empty())
+			return ERROR_EMPTY;
 	}
 	catch (stdfs::filesystem_error const& _err)
 	{
 		ERROR_MESSAGE(_err.what());
 		return E_ACCESSDENIED;
+	}
+
+	return S_OK;
+}
+
+
+
+HRESULT CDirTreeNode::GetAllFiles(std::vector<stdfs::path>& _vecFile, bool _bAddRelativeDir)
+{
+	for (size_t i = 0; i < m_vecFileName.size(); ++i)
+	{
+		if (IsRoot() || _bAddRelativeDir)
+		{
+			_vecFile.push_back(m_vecFileName[i]);
+		}
+		else
+		{
+			_vecFile.push_back(m_DirName / m_vecFileName[i]);
+		}
+	}
+
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		HRESULT hr = m_vecChild[i]->GetAllFiles(_vecFile, _bAddRelativeDir);
+		if (FAILED(hr))
+		{
+			DEBUG_BREAK;
+			return hr;
+		}
 	}
 
 	return S_OK;

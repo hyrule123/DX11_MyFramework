@@ -8,12 +8,12 @@
 
 //============사용법==============
 //1. 클래스 생성
-//2. 아래의 tSBufferClassDesc 작성 후 SetDesc() 함수로 제출
+//2. 아래의 tSBufferDesc 작성 후 SetDesc() 함수로 제출
 //3. Create() 함수
 
 
 
-struct tSBufferClassDesc
+struct tSBufferDesc
 {
     //자신의 공유정보를 담고있는 상수버퍼 내부에서의 인덱스
     eSTRUCT_BUFFER_TYPE eSBufferType; 
@@ -21,14 +21,14 @@ struct tSBufferClassDesc
     //SRV 
     UINT flag_PipelineBindTarget_SRV;
 
-    int i_REGISLOT_t_SRV;
-    int i_REGISLOT_u_UAV;
+    int REGISLOT_t_SRV;
+    int REGISLOT_u_UAV;
 
-    tSBufferClassDesc()
+    tSBufferDesc()
         : eSBufferType()
         , flag_PipelineBindTarget_SRV()
-        , i_REGISLOT_t_SRV(REGISLOT_t_SRV_NONE)
-        , i_REGISLOT_u_UAV(REGISLOT_u_UAV_NONE)
+        , REGISLOT_t_SRV(REGISLOT_t_SRV_NONE)
+        , REGISLOT_u_UAV(REGISLOT_u_UAV_NONE)
     {}
 };
 
@@ -39,8 +39,8 @@ class CStructBuffer
 public:
     //아무 인자 없이 생성할 경우 반드시 SetDesc를 해 줄것.
     CStructBuffer();
-    CStructBuffer(const tSBufferClassDesc& _tDesc);
-    CStructBuffer(tSBufferClassDesc&& _tDesc);
+    CStructBuffer(const tSBufferDesc& _tDesc);
+    CStructBuffer(tSBufferDesc&& _tDesc);
 
     virtual ~CStructBuffer();
     CLONE_DISABLE(CStructBuffer)
@@ -48,7 +48,7 @@ public:
 private:
     D3D11_BUFFER_DESC           m_BufferDesc;
 
-    tSBufferClassDesc           m_tSBufferClassDesc;
+    tSBufferDesc           m_tSBufferClassDesc;
     bool                        m_bSBufferDescSet;
    
     UINT                        m_uElementStride;   //구조체 하나 당 바이트 갯수
@@ -70,7 +70,7 @@ private:
     
 
 public:
-    void SetDesc(const tSBufferClassDesc& _tDesc);
+    void SetDesc(const tSBufferDesc& _tDesc);
 
     //Setter Getter Adder
     void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_tSBufferClassDesc.flag_PipelineBindTarget_SRV = _eSHADER_PIPELINE_FLAG; }
@@ -110,7 +110,7 @@ private:
 };
 
 
-inline void CStructBuffer::SetDesc(const tSBufferClassDesc& _tDesc)
+inline void CStructBuffer::SetDesc(const tSBufferDesc& _tDesc)
 {
     m_tSBufferClassDesc = _tDesc; 
     m_bSBufferDescSet = true;

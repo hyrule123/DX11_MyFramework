@@ -10,18 +10,17 @@
 #include "DefaultShader\S_C_SetColor_Debug.h"
 
 CCS_SetColor::CCS_SetColor()
+	: CComputeShader(32u, 32u, 1u)
 {
 	HRESULT hr = CreateShaderFromHeader(g_CS_SetColor, sizeof(g_CS_SetColor));
 
 	assert(SUCCEEDED(hr));
 
-	
-	
-	tSBufferClassDesc Desc = {};
+	tSBufferDesc Desc = {};
 	Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
 	Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_WRITE;
-	Desc.i_REGISLOT_t_SRV = REGISLOT_t_SBUFFER_SETCOLOR;
-	Desc.i_REGISLOT_u_UAV = REGISLOT_u_SETCOLOR_SBUFFERRW;
+	Desc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_SETCOLOR;
+	Desc.REGISLOT_u_UAV = REGISLOT_u_SETCOLOR_SBUFFERRW;
 
 	m_StructBufferTest = std::make_unique<CStructBuffer>();
 	m_StructBufferTest->SetDesc(Desc);

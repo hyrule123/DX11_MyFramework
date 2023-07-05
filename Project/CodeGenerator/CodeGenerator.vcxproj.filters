@@ -40,6 +40,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CCodeWriter.inl" />
-    <None Include="CDirTree.inl" />
   </ItemGroup>
 </Project>

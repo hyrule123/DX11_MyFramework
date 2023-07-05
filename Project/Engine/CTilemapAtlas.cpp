@@ -20,11 +20,11 @@ CTilemapAtlas::CTilemapAtlas()
 {
 	SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_ATLAS)));
 
-	tSBufferClassDesc Desc = {};
+	tSBufferDesc Desc = {};
 	Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
 	Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX | define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL;
-	Desc.i_REGISLOT_t_SRV = REGISLOT_t_SBUFFER_TILE;
-	Desc.i_REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
+	Desc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_TILE;
+	Desc.REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
 
 	m_SBuffer = std::make_unique<CStructBuffer>();
 	m_SBuffer->SetDesc(Desc);

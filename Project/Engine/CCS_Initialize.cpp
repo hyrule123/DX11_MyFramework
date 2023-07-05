@@ -30,12 +30,12 @@ bool CCS_Initialize::BindDataCS()
 	////INT64에 1을 넣어서 전달한다. HLSL에서는 이 값을 INT32형태로 읽어들인다.
 	g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
 
-	tSBufferClassDesc Desc = {};
+	tSBufferDesc Desc = {};
 
 	Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_WRITE;
 	Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
-	Desc.i_REGISLOT_t_SRV = REGISLOT_t_INIT_SETTING;
-	Desc.i_REGISLOT_u_UAV = REGISLOT_u_INIT_SETTING;
+	Desc.REGISLOT_t_SRV = REGISLOT_t_INIT_SETTING;
+	Desc.REGISLOT_u_UAV = REGISLOT_u_INIT_SETTING;
 
 	m_pSBuffer_InitSetting = std::make_unique<CStructBuffer>();
 	m_pSBuffer_InitSetting->SetDesc(Desc);

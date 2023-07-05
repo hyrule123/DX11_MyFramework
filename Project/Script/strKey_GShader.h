@@ -16,7 +16,7 @@
 
 
 
-namespace strKey_GRAPHICS
+namespace strKey_GShader
 {
 	STRKEY BuildingStructure = "BuildingStructure.json";
 	STRKEY SCUnitGround = "SCUnitGround.json";

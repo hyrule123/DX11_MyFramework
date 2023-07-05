@@ -12,16 +12,15 @@ class CComputeShader :
 {
 public:
     //ComputeShader
-    CComputeShader();
+    CComputeShader() = delete;
+
+    //CComputeShader를 상속받는 클래스는 생성자에서 '무조건' 스레드 갯수를 설정하고, 컴퓨트쉐이더를 로드해야 함.
     CComputeShader(UINT _uThreadX, UINT _uThreadY, UINT _uThreadZ);
 
     virtual ~CComputeShader();
     CLONE_DISABLE(CComputeShader);
 
 public:
-    //virtual bool Save(const std::filesystem::path& _fileName) override;
-    //virtual bool Load(const std::filesystem::path& _fileName) override;
-
     virtual bool SaveJson(Json::Value* _jsonVal) override;
     virtual bool LoadJson(Json::Value* _jsonVal) override;
 

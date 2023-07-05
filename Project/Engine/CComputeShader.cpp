@@ -12,13 +12,6 @@
 
 #include "jsoncpp.h"
 
-CComputeShader::CComputeShader()
-	: CShader(eRES_TYPE::COMPUTE_SHADER)
-	, m_uNumGroupArr{}
-	, m_uNumThreadPerGroupArr{1u, 1u, 1u}
-	, m_CBuffer_CSShared{}
-{
-}
 
 CComputeShader::CComputeShader(UINT _uThreadX, UINT _uThreadY, UINT _uThreadZ)
 	: CShader(eRES_TYPE::COMPUTE_SHADER)
@@ -263,6 +256,8 @@ void CComputeShader::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const voi
 
 bool CComputeShader::Execute()
 {
+	if (nullptr == m_CS.Get())
+		return false;
 	if (false == BindDataCS())
 		return false;
 

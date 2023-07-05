@@ -34,8 +34,8 @@ namespace define_Preset
 #endif
 
 		PRESET(strKey_Script, "strKey_Script.h");
-		PRESET(strKey_CS, "strKey_CS.h");
-		PRESET(strKey_GS, "strKey_GS.h");
+		PRESET(strKey_CShader, "strKey_CShader.h");
+		PRESET(strKey_GShader, "strKey_GShader.h");
 		PRESET(strKey_Texture, "strKey_Texture.h");
 		PRESET(strKey_Prefab, "strKey_Prefab.h");
 	}
@@ -118,19 +118,6 @@ namespace define_Preset
 #include <Engine/CComputeShader.h>
 namespace define_ShaderGen
 {
-	//순수가상함수 풀고 저장기능만 사용하기 위한 더미 클래스
-	class CDummyCompute
-		: public CComputeShader
-	{
-	public:
-		CDummyCompute() {};
-		virtual ~CDummyCompute() {};
-
-		virtual bool BindDataCS() override { return true; };
-		virtual void UnBindCS() override {};
-	};
-
-
 	struct tShaderSetting
 	{
 		stdfs::path FileName[(int)define_Shader::eGS_TYPE::END];

@@ -19,23 +19,26 @@
     <Filter Include="ScriptCode\SC\Components">
       <UniqueIdentifier>{8f550a72-4cfb-4fa4-8e8a-7e5b93a8c5f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_HLSL_GS">
-      <UniqueIdentifier>{c1c30afc-f357-4a25-b58a-98732dd3cd01}</UniqueIdentifier>
+    <Filter Include="_HLSL">
+      <UniqueIdentifier>{c72143e5-e398-47fa-b937-937557110e08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_HLSL_GS\TilemapSC">
-      <UniqueIdentifier>{7a5ed414-bae0-42f2-ba04-20610c05c470}</UniqueIdentifier>
+    <Filter Include="_HLSL\GS">
+      <UniqueIdentifier>{c1c9649a-62ed-4d17-b5c0-4ac74b7b0e1c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_HLSL_GS\SCUnitGround">
-      <UniqueIdentifier>{a62b3720-accb-4c0a-a09d-15f8e17d6ee6}</UniqueIdentifier>
+    <Filter Include="_HLSL\CS">
+      <UniqueIdentifier>{805478a2-22c2-461a-af65-1102340e4a12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_HLSL_CS">
-      <UniqueIdentifier>{d065df42-c96f-4ecd-b692-884b9a93280b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_HLSL_CS\CS_Particle_Raindrop">
+    <Filter Include="_HLSL\CS\CS_Particle_Raindrop">
       <UniqueIdentifier>{4ea34f20-3e1d-4f01-8892-fb8df30a4eee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_HLSL_CS\CS_SCMapLoader">
+    <Filter Include="_HLSL\CS\CS_SCMapLoader">
       <UniqueIdentifier>{c632b493-7510-4dbf-aa3b-aa50750dcb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL\GS\SCUnitGround">
+      <UniqueIdentifier>{a62b3720-accb-4c0a-a09d-15f8e17d6ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_HLSL\GS\TilemapSC">
+      <UniqueIdentifier>{7a5ed414-bae0-42f2-ba04-20610c05c470}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,9 +85,6 @@
     <ClInclude Include="CScript_FSM_Attack.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
-    <ClInclude Include="strKey_Script.h" />
-    <ClInclude Include="strKey_Shader.h" />
-    <ClInclude Include="strKey_Texture.h" />
     <ClInclude Include="SC_Func.h">
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
@@ -108,12 +108,23 @@
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
     <ClInclude Include="CCS_SCMapLoader.h">
-      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
+      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
     </ClInclude>
     <ClInclude Include="define_SCMap.h">
-      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
+      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
     </ClInclude>
-    <ClInclude Include="strKey_GS.h" />
+    <ClInclude Include="strKey_GShader.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="strKey_Script.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="strKey_Texture.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="strKey_CShader.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CScript_CameraMove.cpp">
@@ -174,7 +185,7 @@
       <Filter>ScriptCode\SC</Filter>
     </ClCompile>
     <ClCompile Include="CCS_SCMapLoader.cpp">
-      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
+      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
     </ClCompile>
     <ClCompile Include="UserClassInitializer_Shader.cpp">
       <Filter>Generated</Filter>
@@ -183,42 +194,54 @@
   <ItemGroup>
     <None Include="cpp.hint" />
     <None Include="S_H_SCUnitGround.hlsli">
-      <Filter>_HLSL_GS\SCUnitGround</Filter>
+      <Filter>_HLSL\GS\SCUnitGround</Filter>
     </None>
     <None Include="S_H_Tilemap_SC.hlsli">
-      <Filter>_HLSL_GS\TilemapSC</Filter>
+      <Filter>_HLSL\GS\TilemapSC</Filter>
     </None>
     <None Include="S_H_SCMapLoader.hlsli">
-      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
+      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
+    </None>
+    <None Include="S_H_Func.hlsli">
+      <Filter>_HLSL</Filter>
+    </None>
+    <None Include="S_H_FuncBitwise.hlsli">
+      <Filter>_HLSL</Filter>
+    </None>
+    <None Include="S_H_Register.hlsli">
+      <Filter>_HLSL</Filter>
+    </None>
+    <None Include="S_H_Struct.hlsli">
+      <Filter>_HLSL</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="S_0_V_SCUnitGround.hlsl">
-      <Filter>_HLSL_GS\SCUnitGround</Filter>
+      <Filter>_HLSL\GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_SCUnitGround.hlsl">
-      <Filter>_HLSL_GS\SCUnitGround</Filter>
+      <Filter>_HLSL\GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_Tilemap_SC.hlsl">
-      <Filter>_HLSL_GS\TilemapSC</Filter>
+      <Filter>_HLSL\GS\TilemapSC</Filter>
     </FxCompile>
     <FxCompile Include="S_0_V_Tilemap_SC.hlsl">
-      <Filter>_HLSL_GS\TilemapSC</Filter>
+      <Filter>_HLSL\GS\TilemapSC</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_Mineral.hlsl">
-      <Filter>_HLSL_GS\SCUnitGround</Filter>
+      <Filter>_HLSL\GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_BuildingStructure.hlsl">
-      <Filter>_HLSL_GS\SCUnitGround</Filter>
+      <Filter>_HLSL\GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_4_P_VespineGeyser.hlsl">
-      <Filter>_HLSL_GS\SCUnitGround</Filter>
+      <Filter>_HLSL\GS\SCUnitGround</Filter>
     </FxCompile>
     <FxCompile Include="S_C_ParticleRainDrop.hlsl">
-      <Filter>_HLSL_CS\CS_Particle_Raindrop</Filter>
+      <Filter>_HLSL\CS\CS_Particle_Raindrop</Filter>
     </FxCompile>
     <FxCompile Include="S_C_SCMapLoader.hlsl">
-      <Filter>_HLSL_CS\CS_SCMapLoader</Filter>
+      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -68,11 +68,11 @@ void CRenderMgr::init()
     
     {
         //인스턴싱용 구조화 버퍼 생성
-        tSBufferClassDesc Desc = {};
+        tSBufferDesc Desc = {};
         Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
         Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
-        Desc.i_REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MTRL_SCALAR;
-        Desc.i_REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
+        Desc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MTRL_SCALAR;
+        Desc.REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
 
         m_pSBuffer_Instancing = std::make_unique<CStructBuffer>();
         m_pSBuffer_Instancing->SetDesc(Desc);
@@ -81,11 +81,11 @@ void CRenderMgr::init()
 
     {
         //인스턴싱용 구조화 버퍼 생성
-        tSBufferClassDesc Desc = {};
+        tSBufferDesc Desc = {};
         Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
         Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL;
-        Desc.i_REGISLOT_t_SRV = REGISLOT_t_SBUFFER_LIGHT2D;
-        Desc.i_REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
+        Desc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_LIGHT2D;
+        Desc.REGISLOT_u_UAV = REGISLOT_u_UAV_NONE;
 
         m_pLight2DStructBuffer = std::make_unique<CStructBuffer>();
         m_pLight2DStructBuffer->SetDesc(Desc);

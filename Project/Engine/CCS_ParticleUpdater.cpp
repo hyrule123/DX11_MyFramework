@@ -13,7 +13,8 @@
 
 
 CCS_ParticleUpdater::CCS_ParticleUpdater()
-	: m_pBufferOwner()
+	: CComputeShader(32u, 32u, 0u)
+	, m_pBufferOwner()
 	, m_pSBuffer_Transform()
 	, m_pSBufferRW_Shared()
 	, m_pCBuffer_ModuleData()

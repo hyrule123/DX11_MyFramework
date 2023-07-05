@@ -28,7 +28,7 @@ namespace strKey_TEXTURE
 	STRKEY TILE_bmp = "TILE.bmp";
 	namespace NOISE
 	{
-		STRKEY noise_01_png = "Noise/noise_01.png";
+		STRKEY noise_01_png = "noise/noise_01.png";
 	}
 
 	namespace SC

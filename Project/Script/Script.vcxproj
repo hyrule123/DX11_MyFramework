@@ -190,7 +190,8 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="CFSM_Move_Base.h" />
     <ClInclude Include="CScript_FSM_Building_Prod.h" />
     <ClInclude Include="CScript_FSM_Death.h" />
-    <ClInclude Include="strKey_GS.h" />
+    <ClInclude Include="strKey_CShader.h" />
+    <ClInclude Include="strKey_GShader.h" />
     <ClInclude Include="UserClassInitializer.h" />
     <ClInclude Include="CScript_CameraMove.h" />
     <ClInclude Include="CScript_MainCamSC_InGame.h" />
@@ -213,7 +214,6 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="define_SC.h" />
     <ClInclude Include="SC_Func.h" />
     <ClInclude Include="strKey_Script.h" />
-    <ClInclude Include="strKey_Shader.h" />
     <ClInclude Include="strKey_Texture.h" />
   </ItemGroup>
   <ItemGroup>
@@ -246,8 +246,12 @@ call "CodeGenerator_$(Configuration).exe" Script
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="S_H_Func.hlsli" />
+    <None Include="S_H_FuncBitwise.hlsli" />
+    <None Include="S_H_Register.hlsli" />
     <None Include="S_H_SCMapLoader.hlsli" />
     <None Include="S_H_SCUnitGround.hlsli" />
+    <None Include="S_H_Struct.hlsli" />
     <None Include="S_H_Tilemap_SC.hlsli" />
   </ItemGroup>
   <ItemGroup>
@@ -266,7 +270,7 @@ call "CodeGenerator_$(Configuration).exe" Script
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\CSO\%(Filename).cso</ObjectFileOutput>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_SCUnit</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_Tilemap_SC</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_SCUnit</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
@@ -330,6 +334,7 @@ call "CodeGenerator_$(Configuration).exe" Script
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CS_Particle_RainDrop</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="S_C_SCMapLoader.hlsl">
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\CSO\%(Filename).cso</ObjectFileOutput>

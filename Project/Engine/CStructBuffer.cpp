@@ -18,7 +18,7 @@ CStructBuffer::CStructBuffer()
 {
 }
 
-CStructBuffer::CStructBuffer(const tSBufferClassDesc& _tDesc)
+CStructBuffer::CStructBuffer(const tSBufferDesc& _tDesc)
 	: m_tSBufferClassDesc(_tDesc)
 	, m_bSBufferDescSet(true)
 	, m_uElementStride()
@@ -31,7 +31,7 @@ CStructBuffer::CStructBuffer(const tSBufferClassDesc& _tDesc)
 	SetDefaultDesc();
 }
 
-CStructBuffer::CStructBuffer(tSBufferClassDesc&& _tDesc) 
+CStructBuffer::CStructBuffer(tSBufferDesc&& _tDesc) 
 	: m_tSBufferClassDesc(_tDesc)
 	, m_bSBufferDescSet(true)
 	, m_uElementStride()
@@ -263,32 +263,32 @@ void CStructBuffer::BindBufferSRV()
 
 	if (define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->VSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->VSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
 	if (define_Shader::ePIPELINE_STAGE_FLAG::__HULL & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->HSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->HSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
 	if (define_Shader::ePIPELINE_STAGE_FLAG::__DOMAIN & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->DSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->DSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
 	if (define_Shader::ePIPELINE_STAGE_FLAG::__GEOMETRY & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->GSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->GSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
 	if (define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->PSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->PSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
 	if (define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->CSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->CSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 }
 
@@ -305,7 +305,7 @@ void CStructBuffer::BindBufferUAV()
 	BindConstBuffer(define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE);
 
 	static const UINT v2_Offset = -1;
-	CONTEXT->CSSetUnorderedAccessViews(m_tSBufferClassDesc.i_REGISLOT_u_UAV, 1, m_UAV.GetAddressOf(), &v2_Offset);
+	CONTEXT->CSSetUnorderedAccessViews(m_tSBufferClassDesc.REGISLOT_u_UAV, 1, m_UAV.GetAddressOf(), &v2_Offset);
 	
 }
 
@@ -406,39 +406,39 @@ void CStructBuffer::UnBind()
 
 		if (define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->VSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->VSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
 		if (define_Shader::ePIPELINE_STAGE_FLAG::__HULL & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->HSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->HSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
 		if (define_Shader::ePIPELINE_STAGE_FLAG::__DOMAIN & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->DSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->DSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
 		if (define_Shader::ePIPELINE_STAGE_FLAG::__GEOMETRY & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->GSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->GSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
 		if (define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->PSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->PSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
 		if (define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->CSSetShaderResources(m_tSBufferClassDesc.i_REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->CSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 	}
 	else if (eCURRENT_BOUND_VIEW::UAV == m_eCurBoundView)
 	{
 		static const UINT v2_Offset = -1;
 		ID3D11UnorderedAccessView* pUAV = nullptr;
-		CONTEXT->CSSetUnorderedAccessViews(m_tSBufferClassDesc.i_REGISLOT_u_UAV, 1, &pUAV, &v2_Offset);
+		CONTEXT->CSSetUnorderedAccessViews(m_tSBufferClassDesc.REGISLOT_u_UAV, 1, &pUAV, &v2_Offset);
 	}
 
 

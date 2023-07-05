@@ -1,4 +1,5 @@
 
+
 #pragma once
 
 #include <Engine/define.h>
@@ -8,13 +9,14 @@
 //=========================================================
 
 
-namespace strKey_SHADER
-{
-	namespace GRAPHICS
-	{
-	}
 
-	namespace COMPUTE
-	{
-	}
+#ifndef STRKEY
+#define STRKEY constexpr inline const char*
+#endif
+
+
+
+namespace strKey_CSHADER
+{
+	STRKEY CCS_SCMapLoader = "CCS_SCMapLoader";
 }

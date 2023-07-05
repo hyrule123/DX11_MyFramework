@@ -1,11 +1,9 @@
 #pragma once
 
-#include "CComputeShader.h"
+#include <Engine/CComputeShader.h>
 
 #include "S_H_SCMapLoader.hlsli"
-
 #include "define_SCMap.h"
-
 
 class CStructBuffer;
 class CCS_SCMapLoader :

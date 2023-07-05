@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
         DirPath /= RES_INFO::TEXTURE::DirName;
         DirTree.SearchRecursive(DirPath, Filter);
 
-        DirTree.CreateStrKey<char>(define_Preset::Path::ScriptProj::A, define_Preset::Path::strKey_Texture::A, false);
+        DirTree.CreateStrKey<char>(define_Preset::Path::ScriptProj::A, define_Preset::Path::strKey_Texture::A, false, "TEXTURE");
     }
 
     //Generate Compute Shader Key
@@ -44,7 +44,8 @@ int main(int argc, char* argv[])
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
         DirTree.SearchRecursive(DirPath, Filter);
 
-        DirTree.CreateComputerShaderCode<char>(DirPath, "UserClassInitializer_Shader.cpp");
+        DirTree.CreateComputeShaderCode<char>(DirPath, "UserClassInitializer_Shader.cpp");
+        DirTree.CreateStrKey<char>(DirPath, define_Preset::Path::strKey_CShader::A, true, "CShader");
     }
 
     //Generate Graphics Shader Key
@@ -58,7 +59,7 @@ int main(int argc, char* argv[])
 
         stdfs::path TargetPath = define_Preset::Path::ScriptProj::A;
 
-        DirTree.CreateGraphicsShaderStrKey<char>(TargetPath, define_Preset::Path::strKey_GS::A);
+        DirTree.CreateGraphicsShaderStrKey<char>(TargetPath, define_Preset::Path::strKey_GShader::A);
     }
 
 

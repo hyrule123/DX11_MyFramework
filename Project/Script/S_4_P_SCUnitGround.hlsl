@@ -10,7 +10,7 @@ float4 PS_SCUnit(VS_OUT _in) : SV_TARGET
 	tMtrlScalarData Data = (tMtrlScalarData) 0.f;
     
 	//인스턴싱을 사용하지 않을 경우->상수버퍼의 데이터를 사용
-	if (0 == g_CBuffer_SBufferData[eCBUFFER_SBUFFER_SHAREDATA_IDX::MTRL_SCALAR].uSBufferCount)
+	if (0 == g_CBuffer_SBufferData.uSBufferCount)
 	{
 		Data = g_CBuffer_Mtrl_Scalar;
 	}
