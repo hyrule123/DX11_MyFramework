@@ -7,9 +7,18 @@
 
 struct tDirTreeFilters
 {
-	std::vector<std::filesystem::path> vecExtInclude;
-	std::vector<std::filesystem::path> vecIncludeKeyword;
-	std::vector<std::filesystem::path> vecExcludeKeyword;
+	std::vector<std::filesystem::path> vecInclude_Ext;
+	std::vector<std::filesystem::path> vecInclude_Keyword;
+	std::vector<std::filesystem::path> vecExclude_Keyword;
+
+	void Include_Ext(std::filesystem::path const& _path) { vecInclude_Ext.push_back(_path); }
+	void Include_Ext(std::filesystem::path&& _path) { vecInclude_Ext.push_back(_path); }
+
+	void Include_Keyword(std::filesystem::path const& _path) { vecInclude_Keyword.push_back(_path); }
+	void Include_Keyword(std::filesystem::path&& _path) { vecInclude_Keyword.push_back(_path); }
+
+	void Exclude_Keyword(std::filesystem::path const& _path) { vecExclude_Keyword.push_back(_path); }
+	void Exclude_Keyword(std::filesystem::path&& _path) { vecExclude_Keyword.push_back(_path); }
 };
 
 struct tShaderGroup

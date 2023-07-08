@@ -57,7 +57,7 @@ bool CScriptHolder::SaveJson(Json::Value* _jVal)
 	{
 		Json::Value ScriptValue = Json::objectValue;
 
-		const string& strKeyScript = m_vecScript[i]->GetKey();
+		string strKeyScript(m_vecScript[i]->GetKey());
 		ScriptValue[strKeyScript] = Json::Value(Json::objectValue);
 
 		//스크립트도 별도로 저장할 것이 있을경우 별도의 저장 공간을 만들어서 저장시킨다.

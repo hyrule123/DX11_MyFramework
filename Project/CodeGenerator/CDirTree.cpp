@@ -40,19 +40,19 @@ HRESULT CDirTree::SearchRecursive(stdfs::path const& _RootPath, tDirTreeFilters 
 
 	tDirTreeFilters LowerFilter;
 
-	for (size_t i = 0; i < _Filter.vecExtInclude.size(); ++i)
+	for (size_t i = 0; i < _Filter.vecInclude_Ext.size(); ++i)
 	{
-		LowerFilter.vecExtInclude.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecExtInclude[i].wstring()));
+		LowerFilter.vecInclude_Ext.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecInclude_Ext[i].wstring()));
 	}
 
-	for (size_t i = 0; i < _Filter.vecIncludeKeyword.size(); ++i)
+	for (size_t i = 0; i < _Filter.vecInclude_Keyword.size(); ++i)
 	{
-		LowerFilter.vecIncludeKeyword.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecIncludeKeyword[i].wstring()));
+		LowerFilter.vecInclude_Keyword.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecInclude_Keyword[i].wstring()));
 	}
 
-	for (size_t i = 0; i < _Filter.vecExcludeKeyword.size(); ++i)
+	for (size_t i = 0; i < _Filter.vecExclude_Keyword.size(); ++i)
 	{
-		LowerFilter.vecExcludeKeyword.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecExcludeKeyword[i].wstring()));
+		LowerFilter.vecExclude_Keyword.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecExclude_Keyword[i].wstring()));
 	}
 
 

@@ -9,14 +9,13 @@
 //=========================================================
 
 
-
 #ifndef STRKEY
 #define STRKEY constexpr inline const char*
 #endif
 
 
 
-namespace strKey_CSHADER
+namespace strKey_CShader
 {
 	STRKEY CCS_SCMapLoader = "CCS_SCMapLoader";
 }

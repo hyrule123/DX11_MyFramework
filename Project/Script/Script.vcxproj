@@ -242,7 +242,8 @@ call "CodeGenerator_$(Configuration).exe" Script
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SC_Func.cpp" />
-    <ClCompile Include="UserClassInitializer_Shader.cpp" />
+    <ClCompile Include="UserClassInitializer_CShader.cpp" />
+    <ClCompile Include="UserClassInitializer_Script.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

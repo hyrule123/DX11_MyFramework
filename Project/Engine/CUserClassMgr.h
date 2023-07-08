@@ -45,16 +45,6 @@ inline void CUserClassMgr::AddBaseScript(const std::string_view _strKey, std::fu
 	m_umapScript.insert(std::make_pair(_strKey, _FuncConstructor));
 }
 
-inline CScript* CUserClassMgr::GetNewScript(const std::string_view _strKey)
-{
-	const auto& iter = m_umapScript.find(_strKey);
-	if (iter == m_umapScript.end())
-		return nullptr;
-
-	//함수 호출 시 동적할당해서 반환해줄 것임.
-	return iter->second();
-}
-
 inline void CUserClassMgr::AddBaseCS(const std::string_view _strKey, std::function<Ptr<CComputeShader>()> _FuncConstructor)
 {
 	m_umapCS.insert(std::make_pair(_strKey, _FuncConstructor));

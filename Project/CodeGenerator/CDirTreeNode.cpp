@@ -66,9 +66,9 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters 
 
 			//제외 항목 검사
 			bool bExclude = false;
-			for (size_t i = 0; i < _Filter.vecExcludeKeyword.size(); ++i)
+			for (size_t i = 0; i < _Filter.vecExclude_Keyword.size(); ++i)
 			{
-				if (std::wstring::npos != LowerFileName.find(_Filter.vecExcludeKeyword[i]))
+				if (std::wstring::npos != LowerFileName.find(_Filter.vecExclude_Keyword[i]))
 				{
 					bExclude = true;
 					break;
@@ -84,13 +84,13 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters 
 			if (false == dirIter.is_directory())
 			{
 				bool bPushFileName = false;
-				if (_Filter.vecIncludeKeyword.empty())
+				if (_Filter.vecInclude_Keyword.empty())
 					bPushFileName = true;
 				else
 				{
-					for (size_t i = 0; i < _Filter.vecIncludeKeyword.size(); ++i)
+					for (size_t i = 0; i < _Filter.vecInclude_Keyword.size(); ++i)
 					{
-						if (std::wstring::npos != LowerFileName.find(_Filter.vecIncludeKeyword[i]))
+						if (std::wstring::npos != LowerFileName.find(_Filter.vecInclude_Keyword[i]))
 						{
 							bPushFileName = true;
 							break;
@@ -101,10 +101,10 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters 
 				//마지막으로 확장자가 일치하는지 확인하고 파일 삽입
 				if (bPushFileName)
 				{
-					for (size_t i = 0; i < _Filter.vecExtInclude.size(); ++i)
+					for (size_t i = 0; i < _Filter.vecInclude_Ext.size(); ++i)
 					{
 						//확장자의 경우 정확히 일치하는지 확인
-						if (_Filter.vecExtInclude[i].wstring() == MacroFunc::LowerCase<wchar_t>(dirIter.path().filename().extension().wstring()))
+						if (_Filter.vecInclude_Ext[i].wstring() == MacroFunc::LowerCase<wchar_t>(dirIter.path().filename().extension().wstring()))
 						{
 							m_vecFileName.push_back(dirIter.path().filename());
 							break;

@@ -9,7 +9,6 @@
 //=========================================================
 
 
-
 #ifndef STRKEY
 #define STRKEY constexpr inline const char*
 #endif

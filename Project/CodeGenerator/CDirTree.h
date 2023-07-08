@@ -17,10 +17,10 @@ public:
 
 	//UserClassInitializer에 자신의 클래스를 등록하는 코드를 생성하는 함수
 	template <typename T>
-	HRESULT CreateComputeShaderCode(stdfs::path const& _DirPath, stdfs::path const& _FileName);
+	HRESULT CreateCShaderCode(stdfs::path const& _DirPath, stdfs::path const& _FileName);
 
 	template <typename T>
-	HRESULT CreateGraphicsShaderStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName);
+	HRESULT CreateGShaderStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName);
 
 	template <typename T>
 	HRESULT CreateScriptCode(stdfs::path const& _DirPath, stdfs::path const& _FileName);
@@ -65,9 +65,9 @@ inline HRESULT CDirTree::CreateStrKey(stdfs::path const& _DirPath, stdfs::path c
 	std::basic_string<T> strCode = NEW_T_STRING(T, "namespace strKey_");
 
 	if (_RootNamespace.empty())
-		strCode += MacroFunc::UpperCase<T>(_DirPath.filename().string<T>());
+		strCode += _DirPath.filename().string<T>();
 	else
-		strCode += MacroFunc::UpperCase<T>(_RootNamespace.string<T>());
+		strCode += _RootNamespace.string<T>();
 
 	Writer.WriteCode(strCode);
 
@@ -82,7 +82,7 @@ inline HRESULT CDirTree::CreateStrKey(stdfs::path const& _DirPath, stdfs::path c
 
 
 template<typename T>
-inline HRESULT CDirTree::CreateComputeShaderCode(stdfs::path const& _DirPath, stdfs::path const& _FileName)
+inline HRESULT CDirTree::CreateCShaderCode(stdfs::path const& _DirPath, stdfs::path const& _FileName)
 {
 	CCodeWriter<T> Writer;
 	HRESULT hr = OpenWriter<T>(_DirPath, _FileName, Writer);
@@ -97,15 +97,17 @@ inline HRESULT CDirTree::CreateComputeShaderCode(stdfs::path const& _DirPath, st
 
 	{
 		std::basic_string<T> strCode(T_STRING(T,
-			R"(#include "pch.h"
+R"(#include "pch.h"
 #include "UserClassInitializer.h"
+#include "strKey_CShader.h"
 
 #include <Engine/CUserClassMgr.h>
-#include <Engine/CComputeShader.h>)"));
+#include <Engine/CComputeShader.h>)")
+);
 		Writer.WriteCode(strCode);
 
 
-		Writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::define_T_Constructor));
+		Writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::define_T_Constructor_CS));
 		Writer.WriteCode();
 		Writer.WriteCode(T_STRING(T, "//Compute Shader Classes"));
 	}
@@ -124,6 +126,93 @@ inline HRESULT CDirTree::CreateComputeShaderCode(stdfs::path const& _DirPath, st
 	//노드를 순회돌면서 이름을 정리시킨다.
 	m_RootDir.GetAllFiles(vecCSFilePath, false);
 
+
+	//순회를 돌면서 각 버퍼에 코드 작성
+	//0번 버퍼: include
+	//1번 버퍼: 클래스 생성
+	for (size_t i = 0; i < vecCSFilePath.size(); ++i)
+	{
+		//0번 버퍼에 include 작성
+		{
+			const std::basic_string<T>& FileName = vecCSFilePath[i].filename().string<T>();
+
+			std::basic_string<T> strCode;
+			strCode += T_PRESET_STR(T, define_Preset::Keyword::IncludeBegin);
+			strCode += FileName;
+			strCode += T_STRING(T, "\"");
+			Writer.WriteCode(strCode);
+		}
+
+		//1번 버퍼에 클래스 생성 코드 작성
+		{
+			const std::basic_string<T>& ClassName = vecCSFilePath[i].filename().replace_extension("").string<T>();
+			
+
+			std::basic_string<T> strCode;
+			strCode += T_PRESET_STR(T, define_Preset::Keyword::T_Constructor);
+			strCode += ClassName;
+			strCode += T_STRING(T, ");");
+			Writer.WriteCode(strCode, 1);
+		}
+	}
+
+
+	Writer.CloseBracket(false, 1);
+
+	hr = Writer.SaveAll();
+	if (FAILED(hr))
+	{
+		DEBUG_BREAK;
+		return hr;
+	}
+
+	return S_OK;
+}
+
+template<typename T>
+inline HRESULT CDirTree::CreateScriptCode(stdfs::path const& _DirPath, stdfs::path const& _FileName)
+{
+	CCodeWriter<T> Writer;
+	HRESULT hr = OpenWriter<T>(_DirPath, _FileName, Writer);
+	if (FAILED(hr))
+	{
+		DEBUG_BREAK;
+		return hr;
+	}
+
+	Writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::Head));
+	Writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::DefineSTRKEY));
+
+	{
+		std::basic_string<T> strCode(T_STRING(T,
+			R"(#include "pch.h"
+#include "UserClassInitializer.h"
+
+#include "strKey_Script.h"
+
+#include <Engine/CUserClassMgr.h>
+#include <Engine/CScript.h>)")
+);
+		Writer.WriteCode(strCode);
+
+		Writer.WriteCode(T_PRESET_STR(T, define_Preset::Keyword::define_T_Constructor_Script));
+		Writer.WriteCode();
+		Writer.WriteCode(T_STRING(T, "//Script Classes"));
+	}
+
+	//1번 버퍼에 Script 생성 코드를 작성
+	{
+		Writer.WriteCode("", 1);
+		std::basic_string<T> strCode(T_STRING(T, "void UserClassInitializer::InitScript()"));
+
+		Writer.WriteCode(strCode, 1);
+		Writer.OpenBracket(1);
+		Writer.WriteCode(T_STRING(T, "CUserClassMgr* pMgr = CUserClassMgr::GetInst();"), 1);
+	}
+
+	vector<stdfs::path> vecCSFilePath;
+	//노드를 순회돌면서 이름을 정리시킨다.
+	m_RootDir.GetAllFiles(vecCSFilePath, false);
 
 	//순회를 돌면서 각 버퍼에 코드 작성
 	//0번 버퍼: include
@@ -164,19 +253,6 @@ inline HRESULT CDirTree::CreateComputeShaderCode(stdfs::path const& _DirPath, st
 	}
 
 	return S_OK;
-}
-
-template<typename T>
-inline HRESULT CDirTree::CreateScriptCode(stdfs::path const& _DirPath, stdfs::path const& _FileName)
-{
-	CCodeWriter<T> Writer;
-	HRESULT hr = OpenWriter<T>(_DirPath, _FileName, Writer);
-	if (FAILED(hr))
-	{
-		DEBUG_BREAK;
-		return hr;
-	}
-
 
 }
 
@@ -214,7 +290,7 @@ inline HRESULT CDirTree::OpenWriter(stdfs::path const& _DirPath, stdfs::path con
 
 
 template<typename T>
-inline HRESULT CDirTree::CreateGraphicsShaderStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName)
+inline HRESULT CDirTree::CreateGShaderStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName)
 {
 	CCodeWriter<T> Writer;
 	HRESULT hr = OpenWriter<T>(_DirPath, _FileName, Writer);

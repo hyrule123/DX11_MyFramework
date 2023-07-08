@@ -11,7 +11,7 @@ class CScript :
     public CEntity
 {
 public:
-    CScript(const string_view _strKey);
+    CScript();
 
     CScript(const CScript& _other);
     virtual CScript* Clone() = 0;
@@ -34,9 +34,10 @@ public:
     virtual void EndCollision(CCollider* _other) {}
 
 private:
-    const string m_strKey;
+    string m_strKey;
 public:
-    const string& GetKey() const { return m_strKey; }
+    void SetKey(const std::string_view _strKey) { m_strKey = _strKey; }
+    const string_view GetKey() const { return m_strKey; }
 
 private:    
     CScriptHolder* m_pHolder;

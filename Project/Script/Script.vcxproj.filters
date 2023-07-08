@@ -187,7 +187,10 @@
     <ClCompile Include="CCS_SCMapLoader.cpp">
       <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
     </ClCompile>
-    <ClCompile Include="UserClassInitializer_Shader.cpp">
+    <ClCompile Include="UserClassInitializer_CShader.cpp">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserClassInitializer_Script.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
   </ItemGroup>

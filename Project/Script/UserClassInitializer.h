@@ -9,7 +9,10 @@ public:
 
 private:
 	template <typename T>
-	static Ptr<T> Constructor_T() { return new T; }
+	static Ptr<T> Constructor_Ptr_T() { return new T; }
+
+	template <typename T>
+	static T* Constructor_T() { return new T; }
 };
 
 

@@ -9,7 +9,7 @@ void CreateScriptCode();
 //여기서 자동 생성하지 않아도 직접 생성할 수 있음.
 void CreateShaderCode();
 void CreateGraphicsShaderCode(std::ofstream& _outFile_StrKey);
-void CreateComputeShaderCode(std::ofstream& _outFile_StrKey);
+void CreateCShaderCode(std::ofstream& _outFile_StrKey);
 
 
 

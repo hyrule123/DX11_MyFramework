@@ -15,7 +15,7 @@ class CFSM
 private:
     CFSM() = delete;
 public:
-    CFSM(const string_view _strKey, UINT _uStateID);
+    CFSM(UINT _uStateID);
 
     CFSM(const CFSM& _other);
     virtual CFSM* Clone() = 0;

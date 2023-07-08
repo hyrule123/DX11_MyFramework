@@ -9,17 +9,17 @@
 //=========================================================
 
 
-
 #ifndef STRKEY
 #define STRKEY constexpr inline const char*
 #endif
 
 #include "pch.h"
 #include "UserClassInitializer.h"
+#include "strKey_CShader.h"
 
 #include <Engine/CUserClassMgr.h>
 #include <Engine/CComputeShader.h>
-#define CONSTRUCTOR_T(_Type) pMgr->AddBaseCS(#_Type, Constructor_T<_Type>)
+#define CONSTRUCTOR_T(_Type) pMgr->AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>)
 
 //Compute Shader Classes
 #include "CCS_SCMapLoader.h"
