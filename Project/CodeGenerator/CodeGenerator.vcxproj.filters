@@ -20,9 +20,6 @@
     </ClCompile>
     <ClCompile Include="CDirTreeNode.cpp" />
     <ClCompile Include="CDirTree.cpp" />
-    <ClCompile Include="define_CodeGen.cpp">
-      <Filter>Default</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
