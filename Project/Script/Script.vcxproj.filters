@@ -193,6 +193,7 @@
     <ClCompile Include="UserClassInitializer_Script.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
