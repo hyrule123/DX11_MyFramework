@@ -207,6 +207,7 @@
     <ClInclude Include="DefaultShader.h">
       <Filter>_HLSL, Shader Default</Filter>
     </ClInclude>
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
