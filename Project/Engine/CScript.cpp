@@ -6,8 +6,8 @@
 #include "CKeyMgr.h"
 
 
-CScript::CScript()
-	: m_strKey()
+CScript::CScript(const string_view _strKey)
+	: m_strKey(_strKey)
 	, m_pHolder()
 	, m_bDisable()
 {

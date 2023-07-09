@@ -8,6 +8,17 @@ class CRenderComponent;
 class CAnimator2D;
 class CTilemap_SC;
 
+struct tDescFSM
+{
+    const UINT uMyStateID;
+    const UINT uMaxStateID;
+
+    tDescFSM(UINT _uMyStateID, UINT _uMaxStateID) : uMyStateID(_uMyStateID), uMaxStateID(_uMaxStateID) {}
+    tDescFSM(const tDescFSM& _other) = delete;
+    tDescFSM(tDescFSM&& _right) = delete;
+};
+
+
 //같은 FSM 범주 안의 클래스들은 enum class를 공유하는 헤더파일을 만들어서 사용해 줄것
 class CFSM
     : public CScript
@@ -15,7 +26,8 @@ class CFSM
 private:
     CFSM() = delete;
 public:
-    CFSM(UINT _uStateID);
+    //strKey -> CScript로 전달, _uStateID -> FSM으로 전달
+    CFSM(const string_view _strKey, UINT _uStateID);
 
     CFSM(const CFSM& _other);
     virtual CFSM* Clone() = 0;

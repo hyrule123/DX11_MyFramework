@@ -9,6 +9,7 @@ class CScript_MouseCursor :
 public:
     CScript_MouseCursor(const string_view _strKey);
     virtual ~CScript_MouseCursor();
+
     CLONE(CScript_MouseCursor);
 
 private:

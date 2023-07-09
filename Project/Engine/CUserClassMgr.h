@@ -19,10 +19,10 @@ class CUserClassMgr
 	SINGLETON(CUserClassMgr);
 
 private:
-	std::unordered_map <std::string_view, std::function<CScript* ()>> m_umapScript;
+	std::unordered_map <std::string_view, std::function<CScript*(const string_view)>> m_umapScript;
 
 public:
-	void AddBaseScript(const std::string_view _strKey, std::function<CScript* ()> _FuncConstructor);
+	void AddBaseScript(const std::string_view _strKey, std::function<CScript*(const string_view)> _FuncConstructor);
 	CScript* GetNewScript(const std::string_view _strKey);
 
 private:
@@ -40,7 +40,7 @@ private:
 
 };
 
-inline void CUserClassMgr::AddBaseScript(const std::string_view _strKey, std::function<CScript* ()> _FuncConstructor)
+inline void CUserClassMgr::AddBaseScript(const std::string_view _strKey, std::function<CScript*(const string_view)> _FuncConstructor)
 {
 	m_umapScript.insert(std::make_pair(_strKey, _FuncConstructor));
 }

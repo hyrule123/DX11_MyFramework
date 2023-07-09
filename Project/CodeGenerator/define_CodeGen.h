@@ -1,5 +1,7 @@
 #pragma once
 
+#include <regex>
+
 #ifndef DEBUG_BREAK
 #ifdef _DEBUG
 #define DEBUG_BREAK DebugBreak()
@@ -15,7 +17,6 @@
 namespace _VarNameBase {\
 constexpr const char* A = _String;\
 constexpr const wchar_t* W = L##_String;\
-constexpr const char8_t* U8 = u8##_String;\
 }
 
 
@@ -78,7 +79,7 @@ R"(#ifndef STRKEY
 			R"(#define CONSTRUCTOR_T(_Type) pMgr->AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>))"
 		);
 		PRESET(define_T_Constructor_Script, 
-			R"(#define CONSTRUCTOR_T(_Type) pMgr->AddBaseScript(strKey_Script::_Type, Constructor_T<_Type>))"
+			R"(#define CONSTRUCTOR_T(_Type) pMgr->AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>))"
 		);
 
 		PRESET(T_Constructor, "CONSTRUCTOR_T(");
@@ -86,41 +87,34 @@ R"(#ifndef STRKEY
 
 	}
 
-	namespace Regex_Keyword
+	namespace Regex
 	{
+		namespace arrCharsVarForbidden
+		{
+			constexpr inline const char* A[] =
+			{
+				"\\(","\\)",
+				"\\{","\\}",
+				"\\[","\\]"
+			};
+
+			constexpr inline const wchar_t* W[] =
+			{
+				L"\\(",L"\\)",
+				L"\\{",L"\\}",
+				L"\\[",L"\\]"
+			};
+
+		}
+
+		extern std::regex g_regexVarForbidden;
+		extern std::wregex g_regexVarForbidden;
+
+		PRESET(CShader, R"(CCS_\w+\.h)");
+
 		//[   numthreads   ( %d, %d, %d )   ]
 		//[ ] 안에 둘러싸여 있고, 공백 갯수에 상관없이 숫자 3개를 추출
 		PRESET(Numthread, R"(\[\s*numthreads\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\).*\])");
-	}
-
-	namespace VarNameFilter
-	{
-		constexpr inline const char FiltersA[] =
-		{
-			'.',
-			',',
-			'-',
-			'(',
-			')'
-		};
-
-		constexpr inline const wchar_t FiltersW[] =
-		{
-			L'.',
-			L',',
-			L'-',
-			L'(',
-			L')'
-		};
-
-		constexpr inline const wchar_t FiltersU8[] =
-		{
-			u8'.',
-			u8',',
-			u8'-',
-			u8'(',
-			u8')'
-		};
 	}
 }
 

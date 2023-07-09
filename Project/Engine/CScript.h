@@ -11,9 +11,12 @@ class CScript :
     public CEntity
 {
 public:
-    CScript();
+    CScript(const string_view _strKey);
 
+    //복사 생성자는 필요시 재정의할 것
     CScript(const CScript& _other);
+
+    //CLONE(스크립트 이름) 을 사용하면 재정의 가능.
     virtual CScript* Clone() = 0;
 
     virtual ~CScript();
@@ -34,9 +37,8 @@ public:
     virtual void EndCollision(CCollider* _other) {}
 
 private:
-    string m_strKey;
+    const std::string_view m_strKey;
 public:
-    void SetKey(const std::string_view _strKey) { m_strKey = _strKey; }
     const string_view GetKey() const { return m_strKey; }
 
 private:    

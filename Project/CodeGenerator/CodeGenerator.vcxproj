@@ -160,6 +160,7 @@
     </None>
     <ClCompile Include="CDirTree.cpp" />
     <ClCompile Include="CDirTreeNode.cpp" />
+    <ClCompile Include="define_CodeGen.cpp" />
     <ClCompile Include="MacroFunc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">

@@ -9,11 +9,11 @@ public:
 	~CDirTree();
 
 	//시스템 탐색
-	HRESULT SearchRecursive(stdfs::path const& _RootPath, tDirTreeFilters const& _Filter);
+	HRESULT SearchRecursive(stdfs::path const& _RootPath, std::regex const& _regex);
 
 	//파일 명을 헤더 파일에 등록(편의용도)
 	template <typename T>
-	HRESULT CreateStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName, bool _bEraseExtension, stdfs::path const& _RootNamespace);
+	HRESULT CreateStrKeyHeader(stdfs::path const& _DirPath, stdfs::path const& _FileName, bool _bEraseExtension, stdfs::path const& _RootNamespace);
 
 	//UserClassInitializer에 자신의 클래스를 등록하는 코드를 생성하는 함수
 	template <typename T>
@@ -23,7 +23,7 @@ public:
 	HRESULT CreateGShaderStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName);
 
 	template <typename T>
-	HRESULT CreateScriptCode(stdfs::path const& _DirPath, stdfs::path const& _FileName);
+	HRESULT CreateScriptCPP(stdfs::path const& _DirPath, stdfs::path const& _FileName);
 
 
 private:
@@ -47,7 +47,7 @@ private:
 
 
 template<typename T>
-inline HRESULT CDirTree::CreateStrKey(stdfs::path const& _DirPath, stdfs::path const& _FileName, bool _bEraseExtension, stdfs::path const& _RootNamespace)
+inline HRESULT CDirTree::CreateStrKeyHeader(stdfs::path const& _DirPath, stdfs::path const& _FileName, bool _bEraseExtension, stdfs::path const& _RootNamespace)
 {
 	CCodeWriter<T> Writer;
 	HRESULT hr = OpenWriter<T>(_DirPath, _FileName, Writer);
@@ -122,7 +122,7 @@ R"(#include "pch.h"
 		Writer.WriteCode(T_STRING(T, "CUserClassMgr* pMgr = CUserClassMgr::GetInst();"), 1);
 	}
 
-	vector<stdfs::path> vecCSFilePath;
+	vector<tFile> vecCSFilePath;
 	//노드를 순회돌면서 이름을 정리시킨다.
 	m_RootDir.GetAllFiles(vecCSFilePath, false);
 
@@ -134,7 +134,7 @@ R"(#include "pch.h"
 	{
 		//0번 버퍼에 include 작성
 		{
-			const std::basic_string<T>& FileName = vecCSFilePath[i].filename().string<T>();
+			const std::basic_string<T>& FileName = vecCSFilePath[i].Name.filename().string<T>();
 
 			std::basic_string<T> strCode;
 			strCode += T_PRESET_STR(T, define_Preset::Keyword::IncludeBegin);
@@ -145,7 +145,7 @@ R"(#include "pch.h"
 
 		//1번 버퍼에 클래스 생성 코드 작성
 		{
-			const std::basic_string<T>& ClassName = vecCSFilePath[i].filename().replace_extension("").string<T>();
+			const std::basic_string<T>& ClassName = vecCSFilePath[i].Name.filename().replace_extension("").string<T>();
 			
 
 			std::basic_string<T> strCode;
@@ -170,7 +170,7 @@ R"(#include "pch.h"
 }
 
 template<typename T>
-inline HRESULT CDirTree::CreateScriptCode(stdfs::path const& _DirPath, stdfs::path const& _FileName)
+inline HRESULT CDirTree::CreateScriptCPP(stdfs::path const& _DirPath, stdfs::path const& _FileName)
 {
 	CCodeWriter<T> Writer;
 	HRESULT hr = OpenWriter<T>(_DirPath, _FileName, Writer);

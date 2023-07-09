@@ -4,8 +4,8 @@
 
 #include "CGameObject.h"
 
-CFSM::CFSM(UINT _uStateID)
-	: CScript()
+CFSM::CFSM(const string_view _strKey, UINT _uStateID)
+	: CScript(_strKey)
 	, m_uStateID(_uStateID)
 {
 }

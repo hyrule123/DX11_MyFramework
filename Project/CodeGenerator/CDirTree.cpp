@@ -34,29 +34,11 @@ CDirTree::~CDirTree()
 {
 }
 
-HRESULT CDirTree::SearchRecursive(stdfs::path const& _RootPath, tDirTreeFilters const& _Filter)
+HRESULT CDirTree::SearchRecursive(stdfs::path const& _RootPath, std::regex const& _regex)
 {
 	m_RootDir.Clear();
 
-	tDirTreeFilters LowerFilter;
-
-	for (size_t i = 0; i < _Filter.vecInclude_Ext.size(); ++i)
-	{
-		LowerFilter.vecInclude_Ext.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecInclude_Ext[i].wstring()));
-	}
-
-	for (size_t i = 0; i < _Filter.vecInclude_Keyword.size(); ++i)
-	{
-		LowerFilter.vecInclude_Keyword.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecInclude_Keyword[i].wstring()));
-	}
-
-	for (size_t i = 0; i < _Filter.vecExclude_Keyword.size(); ++i)
-	{
-		LowerFilter.vecExclude_Keyword.push_back(MacroFunc::LowerCase<wchar_t>(_Filter.vecExclude_Keyword[i].wstring()));
-	}
-
-
-	return m_RootDir.SearchRecursive( _RootPath, LowerFilter);
+	return m_RootDir.SearchRecursive( _RootPath, _regex);
 }
 
 HRESULT CDirTree::DetectNewShaderGroup(std::unordered_map<stdfs::path, tShaderGroup> const& _umapGSGroup)

@@ -20,7 +20,7 @@
 
 #include <Engine/CUserClassMgr.h>
 #include <Engine/CScript.h>
-#define CONSTRUCTOR_T(_Type) pMgr->AddBaseScript(strKey_Script::_Type, Constructor_T<_Type>)
+#define CONSTRUCTOR_T(_Type) pMgr->AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>)
 
 //Script Classes
 #include "CScript_CameraMove.h"

@@ -19,9 +19,7 @@ CScript* CUserClassMgr::GetNewScript(const std::string_view _strKey)
 	if (iter == m_umapScript.end())
 		return nullptr;
 
-	CScript* pScript = iter->second();
-	pScript->SetKey(_strKey);
-
+	CScript* pScript = iter->second(_strKey);
 	return pScript;
 }
 

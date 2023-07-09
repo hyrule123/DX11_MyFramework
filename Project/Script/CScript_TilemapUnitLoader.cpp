@@ -110,7 +110,7 @@ void CScript_TilemapUnitLoader::LoadUnit(const shared_ptr<SC_Map::tMapData> _pMa
 			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
 
 			//미네랄 남은 자원량 설정
-			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_SCRIPT::MINERAL));
+			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_Script::CScript_Mineral));
 			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
 
 			break;

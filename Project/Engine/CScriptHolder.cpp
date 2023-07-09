@@ -204,6 +204,7 @@ eFSM_RESULT CScriptHolder::Transition(const tFSM_Event& _tEvent)
 		return eFSM_RESULT::ACCEPT;
 	}
 
+	//현재 State에 상태 변경이 가능한지 조건을 확인
 	eFSM_RESULT result = m_pCurrentFSM->CheckCondition(_tEvent);
 	if (eFSM_RESULT::ACCEPT == result)
 	{

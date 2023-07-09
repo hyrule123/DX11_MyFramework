@@ -5,26 +5,11 @@
 #include "MacroFunc.h"
 
 
-struct tDirTreeFilters
-{
-	std::vector<std::filesystem::path> vecInclude_Ext;
-	std::vector<std::filesystem::path> vecInclude_Keyword;
-	std::vector<std::filesystem::path> vecExclude_Keyword;
-
-	void Include_Ext(std::filesystem::path const& _path) { vecInclude_Ext.push_back(_path); }
-	void Include_Ext(std::filesystem::path&& _path) { vecInclude_Ext.push_back(_path); }
-
-	void Include_Keyword(std::filesystem::path const& _path) { vecInclude_Keyword.push_back(_path); }
-	void Include_Keyword(std::filesystem::path&& _path) { vecInclude_Keyword.push_back(_path); }
-
-	void Exclude_Keyword(std::filesystem::path const& _path) { vecExclude_Keyword.push_back(_path); }
-	void Exclude_Keyword(std::filesystem::path&& _path) { vecExclude_Keyword.push_back(_path); }
-};
-
 struct tShaderGroup
 {
 	stdfs::path FileName[(int)define_Shader::eGS_TYPE::END];
 };
+
 
 class CDirTreeNode
 {
@@ -36,13 +21,14 @@ private:
 	~CDirTreeNode();
 
 public:
-	HRESULT SearchRecursive(stdfs::path const& _path, tDirTreeFilters const& _Filter);
+	HRESULT SearchRecursive(stdfs::path const& _path, std::regex const& _regex);
 
 	HRESULT GetAllFiles(__out std::vector<stdfs::path>& _vecFile, bool _bAddRelativeDir);
 
-
+	//_regexVarName : 변수명 지을때 적용할 Regex 규칙
+	//_uSmatchIdx : Regex 규칙이 반영된 문자열 목록(smatch)에서 몇번째 인덱스에 있는 변수명을 사용할것인지
 	template <typename T>
-	HRESULT WriteStrKeyTree(CCodeWriter<T>& _CodeWriter, bool _bEraseExtension, stdfs::path _RootNamespaceName = stdfs::path());
+	HRESULT WriteStrKeyTree(CCodeWriter<T>& _CodeWriter, std::regex const& _regexVarName, UINT _uSMatchIdx, bool _bEraseExtension);
 
 private:
 	CDirTreeNode* m_pParent;
@@ -67,9 +53,9 @@ private:
 
 
 template <typename T>
-HRESULT CDirTreeNode::WriteStrKeyTree(CCodeWriter<T>& _pCodeWriter, bool _bEraseExtension, stdfs::path _RootNamespaceName)
+HRESULT CDirTreeNode::WriteStrKeyTree(CCodeWriter<T>& _CodeWriter, std::regex const& _regexVarName, UINT _uSMatchIdx, bool _bEraseExtension)
 {
-	CCodeWriter<T>& writer = _pCodeWriter;
+	CCodeWriter<T>& writer = _CodeWriter;
 
 	if (false == IsRoot())
 	{
@@ -86,11 +72,16 @@ HRESULT CDirTreeNode::WriteStrKeyTree(CCodeWriter<T>& _pCodeWriter, bool _bErase
 		for (size_t i = 0; i < size; ++i)
 		{
 			std::basic_string<T> strCode(T_STRING(T, "STRKEY "));
+			
+			{
+				string varName = m_vecFileName[i].filename().string();
+				if (false == _regexVarName._Empty())
+				{
+					
+				}
+			}
+			
 
-			if (_bEraseExtension)
-				strCode += MacroFunc::ConvertToVarName<T>(m_vecFileName[i].filename().replace_extension("").string<T>());
-			else
-				strCode += MacroFunc::ConvertToVarName<T>(m_vecFileName[i].filename().string<T>());
 
 			
 			strCode += T_STRING(T, " = \"");
@@ -101,8 +92,10 @@ HRESULT CDirTreeNode::WriteStrKeyTree(CCodeWriter<T>& _pCodeWriter, bool _bErase
 				strCode += "/";
 			}
 
+
+
 			if (_bEraseExtension)
-				strCode += m_vecFileName[i].filename().replace_extension("").string<T>();
+				strCode += m_vecFileName[i].replace_extension("").string<T>();
 			else
 				strCode += m_vecFileName[i].string<T>();
 				
@@ -117,7 +110,7 @@ HRESULT CDirTreeNode::WriteStrKeyTree(CCodeWriter<T>& _pCodeWriter, bool _bErase
 		size_t size = m_vecChild.size();
 		for (size_t i = 0; i < size; ++i)
 		{
-			HRESULT hr = m_vecChild[i]->WriteStrKeyTree(_pCodeWriter, _bEraseExtension);
+			HRESULT hr = m_vecChild[i]->WriteStrKeyTree(_CodeWriter, _regexVarName, _uSMatchIdx, _bEraseExtension);
 			if (FAILED(hr))
 			{
 				return E_FAIL;

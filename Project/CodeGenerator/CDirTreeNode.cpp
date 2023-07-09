@@ -45,7 +45,7 @@ void CDirTreeNode::Clear()
 	m_pParent = nullptr;
 }
 
-HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters const& _Filter)
+HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, std::regex const& _regex)
 {
 	//들어온 Path 자체가 폴더 경로가 아닐 경우에는 실패 반환
 	if (false == stdfs::is_directory(_path))
@@ -61,55 +61,16 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters 
 	{
 		for (const auto& dirIter : stdfs::directory_iterator(_path))
 		{
-			//대소문자 가리지 않고 비교를 위해 소문자로 변경
-			const wstring& LowerFileName = MacroFunc::LowerCase<wchar_t>(dirIter.path().filename().wstring());
-
-			//제외 항목 검사
-			bool bExclude = false;
-			for (size_t i = 0; i < _Filter.vecExclude_Keyword.size(); ++i)
-			{
-				if (std::wstring::npos != LowerFileName.find(_Filter.vecExclude_Keyword[i]))
-				{
-					bExclude = true;
-					break;
-				}
-			}
-			if (bExclude)
-				continue;
-
-
 			//포함 항목 검사
 			
 			//파일명일 경우 - 확장자 및 파일명을 확인하고, 일치하는 경우에만 파일명을 등록
 			if (false == dirIter.is_directory())
 			{
-				bool bPushFileName = false;
-				if (_Filter.vecInclude_Keyword.empty())
-					bPushFileName = true;
-				else
+				stdfs::path const& filename = dirIter.path().filename();
+				//확장자의 경우 정확히 일치하는지 확인
+				if (std::regex_search(filename.string(), _regex))
 				{
-					for (size_t i = 0; i < _Filter.vecInclude_Keyword.size(); ++i)
-					{
-						if (std::wstring::npos != LowerFileName.find(_Filter.vecInclude_Keyword[i]))
-						{
-							bPushFileName = true;
-							break;
-						}
-					}
-				}
-
-				//마지막으로 확장자가 일치하는지 확인하고 파일 삽입
-				if (bPushFileName)
-				{
-					for (size_t i = 0; i < _Filter.vecInclude_Ext.size(); ++i)
-					{
-						//확장자의 경우 정확히 일치하는지 확인
-						if (_Filter.vecInclude_Ext[i].wstring() == MacroFunc::LowerCase<wchar_t>(dirIter.path().filename().extension().wstring()))
-						{
-							m_vecFileName.push_back(dirIter.path().filename());
-							break;
-						}
-					}
+					m_vecFileName.push_back(filename);
 				}
 			}
 
@@ -118,7 +79,7 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters 
 			{
 				//폴더를 발견했을 경우 새 노드를 생성 후 재귀호출
 				CDirTreeNode* pNode = new CDirTreeNode(this);
-				HRESULT hr = pNode->SearchRecursive(dirIter.path(), _Filter);
+				HRESULT hr = pNode->SearchRecursive(dirIter.path(), _regex);
 				
 				if (ERROR_EMPTY == hr)
 				{
@@ -152,7 +113,7 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, tDirTreeFilters 
 
 
 
-HRESULT CDirTreeNode::GetAllFiles(std::vector<stdfs::path>& _vecFile, bool _bAddRelativeDir)
+HRESULT CDirTreeNode::GetAllFiles(__out std::vector<stdfs::path>& _vecFile, bool _bAddRelativeDir)
 {
 	for (size_t i = 0; i < m_vecFileName.size(); ++i)
 	{
