@@ -115,6 +115,8 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, std::regex const
 
 HRESULT CDirTreeNode::GetAllFiles(__out std::vector<stdfs::path>& _vecFile, bool _bAddRelativeDir)
 {
+	_vecFile.clear();
+
 	for (size_t i = 0; i < m_vecFileName.size(); ++i)
 	{
 		if (IsRoot() || _bAddRelativeDir)
@@ -146,7 +148,7 @@ HRESULT CDirTreeNode::WriteStrKeyTree(CCodeWriter& _CodeWriter, bool _bEraseExte
 	if (false == IsRoot())
 	{
 		std::string strCode = "namespace ";
-		strCode += MacroFunc::UpperCase(m_DirName.filename().string());
+		strCode += m_DirName.filename().string();
 		_CodeWriter.WriteCode(strCode);
 	}
 

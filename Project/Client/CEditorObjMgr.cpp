@@ -66,10 +66,10 @@ void CEditorObjMgr::init()
 		//m_pMousePicker->AddComponent(new CTransform);
 		m_pMousePicker->AddComponent(new CCollider2D_Point);
 
-		CScript* Script = CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPT::MOUSECURSOR);
+		CScript* Script = CScriptMgr::GetInst()->GetNewScript(strKey_Script::CScript_MouseCursor);
 		m_pMousePicker->AddScript(Script);
 
-		CScript_MouseCursor* pScript = static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_SCRIPT::MOUSECURSOR));
+		CScript_MouseCursor* pScript = static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_Script::CScript_MouseCursor));
 		pScript->AddFuncLBTNCallback(eKEY_STATE::DOWN, std::bind(&CEditorObjMgr::MouseLBTNCallback, this, std::placeholders::_1));
 
  		EventDispatcher::SpawnGameObject(m_pMousePicker, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::MouseCursor);
@@ -281,7 +281,7 @@ void CEditorObjMgr::CreateEditorCamera()
 	CTransform& pTransform = m_pEditorCam->Transform();
 	pTransform.SetRelativePos(Vec3(0.f, 0.f, -100.f));
 
-	m_pEditorCam->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPT::CAMERAMOVE));
+	m_pEditorCam->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_Script::CScript_CameraMove));
 
 	CRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
 }
@@ -291,7 +291,7 @@ CGameObject* CEditorObjMgr::GetSelectedObj()
 	if (nullptr == m_pMousePicker)
 		return nullptr;
 
-	return static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_SCRIPT::MOUSECURSOR))->GetSelectedObject();
+	return static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_Script::CScript_MouseCursor))->GetSelectedObject();
 }
 
 void CEditorObjMgr::MouseLBTNCallback(CGameObject* _pObj)

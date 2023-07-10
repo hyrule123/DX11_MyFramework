@@ -15,11 +15,6 @@
 // g_tex_0 : Tile Atlas Texture
 //===============================
 
-enum class eTILE_TYPE
-{
-    COMPLETE,   //완성되어있는 타일맵(그대로 출력만하면 되는 타일맵)
-    ATLAS       //아틀라스에 타일맵의 개별 그림이 모여있고, UV좌표를 통해서 그려지는 타일맵
-};
 
 #define TileXCount INT_0
 #define TileYCount INT_1
@@ -31,10 +26,8 @@ class CCamera;
 class CTilemap :
     public CRenderComponent
 {
-private:
-    CTilemap() = delete;
 public:
-    CTilemap(eTILE_TYPE _eTileType);
+    CTilemap();
     virtual ~CTilemap();
 
 public:
@@ -45,16 +38,11 @@ public:
     virtual void SetTileCount(UINT _iXCount, UINT _iYCount) { m_uTileCountX = _iXCount; m_uTileCountY = _iYCount; }
 
 private:
-    eTILE_TYPE          m_eTileType;
     UINT                m_uTileCountX;  // 타일 가로
     UINT                m_uTileCountY;  // 타일 세로
 
-
 public:
-    eTILE_TYPE GetTileType() const { return m_eTileType; }
     UINT GetTileCountX() const { return m_uTileCountX; }
     UINT GetTileCountY() const { return m_uTileCountY; }
-
-    
 };
 

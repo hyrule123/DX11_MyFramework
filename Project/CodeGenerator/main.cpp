@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     //Generate Texture Key
     {
         std::string regbase;
-        regbase += R"((\w+)\.()";
+        regbase += R"((.+)\.()";
 
         for (size_t i = 0; i < (size_t)RES_INFO::TEXTURE::Ext::idx::END; ++i)
         {
@@ -41,7 +41,6 @@ int main(int argc, char* argv[])
 
         CDirTree DirTree;
         {
-            
             stdfs::path DirPath = define_Preset::Path::Content::A;
             DirPath /= RES_INFO::TEXTURE::DirName;
             DirTree.SearchRecursive(DirPath, reg);
@@ -78,7 +77,7 @@ int main(int argc, char* argv[])
 
     //Generate Script Key and Code
     {
-        std::regex regexScript(R"(CScript_\w+\.h)");
+        std::regex regexScript(R"(CScript_.+\.h)");
 
         CDirTree DirTree;
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;

@@ -7,10 +7,12 @@
 //Script 프로젝트에서 생성되는 유저 클래스들을 관리하는 클래스
 //현재 관리하는 클래스 목록
 //1. CScript
-//2. CParticleSystem
-//3. CComputeShader
+//2. CComputeShader
+//3. CParticleSystem
+
 
 class CScript;
+class CTilemap;
 class CParticleSystem;
 class CComputeShader;
 class CUserClassMgr
@@ -18,6 +20,7 @@ class CUserClassMgr
 {
 	SINGLETON(CUserClassMgr);
 
+	//============================== SCRIPTS =====================================
 private:
 	std::unordered_map <std::string_view, std::function<CScript*(const string_view)>> m_umapScript;
 
@@ -25,6 +28,8 @@ public:
 	void AddBaseScript(const std::string_view _strKey, std::function<CScript*(const string_view)> _FuncConstructor);
 	CScript* GetNewScript(const std::string_view _strKey);
 
+
+	// ===================================== Compute Shader ==============================
 private:
 	std::unordered_map <std::string_view, std::function<Ptr<CComputeShader> ()>> m_umapCS;
 public:
@@ -33,9 +38,14 @@ public:
 	Ptr<CComputeShader> GetNewCS(const std::string_view _strKey);
 
 
+private:
+	std::unordered_map <std::string_view, std::function<CTilemap* ()>>			m_umapTilemap;
+public:
+	void AddBaseTilemap(const std::string_view _strKey, std::function<CTilemap* ()>);
+	CTilemap* GetNewTilemap(const std::string_view _strKey);
 
 private:
-	std::unordered_map <std::string_view, std::function<CParticleSystem* ()>> m_umapParticle;
+	std::unordered_map <std::string_view, std::function<CParticleSystem* ()>>	m_umapParticle;
 
 
 };
@@ -49,5 +59,12 @@ inline void CUserClassMgr::AddBaseCS(const std::string_view _strKey, std::functi
 {
 	m_umapCS.insert(std::make_pair(_strKey, _FuncConstructor));
 }
+
+inline void CUserClassMgr::AddBaseTilemap(const std::string_view _strKey, std::function<CTilemap* ()> _FuncConstructor)
+{
+	m_umapTilemap.insert(std::make_pair(_strKey, _FuncConstructor));
+}
+
+
 
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CScript_FSM_Building_Prod.h"
 
-#include <Engine/S_H_SCUnitGround.hlsli>
+#include "S_H_SCUnitGround.hlsli"
 #include <Engine/CKeyMgr.h>
 
 #include <Engine/CTimeMgr.h>

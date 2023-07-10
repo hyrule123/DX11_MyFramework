@@ -1,6 +1,6 @@
 #pragma once
 #include <Engine/CScript.h>
-#include <Engine/CTileMap_SC.h>
+#include "CTileMap_SC.h"
 
 class CScript_TilemapUnitLoader :
     public CScript

@@ -2,7 +2,7 @@
 #pragma once
 #include "CScript_SCEntity.h"
 
-#include <Engine/S_H_SCUnitGround.hlsli>
+#include "S_H_SCUnitGround.hlsli"
 
 class CScript_Mineral :
     public CScript_SCEntity

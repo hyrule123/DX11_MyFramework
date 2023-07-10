@@ -50,7 +50,7 @@ void ManualEdit::Edit()
 	//Marine
 	{
 		//Animation
-		string strKey = strKey_TEXTURE::TERRAN::MARINE_BMP;
+		string strKey = strKey_Texture::SC::Terran::marine_bmp;
 		MarineAnim_Save(strKey);
 		LoadAnim(strKey);
 
@@ -64,8 +64,8 @@ void ManualEdit::Edit()
 	{
 		//Animation
 		CommandCenter_Anim_Save();
-		LoadAnim(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
-		LoadAnim(strKey_TEXTURE::TERRAN::CONSTRUCTION_LARGE_TBLDLRG__BMP);
+		LoadAnim(strKey_Texture::SC::Terran::CommandCenter_control__bmp);
+		LoadAnim(strKey_Texture::SC::Terran::Construction_Large_tbldlrg__bmp);
 
 		string strKey = SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER);
 		CommandCenter_Prefab_Save(strKey);
@@ -103,7 +103,7 @@ void ManualEdit::TestCreate()
 		float randy = CRandMgr::GetInst()->GetRand<float>(-320.f, 320.f);
 		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f));
 
-		CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_SCRIPT::FSM_MOVE_GROUND));
+		CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_Script::CScript_FSM_Move_Ground));
 
 		pMoveGround->SetSpeed(100.f);
 	}
@@ -142,7 +142,7 @@ void ManualEdit::Terran_CommonAnim_Save()
 	//기본 시간은 100초이므로 이걸 재생속도 배율을 늘려서 사용할것(34초 -> 0.34f)
 	//또한 애니메이션도 1개 뿐이므로 동일한 키값을 사용
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::CONSTRUCTION_LARGE_TBLDLRG__BMP);
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::Construction_Large_tbldlrg__bmp);
 		assert(nullptr != pTex);
 
 		Ptr<CAnim2DAtlas> pAnim = new CAnim2DAtlas;
@@ -169,7 +169,7 @@ void ManualEdit::MarineAnim_Save(const string& _strKey)
 {
 	CResMgr* pResMgr = CResMgr::GetInst();
 
-	Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::MARINE_BMP);
+	Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::marine_bmp);
 	assert(nullptr != pTex);
 
 	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
@@ -198,7 +198,7 @@ void ManualEdit::MarineAnim_Save(const string& _strKey)
 	row = { 13u, 27u, 41u, 55u, 69u, 84u, 98u, 112u };
 	Atlas->AddAnim2D(strKey_Anim::DEATH, row, 1.f);
 
-	string strKey = strKey_TEXTURE::TERRAN::MARINE_BMP;
+	string strKey = strKey_Texture::SC::Terran::marine_bmp;
 	
 	Atlas->Save(strKey);
 }
@@ -225,7 +225,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 		CAnimator2D* pAnim = new CAnimator2D;
 		pObj->AddComponent(pAnim);
 
-		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::MARINE_BMP);
+		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::Terran::marine_bmp);
 		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
 	}
 
@@ -250,16 +250,16 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::SCENTITY));
+		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_Script::CScript_SCEntity));
 		pObj->AddScript(pSCEntity);
 		
-		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_SCRIPT::FSM_IDLE));
+		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_Script::CScript_FSM_Idle));
 		pObj->AddScript(pFSMIdle);
 
-		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_SCRIPT::FSM_MOVE_GROUND);
+		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_Script::CScript_FSM_Move_Ground);
 		pObj->AddScript(pFSMGround);
 
-		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_SCRIPT::FSM_ATTACK);
+		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_Script::CScript_FSM_Attack);
 		pObj->AddScript(pFSMAttack);
 	}
 	
@@ -279,7 +279,7 @@ void ManualEdit::CommandCenter_Anim_Save()
 
 	//메인 스프라이트
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::CommandCenter_control__bmp);
 		assert(nullptr != pTex);
 		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 		Atlas->SetKey(pTex->GetKey());
@@ -312,7 +312,7 @@ void ManualEdit::CommandCenter_Anim_Save()
 	//생산 스프라이트(controlt)
 	//텍스처 한 장이므로 굳이 할필요가 없다
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_PROD_CONTROLT__BMP);
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::CommandCenter_Prod_controlt__bmp);
 		assert(nullptr != pTex);
 		//Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 		//Atlas->SetKey(pTex->GetKey());
@@ -340,11 +340,11 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 		CAnimator2D* pAnim = new CAnimator2D;
 		pObj->AddComponent(pAnim);
 
-		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::COMMANDCENTER_CONTROL__BMP);
+		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::Terran::CommandCenter_control__bmp);
 		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
 
 		
-		pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::TERRAN::CONSTRUCTION_LARGE_TBLDLRG__BMP);
+		pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::Terran::Construction_Large_tbldlrg__bmp);
 		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_1, pAtlas);
 	}
 
@@ -360,7 +360,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::BUILDINGSTRUCTURE);
 		pMtrl->SetShader(pShader);
 
-		Ptr<CTexture> pFlash = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::TERRAN::COMMANDCENTER_PROD_CONTROLT__BMP);
+		Ptr<CTexture> pFlash = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::CommandCenter_Prod_controlt__bmp);
 
 		pMtrl->SetTexParam((eMTRLDATA_PARAM_TEX)iTexProdIdx, pFlash);
 
@@ -373,10 +373,10 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-		CScript_SCEntity* pEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::SCENTITY));
+		CScript_SCEntity* pEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_Script::CScript_SCEntity));
 		pObj->AddScript(pEntity);
 
-		CScript_FSM_Building_Prod* pFSMBuilding = static_cast<CScript_FSM_Building_Prod*>(pScriptMgr->GetNewScript(strKey_SCRIPT::FSM_BUILDING_PROD));
+		CScript_FSM_Building_Prod* pFSMBuilding = static_cast<CScript_FSM_Building_Prod*>(pScriptMgr->GetNewScript(strKey_Script::CScript_FSM_Building_Prod));
 		pObj->AddScript(pFSMBuilding);
 	}
 
@@ -423,9 +423,9 @@ void ManualEdit::Mineral_Prefab_Save()
 		pMtrl->SetShader(pShader);
 
 		//미네랄 텍스처 등록
-		Ptr<CTexture> Mineral1 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN01_BMP);
-		Ptr<CTexture> Mineral2 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN02_BMP);
-		Ptr<CTexture> Mineral3 = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::MIN03_BMP);
+		Ptr<CTexture> Mineral1 = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::min01_bmp);
+		Ptr<CTexture> Mineral2 = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::min02_bmp);
+		Ptr<CTexture> Mineral3 = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::min03_bmp);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Mineral1);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_1, Mineral2);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_2, Mineral3);
@@ -451,7 +451,7 @@ void ManualEdit::Mineral_Prefab_Save()
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-		pObj->AddScript(pScriptMgr->GetNewScript(strKey_SCRIPT::MINERAL));
+		pObj->AddScript(pScriptMgr->GetNewScript(strKey_Script::CScript_Mineral));
 	}
 
 
@@ -466,7 +466,7 @@ void ManualEdit::Vespene_Anim_Save()
 
 	//일반 연기
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::THINGY::VSMOKE_GEYSMOK1__BMP);
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::thingy::VSmoke_geysmok1__bmp);
 		assert(nullptr != pTex);
 		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 		Atlas->SetKey(pTex->GetKey());
@@ -489,7 +489,7 @@ void ManualEdit::Vespene_Anim_Save()
 
 	//고갈 연기
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_TEXTURE::THINGY::VSMOKEDEPLETE_GEYSMOK4__BMP);
+		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::thingy::VSmokeDeplete_geysmok4__bmp);
 		assert(nullptr != pTex);
 		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
 		Atlas->SetKey(pTex->GetKey());
@@ -546,7 +546,7 @@ void ManualEdit::Vespene_Prefab_Save()
 		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::VESPINEGEYSER);
 		pMtrl->SetShader(pShader);
 
-		Ptr<CTexture> VespeneTex = pResMgr->Load<CTexture>(strKey_TEXTURE::NEUTRAL::GEYSER_BMP);
+		Ptr<CTexture> VespeneTex = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::geyser_bmp);
 		assert(nullptr != VespeneTex);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, VespeneTex);
 
@@ -559,7 +559,7 @@ void ManualEdit::Vespene_Prefab_Save()
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::VESPENE));
+		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_Script::CScript_Vespene));
 		pObj->AddScript(pSCEntity);
 
 		//가스 스크립트 추가할것
@@ -587,11 +587,11 @@ void ManualEdit::Vespene_Prefab_Save()
 			CAnimator2D* pAnim = new CAnimator2D;
 			pChild->AddComponent(pAnim);
 
-			Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::THINGY::VSMOKE_GEYSMOK1__BMP);
+			Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::thingy::VSmoke_geysmok1__bmp);
 			pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
 
 
-			pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_TEXTURE::THINGY::VSMOKEDEPLETE_GEYSMOK4__BMP);
+			pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::thingy::VSmokeDeplete_geysmok4__bmp);
 			pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_1, pAtlas);
 		}
 
@@ -616,7 +616,7 @@ void ManualEdit::Vespene_Prefab_Save()
 		{
 			CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
 
-			CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_SCRIPT::VESPENESMOKE));
+			CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_Script::CScript_VespeneSmoke));
 			pChild->AddScript(pSCEntity);
 		}
 	}
@@ -644,7 +644,7 @@ void ManualEdit::Map_Prefab_Save()
 	//Script
 	{
 		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
-		pObj->AddScript(pScriptMgr->GetNewScript(strKey_SCRIPT::TILEMAPUNITLOADER));
+		pObj->AddScript(pScriptMgr->GetNewScript(strKey_Script::CScript_TilemapUnitLoader));
 	}
 
 	Ptr<CPrefab> pPrefab = new CPrefab;

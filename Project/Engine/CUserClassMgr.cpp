@@ -46,6 +46,22 @@ Ptr<CComputeShader> CUserClassMgr::GetNewCS(const std::string_view _strKey)
 }
 
 
+CTilemap* CUserClassMgr::GetNewTilemap(const std::string_view _strKey)
+{
+	const auto& iter = m_umapTilemap.find(_strKey);
 
+	if (iter == m_umapTilemap.end())
+		return nullptr;
+
+	CTilemap* NewTilemap = iter->second();
+	NewTilemap->SetKey(_strKey);
+
+	//리소스 매니저에 리소스를 추가한다.
+	CResMgr::GetInst()->AddRes(_strKey, NewCS);
+
+	return NewCS;
+
+	return nullptr;
+}
 
 

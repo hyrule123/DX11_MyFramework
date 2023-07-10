@@ -15,6 +15,8 @@ private:
 	{
 		int iIndentation;
 		std::string Buffer;
+
+		CodeBuffer() : iIndentation(), Buffer() {}
 	};
 	std::vector<CodeBuffer> m_vecBuffer;
 

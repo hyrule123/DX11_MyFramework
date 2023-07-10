@@ -4,9 +4,8 @@
 #include "CResMgr.h"
 #include "strKey_Default.h"
 
-CTilemap::CTilemap(eTILE_TYPE _eTileType)
+CTilemap::CTilemap()
 	: CRenderComponent(eCOMPONENT_TYPE::TILEMAP)
-	, m_eTileType(_eTileType)
 	, m_uTileCountX(1)
 	, m_uTileCountY(1)
 {

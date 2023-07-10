@@ -36,6 +36,7 @@
 #include <Script/CScript_MouseCursor.h>
 #include <Script/define_SC.h>
 
+
 #include "ManualEdit.h"
 #include "strKey_Prefab.h"
 
@@ -105,7 +106,7 @@ void CreateMainGame()
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		//pObj->AddComponent(new CTransform);
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_SCRIPT::MAINCAMSC_INGAME));
+		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_Script::CScript_MainCamSC_InGame));
 
 		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::Camera);
 	}

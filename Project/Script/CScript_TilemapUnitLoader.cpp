@@ -2,7 +2,7 @@
 #include "CScript_TilemapUnitLoader.h"
 
 #include "define_SC.h"
-#include <Engine/CTileMap_SC.h>
+#include "CTileMap_SC.h"
 #include <Engine/EventDispatcher.h>
 #include <Engine/CResMgr.h>
 
@@ -18,7 +18,7 @@
 #include <Engine/CLayer.h>
 #include <Engine/CGameObject.h>
 
-#include <Engine/S_H_SCUnitGround.hlsli>
+#include "S_H_SCUnitGround.hlsli"
 
 #include "strKey_Script.h"
 #include "CScript_Mineral.h"
@@ -79,7 +79,7 @@ void CScript_TilemapUnitLoader::LoadUnit(const shared_ptr<SC_Map::tMapData> _pMa
 			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
 
 			//미네랄 남은 자원량 설정
-			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_SCRIPT::MINERAL));
+			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_Script::CScript_Mineral));
 			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
 
 			break;
@@ -95,7 +95,7 @@ void CScript_TilemapUnitLoader::LoadUnit(const shared_ptr<SC_Map::tMapData> _pMa
 			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
 
 			//미네랄 남은 자원량 설정
-			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_SCRIPT::MINERAL));
+			CScript_Mineral* pScriptMineral = static_cast<CScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_Script::CScript_Mineral));
 			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
 
 			break;
