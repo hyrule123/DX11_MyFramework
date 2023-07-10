@@ -5,7 +5,6 @@
 #include "CEventMgr.h"
 
 
-
 bool ConvertMultibyteToUnicode(__in const string_view _src, __out wstring& _dest)
 {
 	_dest.clear();
@@ -20,7 +19,6 @@ bool ConvertMultibyteToUnicode(__in const string_view _src, __out wstring& _dest
 		return false;
 
 	_dest.resize(len);
-
 	::MultiByteToWideChar(CP_ACP, 0, _src.data(), srcsize, _dest.data(), (int)_dest.size());
 
 	return true;
@@ -40,7 +38,6 @@ bool ConvertUnicodeToMultibyte(__in const wstring& _src, __out string& _dest)
 		return false;
 
 	_dest.resize(len);
-
 	::WideCharToMultiByte(CP_ACP, 0, _src.data(), srcsize, _dest.data(), (int)_dest.size(), nullptr, nullptr);
 
 	return true;
@@ -60,7 +57,6 @@ bool ConvertUnicodeToUTF8(__in const wstring& _src, __out string& _dest)
 		return false;
 
 	_dest.resize(len);
-
 	::WideCharToMultiByte(CP_UTF8, 0, _src.data(), srcsize, _dest.data(), (int)_dest.size(), nullptr, nullptr);
 
 	return true;
@@ -80,13 +76,12 @@ wstring ConvertMultibyteToUnicode(const string_view _src)
 		return result;
 
 	result.resize(len);
-
 	::MultiByteToWideChar(CP_ACP, 0, _src.data(), srcsize, result.data(), (int)result.size());
 
 	return result;
 }
 
-string ConvertUnicodeToMultibyte(const wstring& _src)
+string ConvertUnicodeToMultibyte(const wstring_view _src)
 {
 	string result;
 
@@ -106,7 +101,7 @@ string ConvertUnicodeToMultibyte(const wstring& _src)
 	return result;
 }
 
-string ConvertUnicodeToUTF8(const wstring& _src)
+string ConvertUnicodeToUTF8(const wstring_view _src)
 {
 	string result;
 

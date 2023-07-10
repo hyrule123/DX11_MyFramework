@@ -9,19 +9,12 @@
 #include "CDirTree.h"
 
 
-std::regex define_Preset::Regex::g_regexVarForbidden;
-
-//한글 경로 지원 안함.(어차피 여기서 지원해도 Unity Build에서 지원 안됨)
-//argv[1] = 처리해야할 작업의 종류(ex. Script)
-
 //시작 지점 = $(SolutionDir) : 상대 경로로 작업해주면 된다.
 int main(int argc, char* argv[])
 {
-    {
-        using namespace define_Preset::Regex;
-        g_regexVarForbidden = MakeVarForbiddenRegex();
-    }
-    
+    //Create variable name restraints regex
+    define_Preset::Regex::g_VarForbiddenChars::CreateVarForbiddendRegex();
+
 
     //Generate Texture Key
     {
@@ -47,54 +40,53 @@ int main(int argc, char* argv[])
         std::regex reg(regbase, std::regex::icase);
 
         CDirTree DirTree;
-        stdfs::path DirPath = define_Preset::Path::Content::A;
-        DirPath /= RES_INFO::TEXTURE::DirName;
-        DirTree.SearchRecursive(DirPath, reg);
+        {
+            
+            stdfs::path DirPath = define_Preset::Path::Content::A;
+            DirPath /= RES_INFO::TEXTURE::DirName;
+            DirTree.SearchRecursive(DirPath, reg);
+        }
 
-        DirTree.CreateStrKeyHeader<char>(define_Preset::Path::ScriptProj::A, define_Preset::Path::strKey_Texture::A, false, "Texture");
+        stdfs::path outPath = define_Preset::Path::ScriptProj::A;
+        outPath /= define_Preset::Path::strKey_Texture::A;
+        DirTree.CreateStrKeyHeader(outPath, "Texture", false);
     }
 
     //Generate Compute Shader Key
     {
-        std::regex reg(define_Preset::Regex::CShader);
+        std::regex reg(define_Preset::Regex::CShader::A);
 
         CDirTree DirTree;
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
         DirTree.SearchRecursive(DirPath, reg);
 
-        DirTree.CreateCShaderCode<char>(DirPath, define_Preset::Path::UserClassInit_CS::A);
-        DirTree.CreateStrKeyHeader<char>(DirPath, define_Preset::Path::strKey_CShader::A, true, "CShader");
+        DirTree.CreateCShaderCode(DirPath / define_Preset::Path::UserClassInit_CS::A);
+        DirTree.CreateStrKeyHeader(DirPath / define_Preset::Path::strKey_CShader::A, "CShader", true);
     }
 
-    ////Generate Graphics Shader Key
-    //{
-    //    tDirTreeFilters Filter;
-    //    Filter.Include_Ext(RES_INFO::SHADER::Ext_ShaderSourceCode);
+    //Generate Graphics Shader Key
+    {
+        std::regex regexGS(define_Preset::Regex::GShader::A);
 
-    //    CDirTree DirTree;
-    //    stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
-    //    DirTree.SearchRecursive(DirPath, Filter);
 
-    //    stdfs::path TargetPath = define_Preset::Path::ScriptProj::A;
+        CDirTree DirTree;
+        stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
+        DirTree.SearchRecursive(DirPath, regexGS);
 
-    //    DirTree.CreateGShaderStrKey<char>(TargetPath, define_Preset::Path::strKey_GShader::A);
-    //}
+        DirTree.CreateGShaderStrKey(DirPath / define_Preset::Path::strKey_GShader::A);
+    }
 
-    ////Generate Script Key and Code
-    //{
-    //    tDirTreeFilters Filter;
-    //    Filter.Include_Keyword(define_Preset::Keyword::ScriptPrefix::A);
-    //    Filter.Include_Ext(".h");
+    //Generate Script Key and Code
+    {
+        std::regex regexScript(R"(CScript_\w+\.h)");
 
-    //    CDirTree DirTree;
-    //    stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
-    //    DirTree.SearchRecursive(DirPath, Filter);
+        CDirTree DirTree;
+        stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
+        DirTree.SearchRecursive(DirPath, regexScript);
 
-    //    stdfs::path TargetPath = DirPath;
-
-    //    DirTree.CreateStrKeyHeader<char>(TargetPath, define_Preset::Path::strKey_Script::A, true, "Script");
-    //    DirTree.CreateScriptCPP<char>(TargetPath, define_Preset::Path::UserClassInit_Script::A);
-    //}
+        DirTree.CreateStrKeyHeader(DirPath / define_Preset::Path::strKey_Script::A, "Script", true);
+        DirTree.CreateScriptCPP(DirPath / define_Preset::Path::UserClassInit_Script::A);
+    }
 
     return 0;
 }

@@ -17,5 +17,5 @@
 
 namespace strKey_CShader
 {
-	STRKEY  = "CCS_SCMapLoader";
+	STRKEY CCS_SCMapLoader = "CCS_SCMapLoader";
 }

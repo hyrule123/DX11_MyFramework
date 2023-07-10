@@ -2,271 +2,80 @@
 
 #include "define_CodeGen.h"
 
-
 #define STATIC_ASSERT_IS_STRING static_assert(std::is_same_v<T, char> || std::is_same_v<T, wchar_t>)
 
 class MacroFunc
 {
 public:
-	template <typename T>
-	inline static std::basic_string<T>& UpperCase(std::basic_string<T>& _str);
+	static void ConvertUTF8ToUnicode(__in const string_view _src, __out wstring& _dest);
+	static void ConvertUnicodeToUTF8(__in const wstring_view _src, __out string& _dest);
 
-	template <typename T>
-	inline static std::basic_string<T>& LowerCase(std::basic_string<T>& _str);
-
-	template <typename T>
-	inline static std::basic_string<T> UpperCase(const std::basic_string_view<T> _str);
-
-	template <typename T>
-	inline static std::basic_string<T> LowerCase(const std::basic_string_view<T> _str);
-
-//리터럴 문자열에 사용
-#define T_STRING(T, _str) MacroFunc::T_StringView<T>(_str, L##_str)
-#define T_C_STRING(T, _Cstr) MacroFunc::T_CStringView<T>(_Cstr, L##_Cstr)
-
-//define_Preset에 정의된 constexpr inline const char* 타입 변수에 사용
-#define T_PRESET_STR(T, _PresetStr) MacroFunc::T_StringView<T>(_PresetStr##::A, _PresetStr##::W)
-#define T_C_PRESET_STR(T, _PresetSTr) MacroFunc::T_CStringView<T>(_PresetStr##::A, _PresetStr##::W)
-
-//한글자
-//#define T_CHAR(T, _char) std::char_traits<T>::to_char_type(_char)
-
-//새로운 T타입 문자열 생성
-#define NEW_T_STRING(T, _str) std::basic_string<T>(T_STRING(T, _str))
-
-
-//SFINAE Overloaded Strings
-//위 아래 함수는 enable_if와 enable_if_t 사용 예시(둘이 같은 기능임)
-//현재는 SFINAE를 이용했지만, C++ 17 이후로는 if constexpr을 이용할 수도 있는 듯
-	template <typename T, typename std::enable_if<std::is_same<T, char>::value, void>::type* = nullptr>
-	inline static const std::basic_string_view<T> T_StringView(const std::string_view _AstrView, const std::wstring_view _WstrView)
-	{
-		STATIC_ASSERT_IS_STRING;
-		return _AstrView;
-	}
-
-	template <typename T, typename std::enable_if_t<std::is_same_v<T, wchar_t>, void>* = nullptr>
-	inline static const std::basic_string_view<T> T_StringView(const std::string_view _AstrView, const std::wstring_view _WstrView)
-	{
-		STATIC_ASSERT_IS_STRING;
-		return _WstrView;
-	}
-
-	template <typename T, typename std::enable_if<std::is_same<T, char>::value, void>::type* = nullptr>
-	inline static const T* T_CStringView(const char* _Astr, const wchar_t* _Wstr)
-	{
-		STATIC_ASSERT_IS_STRING;
-		return _Astr;
-	}
-
-	template <typename T, typename std::enable_if_t<std::is_same_v<T, wchar_t>, void>* = nullptr>
-	inline static const T* T_CStringView(const char* _Astr, const wchar_t* _Wstr)
-	{
-		STATIC_ASSERT_IS_STRING;
-		return _Wstr;
-	}
+	static string ConvertUnicodeToUTF8(const wstring_view _src);
+	static wstring ConvertUTF8ToUnicode(const string_view _src);
 	
-	//변수명에 사용 불가능한 특수문자들을 변환(, . ( {... 등등
-	template <typename T>
-	inline static std::basic_string<T> ConvertToVarName(const std::basic_string_view<T> _strView);
+	inline static string UpperCase(const string_view _str);
+	inline static wstring UpperCase(const wstring_view _wstr);
 
-	template <typename T>
-	std::basic_regex<T> MakeVarForbiddenRegex();
-
+	inline static string& UpperCase(string& _str);
+	inline static wstring& UpperCase(wstring& _wstr);
 
 private:
 	MacroFunc() = delete;
 	~MacroFunc() = delete;
 };
 
-template<typename T>
-inline std::basic_string<T>& MacroFunc::UpperCase(std::basic_string<T>& _str)
+inline string MacroFunc::UpperCase(const string_view _str)
 {
-	STATIC_ASSERT_IS_STRING;
-	if constexpr (std::is_same_v<char, T>)
-	{
-		std::transform(_str.begin(), _str.end(), _str.begin(), ::toupper);
-	}
-	else if constexpr (std::is_same_v<wchar_t, T>)
-	{
-		std::transform(_str.begin(), _str.end(), _str.begin(), ::towupper);
-	}
-	else
-	{
-		static_assert(!std::is_same_v<char8_t, T>);
-	}
-
-	return _str;
-}
-
-
-template<typename T>
-inline std::basic_string<T>& MacroFunc::LowerCase(std::basic_string<T>& _str)
-{
-	STATIC_ASSERT_IS_STRING;
-	if constexpr (std::is_same_v<char, T>)
-	{
-		std::transform(_str.begin(), _str.end(), _str.begin(), ::tolower);
-	}
-	else if constexpr (std::is_same_v<wchar_t, T>)
-	{
-		std::transform(_str.begin(), _str.end(), _str.begin(), ::towlower);
-	}
-	else
-	{
-		static_assert(!std::is_same_v<char8_t, T>);
-	}
-
-	return _str;
-}
-
-template<typename T>
-inline std::basic_string<T> MacroFunc::UpperCase(const std::basic_string_view<T> _str)
-{
-	STATIC_ASSERT_IS_STRING;
-	std::basic_string<T> newStr(_str);
-
-	if constexpr (std::is_same_v<char, T>)
-	{
-		std::transform(newStr.begin(), newStr.end(), newStr.begin(), ::toupper);
-	}
-	else if constexpr (std::is_same_v<wchar_t, T>)
-	{
-		std::transform(newStr.begin(), newStr.end(), newStr.begin(), ::towupper);
-	}
-	else
-	{
-		static_assert(!std::is_same_v<char8_t, T>);
-	}
-
-	return newStr;
-}
-
-template<typename T>
-inline std::basic_string<T> MacroFunc::LowerCase(const std::basic_string_view<T> _str)
-{
-	STATIC_ASSERT_IS_STRING;
-	std::basic_string<T> newStr(_str);
-
-	if constexpr (std::is_same_v<char, T>)
-	{
-		std::transform(newStr.begin(), newStr.end(), newStr.begin(), ::tolower);
-	}
-	else if constexpr (std::is_same_v<wchar_t, T>)
-	{
-		std::transform(newStr.begin(), newStr.end(), newStr.begin(), ::towlower);
-	}
-	else
-	{
-		static_assert(!std::is_same_v<char8_t, T>);
-	}
-
-	return newStr;
-}
-
-template<typename T>
-inline std::basic_string<T> MacroFunc::ConvertToVarName(const std::basic_string_view<T> _strView)
-{
-	//문자열을 복사
-	std::basic_string<T> Conv(_strView);
-
-	//필터에 들어가있는 문자의 갯수를 확인
-	using namespace define_Preset::VarNameFilter;
-	if constexpr (std::is_same<char, T>::value)
-	{
-		constexpr size_t filterSize = sizeof(FiltersA) / sizeof(FiltersA[0]);
-
-		//필터 안에 들어가 있는 문자들을 변수에서 사용해도 되는 문자인 '_'로 변환
-		std::replace_if(Conv.begin(), Conv.end(),
-			[](char c)->bool
-			{
-				for (size_t i = 0; i < filterSize; ++i)
-				{
-					if (FiltersA[i] == c)
-						return true;
-				}
-
-				return false;
-
-			},
-			'_'
-		);
-
-	}
-	else if constexpr (std::is_same<wchar_t, T>::value)
-	{
-		constexpr size_t filterSize = sizeof(FiltersW) / sizeof(FiltersW[0]);
-
-		//필터 안에 들어가 있는 문자들을 변수에서 사용해도 되는 문자인 '_'로 변환
-		std::replace_if(Conv.begin(), Conv.end(),
-			[](wchar_t c)->bool
-			{
-				for (size_t i = 0; i < filterSize; ++i)
-				{
-					if (FiltersW[i] == c)
-						return true;
-				}
-
-				return false;
-
-			},
-			'_'
-		);
-	}
-	else if constexpr (std::is_same<wchar_t, T>::value)
-	{
-		constexpr size_t filterSize = sizeof(FiltersU8) / sizeof(FiltersU8[0]);
-
-		//필터 안에 들어가 있는 문자들을 변수에서 사용해도 되는 문자인 '_'로 변환
-		std::replace_if(Conv.begin(), Conv.end(),
-			[](char8_t c)->bool
-			{
-				for (size_t i = 0; i < filterSize; ++i)
-				{
-					if (FiltersU8[i] == c)
-						return true;
-				}
-
-				return false;
-
-			},
-			'_'
-		);
-	}
-
-
-	return Conv;
-}
-
-template<typename T>
-inline std::basic_regex<T> MacroFunc::MakeVarForbiddenRegex()
-{
-	STATIC_ASSERT_IS_STRING;
-	std::basic_string<T> Result;
-	Result += T_STRING(T, "(");
-
-	using namespace define_Preset::Regex;
-
-	size_t size;
-	if constexpr (std::is_same_v<T, char>)
-		size = sizeof(arrCharsVarForbidden::A) / sizeof(T*);
-	else if constexpr (std::is_same_v<T, wchar_t>)
-		size = sizeof(arrCharsVarForbidden::W) / sizeof(T*);
-
-
+	string converted(_str);
+	
+	size_t size = converted.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		if constexpr (std::is_same_v<T, char>)
-			Result += arrCharsVarForbidden::A[i];
-		else if constexpr (std::is_same_v<T, wchar_t>)
-			Result += arrCharsVarForbidden::W[i];
+		//첫 번째 비트가 0일 경우 ASCII 코드
+		if ((char)0 == (converted[i] >> 7))
+		{
+			converted[i] = std::toupper(converted[i]);
+		}
+	}
+	
+	return converted;
+}
 
+inline wstring MacroFunc::UpperCase(const wstring_view _wstr)
+{
+	wstring converted(_wstr);
 
-		if (i + 1 == size)
-			Result += T_STRING(T, ")");
-		else
-			Result += T_STRING(T, "|");
+	size_t size = sizeof(converted);
+	for (size_t i = 0; i < size; ++i)
+	{
+		converted[i] = (wchar_t)std::toupper((wchar_t)converted[i]);
 	}
 
-	return std::basic_regex<T>(Result);
+	return converted;
+}
+
+inline string& MacroFunc::UpperCase(string& _str)
+{
+	size_t size = _str.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		//첫 번째 비트가 0일 경우 ASCII 코드
+		if ((char)0 == (_str[i] >> 7))
+		{
+			_str[i] = std::toupper(_str[i]);
+		}
+	}
+
+	return _str;
+}
+
+inline wstring& MacroFunc::UpperCase(wstring& _wstr)
+{
+	size_t size = _wstr.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		_wstr[i] = (wchar_t)std::toupper((int)_wstr[i]);
+	}
+
+	return _wstr;
 }

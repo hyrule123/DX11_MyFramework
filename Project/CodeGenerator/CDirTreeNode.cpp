@@ -139,3 +139,77 @@ HRESULT CDirTreeNode::GetAllFiles(__out std::vector<stdfs::path>& _vecFile, bool
 
 	return S_OK;
 }
+
+
+HRESULT CDirTreeNode::WriteStrKeyTree(CCodeWriter& _CodeWriter, bool _bEraseExtension)
+{
+	if (false == IsRoot())
+	{
+		std::string strCode = "namespace ";
+		strCode += MacroFunc::UpperCase(m_DirName.filename().string());
+		_CodeWriter.WriteCode(strCode);
+	}
+
+	//중괄호 열고 자신의 파일목록 작성
+	{
+		_CodeWriter.OpenBracket();
+
+		size_t size = m_vecFileName.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			std::string strCode = "STRKEY ";
+			{
+				string varName;
+				
+				if (_bEraseExtension)
+					varName = m_vecFileName[i].filename().replace_extension("").string();
+				else
+					varName = m_vecFileName[i].filename().string();
+
+				//변수명에 사용할 수 없는 특수문자를 제외
+				strCode += std::regex_replace(varName, define_Preset::Regex::g_VarForbiddenChars::A, "_");
+
+			}
+
+
+
+
+			strCode += " = \"";
+
+			if (false == IsRoot())
+			{
+				strCode += m_DirName.string();
+				strCode += "/";
+			}
+
+
+
+			if (_bEraseExtension)
+				strCode += m_vecFileName[i].replace_extension("").string();
+			else
+				strCode += m_vecFileName[i].string();
+
+
+			strCode += "\";";
+			_CodeWriter.WriteCode(strCode);
+		}
+	}
+
+	//자식 노드가 있을 경우 재귀 호출 
+	{
+		size_t size = m_vecChild.size();
+		for (size_t i = 0; i < size; ++i)
+		{
+			HRESULT hr = m_vecChild[i]->WriteStrKeyTree(_CodeWriter, _bEraseExtension);
+			if (FAILED(hr))
+			{
+				return E_FAIL;
+			}
+		}
+	}
+
+	_CodeWriter.CloseBracket();
+	_CodeWriter.WriteCode();
+
+	return S_OK;
+}

@@ -1,6 +1,9 @@
 #pragma once
 
 #include <regex>
+#include <filesystem>
+
+namespace stdfs = std::filesystem;
 
 #ifndef DEBUG_BREAK
 #ifdef _DEBUG
@@ -95,22 +98,30 @@ R"(#ifndef STRKEY
 			{
 				"\\(","\\)",
 				"\\{","\\}",
-				"\\[","\\]"
+				"\\[","\\]",
+				"\\."
 			};
 
 			constexpr inline const wchar_t* W[] =
 			{
 				L"\\(",L"\\)",
 				L"\\{",L"\\}",
-				L"\\[",L"\\]"
+				L"\\[",L"\\]",
+				L"\\."
 			};
 
 		}
 
-		extern std::regex g_regexVarForbidden;
-		extern std::wregex g_regexVarForbidden;
+		namespace g_VarForbiddenChars
+		{
+			extern std::regex A;
+			extern std::wregex W;
+			void CreateVarForbiddendRegex();
+		}
 
-		PRESET(CShader, R"(CCS_\w+\.h)");
+
+		PRESET(CShader, R"(CCS_\w+\.h$)");
+		PRESET(GShader, R"(\w+\.hlsl$)");
 
 		//[   numthreads   ( %d, %d, %d )   ]
 		//[ ] 안에 둘러싸여 있고, 공백 갯수에 상관없이 숫자 3개를 추출

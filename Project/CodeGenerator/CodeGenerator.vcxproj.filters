@@ -20,6 +20,8 @@
     </ClCompile>
     <ClCompile Include="CDirTreeNode.cpp" />
     <ClCompile Include="CDirTree.cpp" />
+    <ClCompile Include="define_CodeGen.cpp" />
+    <ClCompile Include="CCodeWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -37,8 +39,5 @@
     <ClInclude Include="define_CodeGen.h">
       <Filter>Default</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CCodeWriter.inl" />
   </ItemGroup>
 </Project>

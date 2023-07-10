@@ -101,9 +101,6 @@ bool CTransform::SaveJson(Json::Value* _pJson)
 
 	//Transform 항목을 하나 만들어서 그 안에 저장
 	Json::Value& jVal = (*_pJson);
-
-	
-
 	
 	{//사이즈 X, Y, Z 순서로 저장
 		string strKey = string(RES_INFO::PREFAB::COMPONENT::TRANSFORM::v3Size);
