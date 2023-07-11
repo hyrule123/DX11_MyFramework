@@ -194,9 +194,11 @@ inline void CResMgr::AddRes(const string_view _strKey, Ptr<T>& _Res)
     // 중복키로 리소스 추가하려는 경우
     assert( ! FindRes<T>(_strKey).Get() );
 
+    //키값을 설정(Load를 거치지 않고 AddRes 되는 경우도 있으므로 여기서 해줘야 함)
+    _Res->SetKey(_strKey);
+
     eRES_TYPE type = GetResType<T>();
 
-    _Res->SetKey(_strKey);
     m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
 }
 
@@ -207,11 +209,13 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
     //CRes를 상속받는 클래스가 아닐 경우 컴파일 중지
     static_assert(std::is_base_of<CRes, T>::value);
 
-    string_view strKey;
-    if (_strKey.empty())
-        strKey = _fileName.filename();
+    string strKey(_strKey);
 
-    Ptr<T> pRes = FindRes<T>(_strKey).Get();
+    //Key가 비어있을 경우 파일명을 키값으로 사용한다.
+    if (strKey.empty())
+        strKey = _fileName.string();
+
+    Ptr<T> pRes = FindRes<T>(strKey).Get();
     
     // 이미 해당 키로 리소스가 있다면, 반환
     if (nullptr != pRes)
@@ -222,10 +226,7 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
     if (false == pRes->Load(_fileName))
         return nullptr;
 
-    if (_strKey.empty())
-        AddRes<T>(_fileName.string(), pRes);
-    else
-        AddRes<T>(_strKey, pRes);
+    AddRes<T>(strKey, pRes);
 
     m_bResUpdated = true;
 

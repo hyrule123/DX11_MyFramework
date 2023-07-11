@@ -192,7 +192,7 @@ if (false == jVal.isMember(_strKey))\
 				
 			//CSO 파일이 있는 폴더에 접근
 			std::filesystem::path shaderPath = 
-				CPathMgr::GetInst()->GetPathAbs_Content() / DIRECTORY_NAME::SHADER_CSO / sFileName;
+				CPathMgr::GetInst()->GetPathRel_Content() / DIRECTORY_NAME::SHADER_Bin / sFileName;
 
 			//위에서 만든 파일명을 토대로 디스크에서 파일을 열어준다.
 			std::ios_base::openmode openFlag = std::ios_base::ate | std::ios_base::binary; std::ios_base::in;

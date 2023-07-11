@@ -1,4 +1,4 @@
-
+//일단 미사용
 
 #pragma once
 

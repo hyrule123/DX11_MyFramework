@@ -41,7 +41,7 @@ public:
     virtual void EndCollision(CCollider* _other) {}
 
 private:
-    const std::string_view m_strKey;
+    const std::string m_strKey;
 public:
     const string_view GetKey() const { return m_strKey; }
 

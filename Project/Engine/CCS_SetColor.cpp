@@ -12,9 +12,18 @@
 CCS_SetColor::CCS_SetColor()
 	: CComputeShader(32u, 32u, 1u)
 {
+}
+
+CCS_SetColor::~CCS_SetColor()
+{
+}
+
+bool CCS_SetColor::Load(std::filesystem::path const& _FilePath)
+{
 	HRESULT hr = CreateShaderFromHeader(g_CS_SetColor, sizeof(g_CS_SetColor));
 
-	assert(SUCCEEDED(hr));
+	if (FAILED(hr))
+		return false;
 
 	tSBufferDesc Desc = {};
 	Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
@@ -39,10 +48,8 @@ CCS_SetColor::CCS_SetColor()
 
 	//SRV에 바인딩5
 	m_StructBufferTest->BindBufferSRV();
-}
 
-CCS_SetColor::~CCS_SetColor()
-{
+	return true;
 }
 
 bool CCS_SetColor::BindDataCS()

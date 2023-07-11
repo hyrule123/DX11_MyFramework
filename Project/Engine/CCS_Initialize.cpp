@@ -15,14 +15,22 @@ CCS_Initialize::CCS_Initialize()
 	: CComputeShader(1u, 1u, 1u)
 	, m_pSBuffer_InitSetting()
 {
-	HRESULT hr = CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
 
-	if (FAILED(hr))
-		assert(SUCCEEDED(hr));
 }
 
 CCS_Initialize::~CCS_Initialize()
 {
+}
+
+//기본 생성자이므로 cso를 통한 로딩이 아님 -> 재정의하여 별도로 로드
+bool CCS_Initialize::Load(std::filesystem::path const& _FilePath)
+{
+	HRESULT hr = CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
+
+	if (SUCCEEDED(hr))
+		return true;
+
+	return false;
 }
 
 bool CCS_Initialize::BindDataCS()

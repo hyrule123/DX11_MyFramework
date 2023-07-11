@@ -20,11 +20,11 @@ CTilemap::CTilemap(eTILEMAP_TYPE _eTilemapType)
 	switch (_eTilemapType)
 	{
 	case eTILEMAP_TYPE::ATLAS:
-		SetMaterial(pMgr->FindRes<CMaterial>(strKey_RES_DEFAULT::MATERIAL::TILEMAP_ATLAS));
+		SetMaterial(pMgr->Load<CMaterial>(strKey_RES_DEFAULT::MATERIAL::TILEMAP_ATLAS));
 
 		break;
 	case eTILEMAP_TYPE::COMPLETE:
-		SetMaterial(pMgr->FindRes<CMaterial>(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE));
+		SetMaterial(pMgr->Load<CMaterial>(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE));
 
 		break;
 	default:

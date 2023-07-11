@@ -81,7 +81,7 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 	
 	try
 	{
-		string strKey = string(RES_INFO::PREFAB::COMPONENT::SCRIPT_HOLDER::JSON_KEY::m_vecScript_strKey);
+		string strKey = RES_INFO::PREFAB::COMPONENT::SCRIPT_HOLDER::JSON_KEY::m_vecScript_strKey;
 		if (jVal.isMember(strKey))
 		{
 			Json::Value& arr = jVal[strKey];
@@ -96,7 +96,7 @@ bool CScriptHolder::LoadJson(Json::Value* _jVal)
 				{
 					string ScriptKey = it.key().asString();
 
-					CScript* newScript = nullptr;
+					CScript* newScript = UserClassMgr::GetNewScript(ScriptKey);
 					
 					//스크립트를 생성받지 못했을 경우 return
 					if (nullptr == newScript)

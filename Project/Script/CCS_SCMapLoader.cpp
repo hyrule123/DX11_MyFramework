@@ -34,14 +34,15 @@ CCS_SCMapLoader::CCS_SCMapLoader()
     , m_arrpSBufferTileSet{}
     , m_pMapWorkSpace()
 {
-    std::filesystem::path FilePath(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER);
-    if (false == Load(FilePath))
-    {
-        DEBUG_BREAK;
-        throw(std::runtime_error("Compute Shader\n\"S_1_C_SCMapLoader\"\nLoad Failed!!"));
+    //std::filesystem::path FilePath(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER);
+    //if (false == Load(FilePath))
+    //{
+    //    DEBUG_BREAK;
+    //    throw(std::runtime_error("Compute Shader\n\"S_1_C_SCMapLoader\"\nLoad Failed!!"));
+    //    
+    //}
         
-    }
-        
+    
 
 
     //wstring Path = CPathMgr::GetInst()->GetContentAbsPathW();

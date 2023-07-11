@@ -15,6 +15,9 @@ public:
     CCS_SetColor();
     virtual ~CCS_SetColor();
 
+public:
+    virtual bool Load(std::filesystem::path const& _FilePath) override;
+
 protected:
     virtual bool BindDataCS() override;
     virtual void UnBindCS() override;

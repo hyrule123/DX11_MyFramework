@@ -8,7 +8,9 @@ class UserClassInitializer
 {
 public:
 	static void InitScript();
-	static void InitCS();
+
+	//일단 미사용
+	static void InitCS() {};
 
 private:
 	template <typename T>

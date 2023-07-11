@@ -16,6 +16,7 @@ public:
     virtual ~CCS_ParticleBasic();
 
 public:
+    virtual bool Load(std::filesystem::path const& _FilePath) override;
     virtual bool BindDataCS() override;
     virtual void UnBindCS() override;
 

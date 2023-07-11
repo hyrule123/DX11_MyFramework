@@ -23,13 +23,18 @@ CCS_ParticleBasic::CCS_ParticleBasic()
 	, m_pSBufferRW_Shared()
 	, m_pCBuffer_ModuleData()
 {
-	CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic) / sizeof(unsigned char));
+
 }
 
 
 
 CCS_ParticleBasic::~CCS_ParticleBasic()
 {
+}
+
+bool CCS_ParticleBasic::Load(std::filesystem::path const& _FilePath)
+{
+	return SUCCEEDED(CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic)));
 }
 
 bool CCS_ParticleBasic::BindDataCS()

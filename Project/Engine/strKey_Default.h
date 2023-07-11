@@ -40,18 +40,18 @@ namespace strKey_RES_DEFAULT
 
 	namespace MATERIAL
 	{
-		STRKEY DEBUG_RECT = "DebugRect.json";
-		STRKEY DEBUG_CIRCLE = "DebugCircle.json";
+		STRKEY DEBUG_RECT = "DebugRect";
+		STRKEY DEBUG_CIRCLE = "DebugCircle";
 
-		STRKEY TEST = "Test.json";
-		STRKEY STD2D = "std2D.json";
-		STRKEY STD2D_LIGHT = "std2DLight.json";
+		STRKEY TEST = "Test";
+		STRKEY STD2D = "std2D";
+		STRKEY STD2D_LIGHT = "std2DLight";
 		
-		STRKEY TILEMAP_COMPLETE = "TilemapComplete.json";
-		STRKEY TILEMAP_ATLAS = "TilemapAtlas.json";
-		STRKEY TILEMAP_SC = "Tilemap_SC.json";
+		STRKEY TILEMAP_COMPLETE = "TilemapComplete";
+		STRKEY TILEMAP_ATLAS = "TilemapAtlas";
+		STRKEY TILEMAP_SC = "Tilemap_SC";
 
-		STRKEY PARTICLE_RENDER = "ParticleRender.json";
+		STRKEY PARTICLE_RENDER = "ParticleRender";
 	}
 
 	namespace SHADER
@@ -72,7 +72,6 @@ namespace strKey_RES_DEFAULT
 			STRKEY SCMAPLOADER = "S_C_SCMapLoader";
 			STRKEY INITALIZE = "S_C_Initalize";
 			STRKEY PARTICLEBASIC = "S_C_ParticleBasic";
-			STRKEY PARTICLERAINDROP = "S_C_ParticleRainDrop";
 			STRKEY SETCOLOR = "S_C_SetColor";
 		}
 	}
@@ -118,7 +117,7 @@ namespace DIRECTORY_NAME
 	
 
 	STRKEY SHADER_ROOT = "Shader";
-	STRKEY SHADER_CSO = "Shader/Bin";
+	STRKEY SHADER_Bin = "Shader/Bin";
 	STRKEY SHADER_GRAPHICS = RES_ARR[(int)eRES_TYPE::GRAPHICS_SHADER];
 	STRKEY SHADER_COMPUTE = RES_ARR[(int)eRES_TYPE::COMPUTE_SHADER];
 

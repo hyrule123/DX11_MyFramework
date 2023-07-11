@@ -21,9 +21,9 @@ public:
     CLONE_DISABLE(CComputeShader);
 
 public:
-    //ComputeShader는 Load / Save 사용하지 않음
-    virtual bool Save(const std::filesystem::path& _fileName) final { assert(false); return false; }
-    virtual bool Load(const std::filesystem::path& _fileName) final { assert(false); return false; }
+    //기본적으로 Save는 사용하지 않음(대신 .cso 파일 로딩을 위한 Load는 사용)
+    //virtual bool Save(const std::filesystem::path& _fileName) override;
+    virtual bool Load(const std::filesystem::path& _fileName) override;
     //virtual bool SaveJson(Json::Value* _jsonVal) override;
     //virtual bool LoadJson(Json::Value* _jsonVal) override;
 

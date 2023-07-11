@@ -403,12 +403,9 @@ bool CResMgr::CreateDefaultComputeShader()
 	//컴퓨트쉐이더는 클래스에 종속적이므로 수동으로 로드해줘야 한다.
 	try
 	{
-		Ptr<CComputeShader> pCS = new CCS_Initialize;
+		Ptr<CCS_Initialize> pCS = CResMgr::GetInst()->Load<CCS_Initialize>(strKey_RES_DEFAULT::SHADER::COMPUTE::INITALIZE);
 		pCS->SetEngineDefaultRes(true);
 
-		//Initialize 컴퓨트쉐이더는 초기화와 동시에 한번 실행시켜서 초기 데이터를 등록한다.
-		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::INITALIZE);
-		AddRes(pCS->GetKey(), pCS);
 		pCS->Execute();
 	}
 	catch (const std::runtime_error& error)
@@ -418,10 +415,8 @@ bool CResMgr::CreateDefaultComputeShader()
 
 	try
 	{
-		Ptr<CComputeShader>pCS = new CCS_SetColor;
+		Ptr<CCS_SetColor> pCS = CResMgr::GetInst()->Load<CCS_SetColor>(strKey_RES_DEFAULT::SHADER::COMPUTE::SETCOLOR);
 		pCS->SetEngineDefaultRes(true);
-		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::SETCOLOR);
-		AddRes(pCS->GetKey(), pCS);
 	}
 	catch (const std::runtime_error& error)
 	{
@@ -431,32 +426,8 @@ bool CResMgr::CreateDefaultComputeShader()
 	//ParticleUpdate 클래스는 여러개의 파티클 쉐이더를 처리해야 하므로 생성자로 기본 이름을 받고 있음.
 	try
 	{
-		Ptr<CComputeShader> pCS = new CCS_ParticleBasic();
-		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC);
+		Ptr<CCS_ParticleBasic> pCS = CResMgr::GetInst()->Load<CCS_ParticleBasic>(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC);
 		pCS->SetEngineDefaultRes(true);
-		AddRes(pCS->GetKey(), pCS);
-	}
-	catch (const std::runtime_error& error)
-	{
-		ERROR_RUNTIME(error);
-	}
-
-	try
-	{
-		Ptr<CComputeShader> pCS = new CCS_ParticleBasic;
-		pCS->SetEngineDefaultRes(true);
-		AddRes(pCS->GetKey(), pCS);
-	}
-	catch (const std::runtime_error& error)
-	{
-		ERROR_RUNTIME(error);
-	}
-
-	try
-	{
-		//TODO : 여기 수정할 것
-		//Ptr<CComputeShader> pCS = new CCS_SCMapLoader;
-		//AddRes(pCS->GetKey(), pCS);
 	}
 	catch (const std::runtime_error& error)
 	{
@@ -526,7 +497,7 @@ void CResMgr::CreateDefaultMaterial()
 		pMtrl->SetEngineDefaultRes(true);
 		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE)));
 
-		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_SC));
+		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE));
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 

@@ -60,7 +60,9 @@ int main(int argc, char* argv[])
         DirTree.SearchRecursive(DirPath, reg);
 
         DirTree.CreateStrKeyHeader(DirPath / define_Preset::Path::strKey_CShader::A, "CShader", true);
-        DirTree.CreateCShaderCode(DirPath / define_Preset::Path::UserClassInit_CS::A);
+
+        //일단 미사용
+        //DirTree.CreateCShaderCode(DirPath / define_Preset::Path::UserClassInit_CS::A);
         
     }
 

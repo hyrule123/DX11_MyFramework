@@ -29,6 +29,14 @@ CComputeShader::~CComputeShader()
 }
 
 
+bool CComputeShader::Load(const std::filesystem::path& _fileName)
+{
+	std::filesystem::path newPath = _fileName;
+	newPath += RES_INFO::SHADER::Ext_ShaderByteCode;
+	return CRes::Load(newPath);
+}
+
+
 //bool CComputeShader::SaveJson(Json::Value* _jsonVal)
 //{
 //	if (false == CShader::SaveJson(_jsonVal))
