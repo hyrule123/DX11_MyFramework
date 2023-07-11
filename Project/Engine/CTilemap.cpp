@@ -39,6 +39,14 @@ CTilemap::~CTilemap()
 {
 }
 
+CTilemap::CTilemap(CTilemap const& _other)
+	: CRenderComponent(_other)
+	, m_TilemapType(_other.m_TilemapType)
+	, m_uTileCountX(_other.m_uTileCountX)
+	, m_uTileCountY(_other.m_uTileCountY)
+{
+}
+
 
 bool CTilemap::SaveJson(Json::Value* _pJVal)
 {

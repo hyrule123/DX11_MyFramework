@@ -23,6 +23,7 @@
 #include "CScript_Mineral.h"
 #include "strKey_Script.h"
 #include "strKey_CShader.h"
+#include "strKey_GShader.h"
 #include <Engine/UserClassMgr.h>
 
 #include <Engine/CRandMgr.h>
@@ -55,9 +56,9 @@ void CScript_TilemapSC::init()
 	}
 
 	//메쉬는 부모 클래스에서 설정했음.
-	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey_RES_DEFAULT::MATERIAL::TILEMAP_SC);
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE);
 
-	Ptr<CGraphicsShader> pShader = CResMgr::GetInst()->Load<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPSC);
+	Ptr<CGraphicsShader> pShader = CResMgr::GetInst()->Load<CGraphicsShader>(strKey_GShader::Tilemap_SC);
 	assert(nullptr != pShader);
 
 	pTilemap->SetMaterial(pMtrl);

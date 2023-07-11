@@ -10,9 +10,3 @@ CTilemapComplete::CTilemapComplete()
 CTilemapComplete::~CTilemapComplete()
 {
 }
-
-
-
-void CTilemapComplete::finaltick()
-{
-}

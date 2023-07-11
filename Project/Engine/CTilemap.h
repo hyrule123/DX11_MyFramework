@@ -35,6 +35,9 @@ public:
     CTilemap(eTILEMAP_TYPE _eTilemapType);
     virtual ~CTilemap();
 
+    CTilemap(CTilemap const& _other);
+    CLONE_DISABLE(CTilemap);
+
 public:
     virtual void init();
     virtual void finaltick() = 0;

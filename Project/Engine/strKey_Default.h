@@ -49,7 +49,6 @@ namespace strKey_RES_DEFAULT
 		
 		STRKEY TILEMAP_COMPLETE = "TilemapComplete";
 		STRKEY TILEMAP_ATLAS = "TilemapAtlas";
-		STRKEY TILEMAP_SC = "Tilemap_SC";
 
 		STRKEY PARTICLE_RENDER = "ParticleRender";
 	}
@@ -64,7 +63,6 @@ namespace strKey_RES_DEFAULT
 			STRKEY STD2DLIGHT = "STD2DLight";
 			STRKEY TILEMAPATLAS = "TilemapAtlas";
 			STRKEY TILEMAPCOMPLETE = "TilemapComplete";
-			STRKEY TILEMAPSC = "Tilemap_SC";
 		}
 
 		namespace COMPUTE
