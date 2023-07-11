@@ -26,6 +26,10 @@
 //세이브, 로드에 사용
 #include "CResMgr.h"
 
+
+#include "CTilemapAtlas.h"
+#include "CTilemapComplete.h"
+
 CGameObject::CGameObject()
 	: m_Transform()
 	, m_arrCom{}
@@ -250,7 +254,20 @@ bool CGameObject::render()
 	if (nullptr == m_RenderCom || true == m_bDestroy)
 		return true;
 
-	return m_RenderCom->render();
+	CScriptHolder* pHolder = ScriptHolder();
+	if (pHolder)
+	{
+		pHolder->BindData();
+	}
+
+	bool rendered = m_RenderCom->render();
+
+	if (pHolder)
+	{
+		pHolder->UnBind();
+	}
+
+	return rendered;
 }
 
 void CGameObject::cleanup()
@@ -457,8 +474,30 @@ bool CGameObject::LoadJson(Json::Value* _pJson)
 			case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
 				break;
 			case eCOMPONENT_TYPE::TILEMAP:
-				//TODO: 타일맵 수정
-				//pCom = new CTilemap_SC;
+			{
+				const char* strKey = RES_INFO::PREFAB::COMPONENT::RENDER_COMP::TILEMAP::m_TilemapType;
+				if (jsonComponent.isMember(strKey))
+				{
+					eTILEMAP_TYPE type = (eTILEMAP_TYPE)jsonComponent[strKey].asInt();
+
+					switch (type)
+					{
+					case eTILEMAP_TYPE::ATLAS:
+						pCom = new CTilemapAtlas;
+						break;
+					case eTILEMAP_TYPE::COMPLETE:
+						pCom = new CTilemapComplete;
+						break;
+					default:
+						ERROR_MESSAGE("Tilemap Load Error");
+						break;
+					}
+				}
+
+			}
+
+
+
 				break;
 			case eCOMPONENT_TYPE::LANDSCAPE:
 				break;

@@ -281,7 +281,6 @@ void CDevice::CreateDefaultConstBuffer()
         Desc.iRegisterNum = REGISLOT_b_CBUFFER_MTRL_TEX;
         Desc.uElementSize = sizeof(tMtrlTexData);
         Desc.uElementCount = 1u;
-        CreateConstBuffer(Desc);
 
         //상수버퍼 생성 확인
         CConstBuffer* pBuffer = CreateConstBuffer(Desc);
@@ -295,7 +294,19 @@ void CDevice::CreateDefaultConstBuffer()
         Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
         Desc.uElementSize = (UINT)sizeof(tGlobalValue);
         Desc.uElementCount = 1u;
-        CreateConstBuffer(Desc);
+
+        //상수버퍼 생성 확인
+        CConstBuffer* pBuffer = CreateConstBuffer(Desc);
+        assert(pBuffer);
+        pBuffer = nullptr;
+    }
+
+    {
+        //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
+        Desc.iRegisterNum = REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA;
+        Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
+        Desc.uElementSize = (UINT)sizeof(tSBufferInfo);
+        Desc.uElementCount = 1u;
 
         //상수버퍼 생성 확인
         CConstBuffer* pBuffer = CreateConstBuffer(Desc);
@@ -309,7 +320,6 @@ void CDevice::CreateDefaultConstBuffer()
         Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
         Desc.uElementSize = (UINT)sizeof(tParticleModule);
         Desc.uElementCount = 1u;
-        CreateConstBuffer(Desc);
 
         //상수버퍼 생성 확인
         CConstBuffer* pBuffer = CreateConstBuffer(Desc);

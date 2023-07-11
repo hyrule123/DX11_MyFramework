@@ -6,7 +6,7 @@ class CGameObject;
 class CTransform;
 class CRenderComponent;
 class CAnimator2D;
-class CTilemap_SC;
+class CScript_TilemapSC;
 
 struct tDescFSM
 {

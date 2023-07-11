@@ -5,7 +5,7 @@
 
 
 class CStructBuffer;
-class CCS_ParticleUpdater;
+class CCS_ParticleBasic;
 class CCamera;
 
 class CParticleSystem :
@@ -43,7 +43,7 @@ private:
     float m_AccTime;
     
     //2.파티클 처리용 컴퓨트쉐이더 주소
-    Ptr<CCS_ParticleUpdater> m_pCSParticle;
+    Ptr<CCS_ParticleBasic> m_pCSParticle;
 
 
     //3.렌더링용 그래픽쉐이더 주소 - 이건 부모 클래스에 정의되어있음.

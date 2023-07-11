@@ -30,7 +30,7 @@ namespace strKey_Script
 	STRKEY CScript_SCEntity = "CScript_SCEntity";
 	STRKEY CScript_SCUnitVital = "CScript_SCUnitVital";
 	STRKEY CScript_TestObj = "CScript_TestObj";
-	STRKEY CScript_TilemapUnitLoader = "CScript_TilemapUnitLoader";
+	STRKEY CScript_TilemapSC = "CScript_TilemapSC";
 	STRKEY CScript_Vespene = "CScript_Vespene";
 	STRKEY CScript_VespeneSmoke = "CScript_VespeneSmoke";
 }

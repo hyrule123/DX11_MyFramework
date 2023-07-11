@@ -31,7 +31,7 @@
 	
 
 //아래의 CBuffer_SBUFFER_SHARED_DATA에 전달되는 상수버퍼
-extern tSBufferInfo g_arrSBufferShareData;
+extern tSBufferInfo g_SBufferShareData;
 
 #else
 

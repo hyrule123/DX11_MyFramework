@@ -1,6 +1,6 @@
 #pragma once
 
-//CCS_SCMapLoader과 CTilemap_SC 쉐이더에서 공유하는 구조체들을 모아놓은 헤더
+//CCS_SCMapLoader과 CScript_TilemapSC 쉐이더에서 공유하는 구조체들을 모아놓은 헤더
 
 #include <Engine/Ptr.h>
 #include "S_H_Struct.hlsli"

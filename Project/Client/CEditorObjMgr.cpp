@@ -23,7 +23,6 @@
 #include <Script/CScript_MouseCursor.h>
 
 #include <Script/strKey_Script.h>
-#include <Engine/CScriptMgr.h>
 
 #include <Engine/EventDispatcher.h>
 
@@ -33,6 +32,8 @@
 #include <Script/defineScript.h>
 
 #include <Script/define_SC.h>
+
+#include <Engine/UserClassMgr.h>
 
 CEditorObjMgr::CEditorObjMgr()
 	: m_arrDebugShape{}
@@ -66,7 +67,7 @@ void CEditorObjMgr::init()
 		//m_pMousePicker->AddComponent(new CTransform);
 		m_pMousePicker->AddComponent(new CCollider2D_Point);
 
-		CScript* Script = CScriptMgr::GetInst()->GetNewScript(strKey_Script::CScript_MouseCursor);
+		CScript* Script = UserClassMgr::GetNewScript(strKey_Script::CScript_MouseCursor);
 		m_pMousePicker->AddScript(Script);
 
 		CScript_MouseCursor* pScript = static_cast<CScript_MouseCursor*>(m_pMousePicker->ScriptHolder()->FindScript(strKey_Script::CScript_MouseCursor));
@@ -281,7 +282,7 @@ void CEditorObjMgr::CreateEditorCamera()
 	CTransform& pTransform = m_pEditorCam->Transform();
 	pTransform.SetRelativePos(Vec3(0.f, 0.f, -100.f));
 
-	m_pEditorCam->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_Script::CScript_CameraMove));
+	m_pEditorCam->AddScript(UserClassMgr::GetNewScript(strKey_Script::CScript_CameraMove));
 
 	CRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
 }

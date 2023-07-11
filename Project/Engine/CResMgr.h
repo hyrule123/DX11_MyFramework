@@ -14,7 +14,6 @@
 #include "CPrefab.h"
 #include "CComputeShader.h"
 #include "CAnim2DAtlas.h"
-#include "CComputeShader.h"
 
 #include <type_traits>
 
@@ -33,13 +32,11 @@ public:
     
 private:
     unordered_map<string, Ptr<CRes>, tHasher_String, std::equal_to<>> m_arrRes[(UINT)eRES_TYPE::END];
-    unordered_map<std::type_index, eRES_TYPE> m_umapResClassTypeIndex;
 
     //리소스 정보가 업데이트 되면 true로 변경
     bool    m_bResUpdated;
 
 private:
-    void CreateResClassTypeIndex();
 
     void CreateDefaultMesh();
     void CreateDefaultShader();
@@ -55,9 +52,7 @@ private:
 public:
     bool IsUpdated() const { return m_bResUpdated; }
 
-    Ptr<CRes> Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName);
-
-    template <typename T,typename TBase = CRes>
+    template <typename T>
     eRES_TYPE GetResType();
 
     template<typename T>
@@ -88,43 +83,75 @@ private:
 
     
 public:
+    //Ptr<CRes> Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName);
+
+
+
     //파일명 = 키일떄 사용
-    template<typename T>
-    Ptr<T>Load(const std::filesystem::path& _fileName);
 
     //파일명 규칙 : 특정 리소스 폴더 아래부터의 주소
     //ex) Content/Texture/Marine/Marine.bmp -> Marine/Marine.bmp
     template<typename T>
-    Ptr<T> Load(const std::filesystem::path& _fileName, const string_view _strKey);
+    Ptr<T> Load(const std::filesystem::path& _fileName, const string_view _strKey = "");
 
     unordered_map<string, Ptr<CRes>, tHasher_String, std::equal_to<>> const& GetResMap(eRES_TYPE _ResType);
 
     Ptr<CTexture> CreateTexture(const string_view _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
 };
 
-template<typename T,typename TBase>
+template<typename T>
 inline eRES_TYPE CResMgr::GetResType()
 {
-    bool is_derived = std::is_base_of_v<TBase, T>;
-    bool is_TBase_equal_to_CRes = std::is_same_v<TBase, CRes>;
+    static_assert(std::is_base_of_v<CRes, T>);
 
-    //TBase를 상속한 리소스 타입이지만 TBase가 CRes가 아닐 때
-    if(is_derived && false == is_TBase_equal_to_CRes)
+
+    if constexpr (std::is_base_of_v<CMesh, T>)
     {
-        const auto& iter = m_umapResClassTypeIndex.find(std::type_index(typeid(TBase)));
-
-        if (iter == m_umapResClassTypeIndex.end())
-            return eRES_TYPE::UNKNOWN;
-
-        return iter->second;
+        return eRES_TYPE::MESH;
     }
-    
-    const auto& iter = m_umapResClassTypeIndex.find(std::type_index(typeid(T)));
 
-    if (iter == m_umapResClassTypeIndex.end())
+    //if constexpr (std::is_base_of_v<CMeshData, T>)
+    //{
+    //    return eRES_TYPE::MESHDATA;
+    //}
+
+    else if constexpr (std::is_base_of_v<CMaterial, T>)
+    {
+        return eRES_TYPE::MATERIAL;
+    }
+
+    else if constexpr (std::is_base_of_v<CTexture, T>)
+    {
+        return eRES_TYPE::TEXTURE;
+    }
+
+    else if constexpr (std::is_base_of_v<CAnim2DAtlas, T>)
+    {
+        return eRES_TYPE::ANIM2D_ATLAS;
+    }
+
+    //else if constexpr (std::is_base_of_v<CSound, T>)
+    //{
+    //    return eRES_TYPE::SOUND;
+    //}
+
+    else if constexpr (std::is_base_of_v<CPrefab, T>)
+    {
+        return eRES_TYPE::PREFAB;
+    }
+
+    else if constexpr (std::is_base_of_v<CGraphicsShader, T>)
+    {
+        return eRES_TYPE::GRAPHICS_SHADER;
+    }
+
+    else if constexpr (std::is_base_of_v<CComputeShader, T>)
+    {
+        return eRES_TYPE::COMPUTE_SHADER;
+    }
+
+    else
         return eRES_TYPE::UNKNOWN;
-
-    return iter->second;
 }
 
 
@@ -171,15 +198,6 @@ inline void CResMgr::AddRes(const string_view _strKey, Ptr<T>& _Res)
 
     _Res->SetKey(_strKey);
     m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
-
-}
-
-
-
-template<typename T>
-inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName)
-{
-    return Load<T>(_fileName, _fileName.string());
 }
 
 
@@ -188,7 +206,12 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
 {
     //CRes를 상속받는 클래스가 아닐 경우 컴파일 중지
     static_assert(std::is_base_of<CRes, T>::value);
-    Ptr<CRes> pRes = FindRes<T>(_strKey).Get();
+
+    string_view strKey;
+    if (_strKey.empty())
+        strKey = _fileName.filename();
+
+    Ptr<T> pRes = FindRes<T>(_strKey).Get();
     
     // 이미 해당 키로 리소스가 있다면, 반환
     if (nullptr != pRes)
@@ -198,12 +221,12 @@ inline Ptr<T> CResMgr::Load(const std::filesystem::path& _fileName, const string
 
     if (false == pRes->Load(_fileName))
         return nullptr;
-        
 
-    eRES_TYPE type = GetResType<T>();
+    if (_strKey.empty())
+        AddRes<T>(_fileName.string(), pRes);
+    else
+        AddRes<T>(_strKey, pRes);
 
-    m_arrRes[(UINT)type].insert(make_pair(_strKey, pRes));
-        
     m_bResUpdated = true;
 
     return pRes;

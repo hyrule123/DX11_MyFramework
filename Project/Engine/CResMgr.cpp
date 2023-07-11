@@ -6,7 +6,7 @@
 #include "strKey_Default.h"
 
 #include "CCS_SetColor.h"
-#include "CCS_ParticleUpdater.h"
+#include "CCS_ParticleBasic.h"
 #include "CCS_Initialize.h"
 
 #include "CAnim2DAtlas.h"
@@ -41,8 +41,6 @@ CResMgr::~CResMgr()
 
 void CResMgr::init()
 {
-	CreateResClassTypeIndex();
-
 	CreateDefaultMesh();
 	
 	CreateDefaultShader();
@@ -52,19 +50,6 @@ void CResMgr::init()
 	LoadDefaultTexture();
 }
 
-void CResMgr::CreateResClassTypeIndex()
-{
-	
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMesh)), eRES_TYPE::MESH));
-	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMesh)), eRES_TYPE::MESHDATA));
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CMaterial)), eRES_TYPE::MATERIAL));
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CTexture)), eRES_TYPE::TEXTURE));
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CAnim2DAtlas)), eRES_TYPE::ANIM2D_ATLAS));
-	//m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CSound)), eRES_TYPE::SOUND));
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CPrefab)), eRES_TYPE::PREFAB));
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CGraphicsShader)), eRES_TYPE::GRAPHICS_SHADER));
-	m_umapResClassTypeIndex.insert(make_pair(std::type_index(typeid(CComputeShader)), eRES_TYPE::COMPUTE_SHADER));
-}
 
 void CResMgr::CreateDefaultMesh()
 {	
@@ -446,7 +431,8 @@ bool CResMgr::CreateDefaultComputeShader()
 	//ParticleUpdate 클래스는 여러개의 파티클 쉐이더를 처리해야 하므로 생성자로 기본 이름을 받고 있음.
 	try
 	{
-		Ptr<CComputeShader> pCS = new CCS_ParticleUpdater(string(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC));
+		Ptr<CComputeShader> pCS = new CCS_ParticleBasic();
+		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC);
 		pCS->SetEngineDefaultRes(true);
 		AddRes(pCS->GetKey(), pCS);
 	}
@@ -457,7 +443,7 @@ bool CResMgr::CreateDefaultComputeShader()
 
 	try
 	{
-		Ptr<CComputeShader> pCS = new CCS_ParticleUpdater(string(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLERAINDROP));
+		Ptr<CComputeShader> pCS = new CCS_ParticleBasic;
 		pCS->SetEngineDefaultRes(true);
 		AddRes(pCS->GetKey(), pCS);
 	}
@@ -597,50 +583,49 @@ bool CResMgr::LoadUserGraphicsShaderAll()
 }
 
 
-
-Ptr<CRes> CResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName)
-{
-	Ptr<CRes> pRes;
-
-	switch (_eResType)
-	{
-	case eRES_TYPE::MESH:
-		pRes = new CMesh;
-		break;
-	case eRES_TYPE::MESHDATA:
-		pRes = new CMesh;
-		break;
-	case eRES_TYPE::MATERIAL:
-		pRes = new CMaterial;
-		break;
-	case eRES_TYPE::TEXTURE:
-		pRes = new CTexture;
-		break;
-	case eRES_TYPE::ANIM2D_ATLAS:
-		pRes = new CAnim2DAtlas;
-		break;
-	case eRES_TYPE::SOUND:
-		//TODO: 아직 클래스가 없음
-		break;
-	case eRES_TYPE::PREFAB:
-		pRes = new CPrefab;
-		break;
-	case eRES_TYPE::GRAPHICS_SHADER:
-		pRes = new CGraphicsShader;
-		break;
-	case eRES_TYPE::COMPUTE_SHADER:
-		//TODO : 여기 마저 채우기
-		//pRes = new CComputeShader;
-		break;
-
-	default:
-		ERROR_MESSAGE("Unknown Resource Type!");
-		break;
-	}
-
-	if (false == pRes->Load(_fileName))
-		pRes = nullptr;
-
-	return pRes;
-}
+//Ptr<CRes> CResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName)
+//{
+//	Ptr<CRes> pRes;
+//
+//	switch (_eResType)
+//	{
+//	case eRES_TYPE::MESH:
+//		pRes = new CMesh;
+//		break;
+//	case eRES_TYPE::MESHDATA:
+//		pRes = new CMesh;
+//		break;
+//	case eRES_TYPE::MATERIAL:
+//		pRes = new CMaterial;
+//		break;
+//	case eRES_TYPE::TEXTURE:
+//		pRes = new CTexture;
+//		break;
+//	case eRES_TYPE::ANIM2D_ATLAS:
+//		pRes = new CAnim2DAtlas;
+//		break;
+//	case eRES_TYPE::SOUND:
+//		//TODO: 아직 클래스가 없음
+//		break;
+//	case eRES_TYPE::PREFAB:
+//		pRes = new CPrefab;
+//		break;
+//	case eRES_TYPE::GRAPHICS_SHADER:
+//		pRes = new CGraphicsShader;
+//		break;
+//	case eRES_TYPE::COMPUTE_SHADER:
+//		//TODO : 여기 마저 채우기
+//		//pRes = new CComputeShader;
+//		break;
+//
+//	default:
+//		ERROR_MESSAGE("Unknown Resource Type!");
+//		break;
+//	}
+//
+//	if (false == pRes->Load(_fileName))
+//		pRes = nullptr;
+//
+//	return pRes;
+//}
 

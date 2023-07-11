@@ -24,16 +24,14 @@
 #define BITMASK(n) (1 << n)
 
 
-#define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, _aStrMessage, NULL, MB_OK); assert(nullptr)
-
-
-#define ERROR_RUNTIME(_stdRuntimeError) MessageBoxA(nullptr, _stdRuntimeError.what(), nullptr, MB_OK);
-
 #ifdef _DEBUG
 #define DEBUG_BREAK DebugBreak()
 #else
 #define DEBUG_BREAK
 #endif
+
+#define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, _aStrMessage, NULL, MB_OK); DEBUG_BREAK
+#define ERROR_RUNTIME(_stdRuntimeError) MessageBoxA(nullptr, _stdRuntimeError.what(), nullptr, MB_OK); DEBUG_BREAK
 
 #define STRKEY constexpr inline const char*
 #define STRKEY_DECLARE(_type) STRKEY _type = #_type

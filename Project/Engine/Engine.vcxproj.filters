@@ -175,7 +175,7 @@
     <ClInclude Include="CCS_SetColor.h">
       <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </ClInclude>
-    <ClInclude Include="CCS_ParticleUpdater.h">
+    <ClInclude Include="CCS_ParticleBasic.h">
       <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
     </ClInclude>
     <ClInclude Include="CCS_Initialize.h">
@@ -196,7 +196,7 @@
     <ClInclude Include="CRandMgr.h">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CUserClassMgr.h">
+    <ClInclude Include="UserClassMgr.h">
       <Filter>_Source\03. Manager\10. UserClassMgr</Filter>
     </ClInclude>
     <ClInclude Include="CFSM.h">
@@ -206,6 +206,9 @@
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="DefaultShader.h">
       <Filter>_HLSL, Shader Default</Filter>
+    </ClInclude>
+    <ClInclude Include="CTilemapComplete.h">
+      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,7 +359,7 @@
     <ClCompile Include="CCS_SetColor.cpp">
       <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </ClCompile>
-    <ClCompile Include="CCS_ParticleUpdater.cpp">
+    <ClCompile Include="CCS_ParticleBasic.cpp">
       <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
     </ClCompile>
     <ClCompile Include="CCS_Initialize.cpp">
@@ -368,13 +371,16 @@
     <ClCompile Include="CRandMgr.cpp">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CUserClassMgr.cpp">
+    <ClCompile Include="UserClassMgr.cpp">
       <Filter>_Source\03. Manager\10. UserClassMgr</Filter>
     </ClCompile>
     <ClCompile Include="CFSM.cpp">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />
+    <ClCompile Include="CTilemapComplete.cpp">
+      <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_Source">

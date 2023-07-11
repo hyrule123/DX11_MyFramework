@@ -1,19 +1,15 @@
 #include "pch.h"
-#include "CUserClassMgr.h"
+#include "UserClassMgr.h"
 #include "CScript.h"
 
 #include "CComputeShader.h"
 #include "CResMgr.h"
 
-CUserClassMgr::CUserClassMgr()
-{
-}
+std::unordered_map <std::string_view, std::function<CScript* (const string_view)>> UserClassMgr::m_umapScript;
+std::unordered_map <std::string_view, std::function<Ptr<CComputeShader>()>> UserClassMgr::m_umapCS;
+std::unordered_map <std::string_view, std::function<CParticleSystem* ()>>	UserClassMgr::m_umapParticle;
 
-CUserClassMgr::~CUserClassMgr()
-{
-}
-
-CScript* CUserClassMgr::GetNewScript(const std::string_view _strKey)
+CScript* UserClassMgr::GetNewScript(const std::string_view _strKey)
 {
 	const auto& iter = m_umapScript.find(_strKey);
 	if (iter == m_umapScript.end())
@@ -23,7 +19,7 @@ CScript* CUserClassMgr::GetNewScript(const std::string_view _strKey)
 	return pScript;
 }
 
-Ptr<CComputeShader> CUserClassMgr::GetNewCS(const std::string_view _strKey)
+Ptr<CComputeShader> UserClassMgr::GetNewCS(const std::string_view _strKey)
 {
 	//이미 등록되어 있는지 확인
 	Ptr<CComputeShader> pCS = CResMgr::GetInst()->FindRes<CComputeShader>(_strKey);
@@ -41,27 +37,6 @@ Ptr<CComputeShader> CUserClassMgr::GetNewCS(const std::string_view _strKey)
 
 	//리소스 매니저에 리소스를 추가한다.
 	CResMgr::GetInst()->AddRes(_strKey, NewCS);
-	
-	return NewCS;
-}
-
-
-CTilemap* CUserClassMgr::GetNewTilemap(const std::string_view _strKey)
-{
-	const auto& iter = m_umapTilemap.find(_strKey);
-
-	if (iter == m_umapTilemap.end())
-		return nullptr;
-
-	CTilemap* NewTilemap = iter->second();
-	NewTilemap->SetKey(_strKey);
-
-	//리소스 매니저에 리소스를 추가한다.
-	CResMgr::GetInst()->AddRes(_strKey, NewCS);
 
 	return NewCS;
-
-	return nullptr;
 }
-
-

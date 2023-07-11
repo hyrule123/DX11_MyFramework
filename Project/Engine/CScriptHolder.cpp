@@ -8,7 +8,7 @@
 #include "strKey_Default.h"
 #include "jsoncpp.h"
 
-#include "CUserClassMgr.h"
+#include "UserClassMgr.h"
 
 #include "CFSM.h"
 
@@ -258,6 +258,24 @@ void CScriptHolder::tick()
 		Transition(m_uReservedFSM);
 
 	if(m_pCurrentFSM) m_pCurrentFSM->OnState();
+}
+
+void CScriptHolder::BindData()
+{
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecScript[i]->BindData();
+	}
+}
+
+void CScriptHolder::UnBind()
+{
+	size_t size = m_vecScript.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		m_vecScript[i]->UnBind();
+	}
 }
 
 bool CScriptHolder::AddFSM(CFSM* _pFSM)

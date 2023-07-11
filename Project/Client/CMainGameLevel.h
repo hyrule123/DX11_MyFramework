@@ -4,7 +4,7 @@
 
 void CreateMainGame();
 
-void LoadRes(eRES_TYPE _eResType);
+//void LoadRes(eRES_TYPE _eResType);
 
 //void LoadAllTexture();
 //

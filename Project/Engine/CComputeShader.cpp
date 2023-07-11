@@ -28,110 +28,71 @@ CComputeShader::~CComputeShader()
 {
 }
 
-//bool CComputeShader::Save(const std::filesystem::path& _fileName)
+
+//bool CComputeShader::SaveJson(Json::Value* _jsonVal)
 //{
-//	std::filesystem::path _path(RELATIVE_PATH::SHADER_COMPUTE::A);
-//	_path /= _fileName;
-//	std::ofstream fp(_path);
+//	if (false == CShader::SaveJson(_jsonVal))
+//		return false;
 //
-//	if (fp.is_open())
+//	Json::Value& jVal = *_jsonVal;
+//
+//	jVal[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)] = Json::Value(Json::arrayValue);
+//
+//	for (int i = 0; i < ThreadAxis::NumAxis; ++i)
 //	{
-//		Json::Value jVal;
+//		jVal[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)].append(m_uNumThreadPerGroupArr[i]);
+//	}
 //
-//		if (true == SaveJson(&jVal))
+//	return true;
+//}
+//
+//bool CComputeShader::LoadJson(Json::Value* _jsonVal)
+//{
+//	if (false == CShader::LoadJson(_jsonVal))
+//		return false;
+//
+//	if (true == _jsonVal->isMember(string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)))
+//	{
+//		if (NumAxis == (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)].size())
 //		{
-//			fp << jVal;
+//			for (int i = 0; i < NumAxis; ++i)
+//			{
+//				m_uNumThreadPerGroupArr[i] = (*_jsonVal)[RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ][i].asInt();
+//			}
 //		}
 //
-//		fp.close();
 //	}
+//		
 //
-//	return false;
+//	std::filesystem::path ShaderPath = CPathMgr::GetInst()->GetPathRel_Content();
+//	ShaderPath /= DIRECTORY_NAME::SHADER_CSO;
+//	ShaderPath /= GetKey();
+//	ShaderPath.replace_extension(RES_INFO::SHADER::Ext_ShaderByteCode);
+//
+//	std::ios_base::openmode openMode = std::ios::in | std::ios::ate | std::ios::binary;
+//	std::ifstream CSFile(ShaderPath, openMode);
+//
+//	if (false == CSFile.is_open())
+//		return false;
+//
+//	std::streampos fileSize = CSFile.tellg();
+//	CSFile.seekg(0, std::ios::beg);
+//
+//	HRESULT hr = D3DCreateBlob(fileSize, m_pShaderData.ReleaseAndGetAddressOf());
+//	if (FAILED(hr))
+//		return false;
+//
+//	char* pBuffer = static_cast<char*>(m_pShaderData->GetBufferPointer());
+//	
+//	CSFile.read(pBuffer, fileSize);
+//	CSFile.close();
+//
+//	hr = CreateShaderPrivate(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize());
+//	if (FAILED(hr))
+//		return false;
+//
+//	return true;
 //}
-
-//bool CComputeShader::Load(const std::filesystem::path& _fileName)
-//{
-//	std::filesystem::path CSPath(RELATIVE_PATH::SHADER_COMPUTE::A);
-//	CSPath /= _fileName;
-//
-//	std::ifstream fp(CSPath);
-//
-//	if (fp.is_open())
-//	{
-//		Json::Value jVal;
-//
-//		fp >> jVal;
-//		fp.close();
-//
-//		return LoadJson(&jVal);
-//	}
-//	return false;
-//}
-
-bool CComputeShader::SaveJson(Json::Value* _jsonVal)
-{
-	if (false == CShader::SaveJson(_jsonVal))
-		return false;
-
-	Json::Value& jVal = *_jsonVal;
-
-	jVal[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)] = Json::Value(Json::arrayValue);
-
-	for (int i = 0; i < ThreadAxis::NumAxis; ++i)
-	{
-		jVal[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)].append(m_uNumThreadPerGroupArr[i]);
-	}
-
-	return true;
-}
-
-bool CComputeShader::LoadJson(Json::Value* _jsonVal)
-{
-	if (false == CShader::LoadJson(_jsonVal))
-		return false;
-
-	if (true == _jsonVal->isMember(string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)))
-	{
-		if (NumAxis == (*_jsonVal)[string(RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ)].size())
-		{
-			for (int i = 0; i < NumAxis; ++i)
-			{
-				m_uNumThreadPerGroupArr[i] = (*_jsonVal)[RES_INFO::SHADER::COMPUTE::JSON_KEY::uarrNumThreadXYZ][i].asInt();
-			}
-		}
-
-	}
-		
-
-	std::filesystem::path ShaderPath = CPathMgr::GetInst()->GetPathRel_Content();
-	ShaderPath /= DIRECTORY_NAME::SHADER_CSO;
-	ShaderPath /= GetKey();
-	ShaderPath.replace_extension(RES_INFO::SHADER::Ext_ShaderByteCode);
-
-	std::ios_base::openmode openMode = std::ios::in | std::ios::ate | std::ios::binary;
-	std::ifstream CSFile(ShaderPath, openMode);
-
-	if (false == CSFile.is_open())
-		return false;
-
-	std::streampos fileSize = CSFile.tellg();
-	CSFile.seekg(0, std::ios::beg);
-
-	HRESULT hr = D3DCreateBlob(fileSize, m_pShaderData.ReleaseAndGetAddressOf());
-	if (FAILED(hr))
-		return false;
-
-	char* pBuffer = static_cast<char*>(m_pShaderData->GetBufferPointer());
-	
-	CSFile.read(pBuffer, fileSize);
-	CSFile.close();
-
-	hr = CreateShaderPrivate(m_pShaderData->GetBufferPointer(), m_pShaderData->GetBufferSize());
-	if (FAILED(hr))
-		return false;
-
-	return true;
-}
 
 
 HRESULT CComputeShader::CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize)

@@ -18,9 +18,9 @@
 
 #include "strKey_Script.h"
 
-#include <Engine/CUserClassMgr.h>
+#include <Engine/UserClassMgr.h>
 #include <Engine/CScript.h>
-#define CONSTRUCTOR_T(_Type) pMgr->AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>)
+#define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>)
 
 //Script Classes
 #include "CScript_CameraMove.h"
@@ -36,13 +36,12 @@
 #include "CScript_SCEntity.h"
 #include "CScript_SCUnitVital.h"
 #include "CScript_TestObj.h"
-#include "CScript_TilemapUnitLoader.h"
+#include "CScript_TilemapSC.h"
 #include "CScript_Vespene.h"
 #include "CScript_VespeneSmoke.h"
 
 void UserClassInitializer::InitScript()
 {
-	CUserClassMgr* pMgr = CUserClassMgr::GetInst();
 	CONSTRUCTOR_T(CScript_CameraMove);
 	CONSTRUCTOR_T(CScript_FSM_Attack);
 	CONSTRUCTOR_T(CScript_FSM_Building_Prod);
@@ -56,7 +55,7 @@ void UserClassInitializer::InitScript()
 	CONSTRUCTOR_T(CScript_SCEntity);
 	CONSTRUCTOR_T(CScript_SCUnitVital);
 	CONSTRUCTOR_T(CScript_TestObj);
-	CONSTRUCTOR_T(CScript_TilemapUnitLoader);
+	CONSTRUCTOR_T(CScript_TilemapSC);
 	CONSTRUCTOR_T(CScript_Vespene);
 	CONSTRUCTOR_T(CScript_VespeneSmoke);
 }

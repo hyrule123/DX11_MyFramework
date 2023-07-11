@@ -461,7 +461,7 @@ namespace RES_INFO
 
 				namespace TILEMAP
 				{
-
+					STRKEY_DECLARE(m_TilemapType);
 				}
 
 				namespace LANDSCAPE

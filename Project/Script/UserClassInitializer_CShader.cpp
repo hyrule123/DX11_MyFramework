@@ -17,15 +17,14 @@
 #include "UserClassInitializer.h"
 #include "strKey_CShader.h"
 
-#include <Engine/CUserClassMgr.h>
+#include <Engine/UserClassMgr.h>
 #include <Engine/CComputeShader.h>
-#define CONSTRUCTOR_T(_Type) pMgr->AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>)
+#define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>)
 
 //Compute Shader Classes
 #include "CCS_SCMapLoader.h"
 
 void UserClassInitializer::InitCS()
 {
-	CUserClassMgr* pMgr = CUserClassMgr::GetInst();
 	CONSTRUCTOR_T(CCS_SCMapLoader);
 }

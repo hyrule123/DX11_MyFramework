@@ -2,7 +2,7 @@
 #include "ManualEdit.h"
 
 
-#include <Engine/CScriptMgr.h>
+#include <Engine/UserClassMgr.h>
 #include <Engine/CRandMgr.h>
 #include <Engine/EventDispatcher.h>
 
@@ -10,11 +10,14 @@
 #include <Engine/CResMgr.h>
 #include <Engine/CAnim2DAtlas.h>
 
+#include <Engine/CTilemapComplete.h>
+
 //string Keys
 #include <Engine/strKey_Default.h>
 #include <Script/strKey_Script.h>
 #include <Script/strKey_Texture.h>
-#include <Script/strKey_Shader.h>
+#include <Script/strKey_GShader.h>
+#include <Script/strkey_CShader.h>
 #include "strKey_Prefab.h"
 
 //Components
@@ -36,9 +39,9 @@
 #include <Script/CScript_FSM_Building_Prod.h>
 
 //HLSL Header
-#include <Engine/S_H_SCUnitGround.hlsli>
+#include <Script/S_H_SCUnitGround.hlsli>
 
-#include <Engine/CTilemap_SC.h>
+#include <Script/CScript_TilemapSC.h>
 
 void ManualEdit::Edit()
 {
@@ -238,28 +241,26 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
+		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_GShader::SCUnitGround);
 		pMtrl->SetShader(pShader);
 		
 		//Mesh
 		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
 		pRenderCom->SetMesh(pMesh);
 	}
-
+	
 	//Script
 	{
-		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
-
-		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_Script::CScript_SCEntity));
+		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(UserClassMgr::GetNewScript(strKey_Script::CScript_SCEntity));
 		pObj->AddScript(pSCEntity);
 		
-		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(pScriptMgr->GetNewScript(strKey_Script::CScript_FSM_Idle));
+		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(UserClassMgr::GetNewScript(strKey_Script::CScript_FSM_Idle));
 		pObj->AddScript(pFSMIdle);
 
-		CScript_FSM_Move_Ground* pFSMGround = GET_SCRIPT(CScript_FSM_Move_Ground, strKey_Script::CScript_FSM_Move_Ground);
+		CScript_FSM_Move_Ground* pFSMGround = GET_NEW_SCRIPT(CScript_FSM_Move_Ground);
 		pObj->AddScript(pFSMGround);
 
-		CScript_FSM_Attack* pFSMAttack = GET_SCRIPT(CScript_FSM_Attack, strKey_Script::CScript_FSM_Attack);
+		CScript_FSM_Attack* pFSMAttack = GET_NEW_SCRIPT(CScript_FSM_Attack);
 		pObj->AddScript(pFSMAttack);
 	}
 	
@@ -357,7 +358,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::BUILDINGSTRUCTURE);
+		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_GShader::BuildingStructure);
 		pMtrl->SetShader(pShader);
 
 		Ptr<CTexture> pFlash = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::CommandCenter_Prod_controlt__bmp);
@@ -371,12 +372,10 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 
 	//Script
 	{
-		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
-
-		CScript_SCEntity* pEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_Script::CScript_SCEntity));
+		CScript_SCEntity* pEntity = GET_NEW_SCRIPT(CScript_SCEntity);
 		pObj->AddScript(pEntity);
 
-		CScript_FSM_Building_Prod* pFSMBuilding = static_cast<CScript_FSM_Building_Prod*>(pScriptMgr->GetNewScript(strKey_Script::CScript_FSM_Building_Prod));
+		CScript_FSM_Building_Prod* pFSMBuilding = static_cast<CScript_FSM_Building_Prod*>(UserClassMgr::GetNewScript(strKey_Script::CScript_FSM_Building_Prod));
 		pObj->AddScript(pFSMBuilding);
 	}
 
@@ -418,7 +417,7 @@ void ManualEdit::Mineral_Prefab_Save()
 
 		pRenderCom->SetMaterial(pMtrl);
 
-		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::MINERAL
+		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_GShader::Mineral
 		);
 		pMtrl->SetShader(pShader);
 
@@ -449,9 +448,7 @@ void ManualEdit::Mineral_Prefab_Save()
 
 	//Script
 	{
-		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
-
-		pObj->AddScript(pScriptMgr->GetNewScript(strKey_Script::CScript_Mineral));
+		pObj->AddScript(UserClassMgr::GetNewScript(strKey_Script::CScript_Mineral));
 	}
 
 
@@ -543,7 +540,7 @@ void ManualEdit::Vespene_Prefab_Save()
 		Ptr<CMaterial> pMtrl = new CMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_SHADER::GRAPHICS::VESPINEGEYSER);
+		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_GShader::VespineGeyser);
 		pMtrl->SetShader(pShader);
 
 		Ptr<CTexture> VespeneTex = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::geyser_bmp);
@@ -557,9 +554,7 @@ void ManualEdit::Vespene_Prefab_Save()
 
 	//Script
 	{
-		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
-
-		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_Script::CScript_Vespene));
+		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(UserClassMgr::GetNewScript(strKey_Script::CScript_Vespene));
 		pObj->AddScript(pSCEntity);
 
 		//가스 스크립트 추가할것
@@ -604,7 +599,7 @@ void ManualEdit::Vespene_Prefab_Save()
 			Ptr<CMaterial> pMtrl = new CMaterial;
 			pMtrl->SetKey(SC::strKey_PREFAB::VESPENE_SMOKE);//프리팹 키와 똑같은 키를 사용
 			pRenderCom->SetMaterial(pMtrl);
-			Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_SHADER::GRAPHICS::SCUNITGROUND);
+			Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_GShader::SCUnitGround);
 			pMtrl->SetShader(pShader);
 
 			//Mesh
@@ -614,9 +609,7 @@ void ManualEdit::Vespene_Prefab_Save()
 
 		//Script
 		{
-			CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
-
-			CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(pScriptMgr->GetNewScript(strKey_Script::CScript_VespeneSmoke));
+			CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(UserClassMgr::GetNewScript(strKey_Script::CScript_VespeneSmoke));
 			pChild->AddScript(pSCEntity);
 		}
 	}
@@ -636,15 +629,14 @@ void ManualEdit::Map_Prefab_Save()
 
 	//MeshRender
 	{
-		//재질과 메쉬는 해당 클래스에서 설정함.
-		CTilemap_SC* TilemapComp = new CTilemap_SC;
-		pObj->AddComponent(TilemapComp);
+		pObj->AddComponent(new CTilemapComplete);
 	}
 
 	//Script
 	{
-		CScriptMgr* pScriptMgr = CScriptMgr::GetInst();
-		pObj->AddScript(pScriptMgr->GetNewScript(strKey_Script::CScript_TilemapUnitLoader));
+		//재질과 메쉬는 해당 클래스에서 설정함.
+		CScript* TilamapScript = UserClassMgr::GetNewScript(strKey_Script::CScript_TilemapSC);
+		pObj->AddScript(TilamapScript);
 	}
 
 	Ptr<CPrefab> pPrefab = new CPrefab;

@@ -13,7 +13,7 @@
 #include "strKey_Default.h"
 
 CTilemapAtlas::CTilemapAtlas()
-	: CTilemap(eTILE_TYPE::ATLAS)
+	: CTilemap(eTILEMAP_TYPE::ATLAS)
 	, m_vSliceSize()
 	, m_vecTile()
 	, m_SBuffer()
@@ -36,7 +36,7 @@ CTilemapAtlas::~CTilemapAtlas()
 }
 
 CTilemapAtlas::CTilemapAtlas(CTilemapAtlas const& _other)
-	: CTilemap(eTILE_TYPE::ATLAS)
+	: CTilemap(eTILEMAP_TYPE::ATLAS)
 	, m_vSliceSize(_other.m_vSliceSize)
 	, m_vecTile(_other.m_vecTile)
 	, m_SBuffer(_other.m_SBuffer->Clone())
@@ -50,37 +50,11 @@ void CTilemapAtlas::finaltick()
 
 bool CTilemapAtlas::render()
 {
-	//true 반환해서 인스턴싱 필요없다고 전달
-	if (nullptr == GetMesh() || nullptr == GetCurMaterial())
-		return true;
-
-	CGameObject* pOwner = GetOwner();
-
-	//자신의 구조화버퍼 업데이트
+	//자신의 Tile 구조화버퍼를 업데이트 한다.
 	BindData();
-
-	//타일맵의 재질에 변수를 대입한 후 바인딩
-	CMaterial* pMtrl = GetCurMaterial().Get();
-
-	//트랜스폼 업데이트 시켜줌
-	//Transform().UpdateData();
-
-	UINT count = GetTileCountX();
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_X, &count);
-
-	count = GetTileCountY();
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_Y, &count);
-
-	pMtrl->BindData();
-
-	BindMtrlScalarDataToCBuffer();
-
-	//렌더링 진행
-	GetMesh()->render();
-
-	//드로우콜이 발생했으므로 true 반환
-	return true;
+	return CTilemap::render();
 }
+
 
 void CTilemapAtlas::BindData()
 {

@@ -6,15 +6,20 @@
 
 #include <Engine/strKey_Default.h>
 
+
 #include <Engine/CPathMgr.h>
 #include <Engine/CResMgr.h>
-#include <Engine/CCS_SCMapLoader.h>
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
 #include <Engine/CMeshRender.h>
 #include <Engine/strKey_Default.h>
-#include <Engine/CTilemap_SC.h>
-#include <Script/strKey_Shader.h>
+#include <Engine/CTilemapComplete.h>
+
+#include <Script/CScript_TilemapSC.h>
+#include <Script/CCS_SCMapLoader.h>
+#include <Script/strKey_GShader.h>
+#include <Script/strKey_CShader.h>
+#include <Script/strKey_Script.h>
 
 #include <Engine/EventDispatcher.h>
 #include <Engine/CLevelMgr.h>
@@ -104,7 +109,7 @@ void CUIobj_TestWindow::render_update()
 	if (nullptr == m_pMapObj)
 		FindTestObj();
 
-	CTilemap_SC* pTilemap = static_cast<CTilemap_SC*>(m_pMapObj->Tilemap());
+	CScript_TilemapSC* pTilemap = static_cast<CScript_TilemapSC*>(m_pMapObj->ScriptHolder()->FindScript(strKey_Script::CScript_TilemapSC));
 	if (nullptr == pTilemap)
 		return;
 	if (ImGui::Button("Map Debug: None"))
@@ -186,15 +191,17 @@ void CUIobj_TestWindow::LoadMapData(const tComboItem& _tCombo)
 		try
 		{
 			Ptr<CCS_SCMapLoader> pMapLoader;
-			pMapLoader = pResMgr->FindRes<CComputeShader>(string(strKey_SHADER::COMPUTE::SCMAPLOADER));
+			pMapLoader = pResMgr->FindRes<CComputeShader>(string());
 			if (nullptr == pMapLoader)
 				throw std::runtime_error("Cannot find Map Loader!!");
 			
 			bool bLoaded = false;
 			CTilemap* pTilemap = m_pMapObj->Tilemap();
-			if (eTILE_TYPE::COMPLETE == pTilemap->GetTileType())
+			if (eTILEMAP_TYPE::COMPLETE == pTilemap->GetTilemapType())
 			{
-				bLoaded = (static_cast<CTilemap_SC*>(pTilemap))->LoadMap(_tCombo.strName);
+				CScript_TilemapSC* pScriptTilemap = static_cast<CScript_TilemapSC*>(m_pMapObj->ScriptHolder()->FindScript(strKey_Script::CScript_TilemapSC));
+				pScriptTilemap->LoadMap(_tCombo.strName);
+				bLoaded = pScriptTilemap->LoadMap(_tCombo.strName);
 			}
 
 			if (false == bLoaded)

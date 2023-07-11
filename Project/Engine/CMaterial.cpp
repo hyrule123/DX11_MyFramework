@@ -10,9 +10,6 @@
 #include "CResMgr.h"
 
 
-
-
-
 CMaterial::CMaterial()
 	: CRes(eRES_TYPE::MATERIAL)
 	, m_MtrlTex{}

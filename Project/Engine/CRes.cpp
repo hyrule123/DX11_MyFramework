@@ -11,6 +11,7 @@
 CRes::CRes(eRES_TYPE _type)
 	: m_eResType(_type)
 	, m_iRefCount(0)
+	, m_bEngineDefaultRes()
 {
 }
 
@@ -18,6 +19,7 @@ CRes::CRes(const CRes& _other)
 	: m_eResType(_other.m_eResType)
 	, m_iRefCount(0)
 	, m_strKey(_other.m_strKey)
+	, m_bEngineDefaultRes(_other.m_bEngineDefaultRes)
 {
 }
 
@@ -124,7 +126,6 @@ bool CRes::LoadJson(Json::Value* _pJson)
 		}
 		//m_eResType = (eRES_TYPE)jVal[string(RES_INFO::JSON_KEY::eRES_TYPE)].asInt();
 	}
-		
 	
 	return true;
 }

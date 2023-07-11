@@ -38,7 +38,7 @@ HRESULT CDirTree::SearchRecursive(stdfs::path const& _RootPath, std::regex const
 {
 	m_RootDir.Clear();
 
-	return m_RootDir.SearchRecursive( _RootPath, _regex);
+	return m_RootDir.SearchRecursive( _RootPath, _RootPath, _regex);
 }
 
 HRESULT CDirTree::DetectNewShaderGroup(std::unordered_map<stdfs::path, tShaderGroup> const& _umapGSGroup)
@@ -141,7 +141,7 @@ R"(#include "pch.h"
 #include "UserClassInitializer.h"
 #include "strKey_CShader.h"
 
-#include <Engine/CUserClassMgr.h>
+#include <Engine/UserClassMgr.h>
 #include <Engine/CComputeShader.h>)"
 );
 		Writer.WriteCode(strCode);
@@ -159,7 +159,7 @@ R"(#include "pch.h"
 
 		Writer.WriteCode(strCode, 1);
 		Writer.OpenBracket(1);
-		Writer.WriteCode("CUserClassMgr* pMgr = CUserClassMgr::GetInst();", 1);
+		//Writer.WriteCode("CUserClassMgr* pMgr = CUserClassMgr::GetInst();", 1);
 	}
 
 	vector<stdfs::path> vecCSFilePath;
@@ -178,7 +178,7 @@ R"(#include "pch.h"
 
 			std::string strCode;
 			strCode += define_Preset::Keyword::IncludeBegin::A;
-			strCode += FileName;
+			strCode += FileName + ".h";
 			strCode += "\"";
 			Writer.WriteCode(strCode);
 		}
@@ -224,7 +224,7 @@ R"(#include "pch.h"
 
 #include "strKey_Script.h"
 
-#include <Engine/CUserClassMgr.h>
+#include <Engine/UserClassMgr.h>
 #include <Engine/CScript.h>)"
 );
 		Writer.WriteCode(strCode);
@@ -241,7 +241,7 @@ R"(#include "pch.h"
 
 		Writer.WriteCode(strCode, 1);
 		Writer.OpenBracket(1);
-		Writer.WriteCode("CUserClassMgr* pMgr = CUserClassMgr::GetInst();", 1);
+		//Writer.WriteCode("CUserClassMgr* pMgr = CUserClassMgr::GetInst();", 1);
 	}
 
 	vector<stdfs::path> vecCSFilePath;

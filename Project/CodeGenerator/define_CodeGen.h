@@ -79,10 +79,10 @@ R"(#ifndef STRKEY
 
 
 		PRESET(define_T_Constructor_CS, 
-			R"(#define CONSTRUCTOR_T(_Type) pMgr->AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>))"
+			R"(#define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>))"
 		);
 		PRESET(define_T_Constructor_Script, 
-			R"(#define CONSTRUCTOR_T(_Type) pMgr->AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>))"
+			R"(#define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>))"
 		);
 
 		PRESET(T_Constructor, "CONSTRUCTOR_T(");

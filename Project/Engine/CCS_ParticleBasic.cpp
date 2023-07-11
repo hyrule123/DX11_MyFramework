@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CCS_ParticleUpdater.h"
+#include "CCS_ParticleBasic.h"
 
 #include "CResMgr.h"
 
@@ -10,42 +10,29 @@
 #include "CParticleSystem.h"
 #include "CTransform.h"
 
+#ifdef _DEBUG
+#include "DefaultShader/S_C_ParticleBasic_Debug.h"
+#else
+#include "DefaultShader/S_C_ParticleBasic_Release.h"
+#endif
 
-
-CCS_ParticleUpdater::CCS_ParticleUpdater()
-	: CComputeShader(32u, 32u, 0u)
+CCS_ParticleBasic::CCS_ParticleBasic()
+	: CComputeShader(128u, 1u, 1u)
 	, m_pBufferOwner()
 	, m_pSBuffer_Transform()
 	, m_pSBufferRW_Shared()
 	, m_pCBuffer_ModuleData()
 {
-	//TODO: 컴퓨트쉐이더 연결하기
+	CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic) / sizeof(unsigned char));
 }
 
-CCS_ParticleUpdater::CCS_ParticleUpdater(const string_view _strFileKey)
-	: CCS_ParticleUpdater()
-{
-	std::filesystem::path FilePath = _strFileKey;
 
-	if (false == Load(FilePath))
-		throw(std::runtime_error(string("Compute Shader\n") + FilePath.string() + string("\nLoad Failed")));
-}
 
-CCS_ParticleUpdater::CCS_ParticleUpdater(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ)
-	: CComputeShader(_uNumThreadsX, _uNumThreadsY, _uNumThreadsZ)
-	, m_pBufferOwner()
-	, m_pSBuffer_Transform()
-	, m_pSBufferRW_Shared()
-	, m_pCBuffer_ModuleData()
-{
-	
-}
-
-CCS_ParticleUpdater::~CCS_ParticleUpdater()
+CCS_ParticleBasic::~CCS_ParticleBasic()
 {
 }
 
-bool CCS_ParticleUpdater::BindDataCS()
+bool CCS_ParticleBasic::BindDataCS()
 {
 	if (nullptr == m_Tex_Noise)
 	{
@@ -86,7 +73,7 @@ bool CCS_ParticleUpdater::BindDataCS()
 	return true;
 }
 
-void CCS_ParticleUpdater::UnBindCS()
+void CCS_ParticleBasic::UnBindCS()
 {
 	//계산 후 UAV 바인딩을 해제.
 	m_pSBuffer_Transform->UnBind();

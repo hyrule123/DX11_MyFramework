@@ -138,7 +138,7 @@ void CStructBuffer::UploadData(void* _pData, UINT _uCount)
 
 	//g_arrSBufferShareData의 자신의 인덱스에 해당하는 위치에 이번에 업데이트된 구조체의 갯수를 삽입
 	//상수 버퍼의 바인딩은 BindData()를 하는 시점에 해준다.
-	g_arrSBufferShareData.uSBufferCount = _uCount;
+	g_SBufferShareData.uSBufferCount = _uCount;
 
 
 	//생성 시 할당된 갯수보다 들어온 갯수가 더 클 경우 재할당하고, 거기에 데이터를 추가.
@@ -354,7 +354,7 @@ void CStructBuffer::BindConstBuffer(UINT _eSHADER_PIPELINE_FLAG)
 	//구조체 정보를 담은 상수버퍼에 바인딩한 구조체 갯수를 넣어서 전달
 	//상수버퍼의 주소는 한번 실행되면 변하지 않으므로 static, const 형태로 선언.
 	static CConstBuffer* const pStructCBuffer = CDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA);
-	pStructCBuffer->UploadData(&g_arrSBufferShareData);
+	pStructCBuffer->UploadData(&g_SBufferShareData);
 	pStructCBuffer->BindBuffer(_eSHADER_PIPELINE_FLAG);
 }
 

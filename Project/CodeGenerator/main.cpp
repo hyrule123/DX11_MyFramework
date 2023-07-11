@@ -59,8 +59,9 @@ int main(int argc, char* argv[])
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
         DirTree.SearchRecursive(DirPath, reg);
 
-        DirTree.CreateCShaderCode(DirPath / define_Preset::Path::UserClassInit_CS::A);
         DirTree.CreateStrKeyHeader(DirPath / define_Preset::Path::strKey_CShader::A, "CShader", true);
+        DirTree.CreateCShaderCode(DirPath / define_Preset::Path::UserClassInit_CS::A);
+        
     }
 
     //Generate Graphics Shader Key

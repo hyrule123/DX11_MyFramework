@@ -20,8 +20,8 @@
 
 #include <Engine/CComputeShader.h>
 #include <Engine/CCS_SetColor.h>
-#include <Engine/CCS_SCMapLoader.h>
-#include <Engine/CScriptMgr.h>
+
+
 #include <Engine/CTimeMgr.h>
 #include <Engine/CResMgr.h>
 #include <Engine/CRandMgr.h>
@@ -30,12 +30,14 @@
 
 #include <Script/strKey_Script.h>
 #include <Script/strKey_Texture.h>
-#include <Script/strKey_Shader.h>
+#include <Script/strKey_GShader.h>
+#include <Script/CCS_SCMapLoader.h>
 
 #include <Script/CScript_FSM_Move_Ground.h>
 #include <Script/CScript_MouseCursor.h>
 #include <Script/define_SC.h>
 
+#include <Engine/UserClassMgr.h>
 
 #include "ManualEdit.h"
 #include "strKey_Prefab.h"
@@ -46,9 +48,9 @@ void CreateMainGame()
 {
 	ManualEdit::Edit();
 
-	LoadRes(eRES_TYPE::TEXTURE);
-	LoadRes(eRES_TYPE::MATERIAL);
-	LoadRes(eRES_TYPE::PREFAB);
+	//LoadRes(eRES_TYPE::TEXTURE);
+	//LoadRes(eRES_TYPE::MATERIAL);
+	//LoadRes(eRES_TYPE::PREFAB);
 
 	ManualEdit::TestCreate();
 
@@ -106,37 +108,37 @@ void CreateMainGame()
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		//pObj->AddComponent(new CTransform);
-		pObj->AddScript(CScriptMgr::GetInst()->GetNewScript(strKey_Script::CScript_MainCamSC_InGame));
+		pObj->AddScript(UserClassMgr::GetNewScript(strKey_Script::CScript_MainCamSC_InGame));
 
 		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::Camera);
 	}
 }
 
-void LoadRes(eRES_TYPE _eResType)
-{
-	CResMgr* pResMgr = CResMgr::GetInst();
-	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
-	//텍스처 로드
-	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(_eResType);
-
-	std::filesystem::recursive_directory_iterator RIter;
-	try
-	{
-		RIter = std::filesystem::recursive_directory_iterator(ResPath);
-
-		for (RIter; RIter != std::filesystem::end(RIter); ++RIter)
-		{
-			if (true == RIter->is_directory())
-				continue;
-			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
-			pResMgr->Load(_eResType, RelativePath);
-			//pResMgr->Load<CTexture>(RelativePath);
-		}
-	}
-	catch (const std::filesystem::filesystem_error& error)
-	{
-		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
-		throw(error);
-	}
-}
+//void LoadRes(eRES_TYPE _eResType)
+//{
+//	CResMgr* pResMgr = CResMgr::GetInst();
+//	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
+//	//텍스처 로드
+//	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(_eResType);
+//
+//	std::filesystem::recursive_directory_iterator RIter;
+//	try
+//	{
+//		RIter = std::filesystem::recursive_directory_iterator(ResPath);
+//
+//		for (RIter; RIter != std::filesystem::end(RIter); ++RIter)
+//		{
+//			if (true == RIter->is_directory())
+//				continue;
+//			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
+//			pResMgr->Load(_eResType, RelativePath);
+//			//pResMgr->Load<CTexture>(RelativePath);
+//		}
+//	}
+//	catch (const std::filesystem::filesystem_error& error)
+//	{
+//		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
+//		throw(error);
+//	}
+//}
 

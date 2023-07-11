@@ -38,6 +38,8 @@ public:
     virtual void start() final;
     virtual void tick() final;
     virtual void finaltick() final {}
+    void BindData();
+    void UnBind();
     virtual void cleanup() final {}
 
     eFSM_RESULT Transition(const tFSM_Event& _tEvent);

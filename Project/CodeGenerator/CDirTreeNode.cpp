@@ -45,17 +45,15 @@ void CDirTreeNode::Clear()
 	m_pParent = nullptr;
 }
 
-HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, std::regex const& _regex)
+HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _rootPath, stdfs::path const& _path, std::regex const& _regex)
 {
 	//들어온 Path 자체가 폴더 경로가 아닐 경우에는 실패 반환
 	if (false == stdfs::is_directory(_path))
 		return E_INVALIDARG;
 
 	//디렉토리 이름을 등록
-	if (IsRoot())
-		m_DirName = _path;
-	else
-		m_DirName = _path.filename();
+	if(false == IsRoot())
+		m_DirName = _path.lexically_relative(_rootPath);
 
 	try
 	{
@@ -79,7 +77,7 @@ HRESULT CDirTreeNode::SearchRecursive(stdfs::path const& _path, std::regex const
 			{
 				//폴더를 발견했을 경우 새 노드를 생성 후 재귀호출
 				CDirTreeNode* pNode = new CDirTreeNode(this);
-				HRESULT hr = pNode->SearchRecursive(dirIter.path(), _regex);
+				HRESULT hr = pNode->SearchRecursive(_rootPath, dirIter.path(), _regex);
 				
 				if (ERROR_EMPTY == hr)
 				{
@@ -180,10 +178,11 @@ HRESULT CDirTreeNode::WriteStrKeyTree(CCodeWriter& _CodeWriter, bool _bEraseExte
 
 			if (false == IsRoot())
 			{
-				strCode += m_DirName.string();
+				string tempstring = m_DirName.string();
+				std::replace(tempstring.begin(), tempstring.end(), '\\', '/');
+				strCode += tempstring;
 				strCode += "/";
 			}
-
 
 
 			if (_bEraseExtension)

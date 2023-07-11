@@ -21,7 +21,7 @@ private:
 	~CDirTreeNode();
 
 public:
-	HRESULT SearchRecursive(stdfs::path const& _path, std::regex const& _regex);
+	HRESULT SearchRecursive(stdfs::path const& _rootPath, stdfs::path const& _path, std::regex const& _regex);
 
 	HRESULT GetAllFiles(__out std::vector<stdfs::path>& _vecFile, bool _bAddRelativeDir);
 

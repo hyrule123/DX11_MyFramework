@@ -21,8 +21,11 @@ public:
     CLONE_DISABLE(CComputeShader);
 
 public:
-    virtual bool SaveJson(Json::Value* _jsonVal) override;
-    virtual bool LoadJson(Json::Value* _jsonVal) override;
+    //ComputeShader는 Load / Save 사용하지 않음
+    virtual bool Save(const std::filesystem::path& _fileName) final { assert(false); return false; }
+    virtual bool Load(const std::filesystem::path& _fileName) final { assert(false); return false; }
+    //virtual bool SaveJson(Json::Value* _jsonVal) override;
+    //virtual bool LoadJson(Json::Value* _jsonVal) override;
 
 private://미사용
     virtual void BindData() final {};

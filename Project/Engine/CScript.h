@@ -5,7 +5,7 @@
 
 class CGameObject;
 class CCollider;
-class CTilemap_SC;
+class CScript_TilemapSC;
 
 class CScript :
     public CEntity
@@ -30,6 +30,10 @@ public:
     virtual void init()  {}
     virtual void start() {}
     virtual void tick()  {}
+
+    //보낼 GPU 데이터가 있을 경우 데이터를 전송
+    virtual void BindData() {}
+    virtual void UnBind() {}
 
     //충돌 발생 시 처리는 이 메소드를 오버라이딩해서 사용해주면 된다.
     virtual void BeginCollision(CCollider* _other, const Vec3& _v3HitPoint) {}

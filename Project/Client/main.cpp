@@ -8,7 +8,7 @@
 
 #include "CImGuiMgr.h"
 
-#include <Script/CScriptMgrInitializer.h>
+#include <Script/UserClassInitializer.h>
 
 #define SC_RES_X 640
 #define SC_RES_Y 480
@@ -48,7 +48,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return 0;
     }
     //복사용 스크립트 원본 등록 함수 호출
-    CScriptMgrInitializer::init();
+    //UserClassInitializer::InitCS();
+    UserClassInitializer::InitScript();
 
     CEditorObjMgr::GetInst()->init();
 

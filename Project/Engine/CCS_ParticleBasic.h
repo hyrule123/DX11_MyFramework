@@ -8,15 +8,12 @@ class CConstBuffer;
 class CParticleSystem;
 class CTexture;
 
-class CCS_ParticleUpdater :
+class CCS_ParticleBasic :
     public CComputeShader
 {
-private:
-    CCS_ParticleUpdater();
 public:
-    CCS_ParticleUpdater(const string_view _strFileKey);
-    CCS_ParticleUpdater(UINT _uNumThreadsX, UINT _uNumThreadsY, UINT _uNumThreadsZ);
-    virtual ~CCS_ParticleUpdater();
+    CCS_ParticleBasic();
+    virtual ~CCS_ParticleBasic();
 
 public:
     virtual bool BindDataCS() override;
@@ -39,7 +36,7 @@ public:
     void SetParticleOwnerPos(const Vec3& _vPos) { SetMtrlScalarParam(MTRL_SCALAR_OWNER_OBJ_POS, Vec4(_vPos, 1.f)); }
 };
 
-inline void CCS_ParticleUpdater::SetBuffers(CParticleSystem* _pBufferOwner, CStructBuffer* _pSBuffer_Transform, CStructBuffer* _pSBuffer_SharedRW, CConstBuffer* _pCBuffer_ModuleData)
+inline void CCS_ParticleBasic::SetBuffers(CParticleSystem* _pBufferOwner, CStructBuffer* _pSBuffer_Transform, CStructBuffer* _pSBuffer_SharedRW, CConstBuffer* _pCBuffer_ModuleData)
 {
     m_pBufferOwner = _pBufferOwner;
     m_pSBuffer_Transform = _pSBuffer_Transform;

@@ -11,7 +11,7 @@ public:
     CLONE(CTilemapAtlas);
 
 public:
-    virtual void init() override {};
+    //virtual void init();
     virtual void finaltick() override;
     virtual bool render() override;
     virtual void cleanup() override {};
