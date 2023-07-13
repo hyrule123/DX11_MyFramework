@@ -46,7 +46,7 @@ ENUM_BEGIN(eMTRL_SCALAR_STD2D_FLAG_TILEMAPSC, int)
 ENUM_END
 
 
-//Texture Info
+//cTexture Info
 //1. 맵의 전체 텍스처 이미지
 //2. 
 //3. 

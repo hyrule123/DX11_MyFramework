@@ -51,5 +51,5 @@ struct VS_OUT
 // g_CBuffer_Mtrl_Scalar.VEC2_0             : AnimAtlas LeftTop
 // g_CBuffer_Mtrl_Scalar.VEC2_1             : AnimAtlas Slice
 //
-// g_tex_0              : Output Texture
+// g_tex_0              : Output cTexture
 // ============================

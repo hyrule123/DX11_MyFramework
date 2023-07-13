@@ -1,7 +1,7 @@
 #include "S_H_STD2DLight.hlsli"
 
-void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light);
-void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light);
+void CalccLight2D(float3 _vWorldPos, inout tLightColor _Light);
+void CalccLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light);
 
 float4 PS_STD2D_Light(VS_OUT_Light _in) : SV_TARGET
 {
@@ -84,12 +84,12 @@ float4 PS_STD2D_Light(VS_OUT_Light _in) : SV_TARGET
     if (FALSE == bNormalMapProcessed)
     {
         //자신의 노멀값을 고려하지 않은 광원 계산을 진행
-        CalcLight2D(_in.vWorldPos, LightColor);
+        CalccLight2D(_in.vWorldPos, LightColor);
     }
     else
     {     
         //노멀값까지 합산된 광원 계산을 진행.
-        CalcLight2DNormal(_in.vWorldPos, vNormal, LightColor);
+        CalccLight2DNormal(_in.vWorldPos, vNormal, LightColor);
     }
             
     //최종적으로 계산된 빛의 색상을 픽셀 색상에 곱해준다.
@@ -99,19 +99,19 @@ float4 PS_STD2D_Light(VS_OUT_Light _in) : SV_TARGET
     return vOutColor;
 }
 
-void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
+void CalccLight2D(float3 _vWorldPos, inout tLightColor _Light)
 {
 	for (uint i = 0; i < g_CBuffer_SBufferData.uSBufferCount; ++i)
     {  
-        if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
+        if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_cLight2D[i].LightType)
         {
-            _Light.vAmbient.rgb += g_SBuffer_Light2D[i].LightColor.vAmbient.rgb;
-            _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb;
+            _Light.vAmbient.rgb += g_SBuffer_cLight2D[i].LightColor.vAmbient.rgb;
+            _Light.vDiffuse.rgb += g_SBuffer_cLight2D[i].LightColor.vDiffuse.rgb;
         }
-        else if (eLIGHT_TYPE::POINT == g_SBuffer_Light2D[i].LightType)
+        else if (eLIGHT_TYPE::POINT == g_SBuffer_cLight2D[i].LightType)
         {
             //픽셀과 광원 사이의 길이를 계산하고, 그걸 점광원의 범위(fRadius)로 나눠준다.
-            float DistancePow = distance(_vWorldPos.xy, g_SBuffer_Light2D[i].vLightWorldPos.xy) / g_SBuffer_Light2D[i].fRadius;
+            float DistancePow = distance(_vWorldPos.xy, g_SBuffer_cLight2D[i].vLightWorldPos.xy) / g_SBuffer_cLight2D[i].fRadius;
             
             //이 값을 1에서 ?주고(멀어질수록 값이 작아지도록 - 지금은 가까울수록 값이 작아진다.)
             //saturate 함수를 통해서 범위를 0~1 사이로 한정한다.(빛이 강하다고 색이 진해지는 것은 아니므로)
@@ -119,28 +119,28 @@ void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
             
             //거리에 따른 빛의 강도를 계산해준 뒤 이 값을 Diffuse 값에 넣어준다.
             //점광원의 경우 환경광(Ambient)은 없다고 가정한다.
-            _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb * DistancePow;
+            _Light.vDiffuse.rgb += g_SBuffer_cLight2D[i].LightColor.vDiffuse.rgb * DistancePow;
         }
-        else if (eLIGHT_TYPE::SPOTLIGHT == g_SBuffer_Light2D[i].LightType)
+        else if (eLIGHT_TYPE::SPOTLIGHT == g_SBuffer_cLight2D[i].LightType)
         {
             //스포트라이트의 경우에는 추가적으로 빛의 방향과 부채꼴의 각도가 존재한다. 이 값은 내적과 acos를 통해서 구할 수 있다.
             //픽셀의 위치와 광원의 위치를 뺀 후 정규화 하여 광원으로부터 픽셀까지의 방향 벡터를 구한다.
-            float2 LightToPixelDir = normalize(_vWorldPos.xy - g_SBuffer_Light2D[i].vLightWorldPos.xy);
+            float2 LightToPixelDir = normalize(_vWorldPos.xy - g_SBuffer_cLight2D[i].vLightWorldPos.xy);
             
             //위에서 구한 방향 벡터와 빛의 방향 벡터를 내적하면 사잇각의 코사인값을 구할 수 있다.
-            float Angle = acos(dot(LightToPixelDir, g_SBuffer_Light2D[i].vLightDir.xy));
+            float Angle = acos(dot(LightToPixelDir, g_SBuffer_cLight2D[i].vLightDir.xy));
             
 
             //구한 각도가 스포트라이트 광원에서 설정한 부채꼴의 각도보다 작을 경우에만 처리해준다.
-            if(Angle < g_SBuffer_Light2D[i].fAngle)
+            if(Angle < g_SBuffer_cLight2D[i].fAngle)
             {
                 //각도에 따른 빛의 세기를 계산한다.
-                float AnglePow = saturate(1.f - (Angle / g_SBuffer_Light2D[i].fAngle));
+                float AnglePow = saturate(1.f - (Angle / g_SBuffer_cLight2D[i].fAngle));
 
-                float DistancePow = distance(_vWorldPos.xy, g_SBuffer_Light2D[i].vLightWorldPos.xy) / g_SBuffer_Light2D[i].fRadius;
+                float DistancePow = distance(_vWorldPos.xy, g_SBuffer_cLight2D[i].vLightWorldPos.xy) / g_SBuffer_cLight2D[i].fRadius;
                 DistancePow = saturate(1.f - DistancePow);
             
-                _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb * DistancePow * AnglePow;
+                _Light.vDiffuse.rgb += g_SBuffer_cLight2D[i].LightColor.vDiffuse.rgb * DistancePow * AnglePow;
             }
 
         }
@@ -149,30 +149,30 @@ void CalcLight2D(float3 _vWorldPos, inout tLightColor _Light)
 
 }
 
-void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light)
+void CalccLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor _Light)
 {
     //여기선 노말값까지 감안해줘야 함.    
     for (uint i = 0; i < g_CBuffer_SBufferData.uSBufferCount; ++i)
     {
-        if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_Light2D[i].LightType)
+        if (eLIGHT_TYPE::DIRECTIONAL == g_SBuffer_cLight2D[i].LightType)
         {
         //램버트 코사인 법칙을 통한 빛의 강도(=코사인값)를 구한다.
-            float DiffusePow = saturate(dot(-g_SBuffer_Light2D[i].vLightDir.xyz, _vNormalDir));
+            float DiffusePow = saturate(dot(-g_SBuffer_cLight2D[i].vLightDir.xyz, _vNormalDir));
             
         //직사광선의 경우 방향만 고려
-            _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb * DiffusePow;
-            _Light.vAmbient.rgb += g_SBuffer_Light2D[i].LightColor.vAmbient.rgb;
+            _Light.vDiffuse.rgb += g_SBuffer_cLight2D[i].LightColor.vDiffuse.rgb * DiffusePow;
+            _Light.vAmbient.rgb += g_SBuffer_cLight2D[i].LightColor.vAmbient.rgb;
         }
-        else if (eLIGHT_TYPE::POINT == g_SBuffer_Light2D[i].LightType)
+        else if (eLIGHT_TYPE::POINT == g_SBuffer_cLight2D[i].LightType)
         {
         //점광원일 때는 광원 위치로부터 빛이 원형으로 퍼져나간다고 가정한다. 태양을 점이라고 생각하면 될듯.
             
         //점광원은 빛이 원형으로 퍼져 나가므로 광원과 픽셀 사이의 방향벡터가 곧 빛의 방향 벡터이다.
-            float3 LightToPixelVector = _vWorldPos - g_SBuffer_Light2D[i].vLightWorldPos.xyz;
+            float3 LightToPixelVector = _vWorldPos - g_SBuffer_cLight2D[i].vLightWorldPos.xyz;
             
         //우선 거리에 따른 빛의 강도를 계산한다.
             float DistancePow = saturate(
-        1.f - (length(LightToPixelVector.xy) / g_SBuffer_Light2D[i].fRadius));
+        1.f - (length(LightToPixelVector.xy) / g_SBuffer_cLight2D[i].fRadius));
             
         //빛이 닿지 않는 픽셀 경우 continue
             if (DistancePow <= 0.f)
@@ -181,34 +181,34 @@ void CalcLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor 
         //노말 벡터와 빛의 방향 벡터 사이의 코사인값을 구한다.
             float DiffusePow = saturate(dot(-LightToPixelVector, _vNormalDir));
             
-            _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb * DiffusePow * DistancePow;
+            _Light.vDiffuse.rgb += g_SBuffer_cLight2D[i].LightColor.vDiffuse.rgb * DiffusePow * DistancePow;
 
         }
-        else if (eLIGHT_TYPE::SPOTLIGHT == g_SBuffer_Light2D[i].LightType)
+        else if (eLIGHT_TYPE::SPOTLIGHT == g_SBuffer_cLight2D[i].LightType)
         {
             
-            float DiffusePow = saturate(dot(-g_SBuffer_Light2D[i].vLightDir.xyz, _vNormalDir));
+            float DiffusePow = saturate(dot(-g_SBuffer_cLight2D[i].vLightDir.xyz, _vNormalDir));
             
         //광원에서 픽셀까지의 벡터 구함
-            float2 LightToPixelDir = _vWorldPos.xy - g_SBuffer_Light2D[i].vLightWorldPos.xy;
+            float2 LightToPixelDir = _vWorldPos.xy - g_SBuffer_cLight2D[i].vLightWorldPos.xy;
             
             float2 LightToPixelDirNorm = normalize(LightToPixelDir);
            
             
         //광원의 방향과 광원에서 픽셀까지의 방향벡터를 내적하고, 아크코사인을 통해서 각도 도출
         //이 때 나오는 아크코사인 값은 무조건 양수이다.(0 ~ PI) 부호가 없는 각도를 반환함.
-            float Angle = acos(dot(LightToPixelDirNorm, g_SBuffer_Light2D[i].vLightDir.xy));
+            float Angle = acos(dot(LightToPixelDirNorm, g_SBuffer_cLight2D[i].vLightDir.xy));
             
         //반경 90도 내일 경우에만 처리
-            if (Angle < g_SBuffer_Light2D[i].fAngle)
+            if (Angle < g_SBuffer_cLight2D[i].fAngle)
             {
             //아까 구한 광원에서 픽셀까지의 벡터를 통해 거리 계산
-                float DistancePow = saturate(1.f - (length(LightToPixelDir) / g_SBuffer_Light2D[i].fRadius));
+                float DistancePow = saturate(1.f - (length(LightToPixelDir) / g_SBuffer_cLight2D[i].fRadius));
                 
-            //saturate 할 필요 없음. Angle은 둘 다 무조건 양수임. 또한 위의 조건문 문에 Angle / Light.fAngle 값이 1을 넘어설 수 없음.
-                float AnglePow = 1.f - (Angle / g_SBuffer_Light2D[i].fAngle);
+            //saturate 할 필요 없음. Angle은 둘 다 무조건 양수임. 또한 위의 조건문 문에 Angle / cLight.fAngle 값이 1을 넘어설 수 없음.
+                float AnglePow = 1.f - (Angle / g_SBuffer_cLight2D[i].fAngle);
 
-                _Light.vDiffuse.rgb += g_SBuffer_Light2D[i].LightColor.vDiffuse.rgb * DiffusePow * DistancePow * AnglePow;
+                _Light.vDiffuse.rgb += g_SBuffer_cLight2D[i].LightColor.vDiffuse.rgb * DiffusePow * DistancePow * AnglePow;
             }
             
         }

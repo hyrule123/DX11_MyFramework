@@ -2,17 +2,17 @@
 
 #include "Precompiled.h"
 
-#define DEVICE  Device::GetInst()->GetDevice()
-#define CONTEXT Device::GetInst()->GetDeviceContext()
+#define DEVICE  cDevice::GetInst()->GetDevice()
+#define CONTEXT cDevice::GetInst()->GetDeviceContext()
 
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) public: virtual type* Clone() { return nullptr; assert(nullptr); }
 
-#define KEY_DOWN(_eKEY) KeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::DOWN		
-#define KEY_RELEASE(_eKEY) KeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::RELEASE
-#define KEY_PRESSED(_eKEY) KeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::PRESSED
+#define KEY_DOWN(_eKEY) cKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::DOWN		
+#define KEY_RELEASE(_eKEY) cKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::RELEASE
+#define KEY_PRESSED(_eKEY) cKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::PRESSED
 
-#define DELTA_TIME TimeMgr::GetInst()->GetDeltaTime()
+#define DELTA_TIME cTimeMgr::GetInst()->GetDeltaTime()
 
 #define MAX_LAYER 32
 
@@ -83,7 +83,7 @@ enum class eCOMPONENT_TYPE
 	ANIMATOR3D,		// Bone Sknning Animation
 	LIGHT2D,			// 2차원 광원
 	LIGHT3D,			// 3차원 광원
-	CAMERA,			// Camera
+	CAMERA,			// cCamera
 
 	// render
 	MESH_RENDER,		// 기본적인 렌더링

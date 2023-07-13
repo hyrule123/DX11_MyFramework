@@ -4,7 +4,7 @@
 #include "S_H_Register.hlsli"
 
 
-//Debug 쉐이프 정보는 Material로 데이터를 전송해서 처리 중.
+//Debug 쉐이프 정보는 cMaterial로 데이터를 전송해서 처리 중.
 
 #define MTRL_SCALAR_DEBUG_MAT_WVP    MTRLDATA_PARAM_SCALAR(MAT, 0)
 #define MTRL_SCALAR_DEBUG_MAT_WORLD MTRLDATA_PARAM_SCALAR(MAT, 1)

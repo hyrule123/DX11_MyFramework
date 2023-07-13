@@ -18,8 +18,8 @@
 // g_CBuffer_Mtrl_Scalar.VEC2_0             : AnimAtlas LeftTop
 // g_CBuffer_Mtrl_Scalar.VEC2_1             : AnimAtlas Slice
 //
-// g_tex_0              : Output Texture
-// g_tex_1              : Normal Texture
+// g_tex_0              : Output cTexture
+// g_tex_1              : Normal cTexture
 // ============================
 
 
@@ -64,7 +64,7 @@ ENUM_END
 
 #else
 
-StructuredBuffer<tLightInfo> g_SBuffer_Light2D : register(REGISLOT_t_SBUFFER_LIGHT2D);
+StructuredBuffer<tLightInfo> g_SBuffer_cLight2D : register(REGISLOT_t_SBUFFER_LIGHT2D);
 
 #endif
 

@@ -73,7 +73,7 @@ cbuffer CBuffer_ParticleModule : register(REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA
 
 
 //==================================================
-// SRV : Texture / Structured Buffers ( t Register )
+// SRV : cTexture / Structured Buffers ( t Register )
 //==================================================
 
 #define REGISLOT_t_TEXTURE_0 REGISTER_SLOT(t, 0)
@@ -141,7 +141,7 @@ StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(REGISLOT_t_INIT
 
 
 //=========================================================
-// UAV : RW Structured Buffer / RW Texture ( u Register)
+// UAV : RW Structured Buffer / RW cTexture ( u Register)
 //=========================================================
 //UAV -> u Register
 

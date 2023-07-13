@@ -11,7 +11,7 @@ private:
 
 public:
     template <typename T>
-    T GetRand(T _tMin, T _tMax)
+    static T GetRand(T _tMin, T _tMax)
     {
         static_assert(std::is_arithmetic<T>::value, "Variable Type is not arithmetic!!");
 

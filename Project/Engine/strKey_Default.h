@@ -47,8 +47,8 @@ namespace strKey_RES_DEFAULT
 		STRKEY STD2D = "std2D";
 		STRKEY STD2D_LIGHT = "std2DLight";
 		
-		STRKEY TILEMAP_COMPLETE = "TilemapComplete";
-		STRKEY TILEMAP_ATLAS = "TilemapAtlas";
+		STRKEY TILEMAP_COMPLETE = "cTilemapComplete";
+		STRKEY TILEMAP_ATLAS = "cTilemapAtlas";
 
 		STRKEY PARTICLE_RENDER = "ParticleRender";
 	}
@@ -61,13 +61,12 @@ namespace strKey_RES_DEFAULT
 			STRKEY PARTICLE = "Particle";
 			STRKEY STD2D = "STD2D";
 			STRKEY STD2DLIGHT = "STD2DLight";
-			STRKEY TILEMAPATLAS = "TilemapAtlas";
-			STRKEY TILEMAPCOMPLETE = "TilemapComplete";
+			STRKEY TILEMAPATLAS = "cTilemapAtlas";
+			STRKEY TILEMAPCOMPLETE = "cTilemapComplete";
 		}
 
 		namespace COMPUTE
 		{
-			STRKEY SCMAPLOADER = "S_C_SCMapLoader";
 			STRKEY INITALIZE = "S_C_Initalize";
 			STRKEY PARTICLEBASIC = "S_C_ParticleBasic";
 			STRKEY SETCOLOR = "S_C_SetColor";
@@ -84,13 +83,13 @@ namespace strKey_RES_DEFAULT
 namespace DIRECTORY_NAME
 {
 	//인덱스는 eRES_TYPE를 사용
-	//ResMgr에서 관리되는 리소스의 키 및 폴더 이름으로 사용
+	//cResMgr에서 관리되는 리소스의 키 및 폴더 이름으로 사용
 	STRKEY RES_ARR[(int)eRES_TYPE::END] =
 	{
 		"MeshData",
 		"MeshData",
-		"Material",
-		"Texture",
+		"cMaterial",
+		"cTexture",
 		"Anim2D",
 		"Sound",
 		"Prefab",
@@ -198,45 +197,6 @@ namespace RES_INFO
 		STRKEY Ext = ".json";
 		STRKEY DirName = DIRECTORY_NAME::PREFAB;
 
-		namespace JSON_KEY
-		{
-			STRKEY_DECLARE(m_Transform);
-
-			//Component* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
-			STRKEY_DECLARE(m_arrCom);
-
-			//RenderComponent* m_RenderCom;
-
-			//Hierarchy
-			//GameObject* m_Parent;
-			//있을 경우 Prefab 형태로 따로 저장해서 불러온 뒤 로드해서 주소를 등록
-			STRKEY_DECLARE(m_Parent_PREFAB);
-
-			//vector<GameObject*>    m_vecChild;
-			STRKEY_DECLARE(m_vecChild_PREFAB);
-
-			//tMtrlScalarData          m_MtrlScalarData;
-
-			//Layer Info
-			//int                     m_iLayerIdx;
-			STRKEY_DECLARE(m_iLayerIdx);
-
-			//레이어 번호를 고정. 부모 레이어를 옮겨도 자신은 옮겨지지 않음.
-			//bool                    m_bFixLayer;   
-			STRKEY_DECLARE(m_bFixLayer);
-
-			//Birth, Death
-			//bool                    m_bDestroy;
-
-			//float                   m_fLifeSpan;
-			STRKEY_DECLARE(m_fLifeSpan);
-
-			//초기화 되어 현재 Level 안에서 작동중인지 여부를 저장.
-			//작동 이후 컴포넌트가 추가될 시 바로 init 호출.
-			//bool                m_bInitialized;
-			
-		}
-
 		namespace COMPONENT
 		{
 			namespace JSON_KEY
@@ -293,7 +253,7 @@ namespace RES_INFO
 			{
 				namespace JSON_KEY
 				{
-					//Position은 무조건 트랜스폼을 따라감. 이 값은 Transform의 위치값에 추가로 Offset을 줌.
+					//Position은 무조건 트랜스폼을 따라감. 이 값은 cTransform의 위치값에 추가로 Offset을 줌.
 					STRKEY_DECLARE(m_v3OffsetPos);
 
 					STRKEY_DECLARE(m_bFollowTransformSize);
@@ -371,11 +331,11 @@ namespace RES_INFO
 			{
 				namespace JSON_KEY
 				{
-					//Ptr<Mesh>              m_pMesh;
+					//Ptr<cMesh>              m_pMesh;
 					STRKEY_DECLARE(strKeyMesh);
 
 					//원본 재질. 특별한 상태를 표현할 필요가 없을 경우 이 재질을 사용
-					//Ptr<Material>          m_pSharedMtrl;
+					//Ptr<cMaterial>          m_pSharedMtrl;
 					STRKEY_DECLARE(strKeyMtrl);
 				}
 
@@ -438,7 +398,7 @@ namespace RES_INFO
 			{
 				//쉐이더 파일의 '이름'만 추출
 				//ex) S_1_V_Debug : Debug
-				//이름 : Entity의 Name을 사용
+				//이름 : cEntity의 Name을 사용
 				//자동 생성된 쉐이더 파이프라인의 경우 비트마스크를 사용해서 로드하고
 				//직접 만든 쉐이더 파이프라인의 경우 파일명을 통해서 로드한다.
 				//STRKEY_DECLARE(ePIPELINE_STAGE_FLAG);
