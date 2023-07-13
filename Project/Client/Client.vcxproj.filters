@@ -118,16 +118,16 @@
     <ClInclude Include="targetver.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="CEditorObjMgr.h">
+    <ClInclude Include="EditorObjMgr.h">
       <Filter>CEditorObjMgr</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="CImGuiMgr.h">
+    <ClInclude Include="ImGuiMgr.h">
       <Filter>ImGui\00. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Inspector.h">
+    <ClInclude Include="UIobj_Inspector.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector</Filter>
     </ClInclude>
     <ClInclude Include="CUIobj_Component.h">
@@ -169,68 +169,68 @@
     <ClInclude Include="ImGui\imgui_internal.h">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_BasicWIndow.h">
+    <ClInclude Include="UI_BasicWIndow.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Menu.h">
+    <ClInclude Include="UI_Menu.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Menubar.h">
+    <ClInclude Include="UI_Menubar.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Widget.h">
+    <ClInclude Include="UI_Widget.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_ComboBox.h">
+    <ClInclude Include="UI_ComboBox.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CUI.h">
+    <ClInclude Include="UI.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_PopupWIndow.h">
+    <ClInclude Include="UI_PopupWIndow.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Child.h">
+    <ClInclude Include="UI_Child.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
     <ClInclude Include="CUIobj_ParticleSystem.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Image.h">
+    <ClInclude Include="UI_Image.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Tree.h">
+    <ClInclude Include="UI_Tree.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Contents.h">
+    <ClInclude Include="UIobj_Contents.h">
       <Filter>ImGui\02. UI_Object\03. UI_Contents</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Outliner.h">
+    <ClInclude Include="UIobj_Outliner.h">
       <Filter>ImGui\02. UI_Object\04. UI_Outliner</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_MenuItem.h">
+    <ClInclude Include="UI_MenuItem.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CMainGameLevel.h" />
-    <ClInclude Include="CUI_DragNDrop.h">
+    <ClInclude Include="MainGameLevel.h" />
+    <ClInclude Include="UI_DragNDrop.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Structs.h">
+    <ClInclude Include="UI_Structs.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_MapViewer.h">
+    <ClInclude Include="UIobj_MapViewer.h">
       <Filter>ImGui\02. UI_Object\05. UI_MapViewer</Filter>
     </ClInclude>
-    <ClInclude Include="CUI_Button.h">
+    <ClInclude Include="UI_Button.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_TestWindow.h">
+    <ClInclude Include="UIobj_TestWindow.h">
       <Filter>ImGui\02. UI_Object\00. UI_TestWindow</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_AnimEditor.h">
+    <ClInclude Include="UIobj_AnimEditor.h">
       <Filter>ImGui\02. UI_Object\06. UI_AnimEditor</Filter>
     </ClInclude>
-    <ClInclude Include="CUIObj_SCPrefabEditor.h">
+    <ClInclude Include="UIObj_SCPrefabEditor.h">
       <Filter>ImGui\02. UI_Object\06 UI_SCPrefabEditor</Filter>
     </ClInclude>
     <ClInclude Include="macroFunc_Imgui.h">
@@ -257,16 +257,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="CEditorObjMgr.cpp">
+    <ClCompile Include="EditorObjMgr.cpp">
       <Filter>CEditorObjMgr</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="CImGuiMgr.cpp">
+    <ClCompile Include="ImGuiMgr.cpp">
       <Filter>ImGui\00. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Inspector.cpp">
+    <ClCompile Include="UIobj_Inspector.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector</Filter>
     </ClCompile>
     <ClCompile Include="CUIobj_Component.cpp">
@@ -314,65 +314,65 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_BasicWindow.cpp">
+    <ClCompile Include="UI_BasicWindow.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Menu.cpp">
+    <ClCompile Include="UI_Menu.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Menubar.cpp">
+    <ClCompile Include="UI_Menubar.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Widget.cpp">
+    <ClCompile Include="UI_Widget.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_ComboBox.cpp">
+    <ClCompile Include="UI_ComboBox.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CUI.cpp">
+    <ClCompile Include="UI.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_PopupWIndow.cpp">
+    <ClCompile Include="UI_PopupWIndow.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Child.cpp">
+    <ClCompile Include="UI_Child.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
     <ClCompile Include="CUIobj_ParticleSystem.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Image.cpp">
+    <ClCompile Include="UI_Image.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Tree.cpp">
+    <ClCompile Include="UI_Tree.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Contents.cpp">
+    <ClCompile Include="UIobj_Contents.cpp">
       <Filter>ImGui\02. UI_Object\03. UI_Contents</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Outliner.cpp">
+    <ClCompile Include="UIobj_Outliner.cpp">
       <Filter>ImGui\02. UI_Object\04. UI_Outliner</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_MenuItem.cpp">
+    <ClCompile Include="UI_MenuItem.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CMainGameLevel.cpp" />
-    <ClCompile Include="CUI_DragNDrop.cpp">
+    <ClCompile Include="MainGameLevel.cpp" />
+    <ClCompile Include="UI_DragNDrop.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_MapViewer.cpp">
+    <ClCompile Include="UIobj_MapViewer.cpp">
       <Filter>ImGui\02. UI_Object\05. UI_MapViewer</Filter>
     </ClCompile>
-    <ClCompile Include="CUI_Button.cpp">
+    <ClCompile Include="UI_Button.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_TestWindow.cpp">
+    <ClCompile Include="UIobj_TestWindow.cpp">
       <Filter>ImGui\02. UI_Object\00. UI_TestWindow</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_AnimEditor.cpp">
+    <ClCompile Include="UIobj_AnimEditor.cpp">
       <Filter>ImGui\02. UI_Object\06. UI_AnimEditor</Filter>
     </ClCompile>
-    <ClCompile Include="CUIObj_SCPrefabEditor.cpp">
+    <ClCompile Include="UIObj_SCPrefabEditor.cpp">
       <Filter>ImGui\02. UI_Object\06 UI_SCPrefabEditor</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_stdlib.cpp">

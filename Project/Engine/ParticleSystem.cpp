@@ -1,0 +1,181 @@
+#include "pch.h"
+#include "ParticleSystem.h"
+
+#include "ResMgr.h"
+
+#include "cStructBuffer.h"
+
+#include "strKey_Default.h"
+
+#include "Transform.h"
+
+#include "CCS_ParticleBasic.h"
+
+#include "TimeMgr.h"
+#include "RandGen.h"
+
+//상수버퍼 생성용
+#include "Device.h"
+#include "cConstBuffer.h"
+
+ParticleSystem::ParticleSystem()
+	: RenderComponent(eCOMPONENT_TYPE::PARTICLE_SYSTEM)
+	, m_tModuleData{}
+	, m_AccTime()
+	, m_bIsCreated()
+{
+	SetMesh(ResMgr::GetInst()->FindRes<Mesh>(string(strKey_RES_DEFAULT::MESH::POINT)));
+	SetMaterial(ResMgr::GetInst()->FindRes<Material>(string(strKey_RES_DEFAULT::MATERIAL::PARTICLE_RENDER)));
+
+
+	//UINT ShaderTarget = define_Shader::ePIPELINE_STAGE_FLAG::__GEOMETRY | define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL;
+	//m_pSBufferRW_ParticleTransform = new cStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, ShaderTarget, eCBUFFER_SBUFFER_SHAREDATA_IDX::PARTICLE, REGISLOT_t_SBUFFER_PARTICLE_TRANSFORM, REGISLOT_u_PARTICLE_SBUFFERRW });
+
+	////컴퓨트쉐이더 전용
+	//m_pSBufferRW_Shared = new cStructBuffer(tSBufferDesc{ eSTRUCT_BUFFER_TYPE::READ_WRITE, define_Shader::ePIPELINE_STAGE_FLAG::__NONE, eCBUFFER_SBUFFER_SHAREDATA_IDX::NONE,REGISLOT_t_SRV_NONE, REGISLOT_u_PARTICLE_SBUFFERRW_SHAREDATA });
+}
+
+ParticleSystem::~ParticleSystem()
+{
+	SAFE_DELETE(m_pSBufferRW_ParticleTransform);
+	SAFE_DELETE(m_pSBufferRW_Shared);
+}
+
+void ParticleSystem::init()
+{
+}
+
+void ParticleSystem::finaltick()
+{
+	if (nullptr == m_pCSParticle || false == m_bIsCreated)
+		return;
+
+	//버퍼 바인딩은 쉐이더 클래스에서 일괄적으로 진행함.
+	//여기는 데이터 업로드만 담당.
+
+	//모듈데이터 전송
+	static cConstBuffer* const s_CBuffer_ModuleData = Device::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA);
+	s_CBuffer_ModuleData->UploadData(&m_tModuleData);
+	//s_CBuffer_ModuleData->BindBuffer(define_Shader::ePIPELINE_STAGE_FLAG::__ALL);
+
+
+	//몇개 스폰할지 정보를 SharedRW 버퍼에 담아서 전송
+	float fSpawnCountPerTime = 1.f / (float)m_tModuleData.iSpawnRate;
+	m_AccTime += DELTA_TIME;
+
+	if (fSpawnCountPerTime < m_AccTime)
+	{
+		float fData = m_AccTime / fSpawnCountPerTime;
+
+		m_AccTime = fSpawnCountPerTime * (fData - floor(fData));
+
+		RandGen* pRandMgr = RandGen::GetInst();
+
+		//GPU에서 사용할 시드값을 전달
+		tParticleShareData rwbuffer = { (int)fData, UINT32_2(pRandMgr->GetRand<UINT>(0u, UINT_MAX), pRandMgr->GetRand<UINT>(0u, UINT_MAX)), };
+
+		m_pSBufferRW_Shared->UploadData(&rwbuffer, 1u);
+	}
+
+	m_pCSParticle->SetBuffers(this, m_pSBufferRW_ParticleTransform, m_pSBufferRW_Shared, s_CBuffer_ModuleData);
+
+	//파티클 위치정보를 계산시킴.
+	m_pCSParticle->Execute();
+
+	//렌더링하고 나면 PrevPos를 업데이트
+	m_tModuleData.vOwnerPrevWorldPos = m_tModuleData.vOwnerCurWorldPos;
+	m_tModuleData.vOwnerCurWorldPos = Transform().GetWorldPos();
+}
+
+bool ParticleSystem::render()
+{
+	//true 반환해서 인스턴싱 필요없다고 전달
+	if (nullptr == m_pCSParticle || false == m_bIsCreated)
+		return true;
+
+	//Transform().UpdateData();
+
+	Material* pMtrl = GetCurMaterial().Get();
+	pMtrl->BindData();
+
+	BindMtrlScalarDataToCBuffer();
+
+	m_pSBufferRW_ParticleTransform->BindBufferSRV();
+
+	GetMesh()->renderInstanced(m_tModuleData.iMaxParticleCount);
+
+	//드로우콜이 발생했으므로 -> 인스턴싱 필요 없다고 반환
+	return true;
+}
+
+
+
+void ParticleSystem::CreateParticle()
+{
+	assert(nullptr != m_pCSParticle);
+
+	m_bIsCreated = true;
+
+	m_tModuleData.iMaxParticleCount = 200;
+
+	//파티클을 처리할 버퍼 생성
+	m_pSBufferRW_ParticleTransform->Create(sizeof(tParticleTransform), m_tModuleData.iMaxParticleCount, nullptr, 0u);
+
+	m_tModuleData.bModule_Spawn = TRUE;
+
+	m_tModuleData.iSpawnRate = 30;
+
+	m_tModuleData.vSpawnColor = Vec3(0.4f, 1.f, 0.4f);
+
+	m_tModuleData.vSpawnScaleMin = Vec3(50.f, 50.f, 1.f);
+	m_tModuleData.vSpawnScaleMax = Vec3(100.f, 100.f, 1.f);
+
+	m_tModuleData.eSpawnShapeType = 0;
+	m_tModuleData.vBoxShapeScale = Vec3(200.f, 200.f, 200.f);
+	m_tModuleData.bFollowing = 0; // 시뮬레이션 좌표계
+
+	m_tModuleData.fMinLifeTime = 3.f;
+	m_tModuleData.fMaxLifeTime = 5.f;
+
+	m_tModuleData.bModule_ScaleChange = TRUE;
+	m_tModuleData.fStartScale = 2.f;
+	m_tModuleData.fEndScale = 0.1f;
+
+	m_tModuleData.bModule_ColorChange = TRUE;
+	m_tModuleData.vStartColor = Vec3(0.2f, 0.3f, 1.0f);
+	m_tModuleData.vEndColor = Vec3(0.4f, 1.f, 0.4f);
+
+	m_tModuleData.bModule_AddVelocity = TRUE;
+	m_tModuleData.eAddVelocityType = 0; // From Center
+	m_tModuleData.fSpeed = 500.f;
+	m_tModuleData.vVelocityDir;
+	m_tModuleData.fOffsetAngle;
+
+	m_tModuleData.bModule_Drag = TRUE;
+	m_tModuleData.fStartDrag = 200.f;
+	m_tModuleData.fEndDrag = 0.f;
+
+	m_tModuleData.bModule_Rotation = TRUE;
+	m_tModuleData.vRotRadPerSec = Vec3(0.f, 0.f, 10.f);
+	m_tModuleData.vRotRandomRange = Vec3(0.f, 0.f, 0.3f);
+
+	m_tModuleData.bModule_ApplyGravity = TRUE;
+	m_tModuleData.bModule_ApplyGravity = TRUE;
+	m_tModuleData.fGravity = 9.8f;
+
+
+	//노이즈 텍스처 지정
+
+
+	//공유 데이터 구조화 버퍼 생성
+	RandGen* pRandMgr = RandGen::GetInst();
+	tParticleShareData rwbuffer = { (int)0, UINT32_2(pRandMgr->GetRand<UINT>(0u, UINT_MAX), pRandMgr->GetRand<UINT>(0u, UINT_MAX)), };
+
+
+	m_pSBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &rwbuffer, 1u);
+}
+
+void ParticleSystem::SetParticleCS(const string_view _ResKeyCS)
+{
+	m_pCSParticle = ResMgr::GetInst()->FindRes<C_ComputeShader>(_ResKeyCS);
+}

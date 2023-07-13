@@ -2,17 +2,17 @@
 
 #include "Precompiled.h"
 
-#define DEVICE  CDevice::GetInst()->GetDevice()
-#define CONTEXT CDevice::GetInst()->GetDeviceContext()
+#define DEVICE  Device::GetInst()->GetDevice()
+#define CONTEXT Device::GetInst()->GetDeviceContext()
 
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) public: virtual type* Clone() { return nullptr; assert(nullptr); }
 
-#define KEY_DOWN(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::DOWN		
-#define KEY_RELEASE(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::RELEASE
-#define KEY_PRESSED(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::PRESSED
+#define KEY_DOWN(_eKEY) KeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::DOWN		
+#define KEY_RELEASE(_eKEY) KeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::RELEASE
+#define KEY_PRESSED(_eKEY) KeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::PRESSED
 
-#define DELTA_TIME CTimeMgr::GetInst()->GetDeltaTime()
+#define DELTA_TIME TimeMgr::GetInst()->GetDeltaTime()
 
 #define MAX_LAYER 32
 

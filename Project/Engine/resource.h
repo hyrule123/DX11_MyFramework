@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Engine.rc
+// Used by cEngine.rc
 
 // 다음은 새 개체에 사용할 기본값입니다.
 // 

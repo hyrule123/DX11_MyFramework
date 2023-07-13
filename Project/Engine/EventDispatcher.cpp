@@ -1,15 +1,15 @@
 #include "pch.h"
 #include "EventDispatcher.h"
-#include "CEventMgr.h"
+#include "EventMgr.h"
 
-#include "CLevelMgr.h"
-#include "CGameObject.h"
-#include "CTransform.h"
+#include "LevelMgr.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 #include "CPrefab.h"
 
 //깊이 프리셋 값이 설정되어 있을 경우 WorldPos의 Z값은 무시됨.
-void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, const Vec3& _vWorldPos, int _LayerIdx)
+void EventDispatcher::SpawnGameObject(GameObject* _pNewObject, const Vec3& _vWorldPos, int _LayerIdx)
 {
 	_pNewObject->Transform().SetRelativePos(_vWorldPos);
 
@@ -25,13 +25,13 @@ void EventDispatcher::SpawnGameObject(CGameObject* _pNewObject, const Vec3& _vWo
 	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pNewObject);
 
-	CEventMgr::GetInst()->AddEvent(evn);
+	EventMgr::GetInst()->AddEvent(evn);
 }
 
-CGameObject* EventDispatcher::SpawnPrefab2D(Ptr<CPrefab> _Prefab, const Vec2& _vWorldPosXY)
+GameObject* EventDispatcher::SpawnPrefab2D(Ptr<CPrefab> _Prefab, const Vec2& _vWorldPosXY)
 {
 	assert(nullptr != _Prefab && _Prefab->IsAvailable());
-	CGameObject* pObj = _Prefab->Instantiate();
+	GameObject* pObj = _Prefab->Instantiate();
 	assert(pObj);
 	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
 
@@ -41,15 +41,15 @@ CGameObject* EventDispatcher::SpawnPrefab2D(Ptr<CPrefab> _Prefab, const Vec2& _v
 	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(pObj);
 
-	CEventMgr::GetInst()->AddEvent(evn);
+	EventMgr::GetInst()->AddEvent(evn);
 
 	return pObj;
 }
 
-CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec3& _vWorldPos)
+GameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec3& _vWorldPos)
 {
 	assert(nullptr != _Prefab && _Prefab->IsAvailable());
-	CGameObject* pObj = _Prefab->Instantiate();
+	GameObject* pObj = _Prefab->Instantiate();
 	assert(pObj);
 	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
 
@@ -59,15 +59,15 @@ CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec3& _vWo
 	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(pObj);
 
-	CEventMgr::GetInst()->AddEvent(evn);
+	EventMgr::GetInst()->AddEvent(evn);
 
 	return pObj;
 }
 
-CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab)
+GameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab)
 {
 	assert(nullptr != _Prefab && _Prefab->IsAvailable());
-	CGameObject* pObj = _Prefab->Instantiate();
+	GameObject* pObj = _Prefab->Instantiate();
 	assert(pObj);
 	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
 
@@ -75,24 +75,24 @@ CGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab)
 	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(pObj);
 
-	CEventMgr::GetInst()->AddEvent(evn);
+	EventMgr::GetInst()->AddEvent(evn);
 
 	return pObj;
 }
 
 
 
-void EventDispatcher::DestroyGameObj(CGameObject* _pObject)
+void EventDispatcher::DestroyGameObj(GameObject* _pObject)
 {
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::DELETE_OBJECT;
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pObject);
 	evn.wParam = 0;
 
-	CEventMgr::GetInst()->AddEvent(evn);
+	EventMgr::GetInst()->AddEvent(evn);
 }
 
-void EventDispatcher::AddChildGameObj(CGameObject* _pParent, CGameObject* _pChild)
+void EventDispatcher::AddChildGameObj(GameObject* _pParent, GameObject* _pChild)
 {
 
 	tGameEvent evn = {};
@@ -100,10 +100,10 @@ void EventDispatcher::AddChildGameObj(CGameObject* _pParent, CGameObject* _pChil
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pParent);
 	evn.wParam = reinterpret_cast<DWORD_PTR>(_pChild);
 
-	CEventMgr::GetInst()->AddEvent(evn);
+	EventMgr::GetInst()->AddEvent(evn);
 }
 
-void EventDispatcher::RemoveComponent(CGameObject* _pObject, eCOMPONENT_TYPE _eType)
+void EventDispatcher::RemoveComponent(GameObject* _pObject, eCOMPONENT_TYPE _eType)
 {
 	//오브젝트가 없거나 오브젝트 안의 컴포넌트가 없을 경우 return
 	if (nullptr == _pObject || nullptr == _pObject->GetComponent(_eType))
@@ -115,5 +115,5 @@ void EventDispatcher::RemoveComponent(CGameObject* _pObject, eCOMPONENT_TYPE _eT
 	evn.lParam = reinterpret_cast<DWORD_PTR>(_pObject);
 	evn.wParam = (DWORD_PTR)(_eType);
 
-	CEventMgr::GetInst()->AddEvent(evn);
+	EventMgr::GetInst()->AddEvent(evn);
 }

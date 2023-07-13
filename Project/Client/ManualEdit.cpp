@@ -93,8 +93,6 @@ void ManualEdit::Edit()
 
 void ManualEdit::TestCreate()
 {
-	return;
-
 	CResMgr* pResMgr = CResMgr::GetInst();
 
 	for (int i = 0; i < 1; ++i)

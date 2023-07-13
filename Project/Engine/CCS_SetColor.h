@@ -1,15 +1,15 @@
 #pragma once
-#include "CComputeShader.h"
+#include "C_ComputeShader.h"
 
-#include "ptr.h"
+#include "Ptr.h"
 
 
 
-class CTexture;
-class CStructBuffer;
+class Texture;
+class cStructBuffer;
 
 class CCS_SetColor :
-    public CComputeShader
+    public C_ComputeShader
 {
 public:
     CCS_SetColor();
@@ -23,11 +23,11 @@ protected:
     virtual void UnBindCS() override;
 
 private:
-    Ptr<CTexture>   m_OutTex;
-    std::unique_ptr<CStructBuffer>   m_StructBufferTest;
+    Ptr<Texture>   m_OutTex;
+    std::unique_ptr<cStructBuffer>   m_StructBufferTest;
     Vec4            m_vecSBuffer[1280];
 
 public:
-    void SetTargetTexture(Ptr<CTexture> _Tex) { m_OutTex = _Tex; }
+    void SetTargetTexture(Ptr<Texture> _Tex) { m_OutTex = _Tex; }
     void SetColor(const Vec3& _RGB) { SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR::VEC4_0, &_RGB); }
 };

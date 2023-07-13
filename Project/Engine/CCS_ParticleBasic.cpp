@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "CCS_ParticleBasic.h"
 
-#include "CResMgr.h"
+#include "ResMgr.h"
 
 #include "strKey_Default.h"
-#include "CStructBuffer.h"
-#include "CConstBuffer.h"
-#include "CGameObject.h"
-#include "CParticleSystem.h"
-#include "CTransform.h"
+#include "cStructBuffer.h"
+#include "cConstBuffer.h"
+#include "GameObject.h"
+#include "ParticleSystem.h"
+#include "Transform.h"
 
 #ifdef _DEBUG
 #include "DefaultShader/S_C_ParticleBasic_Debug.h"
@@ -17,7 +17,7 @@
 #endif
 
 CCS_ParticleBasic::CCS_ParticleBasic()
-	: CComputeShader(128u, 1u, 1u)
+	: C_ComputeShader(128u, 1u, 1u)
 	, m_pBufferOwner()
 	, m_pSBuffer_Transform()
 	, m_pSBufferRW_Shared()
@@ -41,7 +41,7 @@ bool CCS_ParticleBasic::BindDataCS()
 {
 	if (nullptr == m_Tex_Noise)
 	{
-		m_Tex_Noise = CResMgr::GetInst()->FindRes<CTexture>(string(strKey_RES_DEFAULT::TEXTURE::NOISE_1));
+		m_Tex_Noise = ResMgr::GetInst()->FindRes<Texture>(string(strKey_RES_DEFAULT::TEXTURE::NOISE_1));
 
 
 		assert(nullptr != m_Tex_Noise);

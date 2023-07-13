@@ -130,12 +130,6 @@ namespace DIRECTORY_NAME
 
 namespace RES_INFO
 {
-	namespace JSON_KEY
-	{
-		STRKEY_DECLARE(GameObject);
-		STRKEY_DECLARE(eRES_TYPE);
-		STRKEY_DECLARE(strKey);
-	}
 
 	namespace MESHDATA
 	{
@@ -155,14 +149,6 @@ namespace RES_INFO
 	namespace MATERIAL
 	{
 		STRKEY Ext = ".json";
-
-		namespace JSON_KEY
-		{
-			STRKEY_DECLARE(strKey_Shader);
-			STRKEY_DECLARE(arrStrKeyTex);
-			STRKEY_DECLARE(bUseInstancing);
-		}
-
 		STRKEY DirName = DIRECTORY_NAME::MATERIAL;
 	}
 	
@@ -184,65 +170,12 @@ namespace RES_INFO
 		STRKEY DirName = DIRECTORY_NAME::TEXTURE;
 	}
 
-	//string strKeyAnim2D;
-	//vector<UINT> vecFrame;
 
-	////1차원: 프레임 번호, 2차원: 벡터 내부 콜백 함수
-	//vector<vector<std::function<void()>>> vec2D_pFuncCallback;
-
-
-	////vecFrame.size()와 이 값은 다를 수 있음. 방향 정보에 따라 같은 프레임에 이미지를 보여줘야 할 경우 등등
-	//UINT                uNumFrame;
-	//float               fFullPlayTime;
-
-	////위의 전체 재생시간 / 프레임 수 한것(한 프레임당 시간) 
-	////자동 계산
-	//float               fTimePerFrame;
-
-	//eANIM_TYPE          eAnimType;
-	//Vec2 vPivot;
-
-	//UINT                uColTotal;
-	//UINT                uRowTotal;
-
-	//tAnim2D() : vec2D_pFuncCallback(0), uNumFrame(), fFullPlayTime(), fTimePerFrame(), eAnimType(), uColTotal(), uRowTotal()
-	//{}
 
 	namespace ANIM2D
 	{
 		STRKEY Ext = ".json";
-
-		namespace JSON_KEY
-		{
-			STRKEY_DECLARE(strKeyAtlasTex);
-			STRKEY_DECLARE(vecFrameUV);
-			STRKEY_DECLARE(bRegularFrameSize);
-
-			namespace AnimFrameUV
-			{
-				STRKEY_DECLARE(v2_UVLeftTop);
-				STRKEY_DECLARE(v2_UVSlice);
-				STRKEY_DECLARE(v2_Offset);
-				STRKEY_DECLARE(fFullPlayTime);
-			}
-			
-			STRKEY_DECLARE(mapAnim);
-			namespace Anim2D
-			{
-				STRKEY_DECLARE(strKeyAnim2D);
-				STRKEY_DECLARE(vecFrame);
-				STRKEY_DECLARE(uNumFrame);
-				STRKEY_DECLARE(fFullPlayTime);
-				STRKEY_DECLARE(eAnimType);
-				STRKEY_DECLARE(vPivot);
-				STRKEY_DECLARE(uColTotal);
-				STRKEY_DECLARE(uRowTotal);
-			}
-
-			STRKEY_DECLARE(uRowTotal);
-			STRKEY_DECLARE(uColTotal);
-		}
-		
+	
 	}
 
 	namespace SOUND
@@ -269,17 +202,17 @@ namespace RES_INFO
 		{
 			STRKEY_DECLARE(m_Transform);
 
-			//CComponent* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
+			//Component* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
 			STRKEY_DECLARE(m_arrCom);
 
-			//CRenderComponent* m_RenderCom;
+			//RenderComponent* m_RenderCom;
 
 			//Hierarchy
-			//CGameObject* m_Parent;
+			//GameObject* m_Parent;
 			//있을 경우 Prefab 형태로 따로 저장해서 불러온 뒤 로드해서 주소를 등록
 			STRKEY_DECLARE(m_Parent_PREFAB);
 
-			//vector<CGameObject*>    m_vecChild;
+			//vector<GameObject*>    m_vecChild;
 			STRKEY_DECLARE(m_vecChild_PREFAB);
 
 			//tMtrlScalarData          m_MtrlScalarData;
@@ -438,11 +371,11 @@ namespace RES_INFO
 			{
 				namespace JSON_KEY
 				{
-					//Ptr<CMesh>              m_pMesh;
+					//Ptr<Mesh>              m_pMesh;
 					STRKEY_DECLARE(strKeyMesh);
 
 					//원본 재질. 특별한 상태를 표현할 필요가 없을 경우 이 재질을 사용
-					//Ptr<CMaterial>          m_pSharedMtrl;
+					//Ptr<Material>          m_pSharedMtrl;
 					STRKEY_DECLARE(strKeyMtrl);
 				}
 
@@ -505,7 +438,7 @@ namespace RES_INFO
 			{
 				//쉐이더 파일의 '이름'만 추출
 				//ex) S_1_V_Debug : Debug
-				//이름 : CEntity의 Name을 사용
+				//이름 : Entity의 Name을 사용
 				//자동 생성된 쉐이더 파이프라인의 경우 비트마스크를 사용해서 로드하고
 				//직접 만든 쉐이더 파이프라인의 경우 파일명을 통해서 로드한다.
 				//STRKEY_DECLARE(ePIPELINE_STAGE_FLAG);
@@ -533,15 +466,8 @@ namespace RES_INFO
 		namespace COMPUTE
 		{
 			STRKEY DirName = "Compute";
-			STRKEY CS_ClassPrefix = "CCS_";
+			STRKEY CS_ClassPrefix = "C_CS_";
 			STRKEY Prefix = "_C_";
-
-			namespace JSON_KEY
-			{
-				//쉐이더와 json 파일이 공유하는 파일 이름. 확장자 제외
-				//ex) S_C_SCMapLoader.json : S_C_SCMapLoader
-				STRKEY_DECLARE(uarrNumThreadXYZ);
-			}
 		}
 	}
 

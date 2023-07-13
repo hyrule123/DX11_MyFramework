@@ -1,16 +1,16 @@
 #include "pch.h"
 #include "CCS_SetColor.h"
 
-#include "CTexture.h"
+#include "Texture.h"
 
-#include "CStructBuffer.h"
+#include "cStructBuffer.h"
 
 #include "strKey_Default.h"
 
 #include "DefaultShader\S_C_SetColor_Debug.h"
 
 CCS_SetColor::CCS_SetColor()
-	: CComputeShader(32u, 32u, 1u)
+	: C_ComputeShader(32u, 32u, 1u)
 {
 }
 
@@ -31,7 +31,7 @@ bool CCS_SetColor::Load(std::filesystem::path const& _FilePath)
 	Desc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_SETCOLOR;
 	Desc.REGISLOT_u_UAV = REGISLOT_u_SETCOLOR_SBUFFERRW;
 
-	m_StructBufferTest = std::make_unique<CStructBuffer>();
+	m_StructBufferTest = std::make_unique<cStructBuffer>();
 	m_StructBufferTest->SetDesc(Desc);
 
 	for (int i = 0; i < 1280u; ++i)

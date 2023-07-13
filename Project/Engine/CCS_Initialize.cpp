@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CCS_Initialize.h"
 
-#include "CStructBuffer.h"
+#include "cStructBuffer.h"
 
 #include "S_H_Struct.hlsli"
 
@@ -12,7 +12,7 @@
 #endif
 
 CCS_Initialize::CCS_Initialize()
-	: CComputeShader(1u, 1u, 1u)
+	: C_ComputeShader(1u, 1u, 1u)
 	, m_pSBuffer_InitSetting()
 {
 
@@ -45,7 +45,7 @@ bool CCS_Initialize::BindDataCS()
 	Desc.REGISLOT_t_SRV = REGISLOT_t_INIT_SETTING;
 	Desc.REGISLOT_u_UAV = REGISLOT_u_INIT_SETTING;
 
-	m_pSBuffer_InitSetting = std::make_unique<CStructBuffer>();
+	m_pSBuffer_InitSetting = std::make_unique<cStructBuffer>();
 	m_pSBuffer_InitSetting->SetDesc(Desc);
 	m_pSBuffer_InitSetting->Create(sizeof(tInitSetting), 1u, &g_InitSetting, 1u);
 

@@ -1,10 +1,10 @@
 #pragma once
-#include "CComputeShader.h"
+#include "C_ComputeShader.h"
 
-class CStructBuffer;
+class cStructBuffer;
 
 class CCS_Initialize :
-    public CComputeShader
+    public C_ComputeShader
 {
 public:
     CCS_Initialize();
@@ -16,7 +16,7 @@ public:
     virtual void UnBindCS() override;
 
 private:
-    std::unique_ptr<CStructBuffer> m_pSBuffer_InitSetting;
+    std::unique_ptr<cStructBuffer> m_pSBuffer_InitSetting;
 
 };
 

@@ -1,8 +1,8 @@
 #include "pch.h"
 
-#include "CGameObject.h"
-#include "CTransform.h"
-#include "CEventMgr.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "EventMgr.h"
 
 
 bool ConvertMultibyteToUnicode(__in const string_view _src, __out wstring& _dest)

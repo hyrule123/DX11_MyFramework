@@ -130,7 +130,7 @@ R"(#ifndef STRKEY
 }
 
 
-#include <Engine/CComputeShader.h>
+#include <Engine/C_ComputeShader.h>
 namespace define_ShaderGen
 {
 	struct tShaderSetting

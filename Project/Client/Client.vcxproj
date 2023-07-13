@@ -154,39 +154,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CMainGameLevel.h" />
-    <ClInclude Include="CUI.h" />
+    <ClInclude Include="MainGameLevel.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="CUIobj_Animator2D.h" />
-    <ClInclude Include="CUIobj_AnimEditor.h" />
-    <ClInclude Include="CUIObj_SCPrefabEditor.h" />
-    <ClInclude Include="CUI_Button.h" />
+    <ClInclude Include="UIobj_AnimEditor.h" />
+    <ClInclude Include="UIObj_SCPrefabEditor.h" />
+    <ClInclude Include="UI_Button.h" />
     <ClInclude Include="CUIobj_Camera.h" />
-    <ClInclude Include="CUI_Child.h" />
+    <ClInclude Include="UI_Child.h" />
     <ClInclude Include="CUIobj_Collider2D.h" />
-    <ClInclude Include="CUI_ComboBox.h" />
+    <ClInclude Include="UI_ComboBox.h" />
     <ClInclude Include="CUIobj_Component.h" />
-    <ClInclude Include="CEditorObjMgr.h" />
-    <ClInclude Include="CImGuiMgr.h" />
-    <ClInclude Include="CUI_DragNDrop.h" />
-    <ClInclude Include="CUI_Image.h" />
-    <ClInclude Include="CUIobj_Inspector.h" />
+    <ClInclude Include="EditorObjMgr.h" />
+    <ClInclude Include="ImGuiMgr.h" />
+    <ClInclude Include="UI_DragNDrop.h" />
+    <ClInclude Include="UI_Image.h" />
+    <ClInclude Include="UIobj_Inspector.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CUIobj_Light2D.h" />
-    <ClInclude Include="CUIobj_MapViewer.h" />
-    <ClInclude Include="CUI_Menubar.h" />
-    <ClInclude Include="CUI_Menu.h" />
-    <ClInclude Include="CUI_MenuItem.h" />
+    <ClInclude Include="UIobj_MapViewer.h" />
+    <ClInclude Include="UI_Menubar.h" />
+    <ClInclude Include="UI_Menu.h" />
+    <ClInclude Include="UI_MenuItem.h" />
     <ClInclude Include="CUIobj_MeshRender.h" />
-    <ClInclude Include="CUIobj_Outliner.h" />
+    <ClInclude Include="UIobj_Outliner.h" />
     <ClInclude Include="CUIobj_ParticleSystem.h" />
-    <ClInclude Include="CUI_PopupWIndow.h" />
+    <ClInclude Include="UI_PopupWIndow.h" />
     <ClInclude Include="CUIobj_ScriptHolder.h" />
-    <ClInclude Include="CUI_Structs.h" />
+    <ClInclude Include="UI_Structs.h" />
     <ClInclude Include="CUIobj_Tilemap.h" />
-    <ClInclude Include="CUI_BasicWIndow.h" />
-    <ClInclude Include="CUIobj_TestWindow.h" />
-    <ClInclude Include="CUI_Tree.h" />
-    <ClInclude Include="CUI_Widget.h" />
+    <ClInclude Include="UI_BasicWIndow.h" />
+    <ClInclude Include="UIobj_TestWindow.h" />
+    <ClInclude Include="UI_Tree.h" />
+    <ClInclude Include="UI_Widget.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="macroFunc_Imgui.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -200,42 +200,42 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="strKey_Prefab.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="CUIobj_Contents.h" />
+    <ClInclude Include="UIobj_Contents.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CMainGameLevel.cpp" />
-    <ClCompile Include="CUI.cpp" />
+    <ClCompile Include="MainGameLevel.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="CUIobj_Animator2D.cpp" />
-    <ClCompile Include="CUIobj_AnimEditor.cpp" />
-    <ClCompile Include="CUIObj_SCPrefabEditor.cpp" />
-    <ClCompile Include="CUI_Button.cpp" />
+    <ClCompile Include="UIobj_AnimEditor.cpp" />
+    <ClCompile Include="UIObj_SCPrefabEditor.cpp" />
+    <ClCompile Include="UI_Button.cpp" />
     <ClCompile Include="CUIobj_Camera.cpp" />
-    <ClCompile Include="CUI_Child.cpp" />
+    <ClCompile Include="UI_Child.cpp" />
     <ClCompile Include="CUIobj_Collider2D.cpp" />
-    <ClCompile Include="CUI_ComboBox.cpp" />
+    <ClCompile Include="UI_ComboBox.cpp" />
     <ClCompile Include="CUIobj_Component.cpp" />
-    <ClCompile Include="CEditorObjMgr.cpp" />
-    <ClCompile Include="CImGuiMgr.cpp" />
-    <ClCompile Include="CUI_DragNDrop.cpp" />
-    <ClCompile Include="CUI_Image.cpp" />
-    <ClCompile Include="CUIobj_Inspector.cpp" />
+    <ClCompile Include="EditorObjMgr.cpp" />
+    <ClCompile Include="ImGuiMgr.cpp" />
+    <ClCompile Include="UI_DragNDrop.cpp" />
+    <ClCompile Include="UI_Image.cpp" />
+    <ClCompile Include="UIobj_Inspector.cpp" />
     <ClCompile Include="CUIobj_Light2D.cpp" />
-    <ClCompile Include="CUIobj_MapViewer.cpp" />
-    <ClCompile Include="CUI_Menubar.cpp" />
-    <ClCompile Include="CUI_Menu.cpp" />
-    <ClCompile Include="CUI_MenuItem.cpp" />
+    <ClCompile Include="UIobj_MapViewer.cpp" />
+    <ClCompile Include="UI_Menubar.cpp" />
+    <ClCompile Include="UI_Menu.cpp" />
+    <ClCompile Include="UI_MenuItem.cpp" />
     <ClCompile Include="CUIobj_MeshRender.cpp" />
-    <ClCompile Include="CUIobj_Outliner.cpp" />
+    <ClCompile Include="UIobj_Outliner.cpp" />
     <ClCompile Include="CUIobj_ParticleSystem.cpp" />
-    <ClCompile Include="CUI_PopupWIndow.cpp" />
+    <ClCompile Include="UI_PopupWIndow.cpp" />
     <ClCompile Include="CUIobj_ScriptHolder.cpp" />
     <ClCompile Include="CUIobj_Tilemap.cpp" />
-    <ClCompile Include="CUI_BasicWindow.cpp">
+    <ClCompile Include="UI_BasicWindow.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="CUIobj_TestWindow.cpp" />
-    <ClCompile Include="CUI_Tree.cpp" />
-    <ClCompile Include="CUI_Widget.cpp" />
+    <ClCompile Include="UIobj_TestWindow.cpp" />
+    <ClCompile Include="UI_Tree.cpp" />
+    <ClCompile Include="UI_Widget.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>
@@ -288,7 +288,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="CUIobj_Contents.cpp" />
+    <ClCompile Include="UIobj_Contents.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />
