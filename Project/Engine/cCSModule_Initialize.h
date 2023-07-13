@@ -1,10 +1,10 @@
 #pragma once
-#include "cCShaderModule.h"
+#include "cShderModule.h"
 
 class cStructBuffer;
 
 class cCSModule_Initialize :
-    public cCShaderModule
+    public cShderModule
 {
 public:
     cCSModule_Initialize();

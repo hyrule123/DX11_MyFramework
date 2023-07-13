@@ -1,5 +1,5 @@
 #pragma once
-#include "cCShaderModule.h"
+#include "cShderModule.h"
 
 #include "Ptr.h"
 
@@ -9,7 +9,7 @@ class cParticleSystem;
 class cTexture;
 
 class cCSModule_ParticleBasic :
-    public cCShaderModule
+    public cShderModule
 {
 public:
     cCSModule_ParticleBasic();

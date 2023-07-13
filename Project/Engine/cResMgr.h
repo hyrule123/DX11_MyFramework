@@ -14,6 +14,7 @@
 #include "CPrefab.h"
 #include "cComputeShader.h"
 #include "cAnim2DAtlas.h"
+#include "cUserClassMgr.h"
 
 #include <type_traits>
 
@@ -64,7 +65,7 @@ public:
     void DeleteRes(const string_view _strKey);
 
     template<typename T>
-    void AddRes(const string_view _strKey, Ptr<T>& _Res);
+    void AddRes(const string_view _strKey, Ptr<T> _Res);
 private:
     //SFINAE(Substitution Failure Is Not An Error)를 통한 리소스 초기화 함수 오버로딩 연습
     //취소 - 여러 개의 타입에 대해 오버로딩이 모호함.
@@ -187,19 +188,19 @@ inline void cResMgr::DeleteRes(const string_view _strKey)
 
 
 template<typename T>
-inline void cResMgr::AddRes(const string_view _strKey, Ptr<T>& _Res)
+inline void cResMgr::AddRes(const string_view _strKey, Ptr<T> _Res)
 {
     static_assert(std::is_base_of<cRes, T>::value, "Type T is not Derived class of cRes!!");
 
     // 중복키로 리소스 추가하려는 경우
-    assert( ! FindRes<T>(_strKey).Get() );
+    assert(!FindRes<T>(_strKey).Get());
 
     //키값을 설정(Load를 거치지 않고 AddRes 되는 경우도 있으므로 여기서 해줘야 함)
     _Res->SetKey(_strKey);
 
     eRES_TYPE type = GetResType<T>();
 
-    m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res.Get()));
+    m_arrRes[(UINT)type].insert(make_pair(_strKey, _Res));
 }
 
 

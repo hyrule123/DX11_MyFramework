@@ -8,7 +8,7 @@
 #include "strKey_Default.h"
 #include "jsoncpp.h"
 
-#include "UserClassMgr.h"
+#include "cUserClassMgr.h"
 
 #include "cFSM.h"
 
@@ -95,7 +95,7 @@ bool cScriptHolder::LoadJson(Json::Value* _jVal)
 				{
 					string ScriptKey = it.key().asString();
 
-					cScript* newScript = UserClassMgr::GetNewScript(ScriptKey);
+					cScript* newScript = cUserClassMgr::GetNewScript(ScriptKey);
 					
 					//스크립트를 생성받지 못했을 경우 return
 					if (nullptr == newScript)

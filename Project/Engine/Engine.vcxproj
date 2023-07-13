@@ -204,7 +204,7 @@
     <ClInclude Include="cComponent.h" />
     <ClInclude Include="cComputeShader.h" />
     <ClInclude Include="cConstBuffer.h" />
-    <ClInclude Include="cCShaderModule.h" />
+    <ClInclude Include="cShaderModule.h" />
     <ClInclude Include="cCSModule_Initialize.h" />
     <ClInclude Include="cCSModule_ParticleBasic.h" />
     <ClInclude Include="cCSModule_SetColor.h" />
@@ -237,7 +237,7 @@
     <ClInclude Include="cScript.h" />
     <ClInclude Include="cScriptHolder.h" />
     <ClInclude Include="cTilemapComplete.h" />
-    <ClInclude Include="UserClassMgr.h" />
+    <ClInclude Include="cUserClassMgr.h" />
     <ClInclude Include="cShader.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="cStructBuffer.h" />
@@ -276,7 +276,7 @@
     <ClCompile Include="cComponent.cpp" />
     <ClCompile Include="cComputeShader.cpp" />
     <ClCompile Include="cConstBuffer.cpp" />
-    <ClCompile Include="cCShaderModule.cpp" />
+    <ClCompile Include="cShaderModule.cpp" />
     <ClCompile Include="cCSModule_Initialize.cpp" />
     <ClCompile Include="cCSModule_ParticleBasic.cpp" />
     <ClCompile Include="cCSModule_SetColor.cpp" />
@@ -311,7 +311,7 @@
     <ClCompile Include="cScript.cpp" />
     <ClCompile Include="cScriptHolder.cpp" />
     <ClCompile Include="cTilemapComplete.cpp" />
-    <ClCompile Include="UserClassMgr.cpp" />
+    <ClCompile Include="cUserClassMgr.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cStructBuffer.cpp" />
     <ClCompile Include="cTexture.cpp" />

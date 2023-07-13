@@ -1,15 +1,20 @@
 #include "pch.h"
-#include "UserClassMgr.h"
+#include "cUserClassMgr.h"
 #include "cScript.h"
 
 #include "cComputeShader.h"
 #include "cResMgr.h"
 
-std::unordered_map <std::string_view, std::function<cScript* (const string_view)>> UserClassMgr::m_umapScript;
-std::unordered_map <std::string_view, std::function<Ptr<cComputeShader>()>> UserClassMgr::m_umapCS;
-std::unordered_map <std::string_view, std::function<cParticleSystem* ()>>	UserClassMgr::m_umapParticle;
+cUserClassMgr::cUserClassMgr()
+{
+}
 
-cScript* UserClassMgr::GetNewScript(const std::string_view _strKey)
+cUserClassMgr::~cUserClassMgr()
+{
+}
+
+
+cScript* cUserClassMgr::GetNewScript(const std::string_view _strKey)
 {
 	const auto& iter = m_umapScript.find(_strKey);
 	if (iter == m_umapScript.end())
@@ -19,7 +24,7 @@ cScript* UserClassMgr::GetNewScript(const std::string_view _strKey)
 	return pScript;
 }
 
-Ptr<cComputeShader> UserClassMgr::GetNewCS(const std::string_view _strKey)
+Ptr<cComputeShader> cUserClassMgr::GetNewCS(const std::string_view _strKey)
 {
 	//이미 등록되어 있는지 확인
 	Ptr<cComputeShader> pCS = cResMgr::GetInst()->FindRes<cComputeShader>(_strKey);

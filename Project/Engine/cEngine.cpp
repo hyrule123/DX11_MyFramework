@@ -11,7 +11,7 @@
 #include "cEventMgr.h"
 #include "cCollisionMgr.h"
 #include "RandGen.h"
-#include "UserClassMgr.h"
+#include "cUserClassMgr.h"
 
 #include "S_H_Struct.hlsli"
 

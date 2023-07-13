@@ -196,9 +196,6 @@
     <ClInclude Include="RandGen.h">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClInclude>
-    <ClInclude Include="UserClassMgr.h">
-      <Filter>_Source\03. Manager\10. UserClassMgr</Filter>
-    </ClInclude>
     <ClInclude Include="cFSM.h">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClInclude>
@@ -210,8 +207,9 @@
     <ClInclude Include="cTilemapComplete.h">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="cCShaderModule.h">
-      <Filter>_Source\07. Resource\06, 07. Shader\ComputeShader</Filter>
+    <ClInclude Include="cUserClassMgr.h" />
+    <ClInclude Include="cShaderModule.h">
+      <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,9 +372,6 @@
     <ClCompile Include="RandGen.cpp">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClCompile>
-    <ClCompile Include="UserClassMgr.cpp">
-      <Filter>_Source\03. Manager\10. UserClassMgr</Filter>
-    </ClCompile>
     <ClCompile Include="cFSM.cpp">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
@@ -384,8 +379,9 @@
     <ClCompile Include="cTilemapComplete.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClCompile>
-    <ClCompile Include="cCShaderModule.cpp">
-      <Filter>_Source\07. Resource\06, 07. Shader\ComputeShader</Filter>
+    <ClCompile Include="cUserClassMgr.cpp" />
+    <ClCompile Include="cShaderModule.cpp">
+      <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -557,7 +553,7 @@
     <Filter Include="_HLSL, Shader Default\01. Debug">
       <UniqueIdentifier>{3964de6a-5569-49d3-84a2-49fbf7126a03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_Source\03. Manager\10. UserClassMgr">
+    <Filter Include="_Source\03. Manager\10. cUserClassMgr">
       <UniqueIdentifier>{fe30ff2c-2244-4ddf-b23b-4a8458bd34a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
