@@ -50,7 +50,7 @@ namespace strKey_RES_DEFAULT
 		STRKEY TILEMAP_COMPLETE = "cTilemapComplete";
 		STRKEY TILEMAP_ATLAS = "cTilemapAtlas";
 
-		STRKEY PARTICLE_RENDER = "ParticleRender";
+		STRKEY PARTICLE_RENDERER_BASIC = "ParticleRender_Basic";
 	}
 
 	namespace SHADER

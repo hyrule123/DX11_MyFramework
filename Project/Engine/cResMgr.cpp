@@ -528,7 +528,7 @@ void cResMgr::CreateDefaultMaterial()
 	{
 		Ptr<cMaterial> pMtrl = new cMaterial();
 		pMtrl->SetShader(FindRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE));
-		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::PARTICLE_RENDER));
+		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::PARTICLE_RENDERER_BASIC));
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 }

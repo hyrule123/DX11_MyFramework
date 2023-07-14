@@ -106,16 +106,14 @@ bool cTilemap::render()
 
 	cGameObject* pOwner = GetOwner();
 
-	//타일맵의 재질에 변수를 대입한 후 바인딩
-	cMaterial* pMtrl = GetCurMaterial().Get();
-
 	UINT count = GetTileCountX();
 	pOwner->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_X, &count);
 
 	count = GetTileCountY();
 	pOwner->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_Y, &count);
 
-	pMtrl->BindData();
+	//타일맵의 재질에 변수를 대입한 후 바인딩
+	GetCurMaterial()->BindData();
 
 	BindMtrlScalarDataToCBuffer();
 
@@ -125,5 +123,5 @@ bool cTilemap::render()
 	//드로우콜이 발생했으므로 true 반환
 	return true;
 }
-;
+
 

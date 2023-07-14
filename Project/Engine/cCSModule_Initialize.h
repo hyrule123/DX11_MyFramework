@@ -1,10 +1,10 @@
 #pragma once
-#include "cShderModule.h"
+#include "cShaderModule.h"
 
 class cStructBuffer;
 
 class cCSModule_Initialize :
-    public cShderModule
+    public cShaderModule
 {
 public:
     cCSModule_Initialize();
@@ -12,7 +12,8 @@ public:
 
 public:
     virtual bool Init() override;
-    virtual bool BindData() override;
+    virtual bool BindDataCS() override;
+    virtual bool BindDataGS() override {}
     virtual void UnBind() override;
 
 private:

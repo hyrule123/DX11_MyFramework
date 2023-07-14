@@ -66,7 +66,7 @@ bool cCSModule_SetColor::BindData()
 	// 그룹 개수 계산
 	GetOwner()->CalcGroupNumber((UINT)m_OutTex->GetWidth(), (UINT)m_OutTex->GetHeight(), 1u);
 
-	return false;
+	return true;
 }
 
 void cCSModule_SetColor::UnBind()

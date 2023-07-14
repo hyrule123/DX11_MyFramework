@@ -32,16 +32,18 @@ cCSModule_ParticleBasic::~cCSModule_ParticleBasic()
 {
 }
 
+cCSModule_ParticleBasic::cCSModule_ParticleBasic(cCSModule_ParticleBasic const& _other)
+{
+}
+
 
 bool cCSModule_ParticleBasic::Init()
 {
+	
+
 	return SUCCEEDED(CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic)));
 }
 
-bool cCSModule_ParticleBasic::BindData()
-{
-	return false;
-}
 
 void cCSModule_ParticleBasic::UnBind()
 {
@@ -86,6 +88,11 @@ bool cCSModule_ParticleBasic::BindDataCS()
 	m_Tex_Noise->BindData_SRV(REGISLOT_t_TEXUTRE_NOISE, define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE);
 
 	return true;
+}
+
+bool cCSModule_ParticleBasic::BindDataGS()
+{
+	return false;
 }
 
 void cCSModule_ParticleBasic::UnBindCS()

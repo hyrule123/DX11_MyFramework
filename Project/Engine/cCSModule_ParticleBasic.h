@@ -1,5 +1,5 @@
 #pragma once
-#include "cShderModule.h"
+#include "cShaderModule.h"
 
 #include "Ptr.h"
 
@@ -9,15 +9,19 @@ class cParticleSystem;
 class cTexture;
 
 class cCSModule_ParticleBasic :
-    public cShderModule
+    public cShaderModule
 {
 public:
     cCSModule_ParticleBasic();
     virtual ~cCSModule_ParticleBasic();
 
+    cCSModule_ParticleBasic(cCSModule_ParticleBasic const& _other);
+    CLONE(cCSModule_ParticleBasic);
+
 public:
     virtual bool Init() override;
-    virtual bool BindData() override;
+    virtual bool BindDataCS() override;
+    virtual bool BindDataGS() override;
     virtual void UnBind() override;
 
 private:

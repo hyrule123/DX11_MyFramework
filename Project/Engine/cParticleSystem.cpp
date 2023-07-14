@@ -18,21 +18,34 @@
 #include "cDevice.h"
 #include "cConstBuffer.h"
 
+#include "cShaderModule.h"
+
+
 cParticleSystem::cParticleSystem()
 	: cRenderComponent(eCOMPONENT_TYPE::PARTICLE_SYSTEM)
-	, m_tModuleData{}
-	, m_AccTime()
-	, m_bIsCreated()
+	, m_pShaderModule()
+	, m_pCS()
 {
+	//점 메쉬
 	SetMesh(cResMgr::GetInst()->FindRes<cMesh>(string(strKey_RES_DEFAULT::MESH::POINT)));
-	SetMaterial(cResMgr::GetInst()->FindRes<cMaterial>(string(strKey_RES_DEFAULT::MATERIAL::PARTICLE_RENDER)));
+
+	//기본 파티클 렌더러
+	SetMaterial(cResMgr::GetInst()->FindRes<cMaterial>(string(strKey_RES_DEFAULT::MATERIAL::PARTICLE_RENDERER_BASIC)));
 }
 
 cParticleSystem::~cParticleSystem()
 {
-	SAFE_DELETE(m_pSBufferRW_ParticleTransform);
-	SAFE_DELETE(m_pSBufferRW_Shared);
 }
+
+cParticleSystem::cParticleSystem(cParticleSystem const& _other)
+	: cRenderComponent(_other)
+	, m_pShaderModule()
+	, m_pCS(_other.m_pCS)
+{
+	//새 객체를 만들어서 unique로 변경
+	m_pShaderModule = std::make_unique<cShaderModule>(_other.m_pShaderModule->Clone());
+}
+
 
 void cParticleSystem::init()
 {
@@ -40,8 +53,7 @@ void cParticleSystem::init()
 
 void cParticleSystem::finaltick()
 {
-	if (nullptr == m_pCSParticle || false == m_bIsCreated)
-		return;
+
 
 	//버퍼 바인딩은 쉐이더 클래스에서 일괄적으로 진행함.
 	//여기는 데이터 업로드만 담당.

@@ -26,7 +26,6 @@ private:
 
 public:
     void SetSliceSize(Vec2 _vSliceSize) { m_vSliceSize = _vSliceSize; }
-
     void BindData();
 };
 

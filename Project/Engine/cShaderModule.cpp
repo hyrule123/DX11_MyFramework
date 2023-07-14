@@ -1,11 +1,12 @@
 #include "pch.h"
-#include "cShderModule.h"
+#include "cShaderModule.h"
 
-cShderModule::cShderModule()
-	: m_pOwner()
+cShaderModule::cShaderModule()
 {
 }
 
-cShderModule::~cShderModule()
+cShaderModule::~cShaderModule()
 {
 }
+
+

@@ -1,12 +1,12 @@
 #pragma once
-#include "cShderModule.h"
+#include "cShaderModule.h"
 
 #include "Ptr.h"
 
 class cTexture;
 class cStructBuffer;
 class cCSModule_SetColor :
-    public cShderModule
+    public cShaderModule
 {
 public:
     cCSModule_SetColor();

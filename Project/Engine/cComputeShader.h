@@ -6,7 +6,7 @@
 //하나의 HLSL CS = 하나의 cComputeShader 클래스
 //그러므로 상속받아서 만드는 생성자에서 컴퓨트쉐이더를 로드해주면 된다.
 
-class cShderModule;
+class cShaderModule;
 class cComputeShader :
     public CShader
 {
@@ -64,10 +64,10 @@ public:
 
     //쉐이더에 추가적으로 필요할 경우 붙일 수 있는 데이터 클래스(모듈)
 private:
-    std::shared_ptr<cShderModule> m_pShaderModule;
+    std::shared_ptr<cShaderModule> m_pShaderModule;
 public:
-    bool AddShaderModule(std::unique_ptr<cShderModule>&& _pShaderModule);
-    cShderModule* GetShaderModule() { return m_pShaderModule.get(); }
+    bool AddShaderModule(std::unique_ptr<cShaderModule>&& _pShaderModule);
+    cShaderModule* GetShaderModule() { return m_pShaderModule.get(); }
 
 public:
     //컴퓨터쉐이더 연산 시행

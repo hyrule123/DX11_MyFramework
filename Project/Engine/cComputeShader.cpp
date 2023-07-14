@@ -12,7 +12,7 @@
 
 #include "jsoncpp.h"
 
-#include "cShderModule.h"
+#include "cShaderModule.h"
 
 namespace JsonKey_cComputeShader
 {
@@ -273,7 +273,7 @@ void cComputeShader::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const voi
 	}
 }
 
-bool cComputeShader::AddShaderModule(std::unique_ptr<cShderModule>&& _pShaderModule)
+bool cComputeShader::AddShaderModule(std::unique_ptr<cShaderModule>&& _pShaderModule)
 {
 	assert(_pShaderModule.get());
 	m_pShaderModule = std::move(_pShaderModule); 

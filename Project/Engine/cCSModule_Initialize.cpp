@@ -35,7 +35,7 @@ bool cCSModule_Initialize::Init()
 	return false;
 }
 
-bool cCSModule_Initialize::BindData()
+bool cCSModule_Initialize::BindDataCS()
 {
 	////INT64에 1을 넣어서 전달한다. HLSL에서는 이 값을 INT32형태로 읽어들인다.
 	g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
