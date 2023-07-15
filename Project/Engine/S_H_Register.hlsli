@@ -20,7 +20,7 @@
 #define REGISLOT_b_CBUFFER_MTRL_TEX					REGISTER_SLOT(b, 2)
 #define REGISLOT_b_CBUFFER_GLOBAL					REGISTER_SLOT(b, 3)
 #define REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA		REGISTER_SLOT(b, 4)
-#define REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA		REGISTER_SLOT(b, 5)
+#define REGISLOT_b_CBUFFER_COMPUTE_SHADER_INFO		REGISTER_SLOT(b, 5)
 #define REGISLOT_b_END								6
 
 	
@@ -63,11 +63,6 @@ cbuffer CBuffer_SBUFFER_SHARED_DATA : register(REGISLOT_b_CBUFFER_SBUFFER_SHARED
 	tSBufferInfo g_CBuffer_SBufferData;
 }
 
-
-cbuffer CBuffer_ParticleModule : register(REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA)
-{
-	tParticleModule g_CBuffer_ParticleModule;
-}
 
 	#endif
 
@@ -149,10 +144,8 @@ StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(REGISLOT_t_INIT
 //u 레지스터는 DX11 기준 0 ~ 7번까지만 존재하므로 참고
 #define REGISLOT_u_INIT_SETTING			REGISTER_SLOT(u, 0)	//처음에 최초 한번 작동해서 시스템 정보 확인
 
-#define REGISLOT_u_SETCOLOR_TEXTURERW			REGISTER_SLOT(u, 0)
-#define REGISLOT_u_SETCOLOR_SBUFFERRW			REGISTER_SLOT(u, 1)
-#define REGISLOT_u_PARTICLE_SBUFFERRW			REGISTER_SLOT(u, 0)
-#define REGISLOT_u_PARTICLE_SBUFFERRW_SHAREDATA	REGISTER_SLOT(u, 1)
+#define REGISLOT_u_TEXTURERW_SETCOLOR			REGISTER_SLOT(u, 0)
+#define REGISLOT_u_SBUFFERRW_SETCOLOR			REGISTER_SLOT(u, 1)
 
 
 	#ifdef __cplusplus

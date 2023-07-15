@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "cScriptHolder.h"
 
-#include "cScript.h"
+#include "IScript.h"
 
-#include "cCollider.h"
+#include "ICollider.h"
 
 #include "strKey_Default.h"
 #include "jsoncpp.h"
@@ -13,19 +13,19 @@
 #include "cFSM.h"
 
 cScriptHolder::cScriptHolder()
-	: cComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
+	: IComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
 	, m_pCurrentFSM()
 {
 }
 
 cScriptHolder::cScriptHolder(const cScriptHolder& _other)
-	: cComponent(_other)
+	: IComponent(_other)
 	, m_pCurrentFSM()
 {
 	size_t size = _other.m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		cScript* pScript = _other.m_vecScript[i]->Clone();
+		IScript* pScript = _other.m_vecScript[i]->Clone();
 		AddScript(pScript);
 	}
 }
@@ -44,7 +44,7 @@ bool cScriptHolder::SaveJson(Json::Value* _jVal)
 {
 	if (nullptr == _jVal)
 		return false;
-	else if (false == cComponent::SaveJson(_jVal))
+	else if (false == IComponent::SaveJson(_jVal))
 		return false;
 
 	Json::Value& jVal = *_jVal;
@@ -73,7 +73,7 @@ bool cScriptHolder::LoadJson(Json::Value* _jVal)
 {
 	if (nullptr == _jVal)
 		return false;
-	else if (false == cComponent::LoadJson(_jVal))
+	else if (false == IComponent::LoadJson(_jVal))
 		return false;
 
 	Json::Value& jVal = *_jVal;
@@ -95,12 +95,12 @@ bool cScriptHolder::LoadJson(Json::Value* _jVal)
 				{
 					string ScriptKey = it.key().asString();
 
-					cScript* newScript = cUserClassMgr::GetNewScript(ScriptKey);
+					IScript* newScript = cUserClassMgr::GetNewScript(ScriptKey);
 					
 					//스크립트를 생성받지 못했을 경우 return
 					if (nullptr == newScript)
 					{
-						string errmsg = "cScript\"";
+						string errmsg = "IScript\"";
 						errmsg += ScriptKey + "\"";
 						errmsg += " is not Exists!!";
 
@@ -111,7 +111,7 @@ bool cScriptHolder::LoadJson(Json::Value* _jVal)
 					//스크립트의 로드에 실패했을 경우
 					if (false == newScript->LoadJson(&(*it)[ScriptKey]))
 					{
-						string errmsg = "cScript Load Failed!!";
+						string errmsg = "IScript Load Failed!!";
 						throw(errmsg);
 					}
 				}
@@ -133,7 +133,7 @@ bool cScriptHolder::LoadJson(Json::Value* _jVal)
 
 
 
-bool cScriptHolder::AddScript(cScript* _pScript)
+bool cScriptHolder::AddScript(IScript* _pScript)
 {
 	if (nullptr == _pScript)
 		return false;
@@ -148,7 +148,7 @@ bool cScriptHolder::AddScript(cScript* _pScript)
 }
 
 
-cScript* cScriptHolder::FindScript(const string_view _strViewKey)
+IScript* cScriptHolder::FindScript(const string_view _strViewKey)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
@@ -298,7 +298,7 @@ bool cScriptHolder::AddFSM(cFSM* _pFSM)
 	return true;
 }
 
-void cScriptHolder::BeginColiision(cCollider* _Other, const Vec3& _v3HitPoint)
+void cScriptHolder::BeginColiision(ICollider* _Other, const Vec3& _v3HitPoint)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
@@ -307,7 +307,7 @@ void cScriptHolder::BeginColiision(cCollider* _Other, const Vec3& _v3HitPoint)
 	}
 }
 
-void cScriptHolder::OnCollision(cCollider* _Other, const Vec3& _v3HitPoint)
+void cScriptHolder::OnCollision(ICollider* _Other, const Vec3& _v3HitPoint)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)
@@ -316,7 +316,7 @@ void cScriptHolder::OnCollision(cCollider* _Other, const Vec3& _v3HitPoint)
 	}
 }
 
-void cScriptHolder::EndCollision(cCollider* _Other)
+void cScriptHolder::EndCollision(ICollider* _Other)
 {
 	size_t size = m_vecScript.size();
 	for (size_t i = 0; i < size; ++i)

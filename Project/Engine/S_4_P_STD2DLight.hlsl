@@ -205,7 +205,7 @@ void CalccLight2DNormal(float3 _vWorldPos, float3 _vNormalDir, inout tLightColor
             //아까 구한 광원에서 픽셀까지의 벡터를 통해 거리 계산
                 float DistancePow = saturate(1.f - (length(LightToPixelDir) / g_SBuffer_cLight2D[i].fRadius));
                 
-            //saturate 할 필요 없음. Angle은 둘 다 무조건 양수임. 또한 위의 조건문 문에 Angle / cLight.fAngle 값이 1을 넘어설 수 없음.
+            //saturate 할 필요 없음. Angle은 둘 다 무조건 양수임. 또한 위의 조건문 문에 Angle / ILight.fAngle 값이 1을 넘어설 수 없음.
                 float AnglePow = 1.f - (Angle / g_SBuffer_cLight2D[i].fAngle);
 
                 _Light.vDiffuse.rgb += g_SBuffer_cLight2D[i].LightColor.vDiffuse.rgb * DiffusePow * DistancePow * AnglePow;

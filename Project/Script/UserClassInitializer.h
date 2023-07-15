@@ -7,6 +7,7 @@
 class UserClassInitializer
 {
 public:
+
 	static void InitScript();
 
 	//일단 미사용

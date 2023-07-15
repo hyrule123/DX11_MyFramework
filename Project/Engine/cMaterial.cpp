@@ -11,7 +11,7 @@
 
 
 cMaterial::cMaterial()
-	: cRes(eRES_TYPE::MATERIAL)
+	: IRes(eRES_TYPE::MATERIAL)
 	, m_MtrlTex{}
 	, m_arrTex{}
 	, m_bIsDynamic()
@@ -19,7 +19,7 @@ cMaterial::cMaterial()
 }
 
 cMaterial::cMaterial(const cMaterial& _Clone)
-	: cRes(_Clone)
+	: IRes(_Clone)
 	, m_pShader(_Clone.m_pShader)
 	, m_MtrlTex(_Clone.m_MtrlTex)
 	, m_bIsDynamic(true)
@@ -34,14 +34,14 @@ bool cMaterial::Save(const std::filesystem::path& _fileName)
 {
 	std::filesystem::path ExtAdd = _fileName;
 	ExtAdd.replace_extension(RES_INFO::MATERIAL::Ext);
-	return cRes::Save(ExtAdd);
+	return IRes::Save(ExtAdd);
 }
 
 bool cMaterial::Load(const std::filesystem::path& _fileName)
 {
 	std::filesystem::path ExtAdd = _fileName;
 	ExtAdd.replace_extension(RES_INFO::MATERIAL::Ext);
-	return cRes::Load(ExtAdd);
+	return IRes::Load(ExtAdd);
 }
 
 
@@ -59,7 +59,7 @@ bool cMaterial::SaveJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
 		return false;
-	else if (false == cRes::SaveJson(_pJson))
+	else if (false == IRes::SaveJson(_pJson))
 		return false;
 
 	if (nullptr == m_pShader)
@@ -90,7 +90,7 @@ bool cMaterial::LoadJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
 		return false;
-	else if (false == cRes::LoadJson(_pJson))
+	else if (false == IRes::LoadJson(_pJson))
 		return false;
 
 	const Json::Value& jVal = *_pJson;

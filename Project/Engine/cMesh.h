@@ -1,8 +1,8 @@
 #pragma once
-#include "cRes.h"
+#include "IRes.h"
 
 class cMesh
-	: public cRes
+	: public IRes
 {
 private:
 	ComPtr<ID3D11Buffer>	m_VB;

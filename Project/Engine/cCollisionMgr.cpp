@@ -6,14 +6,14 @@
 #include "cLayer.h"
 #include "cGameObject.h"
 
-#include "cCollider2D.h"
+#include "ICollider2D.h"
 
 #include "cTimeMgr.h"
 
 
-#include "cCollider2D_OBB.h"
-#include "cCollider2D_Point.h"
-#include "cCollider2D_Circle.h"
+#include "cCom_Coll2D_OBB.h"
+#include "cCom_Coll2D_Point.h"
+#include "cCom_Coll2D_Circle.h"
 
 #include "struct.h"
 
@@ -36,7 +36,7 @@ cCollisionMgr::~cCollisionMgr()
 
 }
 
-void cCollisionMgr::CalcSimpleCollGrid2D(__in cCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx)
+void cCollisionMgr::CalcSimpleCollGrid2D(__in ICollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx)
 {
 	_vecIdx.clear();
 
@@ -67,7 +67,7 @@ void cCollisionMgr::CalcSimpleCollGrid2D(__in cCollider2D* _pCol, __in Vec4 _vLB
 }
 
 
-void cCollisionMgr::AddcCollider2D(cCollider2D* _pCol, const vector<UINT>& _vecIdx)
+void cCollisionMgr::AddcCollider2D(ICollider2D* _pCol, const vector<UINT>& _vecIdx)
 {
 	//그냥 순회 돌아주면서 그리드에 충돌검사해야될 충돌체 정점을 집어넣는다.
 	size_t size = _vecIdx.size();
@@ -120,7 +120,7 @@ void cCollisionMgr::tick()
 		
 		//그리드 내부를 ID 순서대로 정렬한다.
 		std::sort(m_vec2DGrid[i].vecColl.begin(), m_vec2DGrid[i].vecColl.end(),
-			[](cCollider2D* _pColA, cCollider2D* _pColB)->bool
+			[](ICollider2D* _pColA, ICollider2D* _pColB)->bool
 			{
 				return _pColA->GetID() < _pColB->GetID();
 			}
@@ -149,8 +149,8 @@ void cCollisionMgr::tick()
 				ID.LowID = m_vec2DGrid[i].vecColl[l]->GetID();
 				ID.HighID = m_vec2DGrid[i].vecColl[m]->GetID();
 
-				cCollider2D* pColA = m_vec2DGrid[i].vecColl[l];
-				cCollider2D* pColB = m_vec2DGrid[i].vecColl[m];
+				ICollider2D* pColA = m_vec2DGrid[i].vecColl[l];
+				ICollider2D* pColB = m_vec2DGrid[i].vecColl[m];
 
 				Vec2 HitPoint;
 
@@ -218,12 +218,12 @@ void cCollisionMgr::tick()
 
 }
 
-bool cCollisionMgr::CheckCollision2D(cCollider2D* _pCol_1, cCollider2D* _pCol_2, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D(ICollider2D* _pCol_1, ICollider2D* _pCol_2, Vec2& _v2HitPoint)
 {
 	return m_arrFuncCheckCollision2D[(int)_pCol_1->GetcColliderType()][(int)_pCol_2->GetcColliderType()](_pCol_1, _pCol_2, _v2HitPoint);
 }
 
-bool cCollisionMgr::CheckCollision2D_Rect_Rect(cCollider2D* _pColRect_1, cCollider2D* _pColRect_2, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_Rect_Rect(ICollider2D* _pColRect_1, ICollider2D* _pColRect_2, Vec2& _v2HitPoint)
 {
 	const Vec4& LBRT_1 = _pColRect_1->GetSimplecCollider();
 	const Vec4& LBRT_2 = _pColRect_2->GetSimplecCollider();
@@ -241,12 +241,12 @@ bool cCollisionMgr::CheckCollision2D_Rect_Rect(cCollider2D* _pColRect_1, cCollid
 	return true;
 }
 
-bool cCollisionMgr::CheckCollision2D_Rect_Circle(cCollider2D* _pColRect, cCollider2D* _pColCircle, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_Rect_Circle(ICollider2D* _pColRect, ICollider2D* _pColCircle, Vec2& _v2HitPoint)
 {
 	enum LBRT { L, B, R, T };
 	const Vec4& RectLBRT = _pColRect->GetSimplecCollider();
 	const Vec2& CircleCenter = _pColCircle->GetCenterPos().XY();
-	float CircleRadius = static_cast<cCollider2D_Circle*>(_pColCircle)->GetRadius();
+	float CircleRadius = static_cast<cCom_Coll2D_Circle*>(_pColCircle)->GetRadius();
 
 	//원의 중심점이 사각형의 어느 부분에 있는지 계산한다.
 	UINT idx = ComputeRelativePos_Rect_Point(RectLBRT, CircleCenter);
@@ -334,12 +334,12 @@ bool cCollisionMgr::CheckCollision2D_Rect_Circle(cCollider2D* _pColRect, cCollid
 	return false;
 }
 
-bool cCollisionMgr::CheckCollision2D_Rect_OBB(cCollider2D* _pColRect, cCollider2D* _pColOBB, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_Rect_OBB(ICollider2D* _pColRect, ICollider2D* _pColOBB, Vec2& _v2HitPoint)
 {
 	return false;
 }
 
-bool cCollisionMgr::CheckCollision2D_Rect_Point(cCollider2D* _pColRect, cCollider2D* _pColPoint, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_Rect_Point(ICollider2D* _pColRect, ICollider2D* _pColPoint, Vec2& _v2HitPoint)
 {
 	const Vec4& LBRT = _pColRect->GetSimplecCollider();
 	const Vec2& Point = _pColPoint->GetCenterPos().XY();
@@ -366,15 +366,15 @@ bool cCollisionMgr::CheckCollision2D_Rect_Point_CollInfo(const Vec4& _v4LBRT, co
 	return true;
 }
 
-bool cCollisionMgr::CheckCollision2D_Circle_Circle(cCollider2D* _pColCircle_1, cCollider2D* _pColCircle_2, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_Circle_Circle(ICollider2D* _pColCircle_1, ICollider2D* _pColCircle_2, Vec2& _v2HitPoint)
 {
 	const Vec2& CenterPos_1 = _pColCircle_1->GetCenterPos().XY();
 	const Vec2& CenterPos_2 = _pColCircle_2->GetCenterPos().XY();
 
 	float dist = Vec2::DistanceSquared(CenterPos_1, CenterPos_2);
 
-	float RadiusSum = static_cast<cCollider2D_Circle*>(_pColCircle_1)->GetRadius();
-	RadiusSum += static_cast<cCollider2D_Circle*>(_pColCircle_2)->GetRadius();
+	float RadiusSum = static_cast<cCom_Coll2D_Circle*>(_pColCircle_1)->GetRadius();
+	RadiusSum += static_cast<cCom_Coll2D_Circle*>(_pColCircle_2)->GetRadius();
 	RadiusSum *= RadiusSum;
 
 	if (dist > RadiusSum)
@@ -385,17 +385,17 @@ bool cCollisionMgr::CheckCollision2D_Circle_Circle(cCollider2D* _pColCircle_1, c
 	return true;
 }
 
-bool cCollisionMgr::CheckCollision2D_Circle_OBB(cCollider2D* _pColCircle, cCollider2D* _pColOBB, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_Circle_OBB(ICollider2D* _pColCircle, ICollider2D* _pColOBB, Vec2& _v2HitPoint)
 {
 	return false;
 }
 
-bool cCollisionMgr::CheckCollision2D_Circle_Point(cCollider2D* _pColCircle, cCollider2D* _pColPoint, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_Circle_Point(ICollider2D* _pColCircle, ICollider2D* _pColPoint, Vec2& _v2HitPoint)
 {
 	const Vec2& CenterPos = _pColCircle->GetCenterPos().XY();
 	const Vec2& Point = _pColPoint->GetCenterPos().XY();
 
-	float fRad = static_cast<cCollider2D_Circle*>(_pColCircle)->GetRadius();
+	float fRad = static_cast<cCom_Coll2D_Circle*>(_pColCircle)->GetRadius();
 
 	if (Vec2::DistanceSquared(CenterPos, Point) > fRad * fRad)
 		return false;
@@ -415,10 +415,10 @@ bool cCollisionMgr::CheckCollision2D_Circle_Point_CollInfo(const Vec2& _v2Circle
 	return true;
 }
 
-bool cCollisionMgr::CheckCollision2D_OBB_OBB(cCollider2D* _pColOBB2D_1, cCollider2D* _pColOBB2D_2, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_OBB_OBB(ICollider2D* _pColOBB2D_1, ICollider2D* _pColOBB2D_2, Vec2& _v2HitPoint)
 {
-	const tOBB2D& OBB_1 = static_cast<cCollider2D_OBB*>(_pColOBB2D_1)->GetOBBInfo();
-	const tOBB2D& OBB_2 = static_cast<cCollider2D_OBB*>(_pColOBB2D_2)->GetOBBInfo();
+	const tOBB2D& OBB_1 = static_cast<cCom_Coll2D_OBB*>(_pColOBB2D_1)->GetOBBInfo();
+	const tOBB2D& OBB_2 = static_cast<cCom_Coll2D_OBB*>(_pColOBB2D_2)->GetOBBInfo();
 
 	//Vec2의 사이즈 * 2를 계산한다. 최적화를 위해 처음 계산한 값을 계속 사용.
 	static const size_t vec2_2size = sizeof(Vec2) * 2;
@@ -457,9 +457,9 @@ bool cCollisionMgr::CheckCollision2D_OBB_OBB(cCollider2D* _pColOBB2D_1, cCollide
 	return true;
 }
 
-bool cCollisionMgr::CheckCollision2D_OBB_Point(cCollider2D* _pColOBB2D, cCollider2D* _pColPoint, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_OBB_Point(ICollider2D* _pColOBB2D, ICollider2D* _pColPoint, Vec2& _v2HitPoint)
 {
-	const tOBB2D& OBBInfo = static_cast<cCollider2D_OBB*>(_pColOBB2D)->GetOBBInfo();
+	const tOBB2D& OBBInfo = static_cast<cCom_Coll2D_OBB*>(_pColOBB2D)->GetOBBInfo();
 	Vec2 vPointToOBBCenter = _pColPoint->GetCenterPos().XY();
 
 	//점의 위치로부터 OBB의 중심 위치까지
@@ -492,7 +492,7 @@ bool cCollisionMgr::CheckCollision2D_OBB_Point(cCollider2D* _pColOBB2D, cCollide
 }
 
 
-bool cCollisionMgr::CheckCollision2D_Point_Point(cCollider2D* _pColPoint_1, cCollider2D* _pColPoint_2, Vec2& _v2HitPoint)
+bool cCollisionMgr::CheckCollision2D_Point_Point(ICollider2D* _pColPoint_1, ICollider2D* _pColPoint_2, Vec2& _v2HitPoint)
 {
 	//점 점은 무조건 return false
 	return false;

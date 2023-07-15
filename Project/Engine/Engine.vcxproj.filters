@@ -43,31 +43,28 @@
     <ClInclude Include="cGameObject.h">
       <Filter>_Source\05. GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="cComponent.h">
+    <ClInclude Include="IComponent.h">
       <Filter>_Source\06. Component</Filter>
     </ClInclude>
-    <ClInclude Include="cEntity.h">
+    <ClInclude Include="IEntity.h">
       <Filter>_Source</Filter>
     </ClInclude>
-    <ClInclude Include="cTransform.h">
+    <ClInclude Include="cCom_Transform.h">
       <Filter>_Source\06. Component\00. Transform</Filter>
     </ClInclude>
-    <ClInclude Include="cMeshRenderer.h">
-      <Filter>_Source\06. Component\08~Render Components\08. MeshRender</Filter>
-    </ClInclude>
-    <ClInclude Include="cRes.h">
+    <ClInclude Include="IRes.h">
       <Filter>_Source\07. Resource</Filter>
     </ClInclude>
     <ClInclude Include="cMesh.h">
       <Filter>_Source\07. Resource\00. Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="cShader.h">
+    <ClInclude Include="IShader.h">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClInclude>
     <ClInclude Include="cGraphicsShader.h">
       <Filter>_Source\07. Resource\06, 07. Shader\GraphicsShader</Filter>
     </ClInclude>
-    <ClInclude Include="cScript.h">
+    <ClInclude Include="IScript.h">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClInclude>
     <ClInclude Include="cConstBuffer.h">
@@ -97,13 +94,13 @@
     <ClInclude Include="components.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
-    <ClInclude Include="cCamera.h">
+    <ClInclude Include="cCom_Camera.h">
       <Filter>_Source\06. Component\07. Camera</Filter>
     </ClInclude>
     <ClInclude Include="cRenderMgr.h">
       <Filter>_Source\03. Manager\06. RenderMgr</Filter>
     </ClInclude>
-    <ClInclude Include="cRenderComponent.h">
+    <ClInclude Include="IRenderer.h">
       <Filter>_Source\06. Component\08~Render Components</Filter>
     </ClInclude>
     <ClInclude Include="cScriptHolder.h">
@@ -118,49 +115,49 @@
     <ClInclude Include="cCollisionMgr.h">
       <Filter>_Source\03. Manager\08. CollisionMgr</Filter>
     </ClInclude>
-    <ClInclude Include="cCollider.h">
+    <ClInclude Include="ICollider.h">
       <Filter>_Source\06. Component\01, 02. Collider</Filter>
     </ClInclude>
-    <ClInclude Include="cCollider2D.h">
+    <ClInclude Include="ICollider2D.h">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClInclude>
-    <ClInclude Include="cCollider2D_Circle.h">
+    <ClInclude Include="cCom_Coll2D_Circle.h">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClInclude>
-    <ClInclude Include="cCollider2D_OBB.h">
+    <ClInclude Include="cCom_Coll2D_OBB.h">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClInclude>
-    <ClInclude Include="cCollider2D_Rect.h">
+    <ClInclude Include="cCom_Coll2D_Rect.h">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClInclude>
-    <ClInclude Include="cLight.h">
+    <ClInclude Include="ILight.h">
       <Filter>_Source\06. Component\05, 06. Light</Filter>
     </ClInclude>
-    <ClInclude Include="cLight2D.h">
+    <ClInclude Include="cCom_Light2D.h">
       <Filter>_Source\06. Component\05, 06. Light\5. Light2D</Filter>
     </ClInclude>
     <ClInclude Include="cStructBuffer.h">
       <Filter>_Source\02. Device\StructBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="cTilemap.h">
+    <ClInclude Include="ITilemapBase.h">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="cAnimator2D.h">
+    <ClInclude Include="cCom_Animator2D.h">
       <Filter>_Source\06. Component\03, 04. Animator</Filter>
     </ClInclude>
     <ClInclude Include="cComputeShader.h">
       <Filter>_Source\07. Resource\06, 07. Shader\ComputeShader</Filter>
     </ClInclude>
-    <ClInclude Include="cParticleSystem.h">
+    <ClInclude Include="cCom_Renderer_Particle.h">
       <Filter>_Source\06. Component\08~Render Components\09. ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="cCollider3D_Ray.h">
+    <ClInclude Include="cCom_Coll3D_Ray.h">
       <Filter>_Source\06. Component\01, 02. Collider\2. Collider3D</Filter>
     </ClInclude>
-    <ClInclude Include="cCollider3D.h">
+    <ClInclude Include="ICollider3D.h">
       <Filter>_Source\06. Component\01, 02. Collider\2. Collider3D</Filter>
     </ClInclude>
-    <ClInclude Include="cCollider2D_Point.h">
+    <ClInclude Include="cCom_Coll2D_Point.h">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClInclude>
     <ClInclude Include="cAnim2DAtlas.h">
@@ -172,13 +169,13 @@
     <ClInclude Include="S_H_Register.hlsli">
       <Filter>_HLSL, Shader Default</Filter>
     </ClInclude>
-    <ClInclude Include="cCSModule_SetColor.h">
+    <ClInclude Include="cShaderData_SetColor.h">
       <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </ClInclude>
     <ClInclude Include="cCSModule_ParticleBasic.h">
       <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
     </ClInclude>
-    <ClInclude Include="cCSModule_Initialize.h">
+    <ClInclude Include="cShaderData_Init.h">
       <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
     </ClInclude>
     <ClInclude Include="Precompiled.h">
@@ -187,7 +184,7 @@
     <ClInclude Include="jsoncpp.h">
       <Filter>_Source\00. Header</Filter>
     </ClInclude>
-    <ClInclude Include="cTilemapAtlas.h">
+    <ClInclude Include="cCom_Renderer_TilemapAtlas.h">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="strKey_Default.h">
@@ -204,11 +201,20 @@
     <ClInclude Include="DefaultShader.h">
       <Filter>_HLSL, Shader Default</Filter>
     </ClInclude>
-    <ClInclude Include="cTilemapComplete.h">
+    <ClInclude Include="cCom_Renderer_TilemapComplete.h">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="cUserClassMgr.h" />
-    <ClInclude Include="cShaderModule.h">
+    <ClInclude Include="cShaderDataModule.h">
+      <Filter>_Source\07. Resource\06, 07. Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="cCom_Renderer_Basic.h" />
+    <ClInclude Include="cUserClassMgr.h">
+      <Filter>_Source\03. Manager\10. cUserClassMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultClassInitializer.h">
+      <Filter>_Source\03. Manager\10. cUserClassMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="cShaderData_Default.h">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClInclude>
   </ItemGroup>
@@ -234,31 +240,28 @@
     <ClCompile Include="cGameObject.cpp">
       <Filter>_Source\05. GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="cComponent.cpp">
+    <ClCompile Include="IComponent.cpp">
       <Filter>_Source\06. Component</Filter>
     </ClCompile>
-    <ClCompile Include="cEntity.cpp">
+    <ClCompile Include="IEntity.cpp">
       <Filter>_Source</Filter>
     </ClCompile>
-    <ClCompile Include="cTransform.cpp">
+    <ClCompile Include="cCom_Transform.cpp">
       <Filter>_Source\06. Component\00. Transform</Filter>
     </ClCompile>
-    <ClCompile Include="cMeshRenderer.cpp">
-      <Filter>_Source\06. Component\08~Render Components\08. MeshRender</Filter>
-    </ClCompile>
-    <ClCompile Include="cRes.cpp">
+    <ClCompile Include="IRes.cpp">
       <Filter>_Source\07. Resource</Filter>
     </ClCompile>
     <ClCompile Include="cMesh.cpp">
       <Filter>_Source\07. Resource\00. Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="cShader.cpp">
+    <ClCompile Include="IShader.cpp">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
     <ClCompile Include="cGraphicsShader.cpp">
       <Filter>_Source\07. Resource\06, 07. Shader\GraphicsShader</Filter>
     </ClCompile>
-    <ClCompile Include="cScript.cpp">
+    <ClCompile Include="IScript.cpp">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="cConstBuffer.cpp">
@@ -285,13 +288,13 @@
     <ClCompile Include="extern.cpp">
       <Filter>_Source\00. Header</Filter>
     </ClCompile>
-    <ClCompile Include="cCamera.cpp">
+    <ClCompile Include="cCom_Camera.cpp">
       <Filter>_Source\06. Component\07. Camera</Filter>
     </ClCompile>
     <ClCompile Include="cRenderMgr.cpp">
       <Filter>_Source\03. Manager\06. RenderMgr</Filter>
     </ClCompile>
-    <ClCompile Include="cRenderComponent.cpp">
+    <ClCompile Include="IRenderer.cpp">
       <Filter>_Source\06. Component\08~Render Components</Filter>
     </ClCompile>
     <ClCompile Include="cScriptHolder.cpp">
@@ -306,67 +309,67 @@
     <ClCompile Include="cCollisionMgr.cpp">
       <Filter>_Source\03. Manager\08. CollisionMgr</Filter>
     </ClCompile>
-    <ClCompile Include="cCollider.cpp">
+    <ClCompile Include="ICollider.cpp">
       <Filter>_Source\06. Component\01, 02. Collider</Filter>
     </ClCompile>
-    <ClCompile Include="cCollider2D.cpp">
+    <ClCompile Include="ICollider2D.cpp">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClCompile>
-    <ClCompile Include="cCollider2D_Circle.cpp">
+    <ClCompile Include="cCom_Coll2D_Circle.cpp">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClCompile>
-    <ClCompile Include="cCollider2D_OBB.cpp">
+    <ClCompile Include="cCom_Coll2D_OBB.cpp">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClCompile>
-    <ClCompile Include="cCollider2D_Rect.cpp">
+    <ClCompile Include="cCom_Coll2D_Rect.cpp">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>_Source\00. Header</Filter>
     </ClCompile>
-    <ClCompile Include="cLight.cpp">
+    <ClCompile Include="ILight.cpp">
       <Filter>_Source\06. Component\05, 06. Light</Filter>
     </ClCompile>
-    <ClCompile Include="cLight2D.cpp">
+    <ClCompile Include="cCom_Light2D.cpp">
       <Filter>_Source\06. Component\05, 06. Light\5. Light2D</Filter>
     </ClCompile>
     <ClCompile Include="cStructBuffer.cpp">
       <Filter>_Source\02. Device\StructBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="cTilemap.cpp">
+    <ClCompile Include="ITilemapBase.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClCompile>
-    <ClCompile Include="cAnimator2D.cpp">
+    <ClCompile Include="cCom_Animator2D.cpp">
       <Filter>_Source\06. Component\03, 04. Animator</Filter>
     </ClCompile>
     <ClCompile Include="cComputeShader.cpp">
       <Filter>_Source\07. Resource\06, 07. Shader\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="cParticleSystem.cpp">
+    <ClCompile Include="cCom_Renderer_Particle.cpp">
       <Filter>_Source\06. Component\08~Render Components\09. ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="cCollider3D_Ray.cpp">
+    <ClCompile Include="cCom_Coll3D_Ray.cpp">
       <Filter>_Source\06. Component\01, 02. Collider\2. Collider3D</Filter>
     </ClCompile>
-    <ClCompile Include="cCollider3D.cpp">
+    <ClCompile Include="ICollider3D.cpp">
       <Filter>_Source\06. Component\01, 02. Collider\2. Collider3D</Filter>
     </ClCompile>
-    <ClCompile Include="cCollider2D_Point.cpp">
+    <ClCompile Include="cCom_Coll2D_Point.cpp">
       <Filter>_Source\06. Component\01, 02. Collider\1. Collider2D</Filter>
     </ClCompile>
     <ClCompile Include="cAnim2DAtlas.cpp">
       <Filter>_Source\07. Resource\04. Animation</Filter>
     </ClCompile>
-    <ClCompile Include="cCSModule_SetColor.cpp">
+    <ClCompile Include="cShaderData_SetColor.cpp">
       <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </ClCompile>
     <ClCompile Include="cCSModule_ParticleBasic.cpp">
       <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
     </ClCompile>
-    <ClCompile Include="cCSModule_Initialize.cpp">
+    <ClCompile Include="cShaderData_Init.cpp">
       <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
     </ClCompile>
-    <ClCompile Include="cTilemapAtlas.cpp">
+    <ClCompile Include="cCom_Renderer_TilemapAtlas.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="RandGen.cpp">
@@ -376,11 +379,20 @@
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />
-    <ClCompile Include="cTilemapComplete.cpp">
+    <ClCompile Include="cCom_Renderer_TilemapComplete.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClCompile>
-    <ClCompile Include="cUserClassMgr.cpp" />
-    <ClCompile Include="cShaderModule.cpp">
+    <ClCompile Include="cShaderDataModule.cpp">
+      <Filter>_Source\07. Resource\06, 07. Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="cCom_Renderer_Basic.cpp" />
+    <ClCompile Include="cUserClassMgr.cpp">
+      <Filter>_Source\03. Manager\10. cUserClassMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultClassInitializer.cpp">
+      <Filter>_Source\03. Manager\10. cUserClassMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderData_Default.cpp">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
   </ItemGroup>
@@ -577,7 +589,7 @@
     <None Include="S_H_Debug.hlsli">
       <Filter>_HLSL, Shader Default\01. Debug</Filter>
     </None>
-    <None Include="S_H_Particle.hlsli">
+    <None Include="S_H_ParticleBasic.hlsli">
       <Filter>_HLSL, Shader Default\05. Particle_Render</Filter>
     </None>
     <None Include="S_H_TilemapAtlas.hlsli">
@@ -585,6 +597,12 @@
     </None>
     <None Include="S_H_TilemapComplete.hlsli">
       <Filter>_HLSL, Shader Default\04. Tilemap\Complete</Filter>
+    </None>
+    <None Include="S_H_Initialize.hlsli">
+      <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
+    </None>
+    <None Include="S_H_SetColor.hlsli">
+      <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -615,13 +633,13 @@
     <FxCompile Include="S_C_Initalize.hlsl">
       <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
     </FxCompile>
-    <FxCompile Include="S_3_G_Particle.hlsl">
+    <FxCompile Include="S_3_G_ParticleBasic.hlsl">
       <Filter>_HLSL, Shader Default\05. Particle_Render</Filter>
     </FxCompile>
-    <FxCompile Include="S_4_P_Particle.hlsl">
+    <FxCompile Include="S_4_P_ParticleBasic.hlsl">
       <Filter>_HLSL, Shader Default\05. Particle_Render</Filter>
     </FxCompile>
-    <FxCompile Include="S_0_V_Particle.hlsl">
+    <FxCompile Include="S_0_V_ParticleBasic.hlsl">
       <Filter>_HLSL, Shader Default\05. Particle_Render</Filter>
     </FxCompile>
     <FxCompile Include="S_0_V_TilemapAtlas.hlsl">

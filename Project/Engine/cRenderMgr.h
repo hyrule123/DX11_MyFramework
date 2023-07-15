@@ -8,18 +8,18 @@
 #include "S_H_STD2DLight.hlsli"
 
 
-class cCamera;
-class cLight2D;
+class cCom_Camera;
+class cCom_Light2D;
 class cStructBuffer;
-class cRenderComponent;
+class IRenderer;
 
 //2D때만 쓸 임시 구조체
 //2D까지는 월드 매트릭스와 뷰-투영 매트릭스를 나눠서 전달할 예정임
 //CPU와 작업 분담용
 struct tRenderInfo
 {
-	cRenderComponent* pRenderCom;
-	cCamera* pCam;
+	IRenderer* pRenderCom;
+	cCom_Camera* pCam;
 };
 
 
@@ -37,7 +37,7 @@ public:
 	void render();
 
 private:
-	cCamera* m_arrCam[(UINT)eCAMERA_INDEX::END];
+	cCom_Camera* m_arrCam[(UINT)eCAMERA_INDEX::END];
 
 	vector<tDebugShapeInfo> m_vecDebugShapeRender;
 	//클라이언트 프로젝트에서 위 디버그 렌더링 정보를 받아갔는지 확인하는 변수
@@ -62,11 +62,11 @@ private:
 
 public:
 	//inline getter
-	cCamera* GetCamera(eCAMERA_INDEX _iCamIdx) { return m_arrCam[(int)_iCamIdx]; }
-	cCamera* GetCurCamera();
+	cCom_Camera* GetCamera(eCAMERA_INDEX _iCamIdx) { return m_arrCam[(int)_iCamIdx]; }
+	cCom_Camera* GetCurCamera();
 
-	void RegisterCamera(cCamera* _pCam, eCAMERA_INDEX _idx);
-	void RemoveCamera(cCamera* _pCam);
+	void RegisterCamera(cCom_Camera* _pCam, eCAMERA_INDEX _idx);
+	void RemoveCamera(cCom_Camera* _pCam);
 	void AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeInfo);
 
 	//CEditorObjMgr에서 사용. 해당 객체의 리스트를 레퍼런스 인자로 전달하면 리스트에 정보를 추가해준 뒤 엔진 내부의 리스트를 전부 제거
@@ -75,7 +75,7 @@ public:
 	void AddcLight2DData(const tLightInfo& _tLightInfo) { m_veccLight2DStruct.push_back(_tLightInfo); }
 
 	void ChangeRenderCam(bool _bEditorCam) { m_bEditorCamMode = _bEditorCam; }
-	void SetEditorCam(cCamera* _pCamera) { m_arrCam[(int)eCAMERA_INDEX::EDITOR] = _pCamera; }
+	void SetEditorCam(cCom_Camera* _pCamera) { m_arrCam[(int)eCAMERA_INDEX::EDITOR] = _pCamera; }
 	bool IsEditorCamMode() const { return m_bEditorCamMode; }
 
 	//렌더링 단계 관련
@@ -106,7 +106,7 @@ inline void cRenderMgr::AddDebugShapeRender(const tDebugShapeInfo& _tDebugShapeI
 	m_vecDebugShapeRender.push_back(_tDebugShapeInfo);
 }
 
-inline cCamera* cRenderMgr::GetCurCamera()
+inline cCom_Camera* cRenderMgr::GetCurCamera()
 {
 	if (m_bEditorCamMode)
 		return m_arrCam[(int)eCAMERA_INDEX::EDITOR];

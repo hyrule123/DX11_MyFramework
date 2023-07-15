@@ -1,5 +1,5 @@
 #pragma once
-#include "cRes.h"
+#include "IRes.h"
 
 #include "Ptr.h"
 
@@ -91,7 +91,7 @@ struct tAnim2D
 
 class cTexture;
 class cAnim2DAtlas :
-    public cRes
+    public IRes
 {
 public:
     cAnim2DAtlas();

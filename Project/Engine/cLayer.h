@@ -1,11 +1,11 @@
 #pragma once
-#include "cEntity.h"
+#include "IEntity.h"
 
 #include "define.h"
 
 class cGameObject;
 class cLayer :
-    public cEntity
+    public IEntity
 {
 public:
     cLayer();

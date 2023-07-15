@@ -251,7 +251,7 @@ void cDevice::CreateDefaultConstBuffer()
     tConstBufferClassDesc Desc = {};
 
     {
-        //Vertex Shader에만 상수버퍼를 전달 + cLight 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
+        //Vertex Shader에만 상수버퍼를 전달 + ILight 처리를 위해서 픽셀 쉐이더에도 값을 전달한다.
         Desc.iRegisterNum = REGISLOT_b_CBUFFER_CAM_MATIRCES;
         Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
         Desc.uElementSize = (UINT)sizeof(tCamMatrices);
@@ -302,7 +302,7 @@ void cDevice::CreateDefaultConstBuffer()
     }
 
     {
-        //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
+        //구조화 버퍼의 인덱스 수 등, 구조화버퍼에서 공유하는 데이터를 저장하는 버퍼
         Desc.iRegisterNum = REGISLOT_b_CBUFFER_SBUFFER_SHAREDATA;
         Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
         Desc.uElementSize = (UINT)sizeof(tSBufferInfo);
@@ -315,10 +315,10 @@ void cDevice::CreateDefaultConstBuffer()
     }
 
     {
-        //글로벌 데이터는 모든 쉐이더 파이프라인에서 접근할 수 있도록 설정
-        Desc.iRegisterNum = REGISLOT_b_CBUFFER_PARTICLE_MODULEDATA;
+        
+        Desc.iRegisterNum = REGISLOT_b_CBUFFER_COMPUTE_SHADER_INFO;
         Desc.PipelineStageBindFlag = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
-        Desc.uElementSize = (UINT)sizeof(tParticleModule);
+        Desc.uElementSize = (UINT)sizeof(tComputeShaderInfo);
         Desc.uElementCount = 1u;
 
         //상수버퍼 생성 확인

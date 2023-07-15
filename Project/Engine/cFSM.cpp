@@ -6,13 +6,13 @@
 #include "cScriptHolder.h"
 
 cFSM::cFSM(const string_view _strKey, UINT _uStateID)
-	: cScript(_strKey)
+	: IScript(_strKey)
 	, m_uStateID(_uStateID)
 {
 }
 
 cFSM::cFSM(const cFSM& _other)
-	: cScript(_other)
+	: IScript(_other)
 	, m_uStateID(_other.m_uStateID)
 {
 }
@@ -25,7 +25,7 @@ cFSM::~cFSM()
 void cFSM::SetHolder(cScriptHolder* _pScriptHolder)
 {
 	//부모의 SetHolder 호출 후
-	cScript::SetHolder(_pScriptHolder);
+	IScript::SetHolder(_pScriptHolder);
 
 	assert(nullptr != _pScriptHolder);
 

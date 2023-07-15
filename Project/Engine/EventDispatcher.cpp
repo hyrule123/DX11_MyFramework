@@ -4,7 +4,7 @@
 
 #include "cLevelMgr.h"
 #include "cGameObject.h"
-#include "cTransform.h"
+#include "cCom_Transform.h"
 
 #include "CPrefab.h"
 

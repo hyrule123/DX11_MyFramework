@@ -16,7 +16,7 @@ namespace SHADER_EXTENSION
 
 
 CGraphicsShader::CGraphicsShader()
-	: CShader(eRES_TYPE::GRAPHICS_SHADER)
+	: IShader(eRES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, m_eRSType(define_Shader::eRASTERIZER_TYPE::CULL_BACK)
 	, m_eDSType(define_Shader::eDEPTH_STENCIL_TYPE::LESS)
@@ -34,7 +34,7 @@ CGraphicsShader::~CGraphicsShader()
 
 bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 {
-	if (false == CShader::SaveJson(_jsonVal))
+	if (false == IShader::SaveJson(_jsonVal))
 		return false;
 
 	Json::Value& jVal = *_jsonVal;
@@ -100,7 +100,7 @@ bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 
 bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
 {
-	if (false == CShader::LoadJson(_jsonVal))
+	if (false == IShader::LoadJson(_jsonVal))
 		return false;
 
 	const Json::Value& jVal = *_jsonVal;

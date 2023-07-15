@@ -1,6 +1,6 @@
     #pragma once
 
-#include "cEntity.h"
+#include "IEntity.h"
 
 #include "define.h"
 
@@ -34,7 +34,7 @@ struct tSBufferDesc
 
 
 class cStructBuffer
-    : public cEntity
+    : public IEntity
 {
 public:
     //아무 인자 없이 생성할 경우 반드시 SetDesc를 해 줄것.

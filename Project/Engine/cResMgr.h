@@ -18,8 +18,8 @@
 
 #include <type_traits>
 
-//새 cRes 추가
-//1. define.h enum에 cRes 타입 추가했는지 확인
+//새 IRes 추가
+//1. define.h enum에 IRes 타입 추가했는지 확인
 //2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
 
 class cResMgr
@@ -32,13 +32,12 @@ public:
     void cleartick() { m_bResUpdated = false; }
     
 private:
-    unordered_map<string, Ptr<cRes>, tHasher_String, std::equal_to<>> m_arrRes[(UINT)eRES_TYPE::END];
+    unordered_map<string, Ptr<IRes>, tHasher_String, std::equal_to<>> m_arrRes[(UINT)eRES_TYPE::END];
 
     //리소스 정보가 업데이트 되면 true로 변경
     bool    m_bResUpdated;
 
 private:
-
     void CreateDefaultMesh();
     void CreateDefaultShader();
 
@@ -84,7 +83,7 @@ private:
 
     
 public:
-    //Ptr<cRes> Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName);
+    //Ptr<IRes> Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName);
 
 
 
@@ -95,7 +94,7 @@ public:
     template<typename T>
     Ptr<T> Load(const std::filesystem::path& _fileName, const string_view _strKey = "");
 
-    unordered_map<string, Ptr<cRes>, tHasher_String, std::equal_to<>> const& GetResMap(eRES_TYPE _ResType);
+    unordered_map<string, Ptr<IRes>, tHasher_String, std::equal_to<>> const& GetResMap(eRES_TYPE _ResType);
 
     Ptr<cTexture> CreateTexture(const string_view _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
 };
@@ -103,7 +102,7 @@ public:
 template<typename T>
 inline eRES_TYPE cResMgr::GetResType()
 {
-    static_assert(std::is_base_of_v<cRes, T>);
+    static_assert(std::is_base_of_v<IRes, T>);
 
 
     if constexpr (std::is_base_of_v<cMesh, T>)
@@ -151,8 +150,7 @@ inline eRES_TYPE cResMgr::GetResType()
         return eRES_TYPE::COMPUTE_SHADER;
     }
 
-    else
-        return eRES_TYPE::UNKNOWN;
+    return eRES_TYPE::UNKNOWN;
 }
 
 
@@ -190,7 +188,7 @@ inline void cResMgr::DeleteRes(const string_view _strKey)
 template<typename T>
 inline void cResMgr::AddRes(const string_view _strKey, Ptr<T> _Res)
 {
-    static_assert(std::is_base_of<cRes, T>::value, "Type T is not Derived class of cRes!!");
+    static_assert(std::is_base_of<IRes, T>::value, "Type T is not Derived class of IRes!!");
 
     // 중복키로 리소스 추가하려는 경우
     assert(!FindRes<T>(_strKey).Get());
@@ -207,8 +205,8 @@ inline void cResMgr::AddRes(const string_view _strKey, Ptr<T> _Res)
 template<typename T>
 inline Ptr<T> cResMgr::Load(const std::filesystem::path& _fileName, const string_view _strKey)
 {
-    //cRes를 상속받는 클래스가 아닐 경우 컴파일 중지
-    static_assert(std::is_base_of<cRes, T>::value);
+    //IRes를 상속받는 클래스가 아닐 경우 컴파일 중지
+    static_assert(std::is_base_of<IRes, T>::value);
 
     string strKey(_strKey);
 
@@ -235,7 +233,7 @@ inline Ptr<T> cResMgr::Load(const std::filesystem::path& _fileName, const string
 }
 
 
-inline unordered_map<string, Ptr<cRes>, tHasher_String, std::equal_to<>> const& cResMgr::GetResMap(eRES_TYPE _ResType)
+inline unordered_map<string, Ptr<IRes>, tHasher_String, std::equal_to<>> const& cResMgr::GetResMap(eRES_TYPE _ResType)
 {
     return m_arrRes[(UINT)_ResType];
 }

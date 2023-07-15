@@ -1,12 +1,12 @@
 #pragma once
-#include "cRes.h"
+#include "IRes.h"
 
 
 
 
 class cGameObject;
 class CPrefab :
-    public cRes
+    public IRes
 {
 public:
     CPrefab();

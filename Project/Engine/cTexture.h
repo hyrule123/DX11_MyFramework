@@ -1,12 +1,12 @@
 #pragma once
-#include "cRes.h"
+#include "IRes.h"
 
 #include "global.h"
 
 #include <UtilLib_DLL/json/forwards.h>
 
 class cTexture :
-    public cRes
+    public IRes
 {
 public:
     cTexture();

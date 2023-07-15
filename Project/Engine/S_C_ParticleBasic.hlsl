@@ -1,4 +1,4 @@
-#include "S_H_Particle.hlsli"
+#include "S_H_ParticleBasic.hlsli"
 
 #include "S_H_Func.hlsli"
 
@@ -7,11 +7,10 @@
 #define	ePARTICLE_MODULE_COLOR_CHANGE 1
 #define	ePARTICLE_MODULE_SCALE_CHANGE 2
 
-
 void PModule_Spawn(uint _uID);
 void PModule_Drag(uint _uID);
 
-[numthreads(128, 1, 1)]
+[numthreads(PARTICLE_BASIC_THREADS_X, PARTICLE_BASIC_THREADS_Y, PARTICLE_BASIC_THREADS_Z)]
 void CS_Particle_Basic(uint3 _ID : SV_DispatchThreadID)
 {
 

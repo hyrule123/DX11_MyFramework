@@ -1,11 +1,11 @@
 #pragma once
 
-#include "cScript.h"
+#include "IScript.h"
 
 class cGameObject;
-class cTransform;
-class cRenderComponent;
-class cAnimator2D;
+class cCom_Transform;
+class IRenderer;
+class cCom_Animator2D;
 class cScriptHolder;
 
 struct tDescFSM
@@ -21,12 +21,12 @@ struct tDescFSM
 
 //같은 cFSM 범주 안의 클래스들은 enum class를 공유하는 헤더파일을 만들어서 사용해 줄것
 class cFSM
-    : public cScript
+    : public IScript
 {
 private:
     cFSM() = delete;
 public:
-    //strKey -> cScript로 전달, _uStateID -> cFSM으로 전달
+    //strKey -> IScript로 전달, _uStateID -> cFSM으로 전달
     cFSM(const string_view _strKey, UINT _uStateID);
 
     cFSM(const cFSM& _other);

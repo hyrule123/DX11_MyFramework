@@ -1,9 +1,9 @@
 #pragma once
-#include "CShader.h"
+#include "IShader.h"
 
 #include "global.h"
 
-//참고 - cEntity의 'Name' 변수에 쉐이더의 BaseName을 저장함.
+//참고 - IEntity의 'Name' 변수에 쉐이더의 BaseName을 저장함.
 struct tShaderCode
 {
     ComPtr<ID3DBlob> blob;
@@ -11,7 +11,7 @@ struct tShaderCode
 };
 
 class CGraphicsShader :
-    public CShader
+    public IShader
 {
 public:
     CGraphicsShader();

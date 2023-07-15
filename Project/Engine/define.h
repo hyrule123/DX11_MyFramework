@@ -70,35 +70,37 @@ constexpr float DEPTH_PRESET_MAX = 100000.f;
 //Global Variable
 extern const string g_voidStr;
 
+
+
 //새로운 컴포넌트를 만들어줄 경우
 //eCOMPONENT_TYPE에 컴포넌트 추가
 //components.h에 컴포넌트 뚫어주기
 enum class eCOMPONENT_TYPE
 {
 	// update
-	//TRANSFORM,		// 위치, 크기, 회전
+	TRANSFORM,		// 위치, 크기, 회전
 	COLLIDER2D,		// 2차원 충돌
 	COLLIDER3D,		// 3차원 충돌
 	ANIMATOR2D,		// Sprite Animation
 	ANIMATOR3D,		// Bone Sknning Animation
 	LIGHT2D,			// 2차원 광원
 	LIGHT3D,			// 3차원 광원
-	CAMERA,			// cCamera
+	CAMERA,			// cCom_Camera
 
 	// render
-	MESH_RENDER,		// 기본적인 렌더링
-	PARTICLE_SYSTEM, // 입자 렌더링
-	TILEMAP,		// 2차원 타일
-	LANDSCAPE,		// 3차원 지형
-	DECAL,			// 내부 렌더링
+	RENDERER,
+	//MESH_RENDER,		// 기본적인 렌더링
+	//PARTICLE_SYSTEM, // 입자 렌더링
+	//TILEMAP,		// 2차원 타일
+	//LANDSCAPE,		// 3차원 지형
+	//DECAL,			// 내부 렌더링
 
 	// custom
 	SCRIPT_HOLDER,		
 
 	END
 };
-extern const eCOMPONENT_TYPE g_RenderComIdxStart;
-extern const eCOMPONENT_TYPE g_RenderComIdxEnd;
+
 
 
 

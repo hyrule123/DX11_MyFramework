@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "cRenderMgr.h"
 
-#include "cCamera.h"
+#include "cCom_Camera.h"
 
 #include "cStructBuffer.h"
 
@@ -14,7 +14,7 @@
 
 #include "cKeyMgr.h"
 
-#include "cRenderComponent.h"
+#include "IRenderer.h"
 
 #include "cConstBuffer.h"
 
@@ -34,13 +34,13 @@ cRenderMgr::~cRenderMgr()
 }
 
 
-void cRenderMgr::RegisterCamera(cCamera* _pCam, eCAMERA_INDEX _idx)
+void cRenderMgr::RegisterCamera(cCom_Camera* _pCam, eCAMERA_INDEX _idx)
 {
     assert(0 <= (int)_idx && (int)_idx < (int)eCAMERA_INDEX::END);
     m_arrCam[(int)_idx] = _pCam;
 }
 
-void cRenderMgr::RemoveCamera(cCamera* _pCam)
+void cRenderMgr::RemoveCamera(cCom_Camera* _pCam)
 {
     for (int i = 0; i < (int)eCAMERA_INDEX::END; ++i)
     {

@@ -5,7 +5,7 @@
 
 #include "cGameObject.h"
 
-#include "cTransform.h"
+#include "cCom_Transform.h"
 
 cLayer::cLayer()
 	: m_iLayerIdx(-1)

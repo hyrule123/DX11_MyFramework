@@ -12,17 +12,17 @@
 
 class cLayer;
 class cGameObject;
-class cCollider2D;
-class cCollider2D_Rect;
-class cCollider2D_Circle;
-class cCollider2D_OBB;
-class cCollider2D_Point;
+class ICollider2D;
+class cCom_Coll2D_Rect;
+class cCom_Coll2D_Circle;
+class cCom_Coll2D_OBB;
+class cCom_Coll2D_Point;
 
-class cCollider3D;
+class ICollider3D;
 
 struct tGrid2D
 {
-    vector<cCollider2D*> vecColl;
+    vector<ICollider2D*> vecColl;
 };
 
 union CollisionID
@@ -38,8 +38,8 @@ union CollisionID
 struct tCollisionInfo
 {
     LONGLONG llCheckedCount; //cTimeMgr에서 quadpart를 그대로 받아와서 체크한 시간을 기록한다.
-    cCollider2D* pcColliderA;
-    cCollider2D* pcColliderB;
+    ICollider2D* pcColliderA;
+    ICollider2D* pcColliderB;
 };
 
 
@@ -74,16 +74,16 @@ private:
     
     unordered_map<UINT64, tCollisionInfo, tLightHashFunc_UINT64>   m_umapCollisionID;
 
-    std::function<bool(cCollider2D*, cCollider2D*, Vec2&)> m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::END][(int)eCOLLIDER_TYPE_2D::END];
+    std::function<bool(ICollider2D*, ICollider2D*, Vec2&)> m_arrFuncCheckCollision2D[(int)eCOLLIDER_TYPE_2D::END][(int)eCOLLIDER_TYPE_2D::END];
 public:
     //공간분할을 위한 자신의 간이 충돌체 꼭지점 정보를 전달한다.
     //Rect는 4개, Point는 1개 등 다를 수 있기 때문에 정점 위치를 vector에 담아서 전달하는 방식으로 구현
     //
-    void CalcSimpleCollGrid2D(__in cCollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx);
+    void CalcSimpleCollGrid2D(__in ICollider2D* _pCol, __in Vec4 _vLBRTPos, __out vector<UINT>& _vecIdx);
 
     //이건 트랜스폼에서 추가 연산이 없었을 경우(자신의 간이정점 위치에 변함이 없을 경우) 호출
-    void AddcCollider2D(cCollider2D* _pCol, const vector<UINT>& _vecIdx);
-    void AddcCollider3D(cCollider3D* _pCol) {};
+    void AddcCollider2D(ICollider2D* _pCol, const vector<UINT>& _vecIdx);
+    void AddcCollider3D(ICollider3D* _pCol) {};
     void AddLayerInteraction2D(int _iLayer1, int _iLayer2);
 
     //지정한 레이어와 모든 레이어와 충돌 상호작용하도록 변경한다.
@@ -104,27 +104,27 @@ private://충돌 검사 함수
 
 
     //충돌체 타입을 분류해서 아래의 함수들을 호출한다.
-    bool CheckCollision2D(cCollider2D* _pCol_1, cCollider2D* _pCol_2, Vec2& _v2HitPoint);
+    bool CheckCollision2D(ICollider2D* _pCol_1, ICollider2D* _pCol_2, Vec2& _v2HitPoint);
 
-    bool CheckCollision2D_Rect_Rect(cCollider2D* _pColRect_1, cCollider2D* _pColRect_2, Vec2& _v2HitPoint);
-    bool CheckCollision2D_Rect_Circle(cCollider2D* _pColRect, cCollider2D* _pColCircle, Vec2& _v2HitPoint);
-    bool CheckCollision2D_Rect_OBB(cCollider2D* _pColRect, cCollider2D* _pColOBB, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Rect_Rect(ICollider2D* _pColRect_1, ICollider2D* _pColRect_2, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Rect_Circle(ICollider2D* _pColRect, ICollider2D* _pColCircle, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Rect_OBB(ICollider2D* _pColRect, ICollider2D* _pColOBB, Vec2& _v2HitPoint);
 
-    bool CheckCollision2D_Rect_Point(cCollider2D* _pColRect, cCollider2D* _pColPoint, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Rect_Point(ICollider2D* _pColRect, ICollider2D* _pColPoint, Vec2& _v2HitPoint);
     bool CheckCollision2D_Rect_Point_CollInfo(const Vec4& _v4LBRT, const Vec2& _v2Point);
 
    
-    bool CheckCollision2D_Circle_Circle(cCollider2D* _pColCircle_1, cCollider2D* _pColCircle_2, Vec2& _v2HitPoint);
-    bool CheckCollision2D_Circle_OBB(cCollider2D* _pColCircle, cCollider2D* _pColOBB, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Circle_Circle(ICollider2D* _pColCircle_1, ICollider2D* _pColCircle_2, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Circle_OBB(ICollider2D* _pColCircle, ICollider2D* _pColOBB, Vec2& _v2HitPoint);
 
-    bool CheckCollision2D_Circle_Point(cCollider2D* _pColCircle, cCollider2D* _pColPoint, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Circle_Point(ICollider2D* _pColCircle, ICollider2D* _pColPoint, Vec2& _v2HitPoint);
     bool CheckCollision2D_Circle_Point_CollInfo(const Vec2& _v2CircleCenterPos, float _fCircleRadius, const Vec2& _v2PointPos);
 
 
-    bool CheckCollision2D_OBB_OBB(cCollider2D* _pColOBB2D_1, cCollider2D* _pColOBB2D_2, Vec2& _v2HitPoint);
-    bool CheckCollision2D_OBB_Point(cCollider2D* _pColOBB2D, cCollider2D* _pColPoint, Vec2& _v2HitPoint);
+    bool CheckCollision2D_OBB_OBB(ICollider2D* _pColOBB2D_1, ICollider2D* _pColOBB2D_2, Vec2& _v2HitPoint);
+    bool CheckCollision2D_OBB_Point(ICollider2D* _pColOBB2D, ICollider2D* _pColPoint, Vec2& _v2HitPoint);
 
-    bool CheckCollision2D_Point_Point(cCollider2D* _pColPoint_1, cCollider2D* _pColPoint_2, Vec2& _v2HitPoint);
+    bool CheckCollision2D_Point_Point(ICollider2D* _pColPoint_1, ICollider2D* _pColPoint_2, Vec2& _v2HitPoint);
 
 private:
     //6   7    8
@@ -136,7 +136,7 @@ private:
     UINT ComputeRelativePos_Rect_Point(const Vec4& _v4RectLBRT, const Vec2& _v2Point);
 
     //LBRT 정보가 들어있는 사각형을 통해 겹치는 부분을 구한다.
-    //일반적으로 정확도를 조금 희생하고 Simple cCollider를 사용
+    //일반적으로 정확도를 조금 희생하고 Simple ICollider를 사용
     void ComputeHitPointByRectLBRT(const Vec4& _v4LBRT_1, const Vec4& _v4LBRT_2, Vec2& _v2HitPoint);
 };
 

@@ -280,16 +280,7 @@ ENUM_END
 
 
 ////컴퓨트쉐이더
-#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_X    MTRLDATA_PARAM_SCALAR(INT, 0)
-#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Y    MTRLDATA_PARAM_SCALAR(INT, 1)
-#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Z    MTRLDATA_PARAM_SCALAR(INT, 2)
 
-//컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
-#define MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION      MTRLDATA_PARAM_SCALAR(VEC2, 0)
-
-
-//cCSModule_ParticleBasic
-#define MTRL_SCALAR_OWNER_OBJ_POS MTRLDATA_PARAM_SCALAR(VEC4, 0)
 //============================================================================
 
 
@@ -389,6 +380,28 @@ struct tSBufferInfo
 };
 
 
+struct tNumData
+{
+	UINT32 X;
+	UINT32 Y;
+	UINT32 Z;
+    UINT32 Pad;
+#ifdef __cplusplus
+    tNumData(UINT32 _X, UINT32 _Y, UINT32 _Z) : X(_X), Y(_Y), Z(_Z) {}
+#endif
+    
+};
+struct tComputeShaderInfo
+{
+	tNumData NumData;
+    
+    UINT32 uNumGroupX;
+    UINT32 uNumGroupY;
+    UINT32 uNumGroupZ;
+    UINT32 Padding_0;
+};
+
+
 //CBuffer에서 사용하므로 공용 struct 헤더에 선언
 struct tParticleModule
 {
@@ -483,7 +496,5 @@ struct tParticleModule
 	float4 vOwnerPrevWorldPos;
 	float4 vOwnerCurWorldPos;
 };
-
-
 #endif
 

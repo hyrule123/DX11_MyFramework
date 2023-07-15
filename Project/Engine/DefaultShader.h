@@ -1,5 +1,9 @@
 #pragma once
 
+#include "S_H_SetColor.hlsli"
+#include "S_H_Initialize.hlsli"
+#include "S_H_ParticleBasic.hlsli"
+
 #ifdef _DEBUG
 
 #include "DefaultShader/S_0_V_Debug_Debug.h"

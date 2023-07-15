@@ -1,15 +1,15 @@
 #pragma once
-#include "cShaderModule.h"
+#include "cShaderDataModule.h"
 
 #include "Ptr.h"
 
 class cStructBuffer;
 class cConstBuffer;
-class cParticleSystem;
+class cCom_Renderer_Particle;
 class cTexture;
 
 class cCSModule_ParticleBasic :
-    public cShaderModule
+    public cShaderDataModule
 {
 public:
     cCSModule_ParticleBasic();
@@ -19,14 +19,13 @@ public:
     CLONE(cCSModule_ParticleBasic);
 
 public:
-    virtual bool Init() override;
-    virtual bool BindDataCS() override;
+    virtual tNumData BindDataCS() override;
     virtual bool BindDataGS() override;
     virtual void UnBind() override;
 
 private:
     //아래 버퍼들을 소유한 컴포넌트의 주소도 받아놓는다.
-    cParticleSystem* m_pBufferOwner;
+    cCom_Renderer_Particle* m_pBufferOwner;
     cStructBuffer* m_pSBuffer_Transform;
     cStructBuffer* m_pSBufferRW_Shared;
     cConstBuffer* m_pCBuffer_ModuleData;
@@ -35,7 +34,5 @@ private:
 
 public:
     void SetNoiseTexture(Ptr<cTexture> _pTex) { m_Tex_Noise = _pTex; }
-
-    void SetParticleOwnerPos(const Vec3& _vPos) { GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_OWNER_OBJ_POS, Vec4(_vPos, 1.f)); }
 };
 

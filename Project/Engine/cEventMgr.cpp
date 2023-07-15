@@ -4,7 +4,7 @@
 #include "cLevelMgr.h"
 #include "cLevel.h"
 #include "cGameObject.h"
-#include "cComponent.h"
+#include "IComponent.h"
 
 
 
@@ -85,7 +85,7 @@ void cEventMgr::RemoveComponent(const tGameEvent& _event)
 
 	eCOMPONENT_TYPE comType = (eCOMPONENT_TYPE)_event.wParam;
 
-	cComponent* pCom = pObj->GetComponent(comType);
+	IComponent* pCom = pObj->GetComponent(comType);
 	if (nullptr == pCom)
 		return;
 
@@ -104,7 +104,7 @@ void cEventMgr::RemoveComponentLazy(const tGameEvent& _event)
 		return;
 
 	eCOMPONENT_TYPE comType = (eCOMPONENT_TYPE)_event.wParam;
-	cComponent* pCom = pObj->GetComponent(comType);
+	IComponent* pCom = pObj->GetComponent(comType);
 	if (nullptr == pCom)
 		return;
 

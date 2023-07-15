@@ -5,9 +5,9 @@
 
 #include "strKey_Default.h"
 
-#include "cCSModule_SetColor.h"
+#include "cShaderData_SetColor.h"
 #include "cCSModule_ParticleBasic.h"
-#include "cCSModule_Initialize.h"
+#include "cShaderData_Init.h"
 
 #include "cAnim2DAtlas.h"
 #include "cGameObject.h"
@@ -286,7 +286,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 
 	{
 		// ============
-		// STD2D cLight Shader
+		// STD2D ILight Shader
 		// ============
 		// Topology: TriangleList
 		// Rasterizer: CULL_BACK(백페이스 컬링)
@@ -313,7 +313,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 
 	{
 		// ============
-		// cTilemapAtlas
+		// cRenderer_Tilemap
 		// ============
 		// Topology: TriangleList
 		// Rasterizer: CULL_BACK(백페이스 컬링)
@@ -340,7 +340,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 
 	{
 		// ============
-		// cTilemap Complete
+		// ITilemapBase Complete
 		// ============
 		// Topology: TriangleList
 		// Rasterizer: CULL_BACK(백페이스 컬링)
@@ -408,15 +408,22 @@ bool cResMgr::CreateDefaultComputeShader()
 		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::INITALIZE);
 		pCS->SetEngineDefaultRes(true);
 
+		pCS->SetThreadsPerGroup(1u, 1u, 1u);
+		pCS->CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
+
 		//Init모듈을 붙여주면 내부에서 쉐이더까지 로드
-		std::unique_ptr<cCSModule_Initialize> initModule = std::make_unique<cCSModule_Initialize>();
-		pCS->AddShaderModule(std::move(initModule));
+		cShaderData_Init* initModule = new cShaderData_Init;
+		pCS->SetShaderDataModule(initModule);
 
 		if (false == pCS->Execute())
 		{
 			ERROR_MESSAGE("HLSL Default Setting Initalize Failed.");
 			return false;
 		}
+
+		//이걸 Graphics Shader에 bind 걸어준다.
+		initModule->BindDataGS();
+
 		AddRes<cComputeShader>(pCS->GetKey(), pCS);
 	}
 
@@ -426,16 +433,12 @@ bool cResMgr::CreateDefaultComputeShader()
 		Ptr<cComputeShader> pCS = new cComputeShader;
 		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::SETCOLOR);
 		pCS->SetEngineDefaultRes(true);
+		pCS->CreateShaderFromHeader(g_CS_SetColor, sizeof(g_CS_SetColor));
 
 		//Init모듈을 붙여주면 내부에서 쉐이더까지 로드
-		std::unique_ptr<cCSModule_SetColor> Module = std::make_unique<cCSModule_SetColor>();
-		pCS->AddShaderModule(std::move(Module));
+		cShaderData_SetColor* Module = new cShaderData_SetColor;
+		pCS->SetShaderDataModule(Module);
 
-		if (false == pCS->Execute())
-		{
-			ERROR_MESSAGE("HLSL Default Setting Initalize Failed.");
-			return false;
-		}
 		AddRes<cComputeShader>(pCS->GetKey(), pCS);
 	}
 
@@ -444,6 +447,7 @@ bool cResMgr::CreateDefaultComputeShader()
 		Ptr<cComputeShader> pCS = new cComputeShader;
 		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC);
 		pCS->SetEngineDefaultRes(true);
+		pCS->CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic))
 
 		//Init모듈을 붙여주면 내부에서 쉐이더까지 로드
 		std::unique_ptr<cCSModule_ParticleBasic> Module = std::make_unique<cCSModule_ParticleBasic>();
@@ -506,7 +510,7 @@ void cResMgr::CreateDefaultMaterial()
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
 
-	// cTilemap cMaterial
+	// ITilemapBase cMaterial
 	{
 		Ptr<cMaterial> pMtrl = new cMaterial();
 		pMtrl->SetEngineDefaultRes(true);
@@ -577,9 +581,9 @@ bool cResMgr::LoadUserGraphicsShaderAll()
 }
 
 
-//Ptr<cRes> cResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName)
+//Ptr<IRes> cResMgr::Load(eRES_TYPE _eResType, const std::filesystem::path& _fileName)
 //{
-//	Ptr<cRes> pRes;
+//	Ptr<IRes> pRes;
 //
 //	switch (_eResType)
 //	{

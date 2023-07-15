@@ -1,10 +1,10 @@
 #pragma once
-#include "cComponent.h"
+#include "IComponent.h"
 
-class cTransform;
-class cCamera;
-class cMeshRenderer;
-class cCollider;
+class cCom_Transform;
+class cCom_Camera;
+class cCom_Renderer_Basic;
+class ICollider;
 class CFSM_Mgr;
 class cFSM;
 
@@ -19,7 +19,7 @@ enum class eFSM_RESULT
 };
 
 class cScriptHolder 
-    : public cComponent
+    : public IComponent
 {
 public:
     cScriptHolder();
@@ -48,8 +48,8 @@ public:
 
 private:
     //cFSM을 포함한 모든 스크립트를 들고있음(업데이트 용)
-    vector<cScript*> m_vecScript;
-    //map<std::string, cScript*> m_mapScript;
+    vector<IScript*> m_vecScript;
+    //map<std::string, IScript*> m_mapScript;
 
     //Index = cFSM의 인덱스 번호
     vector<cFSM*> m_vecFSM;
@@ -62,10 +62,10 @@ private:
     void ChangeFSM(const tFSM_Event& _tEvent);
 
 public:
-    bool AddScript(cScript* _pScript);
-    cScript* FindScript(const string_view _strKey);
+    bool AddScript(IScript* _pScript);
+    IScript* FindScript(const string_view _strKey);
 
-    const vector<cScript*>& GetScripts() const { return m_vecScript; }
+    const vector<IScript*>& GetScripts() const { return m_vecScript; }
 
     //이건 직접 호출할 필요 없음.(AddScript 할 시 알아서 호출 됨)
     bool AddFSM(cFSM* _pFSM);
@@ -73,9 +73,9 @@ public:
     cFSM* GetFSM(UINT _uStateID) const { if (CheckFSMValid(_uStateID)) return m_vecFSM[_uStateID]; return nullptr; }
      
 public:
-    void BeginColiision(cCollider* _Other, const Vec3& _v3HitPoint);
-    void OnCollision(cCollider* _Other, const Vec3& _v3HitPoint);
-    void EndCollision(cCollider* _Other);
+    void BeginColiision(ICollider* _Other, const Vec3& _v3HitPoint);
+    void OnCollision(ICollider* _Other, const Vec3& _v3HitPoint);
+    void EndCollision(ICollider* _Other);
 };
 
 inline bool cScriptHolder::CheckFSMValid(UINT _uStateID) const

@@ -9,7 +9,7 @@
 #include "jsoncpp.h"
 
 cAnim2DAtlas::cAnim2DAtlas()
-	: cRes(eRES_TYPE::ANIM2D_ATLAS)
+	: IRes(eRES_TYPE::ANIM2D_ATLAS)
 	, m_uColTotal()
 	, m_uRowTotal()
 	, m_bRegularFrameSize()
@@ -85,7 +85,7 @@ bool cAnim2DAtlas::Save(const std::filesystem::path& _fileName)
 	std::filesystem::path AddExt = _fileName;
 	AddExt += RES_INFO::ANIM2D::Ext;
 
-	return cRes::Save(AddExt);
+	return IRes::Save(AddExt);
 }
 
 bool cAnim2DAtlas::Load(const std::filesystem::path& _fileName)
@@ -96,14 +96,14 @@ bool cAnim2DAtlas::Load(const std::filesystem::path& _fileName)
 	AddExt += RES_INFO::ANIM2D::Ext;
 
 	//확장자를 json으로 바꿔서 load 한뒤
-	return cRes::Load(AddExt);
+	return IRes::Load(AddExt);
 }
 
 bool cAnim2DAtlas::SaveJson(Json::Value* _jVal)
 {
 	if (nullptr == _jVal)
 		return false;
-	else if (false == cRes::SaveJson(_jVal))
+	else if (false == IRes::SaveJson(_jVal))
 		return false;
 
 	Json::Value& jVal = *_jVal;
@@ -171,7 +171,7 @@ bool cAnim2DAtlas::LoadJson(Json::Value* _jVal)
 {
 	if (nullptr == _jVal)
 		return false;
-	else if (false == cRes::LoadJson(_jVal))
+	else if (false == IRes::LoadJson(_jVal))
 		return false;
 
 	const Json::Value& jVal = *_jVal;

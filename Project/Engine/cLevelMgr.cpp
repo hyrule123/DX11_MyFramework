@@ -6,28 +6,28 @@
 
 #include "cGameObject.h"
 #include "components.h"
-#include "cMeshRenderer.h"
+#include "cCom_Renderer_Basic.h"
 
 //Scripts
 
 #include "cResMgr.h"
 
 
-//cCamera Register
+//cCom_Camera Register
 #include "cRenderMgr.h"
 
 //충돌 레이어 등록 및 체크용
 #include "cCollisionMgr.h"
 
 //타일맵
-#include "cTilemap.h"
+#include "ITilemapBase.h"
 
 //컴퓨트쉐이더 테스트
 #include "strKey_Default.h"
 
 #include "cTimeMgr.h"
 
-#include "cCollider2D_Point.h"
+#include "cCom_Coll2D_Point.h"
 
 
 cLevelMgr::cLevelMgr()

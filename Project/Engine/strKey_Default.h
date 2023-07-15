@@ -47,8 +47,8 @@ namespace strKey_RES_DEFAULT
 		STRKEY STD2D = "std2D";
 		STRKEY STD2D_LIGHT = "std2DLight";
 		
-		STRKEY TILEMAP_COMPLETE = "cTilemapComplete";
-		STRKEY TILEMAP_ATLAS = "cTilemapAtlas";
+		STRKEY TILEMAP_COMPLETE = "cCom_Renderer_TilemapComplete";
+		STRKEY TILEMAP_ATLAS = "cCom_Renderer_TilemapAtlas";
 
 		STRKEY PARTICLE_RENDERER_BASIC = "ParticleRender_Basic";
 	}
@@ -61,8 +61,8 @@ namespace strKey_RES_DEFAULT
 			STRKEY PARTICLE = "Particle";
 			STRKEY STD2D = "STD2D";
 			STRKEY STD2DLIGHT = "STD2DLight";
-			STRKEY TILEMAPATLAS = "cTilemapAtlas";
-			STRKEY TILEMAPCOMPLETE = "cTilemapComplete";
+			STRKEY TILEMAPATLAS = "cCom_Renderer_TilemapAtlas";
+			STRKEY TILEMAPCOMPLETE = "cCom_Renderer_TilemapComplete";
 		}
 
 		namespace COMPUTE
@@ -253,7 +253,7 @@ namespace RES_INFO
 			{
 				namespace JSON_KEY
 				{
-					//Position은 무조건 트랜스폼을 따라감. 이 값은 cTransform의 위치값에 추가로 Offset을 줌.
+					//Position은 무조건 트랜스폼을 따라감. 이 값은 cCom_Transform의 위치값에 추가로 Offset을 줌.
 					STRKEY_DECLARE(m_v3OffsetPos);
 
 					STRKEY_DECLARE(m_bFollowTransformSize);
@@ -398,7 +398,7 @@ namespace RES_INFO
 			{
 				//쉐이더 파일의 '이름'만 추출
 				//ex) S_1_V_Debug : Debug
-				//이름 : cEntity의 Name을 사용
+				//이름 : IEntity의 Name을 사용
 				//자동 생성된 쉐이더 파이프라인의 경우 비트마스크를 사용해서 로드하고
 				//직접 만든 쉐이더 파이프라인의 경우 파일명을 통해서 로드한다.
 				//STRKEY_DECLARE(ePIPELINE_STAGE_FLAG);

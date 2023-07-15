@@ -1,8 +1,8 @@
-#include "S_H_Register.hlsli"
+#include "S_H_Initialize.hlsli"
 
 RWStructuredBuffer<tInitSetting> g_SBufferRW_InitSetting : register(REGISLOT_u_INIT_SETTING);
 
-[numthreads(1, 1, 1)]
+[numthreads(INIT_THREADS_X, INIT_THREADS_Y, INIT_THREADS_Z)]
 void CS_HLSL_Init(uint3 DTID : SV_DispatchThreadID)
 {
 	if (all(uint3(0u, 0u, 0u) != DTID))

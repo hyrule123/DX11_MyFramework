@@ -1,5 +1,5 @@
 #pragma once
-#include "cRes.h"
+#include "IRes.h"
 
 #include "Ptr.h"
 #include "CGraphicsShader.h"
@@ -20,7 +20,7 @@ class cStructBuffer;
 class cConstBuffer;
 
 class cMaterial :
-    public cRes
+    public IRes
 {
 public:
     cMaterial();

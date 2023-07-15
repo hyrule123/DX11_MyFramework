@@ -1,11 +1,11 @@
 #pragma once
-#include "cEntity.h"
+#include "IEntity.h"
 
 #include "global.h"
 
 
 class cConstBuffer
-    : public cEntity
+    : public IEntity
 {
     
 public:

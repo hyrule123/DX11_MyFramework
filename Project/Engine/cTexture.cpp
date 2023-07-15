@@ -6,7 +6,7 @@
 #include "cPathMgr.h"
 
 cTexture::cTexture()
-	: cRes(eRES_TYPE::TEXTURE)
+	: IRes(eRES_TYPE::TEXTURE)
 	, m_Desc{}
 	, m_Image{}
 

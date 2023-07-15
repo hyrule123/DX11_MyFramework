@@ -7,8 +7,8 @@
 #include "cStructBuffer.h"
 #include "cConstBuffer.h"
 #include "cGameObject.h"
-#include "cParticleSystem.h"
-#include "cTransform.h"
+#include "cCom_Renderer_Particle.h"
+#include "cCom_Transform.h"
 
 #ifdef _DEBUG
 #include "DefaultShader/S_C_ParticleBasic_Debug.h"
@@ -36,13 +36,6 @@ cCSModule_ParticleBasic::cCSModule_ParticleBasic(cCSModule_ParticleBasic const& 
 {
 }
 
-
-bool cCSModule_ParticleBasic::Init()
-{
-	
-
-	return SUCCEEDED(CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic)));
-}
 
 
 void cCSModule_ParticleBasic::UnBind()

@@ -191,26 +191,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cAnim2DAtlas.h" />
-    <ClInclude Include="cAnimator2D.h" />
-    <ClInclude Include="cCamera.h" />
-    <ClInclude Include="cCollider.h" />
-    <ClInclude Include="cCollider2D.h" />
-    <ClInclude Include="cCollider2D_Circle.h" />
-    <ClInclude Include="cCollider2D_OBB.h" />
-    <ClInclude Include="cCollider2D_Rect.h" />
-    <ClInclude Include="cCollider3D.h" />
-    <ClInclude Include="cCollider3D_Ray.h" />
+    <ClInclude Include="cCom_Animator2D.h" />
+    <ClInclude Include="cCom_Camera.h" />
+    <ClInclude Include="cShaderData_Default.h" />
+    <ClInclude Include="DefaultClassInitializer.h" />
+    <ClInclude Include="ICollider.h" />
+    <ClInclude Include="ICollider2D.h" />
+    <ClInclude Include="cCom_Coll2D_Circle.h" />
+    <ClInclude Include="cCom_Coll2D_OBB.h" />
+    <ClInclude Include="cCom_Coll2D_Rect.h" />
+    <ClInclude Include="ICollider3D.h" />
+    <ClInclude Include="cCom_Coll3D_Ray.h" />
     <ClInclude Include="cCollisionMgr.h" />
-    <ClInclude Include="cComponent.h" />
+    <ClInclude Include="IComponent.h" />
     <ClInclude Include="cComputeShader.h" />
     <ClInclude Include="cConstBuffer.h" />
-    <ClInclude Include="cShaderModule.h" />
-    <ClInclude Include="cCSModule_Initialize.h" />
+    <ClInclude Include="cShaderDataModule.h" />
+    <ClInclude Include="cShaderData_Init.h" />
     <ClInclude Include="cCSModule_ParticleBasic.h" />
-    <ClInclude Include="cCSModule_SetColor.h" />
+    <ClInclude Include="cShaderData_SetColor.h" />
     <ClInclude Include="cDevice.h" />
     <ClInclude Include="cEngine.h" />
-    <ClInclude Include="cEntity.h" />
+    <ClInclude Include="IEntity.h" />
     <ClInclude Include="cEventMgr.h" />
     <ClInclude Include="cFSM.h" />
     <ClInclude Include="cGameObject.h" />
@@ -219,33 +221,33 @@
     <ClInclude Include="cLayer.h" />
     <ClInclude Include="cLevel.h" />
     <ClInclude Include="cLevelMgr.h" />
-    <ClInclude Include="cLight.h" />
-    <ClInclude Include="cLight2D.h" />
+    <ClInclude Include="ILight.h" />
+    <ClInclude Include="cCom_Light2D.h" />
     <ClInclude Include="cMaterial.h" />
     <ClInclude Include="cMesh.h" />
-    <ClInclude Include="cMeshRenderer.h" />
-    <ClInclude Include="cCollider2D_Point.h" />
+    <ClInclude Include="cCom_Renderer_Basic.h" />
+    <ClInclude Include="cCom_Coll2D_Point.h" />
     <ClInclude Include="components.h" />
-    <ClInclude Include="cParticleSystem.h" />
+    <ClInclude Include="cCom_Renderer_Particle.h" />
     <ClInclude Include="cPathMgr.h" />
     <ClInclude Include="cPrefab.h" />
     <ClInclude Include="RandGen.h" />
-    <ClInclude Include="cRenderComponent.h" />
+    <ClInclude Include="IRenderer.h" />
     <ClInclude Include="cRenderMgr.h" />
-    <ClInclude Include="cRes.h" />
+    <ClInclude Include="IRes.h" />
     <ClInclude Include="cResMgr.h" />
-    <ClInclude Include="cScript.h" />
+    <ClInclude Include="IScript.h" />
     <ClInclude Include="cScriptHolder.h" />
-    <ClInclude Include="cTilemapComplete.h" />
+    <ClInclude Include="cCom_Renderer_TilemapComplete.h" />
     <ClInclude Include="cUserClassMgr.h" />
-    <ClInclude Include="cShader.h" />
+    <ClInclude Include="IShader.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="cStructBuffer.h" />
     <ClInclude Include="cTexture.h" />
-    <ClInclude Include="cTilemap.h" />
-    <ClInclude Include="cTilemapAtlas.h" />
+    <ClInclude Include="ITilemapBase.h" />
+    <ClInclude Include="cCom_Renderer_TilemapAtlas.h" />
     <ClInclude Include="cTimeMgr.h" />
-    <ClInclude Include="cTransform.h" />
+    <ClInclude Include="cCom_Transform.h" />
     <ClInclude Include="DefaultShader.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="EventDispatcher.h" />
@@ -263,29 +265,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cAnim2DAtlas.cpp" />
-    <ClCompile Include="cAnimator2D.cpp" />
-    <ClCompile Include="cCamera.cpp" />
-    <ClCompile Include="cCollider.cpp" />
-    <ClCompile Include="cCollider2D.cpp" />
-    <ClCompile Include="cCollider2D_Circle.cpp" />
-    <ClCompile Include="cCollider2D_OBB.cpp" />
-    <ClCompile Include="cCollider2D_Rect.cpp" />
-    <ClCompile Include="cCollider3D.cpp" />
-    <ClCompile Include="cCollider3D_Ray.cpp" />
+    <ClCompile Include="cCom_Animator2D.cpp" />
+    <ClCompile Include="cCom_Camera.cpp" />
+    <ClCompile Include="cShaderData_Default.cpp" />
+    <ClCompile Include="DefaultClassInitializer.cpp" />
+    <ClCompile Include="ICollider.cpp" />
+    <ClCompile Include="ICollider2D.cpp" />
+    <ClCompile Include="cCom_Coll2D_Circle.cpp" />
+    <ClCompile Include="cCom_Coll2D_OBB.cpp" />
+    <ClCompile Include="cCom_Coll2D_Rect.cpp" />
+    <ClCompile Include="ICollider3D.cpp" />
+    <ClCompile Include="cCom_Coll3D_Ray.cpp" />
     <ClCompile Include="cCollisionMgr.cpp" />
-    <ClCompile Include="cComponent.cpp" />
+    <ClCompile Include="IComponent.cpp" />
     <ClCompile Include="cComputeShader.cpp" />
     <ClCompile Include="cConstBuffer.cpp" />
-    <ClCompile Include="cShaderModule.cpp" />
-    <ClCompile Include="cCSModule_Initialize.cpp" />
+    <ClCompile Include="cShaderDataModule.cpp" />
+    <ClCompile Include="cShaderData_Init.cpp" />
     <ClCompile Include="cCSModule_ParticleBasic.cpp" />
-    <ClCompile Include="cCSModule_SetColor.cpp" />
+    <ClCompile Include="cShaderData_SetColor.cpp" />
     <ClCompile Include="cDevice.cpp" />
     <ClCompile Include="cEngine.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="cEntity.cpp" />
+    <ClCompile Include="IEntity.cpp" />
     <ClCompile Include="cEventMgr.cpp" />
     <ClCompile Include="cFSM.cpp" />
     <ClCompile Include="cGameObject.cpp" />
@@ -294,31 +298,31 @@
     <ClCompile Include="cLayer.cpp" />
     <ClCompile Include="cLevel.cpp" />
     <ClCompile Include="cLevelMgr.cpp" />
-    <ClCompile Include="cLight.cpp" />
-    <ClCompile Include="cLight2D.cpp" />
+    <ClCompile Include="ILight.cpp" />
+    <ClCompile Include="cCom_Light2D.cpp" />
     <ClCompile Include="cMaterial.cpp" />
     <ClCompile Include="cMesh.cpp" />
-    <ClCompile Include="cMeshRenderer.cpp" />
-    <ClCompile Include="cCollider2D_Point.cpp" />
-    <ClCompile Include="cParticleSystem.cpp" />
+    <ClCompile Include="cCom_Renderer_Basic.cpp" />
+    <ClCompile Include="cCom_Coll2D_Point.cpp" />
+    <ClCompile Include="cCom_Renderer_Particle.cpp" />
     <ClCompile Include="cPathMgr.cpp" />
     <ClCompile Include="cPrefab.cpp" />
     <ClCompile Include="RandGen.cpp" />
-    <ClCompile Include="cRenderComponent.cpp" />
+    <ClCompile Include="IRenderer.cpp" />
     <ClCompile Include="cRenderMgr.cpp" />
-    <ClCompile Include="cRes.cpp" />
+    <ClCompile Include="IRes.cpp" />
     <ClCompile Include="cResMgr.cpp" />
-    <ClCompile Include="cScript.cpp" />
+    <ClCompile Include="IScript.cpp" />
     <ClCompile Include="cScriptHolder.cpp" />
-    <ClCompile Include="cTilemapComplete.cpp" />
+    <ClCompile Include="cCom_Renderer_TilemapComplete.cpp" />
     <ClCompile Include="cUserClassMgr.cpp" />
-    <ClCompile Include="cShader.cpp" />
+    <ClCompile Include="IShader.cpp" />
     <ClCompile Include="cStructBuffer.cpp" />
     <ClCompile Include="cTexture.cpp" />
-    <ClCompile Include="cTilemap.cpp" />
-    <ClCompile Include="cTilemapAtlas.cpp" />
+    <ClCompile Include="ITilemapBase.cpp" />
+    <ClCompile Include="cCom_Renderer_TilemapAtlas.cpp" />
     <ClCompile Include="cTimeMgr.cpp" />
-    <ClCompile Include="cTransform.cpp" />
+    <ClCompile Include="cCom_Transform.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="extern.cpp" />
     <ClCompile Include="func.cpp" />
@@ -339,7 +343,9 @@
       <FileType>Document</FileType>
     </ClInclude>
     <None Include="S_H_Debug.hlsli" />
-    <None Include="S_H_Particle.hlsli" />
+    <None Include="S_H_Initialize.hlsli" />
+    <None Include="S_H_ParticleBasic.hlsli" />
+    <None Include="S_H_SetColor.hlsli" />
     <None Include="S_H_STD2D.hlsli" />
     <None Include="S_H_STD2DLight.hlsli" />
     <None Include="S_H_TilemapAtlas.hlsli" />
@@ -382,7 +388,7 @@
       <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </VariableName>
     </FxCompile>
-    <FxCompile Include="S_0_V_Particle.hlsl">
+    <FxCompile Include="S_0_V_ParticleBasic.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -548,7 +554,7 @@
       <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </VariableName>
     </FxCompile>
-    <FxCompile Include="S_3_G_Particle.hlsl">
+    <FxCompile Include="S_3_G_ParticleBasic.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
@@ -748,7 +754,7 @@
       <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </VariableName>
     </FxCompile>
-    <FxCompile Include="S_4_P_Particle.hlsl">
+    <FxCompile Include="S_4_P_ParticleBasic.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>

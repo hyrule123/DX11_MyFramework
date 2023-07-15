@@ -1,25 +1,25 @@
 #pragma once
-#include "cEntity.h"
+#include "IEntity.h"
 
 #include "global.h"
 
-#include "cTransform.h"
+#include "cCom_Transform.h"
 
-class cComponent;
-class cTransform;
-class cCollider2D;
-class cMeshRenderer;
-class cCamera;
-class cRenderComponent;
+class IComponent;
+class cCom_Transform;
+class ICollider2D;
+class cCom_Renderer_Basic;
+class cCom_Camera;
+class IRenderer;
 class cScriptHolder;
-class cScript;
-class cLight2D;
-class cTilemap;
-class cAnimator2D;
-class cCollider3D;
+class IScript;
+class cCom_Light2D;
+class ITilemapBase;
+class cCom_Animator2D;
+class ICollider3D;
 
 class cGameObject :
-    public cEntity
+    public IEntity
 {
     
 public:
@@ -56,18 +56,16 @@ public:
 public:
 
 private:
-    cTransform              m_Transform;
-    //Components
-    cComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
-    cRenderComponent*       m_RenderCom;
+    IComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
+
 public:
     //Add
-    void AddComponent(cComponent* _Component);
+    void AddComponent(IComponent* _Component);
 
     //cEventMgr 전용 함수. 직접 호출 시 에러 발생할 수 있음.
     void RemoveComponent(eCOMPONENT_TYPE _eComType);
 
-    void AddScript(cScript* _Script);
+    void AddScript(IScript* _Script);
 
 private:
     //Hierarchy
@@ -111,8 +109,8 @@ public:
     const MATRIX& GetMtrlScalarParam_Matrix(eMTRLDATA_PARAM_SCALAR _Param) const;
     const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
 
-    //cCamera에서 호출.
-    //cTransform에서 등록한 World Matrix의 위치 부분 Z값에 _MinZ(Z 기준값 또는 최솟값) + (Y값 / 현재 해상도)로 덮어씌움
+    //cCom_Camera에서 호출.
+    //cCom_Transform에서 등록한 World Matrix의 위치 부분 Z값에 _MinZ(Z 기준값 또는 최솟값) + (Y값 / 현재 해상도)로 덮어씌움
     void YSort(float _MinZ);
 
 
@@ -146,24 +144,21 @@ private:
 
 public:
     ////Components
-    cComponent*         GetComponent(eCOMPONENT_TYPE _type) const { return (cComponent*)m_arrCom[(UINT)_type]; }
+    IComponent*         GetComponent(eCOMPONENT_TYPE _type) const { return (IComponent*)m_arrCom[(UINT)_type]; }
 
-    cTransform&         Transform() { return m_Transform; }
+    cCom_Transform*         Transform() { return (cCom_Transform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
 
-    cCollider2D*        Collider2D() const { return (cCollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER2D]; }
-    cCollider3D*        Collider3D() const { return (cCollider3D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER3D]; }
+    ICollider2D*        Collider2D() const { return (ICollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER2D]; }
+    ICollider3D*        Collider3D() const { return (ICollider3D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER3D]; }
 
-    cAnimator2D*        Animator2D() const { return (cAnimator2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::ANIMATOR2D]; }
+    cCom_Animator2D*        Animator2D() const { return (cCom_Animator2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::ANIMATOR2D]; }
 
-    cMeshRenderer*        MeshRenderer() const { return (cMeshRenderer*)m_arrCom[(UINT)eCOMPONENT_TYPE::MESH_RENDER]; }
-    cTilemap*           Tilemap() const { return (cTilemap*)m_arrCom[(UINT)eCOMPONENT_TYPE::TILEMAP]; }
+    cCom_Camera*            Camera() const { return (cCom_Camera*)m_arrCom[(UINT)eCOMPONENT_TYPE::CAMERA]; }
 
-    cCamera*            Camera() const { return (cCamera*)m_arrCom[(UINT)eCOMPONENT_TYPE::CAMERA]; }
-
-    cRenderComponent*   RenderComponent() const { return m_RenderCom; }
+    IRenderer* RenderComponent() const { return (IRenderer*)m_arrCom[(UINT)eCOMPONENT_TYPE::RENDERER]; }
 
     cScriptHolder*      ScriptHolder() const { return (cScriptHolder*)m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER]; }
-    cLight2D* Light2D() const { return (cLight2D*)(m_arrCom[(UINT)eCOMPONENT_TYPE::LIGHT2D]); }
+    cCom_Light2D* Light2D() const { return (cCom_Light2D*)(m_arrCom[(UINT)eCOMPONENT_TYPE::LIGHT2D]); }
 };
 
 inline void cGameObject::DestroyRecursive()
@@ -311,8 +306,8 @@ inline void cGameObject::YSort(float _MaxZ)
     if (IsMaster())
         m_MtrlScalarData.MAT_1.m[3][z] = _MaxZ + (m_MtrlScalarData.MAT_1.m[3][y] / g_GlobalVal.v2Res.y);
     else
-        m_MtrlScalarData.MAT_1.m[3][z] = GetParent()->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD).m[3][z] + Transform().GetRelativePos().z;
+        m_MtrlScalarData.MAT_1.m[3][z] = GetParent()->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD).m[3][z] + Transform()->GetRelativePos().z;
         
-}
+}   
 
 

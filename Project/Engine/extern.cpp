@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "global.h"
 
+#include "cShaderData_Init.h"
+
 //=============================
 //전역변수 선언 및 초기화 하는곳
 //=============================
@@ -9,12 +11,7 @@ tInitSetting g_InitSetting = {};
 tGlobalValue g_GlobalVal = {};
 tCamMatrices g_matCam[(int)eCAMERA_INDEX::END] = {};
 tSBufferInfo g_SBufferShareData = {};
-Matrix g_matViewProj;
-
-const eCOMPONENT_TYPE g_RenderComIdxStart = eCOMPONENT_TYPE::MESH_RENDER;
-const eCOMPONENT_TYPE g_RenderComIdxEnd = eCOMPONENT_TYPE::SCRIPT_HOLDER;
-
-
+Matrix g_matViewProj{};
 
 const string g_voidStr = "";
 

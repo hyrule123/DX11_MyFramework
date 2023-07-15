@@ -1,5 +1,5 @@
 #pragma once
-#include "cEntity.h"
+#include "IEntity.h"
 #include "global.h"
 
 #include "cLayer.h"
@@ -8,7 +8,7 @@ class cLayer;
 class cGameObject;
 
 class cLevel :
-    public cEntity
+    public IEntity
 {
 public:
     cLevel();

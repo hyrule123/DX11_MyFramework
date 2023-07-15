@@ -9,7 +9,7 @@
 #include "cLayer.h"
 
 //트랜스폼 상속
-#include "cTransform.h"
+#include "cCom_Transform.h"
 
 
 
@@ -27,17 +27,16 @@
 #include "cResMgr.h"
 
 
-#include "cTilemapAtlas.h"
-#include "cTilemapComplete.h"
+#include "cRenderer_Tilemap.h"
+#include "cCom_Renderer_TilemapComplete.h"
 
 namespace JsonKey_cGameObject
 {
-	STRKEY_DECLARE(m_Transform);
 
-	//cComponent* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
+	//IComponent* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
 	STRKEY_DECLARE(m_arrCom);
 
-	//cRenderComponent* m_RenderCom;
+	//IRenderer* m_RenderCom;
 
 	//Hierarchy
 	//cGameObject* m_Parent;
@@ -69,9 +68,7 @@ namespace JsonKey_cGameObject
 }
 
 cGameObject::cGameObject()
-	: m_Transform()
-	, m_arrCom{}
-	, m_RenderCom()
+	: m_arrCom{}
 	, m_Parent()
 	, m_iLayerIdx(-1)
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
@@ -80,12 +77,10 @@ cGameObject::cGameObject()
 	, m_bDisable(false)
 	, m_bPrevEnable()
 {
-	m_Transform.SetOwner(this);
 }
 
 cGameObject::cGameObject(const cGameObject& _other)
-	: cEntity(_other)
-	, m_Transform(_other.m_Transform)
+	: IEntity(_other)
 	, m_arrCom{}
 	, m_iLayerIdx(_other.m_iLayerIdx)
 	, m_bDestroy()
@@ -93,7 +88,6 @@ cGameObject::cGameObject(const cGameObject& _other)
 	, m_bDisable(_other.m_bDisable)
 	, m_bPrevEnable(_other.m_bPrevEnable)
 {
-	m_Transform.SetOwner(this);
 
 	//1. 컴포넌트 목록 복사
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
@@ -266,7 +260,6 @@ void cGameObject::finaltick()
 		}
 	}
 		
-	m_Transform.finaltick();
 
 	//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER; ++i)
@@ -283,13 +276,13 @@ void cGameObject::finaltick()
 
 
 	//자녀 포함 모든 컴포넌트가 업데이트 되면 트랜스폼의 업데이트 상황 초기화
-	m_Transform.ClearUpdateState();
+	Transform()->ClearUpdateState();
 }
 
 bool cGameObject::render()
 {
 	//삭제 대기 상태일 경우 렌더링을 하지 않음.
-	if (nullptr == m_RenderCom || true == m_bDestroy)
+	if (nullptr == RenderComponent() || true == m_bDestroy)
 		return true;
 
 	cScriptHolder* pHolder = ScriptHolder();
@@ -298,7 +291,7 @@ bool cGameObject::render()
 		pHolder->BindData();
 	}
 
-	bool rendered = m_RenderCom->render();
+	bool rendered = RenderComponent()->render();
 
 	if (pHolder)
 	{
@@ -339,7 +332,7 @@ bool cGameObject::SaveJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
 		return false;
-	else if (false == cEntity::SaveJson(_pJson))
+	else if (false == IEntity::SaveJson(_pJson))
 		return false;
 
 	if (GetKey().empty())
@@ -349,9 +342,6 @@ bool cGameObject::SaveJson(Json::Value* _pJson)
 	}
 
 	Json::Value& jVal = *_pJson;
-
-	jVal[JsonKey_cGameObject::m_Transform] = Json::Value(Json::ValueType::objectValue);
-	m_Transform.SaveJson(&jVal[JsonKey_cGameObject::m_Transform]);
 
 	string strKeyarrCom = JsonKey_cGameObject::m_arrCom;
 	jVal[strKeyarrCom] = Json::Value(Json::ValueType::arrayValue);
@@ -438,18 +428,11 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
 		return false;
-	else if (false == cEntity::LoadJson(_pJson))
+	else if (false == IEntity::LoadJson(_pJson))
 		return false;
 
 	Json::Value& jVal = *_pJson;
 
-
-	//트랜스폼 정보는 없어도 로딩이 되도록
-	{
-		constexpr const char* strKey = JsonKey_cGameObject::m_Transform;
-		if (jVal.isMember(strKey))
-			m_Transform.LoadJson(&jVal[strKey]);
-	}
 
 
 	string strKeyarrCom = string(JsonKey_cGameObject::m_arrCom);
@@ -464,7 +447,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 
 			Json::Value& jsonComponent = arrCom[i];
 
-			cComponent* pCom = nullptr;
+			IComponent* pCom = nullptr;
 			switch ((eCOMPONENT_TYPE)i)
 			{
 				
@@ -475,16 +458,16 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 				switch (ColType)
 				{
 				case eCOLLIDER_TYPE_2D::RECT:
-					pCom = new cCollider2D_Rect;
+					pCom = new cCom_Coll2D_Rect;
 					break;
 				case eCOLLIDER_TYPE_2D::CIRCLE:
-					pCom = new cCollider2D_Circle;
+					pCom = new cCom_Coll2D_Circle;
 					break;
 				case eCOLLIDER_TYPE_2D::OBB:
-					pCom = new cCollider2D_OBB;
+					pCom = new cCom_Coll2D_OBB;
 					break;
 				case eCOLLIDER_TYPE_2D::POINT:
-					pCom = new cCollider2D_Point;
+					pCom = new cCom_Coll2D_Point;
 					break;
 				default:
 					break;
@@ -496,7 +479,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 			case eCOMPONENT_TYPE::COLLIDER3D:
 				break;
 			case eCOMPONENT_TYPE::ANIMATOR2D:
-				pCom = new cAnimator2D;
+				pCom = new cCom_Animator2D;
 				break;
 			case eCOMPONENT_TYPE::ANIMATOR3D:
 				break;
@@ -507,7 +490,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 			case eCOMPONENT_TYPE::CAMERA:
 				break;
 			case eCOMPONENT_TYPE::MESH_RENDER:
-				pCom = new cMeshRenderer;
+				pCom = new cCom_Renderer_Basic;
 				break;
 			case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
 				break;
@@ -521,13 +504,13 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 					switch (type)
 					{
 					case eTILEMAP_TYPE::ATLAS:
-						pCom = new cTilemapAtlas;
+						pCom = new cRenderer_Tilemap;
 						break;
 					case eTILEMAP_TYPE::COMPLETE:
-						pCom = new cTilemapComplete;
+						pCom = new cCom_Renderer_TilemapComplete;
 						break;
 					default:
-						ERROR_MESSAGE("cTilemap Load Error");
+						ERROR_MESSAGE("ITilemapBase Load Error");
 						break;
 					}
 				}
@@ -554,7 +537,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 			{
 				//LoadJson -> Prefab 만드는 데 사용
 				//init이 먼저 호출되지 않음
-				//->cComponent를 먼저 추가해도 문제 없음
+				//->IComponent를 먼저 추가해도 문제 없음
 				AddComponent(pCom);
 
 				if (false == pCom->LoadJson(&jsonComponent))
@@ -610,42 +593,14 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 }
 
 
-
-
-void cGameObject::AddComponent(cComponent* _Component)
+void cGameObject::AddComponent(IComponent* _Component)
 {
 	UINT ComType = (UINT)_Component->GetType();
 
 	//동일 컴포넌트 중복 등록시 에러 발생
 	assert(nullptr == m_arrCom[ComType]);
 
-	switch ((eCOMPONENT_TYPE)ComType)
-	{
-	case eCOMPONENT_TYPE::COLLIDER2D:
-	case eCOMPONENT_TYPE::COLLIDER3D:
-	case eCOMPONENT_TYPE::ANIMATOR2D:
-	case eCOMPONENT_TYPE::ANIMATOR3D:
-	case eCOMPONENT_TYPE::LIGHT2D:
-	case eCOMPONENT_TYPE::LIGHT3D:
-	case eCOMPONENT_TYPE::CAMERA:
-		break;
-
-	//Render Components
-	case eCOMPONENT_TYPE::MESH_RENDER:
-	case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
-	case eCOMPONENT_TYPE::TILEMAP:
-	case eCOMPONENT_TYPE::LANDSCAPE:
-	case eCOMPONENT_TYPE::DECAL:
-		//m_RenderCom에 하나 이상의 Render 컴포넌트가 들어가 있을 경우 에러 발생시킴.
-		assert(nullptr == m_RenderCom);
-		m_RenderCom = static_cast<cRenderComponent*>(_Component);
-		break;
-
-	case eCOMPONENT_TYPE::SCRIPT_HOLDER:
-		break;
-	default:
-		break;
-	}
+	assert(eCOMPONENT_TYPE::SCRIPT_HOLDER == (eCOMPONENT_TYPE)ComType);
 
 	//소유자 주소를 등록.
 	_Component->SetOwner(this);
@@ -664,7 +619,7 @@ void cGameObject::RemoveComponent(eCOMPONENT_TYPE _eComType)
 	SAFE_DELETE(m_arrCom[(UINT)_eComType]);
 }
 
-void cGameObject::AddScript(cScript* _Script)
+void cGameObject::AddScript(IScript* _Script)
 {
 	if (nullptr == _Script)
 		return;

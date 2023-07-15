@@ -163,9 +163,6 @@ struct tString_Operator
 };
 
 
-
-
-
 //Json 파일에 부동소수점 변수를 int형태로 변환해서 저장하기 위한 union 구조체들
 union Pack_float_int
 {
@@ -187,3 +184,4 @@ union Pack_v2_i64
 	Pack_v2_i64(INT64 _i64) : i64(_i64)
 	{}
 };
+

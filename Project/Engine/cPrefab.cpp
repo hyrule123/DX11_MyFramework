@@ -14,7 +14,7 @@ namespace JsonKey_cPrefab
 }
 
 CPrefab::CPrefab()
-	: cRes(eRES_TYPE::PREFAB)
+	: IRes(eRES_TYPE::PREFAB)
 	, m_pPrefab()
 	, m_bSaveMode()
 {
@@ -98,7 +98,7 @@ bool CPrefab::SaveJson(Json::Value* _pJVal)
 {
 	if (nullptr == _pJVal || nullptr == m_pPrefab)
 		return false;
-	else if (false == cRes::SaveJson(_pJVal))
+	else if (false == IRes::SaveJson(_pJVal))
 		return false;
 
 	if (m_pPrefab->GetKey().empty())
@@ -123,7 +123,7 @@ bool CPrefab::LoadJson(Json::Value* _pJVal)
 {
 	if (nullptr == _pJVal)
 		return false;
-	else if (false == cRes::LoadJson(_pJVal))
+	else if (false == IRes::LoadJson(_pJVal))
 		return false;
 
 	Json::Value& jVal = *_pJVal;
