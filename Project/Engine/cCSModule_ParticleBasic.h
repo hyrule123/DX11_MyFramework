@@ -1,16 +1,17 @@
 #pragma once
 #include "cShaderDataModule.h"
-
 #include "Ptr.h"
 
+#include "S_H_ParticleBasic.hlsli"
+
 class cStructBuffer;
-class cConstBuffer;
-class cCom_Renderer_Particle;
 class cTexture;
 
 class cCSModule_ParticleBasic :
     public cShaderDataModule
 {
+    friend class cCom_Renderer_ParticleBasic;
+
 public:
     cCSModule_ParticleBasic();
     virtual ~cCSModule_ParticleBasic();
@@ -19,20 +20,17 @@ public:
     CLONE(cCSModule_ParticleBasic);
 
 public:
-    virtual tNumData BindDataCS() override;
+    virtual tNumDataCS BindDataCS() override;
     virtual bool BindDataGS() override;
     virtual void UnBind() override;
 
 private:
-    //아래 버퍼들을 소유한 컴포넌트의 주소도 받아놓는다.
-    cCom_Renderer_Particle* m_pBufferOwner;
-    cStructBuffer* m_pSBuffer_Transform;
-    cStructBuffer* m_pSBufferRW_Shared;
-    cConstBuffer* m_pCBuffer_ModuleData;
-
+    std::unique_ptr<cStructBuffer> m_SBufferRW_Shared;
+    std::unique_ptr<cStructBuffer> m_SBuffer_ParticleSpawnSetting;
+    std::unique_ptr<cStructBuffer> m_SBufferRW_Transform;
     Ptr<cTexture> m_Tex_Noise;
 
 public:
-    void SetNoiseTexture(Ptr<cTexture> _pTex) { m_Tex_Noise = _pTex; }
+    void SetNoiseTex(Ptr<cTexture> _pTex) { m_Tex_Noise = _pTex; }
 };
 

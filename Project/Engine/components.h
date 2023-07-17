@@ -15,7 +15,7 @@
 //#include "CAnimator3D.h"
 
 #include "cCom_Renderer_Basic.h"
-//#include "cCom_Renderer_Particle.h"
+//#include "cCom_Renderer_ParticleBasic.h"
 #include "ITilemapBase.h"
 //#include "CDecal.h"
 //#include "CLandscape.h"

@@ -228,7 +228,7 @@
     <ClInclude Include="cCom_Renderer_Basic.h" />
     <ClInclude Include="cCom_Coll2D_Point.h" />
     <ClInclude Include="components.h" />
-    <ClInclude Include="cCom_Renderer_Particle.h" />
+    <ClInclude Include="cCom_Renderer_ParticleBasic.h" />
     <ClInclude Include="cPathMgr.h" />
     <ClInclude Include="cPrefab.h" />
     <ClInclude Include="RandGen.h" />
@@ -304,7 +304,7 @@
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cCom_Renderer_Basic.cpp" />
     <ClCompile Include="cCom_Coll2D_Point.cpp" />
-    <ClCompile Include="cCom_Renderer_Particle.cpp" />
+    <ClCompile Include="cCom_Renderer_ParticleBasic.cpp" />
     <ClCompile Include="cPathMgr.cpp" />
     <ClCompile Include="cPrefab.cpp" />
     <ClCompile Include="RandGen.cpp" />

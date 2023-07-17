@@ -60,9 +60,9 @@ bool cCom_Coll2D_Rect::LoadJson(Json::Value* _pJVal)
 
 
 
-void cCom_Coll2D_Rect::UpdatecCollider()
+void cCom_Coll2D_Rect::UpdateCollider()
 {
-	ICollider2D::UpdatecCollider();
+	ICollider2D::UpdateCollider();
 }
 
 void cCom_Coll2D_Rect::UpdateSimplecCollider(Vec4& _vSimpleCollLBRTPos)

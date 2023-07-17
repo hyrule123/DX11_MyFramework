@@ -12,17 +12,9 @@
 #else
 #include "DefaultShader\S_C_SetColor_Release.h"
 #endif
-
+#include "S_H_SetColor.hlsli"
 
 cShaderData_SetColor::cShaderData_SetColor()
-{
-}
-
-cShaderData_SetColor::~cShaderData_SetColor()
-{
-}
-
-bool cShaderData_SetColor::Init()
 {
 	tSBufferDesc Desc = {};
 	Desc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__ALL;
@@ -41,19 +33,21 @@ bool cShaderData_SetColor::Init()
 
 	//UAV 바인딩
 	m_StructBufferTest->Create((UINT)sizeof(Vec4), 1280u, m_vecSBuffer, 1280u);
-
-	//데이터 다시 받기(테스트)
-	m_StructBufferTest->GetData(m_vecSBuffer, (UINT)sizeof(m_vecSBuffer));
-
-	//SRV에 바인딩5
-	m_StructBufferTest->BindBufferSRV();
-
-	return true;
 }
 
-tNumData cShaderData_SetColor::BindDataCS()
+cShaderData_SetColor::~cShaderData_SetColor()
 {
-	return tNumData();
+}
+
+tNumDataCS cShaderData_SetColor::BindDataCS()
+{
+	m_OutTex->BindData_UAV(REGISLOT_u_TEXTURERW_SETCOLOR);
+
+	m_StructBufferTest->UploadData((void*)m_vecSBuffer, 1280u);
+	m_StructBufferTest->BindBufferUAV();
+	
+	// 그룹 개수 계산
+	return tNumDataCS((UINT)m_OutTex->GetWidth(), (UINT)m_OutTex->GetHeight(), 1u);
 }
 
 bool cShaderData_SetColor::BindDataGS()
@@ -61,20 +55,15 @@ bool cShaderData_SetColor::BindDataGS()
 	return false;
 }
 
-tNumData cShaderData_SetColor::BindData()
-{
-	m_OutTex->BindData_UAV(REGISLOT_u_TEXTURERW_SETCOLOR);
-
-	m_StructBufferTest->UploadData((void*)m_vecSBuffer, 1280u);
-	m_StructBufferTest->BindBufferUAV();
-
-	// 그룹 개수 계산
-	GetOwner()->CalcGroupNumber((UINT)m_OutTex->GetWidth(), (UINT)m_OutTex->GetHeight(), 1u);
-
-	return true;
-}
 
 void cShaderData_SetColor::UnBind()
 {
 	m_OutTex->UnBind();
+	m_StructBufferTest->UnBind();
+
+	//데이터 다시 받기(테스트)
+	m_StructBufferTest->GetData(m_vecSBuffer, (UINT)sizeof(m_vecSBuffer));
+
+	//SRV에 바인딩5
+	m_StructBufferTest->BindBufferSRV();
 }

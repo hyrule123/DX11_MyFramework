@@ -8,7 +8,7 @@
 //현재 관리하는 클래스 목록
 //1. IScript
 //2. cComputeShader
-//3. cCom_Renderer_Particle
+//3. cCom_Renderer_ParticleBasic
 
 #define GET_NEW_SCRIPT(_Type) static_cast<_Type*>(cUserClassMgr::GetNewScript(strKey_Script::_Type))
 

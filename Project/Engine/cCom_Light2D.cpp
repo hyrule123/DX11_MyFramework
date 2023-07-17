@@ -23,13 +23,13 @@ cCom_Light2D::~cCom_Light2D()
 
 void cCom_Light2D::finaltick()
 {
-	m_LightInfo.vLightWorldPos = Transform().GetWorldPos();
+	m_LightInfo.vLightWorldPos = Transform()->GetWorldPos();
 
 	//만약 스포트라이트 또는 직사광선일 경우 트랜스폼의 방향을 따라가도록 설정
 	if((int)eLIGHT_TYPE::DIRECTIONAL == m_LightInfo.LightType
 		||
 		(int)eLIGHT_TYPE::SPOTLIGHT == m_LightInfo.LightType)
-		m_LightInfo.vLightDir = Transform().GetRelativeDir(eDIR_TYPE::RIGHT);
+		m_LightInfo.vLightDir = Transform()->GetRelativeDir(eDIR_TYPE::RIGHT);
 
 	cRenderMgr::GetInst()->AddcLight2DData(m_LightInfo);
 }

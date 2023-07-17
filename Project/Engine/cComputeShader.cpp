@@ -177,7 +177,7 @@ HRESULT cComputeShader::CreateShaderPrivate(const void* _pByteCode, size_t _Byte
 }
 
 
-void cComputeShader::CalcGroupNumber(const tNumData& _NumData)
+void cComputeShader::CalcGroupNumber(const tNumDataCS& _NumData)
 {
 	//셋 중 하나라도 0일경우 Assert
 	assert(_NumData.X && _NumData.Y && _NumData.Z);
@@ -204,7 +204,7 @@ bool cComputeShader::Execute()
 	CONTEXT->CSSetShader(m_CS.Get(), nullptr, 0);
 	CONTEXT->Dispatch(m_ComputeShaderInfo.uNumGroupX, m_ComputeShaderInfo.uNumGroupY, m_ComputeShaderInfo.uNumGroupZ);
 
-	//계산 후에는 unbind 해준다.
+	//계산 후에는 unbind 및 포인터 초기화
 	m_pShaderDataModule->UnBind();
 	m_pShaderDataModule = nullptr;
 

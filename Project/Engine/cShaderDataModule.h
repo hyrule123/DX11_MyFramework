@@ -1,5 +1,4 @@
 #pragma once
-#include "IEntity.h"
 #include "cComputeShader.h"
 
 #include <UtilLib_DLL/json/forwards.h>
@@ -14,14 +13,12 @@ public:
     cShaderDataModule();
     virtual ~cShaderDataModule();
 
-    cShaderDataModule(const cShaderDataModule& _other) = delete;
+    cShaderDataModule(const cShaderDataModule& _other) = default;
     CLONE_DISABLE(cShaderDataModule);
-
-    virtual bool Init() { return true; };
 
     //두 함수를 각자 사용 용도에 맞게 재정의
     //컴퓨트 쉐이더 사용시에는 데이터의 갯수를 같이 반환한다.
-    virtual tNumData BindDataCS() = 0;
+    virtual tNumDataCS BindDataCS() = 0;
     virtual bool BindDataGS() = 0;
     virtual void UnBind() = 0;
 };

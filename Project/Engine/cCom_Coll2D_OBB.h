@@ -19,7 +19,7 @@ public:
     const tOBB2D& GetOBBInfo() const { return m_tOBBInfo; }
 
 public:
-    virtual void UpdatecCollider() override;
+    virtual void UpdateCollider() override;
     virtual void UpdateSimplecCollider(Vec4& _vSimpleCollLBRTPos) override;
     virtual void DebugRender() override;
 };

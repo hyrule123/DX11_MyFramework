@@ -26,8 +26,6 @@
 //세이브, 로드에 사용
 #include "cResMgr.h"
 
-
-#include "cRenderer_Tilemap.h"
 #include "cCom_Renderer_TilemapComplete.h"
 
 namespace JsonKey_cGameObject
@@ -282,7 +280,7 @@ void cGameObject::finaltick()
 bool cGameObject::render()
 {
 	//삭제 대기 상태일 경우 렌더링을 하지 않음.
-	if (nullptr == RenderComponent() || true == m_bDestroy)
+	if (nullptr == Renderer() || true == m_bDestroy)
 		return true;
 
 	cScriptHolder* pHolder = ScriptHolder();
@@ -291,7 +289,7 @@ bool cGameObject::render()
 		pHolder->BindData();
 	}
 
-	bool rendered = RenderComponent()->render();
+	bool rendered = Renderer()->render();
 
 	if (pHolder)
 	{
@@ -438,114 +436,118 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 	string strKeyarrCom = string(JsonKey_cGameObject::m_arrCom);
 	if (jVal.isMember(strKeyarrCom))
 	{
+		//TODO: 여기 cUserClassMgr과 연동할 것
+
 		Json::Value& arrCom = jVal[strKeyarrCom];
-		int arrComSize = (int)arrCom.size();
-		for (int i = 0; i < arrComSize; ++i)
-		{
-			if (arrCom[i].empty())
-				continue;
+		//int arrComSize = (int)arrCom.size();
+		//for (int i = 0; i < arrComSize; ++i)
+		//{
+		//	if (arrCom[i].empty())
+		//		continue;
 
-			Json::Value& jsonComponent = arrCom[i];
+		//	Json::Value& jsonComponent = arrCom[i];
 
-			IComponent* pCom = nullptr;
-			switch ((eCOMPONENT_TYPE)i)
-			{
-				
-			case eCOMPONENT_TYPE::COLLIDER2D:
-			{
-				eCOLLIDER_TYPE_2D ColType = (eCOLLIDER_TYPE_2D)jsonComponent[string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::JSON_KEY::m_eColType)].asInt();
+		//	IComponent* pCom = nullptr;
+		//	switch ((eCOMPONENT_TYPE)i)
+		//	{
+		//		
+		//	case eCOMPONENT_TYPE::COLLIDER2D:
+		//	{
+		//		eCOLLIDER_TYPE_2D ColType = (eCOLLIDER_TYPE_2D)jsonComponent[string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::JSON_KEY::m_eColType)].asInt();
 
-				switch (ColType)
-				{
-				case eCOLLIDER_TYPE_2D::RECT:
-					pCom = new cCom_Coll2D_Rect;
-					break;
-				case eCOLLIDER_TYPE_2D::CIRCLE:
-					pCom = new cCom_Coll2D_Circle;
-					break;
-				case eCOLLIDER_TYPE_2D::OBB:
-					pCom = new cCom_Coll2D_OBB;
-					break;
-				case eCOLLIDER_TYPE_2D::POINT:
-					pCom = new cCom_Coll2D_Point;
-					break;
-				default:
-					break;
-				}
+		//		switch (ColType)
+		//		{
+		//		case eCOLLIDER_TYPE_2D::RECT:
+		//			pCom = new cCom_Coll2D_Rect;
+		//			break;
+		//		case eCOLLIDER_TYPE_2D::CIRCLE:
+		//			pCom = new cCom_Coll2D_Circle;
+		//			break;
+		//		case eCOLLIDER_TYPE_2D::OBB:
+		//			pCom = new cCom_Coll2D_OBB;
+		//			break;
+		//		case eCOLLIDER_TYPE_2D::POINT:
+		//			pCom = new cCom_Coll2D_Point;
+		//			break;
+		//		default:
+		//			break;
+		//		}
 
-				break;
-			}
-				
-			case eCOMPONENT_TYPE::COLLIDER3D:
-				break;
-			case eCOMPONENT_TYPE::ANIMATOR2D:
-				pCom = new cCom_Animator2D;
-				break;
-			case eCOMPONENT_TYPE::ANIMATOR3D:
-				break;
-			case eCOMPONENT_TYPE::LIGHT2D:
-				break;
-			case eCOMPONENT_TYPE::LIGHT3D:
-				break;
-			case eCOMPONENT_TYPE::CAMERA:
-				break;
-			case eCOMPONENT_TYPE::MESH_RENDER:
-				pCom = new cCom_Renderer_Basic;
-				break;
-			case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
-				break;
-			case eCOMPONENT_TYPE::TILEMAP:
-			{
-				const char* strKey = RES_INFO::PREFAB::COMPONENT::RENDER_COMP::TILEMAP::m_TilemapType;
-				if (jsonComponent.isMember(strKey))
-				{
-					eTILEMAP_TYPE type = (eTILEMAP_TYPE)jsonComponent[strKey].asInt();
+		//		break;
+		//	}
+		//		
+		//	case eCOMPONENT_TYPE::COLLIDER3D:
+		//		break;
+		//	case eCOMPONENT_TYPE::ANIMATOR2D:
+		//		pCom = new cCom_Animator2D;
+		//		break;
+		//	case eCOMPONENT_TYPE::ANIMATOR3D:
+		//		break;
+		//	case eCOMPONENT_TYPE::LIGHT2D:
+		//		break;
+		//	case eCOMPONENT_TYPE::LIGHT3D:
+		//		break;
+		//	case eCOMPONENT_TYPE::CAMERA:
+		//		break;
 
-					switch (type)
-					{
-					case eTILEMAP_TYPE::ATLAS:
-						pCom = new cRenderer_Tilemap;
-						break;
-					case eTILEMAP_TYPE::COMPLETE:
-						pCom = new cCom_Renderer_TilemapComplete;
-						break;
-					default:
-						ERROR_MESSAGE("ITilemapBase Load Error");
-						break;
-					}
-				}
+		//	case eCOMPONENT_TYPE::RENDERER:
+		//	case eCOMPONENT_TYPE::MESH_RENDER:
+		//		pCom = new cCom_Renderer_Basic;
+		//		break;
+		//	case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
+		//		break;
+		//	case eCOMPONENT_TYPE::TILEMAP:
+		//	{
+		//		const char* strKey = RES_INFO::PREFAB::COMPONENT::RENDER_COMP::TILEMAP::m_TilemapType;
+		//		if (jsonComponent.isMember(strKey))
+		//		{
+		//			eTILEMAP_TYPE type = (eTILEMAP_TYPE)jsonComponent[strKey].asInt();
 
-			}
+		//			switch (type)
+		//			{
+		//			case eTILEMAP_TYPE::ATLAS:
+		//				pCom = new cRenderer_Tilemap;
+		//				break;
+		//			case eTILEMAP_TYPE::COMPLETE:
+		//				pCom = new cCom_Renderer_TilemapComplete;
+		//				break;
+		//			default:
+		//				ERROR_MESSAGE("ITilemapBase Load Error");
+		//				break;
+		//			}
+		//		}
+
+		//	}
 
 
 
-				break;
-			case eCOMPONENT_TYPE::LANDSCAPE:
-				break;
-			case eCOMPONENT_TYPE::DECAL:
-				break;
-			case eCOMPONENT_TYPE::SCRIPT_HOLDER:
-				pCom = new cScriptHolder;
-				break;
-			case eCOMPONENT_TYPE::END:
-				break;
-			default:
-				break;
-			}
+		//		break;
+		//	case eCOMPONENT_TYPE::LANDSCAPE:
+		//		break;
+		//	case eCOMPONENT_TYPE::DECAL:
+		//		break;
+		//	case eCOMPONENT_TYPE::SCRIPT_HOLDER:
+		//		pCom = new cScriptHolder;
+		//		break;
+		//	case eCOMPONENT_TYPE::END:
+		//		break;
+		//	default:
+		//		break;
+		//	}
 
-			if (pCom)
-			{
-				//LoadJson -> Prefab 만드는 데 사용
-				//init이 먼저 호출되지 않음
-				//->IComponent를 먼저 추가해도 문제 없음
-				AddComponent(pCom);
+		//	if (pCom)
+		//	{
+		//		//LoadJson -> Prefab 만드는 데 사용
+		//		//init이 먼저 호출되지 않음
+		//		//->IComponent를 먼저 추가해도 문제 없음
+		//		AddComponent(pCom);
 
-				if (false == pCom->LoadJson(&jsonComponent))
-				{
-					return false;
-				}
-			}
-		}
+		//		if (false == pCom->LoadJson(&jsonComponent))
+		//		{
+		//			return false;
+		//		}
+		//	}
+		//}
 	}
 	else return false;
 
@@ -665,7 +667,7 @@ void cGameObject::RemoveChild(cGameObject* _Object)
 
 void cGameObject::SetParentMatrixUpdated()
 {
-	Transform().SetParentUpdate();
+	Transform()->SetParentUpdate();
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
@@ -681,14 +683,14 @@ bool cGameObject::GetParentWorldMatrix(Matrix& _mat)
 		return false;
 
 	//있을 경우 인자에 그대로 대입, true 반환.
-	_mat = m_Parent->Transform().GetWorldMatWithoutSize();
+	_mat = m_Parent->Transform()->GetWorldMatWithoutSize();
 	return true;
 }
 
 
 void cGameObject::SetChildTransformToUpdate()
 {
-	Transform().SetParentUpdate();
+	Transform()->SetParentUpdate();
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)

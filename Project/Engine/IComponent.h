@@ -57,13 +57,11 @@ public:
     bool isDisabled() const { return m_bIsDisabled; }
 
 public:
-    cCom_Transform&         Transform()         { return m_pOwner->Transform(); }
-    cCom_Renderer_Basic*    MeshRenderer()        { return m_pOwner->MeshRenderer(); }
+    cCom_Transform*         Transform()         { return m_pOwner->Transform(); }
+    IRenderer*              Renderer()          { return m_pOwner->Renderer(); }
     cCom_Camera*            Camera()            { return m_pOwner->Camera(); }
     cCom_Animator2D*        Animator2D()        { return m_pOwner->Animator2D(); }
-    ICollider2D*        Collider2D()        { return m_pOwner->Collider2D(); }
-    ICollider3D*        ICollider3D()        { return m_pOwner->Collider3D(); }
-    IRenderer*   RenderComponent()   { return m_pOwner->RenderComponent(); }
-    ITilemapBase*       Tilemap()           { return m_pOwner->Tilemap(); }
+    ICollider2D*            Collider2D()        { return m_pOwner->Collider2D(); }
+    ICollider3D*            ICollider3D()       { return m_pOwner->Collider3D(); }
 };
 

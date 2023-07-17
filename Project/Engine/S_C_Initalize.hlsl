@@ -1,12 +1,13 @@
 #include "S_H_Initialize.hlsli"
 
-RWStructuredBuffer<tInitSetting> g_SBufferRW_InitSetting : register(REGISLOT_u_INIT_SETTING);
+
 
 [numthreads(INIT_THREADS_X, INIT_THREADS_Y, INIT_THREADS_Z)]
 void CS_HLSL_Init(uint3 DTID : SV_DispatchThreadID)
 {
 	if (all(uint3(0u, 0u, 0u) != DTID))
 		return;
+
 
 	
 	//초기화해야 하는 값이 있으면 여기서 초기화

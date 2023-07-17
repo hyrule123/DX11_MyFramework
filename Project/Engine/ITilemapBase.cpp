@@ -7,8 +7,7 @@
 #include "jsoncpp.h"
 
 ITilemapBase::ITilemapBase(eTILEMAP_TYPE _eTilemapType)
-	: IRenderer(eCOMPONENT_TYPE::TILEMAP)
-	, m_TilemapType(_eTilemapType)
+	: m_TilemapType(_eTilemapType)
 	, m_uTileCountX(1)
 	, m_uTileCountY(1)
 {
@@ -30,9 +29,6 @@ ITilemapBase::ITilemapBase(eTILEMAP_TYPE _eTilemapType)
 	default:
 		break;
 	}
-
-	
-
 }
 
 ITilemapBase::~ITilemapBase()

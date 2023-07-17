@@ -95,7 +95,7 @@ bool cScriptHolder::LoadJson(Json::Value* _jVal)
 				{
 					string ScriptKey = it.key().asString();
 
-					IScript* newScript = cUserClassMgr::GetNewScript(ScriptKey);
+					IScript* newScript = cUserClassMgr::GetInst()->GetNewScript(ScriptKey);
 					
 					//스크립트를 생성받지 못했을 경우 return
 					if (nullptr == newScript)

@@ -280,16 +280,7 @@ ENUM_END
 
 
 ////컴퓨트쉐이더
-#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_X    MTRLDATA_PARAM_SCALAR(INT, 0)
-#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Y    MTRLDATA_PARAM_SCALAR(INT, 1)
-#define MTRL_SCALAR_CS_TOTAL_ELEMCOUNT_Z    MTRLDATA_PARAM_SCALAR(INT, 2)
 
-//컴퓨트쉐이더가 들고있는 노이즈텍스처의 해상도를 저장
-#define MTRL_SCALAR_TEXTURE_NOISE_RESOLUTION      MTRLDATA_PARAM_SCALAR(VEC2, 0)
-
-
-//cCSModule_ParticleBasic
-#define MTRL_SCALAR_OWNER_OBJ_POS MTRLDATA_PARAM_SCALAR(VEC4, 0)
 //============================================================================
 
 
@@ -389,100 +380,28 @@ struct tSBufferInfo
 };
 
 
-//CBuffer에서 사용하므로 공용 struct 헤더에 선언
-struct tParticleModule
+struct tNumDataCS
 {
-	//Module Switch + Basic Info
-    BOOL bModule_Spawn;
-    BOOL bModule_ColorChange;
-	BOOL bModule_ScaleChange;
-    BOOL bModule_Rotation;
+	UINT32 X;
+	UINT32 Y;
+	UINT32 Z;
+    UINT32 Pad;
+#ifdef __cplusplus
+    tNumDataCS() {}
+    tNumDataCS(UINT32 _X, UINT32 _Y, UINT32 _Z) : X(_X), Y(_Y), Z(_Z) {}
+#endif
     
-	BOOL bModule_AddVelocity;
-	BOOL bModule_Drag;
-	BOOL bModule_NoiseForce;
-    BOOL bModule_ExpandVelocity;    //속도에 따라 파티클의 크기 변화시키는 모듈
-    
-    BOOL bModule_ApplyMass;
-    BOOL bModule_ApplyGravity;
-	INT32 iMaxParticleCount;
-	float PADDING1;
-    
-    
-    //Spawn Module Part
-	INT32 eSpawnShapeType; // Sphere , Box
-	INT32 iSpawnRate;
-	INT32 bFollowing;
-	float PADDING2;
-    
-    float4 vSpawnColor;
-    float4 vSpawnScaleMin;
-    float4 vSpawnScaleMax;
-    
-    float3 vBoxShapeScale;
-    float  fSphereShapeRadius;
-    
-    float fMinLifeTime;
-    float fMaxLifeTime;
-	float2 PADDING3;
-
-    
-	//Color Change Module Part
-    float4 vStartColor; // 초기 색상
-    float4 vEndColor; // 최종 색상
-
-    
-	// Scale Change Module Part
-    float fStartScale; // 초기 크기
-    float fEndScale; // 최종 크기	
-	float2 PADDING4;
-    
-    
-    //Rotation Module Part
-	float3 vRotRadPerSec;
-	float PADDING5;
-	float3 vRotRandomRange;     //이 범위 사이에서 회전속도 랜덤
-	float PADDING6;
-
-    
-	// Add Velocity Module Part
-    float4 vVelocityDir;
-    
-    INT32 eAddVelocityType; // 0 : From Center, 1 : Fixed Direction	
-    float fOffsetAngle;
-    float fSpeed;
-    float PADDING7;
-
-    
-	// Drag Module Part : 진행될수록 속도가 감소하는 효과
-    float fStartDrag;
-    float fEndDrag;
-    
-    
-    // NoiseForce 모듈
-	float fNoiseTerm;
-	float fNoiseForce;
-        
-    // Render 모듈
-	INT32 VelocityAlignment; // 1 : 속도정렬 사용(이동 방향으로 회전) 0 : 사용 안함
-	INT32 VelocityScale; // 1 : 속도에 따른 크기 변화 사용, 0 : 사용 안함	
-	float vMaxSpeed; // 최대 크기에 도달하는 속력
-	float PADDING8;
-    
-    
-	float4 vMaxVelocityScale; // 속력에 따른 크기 변화량 최대치
-    
-    
-    
-    //Gravity 모듈
-	float fGravity;
-	float fEnergyLoss;
-	float Padding;
-    BOOL bHeadingRight;
-	
-	float4 vOwnerPrevWorldPos;
-	float4 vOwnerCurWorldPos;
 };
+struct tComputeShaderInfo
+{
+	tNumDataCS NumData;
+    
+    UINT32 uNumGroupX;
+    UINT32 uNumGroupY;
+    UINT32 uNumGroupZ;
+    UINT32 Padding_0;
+};
+
 
 
 #endif

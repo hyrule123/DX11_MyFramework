@@ -12,28 +12,12 @@
 #else
 #include "DefaultShader/S_C_Initalize_Release.h"
 #endif
+#include "S_H_Initialize.hlsli"
 
 #include "cComputeShader.h"
 
-
-
 cShaderData_Init::cShaderData_Init()
 	: m_pSBuffer_InitSetting()
-{
-	
-}
-
-cShaderData_Init::~cShaderData_Init()
-{
-}
-
-
-bool cShaderData_Init::Init()
-{
-	return true;
-}
-
-tNumData cShaderData_Init::BindDataCS()
 {
 	////INT64에 1을 넣어서 전달한다. HLSL에서는 이 값을 INT32형태로 읽어들인다.
 	g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
@@ -45,14 +29,32 @@ tNumData cShaderData_Init::BindDataCS()
 	Desc.REGISLOT_t_SRV = REGISLOT_t_INIT_SETTING;
 	Desc.REGISLOT_u_UAV = REGISLOT_u_INIT_SETTING;
 
-	m_pSBuffer_InitSetting = std::make_unique<cStructBuffer>();
 	m_pSBuffer_InitSetting->SetDesc(Desc);
-	m_pSBuffer_InitSetting->Create(sizeof(tInitSetting), 1u, &g_InitSetting, 1u);
 
+	if FAILED(m_pSBuffer_InitSetting->Create(sizeof(tInitSetting), 1u, &g_InitSetting, 1u))
+	{
+		ERROR_MESSAGE("HLSL Initialization Failed.");
+	}
+}
+
+cShaderData_Init::~cShaderData_Init()
+{
+
+}
+
+
+tNumDataCS cShaderData_Init::BindDataCS()
+{
 	//UAV와 바인딩
 	m_pSBuffer_InitSetting->BindBufferUAV();
 
-	return tNumData(1u, 1u, 1u);
+	return tNumDataCS(1u, 1u, 1u);
+}
+
+bool cShaderData_Init::BindDataGS()
+{
+	m_pSBuffer_InitSetting->BindBufferSRV();
+	return true;
 }
 
 void cShaderData_Init::UnBind()

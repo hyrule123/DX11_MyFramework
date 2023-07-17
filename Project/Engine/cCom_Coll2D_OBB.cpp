@@ -25,13 +25,13 @@ cCom_Coll2D_OBB::~cCom_Coll2D_OBB()
 
 
 //이 함수는 cCom_Transform에서 값이 변했을 경우에만 호출된다.
-void cCom_Coll2D_OBB::UpdatecCollider()
+void cCom_Coll2D_OBB::UpdateCollider()
 {
 	//충돌체 주소를 가져온다.
-	const cCom_Transform& pTransform = GetOwner()->Transform();
+	const cCom_Transform* pTransform = GetOwner()->Transform();
 
 	//자신의 OBB 정보를 계산한다.
-	const Matrix& WorldMat = pTransform.GetWorldMatWithoutSize();
+	const Matrix& WorldMat = pTransform->GetWorldMatWithoutSize();
 	const Vec3& Size = GetCollSize();
 
 	for (int i = 0; i < (int)eAXIS2D::END; ++i)
@@ -41,7 +41,7 @@ void cCom_Coll2D_OBB::UpdatecCollider()
 	}
 
 	//부모의 동일함수를 호출(Simple ICollider 계산)
-	ICollider2D::UpdatecCollider();
+	ICollider2D::UpdateCollider();
 }
 
 void cCom_Coll2D_OBB::UpdateSimplecCollider(Vec4& _vSimpleCollLBRTPos)

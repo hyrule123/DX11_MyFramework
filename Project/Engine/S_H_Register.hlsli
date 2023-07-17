@@ -36,7 +36,7 @@ extern tSBufferInfo g_SBufferShareData;
 #else
 
 
-cbuffer CBuffer_Transform : register(REGISLOT_b_CBUFFER_CAM_MATIRCES)
+cbuffer CBuffer_CamMatrices : register(REGISLOT_b_CBUFFER_CAM_MATIRCES)
 {
 	tCamMatrices g_CBuffer_matCam[eCAMERA_INDEX::END];
 };
@@ -50,7 +50,6 @@ cbuffer CBuffer_Material_Tex : register(REGISLOT_b_CBUFFER_MTRL_TEX)
 {
 	tMtrlTexData g_CBuffer_Mtrl_Tex;
 };
-
 
 	//게임의 각종 정보를 넘겨주기 위한 상수버퍼
 cbuffer CBuffer_Global : register(REGISLOT_b_CBUFFER_GLOBAL)
@@ -93,12 +92,13 @@ cbuffer CBuffer_SBUFFER_SHARED_DATA : register(REGISLOT_b_CBUFFER_SBUFFER_SHARED
 #define REGISLOT_t_TEXTURE_ARRAY_1 REGISTER_SLOT(t, 12)
 
 #define REGISLOT_t_SBUFFER_LIGHT2D				REGISTER_SLOT(t, 13)
-#define REGISLOT_t_SBUFFER_TILE				REGISTER_SLOT(t, 14)
-#define REGISLOT_t_SBUFFER_SETCOLOR			REGISTER_SLOT(t, 15)
-#define REGISLOT_t_SBUFFER_PARTICLE_TRANSFORM	REGISTER_SLOT(t, 16)
+#define REGISLOT_t_SBUFFER_TILE					REGISTER_SLOT(t, 14)
+
 
 #define REGISLOT_t_TEXUTRE_NOISE				REGISTER_SLOT(t, 17)
 
+//초기 설정을 계속 바인딩해 두어야 하므로 겹치지 않게 127번과 바인딩
+//DX11의 경우 t 버퍼는 최대 128(0~127)까지 지원한다고 함
 #define REGISLOT_t_INIT_SETTING			REGISTER_SLOT(t, 127)
 
 	#ifdef __cplusplus
@@ -125,12 +125,7 @@ TextureCube g_cube_1 : register(REGISLOT_t_TEXTURE_CUBE_1);
 Texture2DArray g_arrtex_0 : register(REGISLOT_t_TEXTURE_ARRAY_0);
 Texture2DArray g_arrtex_1 : register(REGISLOT_t_TEXTURE_ARRAY_1);
 
-
-StructuredBuffer<float4> g_SBuffer_SetColor : register(REGISLOT_t_SBUFFER_SETCOLOR);
-
 Texture2D g_Tex_Noise : register(REGISLOT_t_TEXUTRE_NOISE);
-
-StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(REGISLOT_t_INIT_SETTING);
 
 	#endif
 
@@ -142,10 +137,9 @@ StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(REGISLOT_t_INIT
 
 
 //u 레지스터는 DX11 기준 0 ~ 7번까지만 존재하므로 참고
-#define REGISLOT_u_INIT_SETTING			REGISTER_SLOT(u, 0)	//처음에 최초 한번 작동해서 시스템 정보 확인
 
-#define REGISLOT_u_TEXTURERW_SETCOLOR			REGISTER_SLOT(u, 0)
-#define REGISLOT_u_SBUFFERRW_SETCOLOR			REGISTER_SLOT(u, 1)
+
+
 
 
 	#ifdef __cplusplus
@@ -171,7 +165,7 @@ StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(REGISLOT_t_INIT
 //			SAMPLER
 //==================================
 
-#define REGISLOT_S_SAMPLER_ANISOTROPIC REGISTER_SLOT(s, 0)
+#define REGISLOT_S_SAMPLER_ANISOTROPIC	REGISTER_SLOT(s, 0)
 #define REGISLOT_S_SAMPLER_POINT		REGISTER_SLOT(s, 1)
 
 #ifdef __cplusplus

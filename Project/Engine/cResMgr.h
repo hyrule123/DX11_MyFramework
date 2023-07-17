@@ -22,6 +22,8 @@
 //1. define.h enum에 IRes 타입 추가했는지 확인
 //2. m_umapResClassTypeIndex에 타입 인덱스와 eRES_TYPE을 바인딩
 
+class cShaderData_Init;
+
 class cResMgr
     : public Singleton<cResMgr>
 {
@@ -36,6 +38,9 @@ private:
 
     //리소스 정보가 업데이트 되면 true로 변경
     bool    m_bResUpdated;
+
+    std::unique_ptr<cShaderData_Init> m_ShaderInitSettings;
+
 
 private:
     void CreateDefaultMesh();

@@ -12,14 +12,14 @@ cShaderData_Default::~cShaderData_Default()
 {
 }
 
-tNumData cShaderData_Default::BindDataCS()
+tNumDataCS cShaderData_Default::BindDataCS()
 {
 	static cConstBuffer* pCBuffer = cDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_MTRL_SCALAR);
 	assert(pCBuffer);
 
 
 
-    return tNumData();
+    return tNumDataCS();
 }
 
 bool cShaderData_Default::BindDataGS()

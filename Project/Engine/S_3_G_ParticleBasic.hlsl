@@ -1,4 +1,4 @@
-#include "S_H_Particle.hlsli"
+#include "S_H_ParticleBasic.hlsli"
 
 
 [maxvertexcount(6)]

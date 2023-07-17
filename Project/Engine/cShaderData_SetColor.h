@@ -13,8 +13,7 @@ public:
     virtual ~cShaderData_SetColor();
 
 public:
-    virtual bool Init() override;
-    virtual tNumData BindDataCS() override;
+    virtual tNumDataCS BindDataCS() override;
     virtual bool BindDataGS() override;
     virtual void UnBind() override;
 

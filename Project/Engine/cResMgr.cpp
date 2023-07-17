@@ -15,7 +15,9 @@
 #include "DefaultShader.h"
 
 cResMgr::cResMgr()
-	: m_bResUpdated(true)
+	: m_arrRes()
+	, m_bResUpdated(true)
+	, m_ShaderInitSettings()
 {
 	
 }
@@ -409,11 +411,16 @@ bool cResMgr::CreateDefaultComputeShader()
 		pCS->SetEngineDefaultRes(true);
 
 		pCS->SetThreadsPerGroup(1u, 1u, 1u);
-		pCS->CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init));
 
+		if (FAILED(pCS->CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init))))
+		{
+			ERROR_MESSAGE("Failed to HLSL Initialization.");
+			return false;
+		}
+		
 		//Init모듈을 붙여주면 내부에서 쉐이더까지 로드
-		cShaderData_Init* initModule = new cShaderData_Init;
-		pCS->SetShaderDataModule(initModule);
+		m_ShaderInitSettings = std::make_unique<cShaderData_Init>();
+		pCS->SetShaderDataModule(m_ShaderInitSettings.get());
 
 		if (false == pCS->Execute())
 		{
@@ -422,9 +429,10 @@ bool cResMgr::CreateDefaultComputeShader()
 		}
 
 		//이걸 Graphics Shader에 bind 걸어준다.
-		initModule->BindDataGS();
+		m_ShaderInitSettings->BindDataGS();
 
-		AddRes<cComputeShader>(pCS->GetKey(), pCS);
+		//딱 한번만 실행되고 끝날 거라서 굳이 ResMgr에 넣지 않아도 될듯?
+		//AddRes<cComputeShader>(pCS->GetKey(), pCS);
 	}
 
 
@@ -435,10 +443,6 @@ bool cResMgr::CreateDefaultComputeShader()
 		pCS->SetEngineDefaultRes(true);
 		pCS->CreateShaderFromHeader(g_CS_SetColor, sizeof(g_CS_SetColor));
 
-		//Init모듈을 붙여주면 내부에서 쉐이더까지 로드
-		cShaderData_SetColor* Module = new cShaderData_SetColor;
-		pCS->SetShaderDataModule(Module);
-
 		AddRes<cComputeShader>(pCS->GetKey(), pCS);
 	}
 
@@ -447,17 +451,14 @@ bool cResMgr::CreateDefaultComputeShader()
 		Ptr<cComputeShader> pCS = new cComputeShader;
 		pCS->SetKey(strKey_RES_DEFAULT::SHADER::COMPUTE::PARTICLEBASIC);
 		pCS->SetEngineDefaultRes(true);
-		pCS->CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic))
 
-		//Init모듈을 붙여주면 내부에서 쉐이더까지 로드
-		std::unique_ptr<cCSModule_ParticleBasic> Module = std::make_unique<cCSModule_ParticleBasic>();
-		pCS->AddShaderModule(std::move(Module));
-
-		if (false == pCS->Execute())
+		pCS->SetThreadsPerGroup(SETCOLOR_THREADS_X, SETCOLOR_THREADS_Y, SETCOLOR_THREADS_Z);
+		if (FAILED(pCS->CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic))))
 		{
-			ERROR_MESSAGE("HLSL Default Setting Initalize Failed.");
+			ERROR_MESSAGE("Failed To Create Particle Basic Shader.");
 			return false;
 		}
+
 		AddRes<cComputeShader>(pCS->GetKey(), pCS);
 	}
 

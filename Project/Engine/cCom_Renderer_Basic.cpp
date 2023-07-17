@@ -15,7 +15,7 @@
 #include "cGameObject.h"
 
 cCom_Renderer_Basic::cCom_Renderer_Basic()
-	: IRenderer(eCOMPONENT_TYPE::MESH_RENDER)
+	: IRenderer()
 {
 }
 

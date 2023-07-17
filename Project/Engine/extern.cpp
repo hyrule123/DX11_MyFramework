@@ -15,6 +15,7 @@ Matrix g_matViewProj{};
 
 const string g_voidStr = "";
 
+
 //====================//
 //SimpleMath Constants//
 //====================//

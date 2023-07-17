@@ -76,7 +76,7 @@ void ICollider2D::finaltick()
 		DebugRender();
 }
 
-void ICollider2D::UpdatecCollider()
+void ICollider2D::UpdateCollider()
 {
 	//간이 충돌체 정보만 갱신한다. 기본 설정은 cCom_Transform에서 변의 길이를 받아와서 정사각형 형태로 생성함.
 	UpdateSimplecCollider(m_v4SimpleCollLBRTPos);

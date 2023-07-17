@@ -82,7 +82,6 @@ public:
 
     void                RemoveChild(cGameObject* _Object);
 
-
     //기타
     bool                GetParentWorldMatrix(Matrix& _mat);
 
@@ -155,7 +154,7 @@ public:
 
     cCom_Camera*            Camera() const { return (cCom_Camera*)m_arrCom[(UINT)eCOMPONENT_TYPE::CAMERA]; }
 
-    IRenderer* RenderComponent() const { return (IRenderer*)m_arrCom[(UINT)eCOMPONENT_TYPE::RENDERER]; }
+    IRenderer*          Renderer() const { return (IRenderer*)m_arrCom[(UINT)eCOMPONENT_TYPE::RENDERER]; }
 
     cScriptHolder*      ScriptHolder() const { return (cScriptHolder*)m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER]; }
     cCom_Light2D* Light2D() const { return (cCom_Light2D*)(m_arrCom[(UINT)eCOMPONENT_TYPE::LIGHT2D]); }

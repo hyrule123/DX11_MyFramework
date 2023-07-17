@@ -7,40 +7,58 @@
 
 
 cStructBuffer::cStructBuffer()
-	: m_tSBufferClassDesc{}
-	, m_bSBufferDescSet(false)
+	: m_BufferDesc()
+	, m_SBufferDesc()
+	, m_bSBufferDescSet()
 	, m_uElementStride()
 	, m_uElementCount()
 	, m_uElementCapacity()
-	, m_BufferDesc{}
+	, m_StructBuffer()
+	, m_SRV()
+	, m_UAV()
+	, m_StagingBuffer()
 	, m_eCurBoundView()
-	
 {
 }
 
 cStructBuffer::cStructBuffer(const tSBufferDesc& _tDesc)
-	: m_tSBufferClassDesc(_tDesc)
-	, m_bSBufferDescSet(true)
+	: m_BufferDesc()
+	, m_SBufferDesc()
+	, m_bSBufferDescSet()
 	, m_uElementStride()
 	, m_uElementCount()
 	, m_uElementCapacity()
-	, m_BufferDesc{}
+	, m_StructBuffer()
+	, m_SRV()
+	, m_UAV()
+	, m_StagingBuffer()
 	, m_eCurBoundView()
 
 {
-	SetDefaultDesc();
+	SetDesc(_tDesc);
 }
 
-cStructBuffer::cStructBuffer(tSBufferDesc&& _tDesc) 
-	: m_tSBufferClassDesc(_tDesc)
-	, m_bSBufferDescSet(true)
+
+cStructBuffer::cStructBuffer(const cStructBuffer& _other)
+	: IEntity(_other)
+	, m_BufferDesc(_other.m_BufferDesc)
+	, m_SBufferDesc(_other.m_SBufferDesc)
+	, m_bSBufferDescSet(_other.m_bSBufferDescSet)
 	, m_uElementStride()
 	, m_uElementCount()
 	, m_uElementCapacity()
-	, m_BufferDesc{}
+	, m_StructBuffer()
+	, m_SRV()
+	, m_UAV()
+	, m_StagingBuffer()
 	, m_eCurBoundView()
 {
-	SetDefaultDesc();
+	SetDesc(_other.m_SBufferDesc);
+
+	if (m_bSBufferDescSet)
+	{
+		Create(_other.m_uElementStride, _other.m_uElementCapacity, nullptr, 0u);
+	}
 }
 
 cStructBuffer::~cStructBuffer()
@@ -51,14 +69,26 @@ cStructBuffer::~cStructBuffer()
 
 
 
-void cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pInitialData, UINT _uElemCount)
+HRESULT cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pInitialData, UINT _uElemCount)
 {
-	assert(true == m_bSBufferDescSet);
+	if (false == m_bSBufferDescSet)
+	{
+		ERROR_MESSAGE("Must Set SBuffer Description!");
+		return E_FAIL;
+	}
 
-	//상수버퍼와 마찬가지로 16바이트 단위로 정렬되어 있어야 함.
-	assert(0 == _uElemStride % 16);
+	//상수버퍼와 마찬가지로 16바이트 단위로 정렬되어 있어야 함.s
+	else if (0 != _uElemStride % 16)
+	{
+		ERROR_MESSAGE("The byte size of the structured buffer must be a multiple of 16.");
+		return E_FAIL;
+	}
 
-	assert(_uElemCapacity >= _uElemCount);
+	else if (_uElemCapacity <= _uElemCount)
+	{
+		ERROR_MESSAGE("Element capacity of structured buffer must be more than element of input data!");
+		return E_FAIL;
+	}
 
 	//재할당 하기 전 바인딩된 리소스가 있다면 unbind
 	UnBind();
@@ -72,7 +102,7 @@ void cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 	m_BufferDesc.StructureByteStride = m_uElementStride;
 	m_BufferDesc.ByteWidth = m_uElementStride * m_uElementCapacity;
 
-	switch (m_tSBufferClassDesc.eSBufferType)
+	switch (m_SBufferDesc.eSBufferType)
 	{
 	//일반적인 GPU에서 읽기만 가능한 구조화 버퍼
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
@@ -94,7 +124,10 @@ void cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 
 		//구조화버퍼 생성. ReleaseAndGetAddressOf() 함수를 통해서 기존 구조화 버퍼가 있다면 날려버리고 생성
 		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, pData, m_StructBuffer.ReleaseAndGetAddressOf())))
-			assert(nullptr);
+		{
+			ERROR_MESSAGE("Failed to create Structured Buffer!");
+			return E_FAIL;
+		}
 
 		//Read Only의 경우 바로 SRV 생성
 		CreateSRV();
@@ -120,7 +153,11 @@ void cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 
 		//구조화버퍼 생성
 		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, pData, m_StructBuffer.ReleaseAndGetAddressOf())))
-			assert(nullptr);
+		{
+			ERROR_MESSAGE("Failed to create Structured Buffer!");
+			return E_FAIL;
+		}
+
 
 		CreateSRV();
 		CreateUAV();
@@ -129,6 +166,8 @@ void cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIniti
 	}
 		
 	}
+
+	return S_OK;
 }
 
 void cStructBuffer::UploadData(void* _pData, UINT _uCount)
@@ -152,7 +191,7 @@ void cStructBuffer::UploadData(void* _pData, UINT _uCount)
 
 
 	cDevice* pDevice = cDevice::GetInst();
-	switch (m_tSBufferClassDesc.eSBufferType)
+	switch (m_SBufferDesc.eSBufferType)
 	{
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 	{
@@ -200,7 +239,7 @@ void cStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
 {
 	ComPtr<ID3D11DeviceContext> pContext = CONTEXT;
 
-	switch (m_tSBufferClassDesc.eSBufferType)
+	switch (m_SBufferDesc.eSBufferType)
 	{
 		memset(_pDest, 0, (size_t)_uDestByteCapacity);
 		return;
@@ -259,59 +298,59 @@ void cStructBuffer::BindBufferSRV()
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::SRV;
 
 	//상수버퍼 바인딩
-	BindConstBuffer(m_tSBufferClassDesc.flag_PipelineBindTarget_SRV);
+	BindConstBuffer(m_SBufferDesc.flag_PipelineBindTarget_SRV);
 
-	if (define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+	if (define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->VSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->VSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
-	if (define_Shader::ePIPELINE_STAGE_FLAG::__HULL & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+	if (define_Shader::ePIPELINE_STAGE_FLAG::__HULL & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->HSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->HSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
-	if (define_Shader::ePIPELINE_STAGE_FLAG::__DOMAIN & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+	if (define_Shader::ePIPELINE_STAGE_FLAG::__DOMAIN & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->DSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->DSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
-	if (define_Shader::ePIPELINE_STAGE_FLAG::__GEOMETRY & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+	if (define_Shader::ePIPELINE_STAGE_FLAG::__GEOMETRY & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->GSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->GSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
-	if (define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+	if (define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->PSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->PSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 
-	if (define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+	if (define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 	{
-		CONTEXT->CSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
+		CONTEXT->CSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, m_SRV.GetAddressOf());
 	}
 }
 
 void cStructBuffer::BindBufferUAV()
 {
 	//읽기 쓰기 다 가능한 상태가 아닐경우 assert
-	assert(eSTRUCT_BUFFER_BIND_TYPE::READ_WRITE == m_tSBufferClassDesc.eSBufferType);
+	assert(eSTRUCT_BUFFER_BIND_TYPE::READ_WRITE == m_SBufferDesc.eSBufferType);
 
 	UnBind();
 
 	m_eCurBoundView = eCURRENT_BOUND_VIEW::UAV;
 
-	//m_tSBufferClassDesc.flag_PipelineBindTarget_SRV |= define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
+	//m_SBufferDesc.flag_PipelineBindTarget_SRV |= define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
 	BindConstBuffer(define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE);
 
 	static const UINT v2_Offset = -1;
-	CONTEXT->CSSetUnorderedAccessViews(m_tSBufferClassDesc.REGISLOT_u_UAV, 1, m_UAV.GetAddressOf(), &v2_Offset);
+	CONTEXT->CSSetUnorderedAccessViews(m_SBufferDesc.REGISLOT_u_UAV, 1, m_UAV.GetAddressOf(), &v2_Offset);
 	
 }
 
 void cStructBuffer::SetDefaultDesc()
 {
-	switch (m_tSBufferClassDesc.eSBufferType)
+	switch (m_SBufferDesc.eSBufferType)
 	{
 	case eSTRUCT_BUFFER_TYPE::READ_ONLY:
 
@@ -337,7 +376,7 @@ void cStructBuffer::SetDefaultDesc()
 		m_BufferDesc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
 
 		//READ_WRITE로 사용하겠다는 건 컴퓨트쉐이더를 사용하겠다는 의미 -> 실수 방지를 위해 플래그에 컴퓨트쉐이더 추가
-		m_tSBufferClassDesc.flag_PipelineBindTarget_SRV |= define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
+		m_SBufferDesc.flag_PipelineBindTarget_SRV |= define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
 
 		break;
 	default:
@@ -404,41 +443,41 @@ void cStructBuffer::UnBind()
 	{
 		ID3D11ShaderResourceView* pView = nullptr;
 
-		if (define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+		if (define_Shader::ePIPELINE_STAGE_FLAG::__VERTEX & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->VSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->VSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
-		if (define_Shader::ePIPELINE_STAGE_FLAG::__HULL & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+		if (define_Shader::ePIPELINE_STAGE_FLAG::__HULL & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->HSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->HSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
-		if (define_Shader::ePIPELINE_STAGE_FLAG::__DOMAIN & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+		if (define_Shader::ePIPELINE_STAGE_FLAG::__DOMAIN & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->DSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->DSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
-		if (define_Shader::ePIPELINE_STAGE_FLAG::__GEOMETRY & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+		if (define_Shader::ePIPELINE_STAGE_FLAG::__GEOMETRY & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->GSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->GSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
-		if (define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+		if (define_Shader::ePIPELINE_STAGE_FLAG::__PIXEL & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->PSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->PSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 
-		if (define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE & m_tSBufferClassDesc.flag_PipelineBindTarget_SRV)
+		if (define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE & m_SBufferDesc.flag_PipelineBindTarget_SRV)
 		{
-			CONTEXT->CSSetShaderResources(m_tSBufferClassDesc.REGISLOT_t_SRV, 1, &pView);
+			CONTEXT->CSSetShaderResources(m_SBufferDesc.REGISLOT_t_SRV, 1, &pView);
 		}
 	}
 	else if (eCURRENT_BOUND_VIEW::UAV == m_eCurBoundView)
 	{
 		static const UINT v2_Offset = -1;
 		ID3D11UnorderedAccessView* pUAV = nullptr;
-		CONTEXT->CSSetUnorderedAccessViews(m_tSBufferClassDesc.REGISLOT_u_UAV, 1, &pUAV, &v2_Offset);
+		CONTEXT->CSSetUnorderedAccessViews(m_SBufferDesc.REGISLOT_u_UAV, 1, &pUAV, &v2_Offset);
 	}
 
 

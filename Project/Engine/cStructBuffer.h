@@ -40,15 +40,17 @@ public:
     //아무 인자 없이 생성할 경우 반드시 SetDesc를 해 줄것.
     cStructBuffer();
     cStructBuffer(const tSBufferDesc& _tDesc);
-    cStructBuffer(tSBufferDesc&& _tDesc);
+
+    cStructBuffer(const cStructBuffer& _other);
+    CLONE(cStructBuffer);
 
     virtual ~cStructBuffer();
-    CLONE_DISABLE(cStructBuffer)
+    
 
 private:
     D3D11_BUFFER_DESC           m_BufferDesc;
 
-    tSBufferDesc           m_tSBufferClassDesc;
+    tSBufferDesc                m_SBufferDesc;
     bool                        m_bSBufferDescSet;
    
     UINT                        m_uElementStride;   //구조체 하나 당 바이트 갯수
@@ -73,8 +75,8 @@ public:
     void SetDesc(const tSBufferDesc& _tDesc);
 
     //Setter Getter Adder
-    void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_tSBufferClassDesc.flag_PipelineBindTarget_SRV = _eSHADER_PIPELINE_FLAG; }
-    void AddPipelineTarget(define_Shader::ePIPELINE_STAGE_FLAG::FLAG _Stage) { m_tSBufferClassDesc.flag_PipelineBindTarget_SRV |= (UINT)_Stage; }
+    void SetPipelineTarget(UINT _eSHADER_PIPELINE_FLAG) { m_SBufferDesc.flag_PipelineBindTarget_SRV = _eSHADER_PIPELINE_FLAG; }
+    void AddPipelineTarget(define_Shader::ePIPELINE_STAGE_FLAG::FLAG _Stage) { m_SBufferDesc.flag_PipelineBindTarget_SRV |= (UINT)_Stage; }
 
     UINT GetCapacity() const { return m_uElementCapacity; }
 
@@ -83,7 +85,7 @@ public:
 
 public:
     //처음 생성할 때 반드시 목표 파이프라인 타겟과 레지스터 번호를 설정해줄 것
-    void Create(UINT _uiElementStride, UINT _uElementCapacity, void* _pInitialData, UINT _uElemCount);
+    HRESULT Create(UINT _uiElementStride, UINT _uElementCapacity, void* _pInitialData, UINT _uElemCount);
 
     //데이터를 버퍼로 전송
     void UploadData(void* _pData, UINT _uCount);
@@ -94,7 +96,6 @@ public:
     //데이터를 특정 레지스터에 바인딩. SRV에 바인딩할것인지 UAV에 바인딩할것인지를 지정
     void BindBufferSRV();
    
-
     //Bind buffer with UAV Mode to Compute shader 
     void BindBufferUAV();
 
@@ -112,7 +113,7 @@ private:
 
 inline void cStructBuffer::SetDesc(const tSBufferDesc& _tDesc)
 {
-    m_tSBufferClassDesc = _tDesc; 
+    m_SBufferDesc = _tDesc; 
     m_bSBufferDescSet = true;
     SetDefaultDesc();
 }

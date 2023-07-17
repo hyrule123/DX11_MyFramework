@@ -57,12 +57,10 @@ public:
     bool GetEnable() const { return m_bDisable; }
     
 public:
-    cCom_Transform& Transform() const { return m_pHolder->Transform(); }
-    cCom_Renderer_Basic* MeshRenderer() const { return m_pHolder->MeshRenderer(); }
+    cCom_Transform* Transform() const { return m_pHolder->Transform(); }
+    IRenderer* Renderer() const { return m_pHolder->Renderer(); }
     cCom_Camera* Camera() const { return m_pHolder->Camera(); }
-    IRenderer* RenderCom() const { return m_pHolder->RenderComponent(); }
     cCom_Animator2D* Animator2D() const { return m_pHolder->Animator2D(); }
-    ITilemapBase* Tilemap() const { return m_pHolder->Tilemap(); }
 
     cGameObject* GetOwner() const { return m_pHolder->GetOwner(); }
 };

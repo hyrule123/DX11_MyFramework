@@ -20,7 +20,7 @@ public:
     virtual void finaltick();
 
     //고유 충돌체의 정보와 AABB 사각형 정보(m_RectInfo)를 업데이트 해야함.
-    virtual void UpdatecCollider() = 0;
+    virtual void UpdateCollider() = 0;
 
 private:
     const eDIMENSION_TYPE       m_eCollDimension;

@@ -26,7 +26,7 @@ public:
 
 public:
     virtual void finaltick() final;
-    virtual void UpdatecCollider() override;
+    virtual void UpdateCollider() override;
 
     //기본 설정으로 transform에서 받아온 변의 길이로 간이 충돌체를 계산함.
     //더 간단한 충돌체는 이걸 재정의
