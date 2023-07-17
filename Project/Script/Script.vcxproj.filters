@@ -45,13 +45,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Script_CameraMove.h">
+    <ClInclude Include="cScript_CameraMove.h">
       <Filter>ScriptCode</Filter>
     </ClInclude>
-    <ClInclude Include="Script_MouseCursor.h">
+    <ClInclude Include="cScript_MouseCursor.h">
       <Filter>ScriptCode</Filter>
     </ClInclude>
-    <ClInclude Include="Script_TestObj.h">
+    <ClInclude Include="cScript_TestObj.h">
       <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
@@ -60,51 +60,51 @@
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="Script_SCEntity.h">
+    <ClInclude Include="cScript_SCEntity.h">
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
-    <ClInclude Include="Script_FSM_Idle.h">
+    <ClInclude Include="cScript_FSM_Idle.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
-    <ClInclude Include="Script_FSM_Move_Ground.h">
+    <ClInclude Include="cScript_FSM_Move_Ground.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
-    <ClInclude Include="Script_FSM_Move_Hover.h">
+    <ClInclude Include="cScript_FSM_Move_Hover.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
     <ClInclude Include="UserClassInitializer.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="FSM_Move_Base.h">
+    <ClInclude Include="cFSM_Move_Base.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
-    <ClInclude Include="Script_SCUnitVital.h">
+    <ClInclude Include="cScript_SCUnitVital.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
     <ClInclude Include="defineScript.h" />
-    <ClInclude Include="Script_FSM_Death.h">
+    <ClInclude Include="cScript_FSM_Death.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
-    <ClInclude Include="Script_FSM_Attack.h">
+    <ClInclude Include="cScript_FSM_Attack.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
     <ClInclude Include="SC_Func.h">
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
-    <ClInclude Include="Script_FSM_Building_Prod.h">
+    <ClInclude Include="cScript_FSM_Building_Prod.h">
       <Filter>ScriptCode\SC\States</Filter>
     </ClInclude>
     <ClInclude Include="define_SC.h" />
-    <ClInclude Include="Script_Mineral.h">
+    <ClInclude Include="cScript_Mineral.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Script_VespeneSmoke.h">
+    <ClInclude Include="cScript_VespeneSmoke.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Script_Vespene.h">
+    <ClInclude Include="cScript_Vespene.h">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Script_MainCamSC_InGame.h">
+    <ClInclude Include="cScript_MainCamSC_InGame.h">
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
     <ClInclude Include="CCS_SCMapLoader.h">
@@ -125,63 +125,63 @@
     <ClInclude Include="strKey_CShader.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="Script_TilemapSC.h">
+    <ClInclude Include="cScript_TilemapSC.h">
       <Filter>ScriptCode\SC\Tilemap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Script_CameraMove.cpp">
+    <ClCompile Include="cScript_CameraMove.cpp">
       <Filter>ScriptCode</Filter>
     </ClCompile>
-    <ClCompile Include="Script_MouseCursor.cpp">
+    <ClCompile Include="cScript_MouseCursor.cpp">
       <Filter>ScriptCode</Filter>
     </ClCompile>
-    <ClCompile Include="Script_TestObj.cpp">
+    <ClCompile Include="cScript_TestObj.cpp">
       <Filter>ScriptCode</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="Script_SCEntity.cpp">
+    <ClCompile Include="cScript_SCEntity.cpp">
       <Filter>ScriptCode\SC</Filter>
     </ClCompile>
-    <ClCompile Include="Script_FSM_Idle.cpp">
+    <ClCompile Include="cScript_FSM_Idle.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="Script_FSM_Move_Ground.cpp">
+    <ClCompile Include="cScript_FSM_Move_Ground.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="Script_FSM_Move_Hover.cpp">
+    <ClCompile Include="cScript_FSM_Move_Hover.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="FSM_Move_Base.cpp">
+    <ClCompile Include="cFSM_Move_Base.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="Script_SCUnitVital.cpp">
+    <ClCompile Include="cScript_SCUnitVital.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Script_FSM_Death.cpp">
+    <ClCompile Include="cScript_FSM_Death.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="Script_FSM_Attack.cpp">
+    <ClCompile Include="cScript_FSM_Attack.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
     <ClCompile Include="SC_Func.cpp">
       <Filter>ScriptCode\SC</Filter>
     </ClCompile>
-    <ClCompile Include="Script_FSM_Building_Prod.cpp">
+    <ClCompile Include="cScript_FSM_Building_Prod.cpp">
       <Filter>ScriptCode\SC\States</Filter>
     </ClCompile>
-    <ClCompile Include="Script_Mineral.cpp">
+    <ClCompile Include="cScript_Mineral.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Script_VespeneSmoke.cpp">
+    <ClCompile Include="cScript_VespeneSmoke.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Script_Vespene.cpp">
+    <ClCompile Include="cScript_Vespene.cpp">
       <Filter>ScriptCode\SC\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Script_MainCamSC_InGame.cpp">
+    <ClCompile Include="cScript_MainCamSC_InGame.cpp">
       <Filter>ScriptCode\SC</Filter>
     </ClCompile>
     <ClCompile Include="CCS_SCMapLoader.cpp">
@@ -193,7 +193,7 @@
     <ClCompile Include="UserClassInitializer_Script.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
-    <ClCompile Include="Script_TilemapSC.cpp">
+    <ClCompile Include="cScript_TilemapSC.cpp">
       <Filter>ScriptCode\SC\Tilemap</Filter>
     </ClCompile>
   </ItemGroup>

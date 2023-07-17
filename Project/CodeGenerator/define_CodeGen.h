@@ -76,41 +76,31 @@ R"(#ifndef STRKEY
 //=========================================================
 
 )");
-
-
-		PRESET(define_T_Constructor_CS, 
-			R"(#define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>))"
+		PRESET(Define_Constructor_T,
+			R"(#define CONSTRUCTOR_T(T) )"
 		);
+
+
 		PRESET(define_T_Constructor_Script, 
-			R"(#define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>))"
+			R"(cUserClassMgr::GetInst()->AddScriptConstructor(strKey_Script::T, Constructor_Script_T<T>))"
 		);
 
-		PRESET(T_Constructor, "CONSTRUCTOR_T(");
+		PRESET(Constructor_T, "CONSTRUCTOR_T(");
 
 
 	}
 
 	namespace Regex
 	{
-		namespace arrCharsVarForbidden
+
+		constexpr inline const char* arrCharsVarForbiddenA[] =
 		{
-			constexpr inline const char* A[] =
-			{
-				"\\(","\\)",
-				"\\{","\\}",
-				"\\[","\\]",
-				"\\."
-			};
+			"\\(","\\)",
+			"\\{","\\}",
+			"\\[","\\]",
+			"\\."
+		};
 
-			constexpr inline const wchar_t* W[] =
-			{
-				L"\\(",L"\\)",
-				L"\\{",L"\\}",
-				L"\\[",L"\\]",
-				L"\\."
-			};
-
-		}
 
 		namespace g_VarForbiddenChars
 		{
@@ -119,9 +109,9 @@ R"(#ifndef STRKEY
 			void CreateVarForbiddendRegex();
 		}
 
-
-		PRESET(CShader, R"(CCS_\w+\.h$)");
-		PRESET(GShader, R"(\w+\.hlsl$)");
+		PRESET(Shader, R"(\w+\.hlsl$)");
+		PRESET(CShaderRegex, R"(S_C_\w+\.h$)");
+		
 
 		//[   numthreads   ( %d, %d, %d )   ]
 		//[ ] 안에 둘러싸여 있고, 공백 갯수에 상관없이 숫자 3개를 추출

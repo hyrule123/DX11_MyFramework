@@ -18,7 +18,7 @@
 #include "strKey_CShader.h"
 
 #include <Engine/UserClassMgr.h>
-#include <Engine/C_ComputeShader.h>
+#include <Engine/cComputeShader.h>
 #define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>)
 
 //Compute Shader Classes

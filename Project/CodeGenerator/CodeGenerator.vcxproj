@@ -155,11 +155,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CodeWriter.cpp">
+    <ClCompile Include="cCodeWriter.cpp">
       <FileType>Document</FileType>
     </ClCompile>
-    <ClCompile Include="DirTree.cpp" />
-    <ClCompile Include="DirTreeNode.cpp" />
+    <ClCompile Include="cDirTree.cpp" />
+    <ClCompile Include="cDirTreeNode.cpp" />
     <ClCompile Include="define_CodeGen.cpp" />
     <ClCompile Include="MacroFunc.cpp" />
     <ClCompile Include="main.cpp" />
@@ -169,11 +169,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CodeWriter.h" />
-    <ClInclude Include="DirTree.h" />
+    <ClInclude Include="cCodeWriter.h" />
+    <ClInclude Include="cDirTree.h" />
     <ClInclude Include="CodeGenFunc.h" />
     <ClInclude Include="define_CodeGen.h" />
-    <ClInclude Include="DirTreeNode.h" />
+    <ClInclude Include="cDirTreeNode.h" />
     <ClInclude Include="MacroFunc.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

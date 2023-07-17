@@ -9,7 +9,7 @@
 //템플릿에 사용되는 리소스들
 #include "cMesh.h"
 #include "cTexture.h"
-#include "CGraphicsShader.h"
+#include "cGraphicsShader.h"
 #include "cMaterial.h"
 #include "CPrefab.h"
 #include "cComputeShader.h"
@@ -145,7 +145,7 @@ inline eRES_TYPE cResMgr::GetResType()
         return eRES_TYPE::PREFAB;
     }
 
-    else if constexpr (std::is_base_of_v<CGraphicsShader, T>)
+    else if constexpr (std::is_base_of_v<cGraphicsShader, T>)
     {
         return eRES_TYPE::GRAPHICS_SHADER;
     }

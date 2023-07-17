@@ -214,7 +214,7 @@
     <ClInclude Include="cEngine.h" />
     <ClInclude Include="IEntity.h" />
     <ClInclude Include="cEventMgr.h" />
-    <ClInclude Include="cFSM.h" />
+    <ClInclude Include="I_FSM.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cGraphicsShader.h" />
     <ClInclude Include="cKeyMgr.h" />
@@ -291,7 +291,7 @@
     </ClCompile>
     <ClCompile Include="IEntity.cpp" />
     <ClCompile Include="cEventMgr.cpp" />
-    <ClCompile Include="cFSM.cpp" />
+    <ClCompile Include="I_FSM.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cGraphicsShader.cpp" />
     <ClCompile Include="cKeyMgr.cpp" />

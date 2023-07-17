@@ -2,7 +2,7 @@
 #include "IRes.h"
 
 #include "Ptr.h"
-#include "CGraphicsShader.h"
+#include "cGraphicsShader.h"
 #include "cTexture.h"
 
 namespace JsonKey_Material
@@ -39,7 +39,7 @@ public:
     virtual void BindData() override;
 
 private:
-    Ptr<CGraphicsShader>    m_pShader;
+    Ptr<cGraphicsShader>    m_pShader;
     
     Ptr<cTexture>           m_arrTex[(int)eMTRLDATA_PARAM_TEX::_END];
     tMtrlTexData            m_MtrlTex;
@@ -50,13 +50,13 @@ private:
 public:
     void SetTexParam    (eMTRLDATA_PARAM_TEX _Param, Ptr<cTexture> _Tex);
     void RemoveTexture  (eMTRLDATA_PARAM_TEX _Param);
-    void SetShader(Ptr<CGraphicsShader> _Shader) { m_pShader = _Shader; }
+    void SetShader(Ptr<cGraphicsShader> _Shader) { m_pShader = _Shader; }
 
     //쉐이더의 인스턴싱 가능 여부를 받아온다.
     bool IsUseInstancing() const { if (nullptr != m_pShader) return m_pShader->IsUseInstancing(); return false; }
 
     //Inline Getter
-    Ptr<CGraphicsShader> GetShader() const { return m_pShader; }
+    Ptr<cGraphicsShader> GetShader() const { return m_pShader; }
     Ptr<cTexture> GetTexture(eMTRLDATA_PARAM_TEX _texIdx = eMTRLDATA_PARAM_TEX::_0) const;
 
 private:

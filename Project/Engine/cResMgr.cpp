@@ -240,7 +240,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		// Depth Stencil: No Test, No Write
 		// Shader Domain: Opaque
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		Ptr<cGraphicsShader> pShader = new cGraphicsShader;
 		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
 		//쉐이더 설정 세팅
@@ -254,7 +254,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShaderFromHeader(g_VS_Debug, sizeof(g_VS_Debug), define_Shader::eGS_TYPE::__VERTEX);
 		pShader->CreateShaderFromHeader(g_PS_Debug, sizeof(g_PS_Debug), define_Shader::eGS_TYPE::__PIXEL);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG, pShader);
+		AddRes<cGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG, pShader);
 	}
 
 
@@ -268,7 +268,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		// Depth Stencil: LESS
 		// Shader Domain: Opaque
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		Ptr<cGraphicsShader> pShader = new cGraphicsShader;
 		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
 		//쉐이더 설정 세팅
@@ -282,7 +282,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShaderFromHeader(g_VS_STD2D, sizeof(g_VS_STD2D), define_Shader::eGS_TYPE::__VERTEX);
 		pShader->CreateShaderFromHeader(g_PS_STD2D, sizeof(g_PS_STD2D), define_Shader::eGS_TYPE::__PIXEL);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2D, pShader);
+		AddRes<cGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2D, pShader);
 	}
 
 
@@ -296,7 +296,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		// Depth Stencil: LESS
 		// Shader Domain: Opaque
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		Ptr<cGraphicsShader> pShader = new cGraphicsShader;
 		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
 		//쉐이더 설정 세팅
@@ -310,7 +310,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShaderFromHeader(g_VS_STD2D_Light, sizeof(g_VS_STD2D_Light), define_Shader::eGS_TYPE::__VERTEX);
 		pShader->CreateShaderFromHeader(g_PS_STD2D_Light, sizeof(g_PS_STD2D_Light), define_Shader::eGS_TYPE::__PIXEL);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2DLIGHT, pShader);
+		AddRes<cGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2DLIGHT, pShader);
 	}
 
 	{
@@ -323,7 +323,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		// Depth Stencil: LESS
 		// Shader Domain: Opaque
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		Ptr<cGraphicsShader> pShader = new cGraphicsShader;
 		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
 		//쉐이더 설정 세팅
@@ -337,7 +337,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShaderFromHeader(g_VS_Tilemap_Atlas, sizeof(g_VS_Tilemap_Atlas), define_Shader::eGS_TYPE::__VERTEX);
 		pShader->CreateShaderFromHeader(g_PS_Tilemap_Atlas, sizeof(g_PS_Tilemap_Atlas), define_Shader::eGS_TYPE::__PIXEL);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPATLAS, pShader);
+		AddRes<cGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPATLAS, pShader);
 	}
 
 	{
@@ -350,7 +350,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		// Depth Stencil: LESS
 		// Shader Domain: Opaque
 		
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		Ptr<cGraphicsShader> pShader = new cGraphicsShader;
 		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
 		//쉐이더 설정 세팅
@@ -364,7 +364,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShaderFromHeader(g_VS_Tilemap_Complete, sizeof(g_VS_Tilemap_Complete), define_Shader::eGS_TYPE::__VERTEX);
 		pShader->CreateShaderFromHeader(g_PS_Tilemap_Complete, sizeof(g_PS_Tilemap_Complete), define_Shader::eGS_TYPE::__PIXEL);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE, pShader);
+		AddRes<cGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE, pShader);
 	}
 
 	{
@@ -377,7 +377,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		// Depth Stencil: NO Write
 		// Shader Domain: Transparent
 
-		Ptr<CGraphicsShader> pShader = new CGraphicsShader;
+		Ptr<cGraphicsShader> pShader = new cGraphicsShader;
 		pShader->SetEngineDefaultRes(true);//엔진 기본 리소스
 
 		//쉐이더 설정 세팅
@@ -392,7 +392,7 @@ bool cResMgr::CreateDefaultGraphicsShader()
 		pShader->CreateShaderFromHeader(g_GS_Particle, sizeof(g_GS_Particle), define_Shader::eGS_TYPE::__GEOMETRY);
 		pShader->CreateShaderFromHeader(g_PS_Particle, sizeof(g_PS_Particle), define_Shader::eGS_TYPE::__PIXEL);
 
-		AddRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE, pShader);
+		AddRes<cGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE, pShader);
 	}
 
 	return true;
@@ -474,14 +474,14 @@ void cResMgr::CreateDefaultMaterial()
 		//Rectangle
 		Ptr<cMaterial> pMtrl = new cMaterial;
 		pMtrl->SetEngineDefaultRes(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG)));
+		pMtrl->SetShader(FindRes<cGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG)));
 
 		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::DEBUG_RECT));
 		AddRes(pMtrl->GetKey(), pMtrl);
 
 		//Circle
 		pMtrl = new cMaterial;
-		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG)));
+		pMtrl->SetShader(FindRes<cGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::DEBUG)));
 
 		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::DEBUG_CIRCLE));
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -493,7 +493,7 @@ void cResMgr::CreateDefaultMaterial()
 		Ptr<cMaterial> pMtrl = nullptr;
 		pMtrl = new cMaterial();
 		pMtrl->SetEngineDefaultRes(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2D)));
+		pMtrl->SetShader(FindRes<cGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2D)));
 
 		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::STD2D));
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -505,7 +505,7 @@ void cResMgr::CreateDefaultMaterial()
 		pMtrl = new cMaterial();
 		pMtrl->SetEngineDefaultRes(true);
 		//pMtrl->SetInstancedRender(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2DLIGHT)));
+		pMtrl->SetShader(FindRes<cGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::STD2DLIGHT)));
 
 		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::STD2D_LIGHT));
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -515,7 +515,7 @@ void cResMgr::CreateDefaultMaterial()
 	{
 		Ptr<cMaterial> pMtrl = new cMaterial();
 		pMtrl->SetEngineDefaultRes(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPATLAS)));
+		pMtrl->SetShader(FindRes<cGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPATLAS)));
 
 		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_ATLAS));
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -523,7 +523,7 @@ void cResMgr::CreateDefaultMaterial()
 	{
 		Ptr<cMaterial> pMtrl = new cMaterial();
 		pMtrl->SetEngineDefaultRes(true);
-		pMtrl->SetShader(FindRes<CGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE)));
+		pMtrl->SetShader(FindRes<cGraphicsShader>(string(strKey_RES_DEFAULT::SHADER::GRAPHICS::TILEMAPCOMPLETE)));
 
 		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE));
 		AddRes(pMtrl->GetKey(), pMtrl);
@@ -532,7 +532,7 @@ void cResMgr::CreateDefaultMaterial()
 	//Particle cMaterial
 	{
 		Ptr<cMaterial> pMtrl = new cMaterial();
-		pMtrl->SetShader(FindRes<CGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE));
+		pMtrl->SetShader(FindRes<cGraphicsShader>(strKey_RES_DEFAULT::SHADER::GRAPHICS::PARTICLE));
 		pMtrl->SetKey(string(strKey_RES_DEFAULT::MATERIAL::PARTICLE_RENDERER_BASIC));
 		AddRes(pMtrl->GetKey(), pMtrl);
 	}
@@ -570,10 +570,10 @@ bool cResMgr::LoadUserGraphicsShaderAll()
 			//.json 파일일 경우 동적할당하고 로드한다.
 			if (string::npos != fileName.find(RES_INFO::SHADER::Ext_ShaderSetting))
 			{
-				Ptr<CGraphicsShader> pGS = new CGraphicsShader;
+				Ptr<cGraphicsShader> pGS = new cGraphicsShader;
 				pGS->Load(GSDirIter->path().filename());
 
-				cResMgr::GetInst()->AddRes<CGraphicsShader>(pGS->GetKey(), pGS);
+				cResMgr::GetInst()->AddRes<cGraphicsShader>(pGS->GetKey(), pGS);
 			}
 		}
 	}
@@ -610,7 +610,7 @@ bool cResMgr::LoadUserGraphicsShaderAll()
 //		pRes = new CPrefab;
 //		break;
 //	case eRES_TYPE::GRAPHICS_SHADER:
-//		pRes = new CGraphicsShader;
+//		pRes = new cGraphicsShader;
 //		break;
 //	case eRES_TYPE::COMPUTE_SHADER:
 //		//TODO : 여기 마저 채우기

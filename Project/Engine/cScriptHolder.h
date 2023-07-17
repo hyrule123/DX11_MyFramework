@@ -6,10 +6,10 @@ class cCom_Camera;
 class cCom_Renderer_Basic;
 class ICollider;
 class CFSM_Mgr;
-class cFSM;
+class I_FSM;
 
 //한 게임오브젝트에서 활용하는 스크립트들 모음
-//cFSM도 여기에서 담당
+//I_FSM도 여기에서 담당
 enum class eFSM_RESULT
 {
     NULLPTR,
@@ -47,13 +47,13 @@ public:
     eFSM_RESULT ForceTransition(const tFSM_Event& _tEvent);
 
 private:
-    //cFSM을 포함한 모든 스크립트를 들고있음(업데이트 용)
+    //I_FSM을 포함한 모든 스크립트를 들고있음(업데이트 용)
     vector<IScript*> m_vecScript;
     //map<std::string, IScript*> m_mapScript;
 
-    //Index = cFSM의 인덱스 번호
-    vector<cFSM*> m_vecFSM;
-    cFSM* m_pCurrentFSM;
+    //Index = I_FSM의 인덱스 번호
+    vector<I_FSM*> m_vecFSM;
+    I_FSM* m_pCurrentFSM;
 
     tFSM_Event m_uReservedFSM;
 private:
@@ -68,9 +68,9 @@ public:
     const vector<IScript*>& GetScripts() const { return m_vecScript; }
 
     //이건 직접 호출할 필요 없음.(AddScript 할 시 알아서 호출 됨)
-    bool AddFSM(cFSM* _pFSM);
-    cFSM* GetCurFSM() const { return m_pCurrentFSM; }
-    cFSM* GetFSM(UINT _uStateID) const { if (CheckFSMValid(_uStateID)) return m_vecFSM[_uStateID]; return nullptr; }
+    bool AddFSM(I_FSM* _pFSM);
+    I_FSM* GetCurFSM() const { return m_pCurrentFSM; }
+    I_FSM* GetFSM(UINT _uStateID) const { if (CheckFSMValid(_uStateID)) return m_vecFSM[_uStateID]; return nullptr; }
      
 public:
     void BeginColiision(ICollider* _Other, const Vec3& _v3HitPoint);

@@ -2,7 +2,7 @@
 #include "cCom_Renderer_Basic.h"
 
 
-#include "CGraphicsShader.h"
+#include "cGraphicsShader.h"
 #include "cCom_Transform.h"
 
 #include "cMesh.h"

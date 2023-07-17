@@ -97,7 +97,7 @@ bool cMaterial::LoadJson(Json::Value* _pJson)
 
 	cResMgr* pResMgr = cResMgr::GetInst();
 	
-	m_pShader = pResMgr->Load<CGraphicsShader>(jVal[JsonKey_Material::strKey_Shader].asString());
+	m_pShader = pResMgr->Load<cGraphicsShader>(jVal[JsonKey_Material::strKey_Shader].asString());
 
 
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)

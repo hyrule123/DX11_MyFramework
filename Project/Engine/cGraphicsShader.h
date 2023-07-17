@@ -10,12 +10,12 @@ struct tShaderCode
     string strKey;
 };
 
-class CGraphicsShader :
+class cGraphicsShader :
     public IShader
 {
 public:
-    CGraphicsShader();
-    virtual ~CGraphicsShader();
+    cGraphicsShader();
+    virtual ~cGraphicsShader();
 
 public:
     virtual bool SaveJson(Json::Value* _jsonVal) override;
@@ -96,7 +96,7 @@ public:
     virtual void BindData() override;
 };
 
-inline HRESULT CGraphicsShader::CreateShader(const tShaderCode& _tShaderCode, define_Shader::eGS_TYPE _eShaderType)
+inline HRESULT cGraphicsShader::CreateShader(const tShaderCode& _tShaderCode, define_Shader::eGS_TYPE _eShaderType)
 {
     m_arrShaderCode[(int)_eShaderType] = _tShaderCode;
 

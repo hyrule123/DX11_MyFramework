@@ -38,7 +38,7 @@ struct tFSM_Event
 {
 	UINT uStateID;
 	DWORD_PTR srcParam;	//Transition 조건 확인시 체크할 이벤트 파라미터
-	DWORD_PTR destParam;//Transition 성공시 새로 바뀐 cFSM에서 처리할 이벤트 파라미터
+	DWORD_PTR destParam;//Transition 성공시 새로 바뀐 I_FSM에서 처리할 이벤트 파라미터
 	
 	tFSM_Event() : uStateID(UINT_MAX), srcParam(), destParam() {}
 	tFSM_Event(UINT _uStateID) : uStateID(_uStateID), srcParam(), destParam() {}

@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "SC_Func.h"
 
-#include <Engine/CCollider.h>
+#include <Engine/ICollider.h>
 
-void SC_Func::SetSCBuildingSize(CCollider* _pCol, int _uNumMegatileX, int _uNumMegatileY, const Vec4& _v4LRTBOffset)
+void SC_Func::SetSCBuildingSize(ICollider* _pCol, int _uNumMegatileX, int _uNumMegatileY, const Vec4& _v4LRTBOffset)
 {
     enum LBRT { L, R, T, B };
     //메가타일에서의 사이즈

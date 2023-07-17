@@ -187,26 +187,26 @@ call "CodeGenerator_$(Configuration).exe" Script
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCS_SCMapLoader.h" />
-    <ClInclude Include="FSM_Move_Base.h" />
-    <ClInclude Include="Script_FSM_Building_Prod.h" />
-    <ClInclude Include="Script_FSM_Death.h" />
-    <ClInclude Include="Script_TilemapSC.h" />
+    <ClInclude Include="cFSM_Move_Base.h" />
+    <ClInclude Include="cScript_FSM_Building_Prod.h" />
+    <ClInclude Include="cScript_FSM_Death.h" />
+    <ClInclude Include="cScript_TilemapSC.h" />
     <ClInclude Include="strKey_CShader.h" />
     <ClInclude Include="strKey_GShader.h" />
     <ClInclude Include="UserClassInitializer.h" />
-    <ClInclude Include="Script_CameraMove.h" />
-    <ClInclude Include="Script_MainCamSC_InGame.h" />
-    <ClInclude Include="Script_Mineral.h" />
-    <ClInclude Include="Script_MouseCursor.h" />
-    <ClInclude Include="Script_FSM_Attack.h" />
-    <ClInclude Include="Script_SCEntity.h" />
-    <ClInclude Include="Script_FSM_Idle.h" />
-    <ClInclude Include="Script_FSM_Move_Ground.h" />
-    <ClInclude Include="Script_FSM_Move_Hover.h" />
-    <ClInclude Include="Script_TestObj.h" />
-    <ClInclude Include="Script_SCUnitVital.h" />
-    <ClInclude Include="Script_Vespene.h" />
-    <ClInclude Include="Script_VespeneSmoke.h" />
+    <ClInclude Include="cScript_CameraMove.h" />
+    <ClInclude Include="cScript_MainCamSC_InGame.h" />
+    <ClInclude Include="cScript_Mineral.h" />
+    <ClInclude Include="cScript_MouseCursor.h" />
+    <ClInclude Include="cScript_FSM_Attack.h" />
+    <ClInclude Include="cScript_SCEntity.h" />
+    <ClInclude Include="cScript_FSM_Idle.h" />
+    <ClInclude Include="cScript_FSM_Move_Ground.h" />
+    <ClInclude Include="cScript_FSM_Move_Hover.h" />
+    <ClInclude Include="cScript_TestObj.h" />
+    <ClInclude Include="cScript_SCUnitVital.h" />
+    <ClInclude Include="cScript_Vespene.h" />
+    <ClInclude Include="cScript_VespeneSmoke.h" />
     <ClInclude Include="defineScript.h" />
     <ClInclude Include="define_SCMap.h" />
     <ClInclude Include="framework.h" />
@@ -218,23 +218,23 @@ call "CodeGenerator_$(Configuration).exe" Script
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCS_SCMapLoader.cpp" />
-    <ClCompile Include="FSM_Move_Base.cpp" />
-    <ClCompile Include="Script_FSM_Building_Prod.cpp" />
-    <ClCompile Include="Script_FSM_Death.cpp" />
-    <ClCompile Include="Script_CameraMove.cpp" />
-    <ClCompile Include="Script_MainCamSC_InGame.cpp" />
-    <ClCompile Include="Script_Mineral.cpp" />
-    <ClCompile Include="Script_MouseCursor.cpp" />
-    <ClCompile Include="Script_FSM_Attack.cpp" />
-    <ClCompile Include="Script_SCEntity.cpp" />
-    <ClCompile Include="Script_FSM_Idle.cpp" />
-    <ClCompile Include="Script_FSM_Move_Ground.cpp" />
-    <ClCompile Include="Script_FSM_Move_Hover.cpp" />
-    <ClCompile Include="Script_TestObj.cpp" />
-    <ClCompile Include="Script_SCUnitVital.cpp" />
-    <ClCompile Include="Script_Vespene.cpp" />
-    <ClCompile Include="Script_VespeneSmoke.cpp" />
-    <ClCompile Include="Script_TilemapSC.cpp" />
+    <ClCompile Include="cFSM_Move_Base.cpp" />
+    <ClCompile Include="cScript_FSM_Building_Prod.cpp" />
+    <ClCompile Include="cScript_FSM_Death.cpp" />
+    <ClCompile Include="cScript_CameraMove.cpp" />
+    <ClCompile Include="cScript_MainCamSC_InGame.cpp" />
+    <ClCompile Include="cScript_Mineral.cpp" />
+    <ClCompile Include="cScript_MouseCursor.cpp" />
+    <ClCompile Include="cScript_FSM_Attack.cpp" />
+    <ClCompile Include="cScript_SCEntity.cpp" />
+    <ClCompile Include="cScript_FSM_Idle.cpp" />
+    <ClCompile Include="cScript_FSM_Move_Ground.cpp" />
+    <ClCompile Include="cScript_FSM_Move_Hover.cpp" />
+    <ClCompile Include="cScript_TestObj.cpp" />
+    <ClCompile Include="cScript_SCUnitVital.cpp" />
+    <ClCompile Include="cScript_Vespene.cpp" />
+    <ClCompile Include="cScript_VespeneSmoke.cpp" />
+    <ClCompile Include="cScript_TilemapSC.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

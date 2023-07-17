@@ -130,17 +130,19 @@ Texture2D g_Tex_Noise : register(REGISLOT_t_TEXUTRE_NOISE);
 	#endif
 
 
+
+
+
+#ifndef __cplusplus
+
+#endif
+
 //=========================================================
 // UAV : RW Structured Buffer / RW cTexture ( u Register)
 //=========================================================
 //UAV -> u Register
 
-
-//u 레지스터는 DX11 기준 0 ~ 7번까지만 존재하므로 참고
-
-
-
-
+#define REGISLOT_u_INIT_SETTING			REGISTER_SLOT(u, 0)	//처음에 최초 한번 작동해서 시스템 정보 확인
 
 	#ifdef __cplusplus
 
@@ -148,14 +150,9 @@ Texture2D g_Tex_Noise : register(REGISLOT_t_TEXUTRE_NOISE);
 
 	#else
 
-//각자 사용하는 쉐이더에서 별도로 선언하였음.
-//u0
-////g_TexRW_Output
-////g_SBufferRW_ParticleTransform
-
-//u1
-////g_SBufferRW_Test
-////g_SBufferRW_Particle_Shared
+//u 레지스터는 DX11 기준 0 ~ 7번까지만 존재하므로 참고
+StructuredBuffer<tInitSetting> g_SBuffer_InitSettings : register(REGISLOT_t_INIT_SETTING);
+RWStructuredBuffer<tInitSetting> g_SBufferRW_InitSetting : register(REGISLOT_u_INIT_SETTING);
 
 	#endif
 

@@ -14,11 +14,11 @@ type();\
 #define CLONE(type) public: virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) public: virtual type* Clone() { return nullptr; assert(nullptr); }
 
-#define KEY_DOWN(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::DOWN		
-#define KEY_RELEASE(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::RELEASE
-#define KEY_PRESSED(_eKEY) CKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::PRESSED
+#define KEY_DOWN(_eKEY) cKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::DOWN		
+#define KEY_RELEASE(_eKEY) cKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::RELEASE
+#define KEY_PRESSED(_eKEY) cKeyMgr::GetInst()->GetKeyState(_eKEY) == eKEY_STATE::PRESSED
 
-#define DELTA_TIME CTimeMgr::GetInst()->GetDeltaTime()
+#define DELTA_TIME cTimeMgr::GetInst()->GetDeltaTime()
 
 #define MAX_LAYER 32
 

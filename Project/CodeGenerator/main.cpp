@@ -6,7 +6,7 @@
 #include <Engine/strKey_Default.h>
 #include "MacroFunc.h"
 
-#include "CDirTree.h"
+#include "cDirTree.h"
 
 
 //시작 지점 = $(SolutionDir) : 상대 경로로 작업해주면 된다.
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 
         std::regex reg(regbase, std::regex::icase);
 
-        CDirTree DirTree;
+        cDirTree DirTree;
         {
             stdfs::path DirPath = define_Preset::Path::Content::A;
             DirPath /= RES_INFO::TEXTURE::DirName;
@@ -53,9 +53,9 @@ int main(int argc, char* argv[])
 
     //Generate Compute Shader Key
     {
-        std::regex reg(define_Preset::Regex::CShader::A);
+        std::regex reg(define_Preset::Regex::CShaderRegex::A);
 
-        CDirTree DirTree;
+        cDirTree DirTree;
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
         DirTree.SearchRecursive(DirPath, reg);
 
@@ -68,26 +68,36 @@ int main(int argc, char* argv[])
 
     //Generate Graphics Shader Key
     {
-        std::regex regexGS(define_Preset::Regex::GShader::A);
+        std::regex regexGS(define_Preset::Regex::Shader::A);
 
 
-        CDirTree DirTree;
+        cDirTree DirTree;
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
         DirTree.SearchRecursive(DirPath, regexGS);
 
-        DirTree.CreateGShaderStrKey(DirPath / define_Preset::Path::strKey_GShader::A);
+        DirTree.CreateShaderStrKey(DirPath / define_Preset::Path::strKey_GShader::A);
     }
 
     //Generate Script Key and Code
     {
-        std::regex regexScript(R"(CScript_.+\.h)");
+        std::regex regexScript(R"(cScript_.+\.h)");
 
-        CDirTree DirTree;
+        cDirTree DirTree;
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
         DirTree.SearchRecursive(DirPath, regexScript);
 
         DirTree.CreateStrKeyHeader(DirPath / define_Preset::Path::strKey_Script::A, "Script", true);
-        DirTree.CreateScriptCPP(DirPath / define_Preset::Path::UserClassInit_Script::A);
+
+        tAddBaseClassDesc Desc = {};
+        Desc.IncludeBaseHeaderName = "IScript.h";
+        Desc.IncludeStrKeyHeaderName = "strKey_Script.h";
+        Desc.Constructor_T_MacroDefine = define_Preset::Keyword::define_T_Constructor_Script::A;
+        Desc.UserClassMgr_InitFuncName = "InitScript()";
+        //Desc.Constructor_T_FuncName = 
+        Desc._FilePath = DirPath / define_Preset::Path::UserClassInit_Script::A;
+
+        DirTree.CreateUserClassInitCode(Desc);
+        //DirTree.CreateScriptCPP(DirPath / define_Preset::Path::UserClassInit_Script::A);
     }
 
     return 0;

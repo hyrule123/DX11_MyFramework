@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CGraphicsShader.h"
+#include "cGraphicsShader.h"
 
 #include "cPathMgr.h"
 #include "cDevice.h"
@@ -11,11 +11,10 @@
 namespace SHADER_EXTENSION
 {
 	constexpr const wchar_t* CSO = L".CSO";
-	constexpr const wchar_t* FX = L".FX";
 }
 
 
-CGraphicsShader::CGraphicsShader()
+cGraphicsShader::cGraphicsShader()
 	: IShader(eRES_TYPE::GRAPHICS_SHADER)
 	, m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, m_eRSType(define_Shader::eRASTERIZER_TYPE::CULL_BACK)
@@ -27,12 +26,12 @@ CGraphicsShader::CGraphicsShader()
 {
 }
 
-CGraphicsShader::~CGraphicsShader()
+cGraphicsShader::~cGraphicsShader()
 {
 }
 
 
-bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
+bool cGraphicsShader::SaveJson(Json::Value* _jsonVal)
 {
 	if (false == IShader::SaveJson(_jsonVal))
 		return false;
@@ -98,7 +97,7 @@ bool CGraphicsShader::SaveJson(Json::Value* _jsonVal)
 	return true;
 }
 
-bool CGraphicsShader::LoadJson(Json::Value* _jsonVal)
+bool cGraphicsShader::LoadJson(Json::Value* _jsonVal)
 {
 	if (false == IShader::LoadJson(_jsonVal))
 		return false;
@@ -241,7 +240,7 @@ if (false == jVal.isMember(_strKey))\
 }
 
 
-HRESULT CGraphicsShader::CreateDefaultInputLayout()
+HRESULT cGraphicsShader::CreateDefaultInputLayout()
 {
 	// InputLayout 생성
 	constexpr UINT uNumDesc = 2u;
@@ -287,7 +286,7 @@ HRESULT CGraphicsShader::CreateDefaultInputLayout()
 
 
 
-HRESULT CGraphicsShader::CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize, define_Shader::eGS_TYPE _eShaderType)
+HRESULT cGraphicsShader::CreateShaderFromHeader(const unsigned char* _pByteCode, size_t _ByteCodeSize, define_Shader::eGS_TYPE _eShaderType)
 {
 	//헤더 형태로 만드는 쉐이더는 무조건 엔진 내부 기본 리소스라고 가정한다.
 	SetEngineDefaultRes(true);
@@ -313,7 +312,7 @@ HRESULT CGraphicsShader::CreateShaderFromHeader(const unsigned char* _pByteCode,
 }
 
 
-HRESULT CGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize, define_Shader::eGS_TYPE _ShaderType)
+HRESULT cGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _ByteCodeSize, define_Shader::eGS_TYPE _ShaderType)
 {
 	assert(_pByteCode && _ByteCodeSize);
 
@@ -356,7 +355,7 @@ HRESULT CGraphicsShader::CreateShaderPrivate(const void* _pByteCode, size_t _Byt
 	return E_FAIL;
 }
 
-HRESULT CGraphicsShader::CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName, define_Shader::eGS_TYPE _ShaderType)
+HRESULT cGraphicsShader::CreateShader(const std::filesystem::path& _FileName, const string_view _strFuncName, define_Shader::eGS_TYPE _ShaderType)
 {
 	if (GetKey().empty())
 		SetKey(_FileName.string());
@@ -387,7 +386,7 @@ HRESULT CGraphicsShader::CreateShader(const std::filesystem::path& _FileName, co
 }
 
 
-void CGraphicsShader::BindData()
+void cGraphicsShader::BindData()
 {
 	ID3D11DeviceContext* pContext = CONTEXT;
 

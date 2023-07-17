@@ -12,7 +12,7 @@
 
 #include <Engine/global.h>
 #include <Engine/CScriptHolder.h>
-#include <Engine/CScript.h>
+#include <Engine/IScript.h>
 
 
 #endif //PCH_H

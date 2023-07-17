@@ -190,7 +190,7 @@
     <ClInclude Include="RandGen.h">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClInclude>
-    <ClInclude Include="cFSM.h">
+    <ClInclude Include="I_FSM.h">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
@@ -370,7 +370,7 @@
     <ClCompile Include="RandGen.cpp">
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClCompile>
-    <ClCompile Include="cFSM.cpp">
+    <ClCompile Include="I_FSM.cpp">
       <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />

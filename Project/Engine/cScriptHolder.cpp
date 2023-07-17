@@ -10,7 +10,7 @@
 
 #include "cUserClassMgr.h"
 
-#include "cFSM.h"
+#include "I_FSM.h"
 
 cScriptHolder::cScriptHolder()
 	: IComponent(eCOMPONENT_TYPE::SCRIPT_HOLDER)
@@ -178,12 +178,12 @@ void cScriptHolder::start()
 	}
 
 
-	//cFSM 등록여부 체크
+	//I_FSM 등록여부 체크
 	if (false == m_vecFSM.empty())
 	{
 		assert(nullptr != m_vecFSM[0]);
 
-		//cFSM이 등록되어 있을 경우 0번 cFSM을 시작 cFSM으로 등록
+		//I_FSM이 등록되어 있을 경우 0번 I_FSM을 시작 I_FSM으로 등록
 
 		m_pCurrentFSM = m_vecFSM[0];
 		m_pCurrentFSM->EnterState(tFSM_Event{ 0u, });
@@ -196,7 +196,7 @@ eFSM_RESULT cScriptHolder::Transition(const tFSM_Event& _tEvent)
 	if (false == CheckFSMValid(_tEvent.uStateID))
 		return eFSM_RESULT::NULLPTR;
 
-	//cFSM이 비어있을 경우에는 무조건 성공
+	//I_FSM이 비어있을 경우에는 무조건 성공
 	if (nullptr == m_pCurrentFSM)
 	{
 		ChangeFSM(_tEvent.uStateID);
@@ -277,7 +277,7 @@ void cScriptHolder::UnBind()
 	}
 }
 
-bool cScriptHolder::AddFSM(cFSM* _pFSM)
+bool cScriptHolder::AddFSM(I_FSM* _pFSM)
 {
 	if (nullptr == _pFSM)
 		return false;

@@ -30,7 +30,7 @@ STRKEY strPath_StormLib = "StormLib_DLL_Release.dll";
 using namespace SC_Map;
 
 CCS_SCMapLoader::CCS_SCMapLoader()
-    : C_ComputeShader(32u, 32u, 1u)
+    : cComputeShader(32u, 32u, 1u)
     , m_arrpSBufferTileSet{}
     , m_pMapWorkSpace()
 {

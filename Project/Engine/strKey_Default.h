@@ -381,7 +381,7 @@ namespace RES_INFO
 	namespace SHADER
 	{
 		STRKEY DirNameRoot = "Shader";
-		STRKEY ByteCodeDir = "CSO";
+		STRKEY ByteCodeDir = "Bin";
 		STRKEY Ext_ShaderSetting = ".json";
 		STRKEY Ext_ShaderByteCode = ".cso";
 		STRKEY Ext_ShaderSourceCode = ".hlsl";
@@ -426,8 +426,8 @@ namespace RES_INFO
 		namespace COMPUTE
 		{
 			STRKEY DirName = "Compute";
-			STRKEY CS_ClassPrefix = "C_CS_";
-			STRKEY Prefix = "_C_";
+			//STRKEY CS_ClassPrefix = "C_CS_";
+			STRKEY Prefix = "S_C_";
 		}
 	}
 

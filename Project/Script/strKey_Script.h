@@ -17,20 +17,20 @@
 
 namespace strKey_Script
 {
-	STRKEY CScript_CameraMove = "CScript_CameraMove";
-	STRKEY CScript_FSM_Attack = "CScript_FSM_Attack";
-	STRKEY CScript_FSM_Building_Prod = "CScript_FSM_Building_Prod";
-	STRKEY CScript_FSM_Death = "CScript_FSM_Death";
-	STRKEY CScript_FSM_Idle = "CScript_FSM_Idle";
-	STRKEY CScript_FSM_Move_Ground = "CScript_FSM_Move_Ground";
-	STRKEY CScript_FSM_Move_Hover = "CScript_FSM_Move_Hover";
-	STRKEY CScript_MainCamSC_InGame = "CScript_MainCamSC_InGame";
-	STRKEY CScript_Mineral = "CScript_Mineral";
-	STRKEY CScript_MouseCursor = "CScript_MouseCursor";
-	STRKEY CScript_SCEntity = "CScript_SCEntity";
-	STRKEY CScript_SCUnitVital = "CScript_SCUnitVital";
-	STRKEY CScript_TestObj = "CScript_TestObj";
-	STRKEY CScript_TilemapSC = "CScript_TilemapSC";
-	STRKEY CScript_Vespene = "CScript_Vespene";
-	STRKEY CScript_VespeneSmoke = "CScript_VespeneSmoke";
+	STRKEY cScript_CameraMove = "cScript_CameraMove";
+	STRKEY cScript_FSM_Attack = "cScript_FSM_Attack";
+	STRKEY cScript_FSM_Building_Prod = "cScript_FSM_Building_Prod";
+	STRKEY cScript_FSM_Death = "cScript_FSM_Death";
+	STRKEY cScript_FSM_Idle = "cScript_FSM_Idle";
+	STRKEY cScript_FSM_Move_Ground = "cScript_FSM_Move_Ground";
+	STRKEY cScript_FSM_Move_Hover = "cScript_FSM_Move_Hover";
+	STRKEY cScript_MainCamSC_InGame = "cScript_MainCamSC_InGame";
+	STRKEY cScript_Mineral = "cScript_Mineral";
+	STRKEY cScript_MouseCursor = "cScript_MouseCursor";
+	STRKEY cScript_SCEntity = "cScript_SCEntity";
+	STRKEY cScript_SCUnitVital = "cScript_SCUnitVital";
+	STRKEY cScript_TestObj = "cScript_TestObj";
+	STRKEY cScript_TilemapSC = "cScript_TilemapSC";
+	STRKEY cScript_Vespene = "cScript_Vespene";
+	STRKEY cScript_VespeneSmoke = "cScript_VespeneSmoke";
 }
