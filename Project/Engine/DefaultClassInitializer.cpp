@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "DefaultClassInitializer.h"
 
-#include "define.h";
+#include "define.h"
 
 //eCOMPONENT_TYPE	
 //TRANSFORM,		// 위치, 크기, 회전
