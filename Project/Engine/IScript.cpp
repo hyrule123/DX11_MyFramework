@@ -6,18 +6,13 @@
 #include "cKeyMgr.h"
 
 
-IScript::IScript(const string_view _strKey)
-	: m_strKey(_strKey)
-	, m_pHolder()
-	, m_bDisable()
+IScript::IScript()
+	: IComponent(eCOMPONENT_TYPE::SCRIPTS)
 {
 }
 
 IScript::IScript(const IScript& _other)
-	: IEntity(_other)
-	, m_strKey(_other.m_strKey)
-	, m_pHolder()
-	, m_bDisable()
+	: IComponent(_other)
 {
 }
 

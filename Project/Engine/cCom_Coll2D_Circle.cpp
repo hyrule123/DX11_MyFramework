@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "cCom_Coll2D_Circle.h"
 
+#include "cGameObject.h"
 #include "cTransform.h"
 #include "S_H_Debug.hlsli"
 #include "cRenderMgr.h"
@@ -73,7 +74,7 @@ void cCom_Coll2D_Circle::UpdateSimplecCollider(Vec4& _vSimpleCollLBRTPos)
 
 void cCom_Coll2D_Circle::DebugRender()
 {
-	const cTransform& pTransform = Transform();
+	const cTransform& pTransform = GetOwner()->Transform();
 
 	const Matrix& matOffset = Matrix::CreateTranslation(GetCenterPos());
 

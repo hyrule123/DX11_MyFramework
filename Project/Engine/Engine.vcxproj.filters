@@ -62,7 +62,7 @@
       <Filter>_Source\07. Resource\06, 07. Shader\GraphicsShader</Filter>
     </ClInclude>
     <ClInclude Include="IScript.h">
-      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
+      <Filter>_Source\06. Component\11. Script</Filter>
     </ClInclude>
     <ClInclude Include="cConstBuffer.h">
       <Filter>_Source\02. Device\ConstBuffer</Filter>
@@ -99,9 +99,6 @@
     </ClInclude>
     <ClInclude Include="IRenderer.h">
       <Filter>_Source\06. Component\08~Render Components</Filter>
-    </ClInclude>
-    <ClInclude Include="cScriptHolder.h">
-      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClInclude>
     <ClInclude Include="cEventMgr.h">
       <Filter>_Source\03. Manager\07. EventMgr</Filter>
@@ -188,7 +185,7 @@
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClInclude>
     <ClInclude Include="I_FSM.h">
-      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
+      <Filter>_Source\06. Component\11. Script</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="EventDispatcher.h" />
@@ -213,6 +210,12 @@
     </ClInclude>
     <ClInclude Include="cCom_Renderer_ParticleBasic.h" />
     <ClInclude Include="cTransform.h" />
+    <ClInclude Include="IAnimator.h">
+      <Filter>_Source\06. Component\03, 04. Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="cCom_FSMMgr.h">
+      <Filter>_Source\06. Component\11. Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -255,7 +258,7 @@
       <Filter>_Source\07. Resource\06, 07. Shader\GraphicsShader</Filter>
     </ClCompile>
     <ClCompile Include="IScript.cpp">
-      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
+      <Filter>_Source\06. Component\11. Script</Filter>
     </ClCompile>
     <ClCompile Include="cConstBuffer.cpp">
       <Filter>_Source\02. Device\ConstBuffer</Filter>
@@ -289,9 +292,6 @@
     </ClCompile>
     <ClCompile Include="IRenderer.cpp">
       <Filter>_Source\06. Component\08~Render Components</Filter>
-    </ClCompile>
-    <ClCompile Include="cScriptHolder.cpp">
-      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
     </ClCompile>
     <ClCompile Include="cEventMgr.cpp">
       <Filter>_Source\03. Manager\07. EventMgr</Filter>
@@ -366,7 +366,7 @@
       <Filter>_Source\03. Manager\09. RandMgr</Filter>
     </ClCompile>
     <ClCompile Include="I_FSM.cpp">
-      <Filter>_Source\06. Component\11. ScriptHolder</Filter>
+      <Filter>_Source\06. Component\11. Script</Filter>
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="cCom_Renderer_TilemapComplete.cpp">
@@ -387,6 +387,12 @@
     </ClCompile>
     <ClCompile Include="cCom_Renderer_ParticleBasic.cpp" />
     <ClCompile Include="cTransform.cpp" />
+    <ClCompile Include="IAnimator.cpp">
+      <Filter>_Source\06. Component\03, 04. Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="cCom_FSMMgr.cpp">
+      <Filter>_Source\06. Component\11. Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_Source">
@@ -518,9 +524,6 @@
     <Filter Include="_Source\03. Manager\09. RandMgr">
       <UniqueIdentifier>{5aea2cf4-799a-4c50-9422-eb7b85e28049}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_Source\06. Component\11. ScriptHolder">
-      <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
-    </Filter>
     <Filter Include="_HLSL, Shader Default">
       <UniqueIdentifier>{a640b417-9758-45de-a560-7a7e4c1cd383}</UniqueIdentifier>
     </Filter>
@@ -559,6 +562,9 @@
     </Filter>
     <Filter Include="_Source\03. Manager\10. cUserClassMgr">
       <UniqueIdentifier>{fe30ff2c-2244-4ddf-b23b-4a8458bd34a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Source\06. Component\11. Script">
+      <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

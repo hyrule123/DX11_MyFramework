@@ -15,6 +15,6 @@
 
 
 
-namespace strKey_Script
+namespace strKey_GShader
 {
 }

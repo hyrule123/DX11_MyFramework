@@ -12,6 +12,8 @@
 #include "cDevice.h"
 #include "cConstBuffer.h"
 
+#include "cGameObject.h"
+
 IRenderer::IRenderer()
 	: IComponent(eCOMPONENT_TYPE::RENDERER)
 	, m_bIsDynamicMode()
@@ -134,6 +136,11 @@ Ptr<cMaterial> IRenderer::GetDynamicMaterial()
 	m_pCurrentMtrl = m_pDynamicMtrl;
 	m_bIsDynamicMode = true;
 	return m_pCurrentMtrl;
+}
+
+const tMtrlScalarData& IRenderer::GetMtrlScalarData() const
+{
+	return GetOwner()->GetMtrlScalarData();
 }
 
 

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "cCom_Renderer_ParticleBasic.h"
 
+#include "cGameObject.h"
+
 #include "cResMgr.h"
 
 #include "cStructBuffer.h"
@@ -83,7 +85,7 @@ void cCom_Renderer_ParticleBasic::finaltick()
 
 	//렌더링하고 나면 PrevPos를 업데이트
 	m_BasicData.vOwnerPrevWorldPos = m_BasicData.vOwnerCurWorldPos;
-	m_BasicData.vOwnerCurWorldPos = Transform().GetWorldPos();
+	m_BasicData.vOwnerCurWorldPos = GetOwner()->Transform().GetWorldPos();
 }
 
 bool cCom_Renderer_ParticleBasic::render()

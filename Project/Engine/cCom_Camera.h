@@ -1,6 +1,8 @@
 #pragma once
 #include "IComponent.h"
 
+#include "struct.h"
+
 #include "Ptr.h"
 
 class cMesh;

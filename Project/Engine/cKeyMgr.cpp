@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "define.h"
+#include "struct.h"
 #include "cKeyMgr.h"
 #include "cEngine.h"
 

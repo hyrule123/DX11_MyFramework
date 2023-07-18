@@ -4,6 +4,7 @@
 //카메라의 위치를 얻어오기 위함
 #include "cTransform.h"
 
+#include "cGameObject.h"
 
 //화면 해상도 얻어오기 위함
 #include "cDevice.h"
@@ -112,10 +113,10 @@ void cCom_Camera::init()
 void cCom_Camera::finaltick()
 {
 	//트랜스폼이 업데이트 되지 않았을 경우 자신도 업데이트 할 필요 없음
-	if (false == Transform().IsUpdated())
+	if (false == GetOwner()->Transform().IsUpdated())
 		return;
 
-	Vec3 vCamPos = Transform().GetWorldPos();
+	Vec3 vCamPos = GetOwner()->Transform().GetWorldPos();
 
 	//뷰행렬 = 카메라 앞으로 월드행렬의 물체들을 끌어오는 작업.
 	//도로 끌어오는 작업이므로 월드행렬에 배치했던 순서의 역순으로 작업을 해주면 된다.
@@ -157,7 +158,7 @@ void cCom_Camera::finaltick()
 	//const XMVECTOR& vecQut = XMQuaternionRotationRollPitchYawFromVector(vecRot);
 	//Matrix tempmat = Matrix::CreateFromQuaternion(vecQut);
 	//m_matView *= tempmat.Transpose();
-	const Matrix& matRot = Transform().GetWorldRotMat();
+	const Matrix& matRot = GetOwner()->Transform().GetWorldRotMat();
 	m_matView *= matRot.Transpose();
 
 	//3. transform 상수버퍼 구조체에 업데이트 -> 안함. 나중에 render때 일괄적으로 view 행렬과 proj 행렬을 곱할 예정.
@@ -234,7 +235,7 @@ void cCom_Camera::SortObject()
 				float SideLen = vecObj[i]->Transform().GetAABBSideLen();
 
 				//스크린상에서의  위치 구하기
-				const Vec3& ScreenPos = WorldPos - Transform().GetWorldPos();
+				const Vec3& ScreenPos = WorldPos - GetOwner()->Transform().GetWorldPos();
 
 				
 				const Vec2& ResHalf = g_GlobalVal.v2Res * 0.5f;

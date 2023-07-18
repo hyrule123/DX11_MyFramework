@@ -122,7 +122,7 @@ private:
 
     //개별 애니메이션의 프레임 번호가 저장되어있는 벡터를 들고있는 변수
     //실제 애니메이션이 저장되는 장소
-    unordered_map<string, tAnim2D, tHasher_String, std::equal_to<>> m_mapAnim;
+    unordered_map<string, tAnim2D, tUmap_StringHasher, std::equal_to<>> m_mapAnim;
 
     //그리드 형태의 애니메이션일 경우 사용
     UINT m_uRowTotal;

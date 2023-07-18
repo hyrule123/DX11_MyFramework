@@ -2,6 +2,9 @@
 
 #include "Precompiled.h"
 
+#define SAFE_DELETE(Ptr) if(nullptr != Ptr) { delete Ptr; Ptr = nullptr; }
+#define SAFE_DELETE_ARRAY(Ptr) if(nullptr != Ptr) { delete[] Ptr; Ptr = nullptr; }
+
 #define DEVICE  cDevice::GetInst()->GetDevice()
 #define CONTEXT cDevice::GetInst()->GetDeviceContext()
 
@@ -70,37 +73,83 @@ constexpr float DEPTH_PRESET_MAX = 100000.f;
 //Global Variable
 extern const string g_voidStr;
 
-
-
-//새로운 컴포넌트를 만들어줄 경우
-//eCOMPONENT_TYPE에 컴포넌트 추가
-//components.h에 컴포넌트 뚫어주기
-enum class eCOMPONENT_TYPE
+enum class eRES_TYPE
 {
-	// update
-	COLLIDER2D,		// 2차원 충돌
-	COLLIDER3D,		// 3차원 충돌
-	ANIMATOR2D,		// Sprite Animation
-	ANIMATOR3D,		// Bone Sknning Animation
-	LIGHT2D,			// 2차원 광원
-	LIGHT3D,			// 3차원 광원
-	CAMERA,			// cCom_Camera
+	UNKNOWN = -1,
 
-	// render
-	RENDERER,
-	//MESH_RENDER,		// 기본적인 렌더링
-	//PARTICLE_SYSTEM, // 입자 렌더링
-	//TILEMAP,		// 2차원 타일
-	//LANDSCAPE,		// 3차원 지형
-	//DECAL,			// 내부 렌더링
+	MESH,			// 형태
+	MESHDATA,
+	MATERIAL,
 
-	// custom
-	SCRIPT_HOLDER,		
+	TEXTURE,		// 이미지
+	ANIM2D_ATLAS,
+
+	SOUND,
+
+	PREFAB,
+
+	GRAPHICS_SHADER,
+	COMPUTE_SHADER,
 
 	END
 };
 
+//새로운 컴포넌트를 만들어줄 경우
+//eCOMPONENT_TYPE에 컴포넌트 추가
+//components.h에 컴포넌트 뚫어주기
+//GetComponentType() 함수에 해당 컴포넌트 반환 코드 추가하기
+//cUserClassMgr에 기본 컴포넌트는 수동으로 추가해줘야 함(Script 프로젝트 쪽은 CodeGenerator에서 알아서 추가함)
+enum class eCOMPONENT_TYPE
+{
+	UNKNOWN_TYPE = -1,
 
+	// update
+	COLLIDER,
+	ANIMATOR,
+	LIGHT,
+	CAMERA,
+
+	// render
+	RENDERER,
+
+	// custom
+	SCRIPTS,
+	//SCRIPT_HOLDER,		
+
+	END
+};
+
+//FSM 관련 구조체는 struct에 있음.
+enum class eFSM_RESULT
+{
+	NULLPTR,
+	ACCEPT,
+	REJECT,
+	RESERVE
+};
+
+
+//// update
+//COLLIDER2D,		// 2차원 충돌
+//COLLIDER3D,		// 3차원 충돌
+//ANIMATOR2D,		// Sprite Animation
+//ANIMATOR3D,		// Bone Sknning Animation
+//LIGHT2D,			// 2차원 광원
+//LIGHT3D,			// 3차원 광원
+//CAMERA,			// cCom_Camera
+//
+//// render
+//RENDERER,
+//MESH_RENDER,		// 기본적인 렌더링
+//PARTICLE_SYSTEM, // 입자 렌더링
+//TILEMAP,		// 2차원 타일
+//LANDSCAPE,		// 3차원 지형
+//DECAL,			// 내부 렌더링
+//
+////custom
+//SCRIPT_HOLDER,
+//
+//END
 
 
 
@@ -332,6 +381,3 @@ enum class eANIM_PLAYMODE
 	ZIG_ZAG
 };
 
-
-
-#include "S_H_Struct.hlsli"

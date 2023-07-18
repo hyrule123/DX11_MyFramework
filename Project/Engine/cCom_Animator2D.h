@@ -1,7 +1,11 @@
 #pragma once
 #include "IComponent.h"
 
+#include "struct.h"
+
 #include "Ptr.h"
+
+
 
 class cAnim2DAtlas;
 class cTexture;

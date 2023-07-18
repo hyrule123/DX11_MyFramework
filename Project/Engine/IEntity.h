@@ -19,7 +19,7 @@ public:
 	virtual bool LoadJson(Json::Value* _pJson);
 
 private:
-	static UINT32 g_iNextID;
+	static UINT32	g_iNextID;
 
 private:
 	const UINT32	m_iID;
@@ -28,9 +28,9 @@ public:
 
 
 private:
-	string			m_strKey;
+	string_view			m_strKey;
 public:
 	void SetKey(const string_view _strName) {  m_strKey = _strName; }
-	const string& GetKey() { return m_strKey; }
+	const string_view GetKey() { return m_strKey; }
 };
 

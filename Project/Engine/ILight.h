@@ -4,7 +4,7 @@ class ILight :
     public IComponent
 {
 public:
-    ILight(eCOMPONENT_TYPE _type);
+    ILight();
     virtual ~ILight();
 };
 

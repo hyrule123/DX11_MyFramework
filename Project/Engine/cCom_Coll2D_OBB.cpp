@@ -8,6 +8,8 @@
 
 #include "S_H_Debug.hlsli"
 
+#include "cGameObject.h"
+
 cCom_Coll2D_OBB::cCom_Coll2D_OBB()
 	: ICollider2D(eCOLLIDER_TYPE_2D::OBB)
 	, m_tOBBInfo{}

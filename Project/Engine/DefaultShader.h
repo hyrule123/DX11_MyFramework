@@ -9,9 +9,9 @@
 #include "DefaultShader/S_0_V_Debug_Debug.h"
 #include "DefaultShader/S_4_P_Debug_Debug.h"
 
-#include "DefaultShader/S_0_V_Particle_Debug.h"
-#include "DefaultShader/S_3_G_Particle_Debug.h"
-#include "DefaultShader/S_4_P_Particle_Debug.h"
+#include "DefaultShader/S_0_V_ParticleBasic_Debug.h"
+#include "DefaultShader/S_3_G_ParticleBasic_Debug.h"
+#include "DefaultShader/S_4_P_ParticleBasic_Debug.h"
 
 #include "DefaultShader/S_0_V_STD2D_Debug.h"
 #include "DefaultShader/S_4_P_STD2D_Debug.h"

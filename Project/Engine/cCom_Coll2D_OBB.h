@@ -1,6 +1,7 @@
 #pragma once
 #include "ICollider2D.h"
 
+#include "struct.h"
 
 class cCom_Coll2D_OBB :
     public ICollider2D

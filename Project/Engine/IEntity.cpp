@@ -41,7 +41,15 @@ bool IEntity::SaveJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-	jVal[JSON_KEY::m_strKey] = m_strKey;
+	if (false == m_strKey.empty())
+	{
+		jVal[JSON_KEY::m_strKey] = string(m_strKey);
+	}
+	else
+	{
+
+	}
+	
 
 	return true;
 }
@@ -53,8 +61,11 @@ bool IEntity::LoadJson(Json::Value* _pJson)
 
 	const Json::Value& jVal = *_pJson;
 
-	if(jVal.isMember(JSON_KEY::m_strKey))
-		m_strKey = jVal[JSON_KEY::m_strKey].asString();
+	if (jVal.isMember(JSON_KEY::m_strKey))
+	{
+		//m_strKey = jVal[JSON_KEY::m_strKey].asString();
+	}
+		
 
 	return true;
 }

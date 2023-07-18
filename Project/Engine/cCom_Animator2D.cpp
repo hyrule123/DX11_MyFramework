@@ -10,13 +10,16 @@
 
 #include "cTimeMgr.h"
 
+#include "cGameObject.h"
 #include "cTransform.h"
 
 #include "jsoncpp.h"
 
 
+
+
 cCom_Animator2D::cCom_Animator2D()
-    : IComponent(eCOMPONENT_TYPE::ANIMATOR2D)
+    : IComponent(eCOMPONENT_TYPE::ANIMATOR)
     //, m_uCurFrame()
     , m_iCurFrameIdx()
     , m_fCurTime()
@@ -220,7 +223,7 @@ void cCom_Animator2D::finaltick()
                     break;
                 case eANIM_PLAYMODE::DISABLE_AFTER_PLAY:
                 {
-                    Renderer()->SetDisable(true);
+                    GetOwner()->Renderer()->SetDisable(true);
                 }
                     break;
                 case eANIM_PLAYMODE::NORMAL_LOOP:
@@ -406,10 +409,10 @@ bool cCom_Animator2D::Play(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlay
         
     if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
     {
-        Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
+        GetOwner()->Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
     }
 
-    Renderer()->SetDisable(false);
+    GetOwner()->Renderer()->SetDisable(false);
     SetDisable(false);
             
     //재생준비 완료 - true 반환
@@ -465,10 +468,10 @@ bool cCom_Animator2D::PreparePlay(const string_view _strKey_Anim, eANIM_PLAYMODE
 
     if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
     {
-        Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
+        GetOwner()->Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
     }
 
-    Renderer()->SetDisable(true);
+    GetOwner()->Renderer()->SetDisable(true);
     SetDisable(true);
 
     //재생준비 완료 - true 반환
@@ -485,7 +488,7 @@ void cCom_Animator2D::PlayAgain()
     m_fCurTime = 0.f;
     m_bFinish = false;
 
-    Renderer()->SetDisable(false);
+    GetOwner()->Renderer()->SetDisable(false);
     SetDisable(false);
 }
 
@@ -531,7 +534,7 @@ void cCom_Animator2D::CalculateDirectionalColHalfFlipAtlas()
 
     //현재 z축 회전 각도를 받아와서 360도(2PI)로 나눈 나머지를 구해준다.
     //12시 기준이고, 음수는 11시 방향 360도, 양수는 1시 방향 360도를 의미한다.
-    float angle = fmodf(-Transform().GetRelativeRot().z, XM_2PI);
+    float angle = fmodf(-(GetOwner()->Transform().GetRelativeRot().z), XM_2PI);
 
     //각도가 음수일 경우(반시계방향 회전일 경우) 2PI에서 빼서(angle이 음수이므로 더해주면 됨) 양수 기준으로 바꿔준다.
     //이러면 0 ~ 360도 범위가 0 ~ 2PI 범위로 바뀌게 된다.

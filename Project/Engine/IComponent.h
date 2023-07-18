@@ -1,13 +1,9 @@
 #pragma once
 #include "IEntity.h"
 
-#include "cGameObject.h"
+#include "define.h"
 
-class cTransform;
-class cCom_Renderer_Basic;
-class cCom_Camera;
-class ICollider3D;
-
+class cGameObject;
 class IComponent :
     public IEntity
 {
@@ -55,13 +51,5 @@ public:
 
     SETTER(bool, m_bIsDisabled, Disable);
     bool isDisabled() const { return m_bIsDisabled; }
-
-public:
-    cTransform&             Transform()         { return m_pOwner->Transform(); }
-    IRenderer*              Renderer()          { return m_pOwner->Renderer(); }
-    cCom_Camera*            Camera()            { return m_pOwner->Camera(); }
-    cCom_Animator2D*        Animator2D()        { return m_pOwner->Animator2D(); }
-    ICollider2D*            Collider2D()        { return m_pOwner->Collider2D(); }
-    ICollider3D*            ICollider3D()       { return m_pOwner->Collider3D(); }
 };
 

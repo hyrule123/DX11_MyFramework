@@ -4,7 +4,7 @@
 
 #include "cEngine.h"
 
-#include "define.h"
+#include "struct.h"
 
 
 cTimeMgr::cTimeMgr()

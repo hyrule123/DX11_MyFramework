@@ -16,7 +16,7 @@
 #include "jsoncpp.h"
 
 ICollider2D::ICollider2D(eCOLLIDER_TYPE_2D _eColType)
-	: ICollider(eCOMPONENT_TYPE::COLLIDER2D, eDIMENSION_TYPE::_2D)
+	: ICollider(eDIMENSION_TYPE::_2D)
 	, m_eColType(_eColType)
 	, m_vecGridIdxInfo{}
 {

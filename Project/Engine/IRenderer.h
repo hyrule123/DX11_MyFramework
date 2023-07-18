@@ -65,7 +65,7 @@ public:
     Ptr<cMaterial> GetSharedMaterial();
     Ptr<cMaterial> GetDynamicMaterial();
 
-    const tMtrlScalarData& GetMtrlScalarData() const { return GetOwner()->GetMtrlScalarData(); }
+    const tMtrlScalarData& GetMtrlScalarData() const;
     bool IsRenderReady() { return ((nullptr != m_pMesh) && (nullptr != m_pSharedMtrl)); }
 
     void SetCamIdx(eCAMERA_INDEX _eCamIdx);

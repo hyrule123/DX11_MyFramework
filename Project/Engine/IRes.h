@@ -4,7 +4,6 @@
 #include "global.h"
 #include "strKey_Default.h"
 
-
 #include <UtilLib_DLL/json/forwards.h>
 
 //각자 리소스 타입에 맞는 경로를 받아옴.
@@ -13,7 +12,7 @@
 namespace JsonKey_Res
 {
     STRKEY_DECLARE(m_eResType);
-}
+};
 
 class IRes :
     public IEntity

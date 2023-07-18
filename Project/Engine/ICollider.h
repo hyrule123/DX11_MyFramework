@@ -8,7 +8,7 @@ class ICollider :
 private:
     ICollider() = delete;
 public:
-    ICollider(eCOMPONENT_TYPE _ComType, eDIMENSION_TYPE _eDim);
+    ICollider(eDIMENSION_TYPE _eDim);
     virtual ~ICollider();
 
     virtual bool SaveJson(Json::Value* _pJson) override;
@@ -73,11 +73,4 @@ public:
     void            AddCollisionCount() { ++m_iCollisionCount; }
     void            SubCollisionCount() { --m_iCollisionCount; }
     int             GetCollisionCount() const { return m_iCollisionCount; }
-
-    int             GetLayerIndex() { return GetOwner()->GetLayer(); }
-
-
-    //nullptr이 반환될 수 있으므로 주의할것
-    cScriptHolder* ScriptHolder() { return GetOwner()->ScriptHolder(); }
-
 };

@@ -21,6 +21,7 @@
 #include <future>
 #include <memory>
 #include <fstream>
+#include <span>
 
 using std::vector;
 using std::list;

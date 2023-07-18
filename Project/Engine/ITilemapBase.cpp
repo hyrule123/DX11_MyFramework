@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "ITilemapBase.h"
 
+#include "cGameObject.h"
+
 #include "cResMgr.h"
 #include "strKey_Default.h"
 

@@ -1,33 +1,21 @@
 #pragma once
 
-#include "IScript.h"
-
-class cGameObject;
-class cTransform;
-class IRenderer;
-class cCom_Animator2D;
-class cScriptHolder;
-
-struct tDescFSM
-{
-    const UINT uMyStateID;
-    const UINT uMaxStateID;
-
-    tDescFSM(UINT _uMyStateID, UINT _uMaxStateID) : uMyStateID(_uMyStateID), uMaxStateID(_uMaxStateID) {}
-    tDescFSM(const tDescFSM& _other) = delete;
-    tDescFSM(tDescFSM&& _right) = delete;
-};
+#include "IEntity.h"
+#include "struct.h"
 
 
-//같은 I_FSM 범주 안의 클래스들은 enum class를 공유하는 헤더파일을 만들어서 사용해 줄것
+class cCom_FSMMgr;
+class ICollider;
+
+//FSM Manager
 class I_FSM
-    : public IScript
+    : public IEntity
 {
 private:
     I_FSM() = delete;
 public:
     //strKey -> IScript로 전달, _uStateID -> I_FSM으로 전달
-    I_FSM(const string_view _strKey, UINT _uStateID);
+    I_FSM(UINT _uStateID);
 
     I_FSM(const I_FSM& _other);
     virtual I_FSM* Clone() = 0;
@@ -50,20 +38,23 @@ public:
     //호출 시점: Transition()에서 true가 반환될 경우(상태 종료)
     virtual void EndState() = 0;
 
+    virtual void BeginColiision(ICollider* _Other, const Vec3& _v3HitPoint) {};
+    virtual void OnCollision(ICollider* _Other, const Vec3& _v3HitPoint) {};
+    virtual void EndCollision(ICollider* _Other) {};
 
 protected:
     eFSM_RESULT Transition(const tFSM_Event& _tEvent);
-
-public:
-    virtual void SetHolder(cScriptHolder* _pScriptHolder) override;
 
 private:
     const UINT m_uStateID;
 public:
     UINT GetStateID() const { return m_uStateID; }
+
+private:
+    cCom_FSMMgr* m_FSMMgr;
+public:
+    void SetOwner(cCom_FSMMgr* _pMgr) { m_FSMMgr = _pMgr; }
+    cCom_FSMMgr* GetFSMMgr() const { return m_FSMMgr; }
 };
 
-inline eFSM_RESULT I_FSM::Transition(const tFSM_Event& _tEvent)
-{
-    return ScriptHolder()->Transition(_tEvent);
-}
+

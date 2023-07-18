@@ -1,45 +1,30 @@
 #pragma once
-#include "IComponent.h"
+#include "IScript.h"
 
-class cTransform;
-class cCom_Camera;
-class cCom_Renderer_Basic;
-class ICollider;
-class CFSM_Mgr;
-class I_FSM;
+#include "struct.h"
+
+
 
 //한 게임오브젝트에서 활용하는 스크립트들 모음
 //I_FSM도 여기에서 담당
-enum class eFSM_RESULT
-{
-    NULLPTR,
-    ACCEPT,
-    REJECT,
-    RESERVE
-};
-
-class cScriptHolder 
-    : public IComponent
+class I_FSM;
+class cCom_FSMMgr
+    : public IScript
 {
 public:
-    cScriptHolder();
+    cCom_FSMMgr();
 
-    cScriptHolder(const cScriptHolder& _other);
-    CLONE(cScriptHolder);
+    cCom_FSMMgr(const cCom_FSMMgr& _other);
+    CLONE(cCom_FSMMgr);
 
-    virtual ~cScriptHolder();
+    virtual ~cCom_FSMMgr();
 
-public:
-    virtual bool SaveJson(Json::Value* _jVal);
-    virtual bool LoadJson(Json::Value* _jVal);
 
 public:
     virtual void init() final;
     virtual void start() final;
     virtual void tick() final;
     virtual void finaltick() final {}
-    void BindData();
-    void UnBind();
     virtual void cleanup() final {}
 
     eFSM_RESULT Transition(const tFSM_Event& _tEvent);
@@ -47,10 +32,6 @@ public:
     eFSM_RESULT ForceTransition(const tFSM_Event& _tEvent);
 
 private:
-    //I_FSM을 포함한 모든 스크립트를 들고있음(업데이트 용)
-    vector<IScript*> m_vecScript;
-    //map<std::string, IScript*> m_mapScript;
-
     //Index = I_FSM의 인덱스 번호
     vector<I_FSM*> m_vecFSM;
     I_FSM* m_pCurrentFSM;
@@ -61,24 +42,18 @@ private:
     void ResetReservedFSM() { m_uReservedFSM = tFSM_Event{}; }
     void ChangeFSM(const tFSM_Event& _tEvent);
 
-public:
-    bool AddScript(IScript* _pScript);
-    IScript* FindScript(const string_view _strKey);
-
-    const vector<IScript*>& GetScripts() const { return m_vecScript; }
-
     //이건 직접 호출할 필요 없음.(AddScript 할 시 알아서 호출 됨)
     bool AddFSM(I_FSM* _pFSM);
     I_FSM* GetCurFSM() const { return m_pCurrentFSM; }
     I_FSM* GetFSM(UINT _uStateID) const { if (CheckFSMValid(_uStateID)) return m_vecFSM[_uStateID]; return nullptr; }
-     
+
 public:
     void BeginColiision(ICollider* _Other, const Vec3& _v3HitPoint);
     void OnCollision(ICollider* _Other, const Vec3& _v3HitPoint);
     void EndCollision(ICollider* _Other);
 };
 
-inline bool cScriptHolder::CheckFSMValid(UINT _uStateID) const
+inline bool cCom_FSMMgr::CheckFSMValid(UINT _uStateID) const
 {
     if (_uStateID >= m_vecFSM.size())
         return false;
@@ -87,7 +62,6 @@ inline bool cScriptHolder::CheckFSMValid(UINT _uStateID) const
 
     return true;
 }
-
 
 
 

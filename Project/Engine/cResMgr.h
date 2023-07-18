@@ -34,7 +34,7 @@ public:
     void cleartick() { m_bResUpdated = false; }
     
 private:
-    unordered_map<string, Ptr<IRes>, tHasher_String, std::equal_to<>> m_arrRes[(UINT)eRES_TYPE::END];
+    unordered_map<string, Ptr<IRes>, tUmap_StringHasher, std::equal_to<>> m_arrRes[(UINT)eRES_TYPE::END];
 
     //리소스 정보가 업데이트 되면 true로 변경
     bool    m_bResUpdated;
@@ -99,7 +99,7 @@ public:
     template<typename T>
     Ptr<T> Load(const std::filesystem::path& _fileName, const string_view _strKey = "");
 
-    unordered_map<string, Ptr<IRes>, tHasher_String, std::equal_to<>> const& GetResMap(eRES_TYPE _ResType);
+    unordered_map<string, Ptr<IRes>, tUmap_StringHasher, std::equal_to<>> const& GetResMap(eRES_TYPE _ResType);
 
     Ptr<cTexture> CreateTexture(const string_view _strKey, UINT _uWidth, UINT _uHeight, DXGI_FORMAT _PixelFormat, UINT _D3D11_BIND_FLAG, D3D11_USAGE _Usage);
 };
@@ -238,7 +238,7 @@ inline Ptr<T> cResMgr::Load(const std::filesystem::path& _fileName, const string
 }
 
 
-inline unordered_map<string, Ptr<IRes>, tHasher_String, std::equal_to<>> const& cResMgr::GetResMap(eRES_TYPE _ResType)
+inline unordered_map<string, Ptr<IRes>, tUmap_StringHasher, std::equal_to<>> const& cResMgr::GetResMap(eRES_TYPE _ResType)
 {
     return m_arrRes[(UINT)_ResType];
 }

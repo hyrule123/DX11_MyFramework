@@ -132,9 +132,9 @@ void cCollisionMgr::tick()
 			{
 				//두 레이어가 충돌하도록 설정되어 있는지 여부를 검사한다. 충돌하지 않는 레이어일 경우 충돌 검사 X
 				if (false == 
-					(m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColl[l]->GetLayerIndex()]
+					(m_arrFlagLayerInteraction[m_vec2DGrid[i].vecColl[l]->GetOwner()->GetLayer()]
 					&
-					(UINT32)1 << m_vec2DGrid[i].vecColl[m]->GetLayerIndex())
+					(UINT32)1 << m_vec2DGrid[i].vecColl[m]->GetOwner()->GetLayer())
 					)
 					continue;
 

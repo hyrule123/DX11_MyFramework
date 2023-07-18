@@ -191,6 +191,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cAnim2DAtlas.h" />
+    <ClInclude Include="IAnimator.h" />
     <ClInclude Include="cCom_Animator2D.h" />
     <ClInclude Include="cCom_Camera.h" />
     <ClInclude Include="cShaderData_Default.h" />
@@ -214,7 +215,14 @@
     <ClInclude Include="cEngine.h" />
     <ClInclude Include="IEntity.h" />
     <ClInclude Include="cEventMgr.h" />
-    <ClInclude Include="I_FSM.h" />
+    <ClInclude Include="cCom_FSMMgr.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="I_FSM.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cGraphicsShader.h" />
     <ClInclude Include="cKeyMgr.h" />
@@ -237,7 +245,6 @@
     <ClInclude Include="IRes.h" />
     <ClInclude Include="cResMgr.h" />
     <ClInclude Include="IScript.h" />
-    <ClInclude Include="cScriptHolder.h" />
     <ClInclude Include="cCom_Renderer_TilemapComplete.h" />
     <ClInclude Include="cUserClassMgr.h" />
     <ClInclude Include="IShader.h" />
@@ -265,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cAnim2DAtlas.cpp" />
+    <ClCompile Include="IAnimator.cpp" />
     <ClCompile Include="cCom_Animator2D.cpp" />
     <ClCompile Include="cCom_Camera.cpp" />
     <ClCompile Include="cShaderData_Default.cpp" />
@@ -291,7 +299,14 @@
     </ClCompile>
     <ClCompile Include="IEntity.cpp" />
     <ClCompile Include="cEventMgr.cpp" />
-    <ClCompile Include="I_FSM.cpp" />
+    <ClCompile Include="cCom_FSMMgr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="I_FSM.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cGraphicsShader.cpp" />
     <ClCompile Include="cKeyMgr.cpp" />
@@ -313,7 +328,6 @@
     <ClCompile Include="IRes.cpp" />
     <ClCompile Include="cResMgr.cpp" />
     <ClCompile Include="IScript.cpp" />
-    <ClCompile Include="cScriptHolder.cpp" />
     <ClCompile Include="cCom_Renderer_TilemapComplete.cpp" />
     <ClCompile Include="cUserClassMgr.cpp" />
     <ClCompile Include="IShader.cpp" />

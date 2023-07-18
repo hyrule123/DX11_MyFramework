@@ -4,18 +4,9 @@
 #include "global.h"
 
 #include "cTransform.h"
+#include "components.h"
 
-class IComponent;
-class ICollider2D;
-class cCom_Renderer_Basic;
-class cCom_Camera;
-class IRenderer;
-class cScriptHolder;
-class IScript;
-class cCom_Light2D;
-class ITilemapBase;
-class cCom_Animator2D;
-class ICollider3D;
+#include <span>
 
 class cGameObject :
     public IEntity
@@ -55,8 +46,8 @@ public:
 public:
 
 private:
-    cTransform              m_Transform;
-    IComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
+    cTransform                          m_Transform;
+    std::vector<IComponent*>            m_vecCom;
 
 public:
     //Add
@@ -65,7 +56,9 @@ public:
     //cEventMgr 전용 함수. 직접 호출 시 에러 발생할 수 있음.
     void RemoveComponent(eCOMPONENT_TYPE _eComType);
 
-    void AddScript(IScript* _Script);
+    const std::span<IComponent*> GetScripts();
+    
+    //void AddScript(IScript* _Script);
 
 private:
     //Hierarchy
@@ -138,26 +131,35 @@ private:
 
     bool                    m_bDisable;
     bool                    m_bPrevEnable;
-    
+public:
+    bool IsStarted() const { return m_bStart; }
 
 
 public:
+    cTransform& Transform() { return m_Transform; }
+
     ////Components
-    IComponent*         GetComponent(eCOMPONENT_TYPE _type) const { return (IComponent*)m_arrCom[(UINT)_type]; }
+    IComponent*         GetComponent(eCOMPONENT_TYPE _type) const { return (IComponent*)m_vecCom[(UINT)_type]; }
 
-    cTransform&         Transform() { return m_Transform; }
+    ICollider*          Collider() const { return (ICollider*)m_vecCom[(UINT)eCOMPONENT_TYPE::COLLIDER]; }
 
-    ICollider2D*        Collider2D() const { return (ICollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER2D]; }
-    ICollider3D*        Collider3D() const { return (ICollider3D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER3D]; }
+    IAnimator*          Animator() const { return (IAnimator*)m_vecCom[(UINT)eCOMPONENT_TYPE::ANIMATOR]; }
 
-    cCom_Animator2D*        Animator2D() const { return (cCom_Animator2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::ANIMATOR2D]; }
+    cCom_Camera*        Camera() const { return (cCom_Camera*)m_vecCom[(UINT)eCOMPONENT_TYPE::CAMERA]; }
 
-    cCom_Camera*            Camera() const { return (cCom_Camera*)m_arrCom[(UINT)eCOMPONENT_TYPE::CAMERA]; }
+    IRenderer*          Renderer() const { return (IRenderer*)m_vecCom[(UINT)eCOMPONENT_TYPE::RENDERER]; }
 
-    IRenderer*          Renderer() const { return (IRenderer*)m_arrCom[(UINT)eCOMPONENT_TYPE::RENDERER]; }
+    ILight*             Light() const { return (ILight*)(m_vecCom[(UINT)eCOMPONENT_TYPE::LIGHT]); }
 
-    cScriptHolder*      ScriptHolder() const { return (cScriptHolder*)m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER]; }
-    cCom_Light2D* Light2D() const { return (cCom_Light2D*)(m_arrCom[(UINT)eCOMPONENT_TYPE::LIGHT2D]); }
+
+    template <typename T>
+    eCOMPONENT_TYPE GetComponentType();
+
+    template <typename T>
+    T* GetComponent();
+
+    template <typename T>
+    T* AddComponent();
 };
 
 inline void cGameObject::DestroyRecursive()
@@ -310,3 +312,57 @@ inline void cGameObject::YSort(float _MaxZ)
 }   
 
 
+
+template<typename T>
+inline eCOMPONENT_TYPE cGameObject::GetComponentType()
+{
+    if constexpr (std::is_base_of_v<ICollider, T>)
+    {
+        return eCOMPONENT_TYPE::COLLIDER;
+    }
+    else if constexpr (std::is_base_of_v<IAnimator, T>)
+    {
+        return eCOMPONENT_TYPE::ANIMATOR;
+    }
+    else if constexpr (std::is_base_of_v<ILight, T>)
+    {
+        return eCOMPONENT_TYPE::LIGHT;
+    }
+    else if constexpr (std::is_base_of_v<cCom_Camera, T>)
+    {
+        return eCOMPONENT_TYPE::CAMERA;
+    }
+    else if constexpr (std::is_base_of_v<IRenderer, T>)
+    {
+        return eCOMPONENT_TYPE::RENDERER;
+    }
+    else if constexpr (std::is_base_of_v<IScript, T>)
+    {
+        return eCOMPONENT_TYPE::SCRIPTS;
+    }
+    
+    return eCOMPONENT_TYPE::UNKNOWN_TYPE;
+}
+
+
+template<typename T>
+inline T* cGameObject::GetComponent()
+{
+    eCOMPONENT_TYPE ComType = GetComponentType<T>();
+    return dynamic_cast<T>(m_vecCom[(int)ComType]);
+}
+
+template<typename T>
+inline T* cGameObject::AddComponent()
+{
+    eCOMPONENT_TYPE ComType = GetComponentType<T>();
+
+    //타입을 알 수 없거나 이미 그쪽에 컴포넌트가 들어가 있을 경우 생성 불가
+    if (eCOMPONENT_TYPE::UNKNOWN_TYPE == ComType || nullptr != m_vecCom[(int)ComType])
+        return nullptr;
+
+    m_vecCom[(int)ComType] = new T;
+    m_vecCom[(int)ComType]->SetKey(cUserClassMgr::GetInst()->GetComponentName(std::type_index(typeid(T)));
+
+    return static_cast<T*>(m_vecCom[(int)ComType]);
+}

@@ -2,6 +2,8 @@
 
 #include "define.h"
 
+#include "S_H_Struct.hlsli"
+
 struct tConstBufferClassDesc
 {
 	int                     iRegisterNum;
@@ -44,6 +46,16 @@ struct tFSM_Event
 	tFSM_Event(UINT _uStateID) : uStateID(_uStateID), srcParam(), destParam() {}
 	tFSM_Event(UINT _uStateID, DWORD_PTR _srcParam) : uStateID(_uStateID), srcParam(_srcParam), destParam() {}
 	tFSM_Event(UINT _uStateID, DWORD_PTR _wParam, DWORD_PTR _destParam) : uStateID(_uStateID), srcParam(_wParam), destParam(_destParam) {}
+}; 
+
+struct tDescFSM
+{
+	const UINT uMyStateID;
+	const UINT uMaxStateID;
+
+	tDescFSM(UINT _uMyStateID, UINT _uMaxStateID) : uMyStateID(_uMyStateID), uMaxStateID(_uMaxStateID) {}
+	tDescFSM(const tDescFSM& _other) = delete;
+	tDescFSM(tDescFSM&& _right) = delete;
 };
 
 struct tSquareInfo
@@ -108,15 +120,7 @@ struct tLightHashFunc_DWORD_PTR
 	}
 };
 
-struct tHasher_String
-{
-	using hash_type = std::hash<std::string_view>;
-	using is_transparent = void;
 
-	std::size_t operator()(const char* str) const { return hash_type{}(str); }
-	std::size_t operator()(std::string_view str) const { return hash_type{}(str); }
-	std::size_t operator()(std::string const& str) const { return hash_type{}(str); }
-};
 
 
 
@@ -144,7 +148,17 @@ struct tInstancingKey
 	}
 };
 
-struct tString_Operator
+struct tUmap_StringHasher
+{
+	using hash_type = std::hash<std::string_view>;
+	using is_transparent = void;
+
+	std::size_t operator()(const char* str) const { return hash_type{}(str); }
+	std::size_t operator()(std::string_view str) const { return hash_type{}(str); }
+	std::size_t operator()(std::string const& str) const { return hash_type{}(str); }
+};
+
+struct tMap_StringOperator
 {
 	bool operator()(const std::string& _lStr, const std::string& _rStr) const
 	{

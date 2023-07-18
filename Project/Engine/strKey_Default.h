@@ -2,15 +2,20 @@
 
 #include "define.h"
 
-
+//eCOMPONENT_TYPE
 namespace strkey_DefaultCom
 {
-	STRKEY_DECLARE(cCOM_Collider2D);
-	STRKEY_DECLARE(cCOM_Collider3D);
-	STRKEY_DECLARE(cCom_Animator2D);
-	STRKEY_DECLARE(cCom_Animator3D);
+	STRKEY_DECLARE(cCom_Coll2D_Circle);
+	STRKEY_DECLARE(cCom_Coll2D_OBB);
+	STRKEY_DECLARE(cCom_Coll2D_Point);
+	STRKEY_DECLARE(cCom_Coll2D_Rect);
 	STRKEY_DECLARE(cCom_Light2D);
-	STRKEY_
+	STRKEY_DECLARE(cCom_Camera);
+	STRKEY_DECLARE(cCom_Renderer_Basic);
+	STRKEY_DECLARE(cCom_Renderer_ParticleBasic);
+	STRKEY_DECLARE(cCom_Renderer_TilemapAtlas);
+	STRKEY_DECLARE(cCom_Renderer_TilemapComplete);
+
 
 		//COLLIDER2D,		// 2차원 충돌
 		//COLLIDER3D,		// 3차원 충돌
@@ -35,26 +40,7 @@ namespace strkey_DefaultCom
 
 //이 열거체 중간에 값을 추가하거나 수정할 경우 반드시 밑의 경로 정보도 수정할 것
 //이 열거체를 배열의 인덱스로 사용하고 있음.
-enum class eRES_TYPE
-{
-	UNKNOWN = -1,
 
-	MESH,			// 형태
-	MESHDATA,
-	MATERIAL,
-
-	TEXTURE,		// 이미지
-	ANIM2D_ATLAS,
-
-	SOUND,
-
-	PREFAB,
-
-	GRAPHICS_SHADER,
-	COMPUTE_SHADER,
-
-	END
-};
 
 namespace strKey_RES_DEFAULT
 {

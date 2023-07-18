@@ -28,9 +28,37 @@
 #include "components.h"
 #include "strKey_Default.h"
 
+
+#include "cCom_Coll2D_Circle.h"
+#include "cCom_Coll2D_OBB.h"
+#include "cCom_Coll2D_Point.h"
+#include "cCom_Coll2D_Rect.h"
+
+#include "cCom_Light2D.h"
+#include "cCom_Camera.h"
+
+#include "cCom_Renderer_Basic.h"
+#include "cCom_Renderer_ParticleBasic.h"
+#include "cCom_Renderer_TilemapAtlas.h"
+#include "cCom_Renderer_TilemapComplete.h"
+
+
+
 void DefaultClassInitializer::InitDefaultComponent()
 {
 	cUserClassMgr* pMgr = cUserClassMgr::GetInst();
 
-	pMgr->AddComponentConstructor(strKey_Default::)
+	pMgr->AddComponentConstructor<cCom_Coll2D_Circle>(strkey_DefaultCom::cCom_Coll2D_Circle);
+	pMgr->AddComponentConstructor<cCom_Coll2D_OBB>(strkey_DefaultCom::cCom_Coll2D_OBB);
+	pMgr->AddComponentConstructor<cCom_Coll2D_Point>(strkey_DefaultCom::cCom_Coll2D_Point);
+	pMgr->AddComponentConstructor<cCom_Coll2D_Rect>(strkey_DefaultCom::cCom_Coll2D_Rect);
+
+	pMgr->AddComponentConstructor<cCom_Light2D>(strkey_DefaultCom::cCom_Light2D);
+	pMgr->AddComponentConstructor<cCom_Camera>(strkey_DefaultCom::cCom_Camera);
+
+	pMgr->AddComponentConstructor<cCom_Renderer_Basic>(strkey_DefaultCom::cCom_Renderer_Basic);
+	pMgr->AddComponentConstructor<cCom_Renderer_ParticleBasic>(strkey_DefaultCom::cCom_Renderer_ParticleBasic);
+	pMgr->AddComponentConstructor<cCom_Renderer_TilemapAtlas>(strkey_DefaultCom::cCom_Renderer_TilemapAtlas);
+	pMgr->AddComponentConstructor<cCom_Renderer_TilemapComplete>(strkey_DefaultCom::cCom_Renderer_TilemapComplete);
+
 }

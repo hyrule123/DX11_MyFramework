@@ -31,8 +31,8 @@
 namespace JsonKey_cGameObject
 {
 
-	//IComponent* m_arrCom[(UINT)eCOMPONENT_TYPE::END];
-	STRKEY_DECLARE(m_arrCom);
+	//IComponent* m_vecCom[(UINT)eCOMPONENT_TYPE::END];
+	STRKEY_DECLARE(m_vecCom);
 
 	//IRenderer* m_RenderCom;
 
@@ -65,8 +65,10 @@ namespace JsonKey_cGameObject
 	//bool                m_bInitialized;
 }
 
+constexpr int BASIC_VEC_COM_CAPACITY = 20;
+
 cGameObject::cGameObject()
-	: m_arrCom{}
+	: m_vecCom((size_t)eCOMPONENT_TYPE::SCRIPTS)
 	, m_Parent()
 	, m_iLayerIdx(-1)
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
@@ -75,24 +77,26 @@ cGameObject::cGameObject()
 	, m_bDisable(false)
 	, m_bPrevEnable()
 {
+	m_vecCom.reserve(BASIC_VEC_COM_CAPACITY);
 }
 
 cGameObject::cGameObject(const cGameObject& _other)
 	: IEntity(_other)
-	, m_arrCom{}
+	, m_vecCom((size_t)eCOMPONENT_TYPE::SCRIPTS)
 	, m_iLayerIdx(_other.m_iLayerIdx)
 	, m_bDestroy()
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
 	, m_bDisable(_other.m_bDisable)
 	, m_bPrevEnable(_other.m_bPrevEnable)
 {
+	m_vecCom.reserve(BASIC_VEC_COM_CAPACITY);
 
 	//1. 컴포넌트 목록 복사
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
-		if (_other.m_arrCom[i])
+		if (_other.m_vecCom[i])
 		{
-			AddComponent(_other.m_arrCom[i]->Clone());
+			AddComponent(_other.m_vecCom[i]->Clone());
 		}
 	}
 
@@ -107,10 +111,12 @@ cGameObject::cGameObject(const cGameObject& _other)
 cGameObject::~cGameObject()
 {
 	//cLayer에 등록된 cGameObject*의 경우는 cEventMgr을 통해서 제거 할시 알아서 제거됨.
-	Safe_Del_Array(m_arrCom);
+	for (size_t i = 0; i < m_vecCom.size(); ++i)
+	{
+		SAFE_DELETE(m_vecCom[i]);
+	}
 
-	size_t size = m_vecChild.size();
-	for (size_t i = 0; i < size; ++i)
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
 		SAFE_DELETE(m_vecChild[i]);
 	}
@@ -183,8 +189,8 @@ void cGameObject::init()
 {
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i])
-			m_arrCom[i]->init();
+		if (nullptr != m_vecCom[i])
+			m_vecCom[i]->init();
 	}
 
 	size_t size = m_vecChild.size();
@@ -198,8 +204,8 @@ void cGameObject::start()
 {
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i])
-			m_arrCom[i]->start();
+		if (nullptr != m_vecCom[i])
+			m_vecCom[i]->start();
 	}
 
 	size_t size = m_vecChild.size();
@@ -226,8 +232,8 @@ void cGameObject::tick()
 
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i] && false == m_arrCom[i]->isDisabled())
-			m_arrCom[i]->tick();
+		if (nullptr != m_vecCom[i] && false == m_vecCom[i]->isDisabled())
+			m_vecCom[i]->tick();
 	}
 
 	size_t size = m_vecChild.size();
@@ -260,14 +266,13 @@ void cGameObject::finaltick()
 		
 
 	//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
-	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER; ++i)
+	for (UINT i = 0; i < m_vecCom.size(); ++i)
 	{
-		if (nullptr != m_arrCom[i] && false == m_arrCom[i]->isDisabled())
-			m_arrCom[i]->finaltick();
+		if (nullptr != m_vecCom[i] && false == m_vecCom[i]->isDisabled())
+			m_vecCom[i]->finaltick();
 	}
 
-	size_t size = m_vecChild.size();
-	for (size_t i = 0; i < size; ++i)
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
 		m_vecChild[i]->finaltick();
 	}
@@ -283,18 +288,7 @@ bool cGameObject::render()
 	if (nullptr == Renderer() || true == m_bDestroy)
 		return true;
 
-	cScriptHolder* pHolder = ScriptHolder();
-	if (pHolder)
-	{
-		pHolder->BindData();
-	}
-
 	bool rendered = Renderer()->render();
-
-	if (pHolder)
-	{
-		pHolder->UnBind();
-	}
 
 	return rendered;
 }
@@ -304,8 +298,8 @@ void cGameObject::cleanup()
 	//본인의 컴포넌트 정리
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
-		if (nullptr != m_arrCom[i])
-			m_arrCom[i]->cleanup();
+		if (nullptr != m_vecCom[i])
+			m_vecCom[i]->cleanup();
 	}
 
 	//자식 컴포넌트들도 모두 cleanup
@@ -341,12 +335,12 @@ bool cGameObject::SaveJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-	string strKeyarrCom = JsonKey_cGameObject::m_arrCom;
+	string strKeyarrCom = JsonKey_cGameObject::m_vecCom;
 	jVal[strKeyarrCom] = Json::Value(Json::ValueType::arrayValue);
 	for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
 	{
 		Json::Value& arrCom = jVal[strKeyarrCom];
-		if (nullptr == m_arrCom[i])
+		if (nullptr == m_vecCom[i])
 		{
 			//빈 데이터를 삽입
 			arrCom.append(Json::Value(Json::ValueType::nullValue));
@@ -354,7 +348,7 @@ bool cGameObject::SaveJson(Json::Value* _pJson)
 		else
 		{
 			Json::Value compVal;
-			if (false == m_arrCom[i]->SaveJson(&compVal))
+			if (false == m_vecCom[i]->SaveJson(&compVal))
 				return false;
 
 			arrCom.append(compVal);
@@ -368,7 +362,7 @@ bool cGameObject::SaveJson(Json::Value* _pJson)
 		for (size_t i = 0u; i < m_vecChild.size(); ++i)
 		{
 			//자식 오브젝트의 이름을 받아온다.
-			string childKey = m_vecChild[i]->GetKey();
+			string childKey(m_vecChild[i]->GetKey());
 
 			//이름이 없을 경우 직접 이름을 생성
 			if (childKey.empty())
@@ -433,7 +427,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 
 
 
-	string strKeyarrCom = string(JsonKey_cGameObject::m_arrCom);
+	string strKeyarrCom = string(JsonKey_cGameObject::m_vecCom);
 	if (jVal.isMember(strKeyarrCom))
 	{
 		//TODO: 여기 cUserClassMgr과 연동할 것
@@ -600,41 +594,53 @@ void cGameObject::AddComponent(IComponent* _Component)
 	UINT ComType = (UINT)_Component->GetType();
 
 	//동일 컴포넌트 중복 등록시 에러 발생
-	assert(nullptr == m_arrCom[ComType]);
+	assert(nullptr == m_vecCom[ComType]);
 
-	assert(eCOMPONENT_TYPE::SCRIPT_HOLDER == (eCOMPONENT_TYPE)ComType);
-
-	//소유자 주소를 등록.
 	_Component->SetOwner(this);
-	m_arrCom[ComType] = _Component;
+	if ((UINT)eCOMPONENT_TYPE::SCRIPTS != ComType)
+	{
+		//소유자 주소를 등록.
+		m_vecCom[ComType] = _Component;
+	}
+
+	//스크립트는 push_back 형태로 뒤에 하나씩 붙임
+	else
+	{
+		m_vecCom.push_back(_Component);
+	}
 }
 
 void cGameObject::RemoveComponent(eCOMPONENT_TYPE _eComType)
 {
-	if (nullptr == m_arrCom[(UINT)_eComType])
+	if (nullptr == m_vecCom[(UINT)_eComType])
 		return;
 
 	//Disable되어있지 않을 경우 제거 X(오류 발생 가능성)
-	else if (false == m_arrCom[(UINT)_eComType]->isDisabled())
+	else if (false == m_vecCom[(UINT)_eComType]->isDisabled())
 		return;
 
-	SAFE_DELETE(m_arrCom[(UINT)_eComType]);
+	SAFE_DELETE(m_vecCom[(UINT)_eComType]);
 }
 
-void cGameObject::AddScript(IScript* _Script)
+const std::span<IComponent*> cGameObject::GetScripts()
 {
-	if (nullptr == _Script)
-		return;
-
-	cScriptHolder* pScriptHolder = static_cast<cScriptHolder*>(m_arrCom[(UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER]);
-
-	if (nullptr == pScriptHolder)
-	{
-		pScriptHolder = new cScriptHolder;
-		AddComponent(pScriptHolder);
-	}
-	pScriptHolder->AddScript(_Script);
+	
 }
+
+//void cGameObject::AddScript(IScript* _Script)
+//{
+//	if (nullptr == _Script)
+//		return;
+//
+//	cScriptHolder* pScriptHolder = static_cast<cScriptHolder*>(m_vecCom[(UINT)eCOMPONENT_TYPE::SCRIPT_HOLDER]);
+//
+//	if (nullptr == pScriptHolder)
+//	{
+//		pScriptHolder = new cScriptHolder;
+//		AddComponent(pScriptHolder);
+//	}
+//	pScriptHolder->AddScript(_Script);
+//}
 
 void cGameObject::AddChildGameObj(cGameObject* _Object)
 {
