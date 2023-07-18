@@ -109,8 +109,8 @@ R"(#ifndef STRKEY
 			void CreateVarForbiddendRegex();
 		}
 
-		PRESET(Shader, R"(\w+\.hlsl$)");
-		PRESET(CShaderRegex, R"(S_C_\w+\.h$)");
+		PRESET(AllShader, R"(\w+\.hlsl$)");
+		PRESET(CShaderRegex, R"(S_C_\w+\.hlsl$)");
 		
 
 		//[   numthreads   ( %d, %d, %d )   ]

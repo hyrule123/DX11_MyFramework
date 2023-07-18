@@ -4,7 +4,7 @@
 #include "CodeGenFunc.h"
 
 #include <Engine/strKey_Default.h>
-#include "MacroFunc.h"
+#include <Engine/func.h>
 
 #include "cDirTree.h"
 
@@ -51,15 +51,20 @@ int main(int argc, char* argv[])
         DirTree.CreateStrKeyHeader(outPath, "Texture", false);
     }
 
+
+
     //Generate Compute Shader Key
     {
-        std::regex reg(define_Preset::Regex::CShaderRegex::A);
+        std::regex reg(define_Preset::Regex::AllShader::A);
 
         cDirTree DirTree;
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
         DirTree.SearchRecursive(DirPath, reg);
 
-        DirTree.CreateStrKeyHeader(DirPath / define_Preset::Path::strKey_CShader::A, "CShader", true);
+        
+        
+        DirTree.CreateShaderStrKey(DirPath / "strKey_Shader.h");
+        //DirTree.CreateStrKeyHeader(DirPath / DIRECTORY_NAME, "Shader", true);
 
         //일단 미사용
         //DirTree.CreateCShaderCode(DirPath / define_Preset::Path::UserClassInit_CS::A);
@@ -67,16 +72,16 @@ int main(int argc, char* argv[])
     }
 
     //Generate Graphics Shader Key
-    {
-        std::regex regexGS(define_Preset::Regex::Shader::A);
+    //{
+    //    //std::regex regexGS(define_Preset::Regex::Shader::A);
 
 
-        cDirTree DirTree;
-        stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
-        DirTree.SearchRecursive(DirPath, regexGS);
+    //    cDirTree DirTree;
+    //    stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
+    //    DirTree.SearchRecursive(DirPath, regexGS);
 
-        DirTree.CreateShaderStrKey(DirPath / define_Preset::Path::strKey_GShader::A);
-    }
+    //    DirTree.CreateShaderStrKey(DirPath / define_Preset::Path::strKey_GShader::A);
+    //}
 
     //Generate Script Key and Code
     {

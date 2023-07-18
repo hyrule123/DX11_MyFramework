@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include "cCodeWriter.h"
-#include "MacroFunc.h"
+#include <Engine/func.h>
 
 
 struct tShaderGroup

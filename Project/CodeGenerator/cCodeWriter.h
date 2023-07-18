@@ -1,7 +1,7 @@
 #pragma once
 
 #include "define_CodeGen.h"
-#include "MacroFunc.h"
+#include <Engine/func.h>
 
 
 class cCodeWriter
@@ -48,7 +48,7 @@ private:
 
 inline void cCodeWriter::WriteCode(UINT _BufferIdx, const std::wstring_view _wstrCode)
 {
-	string converted = MacroFunc::ConvertUnicodeToUTF8(_wstrCode);
+	string converted = StringConv::ConvertUnicodeToUTF8(_wstrCode);
 	WriteCode(_BufferIdx, converted);
 }
 
@@ -106,7 +106,7 @@ inline void cCodeWriter::IncludeFile(UINT _BufferIdx, const std::string_view _st
 
 inline void cCodeWriter::IncludeFile(UINT _BufferIdx, const std::wstring_view _wstrIncludeFileName)
 {
-	std::string converted = MacroFunc::ConvertUnicodeToUTF8(_wstrIncludeFileName);
+	std::string converted = StringConv::ConvertUnicodeToUTF8(_wstrIncludeFileName);
 	IncludeFile(_BufferIdx, converted);
 }
 
@@ -160,7 +160,7 @@ inline HRESULT cCodeWriter::Save(UINT _BufferIdx, std::basic_ofstream<T>& _ofstr
 	if constexpr (std::is_same_v<wchar_t, T>)
 	{
 		const string_view srcStr = m_vecBuffer[_BufferIdx].Buffer;
-		wstring converted = MacroFunc::ConvertUTF8ToUnicode(srcStr);
+		wstring converted = StringConv::ConvertUTF8ToUnicode(srcStr);
 
 		_ofstream << converted;
 	}

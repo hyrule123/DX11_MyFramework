@@ -15,6 +15,11 @@
 
 
 
-namespace strKey_CShader
+namespace strKey_Shader
 {
+	STRKEY BuildingStructure = "BuildingStructure.json";
+	STRKEY SCUnitGround = "SCUnitGround.json";
+	STRKEY Tilemap_SC = "Tilemap_SC.json";
+	STRKEY Mineral = "Mineral.json";
+	STRKEY VespineGeyser = "VespineGeyser.json";
 }

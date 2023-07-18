@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "cDirTree.h"
 
-#include "MacroFunc.h"
+#include <Engine/func.h>
 
 #include "cCodeWriter.h"
 #include "cDirTreeNode.h"
@@ -123,7 +123,7 @@ HRESULT cDirTree::DetectNewComputeShader(std::vector<stdfs::path> const& _vecCSh
 		if (false == stdfs::exists(ShaderFilePath))
 		{
 			stdfs::path HLSLFilePath = ShaderDir / RES_INFO::SHADER::ByteCodeDir;
-			HLSLFilePath += _vecCShader[i];
+			HLSLFilePath /= _vecCShader[i];
 			HLSLFilePath += RES_INFO::SHADER::Ext_ShaderByteCode;
 
 			std::ifstream ifs(HLSLFilePath);
@@ -386,6 +386,12 @@ HRESULT cDirTree::CreateShaderStrKey(stdfs::path const& _FilePath)
 
 	//새로 생성된 그래픽스 쉐이더 코드가 있는지 체크
 	hr = DetectNewGraphicsShader(umapGSGroup);
+	if (FAILED(hr))
+	{
+		DEBUG_BREAK;
+		return hr;
+	}
+	hr = DetectNewComputeShader(vecCS);
 	if (FAILED(hr))
 	{
 		DEBUG_BREAK;

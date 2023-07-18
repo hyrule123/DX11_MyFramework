@@ -113,20 +113,17 @@
     <ClInclude Include="define_SCMap.h">
       <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
     </ClInclude>
-    <ClInclude Include="strKey_GShader.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
     <ClInclude Include="strKey_Script.h">
       <Filter>Generated</Filter>
     </ClInclude>
     <ClInclude Include="strKey_Texture.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="strKey_CShader.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
     <ClInclude Include="cScript_TilemapSC.h">
       <Filter>ScriptCode\SC\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="strKey_Shader.h">
+      <Filter>Generated</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -187,7 +184,7 @@
     <ClCompile Include="CCS_SCMapLoader.cpp">
       <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
     </ClCompile>
-    <ClCompile Include="UserClassInitializer_CShader.cpp">
+    <ClCompile Include="UserClassInitializer_Component.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
     <ClCompile Include="UserClassInitializer_Script.cpp">
@@ -199,55 +196,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-    <None Include="S_H_SCUnitGround.hlsli">
-      <Filter>_HLSL\GS\SCUnitGround</Filter>
-    </None>
-    <None Include="S_H_Tilemap_SC.hlsli">
-      <Filter>_HLSL\GS\TilemapSC</Filter>
-    </None>
-    <None Include="S_H_SCMapLoader.hlsli">
-      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
-    </None>
-    <None Include="S_H_Func.hlsli">
-      <Filter>_HLSL</Filter>
-    </None>
-    <None Include="S_H_FuncBitwise.hlsli">
-      <Filter>_HLSL</Filter>
-    </None>
-    <None Include="S_H_Register.hlsli">
-      <Filter>_HLSL</Filter>
-    </None>
-    <None Include="S_H_Struct.hlsli">
-      <Filter>_HLSL</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="S_0_V_SCUnitGround.hlsl">
-      <Filter>_HLSL\GS\SCUnitGround</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_SCUnitGround.hlsl">
-      <Filter>_HLSL\GS\SCUnitGround</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_Tilemap_SC.hlsl">
-      <Filter>_HLSL\GS\TilemapSC</Filter>
-    </FxCompile>
-    <FxCompile Include="S_0_V_Tilemap_SC.hlsl">
-      <Filter>_HLSL\GS\TilemapSC</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_Mineral.hlsl">
-      <Filter>_HLSL\GS\SCUnitGround</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_BuildingStructure.hlsl">
-      <Filter>_HLSL\GS\SCUnitGround</Filter>
-    </FxCompile>
-    <FxCompile Include="S_4_P_VespineGeyser.hlsl">
-      <Filter>_HLSL\GS\SCUnitGround</Filter>
-    </FxCompile>
-    <FxCompile Include="S_C_ParticleRainDrop.hlsl">
-      <Filter>_HLSL\CS\CS_Particle_Raindrop</Filter>
-    </FxCompile>
-    <FxCompile Include="S_C_SCMapLoader.hlsl">
-      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

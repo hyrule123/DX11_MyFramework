@@ -3,7 +3,7 @@
 #include "S_H_Func.hlsli"
 
 
-float4 PS_SCUnit(VS_OUT _in) : SV_TARGET
+float4 PS_SCUnitGround(VS_OUT _in) : SV_TARGET
 {
 	float4 vOutColor = (float4) 0.f;
     

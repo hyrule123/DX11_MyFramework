@@ -1,4 +1,5 @@
-//#include "S_H_Particle.hlsli"
+
+#include "S_H_ParticleBasic.hlsli"
 
 //void PModule_Spawn(uint _uID);
 
@@ -11,9 +12,10 @@
 //static const float mu = 1.81e-5; // Dynamic viscosity of air in Pa*s
 //static const float COEFF_RESTITUTION = 0.8; // coefficient of restitution
 
-//[numthreads(128, 1, 1)]
-//void CS_Particle_RainDrop( uint3 dtID : SV_DispatchThreadID )
-//{
+[numthreads(128, 1, 1)]
+void CS_Particle_RainDrop(uint3 dtID : SV_DispatchThreadID)
+{
+}
 	
 //	uint idx = dtID.x;
 	

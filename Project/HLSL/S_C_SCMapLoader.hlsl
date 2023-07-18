@@ -3,6 +3,7 @@
 
 #include "S_H_FuncBitwise.hlsli"
 
+
 uint ExtractGroupAndIndexFromMTXM(in uint2 _uGroupID_XY, in uint2 _u2MapSize);
 uint ExtractWPEColorIdxFromVR4(in uint _uMiniTileIdx, in uint2 _u2GroupThreadID, in bool _bFlipped);
 //uint4 GetColorFromWPE(in uint Idx);

@@ -12,9 +12,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="MacroFunc.cpp">
-      <Filter>GenCode</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Default</Filter>
     </ClCompile>
@@ -28,9 +25,6 @@
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="CodeGenFunc.h">
-      <Filter>GenCode</Filter>
-    </ClInclude>
-    <ClInclude Include="MacroFunc.h">
       <Filter>GenCode</Filter>
     </ClInclude>
     <ClInclude Include="cDirTreeNode.h" />

@@ -3,7 +3,7 @@
 #include <Engine/define.h>
 
 #include "cDirTreeNode.h"
-#include "MacroFunc.h"
+#include <Engine/func.h>
 #include "define_CodeGen.h"
 #include "cCodeWriter.h"
 
