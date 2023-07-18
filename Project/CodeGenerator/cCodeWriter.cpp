@@ -15,8 +15,7 @@ cCodeWriter::~cCodeWriter()
 
 void cCodeWriter::WriteCode(UINT _BufferIdx, const std::string_view _strCode)
 {
-	if (false == IsAvailable(_BufferIdx))
-		m_vecBuffer.resize(_BufferIdx + (size_t)1);
+	MakeAvailable(_BufferIdx);
 
 	//내려쓰기
 	m_vecBuffer[_BufferIdx].Buffer += "\n";

@@ -88,8 +88,8 @@ namespace DIRECTORY_NAME
 	{
 		"MeshData",
 		"MeshData",
-		"cMaterial",
-		"cTexture",
+		"Material",
+		"Texture",
 		"Anim2D",
 		"Sound",
 		"Prefab",
@@ -114,7 +114,7 @@ namespace DIRECTORY_NAME
 	
 
 	STRKEY SHADER_ROOT = "Shader";
-	STRKEY SHADER_Bin = "Shader/Bin";
+	STRKEY SHADER_BIN = "Shader/Bin";
 	STRKEY SHADER_GRAPHICS = RES_ARR[(int)eRES_TYPE::GRAPHICS_SHADER];
 	STRKEY SHADER_COMPUTE = RES_ARR[(int)eRES_TYPE::COMPUTE_SHADER];
 

@@ -58,12 +58,11 @@ int main(int argc, char* argv[])
         std::regex reg(define_Preset::Regex::AllShader::A);
 
         cDirTree DirTree;
-        stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
-        DirTree.SearchRecursive(DirPath, reg);
+        DirTree.SearchRecursive(define_Preset::Path::HLSL_Proj::A, reg);
 
-        
-        
-        DirTree.CreateShaderStrKey(DirPath / "strKey_Shader.h");
+        stdfs::path strKeyPath = define_Preset::Path::ScriptProj::A;
+        strKeyPath /= "strKey_Shader.h";
+        DirTree.CreateShaderStrKey(strKeyPath);
         //DirTree.CreateStrKeyHeader(DirPath / DIRECTORY_NAME, "Shader", true);
 
         //일단 미사용

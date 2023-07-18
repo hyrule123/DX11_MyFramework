@@ -17,9 +17,17 @@
 
 namespace strKey_Shader
 {
-	STRKEY BuildingStructure = "BuildingStructure.json";
-	STRKEY SCUnitGround = "SCUnitGround.json";
-	STRKEY Tilemap_SC = "Tilemap_SC.json";
-	STRKEY Mineral = "Mineral.json";
-	STRKEY VespineGeyser = "VespineGeyser.json";
+	namespace Graphics
+	{
+		STRKEY BuildingStructure = "BuildingStructure.json";
+		STRKEY SCUnitGround = "SCUnitGround.json";
+		STRKEY Tilemap_SC = "Tilemap_SC.json";
+		STRKEY Mineral = "Mineral.json";
+		STRKEY VespineGeyser = "VespineGeyser.json";
+	};
+	namespace Compute
+	{
+		STRKEY S_C_ParticleRainDrop = "S_C_ParticleRainDrop.json";
+		STRKEY S_C_SCMapLoader = "S_C_SCMapLoader.json";
+	};
 }

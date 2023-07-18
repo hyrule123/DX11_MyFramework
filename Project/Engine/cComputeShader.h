@@ -6,6 +6,13 @@
 //하나의 HLSL CS = 하나의 cComputeShader 클래스
 //그러므로 상속받아서 만드는 생성자에서 컴퓨트쉐이더를 로드해주면 된다.
 
+namespace JsonKey_cComputeShader
+{
+    //쉐이더와 json 파일이 공유하는 파일 이름. 확장자 제외
+    //ex) S_C_SCMapLoader.json : S_C_SCMapLoader
+    STRKEY_DECLARE(m_arrNumThreads);
+    STRKEY_DECLARE(ShaderModule);
+}
 
 class cShaderDataModule;
 class cComputeShader :

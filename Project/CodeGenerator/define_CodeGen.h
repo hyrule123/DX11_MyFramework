@@ -29,6 +29,7 @@ namespace define_Preset
 	{
 		PRESET(ScriptProj, "./Project/Script");
 		PRESET(EngineProj, "./Project/Engine");
+		PRESET(HLSL_Proj, "./Project/HLSL");
 
 
 #ifdef _DEBUG
@@ -49,6 +50,7 @@ namespace define_Preset
 	
 	namespace Keyword
 	{
+		
 		PRESET(ScriptPrefix, "CScript_");
 
 		PRESET(IncludeBegin, "#include \"");
@@ -115,7 +117,7 @@ R"(#ifndef STRKEY
 
 		//[   numthreads   ( %d, %d, %d )   ]
 		//[ ] 안에 둘러싸여 있고, 공백 갯수에 상관없이 숫자 3개를 추출
-		PRESET(Numthread, R"(\[\s*numthreads\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\).*\])");
+		PRESET(Numthread, R"(.*\((\d+),(\d+),(\d+\)).*)");
 	}
 }
 

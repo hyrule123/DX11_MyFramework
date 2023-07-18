@@ -40,7 +40,8 @@ public:
 	HRESULT SaveAll(stdfs::path const& _path);
 
 private:
-	bool IsAvailable(UINT _BufferIdx) { return (m_vecBuffer.size() > _BufferIdx); }
+	void MakeAvailable(UINT _BufferIdx);
+	bool IsAvailable(UINT _BufferIdx);
 
 	template <typename T>
 	HRESULT Save(UINT _BufferIdx, std::basic_ofstream<T>& _ofstream);
@@ -66,7 +67,7 @@ inline void cCodeWriter::CloseBracket(UINT _BufferIdx, bool _bAddSemiColon)
 {
 	//인덱스 사용가능여부 체크
 	if (false == IsAvailable(_BufferIdx))
-		m_vecBuffer.resize(_BufferIdx + (UINT)1);
+		return;
 
 	//먼저 들여쓰기를 뺴준뒤
 	--m_vecBuffer[_BufferIdx].iIndentation;
@@ -84,9 +85,8 @@ inline void cCodeWriter::CloseBracket(UINT _BufferIdx, bool _bAddSemiColon)
 
 inline void cCodeWriter::CloseBracketAll(UINT _BufferIdx)
 {
-	//인덱스 사용가능여부 체크
 	if (false == IsAvailable(_BufferIdx))
-		m_vecBuffer.resize(_BufferIdx + (UINT)1);
+		return;
 
 	while (0 < m_vecBuffer[_BufferIdx].iIndentation)
 	{
@@ -112,32 +112,39 @@ inline void cCodeWriter::IncludeFile(UINT _BufferIdx, const std::wstring_view _w
 
 inline void cCodeWriter::AddIndentation(UINT _BufferIdx)
 {
-	if (IsAvailable(_BufferIdx))
-	{
-		++m_vecBuffer[_BufferIdx].iIndentation;
-	}
+	MakeAvailable(_BufferIdx);
+	++m_vecBuffer[_BufferIdx].iIndentation;
 }
 
 inline void cCodeWriter::SubIndentation(UINT _BufferIdx)
 {
-	if (IsAvailable(_BufferIdx))
-	{
-		--m_vecBuffer[_BufferIdx].iIndentation;
-		if (0 > m_vecBuffer[_BufferIdx].iIndentation)
-			m_vecBuffer[_BufferIdx].iIndentation = 0;
-	}
+	MakeAvailable(_BufferIdx);
+	--m_vecBuffer[_BufferIdx].iIndentation;
+	if (0 > m_vecBuffer[_BufferIdx].iIndentation)
+		m_vecBuffer[_BufferIdx].iIndentation = 0;
 }
 
 inline int cCodeWriter::GetIndentation(UINT _BufferIdx)
 {
-	if (IsAvailable(_BufferIdx)) 
-	{ 
+	if (false == IsAvailable(_BufferIdx))
+	{
 		return m_vecBuffer[_BufferIdx].iIndentation;
 	}
 	else
 	{
 		return -1;
 	}
+}
+
+inline void cCodeWriter::MakeAvailable(UINT _BufferIdx)
+{
+	if(false == IsAvailable(_BufferIdx))
+		m_vecBuffer.resize(_BufferIdx + 1);
+}
+
+inline bool cCodeWriter::IsAvailable(UINT _BufferIdx)
+{
+	return m_vecBuffer.size() > _BufferIdx;
 }
 
 

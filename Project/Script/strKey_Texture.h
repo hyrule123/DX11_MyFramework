@@ -17,4 +17,273 @@
 
 namespace strKey_Texture
 {
+	STRKEY beheaded_png = "beheaded.png";
+	STRKEY beheaded_n_png = "beheaded_n.png";
+	STRKEY Default_png = "Default.png";
+	STRKEY Fighter_bmp = "Fighter.bmp";
+	STRKEY HOS_bmp = "HOS.bmp";
+	STRKEY HOS_png = "HOS.png";
+	STRKEY link_png = "link.png";
+	STRKEY TILE_bmp = "TILE.bmp";
+	namespace Noise
+	{
+		STRKEY noise_01_png = "Noise/noise_01.png";
+	}
+
+	namespace SC
+	{
+		namespace Bullet
+		{
+			STRKEY BlastScan_bmp = "SC/Bullet/BlastScan.bmp";
+			STRKEY Circle14_bmp = "SC/Bullet/Circle14.bmp";
+			STRKEY DragBull_bmp = "SC/Bullet/DragBull.bmp";
+			STRKEY EPBBul_bmp = "SC/Bullet/EPBBul.bmp";
+			STRKEY EPHFile_Unknown__bmp = "SC/Bullet/EPHFile(Unknown).bmp";
+			STRKEY ephFire_Unknown__bmp = "SC/Bullet/ephFire(Unknown).bmp";
+			STRKEY Explo1_bmp = "SC/Bullet/Explo1.bmp";
+			STRKEY EYCBull_Yamato__bmp = "SC/Bullet/EYCBull(Yamato).bmp";
+			STRKEY Gemini_bmp = "SC/Bullet/Gemini.bmp";
+			STRKEY Grenades_bmp = "SC/Bullet/Grenades.bmp";
+			STRKEY HKS_bmp = "SC/Bullet/HKS.bmp";
+			STRKEY Missile_bmp = "SC/Bullet/Missile.bmp";
+			STRKEY Parasite_bmp = "SC/Bullet/Parasite.bmp";
+			STRKEY PRRIPHIT_bmp = "SC/Bullet/PRRIPHIT.bmp";
+			STRKEY PSIBeam_bmp = "SC/Bullet/PSIBeam.bmp";
+			STRKEY PSpark_Scout__bmp = "SC/Bullet/PSpark(Scout).bmp";
+			STRKEY SCVSpark_bmp = "SC/Bullet/SCVSpark.bmp";
+			STRKEY ShockBomb_bmp = "SC/Bullet/ShockBomb.bmp";
+			STRKEY smmissle_Valkirye__bmp = "SC/Bullet/smmissle(Valkirye).bmp";
+			STRKEY Spike_Lurker__bmp = "SC/Bullet/Spike(Lurker).bmp";
+			STRKEY Spore2_bmp = "SC/Bullet/Spore2.bmp";
+			STRKEY Spores_Mutalisk__bmp = "SC/Bullet/Spores(Mutalisk).bmp";
+			STRKEY Squib1_bmp = "SC/Bullet/Squib1.bmp";
+			STRKEY Squip2_bmp = "SC/Bullet/Squip2.bmp";
+			STRKEY Tentacle_Sunken__bmp = "SC/Bullet/Tentacle(Sunken).bmp";
+			STRKEY TSpark_TerranSpark__bmp = "SC/Bullet/TSpark(TerranSpark).bmp";
+			STRKEY ZSpark_ZergSpark__bmp = "SC/Bullet/ZSpark(ZergSpark).bmp";
+		}
+
+		namespace CmdButtons
+		{
+			STRKEY cmdicons_bmp = "SC/CmdButtons/cmdicons.bmp";
+			STRKEY pcmdbtns_bmp = "SC/CmdButtons/pcmdbtns.bmp";
+			STRKEY tcmdbtns_bmp = "SC/CmdButtons/tcmdbtns.bmp";
+			STRKEY zcmdbtns_bmp = "SC/CmdButtons/zcmdbtns.bmp";
+		}
+
+		namespace Neutral
+		{
+			STRKEY gasorb_bmp = "SC/Neutral/gasorb.bmp";
+			STRKEY gassac_bmp = "SC/Neutral/gassac.bmp";
+			STRKEY gastank_bmp = "SC/Neutral/gastank.bmp";
+			STRKEY Generate_Generator__bmp = "SC/Neutral/Generate(Generator).bmp";
+			STRKEY geyser_bmp = "SC/Neutral/geyser.bmp";
+			STRKEY geyshad_bmp = "SC/Neutral/geyshad.bmp";
+			STRKEY min01_bmp = "SC/Neutral/min01.bmp";
+			STRKEY min01sha_bmp = "SC/Neutral/min01sha.bmp";
+			STRKEY min02_bmp = "SC/Neutral/min02.bmp";
+			STRKEY min02sha_bmp = "SC/Neutral/min02sha.bmp";
+			STRKEY min03_bmp = "SC/Neutral/min03.bmp";
+			STRKEY min03sha_bmp = "SC/Neutral/min03sha.bmp";
+		}
+
+		namespace Protoss
+		{
+			STRKEY arbiter_bmp = "SC/Protoss/arbiter.bmp";
+			STRKEY archives_bmp = "SC/Protoss/archives.bmp";
+			STRKEY archon_bmp = "SC/Protoss/archon.bmp";
+			STRKEY archont_bmp = "SC/Protoss/archont.bmp";
+			STRKEY archont2_bmp = "SC/Protoss/archont2.bmp";
+			STRKEY assim_bmp = "SC/Protoss/assim.bmp";
+			STRKEY biccon_observeratory__bmp = "SC/Protoss/biccon(observeratory).bmp";
+			STRKEY carrier_bmp = "SC/Protoss/carrier.bmp";
+			STRKEY citadel_bmp = "SC/Protoss/citadel.bmp";
+			STRKEY corsair_bmp = "SC/Protoss/corsair.bmp";
+			STRKEY darchn_bmp = "SC/Protoss/darchn.bmp";
+			STRKEY darchnT_bmp = "SC/Protoss/darchnT.bmp";
+			STRKEY darchnT2_bmp = "SC/Protoss/darchnT2.bmp";
+			STRKEY dragoon_bmp = "SC/Protoss/dragoon.bmp";
+			STRKEY dtemplar_bmp = "SC/Protoss/dtemplar.bmp";
+			STRKEY forge_bmp = "SC/Protoss/forge.bmp";
+			STRKEY forget_bmp = "SC/Protoss/forget.bmp";
+			STRKEY gateway_bmp = "SC/Protoss/gateway.bmp";
+			STRKEY gencore_bmp = "SC/Protoss/gencore.bmp";
+			STRKEY gencoret_bmp = "SC/Protoss/gencoret.bmp";
+			STRKEY intercep_bmp = "SC/Protoss/intercep.bmp";
+			STRKEY nexus_bmp = "SC/Protoss/nexus.bmp";
+			STRKEY pacshad_bmp = "SC/Protoss/pacshad.bmp";
+			STRKEY passhad_bmp = "SC/Protoss/passhad.bmp";
+			STRKEY paushad_bmp = "SC/Protoss/paushad.bmp";
+			STRKEY pb1glow_bmp = "SC/Protoss/pb1glow.bmp";
+			STRKEY pbaglow_maybeShieldBattery__bmp = "SC/Protoss/pbaglow(maybeShieldBattery).bmp";
+			STRKEY pbaglow_bmp = "SC/Protoss/pbaglow.bmp";
+			STRKEY pbashad_bmp = "SC/Protoss/pbashad.bmp";
+			STRKEY pbeshad_bmp = "SC/Protoss/pbeshad.bmp";
+			STRKEY pcirglow_bmp = "SC/Protoss/pcirglow.bmp";
+			STRKEY pcishad_bmp = "SC/Protoss/pcishad.bmp";
+			STRKEY PdaDeath_bmp = "SC/Protoss/PdaDeath.bmp";
+			STRKEY pdrdeath_DragoonDeath__bmp = "SC/Protoss/pdrdeath(DragoonDeath).bmp";
+			STRKEY pdrShad_bmp = "SC/Protoss/pdrShad.bmp";
+			STRKEY pfoshad_bmp = "SC/Protoss/pfoshad.bmp";
+			STRKEY pgashad_Gateway__bmp = "SC/Protoss/pgashad(Gateway).bmp";
+			STRKEY pgaShad_bmp = "SC/Protoss/pgaShad.bmp";
+			STRKEY pgcShad_bmp = "SC/Protoss/pgcShad.bmp";
+			STRKEY photon_bmp = "SC/Protoss/photon.bmp";
+			STRKEY pmarker_bmp = "SC/Protoss/pmarker.bmp";
+			STRKEY pneglow_Nexus__bmp = "SC/Protoss/pneglow(Nexus).bmp";
+			STRKEY pneshad_Nexus__bmp = "SC/Protoss/pneshad(Nexus).bmp";
+			STRKEY pneShad_bmp = "SC/Protoss/pneShad.bmp";
+			STRKEY ppbShad_bmp = "SC/Protoss/ppbShad.bmp";
+			STRKEY ppyshad_Pylon__bmp = "SC/Protoss/ppyshad(Pylon).bmp";
+			STRKEY prism_ArbiterTribunal__bmp = "SC/Protoss/prism(ArbiterTribunal).bmp";
+			STRKEY probe_bmp = "SC/Protoss/probe.bmp";
+			STRKEY proshad_unknown__bmp = "SC/Protoss/proshad(unknown).bmp";
+			STRKEY psgglow_StargateGlow__bmp = "SC/Protoss/psgglow(StargateGlow).bmp";
+			STRKEY psgshad_Stargate__bmp = "SC/Protoss/psgshad(Stargate).bmp";
+			STRKEY psgShad_bmp = "SC/Protoss/psgShad.bmp";
+			STRKEY pstshad_RoboticsSupportBay__bmp = "SC/Protoss/pstshad(RoboticsSupportBay).bmp";
+			STRKEY pstShad_bmp = "SC/Protoss/pstShad.bmp";
+			STRKEY pteshad_Probe__bmp = "SC/Protoss/pteshad(Probe).bmp";
+			STRKEY ptrshad_Unknown__bmp = "SC/Protoss/ptrshad(Unknown).bmp";
+			STRKEY pwashad_Unknown__bmp = "SC/Protoss/pwashad(Unknown).bmp";
+			STRKEY pwaShad_bmp = "SC/Protoss/pwaShad.bmp";
+			STRKEY pwgShad_bmp = "SC/Protoss/pwgShad.bmp";
+			STRKEY pxtShad_bmp = "SC/Protoss/pxtShad.bmp";
+			STRKEY pylon_bmp = "SC/Protoss/pylon.bmp";
+			STRKEY pzeshad_bmp = "SC/Protoss/pzeshad.bmp";
+			STRKEY robotic_bmp = "SC/Protoss/robotic.bmp";
+			STRKEY sapper_Scarab__bmp = "SC/Protoss/sapper(Scarab).bmp";
+			STRKEY sbattery_bmp = "SC/Protoss/sbattery.bmp";
+			STRKEY scout_bmp = "SC/Protoss/scout.bmp";
+			STRKEY shuttle_bmp = "SC/Protoss/shuttle.bmp";
+			STRKEY stargate_bmp = "SC/Protoss/stargate.bmp";
+			STRKEY stasis_RoboticsSupportBay__bmp = "SC/Protoss/stasis(RoboticsSupportBay).bmp";
+			STRKEY templar_bmp = "SC/Protoss/templar.bmp";
+			STRKEY texture_BuildingComplete__bmp = "SC/Protoss/texture(BuildingComplete).bmp";
+			STRKEY trilob_Reaver__bmp = "SC/Protoss/trilob(Reaver).bmp";
+			STRKEY warp_FleetBeacon__bmp = "SC/Protoss/warp(FleetBeacon).bmp";
+			STRKEY witness_Observer__bmp = "SC/Protoss/witness(Observer).bmp";
+			STRKEY XelTempl_bmp = "SC/Protoss/XelTempl.bmp";
+			STRKEY XWarpFir_bmp = "SC/Protoss/XWarpFir.bmp";
+			STRKEY XWarpGat_bmp = "SC/Protoss/XWarpGat.bmp";
+			STRKEY zealot_bmp = "SC/Protoss/zealot.bmp";
+		}
+
+		namespace Terran
+		{
+			STRKEY academy_bmp = "SC/Terran/academy.bmp";
+			STRKEY academyt_bmp = "SC/Terran/academyt.bmp";
+			STRKEY battlecr_bmp = "SC/Terran/battlecr.bmp";
+			STRKEY Bomber_Valkyrie__bmp = "SC/Terran/Bomber(Valkyrie).bmp";
+			STRKEY chemlab_Armory__bmp = "SC/Terran/chemlab(Armory).bmp";
+			STRKEY chemlabt_Armory__bmp = "SC/Terran/chemlabt(Armory).bmp";
+			STRKEY CommandCenter_control__bmp = "SC/Terran/CommandCenter(control).bmp";
+			STRKEY CommandCenter_Prod_controlt__bmp = "SC/Terran/CommandCenter_Prod(controlt).bmp";
+			STRKEY comsat_bmp = "SC/Terran/comsat.bmp";
+			STRKEY comsatc_Init__bmp = "SC/Terran/comsatc(Init).bmp";
+			STRKEY comsatt_bmp = "SC/Terran/comsatt.bmp";
+			STRKEY Construction_Large_tbldlrg__bmp = "SC/Terran/Construction_Large(tbldlrg).bmp";
+			STRKEY depot_bmp = "SC/Terran/depot.bmp";
+			STRKEY depott_bmp = "SC/Terran/depott.bmp";
+			STRKEY dropship_bmp = "SC/Terran/dropship.bmp";
+			STRKEY drydockc_ControlTower__bmp = "SC/Terran/drydockc(ControlTower).bmp";
+			STRKEY drydocks_ControlTower__bmp = "SC/Terran/drydocks(ControlTower).bmp";
+			STRKEY drydockt_ControlTower__bmp = "SC/Terran/drydockt(ControlTower).bmp";
+			STRKEY factory_bmp = "SC/Terran/factory.bmp";
+			STRKEY factoryt_bmp = "SC/Terran/factoryt.bmp";
+			STRKEY firebat_bmp = "SC/Terran/firebat.bmp";
+			STRKEY genelab_CovertOps__bmp = "SC/Terran/genelab(CovertOps).bmp";
+			STRKEY genelabc_CovertOps__bmp = "SC/Terran/genelabc(CovertOps).bmp";
+			STRKEY genelabt_CovertOps__bmp = "SC/Terran/genelabt(CovertOps).bmp";
+			STRKEY ghost_bmp = "SC/Terran/ghost.bmp";
+			STRKEY goliath_bmp = "SC/Terran/goliath.bmp";
+			STRKEY goliatht_bmp = "SC/Terran/goliatht.bmp";
+			STRKEY machinec_bmp = "SC/Terran/machinec.bmp";
+			STRKEY machines_bmp = "SC/Terran/machines.bmp";
+			STRKEY marine_bmp = "SC/Terran/marine.bmp";
+			STRKEY medic_bmp = "SC/Terran/medic.bmp";
+			STRKEY missile_bmp = "SC/Terran/missile.bmp";
+			STRKEY missilet_bmp = "SC/Terran/missilet.bmp";
+			STRKEY nukemiss_bmp = "SC/Terran/nukemiss.bmp";
+			STRKEY nukesilc_bmp = "SC/Terran/nukesilc.bmp";
+			STRKEY nukesilo_bmp = "SC/Terran/nukesilo.bmp";
+			STRKEY nukesilt_bmp = "SC/Terran/nukesilt.bmp";
+			STRKEY phoenix_Wraith__bmp = "SC/Terran/phoenix(Wraith).bmp";
+			STRKEY physics_bmp = "SC/Terran/physics.bmp";
+			STRKEY physicsc_bmp = "SC/Terran/physicsc.bmp";
+			STRKEY pillbox_Bunker__bmp = "SC/Terran/pillbox(Bunker).bmp";
+			STRKEY pillboxt_Bunker__bmp = "SC/Terran/pillboxt(Bunker).bmp";
+			STRKEY refinery_bmp = "SC/Terran/refinery.bmp";
+			STRKEY research_ScienceFacility__bmp = "SC/Terran/research(ScienceFacility).bmp";
+			STRKEY researct_ScienceFacility_bmp = "SC/Terran/researct(ScienceFacility.bmp";
+			STRKEY scv_bmp = "SC/Terran/scv.bmp";
+			STRKEY spider_bmp = "SC/Terran/spider.bmp";
+			STRKEY stank_bmp = "SC/Terran/stank.bmp";
+			STRKEY stankt_bmp = "SC/Terran/stankt.bmp";
+			STRKEY starport_bmp = "SC/Terran/starport.bmp";
+			STRKEY starportt_bmp = "SC/Terran/starportt.bmp";
+			STRKEY tacshad_bmp = "SC/Terran/tacshad.bmp";
+			STRKEY tank_bmp = "SC/Terran/tank.bmp";
+			STRKEY tankt_bmp = "SC/Terran/tankt.bmp";
+			STRKEY tb1shad_bmp = "SC/Terran/tb1shad.bmp";
+			STRKEY tb2shad_bmp = "SC/Terran/tb2shad.bmp";
+			STRKEY tb3shad_bmp = "SC/Terran/tb3shad.bmp";
+			STRKEY tbarrack_bmp = "SC/Terran/tbarrack.bmp";
+			STRKEY tbldmed_InConstruction2__bmp = "SC/Terran/tbldmed(InConstruction2).bmp";
+			STRKEY tbldsml_InConstruction3__bmp = "SC/Terran/tbldsml(InConstruction3).bmp";
+			STRKEY tbrshad_Barrcks__bmp = "SC/Terran/tbrshad(Barrcks).bmp";
+			STRKEY tccshad_CommandCenter__bmp = "SC/Terran/tccshad(CommandCenter).bmp";
+			STRKEY tcirglow_Beacon__bmp = "SC/Terran/tcirglow(Beacon).bmp";
+			STRKEY tclshad_bmp = "SC/Terran/tclshad.bmp";
+			STRKEY tcsshad_bmp = "SC/Terran/tcsshad.bmp";
+			STRKEY tddshad_bmp = "SC/Terran/tddshad.bmp";
+			STRKEY tdeshad_SupplyDepot__bmp = "SC/Terran/tdeshad(SupplyDepot).bmp";
+			STRKEY tfashad_Factory__bmp = "SC/Terran/tfashad(Factory).bmp";
+			STRKEY tfbshad_bmp = "SC/Terran/tfbshad.bmp";
+			STRKEY tghdeath_bmp = "SC/Terran/tghdeath.bmp";
+			STRKEY tghshad_bmp = "SC/Terran/tghshad.bmp";
+			STRKEY tglshad_bmp = "SC/Terran/tglshad.bmp";
+			STRKEY tgoshad_bmp = "SC/Terran/tgoshad.bmp";
+			STRKEY tmadeath_bmp = "SC/Terran/tmadeath.bmp";
+			STRKEY tmarker_bmp = "SC/Terran/tmarker.bmp";
+			STRKEY tmashad_bmp = "SC/Terran/tmashad.bmp";
+			STRKEY tmeDeath_bmp = "SC/Terran/tmeDeath.bmp";
+			STRKEY tmeshad_bmp = "SC/Terran/tmeshad.bmp";
+			STRKEY tmishad_bmp = "SC/Terran/tmishad.bmp";
+			STRKEY tmsshad_bmp = "SC/Terran/tmsshad.bmp";
+			STRKEY tnsshad_bmp = "SC/Terran/tnsshad.bmp";
+			STRKEY tpbshad_bmp = "SC/Terran/tpbshad.bmp";
+			STRKEY tplshad_bmp = "SC/Terran/tplshad.bmp";
+			STRKEY treshad_bmp = "SC/Terran/treshad.bmp";
+			STRKEY trlshad_bmp = "SC/Terran/trlshad.bmp";
+			STRKEY tsmshad_bmp = "SC/Terran/tsmshad.bmp";
+			STRKEY tspshad_bmp = "SC/Terran/tspshad.bmp";
+			STRKEY tstshad_bmp = "SC/Terran/tstshad.bmp";
+			STRKEY ttashad_bmp = "SC/Terran/ttashad.bmp";
+			STRKEY tveshad_ScienceVessel__bmp = "SC/Terran/tveshad(ScienceVessel).bmp";
+			STRKEY twpshad_EngineeringBay__bmp = "SC/Terran/twpshad(EngineeringBay).bmp";
+			STRKEY ughost_Kerrigan__bmp = "SC/Terran/ughost(Kerrigan).bmp";
+			STRKEY ughshad_Kerrigan__bmp = "SC/Terran/ughshad(Kerrigan).bmp";
+			STRKEY vulture_bmp = "SC/Terran/vulture.bmp";
+			STRKEY weaponpl_EngineeringBay__bmp = "SC/Terran/weaponpl(EngineeringBay).bmp";
+			STRKEY weaponpt_bmp = "SC/Terran/weaponpt.bmp";
+			STRKEY wessel_ScienceVessel__bmp = "SC/Terran/wessel(ScienceVessel).bmp";
+			STRKEY wesselt_ScienceVessel__bmp = "SC/Terran/wesselt(ScienceVessel).bmp";
+		}
+
+		namespace thingy
+		{
+			STRKEY VSmoke_geysmok1__bmp = "SC/thingy/VSmoke(geysmok1).bmp";
+			STRKEY VSmokeDeplete_geysmok4__bmp = "SC/thingy/VSmokeDeplete(geysmok4).bmp";
+		}
+
+		namespace wireframe
+		{
+			STRKEY grpwire_bmp = "SC/wireframe/grpwire.bmp";
+			STRKEY tranwire_bmp = "SC/wireframe/tranwire.bmp";
+			STRKEY wirefram_bmp = "SC/wireframe/wirefram.bmp";
+		}
+
+	}
+
 }

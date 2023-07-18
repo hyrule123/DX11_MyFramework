@@ -14,13 +14,7 @@
 
 #include "cShaderDataModule.h"
 
-namespace JsonKey_cComputeShader
-{
-	//쉐이더와 json 파일이 공유하는 파일 이름. 확장자 제외
-	//ex) S_C_SCMapLoader.json : S_C_SCMapLoader
-	STRKEY_DECLARE(m_arrNumThreads);
-	STRKEY_DECLARE(ShaderModule);
-}
+
 
 cComputeShader::cComputeShader()
 	: IShader(eRES_TYPE::COMPUTE_SHADER)
@@ -96,7 +90,7 @@ bool cComputeShader::LoadJson(Json::Value* _jsonVal)
 	}
 	
 	std::filesystem::path ShaderPath = cPathMgr::GetInst()->GetPathRel_Content();
-	ShaderPath /= DIRECTORY_NAME::SHADER_Bin;
+	ShaderPath /= DIRECTORY_NAME::SHADER_BIN;
 	ShaderPath /= GetKey();
 	ShaderPath.replace_extension(RES_INFO::SHADER::Ext_ShaderByteCode);
 

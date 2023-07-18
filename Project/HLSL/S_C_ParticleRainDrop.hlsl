@@ -12,7 +12,7 @@
 //static const float mu = 1.81e-5; // Dynamic viscosity of air in Pa*s
 //static const float COEFF_RESTITUTION = 0.8; // coefficient of restitution
 
-[numthreads(128, 1, 1)]
+[   numthreads  (  128 ,  1  , 1  )  ]  
 void CS_Particle_RainDrop(uint3 dtID : SV_DispatchThreadID)
 {
 }

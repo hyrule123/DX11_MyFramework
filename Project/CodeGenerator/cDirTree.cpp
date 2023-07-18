@@ -2,9 +2,8 @@
 #include "cDirTree.h"
 
 #include <Engine/func.h>
-
-#include "cCodeWriter.h"
-#include "cDirTreeNode.h"
+#include <Engine/cGraphicsShader.h>
+#include <Engine/cComputeShader.h>
 
 #ifndef JSON_DLL
 #define JSON_DLL
@@ -16,7 +15,7 @@
 #endif
 #endif
 
-#include <Engine/cGraphicsShader.h>
+
 
 #ifdef _DEBUG
 #pragma comment(lib, "Engine/Engine_Debug.lib")
@@ -24,8 +23,8 @@
 #pragma comment(lib, "Engine/Engine_Release.lib")
 #endif
 
-
-
+#include "cCodeWriter.h"
+#include "cDirTreeNode.h"
 
 
 cDirTree::cDirTree()
@@ -108,91 +107,152 @@ HRESULT cDirTree::DetectNewComputeShader(std::vector<stdfs::path> const& _vecCSh
 {
 	std::vector<stdfs::path> vecNewCS;
 
-	const static stdfs::path ShaderDir = stdfs::path(define_Preset::Path::Content::A) / stdfs::path(RES_INFO::SHADER::DirNameRoot);
-
+	const static stdfs::path ShaderDir = stdfs::path(define_Preset::Path::Content::A) / stdfs::path(DIRECTORY_NAME::SHADER_COMPUTE);
+	
 	const std::regex NumThreadRegex(define_Preset::Regex::Numthread::A);
 
 	//배열을 순회 돌아주면서
 	for (size_t i = 0; i < _vecCShader.size(); ++i)
 	{
-		stdfs::path ShaderFilePath = ShaderDir / RES_INFO::SHADER::COMPUTE::DirName;
+		stdfs::path ShaderFilePath = ShaderDir;
 		ShaderFilePath /= _vecCShader[i];
 		ShaderFilePath += RES_INFO::SHADER::Ext_ShaderSetting;
-		
-		//새로 발견한 컴퓨트쉐이더일 경우
-		if (false == stdfs::exists(ShaderFilePath))
+
+
+		bool bNeedInitialize = true;
+		Json::Value CShaderSetting;
+
+		//json 파일이 없을 경우 json 파일을 새로 생성한다.
+		if (stdfs::exists(ShaderFilePath))
 		{
-			stdfs::path HLSLFilePath = ShaderDir / RES_INFO::SHADER::ByteCodeDir;
-			HLSLFilePath /= _vecCShader[i];
-			HLSLFilePath += RES_INFO::SHADER::Ext_ShaderByteCode;
-
-			std::ifstream ifs(HLSLFilePath);
-			if (false == ifs.is_open())
+			//안에 데이터를 가져오고, 데이터가 없을 경우에는 Initialize
+			std::ifstream ifs(ShaderFilePath, std::ios::ate);
+			if (0 != ifs.tellg())
 			{
-				DEBUG_BREAK;
-				return E_FAIL;
+				ifs.seekg(std::ios::beg);
+				ifs >> CShaderSetting;
+				bNeedInitialize = false;
 			}
+		}
 
-
-			UINT NumThreads[3]{};
-			{
-				string FindThread;
-				smatch Matches;
-				while (false == ifs.eof())
-				{
-					std::getline(ifs, FindThread);
-					if (std::regex_match(FindThread, Matches, NumThreadRegex))
-					{
-						
-						int a = 0;
-
-						break;
-					}
-				}
-			}
-			ifs.close();
-
-			//json 파일을 작성
-			std::ofstream ofs(ShaderFilePath);
-			if (false == ofs.is_open())
-			{
-				DEBUG_BREAK;
-				return E_FAIL;
-			}
-
+		if (bNeedInitialize)
+		{
 			//json파일을 초기화
-			Json::Value jVal;
+			cComputeShader DummyCS;
+			DummyCS.SetKey(_vecCShader[i].string());
+			if (false == DummyCS.SaveJson(&CShaderSetting))
 			{
-				cComputeShader DummyCS;
-				DummyCS.SetKey(_vecCShader[i].string());
-				DummyCS.SetThreadsPerGroup(NumThreads[0], NumThreads[1], NumThreads[2]);
-				if (false == DummyCS.SaveJson(&jVal))
-				{
-					DEBUG_BREAK;
-					return E_FAIL;
-				}
+				DEBUG_BREAK;
+				return E_FAIL;
 			}
-
-			ofs << jVal;
-			ofs.close();
 
 			vecNewCS.push_back(_vecCShader[i]);
 		}
 
-	}
+		//같은 이름의 HLSL 파일을 열어서 스레드 수를 확인한다.
+		stdfs::path HLSLFilePath = define_Preset::Path::HLSL_Proj::A;
+		HLSLFilePath /= _vecCShader[i];
+		HLSLFilePath += ".hlsl";
 
-
-	//새 쉐이더 그룹이 발견되면 어떤 쉐이더 그룹이 새로 만들었는지 
-	if (false == vecNewCS.empty())
-	{
-		string Message = "New Compute Shader Detected!\n";
-		for (size_t i = 0; i < vecNewCS.size(); ++i)
+		//쉐이더 소스코드를 열어준다.
+		std::ifstream ifs(HLSLFilePath);
+		if (false == ifs.is_open())
 		{
-			Message += vecNewCS[i].string();
-			Message += "\n";
+			DEBUG_BREAK;
+			return E_FAIL;
 		}
 
-		MessageBoxA(nullptr, Message.c_str(), nullptr, MB_OK);
+		int NumThreads[3]{};
+		{
+			string FindThread;
+			smatch Matches;
+			while (false == ifs.eof())
+			{
+				std::getline(ifs, FindThread);
+
+				size_t pos = FindThread.find("numthreads");
+				if (std::string::npos != pos)
+				{
+					//문자열에서 공백을 제거한다.
+					auto iter =
+						std::remove_if(
+							FindThread.begin(),
+							FindThread.end(),
+							[](char c)->bool
+							{
+								return std::isspace(c);
+							});
+
+					FindThread.erase(iter, FindThread.end());
+
+					//스레드 갯수를 읽어온다.
+					std::smatch Matches;
+					if (std::regex_match(FindThread, Matches, NumThreadRegex))
+					{
+						if (Matches.size() < 4)
+						{
+							DEBUG_BREAK;
+							return E_FAIL;
+						}
+
+						try
+						{
+							for (size_t i = 1; i < Matches.size(); ++i)
+							{
+								NumThreads[i - 1] = std::stoi(Matches[i]);
+							}
+						}
+						catch (const std::runtime_error& _err)
+						{
+							_err;
+							DEBUG_BREAK;
+							return E_FAIL;
+						}
+
+						break;
+					}
+					FindThread.clear();
+				}
+
+			}
+		}
+		ifs.close();
+
+		//하나라도 0일경우 return false
+		if (0 == (NumThreads[0] * NumThreads[1] * NumThreads[2]))
+		{
+			string ErrMsg = "Compute Shader\n";
+			ErrMsg += _vecCShader[i].string();
+			ErrMsg += "\n thread is Invalid.";
+			ERROR_MESSAGE(ErrMsg.c_str());
+			return E_FAIL;
+		}
+
+		CShaderSetting[JsonKey_cComputeShader::m_arrNumThreads].clear();
+
+		for (int i = 0; i < 3; ++i)
+		{
+			CShaderSetting[JsonKey_cComputeShader::m_arrNumThreads].append((int)NumThreads[i]);
+		}
+		
+
+		std::ofstream ofs(ShaderFilePath);
+		if (false == ofs.is_open())
+		{
+			DEBUG_BREAK;
+			return E_FAIL;
+		}
+		ofs << CShaderSetting;
+	}
+
+	if (false == vecNewCS.empty())
+	{
+		string Msg = "New Compute Shader Detected.\n";
+		for (size_t i = 0; i < vecNewCS.size(); ++i)
+		{
+			Msg += vecNewCS[i].string() + "\n";
+		}
+		MessageBoxA(nullptr, Msg.c_str(), nullptr, MB_OK);
 	}
 
 	return S_OK;
@@ -400,7 +460,6 @@ HRESULT cDirTree::CreateShaderStrKey(stdfs::path const& _FilePath)
 
 	//코드 작성 시작
 	Writer.WriteCode(0, define_Preset::Keyword::Head::A);
-
 	Writer.WriteCode(0, define_Preset::Keyword::DefineSTRKEY::A);
 
 	Writer.WriteCode(0);
@@ -415,6 +474,13 @@ HRESULT cDirTree::CreateShaderStrKey(stdfs::path const& _FilePath)
 		Writer.OpenBracket(0);
 	}
 
+	{
+		std::string strCode;
+		strCode += "namespace Graphics";
+		Writer.WriteCode(0, strCode);
+		Writer.OpenBracket(0);
+	}
+
 	for (const auto& iter : umapGSGroup)
 	{
 		std::string strCode;
@@ -425,8 +491,30 @@ HRESULT cDirTree::CreateShaderStrKey(stdfs::path const& _FilePath)
 		strCode += "\";";
 		Writer.WriteCode(0, strCode);
 	}
+	Writer.CloseBracket(0, true);
 
-	Writer.CloseBracketAll(0);
+	{
+		Writer.AddIndentation(1);
+		std::string strCode;
+		strCode += "namespace Compute";
+		Writer.WriteCode(1, strCode);
+		Writer.OpenBracket(1);
+	}
+
+	for (size_t i = 0; i < vecCS.size(); ++i)
+	{
+		std::string strCode;
+		strCode += "STRKEY ";
+		strCode += vecCS[i].filename().replace_extension("").string();
+		strCode += " = \"";
+		strCode += vecCS[i].filename().replace_extension(".json").string();
+		strCode += "\";";
+		Writer.WriteCode(1, strCode);
+	}
+	Writer.CloseBracket(1, true);
+	Writer.CloseBracket(1);
+
+	//Writer.CloseBracketAll(0);
 
 	return Writer.SaveAll<char>(_FilePath);
 }

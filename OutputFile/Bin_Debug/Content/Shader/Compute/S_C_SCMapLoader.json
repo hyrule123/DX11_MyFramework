@@ -1,0 +1,10 @@
+{
+	"m_arrNumThreads" : 
+	[
+		32,
+		32,
+		1
+	],
+	"m_eResType" : 8,
+	"m_strKey" : "S_C_SCMapLoader"
+}
