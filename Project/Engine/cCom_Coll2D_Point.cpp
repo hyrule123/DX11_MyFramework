@@ -2,7 +2,7 @@
 #include "cCom_Coll2D_Point.h"
 
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 #include "cRenderMgr.h"
 
 #include "S_H_Debug.hlsli"
@@ -29,7 +29,7 @@ void cCom_Coll2D_Point::UpdateSimplecCollider(Vec4& _vSimpleCollLBRTPos)
 
 void cCom_Coll2D_Point::DebugRender()
 {
-	const cCom_Transform* pTransform = Transform();
+	const cTransform& pTransform = Transform();
 		
 	const Matrix& matOffset = Matrix::CreateTranslation(GetCenterPos());
 

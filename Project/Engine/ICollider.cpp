@@ -4,7 +4,7 @@
 #include "cScriptHolder.h"
 #include "IScript.h"
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #include "jsoncpp.h"
 #include "strKey_Default.h"
@@ -169,24 +169,23 @@ void ICollider::finaltick()
 	m_bCollPosUpdated >>= 1;
 	m_bCollSizeUpdated >>= 1;
 
-	const cCom_Transform* pTransform = Transform();
 
-	//트랜스폼의 위치정보가 변경되었을 경우 중심점을 새로 계산(위치는 무조건 cCom_Transform을 따라감.)
-	if (true == pTransform->IsUpdated() || isCollPosUpdated())
+	//트랜스폼의 위치정보가 변경되었을 경우 중심점을 새로 계산(위치는 무조건 cTransform을 따라감.)
+	if (true == Transform().IsUpdated() || isCollPosUpdated())
 	{
 		m_bCollPosUpdated |= 0x01;
 
 		//자신의 중심 위치를 구한다.
-		const Vec3& WorldPos = Transform()->GetWorldPos();
+		const Vec3& WorldPos = Transform().GetWorldPos();
 
 		m_v3CenterPos = WorldPos + m_v3OffsetPos;
 	}
 
 	//트랜스폼의 사이즈를 따라가고, 트랜스폼의 사이즈가 업데이트 되었을 경우 자신의 사이즈를 업데이트
-	if (m_bFollowTransformSize && pTransform->GetSizeUpdated())
+	if (m_bFollowTransformSize && Transform().GetSizeUpdated())
 	{
 		m_bCollSizeUpdated |= 0x01;
-		m_v3Size = pTransform->GetWorldSize();
+		m_v3Size = Transform().GetWorldSize();
 	}
 
 	//충돌체를 업데이트 해야 하는 경우 UpdateCollider() 함수 호출.

@@ -3,7 +3,7 @@
 //컴포넌트 헤더들을 모아두는 헤더
 
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 #include "cCom_Coll2D_Circle.h"
 #include "cCom_Coll2D_OBB.h"
 #include "cCom_Coll2D_Rect.h"

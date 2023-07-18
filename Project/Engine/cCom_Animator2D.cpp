@@ -10,7 +10,7 @@
 
 #include "cTimeMgr.h"
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #include "jsoncpp.h"
 
@@ -406,7 +406,7 @@ bool cCom_Animator2D::Play(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlay
         
     if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
     {
-        Transform()->SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
+        Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
     }
 
     Renderer()->SetDisable(false);
@@ -465,7 +465,7 @@ bool cCom_Animator2D::PreparePlay(const string_view _strKey_Anim, eANIM_PLAYMODE
 
     if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
     {
-        Transform()->SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
+        Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
     }
 
     Renderer()->SetDisable(true);
@@ -531,7 +531,7 @@ void cCom_Animator2D::CalculateDirectionalColHalfFlipAtlas()
 
     //현재 z축 회전 각도를 받아와서 360도(2PI)로 나눈 나머지를 구해준다.
     //12시 기준이고, 음수는 11시 방향 360도, 양수는 1시 방향 360도를 의미한다.
-    float angle = fmodf(-Transform()->GetRelativeRot().z, XM_2PI);
+    float angle = fmodf(-Transform().GetRelativeRot().z, XM_2PI);
 
     //각도가 음수일 경우(반시계방향 회전일 경우) 2PI에서 빼서(angle이 음수이므로 더해주면 됨) 양수 기준으로 바꿔준다.
     //이러면 0 ~ 360도 범위가 0 ~ 2PI 범위로 바뀌게 된다.

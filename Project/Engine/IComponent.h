@@ -3,7 +3,7 @@
 
 #include "cGameObject.h"
 
-class cCom_Transform;
+class cTransform;
 class cCom_Renderer_Basic;
 class cCom_Camera;
 class ICollider3D;
@@ -57,7 +57,7 @@ public:
     bool isDisabled() const { return m_bIsDisabled; }
 
 public:
-    cCom_Transform*         Transform()         { return m_pOwner->Transform(); }
+    cTransform&             Transform()         { return m_pOwner->Transform(); }
     IRenderer*              Renderer()          { return m_pOwner->Renderer(); }
     cCom_Camera*            Camera()            { return m_pOwner->Camera(); }
     cCom_Animator2D*        Animator2D()        { return m_pOwner->Animator2D(); }

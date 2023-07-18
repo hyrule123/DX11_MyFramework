@@ -8,7 +8,7 @@
 
 #include "cResMgr.h"
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #include "strKey_Default.h"
 

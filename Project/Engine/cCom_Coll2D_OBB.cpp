@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "cCom_Coll2D_OBB.h"
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 //디버그 출력용
 #include "cRenderMgr.h"
@@ -24,14 +24,14 @@ cCom_Coll2D_OBB::~cCom_Coll2D_OBB()
 }
 
 
-//이 함수는 cCom_Transform에서 값이 변했을 경우에만 호출된다.
+//이 함수는 cTransform에서 값이 변했을 경우에만 호출된다.
 void cCom_Coll2D_OBB::UpdateCollider()
 {
 	//충돌체 주소를 가져온다.
-	const cCom_Transform* pTransform = GetOwner()->Transform();
+	const cTransform& pTransform = GetOwner()->Transform();
 
 	//자신의 OBB 정보를 계산한다.
-	const Matrix& WorldMat = pTransform->GetWorldMatWithoutSize();
+	const Matrix& WorldMat = pTransform.GetWorldMatWithoutSize();
 	const Vec3& Size = GetCollSize();
 
 	for (int i = 0; i < (int)eAXIS2D::END; ++i)

@@ -247,7 +247,7 @@
     <ClInclude Include="ITilemapBase.h" />
     <ClInclude Include="cCom_Renderer_TilemapAtlas.h" />
     <ClInclude Include="cTimeMgr.h" />
-    <ClInclude Include="cCom_Transform.h" />
+    <ClInclude Include="cTransform.h" />
     <ClInclude Include="DefaultShader.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="EventDispatcher.h" />
@@ -322,7 +322,7 @@
     <ClCompile Include="ITilemapBase.cpp" />
     <ClCompile Include="cCom_Renderer_TilemapAtlas.cpp" />
     <ClCompile Include="cTimeMgr.cpp" />
-    <ClCompile Include="cCom_Transform.cpp" />
+    <ClCompile Include="cTransform.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="extern.cpp" />
     <ClCompile Include="func.cpp" />

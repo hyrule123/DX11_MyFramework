@@ -3,7 +3,7 @@
 #include "IScript.h"
 
 class cGameObject;
-class cCom_Transform;
+class cTransform;
 class IRenderer;
 class cCom_Animator2D;
 class cScriptHolder;

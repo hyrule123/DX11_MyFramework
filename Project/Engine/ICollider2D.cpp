@@ -10,7 +10,7 @@
 
 #include "cRenderMgr.h"
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #include "strKey_Default.h"
 #include "jsoncpp.h"
@@ -78,7 +78,7 @@ void ICollider2D::finaltick()
 
 void ICollider2D::UpdateCollider()
 {
-	//간이 충돌체 정보만 갱신한다. 기본 설정은 cCom_Transform에서 변의 길이를 받아와서 정사각형 형태로 생성함.
+	//간이 충돌체 정보만 갱신한다. 기본 설정은 cTransform에서 변의 길이를 받아와서 정사각형 형태로 생성함.
 	UpdateSimplecCollider(m_v4SimpleCollLBRTPos);
 
 	//위치 LBRT 정보를 전달해서 공간분할 그리드 상에서의 인덱스 정보를 받아온다.
@@ -87,7 +87,7 @@ void ICollider2D::UpdateCollider()
 
 //void ICollider2D::UpdateSimplecCollider(Vec4& _vSimpleCollLBRTPos)
 //{
-//	const cCom_Transform& pTransform = Transform();
+//	const cTransform& pTransform = Transform();
 //
 //	if (nullptr != pTransform)
 //	{

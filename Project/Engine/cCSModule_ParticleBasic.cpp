@@ -8,7 +8,7 @@
 #include "cConstBuffer.h"
 #include "cGameObject.h"
 #include "cCom_Renderer_ParticleBasic.h"
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #ifdef _DEBUG
 #include "DefaultShader/S_C_ParticleBasic_Debug.h"

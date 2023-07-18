@@ -57,7 +57,7 @@ public:
     bool GetEnable() const { return m_bDisable; }
     
 public:
-    cCom_Transform* Transform() const { return m_pHolder->Transform(); }
+    cTransform& Transform() const { return m_pHolder->Transform(); }
     IRenderer* Renderer() const { return m_pHolder->Renderer(); }
     cCom_Camera* Camera() const { return m_pHolder->Camera(); }
     cCom_Animator2D* Animator2D() const { return m_pHolder->Animator2D(); }

@@ -2,6 +2,37 @@
 
 #include "define.h"
 
+
+namespace strkey_DefaultCom
+{
+	STRKEY_DECLARE(cCOM_Collider2D);
+	STRKEY_DECLARE(cCOM_Collider3D);
+	STRKEY_DECLARE(cCom_Animator2D);
+	STRKEY_DECLARE(cCom_Animator3D);
+	STRKEY_DECLARE(cCom_Light2D);
+	STRKEY_
+
+		//COLLIDER2D,		// 2차원 충돌
+		//COLLIDER3D,		// 3차원 충돌
+		//ANIMATOR2D,		// Sprite Animation
+		//ANIMATOR3D,		// Bone Sknning Animation
+		//LIGHT2D,			// 2차원 광원
+		//LIGHT3D,			// 3차원 광원
+		//CAMERA,			// cCom_Camera
+
+		//// render
+		//RENDERER,
+		////MESH_RENDER,		// 기본적인 렌더링
+		////PARTICLE_SYSTEM, // 입자 렌더링
+		////TILEMAP,		// 2차원 타일
+		////LANDSCAPE,		// 3차원 지형
+		////DECAL,			// 내부 렌더링
+
+		//// custom
+		//SCRIPT_HOLDER,
+}
+
+
 //이 열거체 중간에 값을 추가하거나 수정할 경우 반드시 밑의 경로 정보도 수정할 것
 //이 열거체를 배열의 인덱스로 사용하고 있음.
 enum class eRES_TYPE
@@ -253,7 +284,7 @@ namespace RES_INFO
 			{
 				namespace JSON_KEY
 				{
-					//Position은 무조건 트랜스폼을 따라감. 이 값은 cCom_Transform의 위치값에 추가로 Offset을 줌.
+					//Position은 무조건 트랜스폼을 따라감. 이 값은 cTransform의 위치값에 추가로 Offset을 줌.
 					STRKEY_DECLARE(m_v3OffsetPos);
 
 					STRKEY_DECLARE(m_bFollowTransformSize);
@@ -447,9 +478,6 @@ namespace RES_INFO
 			STRKEY arr[(int)idx::END] = { ".scm", ".scx" };
 		}
 	}
-
-
-
 
 }
 

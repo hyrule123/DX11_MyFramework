@@ -4,14 +4,14 @@
 
 #include "cLevelMgr.h"
 #include "cGameObject.h"
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #include "CPrefab.h"
 
 //깊이 프리셋 값이 설정되어 있을 경우 WorldPos의 Z값은 무시됨.
 void EventDispatcher::SpawnGameObject(cGameObject* _pNewObject, const Vec3& _vWorldPos, int _LayerIdx)
 {
-	_pNewObject->Transform()->SetRelativePos(_vWorldPos);
+	_pNewObject->Transform().SetRelativePos(_vWorldPos);
 
 	if (0 <= _LayerIdx)
 		_pNewObject->SetLayer(_LayerIdx);
@@ -35,7 +35,7 @@ cGameObject* EventDispatcher::SpawnPrefab2D(Ptr<CPrefab> _Prefab, const Vec2& _v
 	assert(pObj);
 	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
 
-	pObj->Transform()->SetRelativePosXY(_vWorldPosXY);
+	pObj->Transform().SetRelativePosXY(_vWorldPosXY);
 
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;
@@ -53,7 +53,7 @@ cGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec3& _vWo
 	assert(pObj);
 	assert(0 <= pObj->GetLayer() && pObj->GetLayer() < MAX_LAYER);
 
-	pObj->Transform()->SetRelativePos(_vWorldPos);
+	pObj->Transform().SetRelativePos(_vWorldPos);
 
 	tGameEvent evn = {};
 	evn.Type = eEVENT_TYPE::SPAWN_OBJECT;

@@ -49,9 +49,6 @@
     <ClInclude Include="IEntity.h">
       <Filter>_Source</Filter>
     </ClInclude>
-    <ClInclude Include="cCom_Transform.h">
-      <Filter>_Source\06. Component\00. Transform</Filter>
-    </ClInclude>
     <ClInclude Include="IRes.h">
       <Filter>_Source\07. Resource</Filter>
     </ClInclude>
@@ -215,6 +212,7 @@
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClInclude>
     <ClInclude Include="cCom_Renderer_ParticleBasic.h" />
+    <ClInclude Include="cTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -243,9 +241,6 @@
     </ClCompile>
     <ClCompile Include="IEntity.cpp">
       <Filter>_Source</Filter>
-    </ClCompile>
-    <ClCompile Include="cCom_Transform.cpp">
-      <Filter>_Source\06. Component\00. Transform</Filter>
     </ClCompile>
     <ClCompile Include="IRes.cpp">
       <Filter>_Source\07. Resource</Filter>
@@ -391,6 +386,7 @@
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
     <ClCompile Include="cCom_Renderer_ParticleBasic.cpp" />
+    <ClCompile Include="cTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_Source">

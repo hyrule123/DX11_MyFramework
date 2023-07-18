@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "IScript.h"
-#include "cCom_Transform.h"
+#include "cTransform.h"
 #include "cCom_Renderer_Basic.h"
 #include "cTimeMgr.h"
 #include "cKeyMgr.h"

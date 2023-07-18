@@ -7,7 +7,7 @@
 
 #include "strKey_Default.h"
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #include "cCSModule_ParticleBasic.h"
 
@@ -83,7 +83,7 @@ void cCom_Renderer_ParticleBasic::finaltick()
 
 	//렌더링하고 나면 PrevPos를 업데이트
 	m_BasicData.vOwnerPrevWorldPos = m_BasicData.vOwnerCurWorldPos;
-	m_BasicData.vOwnerCurWorldPos = Transform()->GetWorldPos();
+	m_BasicData.vOwnerCurWorldPos = Transform().GetWorldPos();
 }
 
 bool cCom_Renderer_ParticleBasic::render()

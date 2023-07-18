@@ -9,7 +9,7 @@
 #include "cLayer.h"
 
 //트랜스폼 상속
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 
 
@@ -274,7 +274,7 @@ void cGameObject::finaltick()
 
 
 	//자녀 포함 모든 컴포넌트가 업데이트 되면 트랜스폼의 업데이트 상황 초기화
-	Transform()->ClearUpdateState();
+	Transform().ClearUpdateState();
 }
 
 bool cGameObject::render()
@@ -667,7 +667,7 @@ void cGameObject::RemoveChild(cGameObject* _Object)
 
 void cGameObject::SetParentMatrixUpdated()
 {
-	Transform()->SetParentUpdate();
+	Transform().SetParentUpdate();
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
@@ -683,14 +683,14 @@ bool cGameObject::GetParentWorldMatrix(Matrix& _mat)
 		return false;
 
 	//있을 경우 인자에 그대로 대입, true 반환.
-	_mat = m_Parent->Transform()->GetWorldMatWithoutSize();
+	_mat = m_Parent->Transform().GetWorldMatWithoutSize();
 	return true;
 }
 
 
 void cGameObject::SetChildTransformToUpdate()
 {
-	Transform()->SetParentUpdate();
+	Transform().SetParentUpdate();
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)

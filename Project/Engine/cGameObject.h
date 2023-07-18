@@ -3,10 +3,9 @@
 
 #include "global.h"
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 class IComponent;
-class cCom_Transform;
 class ICollider2D;
 class cCom_Renderer_Basic;
 class cCom_Camera;
@@ -56,6 +55,7 @@ public:
 public:
 
 private:
+    cTransform              m_Transform;
     IComponent*             m_arrCom[(UINT)eCOMPONENT_TYPE::END];
 
 public:
@@ -109,7 +109,7 @@ public:
     const tMtrlScalarData& GetMtrlScalarData() const { return m_MtrlScalarData; }
 
     //cCom_Camera에서 호출.
-    //cCom_Transform에서 등록한 World Matrix의 위치 부분 Z값에 _MinZ(Z 기준값 또는 최솟값) + (Y값 / 현재 해상도)로 덮어씌움
+    //cTransform에서 등록한 World Matrix의 위치 부분 Z값에 _MinZ(Z 기준값 또는 최솟값) + (Y값 / 현재 해상도)로 덮어씌움
     void YSort(float _MinZ);
 
 
@@ -145,7 +145,7 @@ public:
     ////Components
     IComponent*         GetComponent(eCOMPONENT_TYPE _type) const { return (IComponent*)m_arrCom[(UINT)_type]; }
 
-    cCom_Transform*         Transform() { return (cCom_Transform*)m_arrCom[(UINT)eCOMPONENT_TYPE::TRANSFORM]; }
+    cTransform&         Transform() { return m_Transform; }
 
     ICollider2D*        Collider2D() const { return (ICollider2D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER2D]; }
     ICollider3D*        Collider3D() const { return (ICollider3D*)m_arrCom[(UINT)eCOMPONENT_TYPE::COLLIDER3D]; }
@@ -305,7 +305,7 @@ inline void cGameObject::YSort(float _MaxZ)
     if (IsMaster())
         m_MtrlScalarData.MAT_1.m[3][z] = _MaxZ + (m_MtrlScalarData.MAT_1.m[3][y] / g_GlobalVal.v2Res.y);
     else
-        m_MtrlScalarData.MAT_1.m[3][z] = GetParent()->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD).m[3][z] + Transform()->GetRelativePos().z;
+        m_MtrlScalarData.MAT_1.m[3][z] = GetParent()->GetMtrlScalarParam_Matrix(MTRL_SCALAR_MAT_WORLD).m[3][z] + Transform().GetRelativePos().z;
         
 }   
 

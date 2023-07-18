@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "cCom_Coll2D_Rect.h"
 
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #include "S_H_Debug.hlsli"
 #include "cRenderMgr.h"

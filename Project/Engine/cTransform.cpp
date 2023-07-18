@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "cCom_Transform.h"
+#include "cTransform.h"
 
 #include "cGameObject.h"
 
@@ -20,7 +20,7 @@
 
 #include "struct.h"
 
-cCom_Transform::cCom_Transform()
+cTransform::cTransform()
 	: m_pOwner()
 	, m_v3Size(100.f, 100.f, 100.f)
 	, m_v3RelativeScale(1.f, 1.f, 1.f)
@@ -37,13 +37,13 @@ cCom_Transform::cCom_Transform()
 {
 }
 
-cCom_Transform::~cCom_Transform()
+cTransform::~cTransform()
 {
 }
 
 
 
-void cCom_Transform::finaltick()
+void cTransform::finaltick()
 {
 	//bool 값들은 tick()에서 false로 초기화 된다.
 	//여기선 고유 크기(Size)를 반영하지 않은 월드행렬을 만든다.
@@ -94,12 +94,12 @@ void cCom_Transform::finaltick()
 		m_pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_WORLD, &m_matWorld);
 }
 
-bool cCom_Transform::SaveJson(Json::Value* _pJson)
+bool cTransform::SaveJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
 		return false;
 
-	//cCom_Transform 항목을 하나 만들어서 그 안에 저장
+	//cTransform 항목을 하나 만들어서 그 안에 저장
 	Json::Value& jVal = (*_pJson);
 	
 	{//사이즈 X, Y, Z 순서로 저장
@@ -143,7 +143,7 @@ bool cCom_Transform::SaveJson(Json::Value* _pJson)
 	return true;
 }
 
-bool cCom_Transform::LoadJson(Json::Value* _pJson)
+bool cTransform::LoadJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
 		return false;
@@ -240,7 +240,7 @@ bool cCom_Transform::LoadJson(Json::Value* _pJson)
 
 
 
-void cCom_Transform::UpdateMyTransform()
+void cTransform::UpdateMyTransform()
 {
 	m_matRelative = Matrix::Identity;
 
@@ -267,7 +267,7 @@ void cCom_Transform::UpdateMyTransform()
 	m_matRelative *= Matrix::CreateTranslation(m_v3RelativePos);
 }
 
-void cCom_Transform::UpdateParentMatrix()
+void cTransform::UpdateParentMatrix()
 {
 	m_matParent = Matrix::Identity;
 
@@ -315,7 +315,7 @@ void cCom_Transform::UpdateParentMatrix()
 	}
 }
 
-void cCom_Transform::SetMyUpdate()
+void cTransform::SetMyUpdate()
 {
 	//이미 설정이 되어 있다면 return
 	if (true == m_bNeedMyUpdate)

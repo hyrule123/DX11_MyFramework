@@ -1,7 +1,7 @@
 #pragma once
 #include "IComponent.h"
 
-class cCom_Transform;
+class cTransform;
 class cCom_Camera;
 class cCom_Renderer_Basic;
 class ICollider;

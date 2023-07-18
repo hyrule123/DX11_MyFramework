@@ -6,17 +6,17 @@
 #include <UtilLib_DLL/json/forwards.h>
 
 class cGameObject;
-class cCom_Transform :
+class cTransform :
     public IEntity
 {
 public:
-    cCom_Transform();
+    cTransform();
 
     //단순 Value만 저장 중이므로 기본 복사 생성자로도 충분함.
-    virtual ~cCom_Transform();
+    virtual ~cTransform();
 
-    cCom_Transform(const cCom_Transform& _other) = default;
-    CLONE(cCom_Transform);
+    cTransform(const cTransform& _other) = default;
+    CLONE(cTransform);
 
 public:
     void finaltick();
@@ -62,7 +62,7 @@ private:
     bool    m_bLockRotation; //자신의 회전 방지
 
     //자신의 사이즈 정보가 반영되지 않은 행렬
-    //자식 cCom_Transform에 값을 넘겨줄 떄 이 행렬로 넘겨줘야 해서 별도로 분리함.
+    //자식 cTransform에 값을 넘겨줄 떄 이 행렬로 넘겨줘야 해서 별도로 분리함.
     Matrix  m_matWorldWithoutSize;
 
     //부모로부터 상속받아 최종적으로 만들어진 월드행렬
@@ -172,19 +172,19 @@ private:
 };
 
 
-inline void cCom_Transform::SetSize(const Vec3& _vSize)
+inline void cTransform::SetSize(const Vec3& _vSize)
 {
     m_v3Size = _vSize;
     m_bSizeUpdated = true;
 }
 
-inline void cCom_Transform::SetSizeXY(const Vec2& _v2Size)
+inline void cTransform::SetSizeXY(const Vec2& _v2Size)
 {
     m_v3Size = _v2Size;
     m_bSizeUpdated = true;
 }
 
-inline void cCom_Transform::SetRelativeScale(const Vec3& _vScale)
+inline void cTransform::SetRelativeScale(const Vec3& _vScale)
 { 
     m_v3RelativeScale = _vScale; 
     SetMyUpdate(); 
@@ -192,7 +192,7 @@ inline void cCom_Transform::SetRelativeScale(const Vec3& _vScale)
     m_bIsDefaultScale = false;
 }
 
-inline void cCom_Transform::SetRelativeScale(float _x, float _y, float _z)
+inline void cTransform::SetRelativeScale(float _x, float _y, float _z)
 {
     m_v3RelativeScale = Vec3(_x, _y, _z); 
     SetMyUpdate(); 
@@ -203,27 +203,27 @@ inline void cCom_Transform::SetRelativeScale(float _x, float _y, float _z)
 
  
 
-inline Vec3 cCom_Transform::GetWorldSize() const
+inline Vec3 cTransform::GetWorldSize() const
 {
     return Vec3(m_matWorld.Right().Length(), m_matWorld.Up().Length(), m_matWorld.Front().Length());
 }
 
-inline Vec3 cCom_Transform::GetWorldScale() const
+inline Vec3 cTransform::GetWorldScale() const
 {
     return Vec3(m_matWorldWithoutSize.Right().Length(), m_matWorldWithoutSize.Up().Length(), m_matWorldWithoutSize.Front().Length());
 }
 
-inline Matrix cCom_Transform::GetWorldRotMat() const
+inline Matrix cTransform::GetWorldRotMat() const
 {
     return Matrix(m_matWorldWithoutSize.Right().Normalize(), m_matWorldWithoutSize.Up().Normalize(), m_matWorldWithoutSize.Front().Normalize());
 }
 
-inline Vec3 cCom_Transform::GetWorldRot(eAXIS3D _eAxis) const
+inline Vec3 cTransform::GetWorldRot(eAXIS3D _eAxis) const
 {
     return m_matWorldWithoutSize.Axis((UINT)_eAxis).Normalize();
 }
 
-inline void cCom_Transform::ClearUpdateState()
+inline void cTransform::ClearUpdateState()
 {
     m_bNeedMyUpdate = false;
     m_bNeedParentUpdate = false;

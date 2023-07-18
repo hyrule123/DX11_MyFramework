@@ -26,10 +26,11 @@
 
 #include "cUserClassMgr.h"
 #include "components.h"
+#include "strKey_Default.h"
 
 void DefaultClassInitializer::InitDefaultComponent()
 {
 	cUserClassMgr* pMgr = cUserClassMgr::GetInst();
 
-
+	pMgr->AddComponentConstructor(strKey_Default::)
 }
