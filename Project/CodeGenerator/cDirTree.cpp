@@ -311,7 +311,8 @@ HRESULT cDirTree::CreateUserClassInitCode(tAddBaseClassDesc const& _Desc)
 
 	{
 		std::string strCode = "#include <Engine/";
-		strCode += _Desc.IncludeBaseHeaderName;
+		strCode += _Desc.BaseType;
+		strCode += ".h";
 		strCode += ">";
 
 		Writer.WriteCode(0, strCode);

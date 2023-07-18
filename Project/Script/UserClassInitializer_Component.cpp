@@ -1,4 +1,4 @@
-//일단 미사용
+
 
 #pragma once
 
@@ -9,22 +9,15 @@
 //=========================================================
 
 
-#ifndef STRKEY
-#define STRKEY constexpr inline const char*
-#endif
-
 #include "pch.h"
 #include "UserClassInitializer.h"
-#include "strKey_CShader.h"
+#include "strKey_Component.h"
+#include <Engine/cUserClassMgr.h>)
+#include <Engine/IComponent.h>
 
-#include <Engine/UserClassMgr.h>
-#include <Engine/cComputeShader.h>
-#define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseCS(strKey_CShader::_Type, Constructor_Ptr_T<_Type>)
 
-//Compute Shader Classes
-#include "CCS_SCMapLoader.h"
+#define CONSTRUCTOR_T(T) cUserClassMgr::GetInst()->AddComponentConstructor(strKey_Script::T, Constructor_T<IComponent, T>)
 
-void UserClassInitializer::InitCS()
+void UserClassInitializer::InitComponent()
 {
-	CONSTRUCTOR_T(CCS_SCMapLoader);
 }

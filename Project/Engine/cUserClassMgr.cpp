@@ -25,17 +25,20 @@ IScript* cUserClassMgr::GetNewScript(const std::string_view _strKey)
 	if (iter == m_umapScript.end())
 		return nullptr;
 
-	IScript* pScript = iter->second(_strKey);
+	IScript* pScript = iter->second();
 	return pScript;
 }
 
-void cUserClassMgr::AddComponentConstructor(const std::string_view _strKey, std::function<IComponent* ()>)
-{
-}
 
-IComponent* cUserClassMgr::GetComponent(const std::string_view _strKey)
+IComponent* cUserClassMgr::GetNewComponent(const std::string_view _strKey)
 {
-	return nullptr;
+	const auto& iter = m_umapComponent.find(_strKey);
+	if (iter == m_umapComponent.end())
+		return nullptr;
+
+	IComponent* pScript = iter->second();
+	pScript->SetKey(_strKey);
+	return pScript;
 }
 
 

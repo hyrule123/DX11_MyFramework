@@ -16,11 +16,8 @@ private:
 	template <typename T>
 	static Ptr<T> Constructor_Ptr_T() { static_assert(std::is_base_of_v<IRes, T>); return new T; }
 
-	template <typename T>
-	static T* Constructor_Script_T(const std::string_view _strKey) { static_assert(std::is_base_of_v<IScript, T>); return new T(_strKey); }
-
-	template <typename T>
-	static T* Constructor_T() { return new T; }
+	template <typename _Base, typename T>
+	static T* Constructor_T() { static_assert(std::is_base_of_v<_Base, T>); return new T; }
 };
 
 

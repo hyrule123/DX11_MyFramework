@@ -5,7 +5,7 @@
 struct tAddBaseClassDesc
 {
 	stdfs::path _FilePath;
-	std::string IncludeBaseHeaderName;
+	std::string BaseType;
 	std::string IncludeStrKeyHeaderName;
 	std::string Constructor_T_MacroDefine;
 	std::string UserClassMgr_InitFuncName;

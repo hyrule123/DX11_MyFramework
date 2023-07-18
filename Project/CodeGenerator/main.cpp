@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
         }
 
         stdfs::path outPath = define_Preset::Path::ScriptProj::A;
-        outPath /= define_Preset::Path::strKey_Texture::A;
+        outPath /= "strKey_Texture.h";
         DirTree.CreateStrKeyHeader(outPath, "Texture", false);
     }
 
@@ -70,38 +70,46 @@ int main(int argc, char* argv[])
         
     }
 
-    //Generate Graphics Shader Key
-    //{
-    //    //std::regex regexGS(define_Preset::Regex::Shader::A);
-
-
-    //    cDirTree DirTree;
-    //    stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
-    //    DirTree.SearchRecursive(DirPath, regexGS);
-
-    //    DirTree.CreateShaderStrKey(DirPath / define_Preset::Path::strKey_GShader::A);
-    //}
 
     //Generate Script Key and Code
     {
-        std::regex regexScript(R"(cScript_.+\.h)");
+        std::regex regexScript(define_Preset::Regex::ScriptRegex::A);
 
         cDirTree DirTree;
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
         DirTree.SearchRecursive(DirPath, regexScript);
 
-        DirTree.CreateStrKeyHeader(DirPath / define_Preset::Path::strKey_Script::A, "Script", true);
+        DirTree.CreateStrKeyHeader(DirPath / "strKey_Script.h", "Script", true);
 
         tAddBaseClassDesc Desc = {};
-        Desc.IncludeBaseHeaderName = "IScript.h";
+        Desc.BaseType = "IScript";
         Desc.IncludeStrKeyHeaderName = "strKey_Script.h";
-        Desc.Constructor_T_MacroDefine = define_Preset::Keyword::define_T_Constructor_Script::A;
+        Desc.Constructor_T_MacroDefine = R"(cUserClassMgr::GetInst()->AddScriptConstructor(strKey_Script::T, Constructor_T<IScript, T>))";
         Desc.UserClassMgr_InitFuncName = "InitScript()";
-        //Desc.Constructor_T_FuncName = 
-        Desc._FilePath = DirPath / define_Preset::Path::UserClassInit_Script::A;
+        Desc._FilePath = DirPath / "UserClassInitializer_Script.cpp";
 
         DirTree.CreateUserClassInitCode(Desc);
-        //DirTree.CreateScriptCPP(DirPath / define_Preset::Path::UserClassInit_Script::A);
+    }
+
+    //Generate User Components
+    {
+        std::regex regexScript(define_Preset::Regex::ComponentRegex::A);
+
+        cDirTree DirTree;
+        stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
+        DirTree.SearchRecursive(DirPath, regexScript);
+
+        DirTree.CreateStrKeyHeader(DirPath / "strKey_Component.h", "Component", true);
+
+        tAddBaseClassDesc Desc = {};
+        Desc.BaseType = "IComponent";
+        Desc.IncludeStrKeyHeaderName = "strKey_Component.h";
+        Desc.Constructor_T_MacroDefine = R"(cUserClassMgr::GetInst()->AddComponentConstructor(strKey_Script::T, Constructor_T<IComponent, T>))";
+        
+        Desc.UserClassMgr_InitFuncName = "InitComponent()";
+        Desc._FilePath = DirPath / "UserClassInitializer_Component.cpp";
+
+        DirTree.CreateUserClassInitCode(Desc);
     }
 
     return 0;

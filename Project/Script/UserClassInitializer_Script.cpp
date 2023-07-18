@@ -32,7 +32,7 @@
 #include "cScript_Vespene.h"
 #include "cScript_VespeneSmoke.h"
 
-#define CONSTRUCTOR_T(T) cUserClassMgr::GetInst()->AddScriptConstructor(strKey_Script::T, Constructor_Script_T<T>)
+#define CONSTRUCTOR_T(T) cUserClassMgr::GetInst()->AddScriptConstructor(strKey_Script::T, Constructor_T<IScript, T>)
 
 void UserClassInitializer::InitScript()
 {

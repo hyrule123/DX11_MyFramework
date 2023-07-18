@@ -27,10 +27,10 @@ class cUserClassMgr
 
 	//============================== SCRIPTS =====================================
 private:
-	std::unordered_map <std::string_view, std::function<IScript*(const string_view)>> m_umapScript;
+	std::unordered_map <std::string_view, std::function<IScript*()>> m_umapScript;
 
 public:
-	void AddScriptConstructor(const std::string_view _strKey, std::function<IScript*(const string_view)> _FuncConstructor);
+	void AddScriptConstructor(const std::string_view _strKey, std::function<IScript*()> _FuncConstructor);
 	IScript* GetNewScript(const std::string_view _strKey);
 	//====================================================================================
 
@@ -41,19 +41,25 @@ private:
 	static std::unordered_map <std::string_view, std::function<IComponent* ()>>	m_umapComponent;
 	
 public:
-	void AddComponentConstructor(const std::string_view _strKey, std::function<IComponent* ()>);
-	IComponent* GetComponent(const std::string_view _strKey);
+	void AddComponentConstructor(const std::string_view _strKey, std::function<IComponent* ()> _FuncConstructor);
+	IComponent* GetNewComponent(const std::string_view _strKey);
 	// =================================================================================================
 };
 
 
 
 
-inline void cUserClassMgr::AddScriptConstructor(const std::string_view _strKey, std::function<IScript*(const string_view)> _FuncConstructor)
+inline void cUserClassMgr::AddScriptConstructor(const std::string_view _strKey, std::function<IScript*()> _FuncConstructor)
 {
+	assert(_FuncConstructor);
 	m_umapScript.insert(std::make_pair(_strKey, _FuncConstructor));
 }
 
+inline void cUserClassMgr::AddComponentConstructor(const std::string_view _strKey, std::function<IComponent* ()> _FuncConstructor)
+{
+	assert(_FuncConstructor);
+	m_umapComponent.insert(std::make_pair(_strKey, _FuncConstructor));
+}
 
 
 

@@ -191,6 +191,7 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="cScript_FSM_Building_Prod.h" />
     <ClInclude Include="cScript_FSM_Death.h" />
     <ClInclude Include="cScript_TilemapSC.h" />
+    <ClInclude Include="strKey_Component.h" />
     <ClInclude Include="strKey_Shader.h" />
     <ClInclude Include="UserClassInitializer.h" />
     <ClInclude Include="cScript_CameraMove.h" />

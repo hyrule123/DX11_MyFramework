@@ -38,14 +38,8 @@ namespace define_Preset
 		PRESET(Content, "./OutputFile/Bin_Release/Content");
 #endif
 
-		PRESET(strKey_Script, "strKey_Script.h");
-		PRESET(strKey_CShader, "strKey_CShader.h");
-		PRESET(strKey_GShader, "strKey_GShader.h");
-		PRESET(strKey_Texture, "strKey_Texture.h");
-		PRESET(strKey_Prefab, "strKey_Prefab.h");
+		
 
-		PRESET(UserClassInit_CS, "UserClassInitializer_CShader.cpp");
-		PRESET(UserClassInit_Script, "UserClassInitializer_Script.cpp");
 	}
 	
 	namespace Keyword
@@ -82,14 +76,7 @@ R"(#ifndef STRKEY
 			R"(#define CONSTRUCTOR_T(T) )"
 		);
 
-
-		PRESET(define_T_Constructor_Script, 
-			R"(cUserClassMgr::GetInst()->AddScriptConstructor(strKey_Script::T, Constructor_Script_T<T>))"
-		);
-
 		PRESET(Constructor_T, "CONSTRUCTOR_T(");
-
-
 	}
 
 	namespace Regex
@@ -113,8 +100,9 @@ R"(#ifndef STRKEY
 
 		PRESET(AllShader, R"(\w+\.hlsl$)");
 		PRESET(CShaderRegex, R"(S_C_\w+\.hlsl$)");
+		PRESET(ScriptRegex, R"(cScript_.+\.h)");
+		PRESET(ComponentRegex, R"(cCOM_.+\.h)");
 		
-
 		//[   numthreads   ( %d, %d, %d )   ]
 		//[ ] 안에 둘러싸여 있고, 공백 갯수에 상관없이 숫자 3개를 추출
 		PRESET(Numthread, R"(.*\((\d+),(\d+),(\d+\)).*)");
