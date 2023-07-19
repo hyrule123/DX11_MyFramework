@@ -70,47 +70,71 @@ int main(int argc, char* argv[])
         
     }
 
-
-    //Generate Script Key and Code
+    //Generate Componets
     {
-        std::regex regexScript(define_Preset::Regex::ScriptRegex::A);
+        std::regex regexCom(R"(cCom_\w+\.h|cScript_\w+\.h)");
 
         cDirTree DirTree;
         stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
-        DirTree.SearchRecursive(DirPath, regexScript);
+        
+        DirTree.SearchRecursive(DirPath, regexCom);
 
-        DirTree.CreateStrKeyHeader(DirPath / "strKey_Script.h", "Script", true);
-
-        tAddBaseClassDesc Desc = {};
-        Desc.BaseType = "IScript";
-        Desc.IncludeStrKeyHeaderName = "strKey_Script.h";
-        Desc.Constructor_T_MacroDefine = R"(cUserClassMgr::GetInst()->AddScriptConstructor(strKey_Script::T, Constructor_T<IScript, T>))";
-        Desc.UserClassMgr_InitFuncName = "InitScript()";
-        Desc._FilePath = DirPath / "UserClassInitializer_Script.cpp";
-
-        DirTree.CreateUserClassInitCode(Desc);
-    }
-
-    //Generate User Components
-    {
-        std::regex regexScript(define_Preset::Regex::ComponentRegex::A);
-
-        cDirTree DirTree;
-        stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
-        DirTree.SearchRecursive(DirPath, regexScript);
-
-        DirTree.CreateStrKeyHeader(DirPath / "strKey_Component.h", "Component", true);
-
+        DirTree.CreateStrKeyHeader(DirPath / "strKey_Component.h", "Com", true);
+        
         tAddBaseClassDesc Desc = {};
         Desc.BaseType = "IComponent";
-        Desc.IncludeStrKeyHeaderName = "strKey_Component.h";
-        Desc.Constructor_T_MacroDefine = R"(cUserClassMgr::GetInst()->AddComponentConstructor(strKey_Script::T, Constructor_T<IComponent, T>))";
+        Desc.IncludePCH = R"(#include "pch.h")";
+        Desc.IncludeMasterHeader = R"(#include "UserClassInitializer.h")";
+        Desc.IncludeStrKeyHeaderName = R"(#include "strKey_Component.h")";
+        Desc.IncludeManagerHeader = "#include <Engine/cComMgr.h>";
         
-        Desc.UserClassMgr_InitFuncName = "InitComponent()";
+        Desc.Constructor_T_MacroDefine = R"(cComMgr::GetInst()->AddComConstructor<T>(strKey_Com::##T))";
+        Desc.UserClassMgr_InitFuncName = "InitCom()";
         Desc._FilePath = DirPath / "UserClassInitializer_Component.cpp";
 
-        DirTree.CreateUserClassInitCode(Desc);
+        DirTree.CreateComMgrInitCode(Desc);
     }
+
+    ////Generate Script Key and Code
+    //{
+    //    std::regex regexScript(define_Preset::Regex::ScriptRegex::A);
+
+    //    cDirTree DirTree;
+    //    stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
+    //    DirTree.SearchRecursive(DirPath, regexScript);
+
+    //    DirTree.CreateStrKeyHeader(DirPath / "strKey_Script.h", "Script", true);
+
+    //    tAddBaseClassDesc Desc = {};
+    //    Desc.BaseType = "IScript";
+    //    Desc.IncludeStrKeyHeaderName = "strKey_Script.h";
+    //    Desc.Constructor_T_MacroDefine = R"(cUserClassMgr::GetInst()->AddScriptConstructor(strKey_Script::T, Constructor_T<IScript, T>))";
+    //    Desc.UserClassMgr_InitFuncName = "InitScript()";
+    //    Desc._FilePath = DirPath / "UserClassInitializer_Script.cpp";
+
+    //    DirTree.CreateComMgrInitCode(Desc);
+    //}
+
+    ////Generate User Components
+    //{
+    //    std::regex regexScript(define_Preset::Regex::ComponentRegex::A);
+
+    //    cDirTree DirTree;
+    //    stdfs::path DirPath = define_Preset::Path::ScriptProj::A;
+    //    DirTree.SearchRecursive(DirPath, regexScript);
+
+    //    DirTree.CreateStrKeyHeader(DirPath / "strKey_Component.h", "Component", true);
+
+    //    tAddBaseClassDesc Desc = {};
+    //    Desc.BaseType = "IComponent";
+    //    Desc.IncludeStrKeyHeaderName = "strKey_Component.h";
+    //    Desc.Constructor_T_MacroDefine = R"(cUserClassMgr::GetInst()->AddComponentConstructor(strKey_Script::T, Constructor_T<IComponent, T>))";
+    //    
+    //    Desc.UserClassMgr_InitFuncName = "InitComponent()";
+    //    Desc._FilePath = DirPath / "UserClassInitializer_Component.cpp";
+
+    //    DirTree.CreateComMgrInitCode(Desc);
+    //}
 
     return 0;
 }

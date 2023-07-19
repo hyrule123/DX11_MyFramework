@@ -14,7 +14,7 @@
 #include "CPrefab.h"
 #include "cComputeShader.h"
 #include "cAnim2DAtlas.h"
-#include "cUserClassMgr.h"
+#include "cComMgr.h"
 
 #include <type_traits>
 

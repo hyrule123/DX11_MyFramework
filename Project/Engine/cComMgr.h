@@ -7,11 +7,10 @@
 
 
 class IComponent;
-
-class cUserClassMgr
-	: public Singleton<cUserClassMgr>
+class cComMgr
+	: public Singleton<cComMgr>
 {
-	SINGLETON(cUserClassMgr);
+	SINGLETON(cComMgr);
 
 
 //	//============================== SCRIPTS =====================================
@@ -29,16 +28,16 @@ private:
 	std::unordered_map <std::string_view, std::function<IComponent* ()>>	m_umapComConstructor;
 	std::unordered_map <std::type_index, const std::string_view>			m_umapComName;
 	
-public:
+public:	
 	template <typename T>
-	void AddComponentConstructor(const std::string_view _strKey);
-	IComponent* GetNewComponent(const std::string_view _strKey);
-	const std::string_view GetComponentName(std::type_index _TypeIdx);
+	void AddComConstructor(const std::string_view _strKey);
+	IComponent* GetNewCom(const std::string_view _strKey);
+	const std::string_view GetComName(std::type_index _TypeIdx);
 	// =================================================================================================
 };
 
 //
-//inline void cUserClassMgr::AddScriptConstructor(const std::string_view _strKey, std::function<IScript*()> _FuncConstructor)
+//inline void cComMgr::AddScriptConstructor(const std::string_view _strKey, std::function<IScript*()> _FuncConstructor)
 //{
 //	assert(_FuncConstructor);
 //	m_umapScript.insert(std::make_pair(_strKey, _FuncConstructor));
@@ -46,7 +45,7 @@ public:
 
 
 template <typename T>
-inline void cUserClassMgr::AddComponentConstructor(const std::string_view _strKey)
+inline void cComMgr::AddComConstructor(const std::string_view _strKey)
 {
 	static_assert(std::is_base_of_v<IComponent, T>);
 	m_umapComName.insert(std::make_pair(std::type_index(typeid(T)), _strKey));

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "cUserClassMgr.h"
+#include "cComMgr.h"
 
 #include "cResMgr.h"
 
@@ -8,18 +8,18 @@
 #include "IRenderer.h"
 
 
-cUserClassMgr::cUserClassMgr()
+cComMgr::cComMgr()
 {
 
 
 }
 
-cUserClassMgr::~cUserClassMgr()
+cComMgr::~cComMgr()
 {
 }
 
 
-//IScript* cUserClassMgr::GetNewScript(const std::string_view _strKey)
+//IScript* cComMgr::GetNewScript(const std::string_view _strKey)
 //{
 //	const auto& iter = m_umapScript.find(_strKey);
 //	if (iter == m_umapScript.end())
@@ -30,7 +30,7 @@ cUserClassMgr::~cUserClassMgr()
 //}
 
 
-IComponent* cUserClassMgr::GetNewComponent(const std::string_view _strKey)
+IComponent* cComMgr::GetNewCom(const std::string_view _strKey)
 {
 	const auto& iter = m_umapComConstructor.find(_strKey);
 	if (iter == m_umapComConstructor.end())
@@ -41,7 +41,7 @@ IComponent* cUserClassMgr::GetNewComponent(const std::string_view _strKey)
 	return pScript;
 }
 
-const std::string_view cUserClassMgr::GetComponentName(std::type_index _TypeIdx)
+const std::string_view cComMgr::GetComName(std::type_index _TypeIdx)
 {
 	const auto& iter = m_umapComName.find(_TypeIdx);
 

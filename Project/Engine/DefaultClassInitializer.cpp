@@ -24,7 +24,7 @@
 //// custom
 //SCRIPT_HOLDER,
 
-#include "cUserClassMgr.h"
+#include "cComMgr.h"
 #include "components.h"
 #include "strKey_Default.h"
 
@@ -46,19 +46,19 @@
 
 void DefaultClassInitializer::InitDefaultComponent()
 {
-	cUserClassMgr* pMgr = cUserClassMgr::GetInst();
+	cComMgr* pMgr = cComMgr::GetInst();
 
-	pMgr->AddComponentConstructor<cCom_Coll2D_Circle>(strkey_DefaultCom::cCom_Coll2D_Circle);
-	pMgr->AddComponentConstructor<cCom_Coll2D_OBB>(strkey_DefaultCom::cCom_Coll2D_OBB);
-	pMgr->AddComponentConstructor<cCom_Coll2D_Point>(strkey_DefaultCom::cCom_Coll2D_Point);
-	pMgr->AddComponentConstructor<cCom_Coll2D_Rect>(strkey_DefaultCom::cCom_Coll2D_Rect);
+	pMgr->AddComConstructor<cCom_Coll2D_Circle>(strkey_DefaultCom::cCom_Coll2D_Circle);
+	pMgr->AddComConstructor<cCom_Coll2D_OBB>(strkey_DefaultCom::cCom_Coll2D_OBB);
+	pMgr->AddComConstructor<cCom_Coll2D_Point>(strkey_DefaultCom::cCom_Coll2D_Point);
+	pMgr->AddComConstructor<cCom_Coll2D_Rect>(strkey_DefaultCom::cCom_Coll2D_Rect);
 
-	pMgr->AddComponentConstructor<cCom_Light2D>(strkey_DefaultCom::cCom_Light2D);
-	pMgr->AddComponentConstructor<cCom_Camera>(strkey_DefaultCom::cCom_Camera);
+	pMgr->AddComConstructor<cCom_Light2D>(strkey_DefaultCom::cCom_Light2D);
+	pMgr->AddComConstructor<cCom_Camera>(strkey_DefaultCom::cCom_Camera);
 
-	pMgr->AddComponentConstructor<cCom_Renderer_Basic>(strkey_DefaultCom::cCom_Renderer_Basic);
-	pMgr->AddComponentConstructor<cCom_Renderer_ParticleBasic>(strkey_DefaultCom::cCom_Renderer_ParticleBasic);
-	pMgr->AddComponentConstructor<cCom_Renderer_TilemapAtlas>(strkey_DefaultCom::cCom_Renderer_TilemapAtlas);
-	pMgr->AddComponentConstructor<cCom_Renderer_TilemapComplete>(strkey_DefaultCom::cCom_Renderer_TilemapComplete);
+	pMgr->AddComConstructor<cCom_Renderer_Basic>(strkey_DefaultCom::cCom_Renderer_Basic);
+	pMgr->AddComConstructor<cCom_Renderer_ParticleBasic>(strkey_DefaultCom::cCom_Renderer_ParticleBasic);
+	pMgr->AddComConstructor<cCom_Renderer_TilemapAtlas>(strkey_DefaultCom::cCom_Renderer_TilemapAtlas);
+	pMgr->AddComConstructor<cCom_Renderer_TilemapComplete>(strkey_DefaultCom::cCom_Renderer_TilemapComplete);
 
 }

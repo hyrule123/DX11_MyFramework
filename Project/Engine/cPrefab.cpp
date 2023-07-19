@@ -109,7 +109,7 @@ bool CPrefab::SaveJson(Json::Value* _pJVal)
 
 	Json::Value& jVal = *_pJVal;
 
-	const string& strKey = GetKey();
+	string strKey(GetKey());
 	jVal[strKey] = Json::Value(Json::ValueType::objectValue);
 
 	Json::Value& jsonGameObject = jVal[strKey];
@@ -133,7 +133,7 @@ bool CPrefab::LoadJson(Json::Value* _pJVal)
 
 	m_pPrefab = new cGameObject;
 
-	string strKey = GetKey();
+	string strKey(GetKey());
 	if (jVal.isMember(strKey))
 	{
 		Json::Value& jValGameObject = jVal[strKey];

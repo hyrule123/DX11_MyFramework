@@ -127,27 +127,51 @@ void ICollider::BeginCollision(ICollider* _other, const Vec3& _v3HitPoint)
 {
 	++m_iCollisionCount;
 	_other->AddCollisionCount();
-
-	cScriptHolder* pSH = GetOwner()->ScriptHolder();
-	if (nullptr != pSH)
-		pSH->BeginColiision(_other, _v3HitPoint);
 	
+	{
+		std::span<IComponent* const> Scripts = GetOwner()->GetScripts();
+		for (auto iter : Scripts)
+		{
+			static_cast<IScript*>(iter)->BeginCollision(_other, _v3HitPoint);
+		}
+	}
 
-	pSH = _other->GetOwner()->ScriptHolder();
-	if (nullptr != pSH)
-		pSH->BeginColiision(this, _v3HitPoint);
+	{
+		std::span<IComponent* const> Scripts = _other->GetOwner()->GetScripts();
+		for (auto iter : Scripts)
+		{
+			static_cast<IScript*>(iter)->BeginCollision(this, _v3HitPoint);
+		}
+	}
 }
 
 void ICollider::OnCollision(ICollider* _other, const Vec3& _v3HitPoint)
 {
-	cScriptHolder* pSH = GetOwner()->ScriptHolder();
-	if (nullptr != pSH)
-		pSH->OnCollision(_other, _v3HitPoint);
+	{
+		std::span<IComponent* const> Scripts = GetOwner()->GetScripts();
+		for (auto iter : Scripts)
+		{
+			static_cast<IScript*>(iter)->OnCollision(_other, _v3HitPoint);
+		}
+	}
+
+	{
+		std::span<IComponent* const> Scripts = _other->GetOwner()->GetScripts();
+		for (auto iter : Scripts)
+		{
+			static_cast<IScript*>(iter)->OnCollision(this, _v3HitPoint);
+		}
+	}
 
 
-	pSH = _other->GetOwner()->ScriptHolder();
-	if (nullptr != pSH)
-		pSH->OnCollision(this, _v3HitPoint);
+	//cScriptHolder* pSH = GetOwner()->ScriptHolder();
+	//if (nullptr != pSH)
+	//	pSH->OnCollision(_other, _v3HitPoint);
+
+
+	//pSH = _other->GetOwner()->ScriptHolder();
+	//if (nullptr != pSH)
+	//	pSH->OnCollision(this, _v3HitPoint);
 }
 
 void ICollider::EndCollision(ICollider* _other)
@@ -155,14 +179,30 @@ void ICollider::EndCollision(ICollider* _other)
 	--m_iCollisionCount;
 	_other->SubCollisionCount();
 
-	cScriptHolder* pSH = GetOwner()->ScriptHolder();
-	if (nullptr != pSH)
-		pSH->EndCollision(_other);
+	{
+		std::span<IComponent* const> Scripts = GetOwner()->GetScripts();
+		for (auto iter : Scripts)
+		{
+			static_cast<IScript*>(iter)->EndCollision(_other);
+		}
+	}
+
+	{
+		std::span<IComponent* const> Scripts = _other->GetOwner()->GetScripts();
+		for (auto iter : Scripts)
+		{
+			static_cast<IScript*>(iter)->EndCollision(this);
+		}
+	}
+
+	//cScriptHolder* pSH = GetOwner()->ScriptHolder();
+	//if (nullptr != pSH)
+	//	pSH->EndCollision(_other);
 
 
-	pSH = _other->GetOwner()->ScriptHolder();
-	if (nullptr != pSH)
-		pSH->EndCollision(this);
+	//pSH = _other->GetOwner()->ScriptHolder();
+	//if (nullptr != pSH)
+	//	pSH->EndCollision(this);
 }
 
 void ICollider::finaltick()

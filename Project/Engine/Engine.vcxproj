@@ -246,7 +246,7 @@
     <ClInclude Include="cResMgr.h" />
     <ClInclude Include="IScript.h" />
     <ClInclude Include="cCom_Renderer_TilemapComplete.h" />
-    <ClInclude Include="cUserClassMgr.h" />
+    <ClInclude Include="cComMgr.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="cStructBuffer.h" />
@@ -329,7 +329,7 @@
     <ClCompile Include="cResMgr.cpp" />
     <ClCompile Include="IScript.cpp" />
     <ClCompile Include="cCom_Renderer_TilemapComplete.cpp" />
-    <ClCompile Include="cUserClassMgr.cpp" />
+    <ClCompile Include="cComMgr.cpp" />
     <ClCompile Include="IShader.cpp" />
     <ClCompile Include="cStructBuffer.cpp" />
     <ClCompile Include="cTexture.cpp" />

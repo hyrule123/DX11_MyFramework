@@ -112,7 +112,7 @@ bool cAnim2DAtlas::SaveJson(Json::Value* _jVal)
 	if (nullptr == m_AtlasTex)
 		return false;
 
-	jVal[JsonKey_Anim2DAtlas::strKeyAtlasTex] = m_AtlasTex->GetKey();
+	jVal[JsonKey_Anim2DAtlas::strKeyAtlasTex] = string(m_AtlasTex->GetKey());
 	jVal[JsonKey_Anim2DAtlas::bRegularFrameSize] = m_bRegularFrameSize;
 	
 

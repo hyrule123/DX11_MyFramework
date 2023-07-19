@@ -6,7 +6,11 @@ struct tAddBaseClassDesc
 {
 	stdfs::path _FilePath;
 	std::string BaseType;
+	std::string IncludePCH;
+	std::string IncludeMasterHeader;
+	std::string IncludeManagerHeader;
 	std::string IncludeStrKeyHeaderName;
+	std::string IncludeBaseTypeHeader;
 	std::string Constructor_T_MacroDefine;
 	std::string UserClassMgr_InitFuncName;
 };
@@ -24,7 +28,7 @@ public:
 	HRESULT CreateStrKeyHeader(stdfs::path const& _FilePath, stdfs::path const& _RootNamespace, bool _bEraseExtension);
 
 	//UserClassInitializer에 자신의 클래스를 등록하는 코드를 생성하는 함수
-	HRESULT CreateUserClassInitCode(tAddBaseClassDesc const& _Desc);
+	HRESULT CreateComMgrInitCode(tAddBaseClassDesc const& _Desc);
 
 	HRESULT CreateShaderStrKey(stdfs::path const& _FilePath);
 

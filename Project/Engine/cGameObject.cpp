@@ -28,6 +28,8 @@
 
 #include "cCom_Renderer_TilemapComplete.h"
 
+#include <span>
+
 namespace JsonKey_cGameObject
 {
 
@@ -65,10 +67,10 @@ namespace JsonKey_cGameObject
 	//bool                m_bInitialized;
 }
 
-constexpr int BASIC_VEC_COM_CAPACITY = 20;
+
 
 cGameObject::cGameObject()
-	: m_vecCom((size_t)eCOMPONENT_TYPE::SCRIPTS)
+	: m_vecCom()
 	, m_Parent()
 	, m_iLayerIdx(-1)
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
@@ -77,19 +79,19 @@ cGameObject::cGameObject()
 	, m_bDisable(false)
 	, m_bPrevEnable()
 {
-	m_vecCom.reserve(BASIC_VEC_COM_CAPACITY);
+	InitVecCom();
 }
 
 cGameObject::cGameObject(const cGameObject& _other)
 	: IEntity(_other)
-	, m_vecCom((size_t)eCOMPONENT_TYPE::SCRIPTS)
+	, m_vecCom()
 	, m_iLayerIdx(_other.m_iLayerIdx)
 	, m_bDestroy()
 	, m_fLifeSpan(FLT_MAX_NEGATIVE)
 	, m_bDisable(_other.m_bDisable)
 	, m_bPrevEnable(_other.m_bPrevEnable)
 {
-	m_vecCom.reserve(BASIC_VEC_COM_CAPACITY);
+	InitVecCom();
 
 	//1. 컴포넌트 목록 복사
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
@@ -430,7 +432,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 	string strKeyarrCom = string(JsonKey_cGameObject::m_vecCom);
 	if (jVal.isMember(strKeyarrCom))
 	{
-		//TODO: 여기 cUserClassMgr과 연동할 것
+		//TODO: 여기 cComMgr과 연동할 것
 
 		Json::Value& arrCom = jVal[strKeyarrCom];
 		//int arrComSize = (int)arrCom.size();
@@ -589,6 +591,8 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 }
 
 
+
+
 void cGameObject::AddComponent(IComponent* _Component)
 {
 	UINT ComType = (UINT)_Component->GetType();
@@ -597,16 +601,14 @@ void cGameObject::AddComponent(IComponent* _Component)
 	assert(nullptr == m_vecCom[ComType]);
 
 	_Component->SetOwner(this);
-	if ((UINT)eCOMPONENT_TYPE::SCRIPTS != ComType)
-	{
-		//소유자 주소를 등록.
-		m_vecCom[ComType] = _Component;
-	}
 
-	//스크립트는 push_back 형태로 뒤에 하나씩 붙임
-	else
+	if ((UINT)eCOMPONENT_TYPE::SCRIPTS == ComType)
 	{
 		m_vecCom.push_back(_Component);
+	}
+	else
+	{
+		m_vecCom[ComType] = _Component;
 	}
 }
 
@@ -622,9 +624,17 @@ void cGameObject::RemoveComponent(eCOMPONENT_TYPE _eComType)
 	SAFE_DELETE(m_vecCom[(UINT)_eComType]);
 }
 
-const std::span<IComponent*> cGameObject::GetScripts()
+std::span<IComponent* const> cGameObject::GetScripts()
 {
-	
+	size_t size = m_vecCom.size();
+
+	//스크립트가 없으면 빈 span을 반환
+	if (size > (size_t)eCOMPONENT_TYPE::SCRIPTS)
+	{
+		return std::span<IComponent* const>(m_vecCom.begin() + (size_t)eCOMPONENT_TYPE::SCRIPTS, m_vecCom.end());
+	}
+
+	return std::span<IComponent* const>();
 }
 
 //void cGameObject::AddScript(IScript* _Script)

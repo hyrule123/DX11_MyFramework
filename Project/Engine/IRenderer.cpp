@@ -56,9 +56,9 @@ bool IRenderer::SaveJson(Json::Value* _pJVal)
 
 	Json::Value& jVal = *_pJVal;
 
-	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::strKeyMesh)] = m_pMesh->GetKey();
+	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::strKeyMesh)] = string(m_pMesh->GetKey());
 
-	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::strKeyMtrl)] = m_pSharedMtrl->GetKey();
+	jVal[string(RES_INFO::PREFAB::COMPONENT::RENDER_COMP::JSON_KEY::strKeyMtrl)] = string(m_pSharedMtrl->GetKey());
 
 	//재질은 파일로 따로 저장
 	m_pSharedMtrl->Save(m_pSharedMtrl->GetKey());

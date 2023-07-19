@@ -85,7 +85,7 @@ bool cCom_Animator2D::SaveJson(Json::Value* _pJVal)
         {
             if (nullptr != m_arrAtlasTex[i])
             {
-                jVal[strKey].append(m_arrAtlasTex[i]->GetKey());
+                jVal[strKey].append(string(m_arrAtlasTex[i]->GetKey()));
             }
             else
             {

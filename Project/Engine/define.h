@@ -98,7 +98,7 @@ enum class eRES_TYPE
 //eCOMPONENT_TYPE에 컴포넌트 추가
 //components.h에 컴포넌트 뚫어주기
 //GetComponentType() 함수에 해당 컴포넌트 반환 코드 추가하기
-//cUserClassMgr에 기본 컴포넌트는 수동으로 추가해줘야 함(Script 프로젝트 쪽은 CodeGenerator에서 알아서 추가함)
+//cComMgr에 기본 컴포넌트는 수동으로 추가해줘야 함(Script 프로젝트 쪽은 CodeGenerator에서 알아서 추가함)
 enum class eCOMPONENT_TYPE
 {
 	UNKNOWN_TYPE = -1,

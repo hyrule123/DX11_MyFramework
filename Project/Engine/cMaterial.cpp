@@ -67,14 +67,14 @@ bool cMaterial::SaveJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-	jVal[JsonKey_Material::strKey_Shader] = m_pShader->GetKey();
+	jVal[JsonKey_Material::strKey_Shader] = string(m_pShader->GetKey());
 	jVal[JsonKey_Material::arrStrKeyTex] = Json::Value(Json::arrayValue);
 
 	for (int i = 0; i < (int)eMTRLDATA_PARAM_TEX::_END; ++i)
 	{
 		if (nullptr != m_arrTex[i])
 		{
-			(*_pJson)[JsonKey_Material::arrStrKeyTex].append(m_arrTex[i]->GetKey());
+			(*_pJson)[JsonKey_Material::arrStrKeyTex].append(string(m_arrTex[i]->GetKey()));
 		}
 		else
 		{

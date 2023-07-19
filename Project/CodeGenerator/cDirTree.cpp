@@ -285,7 +285,7 @@ HRESULT cDirTree::CreateStrKeyHeader(stdfs::path const& _FilePath, stdfs::path c
 
 
 
-HRESULT cDirTree::CreateUserClassInitCode(tAddBaseClassDesc const& _Desc)
+HRESULT cDirTree::CreateComMgrInitCode(tAddBaseClassDesc const& _Desc)
 {
 	cCodeWriter Writer;
 
@@ -293,29 +293,17 @@ HRESULT cDirTree::CreateUserClassInitCode(tAddBaseClassDesc const& _Desc)
 	
 
 	{
-		std::string strCode(
-			R"(#include "pch.h"
-#include "UserClassInitializer.h")");
-		Writer.WriteCode(0, strCode);
-
+		Writer.WriteCode(0, _Desc.IncludePCH);
+		Writer.WriteCode(0);
+		Writer.WriteCode(0, _Desc.IncludeMasterHeader);
+		Writer.WriteCode(0, _Desc.IncludeManagerHeader);
 	}
 	{
-
-		std::string strCode = "#include \"";
-		strCode += _Desc.IncludeStrKeyHeaderName;
-		strCode += "\"";
-		Writer.WriteCode(0, strCode);
+		Writer.WriteCode(0, _Desc.IncludeStrKeyHeaderName);
 	}
 
-	Writer.WriteCode(0, R"(#include <Engine/cUserClassMgr.h>))");
-
 	{
-		std::string strCode = "#include <Engine/";
-		strCode += _Desc.BaseType;
-		strCode += ".h";
-		strCode += ">";
-
-		Writer.WriteCode(0, strCode);
+		Writer.WriteCode(0, _Desc.IncludeBaseTypeHeader);
 		Writer.WriteCode(0);
 	}
 	

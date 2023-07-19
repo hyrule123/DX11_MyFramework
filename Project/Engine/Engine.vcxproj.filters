@@ -199,11 +199,8 @@
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClInclude>
     <ClInclude Include="cCom_Renderer_Basic.h" />
-    <ClInclude Include="cUserClassMgr.h">
-      <Filter>_Source\03. Manager\10. cUserClassMgr</Filter>
-    </ClInclude>
     <ClInclude Include="DefaultClassInitializer.h">
-      <Filter>_Source\03. Manager\10. cUserClassMgr</Filter>
+      <Filter>_Source\03. Manager\10. ComMgr</Filter>
     </ClInclude>
     <ClInclude Include="cShaderData_Default.h">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
@@ -216,6 +213,7 @@
     <ClInclude Include="cCom_FSMMgr.h">
       <Filter>_Source\06. Component\11. Script</Filter>
     </ClInclude>
+    <ClInclude Include="cComMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -376,11 +374,8 @@
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
     <ClCompile Include="cCom_Renderer_Basic.cpp" />
-    <ClCompile Include="cUserClassMgr.cpp">
-      <Filter>_Source\03. Manager\10. cUserClassMgr</Filter>
-    </ClCompile>
     <ClCompile Include="DefaultClassInitializer.cpp">
-      <Filter>_Source\03. Manager\10. cUserClassMgr</Filter>
+      <Filter>_Source\03. Manager\10. ComMgr</Filter>
     </ClCompile>
     <ClCompile Include="cShaderData_Default.cpp">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
@@ -393,6 +388,7 @@
     <ClCompile Include="cCom_FSMMgr.cpp">
       <Filter>_Source\06. Component\11. Script</Filter>
     </ClCompile>
+    <ClCompile Include="cComMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_Source">
@@ -560,7 +556,7 @@
     <Filter Include="_HLSL, Shader Default\01. Debug">
       <UniqueIdentifier>{3964de6a-5569-49d3-84a2-49fbf7126a03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_Source\03. Manager\10. cUserClassMgr">
+    <Filter Include="_Source\03. Manager\10. ComMgr">
       <UniqueIdentifier>{fe30ff2c-2244-4ddf-b23b-4a8458bd34a6}</UniqueIdentifier>
     </Filter>
     <Filter Include="_Source\06. Component\11. Script">

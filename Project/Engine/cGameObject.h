@@ -5,8 +5,10 @@
 
 #include "cTransform.h"
 #include "components.h"
+#include "cComMgr.h"
 
-#include <span>
+//스크립트를 위한 추가 공간 10개
+constexpr int BASIC_VEC_COM_CAPACITY = (int)eCOMPONENT_TYPE::END + 10;
 
 class cGameObject :
     public IEntity
@@ -50,13 +52,15 @@ private:
     std::vector<IComponent*>            m_vecCom;
 
 public:
+    inline void InitVecCom();
     //Add
     void AddComponent(IComponent* _Component);
 
     //cEventMgr 전용 함수. 직접 호출 시 에러 발생할 수 있음.
     void RemoveComponent(eCOMPONENT_TYPE _eComType);
 
-    const std::span<IComponent*> GetScripts();
+    //span을 받으면 range-based iteration 가능
+    std::span<IComponent* const> GetScripts();
     
     //void AddScript(IScript* _Script);
 
@@ -161,6 +165,12 @@ public:
     template <typename T>
     T* AddComponent();
 };
+
+inline void cGameObject::InitVecCom()
+{
+    m_vecCom.reserve(BASIC_VEC_COM_CAPACITY);
+    m_vecCom.resize((int)eCOMPONENT_TYPE::SCRIPTS);
+}
 
 inline void cGameObject::DestroyRecursive()
 {
@@ -362,7 +372,8 @@ inline T* cGameObject::AddComponent()
         return nullptr;
 
     m_vecCom[(int)ComType] = new T;
-    m_vecCom[(int)ComType]->SetKey(cUserClassMgr::GetInst()->GetComponentName(std::type_index(typeid(T)));
+    
+    m_vecCom[(int)ComType]->SetKey(cComMgr::GetInst()->GetComName(std::type_index(typeid(T))));
 
     return static_cast<T*>(m_vecCom[(int)ComType]);
 }
