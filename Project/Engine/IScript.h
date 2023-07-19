@@ -28,6 +28,7 @@ public:
     virtual void init()  {}
     virtual void start() {}
     virtual void tick()  {}
+    virtual void finaltick() {}
 
     //보낼 GPU 데이터가 있을 경우 데이터를 전송
     virtual void BindData() {}
