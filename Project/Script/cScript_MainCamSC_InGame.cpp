@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "cScript_MainCamSC_InGame.h"
 
+#include <Engine/cGameObject.h>
+
 #include <Engine/cKeyMgr.h>
 #include <Engine/cTimeMgr.h>
 
@@ -8,8 +10,8 @@
 
 constexpr float fCamSpeed = 500.f;
 
-cScript_MainCamSC_InGame::cScript_MainCamSC_InGame(const string_view _strKey)
-	: IScript(_strKey)
+cScript_MainCamSC_InGame::cScript_MainCamSC_InGame()
+	: IScript()
 	, m_fCamSpeed(fCamSpeed)
 {
 }
@@ -20,7 +22,7 @@ cScript_MainCamSC_InGame::~cScript_MainCamSC_InGame()
 
 void cScript_MainCamSC_InGame::Init()
 {
-	m_pCam = Camera();
+	m_pCam = GetOwner()->Camera();
 	assert(m_pCam);
 }
 
@@ -31,7 +33,7 @@ void cScript_MainCamSC_InGame::Tick()
 
 void cScript_MainCamSC_InGame::CameraMove()
 {
-	cTransform& pTransform = Transform();
+	cTransform& pTransform = GetOwner()->Transform();
 	
 	Vec3 MovedPos;
 	float DT = DELTA_TIME;

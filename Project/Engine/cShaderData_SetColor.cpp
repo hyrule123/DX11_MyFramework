@@ -62,7 +62,7 @@ void cShaderData_SetColor::UnBind()
 	m_StructBufferTest->UnBind();
 
 	//데이터 다시 받기(테스트)
-	m_StructBufferTest->GetData(m_vecSBuffer, (UINT)sizeof(m_vecSBuffer));
+	m_StructBufferTest->DownloadData(m_vecSBuffer, (UINT)sizeof(m_vecSBuffer));
 
 	//SRV에 바인딩5
 	m_StructBufferTest->BindBufferSRV();

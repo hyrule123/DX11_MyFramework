@@ -69,7 +69,6 @@ private:
     
     eCURRENT_BOUND_VIEW     m_eCurBoundView;
 
-    
 
 public:
     void SetDesc(const tSBufferDesc& _tDesc);

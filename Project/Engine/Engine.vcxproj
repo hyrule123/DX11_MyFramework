@@ -241,7 +241,7 @@
     <ClInclude Include="cCom_Light2D.h" />
     <ClInclude Include="cMaterial.h" />
     <ClInclude Include="cMesh.h" />
-    <ClInclude Include="cCom_Renderer_Basic.h" />
+    <ClInclude Include="cCom_Renderer_Default.h" />
     <ClInclude Include="cCom_Coll2D_Point.h" />
     <ClInclude Include="components.h" />
     <ClInclude Include="cCom_Renderer_ParticleBasic.h" />
@@ -325,7 +325,7 @@
     <ClCompile Include="cCom_Light2D.cpp" />
     <ClCompile Include="cMaterial.cpp" />
     <ClCompile Include="cMesh.cpp" />
-    <ClCompile Include="cCom_Renderer_Basic.cpp" />
+    <ClCompile Include="cCom_Renderer_Default.cpp" />
     <ClCompile Include="cCom_Coll2D_Point.cpp" />
     <ClCompile Include="cCom_Renderer_ParticleBasic.cpp" />
     <ClCompile Include="cPathMgr.cpp" />

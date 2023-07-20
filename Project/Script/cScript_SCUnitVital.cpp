@@ -3,9 +3,8 @@
 
 #include "cScript_SCUnitVital.h"
 
-cScript_SCUnitVital::cScript_SCUnitVital(const string_view _strKey)
-    : IScript(_strKey)
-    , m_uMaxHP(100u)
+cScript_SCUnitVital::cScript_SCUnitVital()
+    : m_uMaxHP(100u)
     , m_fCurHP()
     , m_uMaxShield()
     , m_fCurShield()

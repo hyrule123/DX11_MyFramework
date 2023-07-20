@@ -19,29 +19,11 @@
     <Filter Include="ScriptCode\SC\Components">
       <UniqueIdentifier>{8f550a72-4cfb-4fa4-8e8a-7e5b93a8c5f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_HLSL">
-      <UniqueIdentifier>{c72143e5-e398-47fa-b937-937557110e08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_HLSL\GS">
-      <UniqueIdentifier>{c1c9649a-62ed-4d17-b5c0-4ac74b7b0e1c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_HLSL\CS">
-      <UniqueIdentifier>{805478a2-22c2-461a-af65-1102340e4a12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_HLSL\CS\CS_Particle_Raindrop">
-      <UniqueIdentifier>{4ea34f20-3e1d-4f01-8892-fb8df30a4eee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_HLSL\CS\CS_SCMapLoader">
-      <UniqueIdentifier>{c632b493-7510-4dbf-aa3b-aa50750dcb62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_HLSL\GS\SCUnitGround">
-      <UniqueIdentifier>{a62b3720-accb-4c0a-a09d-15f8e17d6ee6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_HLSL\GS\TilemapSC">
-      <UniqueIdentifier>{7a5ed414-bae0-42f2-ba04-20610c05c470}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ScriptCode\SC\Tilemap">
       <UniqueIdentifier>{f6b2b3ba-ec7d-4256-be18-b13227f7810a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserComponents">
+      <UniqueIdentifier>{d45e8fb2-8b8b-47a9-bfdf-1a5245e0a648}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,9 +37,6 @@
       <Filter>ScriptCode</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Default</Filter>
-    </ClInclude>
-    <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="cScript_SCEntity.h">
@@ -107,12 +86,6 @@
     <ClInclude Include="cScript_MainCamSC_InGame.h">
       <Filter>ScriptCode\SC</Filter>
     </ClInclude>
-    <ClInclude Include="CCS_SCMapLoader.h">
-      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="define_SCMap.h">
-      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
-    </ClInclude>
     <ClInclude Include="strKey_Script.h">
       <Filter>Generated</Filter>
     </ClInclude>
@@ -125,7 +98,15 @@
     <ClInclude Include="strKey_Component.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="cCom_Renderer_TilemapSC.h" />
+    <ClInclude Include="define_SCMap.h">
+      <Filter>UserComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="CCS_SCMapLoader.h">
+      <Filter>UserComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="cCom_Renderer_TilemapSC.h">
+      <Filter>UserComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cScript_CameraMove.cpp">
@@ -182,16 +163,18 @@
     <ClCompile Include="cScript_MainCamSC_InGame.cpp">
       <Filter>ScriptCode\SC</Filter>
     </ClCompile>
-    <ClCompile Include="CCS_SCMapLoader.cpp">
-      <Filter>_HLSL\CS\CS_SCMapLoader</Filter>
-    </ClCompile>
     <ClCompile Include="UserClassInitializer_Component.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
     <ClCompile Include="UserClassInitializer_Script.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
-    <ClCompile Include="cCom_Renderer_TilemapSC.cpp" />
+    <ClCompile Include="CCS_SCMapLoader.cpp">
+      <Filter>UserComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="cCom_Renderer_TilemapSC.cpp">
+      <Filter>UserComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

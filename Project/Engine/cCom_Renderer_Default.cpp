@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "cCom_Renderer_Basic.h"
+#include "cCom_Renderer_Default.h"
 
 
 #include "cGraphicsShader.h"
@@ -14,22 +14,22 @@
 
 #include "cGameObject.h"
 
-cCom_Renderer_Basic::cCom_Renderer_Basic()
+cCom_Renderer_Default::cCom_Renderer_Default()
 	: IRenderer()
 {
 }
 
-cCom_Renderer_Basic::~cCom_Renderer_Basic()
+cCom_Renderer_Default::~cCom_Renderer_Default()
 {
 }
 
 
 
-void cCom_Renderer_Basic::FinalTick()
+void cCom_Renderer_Default::FinalTick()
 {
 }
 
-eRENDER_RESULT cCom_Renderer_Basic::Render()
+eRENDER_RESULT cCom_Renderer_Default::Render()
 {	
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	cGameObject* pOwner = GetOwner();
@@ -51,8 +51,10 @@ eRENDER_RESULT cCom_Renderer_Basic::Render()
 		pOwner->SetMtrlScalarParam(MTRL_SCALAR_MAT_WVP, matWVP.m);
 	}
 	else
+	{
 		pOwner->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, true);
-
+	}
+		
 
 	//인스턴싱을 사용하는 쉐이더가 아닐경우 바로 데이터를 전송
 	if(false == GetCurMaterial()->IsUseInstancing())

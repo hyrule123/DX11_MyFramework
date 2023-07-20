@@ -11,7 +11,7 @@ namespace strkey_DefaultCom
 	STRKEY_DECLARE(cCom_Coll2D_Rect);
 	STRKEY_DECLARE(cCom_Light2D);
 	STRKEY_DECLARE(cCom_Camera);
-	STRKEY_DECLARE(cCom_Renderer_Basic);
+	STRKEY_DECLARE(cCom_Renderer_Default);
 	STRKEY_DECLARE(cCom_Renderer_ParticleBasic);
 	STRKEY_DECLARE(cCom_Renderer_TilemapAtlas);
 	STRKEY_DECLARE(cCom_Renderer_TilemapComplete);

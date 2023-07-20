@@ -5,7 +5,7 @@
 
 #include "cResMgr.h"
 
-#include "cCom_Renderer_Basic.h"
+#include "cCom_Renderer_Default.h"
 #include "cMaterial.h"
 
 #include "cTimeMgr.h"

@@ -84,51 +84,6 @@ namespace SC_Map
 
 
 
-    class ::cTexture;
-    struct tMapData
-    {
-        UINT32 uNumMegatileX;
-        UINT32 uNumMegatileY;
-        eTILESET_INFO eTileSet;
-
-        bool bMapLoaded;
-        string strMapName;
-        Ptr<cTexture> pMapTex;
-
-        vector<tMegaTile> vecMegaTile;
-        vector<tMiniTile> vecMiniTile;
-        vector<tUnitData> vecUnitData;
-
-        //MXTM 관련
-        //Map의 SC_Map::tMapDataChunk 파일 아래의 지형정보
-        cStructBuffer* pSBuffer_MXTM;
-        cStructBuffer* pSBufferRW_Megatile;
-        cStructBuffer* pSBufferRW_Minitile;
-
-        tMapData() 
-            : uNumMegatileX()
-            , uNumMegatileY()
-            , eTileSet()
-            , bMapLoaded()
-            , strMapName()
-            , pMapTex()
-            , vecMegaTile()
-            , vecMiniTile()
-            , vecUnitData()
-
-            , pSBuffer_MXTM()
-            , pSBufferRW_Megatile()
-            , pSBufferRW_Minitile()
-        {}
-
-        ~tMapData()
-        {
-            SAFE_DELETE(pSBuffer_MXTM);
-            SAFE_DELETE(pSBufferRW_Megatile);
-            SAFE_DELETE(pSBufferRW_Minitile);
-        }
-    };
-
     enum class eTILESET_MEMBER
     {
         CV5,
@@ -149,13 +104,13 @@ namespace SC_Map
     };
 
 
+    //이렇게 선언한 이유: 아래 포인터에 동시에 여러개 동적할당 해야됨
+    //arrTileSetMember = new cStructBuffer[5]
     class ::cStructBuffer;
     struct tpSBufferTileSet
     {
         cStructBuffer* arrTileSetMember;
     };
-
-
 
     //맵데이터로부터 로드해야하는 데이터들의 플래그
     enum class eSCMAP_DATA_TYPE
@@ -189,6 +144,22 @@ namespace SC_Map
 
 
     } tMapDataChunk;
+
+    struct tMapRawData
+    {
+        char* pData;
+
+        //파일 사이즈( == 동적할당한 바이트 크기
+        DWORD Size;
+
+        //실제로 읽은 바이트 수
+        DWORD ActualReadByte;
+
+        ~tMapRawData()
+        {
+            SAFE_DELETE_ARRAY(pData);
+        }
+    };
 }
 
 

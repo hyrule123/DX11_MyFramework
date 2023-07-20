@@ -16,6 +16,7 @@
 #include "strKey_Component.h"
 
 
+#include "cCom_Renderer_TilemapSC.h"
 #include "cScript_CameraMove.h"
 #include "cScript_FSM_Attack.h"
 #include "cScript_FSM_Building_Prod.h"
@@ -29,7 +30,6 @@
 #include "cScript_SCEntity.h"
 #include "cScript_SCUnitVital.h"
 #include "cScript_TestObj.h"
-#include "cCom_Renderer_TilemapSC.h"
 #include "cScript_Vespene.h"
 #include "cScript_VespeneSmoke.h"
 
@@ -37,6 +37,7 @@
 
 void UserClassInitializer::InitCom()
 {
+	CONSTRUCTOR_T(cCom_Renderer_TilemapSC);
 	CONSTRUCTOR_T(cScript_CameraMove);
 	CONSTRUCTOR_T(cScript_FSM_Attack);
 	CONSTRUCTOR_T(cScript_FSM_Building_Prod);
@@ -50,7 +51,6 @@ void UserClassInitializer::InitCom()
 	CONSTRUCTOR_T(cScript_SCEntity);
 	CONSTRUCTOR_T(cScript_SCUnitVital);
 	CONSTRUCTOR_T(cScript_TestObj);
-	CONSTRUCTOR_T(cCom_Renderer_TilemapSC);
 	CONSTRUCTOR_T(cScript_Vespene);
 	CONSTRUCTOR_T(cScript_VespeneSmoke);
 }

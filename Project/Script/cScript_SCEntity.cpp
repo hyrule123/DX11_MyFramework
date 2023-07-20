@@ -123,11 +123,6 @@ void cScript_SCEntity::Init()
 	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (INT32)eMTRL_SCALAR_STD2D_FLAG::USE_COLOR_KEY, true);
 }
 
-void cScript_SCEntity::start()
-{
-	//assert(nullptr != ScriptHolder()->Animator2D());
-}
-
 void cScript_SCEntity::OnCollision(ICollider* _pCol, const Vec3& _v3HitPoint)
 {
 	//커서가 자신과 충돌중임을 확인했을 경우

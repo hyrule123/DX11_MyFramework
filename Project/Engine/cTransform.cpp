@@ -9,7 +9,7 @@
 #include "cTimeMgr.h"
 
 #include "cRenderMgr.h"
-#include "cCom_Renderer_Basic.h"
+#include "cCom_Renderer_Default.h"
 
 //자신이 업데이트 되면 충돌체도 업데이트 해준다.
 #include "ICollider2D.h"

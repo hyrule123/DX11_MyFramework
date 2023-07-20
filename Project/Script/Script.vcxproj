@@ -187,9 +187,18 @@ call "CodeGenerator_$(Configuration).exe" Script
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCS_SCMapLoader.h" />
-    <ClInclude Include="cFSM_Move_Base.h" />
-    <ClInclude Include="cScript_FSM_Building_Prod.h" />
-    <ClInclude Include="cScript_FSM_Death.h" />
+    <ClInclude Include="cFSM_Move_Base.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="cScript_FSM_Building_Prod.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="cScript_FSM_Death.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="cCom_Renderer_TilemapSC.h" />
     <ClInclude Include="strKey_Component.h" />
     <ClInclude Include="strKey_Shader.h" />
@@ -198,18 +207,29 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="cScript_MainCamSC_InGame.h" />
     <ClInclude Include="cScript_Mineral.h" />
     <ClInclude Include="cScript_MouseCursor.h" />
-    <ClInclude Include="cScript_FSM_Attack.h" />
+    <ClInclude Include="cScript_FSM_Attack.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="cScript_SCEntity.h" />
-    <ClInclude Include="cScript_FSM_Idle.h" />
-    <ClInclude Include="cScript_FSM_Move_Ground.h" />
-    <ClInclude Include="cScript_FSM_Move_Hover.h" />
+    <ClInclude Include="cScript_FSM_Idle.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="cScript_FSM_Move_Ground.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="cScript_FSM_Move_Hover.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="cScript_TestObj.h" />
     <ClInclude Include="cScript_SCUnitVital.h" />
     <ClInclude Include="cScript_Vespene.h" />
     <ClInclude Include="cScript_VespeneSmoke.h" />
     <ClInclude Include="defineScript.h" />
     <ClInclude Include="define_SCMap.h" />
-    <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="define_SC.h" />
     <ClInclude Include="SC_Func.h" />
@@ -218,18 +238,39 @@ call "CodeGenerator_$(Configuration).exe" Script
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCS_SCMapLoader.cpp" />
-    <ClCompile Include="cFSM_Move_Base.cpp" />
-    <ClCompile Include="cScript_FSM_Building_Prod.cpp" />
-    <ClCompile Include="cScript_FSM_Death.cpp" />
+    <ClCompile Include="cFSM_Move_Base.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="cScript_FSM_Building_Prod.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="cScript_FSM_Death.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="cScript_CameraMove.cpp" />
     <ClCompile Include="cScript_MainCamSC_InGame.cpp" />
     <ClCompile Include="cScript_Mineral.cpp" />
     <ClCompile Include="cScript_MouseCursor.cpp" />
-    <ClCompile Include="cScript_FSM_Attack.cpp" />
+    <ClCompile Include="cScript_FSM_Attack.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="cScript_SCEntity.cpp" />
-    <ClCompile Include="cScript_FSM_Idle.cpp" />
-    <ClCompile Include="cScript_FSM_Move_Ground.cpp" />
-    <ClCompile Include="cScript_FSM_Move_Hover.cpp" />
+    <ClCompile Include="cScript_FSM_Idle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="cScript_FSM_Move_Ground.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="cScript_FSM_Move_Hover.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="cScript_TestObj.cpp" />
     <ClCompile Include="cScript_SCUnitVital.cpp" />
     <ClCompile Include="cScript_Vespene.cpp" />

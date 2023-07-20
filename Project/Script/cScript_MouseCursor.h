@@ -22,13 +22,15 @@ private:
     std::function<void(cGameObject*)> m_arrpFuncRBTNCallback[(int)eKEY_STATE::END];
 
     cGameObject* m_pSelectedGameObject;
+public:
+    cGameObject* GetSelectedObj() const { return m_pSelectedGameObject; }
 
 public:
     void AddFuncLBTNCallback(eKEY_STATE _eMouseAction, std::function<void(cGameObject*)> _pFunc) { m_arrpFuncLBTNCallback[(int)_eMouseAction] = _pFunc; }
 
     void AddFuncRBTNCallback(eKEY_STATE _eMouseAction, std::function<void(cGameObject*)> _pFunc) { m_arrpFuncRBTNCallback[(int)_eMouseAction] = _pFunc; }
 
-    GETTER(cGameObject*, m_pSelectedGameObject, SelectedObject);
+    
 
 public:
     virtual void Tick() override;

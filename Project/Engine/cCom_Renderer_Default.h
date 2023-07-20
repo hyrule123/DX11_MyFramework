@@ -3,19 +3,18 @@
 
 #include "Ptr.h"
 
-class cCom_Renderer_Basic :
+class cCom_Renderer_Default :
     public IRenderer
 {
     
 public:
-    cCom_Renderer_Basic();
+    cCom_Renderer_Default();
     //복사할 멤버변수가 없으므로 복사생성 필요 없음.
-    virtual ~cCom_Renderer_Basic();
+    virtual ~cCom_Renderer_Default();
 
-    cCom_Renderer_Basic(cCom_Renderer_Basic const& _other) = default;
-    CLONE(cCom_Renderer_Basic);
+    cCom_Renderer_Default(cCom_Renderer_Default const& _other) = default;
+    CLONE(cCom_Renderer_Default);
 
-public:
 
 public:
     virtual void FinalTick() override;
@@ -23,8 +22,5 @@ public:
 
     virtual void CleanUp() override {}
 
-private:
-
-public:
 };
 

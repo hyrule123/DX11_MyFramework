@@ -486,7 +486,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 
 		//	case eCOMPONENT_TYPE::RENDERER:
 		//	case eCOMPONENT_TYPE::MESH_RENDER:
-		//		pCom = new cCom_Renderer_Basic;
+		//		pCom = new cCom_Renderer_Default;
 		//		break;
 		//	case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
 		//		break;

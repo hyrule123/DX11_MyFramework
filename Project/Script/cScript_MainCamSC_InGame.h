@@ -7,7 +7,7 @@ class cScript_MainCamSC_InGame :
     public IScript
 {
 public:
-    cScript_MainCamSC_InGame(const string_view _strKey);
+    cScript_MainCamSC_InGame();
     virtual ~cScript_MainCamSC_InGame();
 
     cScript_MainCamSC_InGame(cScript_MainCamSC_InGame const& _other) = default;

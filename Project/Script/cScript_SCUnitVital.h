@@ -4,7 +4,7 @@ class cScript_SCUnitVital :
     public IScript
 {
 public:
-    cScript_SCUnitVital(const string_view _strKey);
+    cScript_SCUnitVital();
     virtual ~cScript_SCUnitVital();
 
     cScript_SCUnitVital(const cScript_SCUnitVital& _other) = default;

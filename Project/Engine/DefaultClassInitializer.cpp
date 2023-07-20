@@ -37,7 +37,7 @@
 #include "cCom_Light2D.h"
 #include "cCom_Camera.h"
 
-#include "cCom_Renderer_Basic.h"
+#include "cCom_Renderer_Default.h"
 #include "cCom_Renderer_ParticleBasic.h"
 #include "cCom_Renderer_TilemapAtlas.h"
 #include "cCom_Renderer_TilemapComplete.h"
@@ -56,7 +56,7 @@ void DefaultClassInitializer::InitDefaultComponent()
 	pMgr->AddComConstructor<cCom_Light2D>(strkey_DefaultCom::cCom_Light2D);
 	pMgr->AddComConstructor<cCom_Camera>(strkey_DefaultCom::cCom_Camera);
 
-	pMgr->AddComConstructor<cCom_Renderer_Basic>(strkey_DefaultCom::cCom_Renderer_Basic);
+	pMgr->AddComConstructor<cCom_Renderer_Default>(strkey_DefaultCom::cCom_Renderer_Default);
 	pMgr->AddComConstructor<cCom_Renderer_ParticleBasic>(strkey_DefaultCom::cCom_Renderer_ParticleBasic);
 	pMgr->AddComConstructor<cCom_Renderer_TilemapAtlas>(strkey_DefaultCom::cCom_Renderer_TilemapAtlas);
 	pMgr->AddComConstructor<cCom_Renderer_TilemapComplete>(strkey_DefaultCom::cCom_Renderer_TilemapComplete);

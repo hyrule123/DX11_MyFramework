@@ -6,7 +6,7 @@
 
 #include "cGameObject.h"
 #include "components.h"
-#include "cCom_Renderer_Basic.h"
+#include "cCom_Renderer_Default.h"
 
 //Scripts
 

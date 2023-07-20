@@ -76,24 +76,21 @@ bool ITilemapBase::LoadJson(Json::Value* _pJVal)
 
 void ITilemapBase::Init()
 {
+	//무조건 VP 사용
 	GetOwner()->SetMtrlScalarParam_IntFlag(MTRL_SCALAR_STD2D_FLAG, (int)eMTRL_SCALAR_STD2D_FLAG::USE_VP, true);
 }
 
 void ITilemapBase::FinalTick()
 {
-	cGameObject* pOwner = GetOwner();
-
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_X, &m_uTileCountX);
-	pOwner->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_Y, &m_uTileCountY);
+	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_X, &m_uTileCountX);
+	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_TILEMAP_INT_SIZE_Y, &m_uTileCountY);
 }
 
 eRENDER_RESULT ITilemapBase::Render()
 {
 	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == GetMesh() || nullptr == GetCurMaterial())
-		return eRENDER_RESULT::RENDERED;
-
-
+		return eRENDER_RESULT::FAIL;
 
 	//타일맵의 재질에 변수를 대입한 후 바인딩
 	GetCurMaterial()->BindData();

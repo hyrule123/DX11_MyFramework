@@ -198,14 +198,12 @@
     <ClInclude Include="cShaderDataModule.h">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClInclude>
-    <ClInclude Include="cCom_Renderer_Basic.h" />
     <ClInclude Include="DefaultClassInitializer.h">
       <Filter>_Source\03. Manager\10. ComMgr</Filter>
     </ClInclude>
     <ClInclude Include="cShaderData_Default.h">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClInclude>
-    <ClInclude Include="cCom_Renderer_ParticleBasic.h" />
     <ClInclude Include="cTransform.h" />
     <ClInclude Include="IAnimator.h">
       <Filter>_Source\06. Component\03, 04. Animator</Filter>
@@ -214,6 +212,12 @@
       <Filter>_Source\06. Component\11. Script</Filter>
     </ClInclude>
     <ClInclude Include="cComMgr.h" />
+    <ClInclude Include="cCom_Renderer_ParticleBasic.h">
+      <Filter>_Source\06. Component\08~Render Components</Filter>
+    </ClInclude>
+    <ClInclude Include="cCom_Renderer_Default.h">
+      <Filter>_Source\06. Component\08~Render Components\08. Basic Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -373,14 +377,12 @@
     <ClCompile Include="cShaderDataModule.cpp">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
-    <ClCompile Include="cCom_Renderer_Basic.cpp" />
     <ClCompile Include="DefaultClassInitializer.cpp">
       <Filter>_Source\03. Manager\10. ComMgr</Filter>
     </ClCompile>
     <ClCompile Include="cShaderData_Default.cpp">
       <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
-    <ClCompile Include="cCom_Renderer_ParticleBasic.cpp" />
     <ClCompile Include="cTransform.cpp" />
     <ClCompile Include="IAnimator.cpp">
       <Filter>_Source\06. Component\03, 04. Animator</Filter>
@@ -389,6 +391,12 @@
       <Filter>_Source\06. Component\11. Script</Filter>
     </ClCompile>
     <ClCompile Include="cComMgr.cpp" />
+    <ClCompile Include="cCom_Renderer_ParticleBasic.cpp">
+      <Filter>_Source\06. Component\08~Render Components</Filter>
+    </ClCompile>
+    <ClCompile Include="cCom_Renderer_Default.cpp">
+      <Filter>_Source\06. Component\08~Render Components\08. Basic Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_Source">
@@ -441,9 +449,6 @@
     </Filter>
     <Filter Include="_Source\06. Component\08~Render Components">
       <UniqueIdentifier>{8becc570-32b7-44bb-92b1-a74ff0317140}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_Source\06. Component\08~Render Components\08. MeshRender">
-      <UniqueIdentifier>{3dd66862-9fa0-441f-8888-fa938d05bdbb}</UniqueIdentifier>
     </Filter>
     <Filter Include="_Source\06. Component\08~Render Components\10. Tilemap">
       <UniqueIdentifier>{c1e5f3db-b06e-4a03-aa94-25ebd41b9f31}</UniqueIdentifier>
@@ -561,6 +566,9 @@
     </Filter>
     <Filter Include="_Source\06. Component\11. Script">
       <UniqueIdentifier>{ca120d65-a3f9-4d3c-9f9d-b9642fb0c222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Source\06. Component\08~Render Components\08. Basic Render">
+      <UniqueIdentifier>{3dd66862-9fa0-441f-8888-fa938d05bdbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

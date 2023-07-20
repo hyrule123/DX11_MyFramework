@@ -21,7 +21,6 @@ public:
 
 public:
     virtual void Init() override;
-    virtual void start() override;
 
     virtual void OnCollision(ICollider* _pCol, const Vec3& _v3HitPoint) override;
 
