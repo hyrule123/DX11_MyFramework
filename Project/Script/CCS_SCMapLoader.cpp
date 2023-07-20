@@ -15,11 +15,11 @@
 //일단 여기서 몰아서 성공킬예정
 //나중에 지우고 분산시킬것
 #include <Engine/CPathMgr.h>
-#include <Engine/CStructBuffer.h>
-#include <Engine/CTexture.h>
-#include <Engine/CResMgr.h>
-#include <Engine/CStructBuffer.h>
-#include <Engine/CTexture.h>
+#include <Engine/cStructBuffer.h>
+#include <Engine/cTexture.h>
+#include <Engine/cResMgr.h>
+#include <Engine/cStructBuffer.h>
+#include <Engine/cTexture.h>
 
 #ifdef _DEBUG
 STRKEY strPath_StormLib = "StormLib_DLL_Debug.dll";
@@ -30,8 +30,7 @@ STRKEY strPath_StormLib = "StormLib_DLL_Release.dll";
 using namespace SC_Map;
 
 CCS_SCMapLoader::CCS_SCMapLoader()
-    : cComputeShader(32u, 32u, 1u)
-    , m_arrpSBufferTileSet{}
+    : m_arrpSBufferTileSet{}
     , m_pMapWorkSpace()
 {
     //std::filesystem::path FilePath(strKey_RES_DEFAULT::SHADER::COMPUTE::SCMAPLOADER);
@@ -46,7 +45,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
 
 
     //wstring Path = CPathMgr::GetInst()->GetContentAbsPathW();
-    std::filesystem::path Path(CPathMgr::GetInst()->GetPathRel_Content());
+    std::filesystem::path Path(cPathMgr::GetInst()->GetPathRel_Content());
     Path /= DIRECTORY_NAME::SCMAP;
     Path /= DIRECTORY_NAME::SCMAP_TILESET;
 
@@ -183,7 +182,7 @@ CCS_SCMapLoader::CCS_SCMapLoader()
             SDesc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
 
             //타일셋 일괄적으로 동적 할당
-            m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new CStructBuffer[(int)SC_Map::eTILESET_MEMBER::END];
+            m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new cStructBuffer[(int)SC_Map::eTILESET_MEMBER::END];
             for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
             {
                 //0 ~ 5번까지 일치시켜 놓았음.
@@ -250,7 +249,7 @@ CCS_SCMapLoader::~CCS_SCMapLoader()
     }
 }
 
-bool CCS_SCMapLoader::BindDataCS()
+tNumDataCS CCS_SCMapLoader::BindDataCS()
 {
     //wstring MapPath = CPathMgr::GetInst()->GetContentAbsPathW();
 
@@ -347,7 +346,7 @@ bool CCS_SCMapLoader::BindDataCS()
 	return bLoaded;
 }
 
-void CCS_SCMapLoader::UnBindCS()
+void CCS_SCMapLoader::UnBind()
 {
     //타일셋 Unbind
     for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
@@ -386,7 +385,7 @@ shared_ptr<SC_Map::tMapData> CCS_SCMapLoader::LoadMap(const string_view _strMapN
         return nullptr;
             
     //성공 시 텍스처를 ResMgr에 등록한다.
-    CResMgr::GetInst()->AddRes<CTexture>(m_pMapWorkSpace->strMapName, m_pMapWorkSpace->pMapTex);
+    cResMgr::GetInst()->AddRes<cTexture>(m_pMapWorkSpace->strMapName, m_pMapWorkSpace->pMapTex);
 
     m_pMapWorkSpace->bMapLoaded = true;
 
@@ -436,7 +435,7 @@ bool CCS_SCMapLoader::ReadMapData(char* Data, DWORD Size)
     SBufferDesc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MXTM;
 
     SAFE_DELETE(m_pMapWorkSpace->pSBuffer_MXTM);
-    m_pMapWorkSpace->pSBuffer_MXTM = new CStructBuffer(SBufferDesc);
+    m_pMapWorkSpace->pSBuffer_MXTM = new cStructBuffer(SBufferDesc);
 
     UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->length / 16u;
     m_pMapWorkSpace->pSBuffer_MXTM->Create((UINT)sizeof(MXTM), DataCount, arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->Data, DataCount);
@@ -500,7 +499,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
         //Megatile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
         SAFE_DELETE(m_pMapWorkSpace->pSBufferRW_Megatile);
 
-        m_pMapWorkSpace->pSBufferRW_Megatile = new CStructBuffer(Desc);
+        m_pMapWorkSpace->pSBufferRW_Megatile = new cStructBuffer(Desc);
         m_pMapWorkSpace->pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);
         m_pMapWorkSpace->pSBufferRW_Megatile->BindBufferUAV();
     }
@@ -512,7 +511,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
         Desc.REGISLOT_u_UAV = REGISLOT_u_SBUFFERRW_MINITILE;
 
         SAFE_DELETE(m_pMapWorkSpace->pSBufferRW_Minitile);
-        m_pMapWorkSpace->pSBufferRW_Minitile = new CStructBuffer(Desc);
+        m_pMapWorkSpace->pSBufferRW_Minitile = new cStructBuffer(Desc);
 
         //메가타일 하나당 16개의 미니타일이 존재
         numTile *= 16;
@@ -523,7 +522,7 @@ bool CCS_SCMapLoader::UploadMapDataToCS()
     
 
     //타겟이 될 텍스처를 동적할당하고, UAV에 바인딩
-    m_pMapWorkSpace->pMapTex = new CTexture;
+    m_pMapWorkSpace->pMapTex = new cTexture;
     UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
     m_pMapWorkSpace->pMapTex->Create(32u * m_pMapWorkSpace->uNumMegatileX, 32u * m_pMapWorkSpace->uNumMegatileY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
     m_pMapWorkSpace->pMapTex->BindData_UAV(REGISLOT_u_TEXTURERW_TARGET);

@@ -16,8 +16,8 @@ public:
 
 
 public:
-    //충돌체 finaltick()은 transform::finaltick()이후 호출되므로 transform의 값을 마음껏 가져다 사용해도 문제 없음.
-    virtual void finaltick();
+    //충돌체 FinalTick()은 transform::FinalTick()이후 호출되므로 transform의 값을 마음껏 가져다 사용해도 문제 없음.
+    virtual void FinalTick();
 
     //고유 충돌체의 정보와 AABB 사각형 정보(m_RectInfo)를 업데이트 해야함.
     virtual void UpdateCollider() = 0;

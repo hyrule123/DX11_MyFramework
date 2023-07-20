@@ -74,7 +74,7 @@ cKeyMgr::~cKeyMgr()
 }
 
 
-void cKeyMgr::init()
+void cKeyMgr::Init()
 {
 	for (int i = 0; i < (int)eKEY::END; ++i)
 	{
@@ -82,7 +82,7 @@ void cKeyMgr::init()
 	}
 }
 
-void cKeyMgr::tick()
+void cKeyMgr::Tick()
 {
 	if (cEngine::GetInst()->IsMainWndFocused())
 	{

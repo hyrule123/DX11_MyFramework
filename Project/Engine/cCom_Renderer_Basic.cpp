@@ -25,11 +25,11 @@ cCom_Renderer_Basic::~cCom_Renderer_Basic()
 
 
 
-void cCom_Renderer_Basic::finaltick()
+void cCom_Renderer_Basic::FinalTick()
 {
 }
 
-bool cCom_Renderer_Basic::render()
+eRENDER_RESULT cCom_Renderer_Basic::Render()
 {	
 	//이번에 출력될 카메라 인덱스를 자신의 Scalar Data에 등록
 	cGameObject* pOwner = GetOwner();
@@ -66,12 +66,12 @@ bool cCom_Renderer_Basic::render()
 		//재질에 BindData 요청 - 재질 상수버퍼가 바인딩됨.
 		pmtrl->BindData();
 
-		pmesh->render();
+		pmesh->Render();
 		
 		//true를 반환해서 인스턴싱이 필요하지 않다고 전달
-		return true;
+		return eRENDER_RESULT::RENDERED;
 	}
 
 	//인스턴싱을 사용할 경우 return false를 해줌으로써 인스턴싱 처리를 해줘야 함을 전달
-	return false;
+	return eRENDER_RESULT::NEED_INSTANCING;
 }

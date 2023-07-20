@@ -62,14 +62,14 @@ int cEngine::init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT
 	}
 
 	// Manager 생성 및 초기화
-	cPathMgr::GetInst()->init();
-	cKeyMgr::GetInst()->init();
-	cTimeMgr::GetInst()->init();
+	cPathMgr::GetInst()->Init();
+	cKeyMgr::GetInst()->Init();
+	cTimeMgr::GetInst()->Init();
 
-	cResMgr::GetInst()->init();
+	cResMgr::GetInst()->Init();
 
-	cLevelMgr::GetInst()->init();		
-	cRenderMgr::GetInst()->init();
+	cLevelMgr::GetInst()->Init();		
+	cRenderMgr::GetInst()->Init();
 	cEventMgr::GetInst();
 	cCollisionMgr::GetInst();
 
@@ -78,26 +78,26 @@ int cEngine::init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT
 
 void cEngine::progress()
 {
-	tick();
+	Tick();
 
-	render();
+	Render();
 
-	cEventMgr::GetInst()->tick();
+	cEventMgr::GetInst()->Tick();
 }
 
-void cEngine::tick()
+void cEngine::Tick()
 {
 	// Manager Tick
-	cTimeMgr::GetInst()->tick();
-	cKeyMgr::GetInst()->tick();	
-	cLevelMgr::GetInst()->tick();
-	cCollisionMgr::GetInst()->tick();
-	cRenderMgr::GetInst()->tick();
+	cTimeMgr::GetInst()->Tick();
+	cKeyMgr::GetInst()->Tick();	
+	cLevelMgr::GetInst()->Tick();
+	cCollisionMgr::GetInst()->Tick();
+	cRenderMgr::GetInst()->Tick();
 }
 
-void cEngine::render()
+void cEngine::Render()
 {
-	cTimeMgr::GetInst()->render();
+	cTimeMgr::GetInst()->Render();
 
 	// 출력 타겟 설정
 	cDevice::GetInst()->SetRenderTarget();
@@ -106,7 +106,7 @@ void cEngine::render()
 	cDevice::GetInst()->ClearTarget(m_ClearColor);
 
 	//렌더링. 렌더타겟 플립은 여기서 진행하지 않음. EditorObjMgr의 렌더링 과정도 끝난 이후 진행
-	cRenderMgr::GetInst()->render();
+	cRenderMgr::GetInst()->Render();
 }
 
 void cEngine::SetWndSize(UINT32 _uWidth, UINT32 _uHeight)

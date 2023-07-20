@@ -44,15 +44,15 @@ cCom_Renderer_TilemapAtlas::cCom_Renderer_TilemapAtlas(cCom_Renderer_TilemapAtla
 }
 
 
-void cCom_Renderer_TilemapAtlas::finaltick()
+void cCom_Renderer_TilemapAtlas::FinalTick()
 {
 }
 
-bool cCom_Renderer_TilemapAtlas::render()
+eRENDER_RESULT cCom_Renderer_TilemapAtlas::Render()
 {
 	//자신의 Tile 구조화버퍼를 업데이트 한다.
 	BindData();
-	return ITilemapBase::render();
+	return ITilemapBase::Render();
 }
 
 

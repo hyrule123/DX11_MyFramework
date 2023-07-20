@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "cScript_CameraMove.h"
 
-#include <Engine/cCom_Transform.h>
+#include <Engine/cGameObject.h>
+#include <Engine/cTransform.h>
 #include <Engine/cCom_Camera.h>
 
 //마우스 좌표 받아오는 용도
@@ -9,9 +10,8 @@
 #include <Engine/cTimeMgr.h>
 #include <Engine/cRenderMgr.h>
 
-cScript_CameraMove::cScript_CameraMove(const string_view _strKey)
-	: IScript(_strKey)
-	, m_CamSpeed(1000.f)
+cScript_CameraMove::cScript_CameraMove()
+	: m_CamSpeed(1000.f)
 	, m_TurningForceRad(XM_PI)
 {
 }
@@ -22,7 +22,7 @@ cScript_CameraMove::~cScript_CameraMove()
 
 void cScript_CameraMove::Camera2DMove()
 {
-	cCom_Transform& pTransform = Transform();
+	cTransform& pTransform = GetOwner()->Transform();
 	Vec3 CamPos = pTransform.GetRelativePos();
 	Vec3 CamRot = pTransform.GetRelativeRot();
 
@@ -55,11 +55,11 @@ void cScript_CameraMove::Camera2DMove()
 
 	if (KEY_PRESSED(eKEY::C))
 	{
-		Camera()->Zoom2D(1.0f + 0.5f * DT);
+		GetOwner()->Camera()->Zoom2D(1.0f + 0.5f * DT);
 	}
 	else if (KEY_PRESSED(eKEY::X))
 	{
-		Camera()->Zoom2D(1.0f - 0.5f * DT);
+		GetOwner()->Camera()->Zoom2D(1.0f - 0.5f * DT);
 	}
 
 
@@ -75,7 +75,7 @@ void cScript_CameraMove::Camera2DMove()
 
 void cScript_CameraMove::Camera3DMove()
 {
-	cCom_Transform& pTransform = Transform();
+	cTransform& pTransform = GetOwner()->Transform();
 	Vec3 CamPos = pTransform.GetRelativePos();
 	Vec3 CamRot = pTransform.GetRelativeRot();
 
@@ -121,19 +121,19 @@ void cScript_CameraMove::Camera3DMove()
 	pTransform.SetRelativeRot(CamRot);
 }
 
-void cScript_CameraMove::tick()
+void cScript_CameraMove::Tick()
 {
 	//자신이 현재 찍고있는 카메라일 경우에만 스크립트 작동
-	if (Camera() != cRenderMgr::GetInst()->GetCurCamera())
+	if (GetOwner()->Camera() != cRenderMgr::GetInst()->GetCurCamera())
 		return;
 
 
-	ePROJ_TYPE ProjType = Camera()->GetProjType();
+	ePROJ_TYPE ProjType = GetOwner()->Camera()->GetProjType();
 	bool VTapped = false;
 
 	
 
-	if (eCAMERA_INDEX::EDITOR == Camera()->GetCamIndex())
+	if (eCAMERA_INDEX::EDITOR == GetOwner()->Camera()->GetCamIndex())
 	{
 		cKeyMgr* pKeyMgr = cKeyMgr::GetInst();
 
@@ -155,7 +155,7 @@ void cScript_CameraMove::tick()
 	{
 		if (VTapped)
 		{
-			Camera()->SetProjType(ePROJ_TYPE::PERSPECTIVE);
+			GetOwner()->Camera()->SetProjType(ePROJ_TYPE::PERSPECTIVE);
 			break;
 		}
 
@@ -166,7 +166,7 @@ void cScript_CameraMove::tick()
 	{
 		if (VTapped)
 		{
-			Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
+			GetOwner()->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 			break;
 		}
 

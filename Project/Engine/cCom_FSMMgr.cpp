@@ -43,19 +43,19 @@ cCom_FSMMgr::~cCom_FSMMgr()
 	}
 }
 
-void cCom_FSMMgr::init()
+void cCom_FSMMgr::Init()
 {
 	for (size_t i = 0; i < m_vecFSM.size(); ++i)
 	{
-		m_vecFSM[i]->init();
+		m_vecFSM[i]->Init();
 	}
 }
 
-void cCom_FSMMgr::start()
+void cCom_FSMMgr::Start()
 {
 }
 
-void cCom_FSMMgr::tick()
+void cCom_FSMMgr::Tick()
 {
 }
 

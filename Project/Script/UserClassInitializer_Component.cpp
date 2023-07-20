@@ -29,7 +29,7 @@
 #include "cScript_SCEntity.h"
 #include "cScript_SCUnitVital.h"
 #include "cScript_TestObj.h"
-#include "cScript_TilemapSC.h"
+#include "cCom_Renderer_TilemapSC.h"
 #include "cScript_Vespene.h"
 #include "cScript_VespeneSmoke.h"
 
@@ -50,7 +50,7 @@ void UserClassInitializer::InitCom()
 	CONSTRUCTOR_T(cScript_SCEntity);
 	CONSTRUCTOR_T(cScript_SCUnitVital);
 	CONSTRUCTOR_T(cScript_TestObj);
-	CONSTRUCTOR_T(cScript_TilemapSC);
+	CONSTRUCTOR_T(cCom_Renderer_TilemapSC);
 	CONSTRUCTOR_T(cScript_Vespene);
 	CONSTRUCTOR_T(cScript_VespeneSmoke);
 }

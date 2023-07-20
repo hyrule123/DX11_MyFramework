@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "cScript_Vespene.h"
 
-#include <Engine/cCom_Transform.h>
+#include <Engine/cGameObject.h>
+#include <Engine/cTransform.h>
 
 
 
@@ -15,9 +16,9 @@ cScript_Vespene::~cScript_Vespene()
 {
 }
 
-void cScript_Vespene::init()
+void cScript_Vespene::Init()
 {
-	cScript_SCEntity::init();
+	cScript_SCEntity::Init();
 
 	//자식 오브젝트(연기) 들의 위치 지정
 	enum ePos

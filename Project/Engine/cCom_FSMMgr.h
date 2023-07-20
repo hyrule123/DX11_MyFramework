@@ -21,11 +21,11 @@ public:
 
 
 public:
-    virtual void init() final;
-    virtual void start() final;
-    virtual void tick() final;
-    virtual void finaltick() final {}
-    virtual void cleanup() final {}
+    virtual void Init() final;
+    virtual void Start() final;
+    virtual void Tick() final;
+    virtual void FinalTick() final {}
+    virtual void CleanUp() final {}
 
     eFSM_RESULT Transition(const tFSM_Event& _tEvent);
     eFSM_RESULT Transition(UINT _uStateID) { return Transition(tFSM_Event{ _uStateID, }); }

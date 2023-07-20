@@ -4,6 +4,7 @@
     <None Include="S_H_SCMapLoader.hlsli" />
     <None Include="S_H_SCUnitGround.hlsli" />
     <None Include="S_H_Tilemap_SC.hlsli" />
+    <None Include="S_H_ParticleRainDrop.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="S_0_V_SCUnitGround.hlsl" />

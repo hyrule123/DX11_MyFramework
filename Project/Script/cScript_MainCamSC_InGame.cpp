@@ -18,20 +18,20 @@ cScript_MainCamSC_InGame::~cScript_MainCamSC_InGame()
 {
 }
 
-void cScript_MainCamSC_InGame::init()
+void cScript_MainCamSC_InGame::Init()
 {
 	m_pCam = Camera();
 	assert(m_pCam);
 }
 
-void cScript_MainCamSC_InGame::tick()
+void cScript_MainCamSC_InGame::Tick()
 {
 	CameraMove();
 }
 
 void cScript_MainCamSC_InGame::CameraMove()
 {
-	cCom_Transform& pTransform = Transform();
+	cTransform& pTransform = Transform();
 	
 	Vec3 MovedPos;
 	float DT = DELTA_TIME;

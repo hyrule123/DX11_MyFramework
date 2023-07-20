@@ -110,6 +110,14 @@ bool IRenderer::LoadJson(Json::Value* _pJVal)
 	return true;
 }
 
+eRENDER_RESULT IRenderer::Render()
+{
+
+
+
+	return eRENDER_RESULT();
+}
+
 void IRenderer::BindMtrlScalarDataToCBuffer()
 {
 	static cConstBuffer* pCBuffer = cDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_MTRL_SCALAR);

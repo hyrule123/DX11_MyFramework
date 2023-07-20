@@ -18,17 +18,13 @@ public:
 public:
 
 public:
-    virtual void finaltick() override;
-    virtual bool render() override;
+    virtual void FinalTick() override;
+    virtual eRENDER_RESULT Render() override;
 
-    virtual void cleanup() override {}
+    virtual void CleanUp() override {}
 
 private:
 
 public:
-    
-
-
-
 };
 

@@ -16,7 +16,7 @@ cFSM_Move_Base::~cFSM_Move_Base()
 {
 }
 
-void cFSM_Move_Base::init()
+void cFSM_Move_Base::Init()
 {
 	cScript_SCEntity* pEntity = static_cast<cScript_SCEntity*>(ScriptHolder()->FindScript("cScript_SCEntity"));
 	assert(nullptr != pEntity);

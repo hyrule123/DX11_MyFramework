@@ -41,7 +41,7 @@ cResMgr::~cResMgr()
 
 
 
-void cResMgr::init()
+void cResMgr::Init()
 {
 	CreateDefaultMesh();
 	

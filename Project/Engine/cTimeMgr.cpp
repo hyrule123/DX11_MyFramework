@@ -23,7 +23,7 @@ cTimeMgr::~cTimeMgr()
 
 
 
-void cTimeMgr::init()
+void cTimeMgr::Init()
 {
 	// 1초당 카운팅 증가량
 	QueryPerformanceFrequency(&m_llFrequency);
@@ -32,7 +32,7 @@ void cTimeMgr::init()
 	QueryPerformanceCounter(&m_llPrevCount);
 }
 
-void cTimeMgr::tick()
+void cTimeMgr::Tick()
 {	
 	QueryPerformanceCounter(&m_llCurCount);
 
@@ -58,7 +58,7 @@ void cTimeMgr::tick()
 	m_llPrevCount = m_llCurCount;		
 }
 
-void cTimeMgr::render()
+void cTimeMgr::Render()
 {
 	// 1초에 한번
 	if (1.f <= m_fTime)

@@ -25,10 +25,11 @@ public:
 
 public:
     //특정 변수에서 초기 설정을 해야 할 경우 이 메소드를 오버라이딩해서 사용할 것.
-    virtual void init()  {}
-    virtual void start() {}
-    virtual void tick()  {}
-    virtual void finaltick() {}
+    virtual void Init()  {}
+    virtual void Start() {}
+    virtual void Tick()  {}
+    virtual void FinalTick() {}
+    virtual void CleanUp() {}
 
     //보낼 GPU 데이터가 있을 경우 데이터를 전송
     virtual void BindData() {}
@@ -38,7 +39,5 @@ public:
     virtual void BeginCollision(ICollider* _other, const Vec3& _v3HitPoint) {}
     virtual void OnCollision(ICollider* _other, const Vec3& _v3HitPoint) {}
     virtual void EndCollision(ICollider* _other) {}
-
-    
 };
 

@@ -30,11 +30,11 @@ private:
     //    virtual void EndCollision(ICollider* _other);
 
 public:
-    virtual void finaltick() final;
+    virtual void FinalTick() final;
 
     //자신의 충돌체 정보 + 간이 충돌체 정보를 업데이트 해줄 것
     virtual void UpdatecColliderInfo() = 0;
     virtual void DebugRender() = 0;
-    virtual void cleanup() override {};
+    virtual void CleanUp() override {};
 };
 

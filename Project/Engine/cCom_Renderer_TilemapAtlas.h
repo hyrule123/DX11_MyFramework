@@ -11,10 +11,10 @@ public:
     CLONE(cCom_Renderer_TilemapAtlas);
 
 public:
-    //virtual void init();
-    virtual void finaltick() override;
-    virtual bool render() override;
-    virtual void cleanup() override {};
+    //virtual void Init();
+    virtual void FinalTick() override;
+    virtual eRENDER_RESULT Render() override;
+    virtual void CleanUp() override {};
 
     virtual void SetTileCount(UINT _iXCount, UINT _iYCount) override;
 

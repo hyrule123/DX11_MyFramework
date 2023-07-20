@@ -19,7 +19,7 @@ ICollider3D::~ICollider3D()
 {
 }
 
-void ICollider3D::finaltick()
+void ICollider3D::FinalTick()
 {
 	//아래의 두 메소드는 transform에서 하는 걸로 변경
 	//UpdatecColliderInfo();

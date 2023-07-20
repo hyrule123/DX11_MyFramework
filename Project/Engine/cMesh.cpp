@@ -64,16 +64,21 @@ void cMesh::Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _Id
 	}
 }
 
-void cMesh::BindData()
+bool cMesh::BindData()
 {
+	if (nullptr == m_VB && nullptr == m_IB)
+		return false;
+
 	UINT iStride = sizeof(Vtx);
 	UINT iOffset = 0;
 
 	CONTEXT->IASetVertexBuffers(0, 1, m_VB.GetAddressOf(), &iStride, &iOffset);
 	CONTEXT->IASetIndexBuffer(m_IB.Get(), DXGI_FORMAT_R32_UINT, 0);
+
+	return true;
 }
 
-void cMesh::render()
+void cMesh::Render()
 {
 	BindData();
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);

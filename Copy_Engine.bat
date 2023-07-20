@@ -6,11 +6,11 @@ echo Mode: %Mode%
 :: *.h 파일 복사(라이브러리 참조용)
 xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\*.h" ".\External\Include\Engine\"
 
-:: C++와 공유하는 HLSL 헤더파일 복사
-xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\*.hlsli" ".\External\Include\Engine\"
-
 :: *.inl 파일 복사(inline 파일)
 xcopy /d /s /y /i /r  /exclude:exclude_list.txt ".\Project\Engine\SimpleMath.inl" ".\External\Include\Engine\"
+
+:: C++와 공유하는 HLSL 헤더파일 복사
+xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\*.hlsli" ".\External\Include\Engine\"
 
 :: 참조용 파일 읽기 전용으로 변경
 attrib +r ".\External\Include\Engine\*"
@@ -30,6 +30,21 @@ if not exist .\OutputFile\Bin_%Mode%\Content\SavedSetting ( mkdir .\OutputFile\B
 :: json 파일 백업
 if exist .\OutputFile\Bin_%Mode%\Content\Shader\Graphics\*.json (
 xcopy /d /s /y /i .\OutputFile\Bin_%Mode%\Content\Shader\Graphics\*.json .\JsonBackup\%Mode%\
+)
+
+
+echo Copying HLSL Default Headers to HLSL Project
+
+:: C++와 공유하는 HLSL 헤더파일 복사
+::xcopy /d /s /y /i /r /exclude:exclude_list.txt ".\Project\Engine\*.hlsli" ".\External\Include\Engine\"
+:: 기본 HLSL 헤더 파일들을 copy
+set source_dir=.\Project\Engine
+set destination_dir=.\Project\HLSL
+for /f %%f in (HLSL_Default_Headers.txt) do (
+    xcopy "%source_dir%\%%f" "%destination_dir%" /d /s /y /i /r
+
+    :: 참조용 파일 읽기 전용으로 변경
+    attrib +r "%destination_dir%\%%f"
 )
 
 

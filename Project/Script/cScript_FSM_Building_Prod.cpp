@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "cScript_FSM_Building_Prod.h"
 
-#include "S_H_SCUnitGround.hlsli"
+#include <HLSL/S_H_SCUnitGround.hlsli>
+
 #include <Engine/cKeyMgr.h>
 
 #include <Engine/cTimeMgr.h>
@@ -19,7 +20,7 @@ cScript_FSM_Building_Prod::~cScript_FSM_Building_Prod()
 {
 }
 
-void cScript_FSM_Building_Prod::tick()
+void cScript_FSM_Building_Prod::Tick()
 {
 	if (m_bIsProducing)
 	{

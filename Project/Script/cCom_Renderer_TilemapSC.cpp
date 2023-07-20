@@ -1,9 +1,11 @@
 #include "pch.h"
 
-#include "cScript_TilemapSC.h"
+#include "cCom_Renderer_TilemapSC.h"
+#include "define_SC.h"
+#include "CCS_SCMapLoader.h"
 
 //유닛 로드 및 언로드 용
-#include <Engine/CResMgr.h>
+#include <Engine/cResMgr.h>
 #include <Engine/strKey_Default.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
@@ -13,18 +15,17 @@
 #include <Engine/CDevice.h>
 #include <Engine/CConstBuffer.h>
 #include <Engine/cRenderMgr.h>
-#include <Engine/cCom_Transform.h>
-#include <Engine/CTilemapComplete.h>
+#include <Engine/cTransform.h>
+#include <Engine/cCom_Renderer_TilemapComplete.h>
 
-#include "define_SC.h"
-#include "CCS_SCMapLoader.h"
-#include "S_H_Tilemap_SC.hlsli"
+#include <HLSL/S_H_Tilemap_SC.hlsli>
+
 
 #include "cScript_Mineral.h"
 #include "strKey_Script.h"
-#include "strKey_CShader.h"
-#include "strKey_GShader.h"
-#include <Engine/UserClassMgr.h>
+#include "strKey_Shader.h"
+
+#include <Engine/cComMgr.h>
 
 #include <Engine/RandGen.h>
 #include <Engine/cCom_Camera.h>
@@ -32,40 +33,35 @@
 //디버그 출력 확인용
 using namespace SC_Map;
 
-cScript_TilemapSC::cScript_TilemapSC(const string_view _strKey)
-	: IScript(_strKey)
-	, m_pMapData()
+cCom_Renderer_TilemapSC::cCom_Renderer_TilemapSC()
+	: m_pMapData()
 	, m_bMapLoaded()
 	, m_bUnitLoaded()
 	, m_eDebugMode()
 {
 }
 
-cScript_TilemapSC::~cScript_TilemapSC()
+cCom_Renderer_TilemapSC::~cCom_Renderer_TilemapSC()
 {
 }
 
 
-void cScript_TilemapSC::init()
+void cCom_Renderer_TilemapSC::Init()
 {
-	CTilemap* pTilemap = Tilemap();
-	if (nullptr == pTilemap)
-	{
-		GetOwner()->AddComponent(new CTilemapComplete);
-		Tilemap();
-	}
+	cCom_Renderer_TilemapComplete* pTilemap = GetOwner()->AddComponent<cCom_Renderer_TilemapComplete>();
+	assert(pTilemap);
 
 	//메쉬는 부모 클래스에서 설정했음.
-	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE);
+	Ptr<cMaterial> pMtrl = cResMgr::GetInst()->FindRes<cMaterial>(strKey_RES_DEFAULT::MATERIAL::TILEMAP_COMPLETE);
 
-	Ptr<CGraphicsShader> pShader = CResMgr::GetInst()->Load<CGraphicsShader>(strKey_GShader::Tilemap_SC);
+	Ptr<cGraphicsShader> pShader = cResMgr::GetInst()->Load<cGraphicsShader>(strKey_Shader::Graphics::Tilemap_SC);
 	assert(nullptr != pShader);
 
 	pTilemap->SetMaterial(pMtrl);
 	pTilemap->GetCurMaterial()->SetShader(pShader);
 }
 
-void cScript_TilemapSC::tick()
+void cCom_Renderer_TilemapSC::Tick()
 {
 	if (m_bMapLoaded)
 	{
@@ -86,8 +82,13 @@ void cScript_TilemapSC::tick()
 	}
 }
 
+eRENDER_RESULT cCom_Renderer_TilemapSC::Render()
+{
+	return false;
+}
+
 //인스턴싱 X
-void cScript_TilemapSC::BindData()
+void cCom_Renderer_TilemapSC::BindData()
 {
 	if (false == m_bMapLoaded)
 		return;
@@ -106,14 +107,14 @@ void cScript_TilemapSC::BindData()
 	m_pMapData->pSBufferRW_Minitile->BindBufferSRV();
 }
 
-void cScript_TilemapSC::UnBind()
+void cCom_Renderer_TilemapSC::UnBind()
 {
 	m_pMapData->pSBuffer_MXTM->BindBufferSRV();
 	m_pMapData->pSBufferRW_Megatile->BindBufferSRV();
 	m_pMapData->pSBufferRW_Minitile->BindBufferSRV();
 }
 
-bool cScript_TilemapSC::LoadMap(const string_view _strMapName)
+bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 {
 	if (true == m_bMapLoaded && _strMapName == m_pMapData->strMapName)
 		return true;
@@ -124,8 +125,8 @@ bool cScript_TilemapSC::LoadMap(const string_view _strMapName)
 	}
 	m_bUnitLoaded = false;
 
-	Ptr<CCS_SCMapLoader> pLoader = UserClassMgr::GetNewCS(strKey_CShader::CCS_SCMapLoader);
-	
+	Ptr<CCS_SCMapLoader> pLoader = static_cast<CCS_SCMapLoader*>(cResMgr::GetInst()->Load<cComputeShader>(strKey_Shader::Compute::S_C_SCMapLoader).Get());
+		
 
 	//기존 리소스가 있을 시 제거 요청
 	if (m_pMapData && nullptr != m_pMapData->pMapTex)
@@ -133,7 +134,7 @@ bool cScript_TilemapSC::LoadMap(const string_view _strMapName)
 		m_pMapData->pMapTex = nullptr;
 		Tilemap()->
 		GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, nullptr);
-		CResMgr::GetInst()->DeleteRes<CTexture>(m_pMapData->strMapName);
+		cResMgr::GetInst()->DeleteRes<cTexture>(m_pMapData->strMapName);
 	}
 
 	//데이터 초기화
@@ -148,7 +149,7 @@ bool cScript_TilemapSC::LoadMap(const string_view _strMapName)
 	{
 		Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_pMapData->pMapTex);
 
-		cCom_Transform& pTF = Transform();
+		cTransform& pTF = Transform();
 
 		g_GlobalVal.fMapSizeX = (float)m_pMapData->uNumMegatileX * 32.f;
 		g_GlobalVal.fMapSizeY = (float)m_pMapData->uNumMegatileY * 32.f;
@@ -195,7 +196,7 @@ bool cScript_TilemapSC::LoadMap(const string_view _strMapName)
 }
 
 
-void cScript_TilemapSC::LoadUnit()
+void cCom_Renderer_TilemapSC::LoadUnit()
 {
 	using namespace SC_Map;
 	using namespace SC;
@@ -205,7 +206,7 @@ void cScript_TilemapSC::LoadUnit()
 	{
 		const tUnitData& unit = m_pMapData->vecUnitData[i];
 
-		Ptr<CPrefab> UnitPrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName((SC::eUNIT_ID)unit.ID));
+		Ptr<CPrefab> UnitPrefab = cResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName((SC::eUNIT_ID)unit.ID));
 
 		//유닛 생성. Y좌표계는 반전해줘야 함
 		cGameObject* SpawnedObj = nullptr;
@@ -292,7 +293,7 @@ void cScript_TilemapSC::LoadUnit()
 	StartLocation();
 }
 
-void cScript_TilemapSC::UnloadUnit()
+void cCom_Renderer_TilemapSC::UnloadUnit()
 {
 	m_vecStartLocation.clear();
 
@@ -318,7 +319,7 @@ void cScript_TilemapSC::UnloadUnit()
 
 }
 
-void cScript_TilemapSC::StartLocation()
+void cCom_Renderer_TilemapSC::StartLocation()
 {
 	if (m_vecStartLocation.empty())
 		return;
@@ -327,7 +328,7 @@ void cScript_TilemapSC::StartLocation()
 	int StartPos = (int)m_vecStartLocation.size();
 	StartPos = RandGen::GetInst()->GetRand(0, StartPos - 1);
 	{
-		Ptr<CPrefab> Command = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
+		Ptr<CPrefab> Command = cResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
 		assert(nullptr != Command);
 
 		EventDispatcher::SpawnPrefab2D(Command, m_vecStartLocation[StartPos]);
@@ -336,7 +337,7 @@ void cScript_TilemapSC::StartLocation()
 		assert(pMainCam);
 		pMainCam->GetOwner()->Transform().SetRelativePosXY(m_vecStartLocation[StartPos]);
 
-		Ptr<CPrefab> Marine = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
+		Ptr<CPrefab> Marine = cResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
 
 		assert(nullptr != Marine);
 

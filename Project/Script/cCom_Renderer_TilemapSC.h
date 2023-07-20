@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/IScript.h>
+#include <Engine/cCom_Renderer_TilemapComplete.h>
 
 #include "define_SCMap.h"
 
@@ -11,19 +11,23 @@ enum class eTILEMAP_DEBUGMODE
     MINITILE
 };
 
-class cScript_TilemapSC :
-    public IScript
+class cCom_Renderer_TilemapSC :
+    public cCom_Renderer_TilemapComplete
 {
 public:
-    cScript_TilemapSC(const string_view _strKey);
-    virtual ~cScript_TilemapSC();
-    CLONE(cScript_TilemapSC);
+    cCom_Renderer_TilemapSC();
+    virtual ~cCom_Renderer_TilemapSC();
+    CLONE(cCom_Renderer_TilemapSC);
 
 public:
-    virtual void init() override;
-    virtual void tick() override;
-    virtual void BindData() override;
-    virtual void UnBind() override;
+    virtual void Init() override;
+    virtual void Tick() override;
+
+    virtual eRENDER_RESULT Render() override;
+
+private:
+    void BindData();
+    void UnBind();
 
 private:
     shared_ptr<SC_Map::tMapData> m_pMapData;
@@ -32,7 +36,6 @@ private:
 
 public:
     bool LoadMap(const string_view _strMapName);
-
 
 private:
     eTILEMAP_DEBUGMODE m_eDebugMode;

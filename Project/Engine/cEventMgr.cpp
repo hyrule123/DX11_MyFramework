@@ -91,7 +91,7 @@ void cEventMgr::RemoveComponent(const tGameEvent& _event)
 
 	//여기선 Disable만 해줌으로써 모든 관계를 정리하도록 해준다.
 	pCom->SetDisable(true);
-	pCom->cleanup();
+	pCom->CleanUp();
 
 	//나머지는 LazyEvent에서 처리.
 	m_vecLazyEvent.push_back(_event);
@@ -166,7 +166,7 @@ void cEventMgr::ProcessLazyEvent()
 }
 
 
-void cEventMgr::tick()
+void cEventMgr::Tick()
 {
 	ProcessLazyEvent();
 	ProcessEvent();

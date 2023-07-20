@@ -6,7 +6,7 @@
 std::regex define_Preset::Regex::g_VarForbiddenChars::A;
 std::wregex define_Preset::Regex::g_VarForbiddenChars::W;
 
-void define_Preset::Regex::g_VarForbiddenChars::CreateVarForbiddendRegex()
+void define_Preset::Regex::g_VarForbiddenChars::CreateVarForbiddenRegex()
 {
 	string strBase = "[";
 

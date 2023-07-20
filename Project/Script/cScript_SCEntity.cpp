@@ -1,18 +1,19 @@
 #include "pch.h"
 #include "cScript_SCEntity.h"
 
-#include <Engine/cCom_Renderer.h>
-#include <Engine/CMaterial.h>
-#include <Engine/cCom_Transform.h>
+#include <Engine/cGameObject.h>
+
+#include <Engine/IRenderer.h>
+#include <Engine/cMaterial.h>
+#include <Engine/cTransform.h>
 
 #include <Engine/cTimeMgr.h>
 #include <Engine/cKeyMgr.h>
 
 //Prefab instantiate
-#include <Engine/CResMgr.h>
+#include <Engine/cResMgr.h>
 #include <Engine/CEventMgr.h>
 
-#include <Engine/CScriptHolder.h>
 
 #include <Engine/ICollider.h>
 #include <Engine/define.h>
@@ -39,9 +40,8 @@ namespace strKey_SCEntity
 	STRKEY_DECLARE(m_flagTech);
 };
 
-cScript_SCEntity::cScript_SCEntity(const string_view _strKey)
-	: IScript(_strKey)
-	, m_eRace()
+cScript_SCEntity::cScript_SCEntity()
+	: m_eRace()
 	, m_uPopulation()
 	, m_eMoveType()
 	, m_eUnitSize()
@@ -113,10 +113,10 @@ bool cScript_SCEntity::LoadJson(Json::Value* _pJVal)
 	return true;
 }
 
-void cScript_SCEntity::init()
+void cScript_SCEntity::Init()
 {
 	//유닛은 기본적으로 전부 회전이 존재하지 않음.
-	Transform().SetLockRotation(true);
+	GetOwner()->Transform().SetLockRotation(true);
 
 	//상수버퍼에 컬러키를 전달, 픽셀 쉐이더에 상수버퍼가 전달되도록 설정
 	//GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_STD2D_COLORKEY, &m_ColorKey);

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "cScript_FSM_Move_Ground.h"
 
-#include <Engine/cCom_Transform.h>
+#include <Engine/cTransform.h>
 #include <Engine/cTimeMgr.h>
 
 #include <Engine/cCom_Animator2D.h>
@@ -33,7 +33,7 @@ void cScript_FSM_Move_Ground::OnState()
 {
 	if (false == IsArrived())
 	{
-		cCom_Transform& pTransform = Transform();
+		cTransform& pTransform = Transform();
 		Vec2 pos = pTransform.GetRelativePos().XY();
 
 		//이동하기 전 거리 차이를 계산한다.
@@ -97,7 +97,7 @@ void cScript_FSM_Move_Ground::EndState()
 }
 
 
-void cScript_FSM_Move_Ground::init()
+void cScript_FSM_Move_Ground::Init()
 {
-	cFSM_Move_Base::init();
+	cFSM_Move_Base::Init();
 }

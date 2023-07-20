@@ -22,7 +22,7 @@ cCom_Light2D::~cCom_Light2D()
 {
 }
 
-void cCom_Light2D::finaltick()
+void cCom_Light2D::FinalTick()
 {
 	m_LightInfo.vLightWorldPos = GetOwner()->Transform().GetWorldPos();
 

@@ -33,7 +33,7 @@ public:
     virtual bool LoadJson(Json::Value* _jsonVal) override;
 
 private:
-    virtual void BindData() final;
+    virtual bool BindData() final;
 
 
 protected://아래의 값은 자식 클래스에서 직접 수정
@@ -73,6 +73,12 @@ public:
 public:
     //컴퓨터쉐이더 연산 시행
     bool Execute();
+
+private:
+    inline bool IsDataReady();
+    inline bool IsDataModuleReady() { return m_pShaderDataModule; }
+    inline bool IsReady() { return (nullptr != m_CS) && IsDataReady() && IsDataModuleReady(); }
+
 };
 
 inline HRESULT cComputeShader::CreateShader(ComPtr<ID3DBlob> _pBlob)

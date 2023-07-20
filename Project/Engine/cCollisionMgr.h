@@ -90,11 +90,11 @@ public:
     void AddLayerInterAction2DAll(int _iLayer);
 
 public:
-    //cCollisionMgr의 호출 시점: cLevelMgr::tick()이 호출되는 시점. -> 가져다 써도 문제 없음.
+    //cCollisionMgr의 호출 시점: cLevelMgr::Tick()이 호출되는 시점. -> 가져다 써도 문제 없음.
     void Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridNumX, UINT _uiGridNumY);
 
     //충돌 검사 시행
-    void tick();
+    void Tick();
 
 
 private://충돌 검사 함수

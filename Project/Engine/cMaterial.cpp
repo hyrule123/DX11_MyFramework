@@ -117,10 +117,10 @@ bool cMaterial::LoadJson(Json::Value* _pJson)
 
 
 
-void cMaterial::BindData()
+bool cMaterial::BindData()
 {
 	if (nullptr == m_pShader)
-		return;
+		return false;
 	
 	//쉐이더도 데이터를 바인딩해준다.
 	m_pShader->BindData();
@@ -135,6 +135,8 @@ void cMaterial::BindData()
 	cConstBuffer* CMtrlTexBuffer = cDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_MTRL_TEX);
 	CMtrlTexBuffer->UploadData(&m_MtrlTex);
 	CMtrlTexBuffer->BindBuffer();
+
+	return true;
 }
 
 

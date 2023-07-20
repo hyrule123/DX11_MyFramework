@@ -64,13 +64,13 @@ void cLevelMgr::FindObjectALLByName(const string_view _Name, vector<cGameObject*
 	m_pCurLevel->FindObjectALLByName(_Name, _vecObj);
 }
 
-void cLevelMgr::init()
+void cLevelMgr::Init()
 {
 	m_pCurLevel = new cLevel;
 }
 
-void cLevelMgr::tick()
+void cLevelMgr::Tick()
 {
-	m_pCurLevel->tick();
-	m_pCurLevel->finaltick();
+	m_pCurLevel->Tick();
+	m_pCurLevel->FinalTick();
 }

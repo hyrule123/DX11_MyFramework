@@ -19,7 +19,7 @@ public:
     CLONE(cTransform);
 
 public:
-    void finaltick();
+    void FinalTick();
 
 public:
     bool SaveJson(Json::Value* _pJson);
@@ -157,7 +157,7 @@ public:
 
     void SetYsortDepthPreset(float _fYsortDepthPreset) { m_fYsortDepthPreset = _fYsortDepthPreset; }
 
-    //호출 시점: cGameObject에서 finaltick() 순회 끝난 이후
+    //호출 시점: cGameObject에서 FinalTick() 순회 끝난 이후
     //갱신 여부를 전부 끔
     void ClearUpdateState();
 private:

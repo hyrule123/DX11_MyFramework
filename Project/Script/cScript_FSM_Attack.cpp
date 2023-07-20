@@ -25,7 +25,7 @@ cScript_FSM_Attack::~cScript_FSM_Attack()
 {
 }
 
-void cScript_FSM_Attack::init()
+void cScript_FSM_Attack::Init()
 {
 	//공격 준비 모션 애니메이션이 있는지 여부를 확인한다.
 	if (Animator2D()->FindAnim(SC::FSM::strKey_Anim::ATTACK_BEGIN_END))

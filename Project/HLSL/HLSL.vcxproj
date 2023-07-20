@@ -72,15 +72,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Bin\</OutDir>
+    <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Bin\</OutDir>
+    <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Bin\</OutDir>
+    <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)OutputFile\Bin_$(Configuration)\Content\Shader\Bin\</OutDir>
+    <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -96,7 +100,8 @@
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
-      <AdditionalIncludeDirectories>$(SolutionDir)Project\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,7 +122,8 @@
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
-      <AdditionalIncludeDirectories>$(SolutionDir)Project\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -134,8 +140,13 @@
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
-      <AdditionalIncludeDirectories>$(SolutionDir)Project\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>cd $(SolutionDir)
+"$(SolutionDir)Copy_HLSL_Header.bat" $(Configuration)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -155,10 +166,16 @@
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
-      <AdditionalIncludeDirectories>$(SolutionDir)Project\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>cd $(SolutionDir)
+"$(SolutionDir)Copy_HLSL_Header.bat" $(Configuration)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="S_H_ParticleRainDrop.hlsli" />
     <None Include="S_H_SCMapLoader.hlsli" />
     <None Include="S_H_SCUnitGround.hlsli" />
     <None Include="S_H_Tilemap_SC.hlsli" />
@@ -233,6 +250,14 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS_SCUnitGround</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </AdditionalIncludeDirectories>
     </FxCompile>
     <FxCompile Include="S_4_P_Tilemap_SC.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PS_Tilemap_SC</EntryPointName>

@@ -95,7 +95,7 @@ R"(#ifndef STRKEY
 		{
 			extern std::regex A;
 			extern std::wregex W;
-			void CreateVarForbiddendRegex();
+			void CreateVarForbiddenRegex();
 		}
 
 		PRESET(AllShader, R"(\w+\.hlsl$)");

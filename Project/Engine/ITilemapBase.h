@@ -39,10 +39,11 @@ public:
     CLONE_DISABLE(ITilemapBase);
 
 public:
-    virtual void init();
-    virtual void finaltick() = 0;
-    virtual bool render();
+    virtual void Init() override;
+    virtual void FinalTick() override;
+    virtual eRENDER_RESULT Render() override;
 
+    //타일맵 종류별로 타일맵 갯수를 받으면 추가적으로 해야할 작업이 있으므로 가상함수로 선언했음.
     virtual void SetTileCount(UINT _iXCount, UINT _iYCount) { m_uTileCountX = _iXCount; m_uTileCountY = _iYCount; }
 
     virtual bool SaveJson(Json::Value* _pJVal) override;

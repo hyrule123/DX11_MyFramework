@@ -7,7 +7,7 @@ class cScript_TestObj :
 {
     
 public:
-    cScript_TestObj(const string_view _strKey);
+    cScript_TestObj();
     virtual ~cScript_TestObj();
 
     CLONE(cScript_TestObj);
@@ -21,9 +21,7 @@ public:
     virtual void BeginCollision(ICollider* _pCol, const Vec3& _v3HitPoint) override;
 
 public:
-    virtual void init() override;
-    virtual void tick() override;
-
-
+    virtual void Init() override;
+    virtual void Tick() override;
 };
 

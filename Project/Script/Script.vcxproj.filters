@@ -119,15 +119,13 @@
     <ClInclude Include="strKey_Texture.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="cScript_TilemapSC.h">
-      <Filter>ScriptCode\SC\Tilemap</Filter>
-    </ClInclude>
     <ClInclude Include="strKey_Shader.h">
       <Filter>Generated</Filter>
     </ClInclude>
     <ClInclude Include="strKey_Component.h">
       <Filter>Generated</Filter>
     </ClInclude>
+    <ClInclude Include="cCom_Renderer_TilemapSC.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cScript_CameraMove.cpp">
@@ -193,9 +191,7 @@
     <ClCompile Include="UserClassInitializer_Script.cpp">
       <Filter>Generated</Filter>
     </ClCompile>
-    <ClCompile Include="cScript_TilemapSC.cpp">
-      <Filter>ScriptCode\SC\Tilemap</Filter>
-    </ClCompile>
+    <ClCompile Include="cCom_Renderer_TilemapSC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

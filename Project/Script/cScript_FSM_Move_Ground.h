@@ -14,7 +14,7 @@ public:
     CLONE(cScript_FSM_Move_Ground);
 
 public:
-    virtual void init() override;
+    virtual void Init() override;
 
     virtual void EnterState(const tFSM_Event& _tEvent) override;
     virtual void OnState() override;

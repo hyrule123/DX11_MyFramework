@@ -4,7 +4,7 @@
 #include <Engine/cKeyMgr.h>
 #include <Engine/cRenderMgr.h>
 #include <Engine/cCom_Camera.h>
-#include <Engine/cCom_Transform.h>
+#include <Engine/cTransform.h>
 #include <Engine/ICollider.h>
 
 #include <Engine/cGameObject.h>
@@ -16,9 +16,8 @@
 
 #include <Engine/S_H_Struct.hlsli>
 
-cScript_MouseCursor::cScript_MouseCursor(const string_view _strKey)
-	: IScript(_strKey)
-	, m_arrpFuncLBTNCallback{}
+cScript_MouseCursor::cScript_MouseCursor()
+	: m_arrpFuncLBTNCallback{}
 	, m_arrpFuncRBTNCallback{}
 	, m_pSelectedGameObject()
 	, m_pObj_ZCheck()
@@ -31,7 +30,7 @@ cScript_MouseCursor::~cScript_MouseCursor()
 
 
 
-void cScript_MouseCursor::tick()
+void cScript_MouseCursor::Tick()
 {
 	CalcPos();
 	

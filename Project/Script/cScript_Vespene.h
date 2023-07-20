@@ -13,6 +13,6 @@ public:
 
 
 public:
-    virtual void init() override;
+    virtual void Init() override;
 };
 

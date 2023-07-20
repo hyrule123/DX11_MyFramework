@@ -22,10 +22,6 @@ public:
     virtual bool Load(const std::filesystem::path& _fileName) override;
     virtual bool LoadJson(Json::Value* _pJson) override { return false; }
 
-private://별도의 BindData()를 사용해서 바인딩한다.
-    virtual void BindData() override {};
-
-
 private:
     ComPtr<ID3D11Texture2D>             m_Tex2D;    
 

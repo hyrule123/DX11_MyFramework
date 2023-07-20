@@ -23,8 +23,8 @@ public:
 
 
 public:
-    void init();
-    void tick();
+    void Init();
+    void Tick();
 
 };
 

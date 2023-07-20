@@ -104,7 +104,7 @@ void cCollisionMgr::Create2DGrid(Vec2 _vWorldLB, Vec2 _vWorldSize, UINT _uiGridN
 	m_vec2DGrid.resize(m_iNum2DGridTotalIndex);
 }
 
-void cCollisionMgr::tick()
+void cCollisionMgr::Tick()
 {
 	//2D 충돌 검사
 	for (int i = 0; i < m_iNum2DGridTotalIndex; ++i)

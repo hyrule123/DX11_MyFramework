@@ -128,6 +128,13 @@ enum class eFSM_RESULT
 	RESERVE
 };
 
+enum class eRENDER_RESULT
+{
+	FAIL,				//실패
+	RENDERED,			//드로우콜 발생해서 그려냈을 경우
+	NEED_INSTANCING		//인스턴싱이 필요할 경우
+};
+
 
 //// update
 //COLLIDER2D,		// 2차원 충돌

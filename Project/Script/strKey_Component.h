@@ -30,7 +30,7 @@ namespace strKey_Com
 	STRKEY cScript_SCEntity = "cScript_SCEntity";
 	STRKEY cScript_SCUnitVital = "cScript_SCUnitVital";
 	STRKEY cScript_TestObj = "cScript_TestObj";
-	STRKEY cScript_TilemapSC = "cScript_TilemapSC";
+	STRKEY cCom_Renderer_TilemapSC = "cCom_Renderer_TilemapSC";
 	STRKEY cScript_Vespene = "cScript_Vespene";
 	STRKEY cScript_VespeneSmoke = "cScript_VespeneSmoke";
 }

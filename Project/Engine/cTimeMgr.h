@@ -8,9 +8,9 @@ class cTimeMgr
 	SINGLETON(cTimeMgr);
 
 public:
-	void init();
-	void tick();
-	void render();
+	void Init();
+	void Tick();
+	void Render();
 
 private:
 	LARGE_INTEGER	m_llPrevCount;

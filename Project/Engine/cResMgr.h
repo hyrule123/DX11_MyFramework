@@ -30,7 +30,7 @@ class cResMgr
     SINGLETON(cResMgr);
 
 public:
-    void init();
+    void Init();
     void cleartick() { m_bResUpdated = false; }
     
 private:

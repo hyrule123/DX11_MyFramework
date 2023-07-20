@@ -14,8 +14,8 @@ public:
     CLONE(cScript_MainCamSC_InGame);
 
 public:
-    void init() override;
-    void tick() override;
+    void Init() override;
+    void Tick() override;
 
 private:
     void CameraMove();

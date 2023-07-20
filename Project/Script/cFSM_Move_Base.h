@@ -16,7 +16,7 @@ public:
     CLONE_DISABLE(cFSM_Move_Base);
 
 public:
-    virtual void init() override;
+    virtual void Init() override;
 
 
 private:

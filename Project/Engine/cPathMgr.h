@@ -19,7 +19,7 @@ private:
 	
 
 public:
-	void init();
+	void Init();
 	
 public:
 	const std::filesystem::path& GetPathAbs_Content() const { return m_PathAbsolute_Content; }

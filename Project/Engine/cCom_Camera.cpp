@@ -43,7 +43,7 @@ cCom_Camera::cCom_Camera(const cCom_Camera& _other)
 	: IComponent(_other)
 	, m_AspectRatio(_other.m_AspectRatio)
 	, m_eProjectionType(_other.m_eProjectionType)
-	, m_matView()	// finaltick()에서 매 tick마다 계산 됨
+	, m_matView()	// FinalTick()에서 매 tick마다 계산 됨
 	, m_matProj(_other.m_matProj)
 	, m_iCamIdx(-1)
 	, m_LayerFlag(_other.m_LayerFlag)
@@ -104,13 +104,13 @@ void cCom_Camera::Zoom2D(float _fScale)
 }
 
 
-void cCom_Camera::init()
+void cCom_Camera::Init()
 {
 	//기본 설정으로 투영행렬을 생성
 	SetProjType(m_eProjectionType);
 }
 
-void cCom_Camera::finaltick()
+void cCom_Camera::FinalTick()
 {
 	//트랜스폼이 업데이트 되지 않았을 경우 자신도 업데이트 할 필요 없음
 	if (false == GetOwner()->Transform().IsUpdated())
@@ -166,7 +166,7 @@ void cCom_Camera::finaltick()
 
 
 	////===========
-	////투영 -> 사실 이건 한번만 구해줘도 됨 -> init()으로 이동함
+	////투영 -> 사실 이건 한번만 구해줘도 됨 -> Init()으로 이동함
 	////===========
 	//
 	////1. 투영 행렬 생성
@@ -186,7 +186,7 @@ void cCom_Camera::finaltick()
 	g_matCam[m_iCamIdx].matVP = m_matView * m_matProj;
 }
 
-void cCom_Camera::cleanup()
+void cCom_Camera::CleanUp()
 {
 	cRenderMgr::GetInst()->RemoveCamera(this);
 }

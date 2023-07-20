@@ -158,7 +158,7 @@ bool cCom_Animator2D::LoadJson(Json::Value* _pJVal)
 }
 
 
-void cCom_Animator2D::finaltick()
+void cCom_Animator2D::FinalTick()
 {
     //재생할 애니메이션이 있을 경우 프레임 처리
     if (nullptr != m_pCurAnim)
@@ -277,7 +277,7 @@ void cCom_Animator2D::finaltick()
     UpdateData();
 }
 
-void cCom_Animator2D::cleanup()
+void cCom_Animator2D::CleanUp()
 {
     Stop();
 }

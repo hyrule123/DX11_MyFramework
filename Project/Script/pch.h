@@ -11,7 +11,6 @@
 #include "framework.h"
 
 #include <Engine/global.h>
-#include <Engine/CScriptHolder.h>
 #include <Engine/IScript.h>
 
 

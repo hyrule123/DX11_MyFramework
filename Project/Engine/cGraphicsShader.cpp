@@ -401,13 +401,14 @@ void cGraphicsShader::BindData()
 	pContext->GSSetShader(m_GS.Get(), nullptr, 0);
 	pContext->PSSetShader(m_PS.Get(), nullptr, 0);
 
-
+	cDevice* pDevice = cDevice::GetInst();
 	//Set Rasterizer
-	pContext->RSSetState(cDevice::GetInst()->GetRSState(m_eRSType));
+	pContext->RSSetState(pDevice->GetRSState(m_eRSType));
 
 	//Set Output Merger(Depth Stencil, Blend)
-	pContext->OMSetDepthStencilState(cDevice::GetInst()->GetDSState(m_eDSType), 0);
-	pContext->OMSetBlendState(cDevice::GetInst()->GetBSState(m_eBSType), Vec4(0.f, 0.f, 0.f, 0.f), UINT_MAX);
+	pContext->OMSetDepthStencilState(pDevice->GetDSState(m_eDSType), 0);
+	pContext->OMSetBlendState(pDevice->GetBSState(m_eBSType), Vec4(0.f, 0.f, 0.f, 0.f), UINT_MAX);
+
 }
 
 

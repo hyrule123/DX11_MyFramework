@@ -1,6 +1,8 @@
 #ifndef S_0_H_TILEMAP_SC
 #define S_0_H_TILEMAP_SC
 
+
+
 #include "S_H_SCMapLoader.hlsli"
 
 #ifdef __cplusplus

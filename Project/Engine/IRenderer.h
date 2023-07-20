@@ -30,13 +30,11 @@ public:
     virtual bool SaveJson(Json::Value* _pJVal) override;
     virtual bool LoadJson(Json::Value* _pJVal) override;
 
-
-
 public:
     //이 클래스를 상속받는 하위 컴포넌트들은 인스턴싱을 하는지 아닌지 여부에 따라서 각자 설정해줘야함.
     //인자 : 현재 render를 호출한 카메라의 번호
     //반환값 : 인스턴싱 여부(드로우콜이 일어날 경우 true 반환, 인스턴싱을 위한 데이터 전달만 했을 경우 false 반환.)
-    virtual bool render() = 0;
+    virtual eRENDER_RESULT Render();
 
 protected:
     //상수버퍼에 재질 데이터를 업로드 및 바인딩

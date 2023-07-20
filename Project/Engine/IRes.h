@@ -46,9 +46,6 @@ private:
     void AddRef() { ++m_iRefCount; }
     void Release() { if (0 == --m_iRefCount) delete this; };
 
-    // 리소스 바인딩
-    virtual void BindData() = 0;
-
 public:
 
     // 파일로부터 로딩

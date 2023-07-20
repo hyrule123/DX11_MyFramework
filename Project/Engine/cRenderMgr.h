@@ -32,9 +32,9 @@ class cRenderMgr
 	SINGLETON(cRenderMgr);
 
 public:
-	void init();
-	void tick();
-	void render();
+	void Init();
+	void Tick();
+	void Render();
 
 private:
 	cCom_Camera* m_arrCam[(UINT)eCAMERA_INDEX::END];

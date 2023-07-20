@@ -16,7 +16,7 @@ public:
     virtual bool SaveJson(Json::Value* _pJson) override;
     virtual bool LoadJson(Json::Value* _pJson) override;
 
-    virtual void init() override;
+    virtual void Init() override;
     virtual void EnterState(const tFSM_Event& _tEvent) override;
     virtual void OnState() override;
     virtual void EndState() override;

@@ -8,9 +8,10 @@ class cScript_CameraMove :
     public IScript
 {
 public:
-    cScript_CameraMove(const string_view _strKey);
+    cScript_CameraMove();
     virtual ~cScript_CameraMove();
 
+    cScript_CameraMove(const cScript_CameraMove& _other) = default;
     CLONE(cScript_CameraMove);
 
 private:
@@ -22,7 +23,7 @@ protected:
     void Camera3DMove();
 
 public:
-    virtual void tick() override;
+    virtual void Tick() override;
 
 
 };

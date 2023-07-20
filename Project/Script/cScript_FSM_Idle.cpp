@@ -66,7 +66,7 @@ bool cScript_FSM_Idle::LoadJson(Json::Value* _pJson)
 
 }
 
-void cScript_FSM_Idle::init()
+void cScript_FSM_Idle::Init()
 {
 }
 

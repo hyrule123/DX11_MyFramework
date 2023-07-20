@@ -13,8 +13,8 @@ public:
     CLONE(cLayer);
 
 public:
-    void tick();
-    void finaltick();
+    void Tick();
+    void FinalTick();
     
 private:
     vector<cGameObject*>    m_vecObject;

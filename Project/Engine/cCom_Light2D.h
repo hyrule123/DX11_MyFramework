@@ -25,8 +25,8 @@ public:
 
 public:
     //위치 업데이트가 필요함.
-    void finaltick() override;
-    void cleanup() override {};
+    void FinalTick() override;
+    void CleanUp() override {};
 
 };
 

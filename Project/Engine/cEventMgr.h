@@ -11,7 +11,7 @@ class cEventMgr
     SINGLETON(cEventMgr);
 
 public:
-    void tick();
+    void Tick();
     void cleartick() { m_bLevelModified = false; }
 
 private:

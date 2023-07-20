@@ -25,14 +25,14 @@ public:
     virtual bool LoadJson(Json::Value* _pJVal) override;
 
 public:
-    virtual void finaltick() final;
+    virtual void FinalTick() final;
     virtual void UpdateCollider() override;
 
     //기본 설정으로 transform에서 받아온 변의 길이로 간이 충돌체를 계산함.
     //더 간단한 충돌체는 이걸 재정의
     virtual void UpdateSimplecCollider(Vec4& _vSimpleCollLBRTPos) = 0;
     virtual void DebugRender() {};
-    virtual void cleanup() override {};
+    virtual void CleanUp() override {};
 
 
 

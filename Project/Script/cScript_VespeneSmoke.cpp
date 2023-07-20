@@ -4,7 +4,7 @@
 #include "define_SC.h"
 #include <Engine/cCom_Animator2D.h>
 
-#include <Engine/cCom_Transform.h>
+#include <Engine/cTransform.h>
 
 //랜덤 딜레이
 #include <Engine/RandGen.h>
@@ -23,16 +23,16 @@ cScript_VespeneSmoke::~cScript_VespeneSmoke()
 {
 }
 
-void cScript_VespeneSmoke::init()
+void cScript_VespeneSmoke::Init()
 {
-	cScript_SCEntity::init();
+	cScript_SCEntity::Init();
 
 	Animator2D()->PreparePlay(SC::strKey_Anim::Neutral::VESPENE_SMOKE_1, eANIM_PLAYMODE::DISABLE_AFTER_PLAY, false);
 
 	m_fRandVal = RandGen::GetInst()->GetRand<float>(SMOKE_DELAY_MIN, SMOKE_DELAY_MAX);
 }	
 
-void cScript_VespeneSmoke::tick()
+void cScript_VespeneSmoke::Tick()
 {
 	//애니메이션이 종료되었을 경우 랜덤한 값으로 딜레이를 준다. 
 	if (Animator2D()->IsFinished())

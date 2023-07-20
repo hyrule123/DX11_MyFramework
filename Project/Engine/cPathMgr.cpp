@@ -13,7 +13,7 @@ cPathMgr::~cPathMgr()
 }
 
 
-void cPathMgr::init()
+void cPathMgr::Init()
 {
 	m_PathAbsolute_Content = std::filesystem::current_path();
 

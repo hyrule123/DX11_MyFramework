@@ -1,13 +1,14 @@
 #pragma once
 
-//CCS_SCMapLoader과 cScript_TilemapSC 쉐이더에서 공유하는 구조체들을 모아놓은 헤더
+//CCS_SCMapLoader과 cCom_Renderer_TilemapSC 쉐이더에서 공유하는 구조체들을 모아놓은 헤더
 
 #include <Engine/Ptr.h>
 #include "S_H_Struct.hlsli"
-#include "S_H_SCMapLoader.hlsli"
 
-#include <Engine/CStructBuffer.h>
-#include <Engine/CTexture.h>
+#include <HLSL/S_H_SCMapLoader.hlsli>
+
+#include <Engine/cStructBuffer.h>
+#include <Engine/cTexture.h>
 
 namespace SC_Map
 {
@@ -83,7 +84,7 @@ namespace SC_Map
 
 
 
-    class ::CTexture;
+    class ::cTexture;
     struct tMapData
     {
         UINT32 uNumMegatileX;
@@ -92,7 +93,7 @@ namespace SC_Map
 
         bool bMapLoaded;
         string strMapName;
-        Ptr<CTexture> pMapTex;
+        Ptr<cTexture> pMapTex;
 
         vector<tMegaTile> vecMegaTile;
         vector<tMiniTile> vecMiniTile;
@@ -100,9 +101,9 @@ namespace SC_Map
 
         //MXTM 관련
         //Map의 SC_Map::tMapDataChunk 파일 아래의 지형정보
-        CStructBuffer* pSBuffer_MXTM;
-        CStructBuffer* pSBufferRW_Megatile;
-        CStructBuffer* pSBufferRW_Minitile;
+        cStructBuffer* pSBuffer_MXTM;
+        cStructBuffer* pSBufferRW_Megatile;
+        cStructBuffer* pSBufferRW_Minitile;
 
         tMapData() 
             : uNumMegatileX()
@@ -148,10 +149,10 @@ namespace SC_Map
     };
 
 
-    class ::CStructBuffer;
+    class ::cStructBuffer;
     struct tpSBufferTileSet
     {
-        CStructBuffer* arrTileSetMember;
+        cStructBuffer* arrTileSetMember;
     };
 
 

@@ -12,8 +12,9 @@ public:
     CLONE(cCom_Renderer_TilemapComplete);
 
 public:
-    //virtual void init() override;
-    virtual void finaltick() override {};
-    virtual void cleanup() override {}
+    //virtual void Init() override;
+    //virtual void FinalTick() override;
+    //virtual eRENDER_RESULT Render() override;
+    virtual void CleanUp() override {}
 };
 

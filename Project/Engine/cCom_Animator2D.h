@@ -34,8 +34,8 @@ public:
 public:
     
 
-    virtual void finaltick() override;
-    virtual void cleanup() override;
+    virtual void FinalTick() override;
+    virtual void CleanUp() override;
 
     void UpdateData();
     

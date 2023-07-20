@@ -18,8 +18,8 @@ public:
 	void cleartick();
 
 private:
-	void tick();
-	void render();
+	void Tick();
+	void Render();
 
 private:
 	HWND	m_hWnd;

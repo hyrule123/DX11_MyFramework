@@ -50,9 +50,9 @@ public:
     void Zoom2D(float _fScale);
 
 public:
-    virtual void init() override;
-    virtual void finaltick() override;
-    virtual void cleanup() override;
+    virtual void Init() override;
+    virtual void FinalTick() override;
+    virtual void CleanUp() override;
 
     //자신 기준으로 찍어야 할 오브젝트들을 분류한다.
     void SortObject();

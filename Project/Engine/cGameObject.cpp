@@ -187,33 +187,33 @@ void cGameObject::SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* 
 }
 
 
-void cGameObject::init()
+void cGameObject::Init()
 {
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_vecCom[i])
-			m_vecCom[i]->init();
+			m_vecCom[i]->Init();
 	}
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->init();
+		m_vecChild[i]->Init();
 	}
 }
 
-void cGameObject::start()
+void cGameObject::Start()
 {
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_vecCom[i])
-			m_vecCom[i]->start();
+			m_vecCom[i]->Start();
 	}
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->start();
+		m_vecChild[i]->Start();
 	}
 }
 
@@ -221,7 +221,7 @@ void cGameObject::OnEnable()
 {
 }
 
-void cGameObject::tick()
+void cGameObject::Tick()
 {
 	//자신이 파괴 대기 상태일 경우 자신과 모든 자식들에 대해 tick을 처리하지 않음
 	if (m_bDestroy || m_bDisable)
@@ -229,29 +229,29 @@ void cGameObject::tick()
 	else if (false == m_bStart)
 	{
 		m_bStart = true;
-		start();
+		Start();
 	}
 
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_vecCom[i] && false == m_vecCom[i]->isDisabled())
-			m_vecCom[i]->tick();
+			m_vecCom[i]->Tick();
 	}
 
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->tick();
+		m_vecChild[i]->Tick();
 	}
 }
 
-void cGameObject::finaltick()
+void cGameObject::FinalTick()
 {
 	//자신이 파괴 대기 상태일 경우 자신과 모든 자식들에 대해 tick을 처리하지 않음
 	if (true == m_bDestroy)
 	{
-		//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
-		cleanup();
+		//스크립트를 제외한 컴포넌트들에 대해 FinalTick()을 호출한다.
+		CleanUp();
 		return;
 	}
 	else if (m_bDisable)
@@ -267,16 +267,16 @@ void cGameObject::finaltick()
 	}
 		
 
-	//스크립트를 제외한 컴포넌트들에 대해 finaltick()을 호출한다.
+	//스크립트를 제외한 컴포넌트들에 대해 FinalTick()을 호출한다.
 	for (UINT i = 0; i < m_vecCom.size(); ++i)
 	{
 		if (nullptr != m_vecCom[i] && false == m_vecCom[i]->isDisabled())
-			m_vecCom[i]->finaltick();
+			m_vecCom[i]->FinalTick();
 	}
 
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
-		m_vecChild[i]->finaltick();
+		m_vecChild[i]->FinalTick();
 	}
 
 
@@ -284,31 +284,29 @@ void cGameObject::finaltick()
 	Transform().ClearUpdateState();
 }
 
-bool cGameObject::render()
+eRENDER_RESULT cGameObject::Render()
 {
 	//삭제 대기 상태일 경우 렌더링을 하지 않음.
 	if (nullptr == Renderer() || true == m_bDestroy)
-		return true;
+		return eRENDER_RESULT::FAIL;
 
-	bool rendered = Renderer()->render();
-
-	return rendered;
+	return Renderer()->Render();
 }
 
-void cGameObject::cleanup()
+void cGameObject::CleanUp()
 {
 	//본인의 컴포넌트 정리
 	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_vecCom[i])
-			m_vecCom[i]->cleanup();
+			m_vecCom[i]->CleanUp();
 	}
 
 	//자식 컴포넌트들도 모두 cleanup
 	size_t size = m_vecChild.size();
 	for (size_t i = 0; i < size; ++i)
 	{
-		m_vecChild[i]->cleanup();
+		m_vecChild[i]->CleanUp();
 	}
 	
 	//만약 자신의 부모 오브젝트가 존재하고, 해당 오브젝트는 삭제 대기 상태가 아닐 경우

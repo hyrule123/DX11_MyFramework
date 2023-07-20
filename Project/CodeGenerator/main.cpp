@@ -13,7 +13,7 @@
 int main(int argc, char* argv[])
 {
     //Create variable name restraints regex
-    define_Preset::Regex::g_VarForbiddenChars::CreateVarForbiddendRegex();
+    define_Preset::Regex::g_VarForbiddenChars::CreateVarForbiddenRegex();
 
 
     //Generate Texture Key

@@ -2,10 +2,11 @@
 
 #include <Engine/cShaderDataModule.h>
 
-#include "S_H_SCMapLoader.hlsli"
+#include <HLSL/S_H_SCMapLoader.hlsli>
+
 #include "define_SCMap.h"
 
-class CStructBuffer;
+class cStructBuffer;
 class CCS_SCMapLoader :
     public cShaderDataModule
 {
@@ -14,8 +15,8 @@ public:
     virtual ~CCS_SCMapLoader();
 
 public:
-    virtual bool BindDataCS() override;
-    virtual void UnBindCS() override;
+    virtual tNumDataCS BindDataCS() override;
+    virtual void UnBind() override;
     
 private:
     SC_Map::tpSBufferTileSet m_arrpSBufferTileSet[(int)SC_Map::eTILESET_INFO::END];

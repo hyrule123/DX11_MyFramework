@@ -205,7 +205,7 @@ void ICollider::EndCollision(ICollider* _other)
 	//	pSH->EndCollision(this);
 }
 
-void ICollider::finaltick()
+void ICollider::FinalTick()
 {
 	m_bCollPosUpdated >>= 1;
 	m_bCollSizeUpdated >>= 1;

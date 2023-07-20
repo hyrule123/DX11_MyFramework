@@ -13,8 +13,8 @@ public:
     virtual ~cScript_VespeneSmoke();
 
 public:
-    virtual void init() override;
-    virtual void tick() override;
+    virtual void Init() override;
+    virtual void Tick() override;
 
 private:
     float m_fRandVal;

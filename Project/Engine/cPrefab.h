@@ -33,7 +33,5 @@ public:
     virtual bool SaveJson(Json::Value* _pJVal) override;
     virtual bool LoadJson(Json::Value* _pJVal) override;
 
-private:
-    virtual void BindData() override {};
 };
 

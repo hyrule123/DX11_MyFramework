@@ -36,7 +36,7 @@ public:
     virtual bool LoadJson(Json::Value* _pJson) override;
 
 public:
-    virtual void BindData() override;
+    bool BindData();
 
 private:
     Ptr<cGraphicsShader>    m_pShader;

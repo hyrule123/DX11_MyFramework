@@ -24,22 +24,22 @@ public:
 
 public:
     //게임오브젝트 최초 생성 시 호출
-    void init();
+    void Init();
 
     //첫 tick 직전에 한 번 호출
-    void start();
+    void Start();
 
     //disable 되었다가 enable되었을 떄 호출
     void OnEnable();
 
 
-    void tick();
-    virtual void finaltick();
-    bool render();
+    void Tick();
+    virtual void FinalTick();
+    eRENDER_RESULT Render();
 
     //제거되기 전 기존 오브젝트들과의 관계를 제거
-    //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 cleanup() 함수만 호출한다.
-    void cleanup();
+    //bDestroy가 true일 경우 위의 로직은 진행하지 않고 오직 CleanUp() 함수만 호출한다.
+    void CleanUp();
 
 public:
     virtual bool SaveJson(Json::Value* _pJson) override;
@@ -72,7 +72,7 @@ public:
     void                SetParent(cGameObject* _pObj) { m_Parent = _pObj; }
     cGameObject*        GetParent() const { return m_Parent; }
 
-    //Master cGameObject만 cLevelMgr에서 tick()를 호출한다.
+    //Master cGameObject만 cLevelMgr에서 Tick()를 호출한다.
     bool                IsMaster()  const { return (nullptr == m_Parent); }
 
     void                AddChildGameObj(cGameObject* _Object);
@@ -372,7 +372,6 @@ inline T* cGameObject::AddComponent()
         return nullptr;
 
     m_vecCom[(int)ComType] = new T;
-    
     m_vecCom[(int)ComType]->SetKey(cComMgr::GetInst()->GetComName(std::type_index(typeid(T))));
 
     return static_cast<T*>(m_vecCom[(int)ComType]);

@@ -22,10 +22,10 @@ public:
     CLONE(cCom_Renderer_ParticleBasic)
 
 public:
-    virtual void init() override;
-    virtual void finaltick() override;
-    virtual bool render() override;
-    virtual void cleanup() override {};
+    virtual void Init() override;
+    virtual void FinalTick() override;
+    virtual eRENDER_RESULT Render() override;
+    virtual void CleanUp() override {};
 
 private:
     //파티클 데이터를 처리해줄 컴퓨트쉐이더 주소

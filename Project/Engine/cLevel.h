@@ -19,8 +19,8 @@ public:
     virtual ~cLevel();
 
 public:
-    void tick();
-    void finaltick();
+    void Tick();
+    void FinalTick();
 
 private:
     cLayer     m_arrLayer[MAX_LAYER];

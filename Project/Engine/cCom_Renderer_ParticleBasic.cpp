@@ -54,11 +54,11 @@ cCom_Renderer_ParticleBasic::cCom_Renderer_ParticleBasic(cCom_Renderer_ParticleB
 }
 
 
-void cCom_Renderer_ParticleBasic::init()
+void cCom_Renderer_ParticleBasic::Init()
 {
 }
 
-void cCom_Renderer_ParticleBasic::finaltick()
+void cCom_Renderer_ParticleBasic::FinalTick()
 {
 	if (m_bCreated)
 		return;
@@ -88,11 +88,11 @@ void cCom_Renderer_ParticleBasic::finaltick()
 	m_BasicData.vOwnerCurWorldPos = GetOwner()->Transform().GetWorldPos();
 }
 
-bool cCom_Renderer_ParticleBasic::render()
+eRENDER_RESULT cCom_Renderer_ParticleBasic::Render()
 {
 	//true 반환해서 인스턴싱 필요없다고 전달
 	if (nullptr == m_CS)
-		return true;
+		return eRENDER_RESULT::FAIL;
 
 	cMaterial* pMtrl = GetCurMaterial().Get();
 	pMtrl->BindData();
@@ -104,7 +104,7 @@ bool cCom_Renderer_ParticleBasic::render()
 	GetMesh()->renderInstanced(m_BasicData.iMaxParticleCount);
 
 	//드로우콜이 발생했으므로 -> 인스턴싱 필요 없다고 반환
-	return true;
+	return eRENDER_RESULT::NEED_INSTANCING;
 }
 
 

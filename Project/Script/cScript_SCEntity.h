@@ -8,7 +8,7 @@ class cScript_SCEntity :
     public IScript
 {
 public:
-    cScript_SCEntity(const string_view _strKey);
+    cScript_SCEntity();
 
     cScript_SCEntity(const cScript_SCEntity& _other) = default;
     CLONE(cScript_SCEntity);
@@ -20,7 +20,7 @@ public:
     virtual bool LoadJson(Json::Value* _pJVal) override;
 
 public:
-    virtual void init() override;
+    virtual void Init() override;
     virtual void start() override;
 
     virtual void OnCollision(ICollider* _pCol, const Vec3& _v3HitPoint) override;

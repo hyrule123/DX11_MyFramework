@@ -32,17 +32,17 @@ cLayer::~cLayer()
 	}
 }
 
-void cLayer::tick()
+void cLayer::Tick()
 {
 	size_t size = m_vecObject.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		if (true == m_vecObject[i]->IsMaster())
-			m_vecObject[i]->tick();
+			m_vecObject[i]->Tick();
 	}
 }
 
-void cLayer::finaltick()
+void cLayer::FinalTick()
 {
 	size_t size = m_vecObject.size();
 	for (size_t i = 0; i < size; ++i)
@@ -50,7 +50,7 @@ void cLayer::finaltick()
 		m_vecObject[i]->Transform();
 
 		if (true == m_vecObject[i]->IsMaster())
-			m_vecObject[i]->finaltick();
+			m_vecObject[i]->FinalTick();
 	}
 }
 

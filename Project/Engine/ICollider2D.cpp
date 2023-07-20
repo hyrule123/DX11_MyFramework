@@ -64,9 +64,9 @@ bool ICollider2D::LoadJson(Json::Value* _pJVal)
 	return false;
 }
 
-void ICollider2D::finaltick()
+void ICollider2D::FinalTick()
 {
-	ICollider::finaltick();
+	ICollider::FinalTick();
 
 	//계산된 위치 정보를 공간분할 그리드에 추가한다.
 	cCollisionMgr::GetInst()->AddcCollider2D(this, m_vecGridIdxInfo);

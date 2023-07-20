@@ -7,7 +7,7 @@ class cScript_MouseCursor :
     public IScript
 {
 public:
-    cScript_MouseCursor(const string_view _strKey);
+    cScript_MouseCursor();
     virtual ~cScript_MouseCursor();
 
     CLONE(cScript_MouseCursor);
@@ -31,7 +31,7 @@ public:
     GETTER(cGameObject*, m_pSelectedGameObject, SelectedObject);
 
 public:
-    virtual void tick() override;
+    virtual void Tick() override;
     virtual void OnCollision(ICollider* _Collider, const Vec3& _v3HitPoint) override;
 
 

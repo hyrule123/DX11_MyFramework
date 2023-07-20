@@ -93,7 +93,7 @@ public:
     
 
 public:
-    virtual void BindData() override;
+    void BindData();
 };
 
 inline HRESULT cGraphicsShader::CreateShader(const tShaderCode& _tShaderCode, define_Shader::eGS_TYPE _eShaderType)

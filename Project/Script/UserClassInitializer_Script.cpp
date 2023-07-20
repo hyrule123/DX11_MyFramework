@@ -18,12 +18,11 @@
 
 #include "strKey_Script.h"
 
-#include <Engine/UserClassMgr.h>
-#include <Engine/CScript.h>
-#define CONSTRUCTOR_T(_Type) UserClassMgr::AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>)
+#include <Engine/cComMgr.h>
+#include <Engine/IScript.h>
+#define CONSTRUCTOR_T(_Type) cComMgr::AddBaseScript(strKey_Script::_Type, Constructor_Script_T<_Type>)
 
-//Script Classes
-
-void UserClassInitializer::InitScript()
-{
-}
+////Script Classes
+//void UserClassInitializer::InitScript()
+//{
+//}

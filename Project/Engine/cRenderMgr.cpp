@@ -63,7 +63,7 @@ void cRenderMgr::UpdateDebugShapeRender(vector<tDebugShapeInfo>& _vecDebugRef)
 
 
 
-void cRenderMgr::init()
+void cRenderMgr::Init()
 {
     
     {
@@ -93,7 +93,7 @@ void cRenderMgr::init()
     }
 }
 
-void cRenderMgr::tick()
+void cRenderMgr::Tick()
 {
     if (KEY_PRESSED(eKEY::LCTRL) && KEY_DOWN(eKEY::E))
     {
@@ -102,7 +102,7 @@ void cRenderMgr::tick()
 }
 
 
-void cRenderMgr::render()
+void cRenderMgr::Render()
 {
     UpdateBuffer();
 
@@ -182,8 +182,15 @@ void cRenderMgr::renderAll()
             //카메라 인덱스를 설정해준다.
             RenderInfo.pRenderCom->SetCamIdx(RenderInfo.pCam->GetCamIndex());
 
+            eRENDER_RESULT result = RenderInfo.pRenderCom->Render();
+            
+            if (eRENDER_RESULT::FAIL == result)
+            {
+                continue;
+            }
+
             //만약 render 메소드를 호출했는데 false가 반환되었을 경우(드로우콜 미발생 == 인스턴싱이 필요하다)
-            if (false == RenderInfo.pRenderCom->render())
+            if (eRENDER_RESULT::NEED_INSTANCING == result)
             {
                 //인스턴싱 대기열 map에 추가
                 tInstancingKey Key = {};

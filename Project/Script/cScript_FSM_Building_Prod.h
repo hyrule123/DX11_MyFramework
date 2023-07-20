@@ -12,7 +12,7 @@ public:
     cScript_FSM_Building_Prod(const cScript_FSM_Building_Prod& _other) = default;
     CLONE(cScript_FSM_Building_Prod);
 
-    virtual void tick() override;
+    virtual void Tick() override;
 
 private:
     //유닛 생산중인지 여부 저장

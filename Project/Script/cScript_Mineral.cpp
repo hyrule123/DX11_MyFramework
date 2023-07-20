@@ -1,6 +1,7 @@
 
 #include "pch.h"
 
+#include <Engine/cGameObject.h>
 #include <Engine/EventDispatcher.h>
 
 #include "cScript_Mineral.h"
@@ -9,9 +10,8 @@ constexpr int MINERAL_WEAR_LEVEL_3 = 250;
 constexpr int MINERAL_WEAR_LEVEL_2 = 500;
 constexpr int MINERAL_WEAR_LEVEL_1 = 750;
 
-cScript_Mineral::cScript_Mineral(const string_view _strKey)
-	: cScript_SCEntity(_strKey)
-	, m_eMineralAtlasType()
+cScript_Mineral::cScript_Mineral()
+	: m_eMineralAtlasType()
 	, m_iMineralLeft(1500)
 {
 }
@@ -20,13 +20,13 @@ cScript_Mineral::~cScript_Mineral()
 {
 }
 
-void cScript_Mineral::init()
+void cScript_Mineral::Init()
 {
-	cScript_SCEntity::init();
+	cScript_SCEntity::Init();
 	GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &m_eMineralAtlasType);
 }
 
-void cScript_Mineral::tick()
+void cScript_Mineral::Tick()
 {
 	int iWearLevel = 0;
 

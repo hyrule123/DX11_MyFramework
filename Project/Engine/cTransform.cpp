@@ -43,9 +43,9 @@ cTransform::~cTransform()
 
 
 
-void cTransform::finaltick()
+void cTransform::FinalTick()
 {
-	//bool 값들은 tick()에서 false로 초기화 된다.
+	//bool 값들은 Tick()에서 false로 초기화 된다.
 	//여기선 고유 크기(Size)를 반영하지 않은 월드행렬을 만든다.
 	//게임오브젝트 상속 관계에서 고유 크기까지 상속을 받게 되면 기하급수적으로 크기가 커짐 
 	if (true == m_bNeedMyUpdate)

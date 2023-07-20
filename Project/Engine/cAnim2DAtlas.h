@@ -110,9 +110,6 @@ public:
     virtual bool SaveJson(Json::Value* _jVal) override;
     virtual bool LoadJson(Json::Value* _jVal) override;
 
-    virtual void BindData() override {};
-    
-
 private:
     //애니메이션의 대상이 되는 텍스처
     Ptr<cTexture>       m_AtlasTex; 

@@ -81,8 +81,8 @@ private:
 	Vec2				m_vMouseDir;
 
 public:
-	void init();
-	void tick();
+	void Init();
+	void Tick();
 
 
 public:

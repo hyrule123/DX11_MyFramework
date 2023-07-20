@@ -20,7 +20,7 @@ public:
     //호출 시점: Transition()에서 true가 반환될 경우(상태 진입)
     virtual void EnterState(const tFSM_Event& _tEvent) override;
 
-    //호출 시점: 자신이 현재 State일 경우, 스크립트의 tick() 순회 후 호출(상태 진행)
+    //호출 시점: 자신이 현재 State일 경우, 스크립트의 Tick() 순회 후 호출(상태 진행)
     virtual void OnState() override;
 
     //호출 시점: Transition()에서 true가 반환될 경우(상태 종료)

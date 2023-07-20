@@ -33,21 +33,27 @@ cComputeShader::~cComputeShader()
 
 
 
-void cComputeShader::BindData()
+bool cComputeShader::BindData()
 {
 	//처리해줄 데이터가 없을 경우에는 바인딩 거는 의미가 없으므로 return
-	if (nullptr == m_pShaderDataModule)
-		return;
+	if (false == IsDataModuleReady())
+		return false;
 
 	//Bind를 걸면 계산해야 할 데이터가 반환됨.
-	//이 데이터를 통해서 쉐이더 그룹 수를 계산한다.
-	CalcGroupNumber(m_pShaderDataModule->BindDataCS());
-	
+	//이 데이터를 통해서 쉐이더 그룹 수를 계산한.
+	m_ComputeShaderInfo.NumData = m_pShaderDataModule->BindDataCS();
+
+	if (false == IsDataReady())
+		return false;
+
+	CalcGroupNumber(m_ComputeShaderInfo.NumData);
 
 	//컴퓨트쉐이더 관련 공유 데이터를 상수버퍼를 통해서 전달
 	static cConstBuffer* pCBuffer = cDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_COMPUTE_SHADER_INFO);
 	pCBuffer->UploadData(&m_ComputeShaderInfo, sizeof(tComputeShaderInfo));
 	pCBuffer->BindBuffer();
+
+	return true;
 }
 
 bool cComputeShader::SaveJson(Json::Value* _jsonVal)
@@ -153,7 +159,7 @@ HRESULT cComputeShader::CreateShader(const std::filesystem::path& _FileName, con
 		D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 			, string(_strFuncName).c_str(), SHADER_NAME_VERSION::CS, 0, 0, m_pShaderData.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
-	// 3. VertexShader Compile
+	
 	if (FAILED(result))
 	{
 		assert(SUCCEEDED(result));
@@ -192,7 +198,8 @@ bool cComputeShader::Execute()
 	if (nullptr == m_CS.Get() || nullptr == m_pShaderDataModule)
 		return false;
 
-	BindData();
+	if (false == BindData())
+		return false;
 
 	//처리해줄 쉐이더를 지정하고 계산 진행.
 	CONTEXT->CSSetShader(m_CS.Get(), nullptr, 0);
@@ -203,6 +210,15 @@ bool cComputeShader::Execute()
 	m_pShaderDataModule = nullptr;
 
 	return true;
+}
+
+inline bool cComputeShader::IsDataReady()
+{
+	bool bReady = false;
+	if (m_ComputeShaderInfo.NumData.X && m_ComputeShaderInfo.NumData.Y && m_ComputeShaderInfo.NumData.Z)
+		bReady = true;
+
+	return bReady;
 }
 
 

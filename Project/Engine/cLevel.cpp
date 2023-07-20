@@ -23,19 +23,19 @@ cLevel::~cLevel()
 }
 
 
-void cLevel::tick()
+void cLevel::Tick()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		m_arrLayer[i].tick();
+		m_arrLayer[i].Tick();
 	}
 }
 
-void cLevel::finaltick()
+void cLevel::FinalTick()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		m_arrLayer[i].finaltick();
+		m_arrLayer[i].FinalTick();
 	}
 }
 
@@ -43,7 +43,7 @@ void cLevel::finaltick()
 void cLevel::AddNewGameObj(cGameObject* _Object)
 {
 	AddNewGameObj_Recursive(_Object);
-	_Object->init();
+	_Object->Init();
 }
 
 void cLevel::RemoveDestroyed()

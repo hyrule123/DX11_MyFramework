@@ -20,7 +20,6 @@ public:
 	//이거 가지고 W / VP 행렬을 나눠서 보낼지, WVP 행렬을 만들어서 보낼지를 결정
 	UINT GetIdxBufferCount() const { return m_IdxCount; }
 
-public:
 	void Create(void* _VtxSysMem, UINT _iVtxCount, void* _IdxSysMem, UINT _IdxCount);
 
 private:
@@ -29,12 +28,12 @@ public:
 	//virtual bool Save(const std::filesystem::path& _fileName) { return true; }
 
 
-	void render();
+	void Render();
 	void renderInstanced(UINT _uInstancingCount);
 
 
 private:
-	virtual void BindData() override;
+	bool BindData();
 	
 
 public:
