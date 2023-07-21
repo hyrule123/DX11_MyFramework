@@ -1,5 +1,5 @@
 #pragma once
-#include "IComponent.h"
+#include "IAnimator.h"
 
 #include "struct.h"
 
@@ -16,7 +16,7 @@ struct tAnim2D;
 #define MAXNUM_ANIM 4
 
 class cCom_Animator2D 
-    : public IComponent
+    : public IAnimator
 {
 public:
     cCom_Animator2D();

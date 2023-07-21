@@ -10,8 +10,7 @@
 		"",
 		""
 	],
-	"eRES_TYPE" : 2,
-	"strKey" : "VESPENE_GEYSER",
-	"strKey_Shader" : "VespineGeyser.json",
-	"strName" : ""
+	"m_eResType" : 2,
+	"m_strKey" : "VESPENE_GEYSER",
+	"strKey_Shader" : "VespineGeyser.json"
 }

@@ -1,37 +1,16 @@
 {
-	"GameObject" : 
+	"VESPENE_GEYSER" : 
 	{
-		"m_Transform" : 
-		{
-			"bInheritRot" : true,
-			"bInheritScale" : true,
-			"bLockRot" : false,
-			"v3RelativePos" : 
-			[
-				0,
-				0,
-				0
-			],
-			"v3RelativeRot" : 
-			[
-				0,
-				0,
-				0
-			],
-			"v3RelativeScale" : 
-			[
-				1065353216,
-				1065353216,
-				1065353216
-			],
-			"v3Size" : 
-			[
-				1124073472,
-				1115684864,
-				1120403456
-			]
-		},
-		"m_arrCom" : 
+		"m_fLifeSpan" : -8388609,
+		"m_iLayerIdx" : 6,
+		"m_strKey" : "VESPENE_GEYSER",
+		"m_vecChild_PREFAB" : 
+		[
+			"Vespene_Smoke.json",
+			"Vespene_Smoke.json",
+			"Vespene_Smoke.json"
+		],
+		"m_vecCom" : 
 		[
 			{
 				"eComponentType" : 0,
@@ -53,53 +32,27 @@
 			null,
 			null,
 			null,
-			null,
-			null,
-			null,
 			{
-				"eComponentType" : 7,
+				"eComponentType" : 4,
 				"strKeyMesh" : "RectMesh",
 				"strKeyMtrl" : "VESPENE_GEYSER"
 			},
-			null,
-			null,
-			null,
-			null,
 			{
-				"eComponentType" : 12,
-				"m_vecScript_strKey" : 
-				[
-					{
-						"CScript_Vespene" : 
-						{
-							"m_eKeyShortcut" : 0,
-							"m_eMoveType" : 0,
-							"m_eRace" : 0,
-							"m_eUnitSize" : 0,
-							"m_fBaseBuildTime" : 0,
-							"m_flagTech" : 0,
-							"m_strProdBuildingName" : "",
-							"m_uCostGas" : 0,
-							"m_uCostMineral" : 50,
-							"m_uPopulation" : 0,
-							"m_uSightRange" : 5,
-							"strName" : ""
-						}
-					}
-				]
+				"eComponentType" : 5,
+				"m_eKeyShortcut" : 0,
+				"m_eMoveType" : 0,
+				"m_eRace" : 0,
+				"m_eUnitSize" : 0,
+				"m_fBaseBuildTime" : 0,
+				"m_flagTech" : 0,
+				"m_strProdBuildingName" : "",
+				"m_uCostGas" : 0,
+				"m_uCostMineral" : 50,
+				"m_uPopulation" : 0,
+				"m_uSightRange" : 5
 			}
-		],
-		"m_fLifeSpan" : -8388609,
-		"m_iLayerIdx" : 6,
-		"m_vecChild_PREFAB" : 
-		[
-			"Vespene_Smoke.json",
-			"Vespene_Smoke.json",
-			"Vespene_Smoke.json"
-		],
-		"strName" : "VESPENE_GEYSER"
+		]
 	},
-	"eRES_TYPE" : 6,
-	"strKey" : "VESPENE_GEYSER",
-	"strName" : ""
+	"m_eResType" : 6,
+	"m_strKey" : "VESPENE_GEYSER"
 }

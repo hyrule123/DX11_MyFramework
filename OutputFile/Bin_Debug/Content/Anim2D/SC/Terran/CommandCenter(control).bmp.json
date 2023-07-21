@@ -1,6 +1,7 @@
 {
 	"bRegularFrameSize" : true,
-	"eRES_TYPE" : 4,
+	"m_eResType" : 4,
+	"m_strKey" : "SC/Terran/CommandCenter(control).bmp",
 	"mapAnim" : 
 	{
 		"IDLE" : 
@@ -46,9 +47,7 @@
 			]
 		}
 	},
-	"strKey" : "SC/Terran/CommandCenter(control).bmp",
 	"strKeyAtlasTex" : "SC/Terran/CommandCenter(control).bmp",
-	"strName" : "",
 	"vecFrameUV" : 
 	{
 		"v2_Offset" : 

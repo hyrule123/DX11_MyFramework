@@ -19,6 +19,8 @@
 cShaderData_Init::cShaderData_Init()
 	: m_pSBuffer_InitSetting()
 {
+	m_pSBuffer_InitSetting = std::make_unique<cStructBuffer>();
+
 	////INT64에 1을 넣어서 전달한다. HLSL에서는 이 값을 INT32형태로 읽어들인다.
 	g_InitSetting.bIsLittleEndian = static_cast<UINT64>(1u);
 

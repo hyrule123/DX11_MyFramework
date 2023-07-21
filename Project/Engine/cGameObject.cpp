@@ -91,10 +91,10 @@ cGameObject::cGameObject(const cGameObject& _other)
 	, m_bDisable(_other.m_bDisable)
 	, m_bPrevEnable(_other.m_bPrevEnable)
 {
-	InitVecCom();
+	m_vecCom.resize(_other.m_vecCom.size());
 
 	//1. 컴포넌트 목록 복사
-	for (UINT i = 0; i < (UINT)eCOMPONENT_TYPE::END; ++i)
+	for (size_t i = 0; i < _other.m_vecCom.size(); ++i)
 	{
 		if (_other.m_vecCom[i])
 		{
@@ -337,7 +337,7 @@ bool cGameObject::SaveJson(Json::Value* _pJson)
 
 	string strKeyarrCom = JsonKey_cGameObject::m_vecCom;
 	jVal[strKeyarrCom] = Json::Value(Json::ValueType::arrayValue);
-	for (int i = 0; i < (int)eCOMPONENT_TYPE::END; ++i)
+	for (size_t i = 0; i < m_vecCom.size(); ++i)
 	{
 		Json::Value& arrCom = jVal[strKeyarrCom];
 		if (nullptr == m_vecCom[i])
@@ -597,13 +597,9 @@ IComponent* cGameObject::AddComponent(IComponent* _Component)
 	{
 		ERROR_MESSAGE("String Key Not set!!!");
 		assert(false);
+		SAFE_DELETE(_Component);
 		return nullptr;
 	}
-
-	//동일 컴포넌트 중복 등록시 에러 발생
-	assert(nullptr == m_vecCom[ComType]);
-
-	_Component->SetOwner(this);
 
 	if ((UINT)eCOMPONENT_TYPE::SCRIPTS == ComType)
 	{
@@ -611,8 +607,12 @@ IComponent* cGameObject::AddComponent(IComponent* _Component)
 	}
 	else
 	{
+		//동일 컴포넌트 중복 등록시 에러 발생
+		assert(nullptr == m_vecCom[ComType]);
 		m_vecCom[ComType] = _Component;
 	}
+
+	_Component->SetOwner(this);
 
 	return _Component;
 }

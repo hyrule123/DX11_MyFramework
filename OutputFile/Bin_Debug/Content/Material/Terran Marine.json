@@ -10,8 +10,7 @@
 		"",
 		""
 	],
-	"eRES_TYPE" : 2,
-	"strKey" : "Terran Marine",
-	"strKey_Shader" : "SCUnitGround.json",
-	"strName" : ""
+	"m_eResType" : 2,
+	"m_strKey" : "Terran Marine",
+	"strKey_Shader" : "SCUnitGround.json"
 }

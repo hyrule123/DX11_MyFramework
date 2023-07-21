@@ -10,8 +10,7 @@
 		"",
 		""
 	],
-	"eRES_TYPE" : 2,
-	"strKey" : "Terran Command Center",
-	"strKey_Shader" : "BuildingStructure.json",
-	"strName" : ""
+	"m_eResType" : 2,
+	"m_strKey" : "Terran Command Center",
+	"strKey_Shader" : "BuildingStructure.json"
 }

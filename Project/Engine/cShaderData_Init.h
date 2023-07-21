@@ -16,6 +16,6 @@ public:
     virtual void UnBind() override;
 
 private:
-    cStructBuffer* m_pSBuffer_InitSetting;
+    std::unique_ptr<cStructBuffer> m_pSBuffer_InitSetting;
 };
 

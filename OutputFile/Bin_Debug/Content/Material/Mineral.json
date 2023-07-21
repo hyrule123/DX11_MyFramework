@@ -10,8 +10,7 @@
 		"",
 		""
 	],
-	"eRES_TYPE" : 2,
-	"strKey" : "Mineral",
-	"strKey_Shader" : "Mineral.json",
-	"strName" : ""
+	"m_eResType" : 2,
+	"m_strKey" : "Mineral",
+	"strKey_Shader" : "Mineral.json"
 }

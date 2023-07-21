@@ -84,7 +84,7 @@ HRESULT cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIn
 		return E_FAIL;
 	}
 
-	else if (_uElemCapacity <= _uElemCount)
+	else if (_uElemCapacity < _uElemCount)
 	{
 		ERROR_MESSAGE("Element capacity of structured buffer must be more than element of input data!");
 		return E_FAIL;

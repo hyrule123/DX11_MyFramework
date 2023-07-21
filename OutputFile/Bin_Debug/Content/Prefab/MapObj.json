@@ -1,74 +1,24 @@
 {
-	"GameObject" : 
+	"MapObj" : 
 	{
-		"m_Transform" : 
-		{
-			"bInheritRot" : true,
-			"bInheritScale" : true,
-			"bLockRot" : false,
-			"v3RelativePos" : 
-			[
-				0,
-				0,
-				0
-			],
-			"v3RelativeRot" : 
-			[
-				0,
-				0,
-				0
-			],
-			"v3RelativeScale" : 
-			[
-				1065353216,
-				1065353216,
-				1065353216
-			],
-			"v3Size" : 
-			[
-				1120403456,
-				1120403456,
-				1120403456
-			]
-		},
-		"m_arrCom" : 
+		"m_fLifeSpan" : -8388609,
+		"m_iLayerIdx" : 1,
+		"m_strKey" : "MapObj",
+		"m_vecChild_PREFAB" : [],
+		"m_vecCom" : 
 		[
 			null,
 			null,
 			null,
 			null,
-			null,
-			null,
-			null,
-			null,
-			null,
 			{
-				"eComponentType" : 9,
+				"eComponentType" : 4,
 				"m_TilemapType" : 1,
 				"strKeyMesh" : "RectMesh",
-				"strKeyMtrl" : "TilemapComplete"
-			},
-			null,
-			null,
-			{
-				"eComponentType" : 12,
-				"m_vecScript_strKey" : 
-				[
-					{
-						"CScript_TilemapSC" : 
-						{
-							"strName" : ""
-						}
-					}
-				]
+				"strKeyMtrl" : "cCom_Renderer_TilemapComplete"
 			}
-		],
-		"m_fLifeSpan" : -8388609,
-		"m_iLayerIdx" : 1,
-		"m_vecChild_PREFAB" : [],
-		"strName" : "MapObj"
+		]
 	},
-	"eRES_TYPE" : 6,
-	"strKey" : "MapObj",
-	"strName" : ""
+	"m_eResType" : 6,
+	"m_strKey" : "MapObj"
 }

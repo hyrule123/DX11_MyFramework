@@ -1,6 +1,7 @@
 {
 	"bRegularFrameSize" : true,
-	"eRES_TYPE" : 4,
+	"m_eResType" : 4,
+	"m_strKey" : "SC/Terran/marine.bmp",
 	"mapAnim" : 
 	{
 		"ATTACK" : 
@@ -315,9 +316,7 @@
 			]
 		}
 	},
-	"strKey" : "SC/Terran/marine.bmp",
 	"strKeyAtlasTex" : "SC/Terran/marine.bmp",
-	"strName" : "",
 	"vecFrameUV" : 
 	{
 		"v2_Offset" : 

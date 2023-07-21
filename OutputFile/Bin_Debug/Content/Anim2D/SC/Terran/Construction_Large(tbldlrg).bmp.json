@@ -1,6 +1,7 @@
 {
 	"bRegularFrameSize" : true,
-	"eRES_TYPE" : 4,
+	"m_eResType" : 4,
+	"m_strKey" : "SC/Terran/Construction_Large(tbldlrg).bmp",
 	"mapAnim" : 
 	{
 		"CONSTRUCTION_LARGE" : 
@@ -19,9 +20,7 @@
 			]
 		}
 	},
-	"strKey" : "SC/Terran/Construction_Large(tbldlrg).bmp",
 	"strKeyAtlasTex" : "SC/Terran/Construction_Large(tbldlrg).bmp",
-	"strName" : "",
 	"vecFrameUV" : 
 	{
 		"v2_Offset" : 

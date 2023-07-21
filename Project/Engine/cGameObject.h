@@ -383,13 +383,27 @@ template<typename T>
 inline T* cGameObject::AddComponent()
 {
     eCOMPONENT_TYPE ComType = GetComponentType<T>();
-
-    //타입을 알 수 없거나 이미 그쪽에 컴포넌트가 들어가 있을 경우 생성 불가
-    if (eCOMPONENT_TYPE::UNKNOWN_TYPE == ComType || nullptr != m_vecCom[(int)ComType])
+    if (eCOMPONENT_TYPE::UNKNOWN_TYPE == ComType)
         return nullptr;
 
-    m_vecCom[(int)ComType] = new T;
-    m_vecCom[(int)ComType]->SetKey(cComMgr::GetInst()->GetComName(std::type_index(typeid(T))));
+    T* pType = nullptr;
+    if constexpr (std::is_base_of_v<IScript, T>)
+    {
+        pType = new T;
+        pType->SetKey(cComMgr::GetInst()->GetComName(std::type_index(typeid(T))));
+        m_vecCom.push_back(pType);
+    }
+    else
+    {
+        //타입을 알 수 없거나 이미 그쪽에 컴포넌트가 들어가 있을 경우 생성 불가
+        if (eCOMPONENT_TYPE::UNKNOWN_TYPE == ComType || nullptr != m_vecCom[(int)ComType])
+            return nullptr;
 
-    return static_cast<T*>(m_vecCom[(int)ComType]);
+        pType = new T;
+        pType->SetKey(cComMgr::GetInst()->GetComName(std::type_index(typeid(T))));
+        m_vecCom[(int)ComType] = pType;
+    }
+
+
+    return pType;
 }

@@ -19,9 +19,7 @@
 
 
 cCom_Animator2D::cCom_Animator2D()
-    : IComponent(eCOMPONENT_TYPE::ANIMATOR)
-    //, m_uCurFrame()
-    , m_iCurFrameIdx()
+    : m_iCurFrameIdx()
     , m_fCurTime()
     , m_bFinish()
     , m_bFinishChecked()
@@ -35,13 +33,11 @@ cCom_Animator2D::cCom_Animator2D()
     , m_uMaxFrameCount()
     , m_bNeedUpdateMtrl(true)
     , m_uCalculatedIdx()
-    
-    
 {
 }
 
 cCom_Animator2D::cCom_Animator2D(const cCom_Animator2D& _other)
-    : IComponent(_other)
+    : IAnimator(_other)
     //, m_uCurFrame(_other.m_uCurFrame)
     , m_uCalculatedIdx(_other.m_uCalculatedIdx)
     , m_fCurTime(_other.m_fCurTime)

@@ -10,8 +10,7 @@
 		"",
 		""
 	],
-	"eRES_TYPE" : 2,
-	"strKey" : "Vespene_Smoke",
-	"strKey_Shader" : "SCUnitGround.json",
-	"strName" : ""
+	"m_eResType" : 2,
+	"m_strKey" : "Vespene_Smoke",
+	"strKey_Shader" : "SCUnitGround.json"
 }

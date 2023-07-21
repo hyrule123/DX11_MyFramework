@@ -220,7 +220,6 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	//Collider
 	{	
 		cCom_Coll2D_Rect* pCol = pObj->AddComponent<cCom_Coll2D_Rect>();
-		pObj->AddComponent(pCol);
 
 		pCol->SetFollowTransformSize(false);
 		pCol->SetCollSize(Vec2(17.f, 20.f));
