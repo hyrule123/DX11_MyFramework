@@ -41,13 +41,11 @@ IComponent* cComMgr::GetNewCom(const std::string_view _strKey)
 	return pScript;
 }
 
-const std::string_view cComMgr::GetComName(std::type_index _TypeIdx)
+const std::string_view cComMgr::GetComName(const std::type_info& _typeid_T_)
 {
-	const auto& iter = m_umapComName.find(_TypeIdx);
-
+	const auto& iter = m_umapComName.find(std::type_index(_typeid_T_));
 	if (iter == m_umapComName.end())
 		return "";
-
 	return iter->second;
 }
 

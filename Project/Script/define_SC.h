@@ -165,7 +165,7 @@ namespace SC
 			END
 		};
 
-		constexpr inline const char* strLayerName[32] = {
+		constexpr const char* strLayerName[32] = {
 		"", //00
 		"TileMap",	//01
 		"",	//02

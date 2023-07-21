@@ -10,7 +10,7 @@
 
 
 #ifndef STRKEY
-#define STRKEY constexpr inline const char*
+#define STRKEY constexpr const char*
 #endif
 
 

@@ -3,7 +3,6 @@
 	{
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 6,
-		"m_strKey" : "VESPENE_GEYSER",
 		"m_vecChild_PREFAB" : 
 		[
 			"Vespene_Smoke.json",
@@ -53,6 +52,5 @@
 			}
 		]
 	},
-	"m_eResType" : 6,
-	"m_strKey" : "VESPENE_GEYSER"
+	"m_eResType" : 6
 }

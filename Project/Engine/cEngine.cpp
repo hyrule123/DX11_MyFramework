@@ -15,6 +15,8 @@
 
 #include "S_H_Struct.hlsli"
 
+#include "DefaultClassInitializer.h"
+
 
 cEngine::cEngine()
 	: m_hWnd(nullptr)
@@ -60,6 +62,8 @@ int cEngine::init(HWND _hWnd, UINT _uWidth, UINT _uHeight, UINT _uWndWidth, UINT
 		MessageBoxW(nullptr, L"cDevice 초기화 실패", NULL, MB_OK);
 		return E_FAIL;
 	}
+
+	DefaultClassInitializer::InitDefaultComponent();
 
 	// Manager 생성 및 초기화
 	cPathMgr::GetInst()->Init();

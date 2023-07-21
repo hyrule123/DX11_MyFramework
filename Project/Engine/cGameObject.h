@@ -363,7 +363,7 @@ inline T* cGameObject::GetComponent()
 {
     if constexpr (std::is_base_of_v<IScript, T>)
     {
-        const std::string_view name = cComMgr::GetInst()->GetComName(std::type_index(typeid(T)));
+        const std::string_view name = cComMgr::GetInst()->GetComName<T>();
         for (size_t i = (size_t)eCOMPONENT_TYPE::SCRIPTS; i < m_vecCom.size(); ++i)
         {
             if (name == m_vecCom[i]->GetKey())
@@ -390,7 +390,7 @@ inline T* cGameObject::AddComponent()
     if constexpr (std::is_base_of_v<IScript, T>)
     {
         pType = new T;
-        pType->SetKey(cComMgr::GetInst()->GetComName(std::type_index(typeid(T))));
+        pType->SetKey(cComMgr::GetInst()->GetComName<T>());
         m_vecCom.push_back(pType);
     }
     else
@@ -400,7 +400,7 @@ inline T* cGameObject::AddComponent()
             return nullptr;
 
         pType = new T;
-        pType->SetKey(cComMgr::GetInst()->GetComName(std::type_index(typeid(T))));
+        pType->SetKey(cComMgr::GetInst()->GetComName<T>());
         m_vecCom[(int)ComType] = pType;
     }
 

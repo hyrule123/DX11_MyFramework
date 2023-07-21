@@ -32,7 +32,11 @@ public:
 	template <typename T>
 	void AddComConstructor(const std::string_view _strKey);
 	IComponent* GetNewCom(const std::string_view _strKey);
-	const std::string_view GetComName(std::type_index _TypeIdx);
+
+	const std::string_view GetComName(const std::type_info& _typeid_T_);
+	template <typename T>
+	const std::string_view GetComName();
+
 	// =================================================================================================
 };
 
@@ -55,6 +59,12 @@ inline void cComMgr::AddComConstructor(const std::string_view _strKey)
 			return new T;
 		}
 		));
+}
+
+template<typename T>
+inline const std::string_view cComMgr::GetComName()
+{
+	return GetComName(typeid(T));
 }
 
 

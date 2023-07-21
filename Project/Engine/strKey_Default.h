@@ -429,7 +429,7 @@ namespace RES_INFO
 				STRKEY_DECLARE(m_bUseInstancing);
 
 
-				constexpr inline const char* arr_strKey_PipeLine[(int)define_Shader::eGS_TYPE::END] =
+				constexpr const char* arr_strKey_PipeLine[(int)define_Shader::eGS_TYPE::END] =
 				{
 					"_0_VERTEX",
 					"_1_HULL",

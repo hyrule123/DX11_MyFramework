@@ -2,7 +2,7 @@
 class DefaultClassInitializer
 {
 public:
-	void InitDefaultComponent();
+	static void InitDefaultComponent();
 
 private:
 	DefaultClassInitializer() = delete;

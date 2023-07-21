@@ -3,7 +3,6 @@
 	{
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 7,
-		"m_strKey" : "Terran Command Center",
 		"m_vecChild_PREFAB" : [],
 		"m_vecCom" : 
 		[
@@ -57,6 +56,5 @@
 			}
 		]
 	},
-	"m_eResType" : 6,
-	"m_strKey" : "Terran Command Center"
+	"m_eResType" : 6
 }

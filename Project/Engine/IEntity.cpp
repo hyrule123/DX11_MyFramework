@@ -5,11 +5,6 @@
 
 #include "strKey_Default.h"
 
-namespace JSON_KEY
-{
-	STRKEY_DECLARE(m_strKey);
-}
-
 UINT IEntity::g_iNextID = 0;
 
 IEntity::IEntity()
@@ -41,15 +36,11 @@ bool IEntity::SaveJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-	if (false == m_strKey.empty())
+	if (m_strKey.empty())
 	{
-		jVal[JSON_KEY::m_strKey] = string(m_strKey);
+		ERROR_MESSAGE("Can't save without String Key!!");
+		return false;
 	}
-	else
-	{
-
-	}
-	
 
 	return true;
 }
@@ -61,9 +52,9 @@ bool IEntity::LoadJson(Json::Value* _pJson)
 
 	const Json::Value& jVal = *_pJson;
 
-	if (jVal.isMember(JSON_KEY::m_strKey))
+	if (jVal.isMember(JsonKey_IEntity::m_strKey))
 	{
-		//m_strKey = jVal[JSON_KEY::m_strKey].asString();
+		m_strKey = jVal[JsonKey_IEntity::m_strKey].asString();
 	}
 		
 

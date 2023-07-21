@@ -2,6 +2,11 @@
 
 #include <UtilLib_DLL/json/forwards.h>
 
+namespace JsonKey_IEntity
+{
+	constexpr const char* m_strKey = "m_strKey";
+}
+
 class IEntity
 {
 public:

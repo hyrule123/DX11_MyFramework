@@ -3,7 +3,6 @@
 	{
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 1,
-		"m_strKey" : "MapObj",
 		"m_vecChild_PREFAB" : [],
 		"m_vecCom" : 
 		[
@@ -19,6 +18,5 @@
 			}
 		]
 	},
-	"m_eResType" : 6,
-	"m_strKey" : "MapObj"
+	"m_eResType" : 6
 }

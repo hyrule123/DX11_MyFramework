@@ -3,7 +3,6 @@
 	{
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 6,
-		"m_strKey" : "Mineral",
 		"m_vecChild_PREFAB" : [],
 		"m_vecCom" : 
 		[
@@ -48,6 +47,5 @@
 			}
 		]
 	},
-	"m_eResType" : 6,
-	"m_strKey" : "Mineral"
+	"m_eResType" : 6
 }

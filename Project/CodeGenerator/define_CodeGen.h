@@ -14,7 +14,7 @@ namespace stdfs = std::filesystem;
 #endif
 
 
-//#define PRESET constexpr inline const char*
+//#define PRESET constexpr const char*
 
 #define PRESET(_VarNameBase, _String) \
 namespace _VarNameBase {\
@@ -57,7 +57,7 @@ namespace define_Preset
 
 		PRESET(DefineSTRKEY, 
 R"(#ifndef STRKEY
-#define STRKEY constexpr inline const char*
+#define STRKEY constexpr const char*
 #endif
 )");
 
@@ -82,7 +82,7 @@ R"(#ifndef STRKEY
 	namespace Regex
 	{
 
-		constexpr inline const char* arrCharsVarForbiddenA[] =
+		constexpr const char* arrCharsVarForbiddenA[] =
 		{
 			"\\(","\\)",
 			"\\{","\\}",

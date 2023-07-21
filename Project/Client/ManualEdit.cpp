@@ -25,6 +25,7 @@
 #include <Engine/cCom_Coll2D_Rect.h>
 #include <Engine/cCom_Coll2D_Rect.h>
 #include <Engine/cCom_Renderer_Default.h>
+#include <Script/cCom_Renderer_TilemapSC.h>
 #include <Engine/cPrefab.h>
 #include <Engine/cTransform.h>
 
@@ -236,8 +237,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 	//MeshRender
 	{
-		cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
-		pObj->AddComponent(pRenderCom);
+		cCom_Renderer_Default* pRenderCom = pObj->AddComponent<cCom_Renderer_Default>();
 
 		//Material
 		Ptr<cMaterial> pMtrl = new cMaterial;
@@ -332,8 +332,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 
 	//Collider
 	{
-		cCom_Coll2D_Rect* pCol = new cCom_Coll2D_Rect;
-		pObj->AddComponent(pCol);
+		cCom_Coll2D_Rect* pCol = pObj->AddComponent<cCom_Coll2D_Rect>();
 
 		SC_Func::SetSCBuildingSize(pCol, 3, 2, Vec4(6.f, 5.f, 7.f, 6.f));
 	}
@@ -352,8 +351,7 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 
 	//MeshRender
 	{
-		cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
-		pObj->AddComponent(pRenderCom);
+		cCom_Renderer_Default* pRenderCom = pObj->AddComponent<cCom_Renderer_Default>();
 
 		//Material
 		Ptr<cMaterial> pMtrl = new cMaterial;
@@ -398,8 +396,7 @@ void ManualEdit::Mineral_Prefab_Save()
 
 	//Collider
 	{
-		cCom_Coll2D_Rect* pCol = new cCom_Coll2D_Rect;
-		pObj->AddComponent(pCol);
+		cCom_Coll2D_Rect* pCol = pObj->AddComponent<cCom_Coll2D_Rect>();
 
 		SC_Func::SetSCBuildingSize(pCol, 2, 1, Vec4(0.f));
 	}
@@ -407,9 +404,7 @@ void ManualEdit::Mineral_Prefab_Save()
 
 	//MeshRender
 	{
-		cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
-		pObj->AddComponent(pRenderCom);
-
+		cCom_Renderer_Default* pRenderCom = pObj->AddComponent<cCom_Renderer_Default>();
 
 		//Material
 		Ptr<cMaterial> pMtrl = new cMaterial;
@@ -518,8 +513,7 @@ void ManualEdit::Vespene_Prefab_Save()
 
 	//Collider
 	{
-		cCom_Coll2D_Rect* pCol = new cCom_Coll2D_Rect;
-		pObj->AddComponent(pCol);
+		cCom_Coll2D_Rect* pCol = pObj->AddComponent< cCom_Coll2D_Rect>();
 
 		pCol->SetFollowTransformSize(false);
 		SC_Func::SetSCBuildingSize(pCol, 4, 2, Vec4(0.f, 0.f, 0.f, 0.f));
@@ -533,8 +527,7 @@ void ManualEdit::Vespene_Prefab_Save()
 
 	//MeshRender
 	{
-		cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
-		pObj->AddComponent(pRenderCom);
+		cCom_Renderer_Default* pRenderCom = pObj->AddComponent< cCom_Renderer_Default>();
 
 		//Material
 		Ptr<cMaterial> pMtrl = new cMaterial;
@@ -590,8 +583,7 @@ void ManualEdit::Vespene_Prefab_Save()
 
 		//MeshRender
 		{
-			cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
-			pChild->AddComponent(pRenderCom);
+			cCom_Renderer_Default* pRenderCom = pChild->AddComponent< cCom_Renderer_Default>();
 
 			//Material
 			Ptr<cMaterial> pMtrl = new cMaterial;
@@ -626,7 +618,7 @@ void ManualEdit::Map_Prefab_Save()
 
 	//MeshRender
 	{
-		pObj->AddComponent(new cCom_Renderer_TilemapComplete);
+		pObj->AddComponent<cCom_Renderer_TilemapSC>();
 	}
 
 	Ptr<cPrefab> pPrefab = new cPrefab;

@@ -32,7 +32,6 @@
 
 namespace JsonKey_cGameObject
 {
-
 	//IComponent* m_vecCom[(UINT)eCOMPONENT_TYPE::END];
 	STRKEY_DECLARE(m_vecCom);
 
@@ -425,123 +424,51 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 
 	Json::Value& jVal = *_pJson;
 
-
-
 	string strKeyarrCom = string(JsonKey_cGameObject::m_vecCom);
 	if (jVal.isMember(strKeyarrCom))
 	{
 		//TODO: 여기 cComMgr과 연동할 것
 
 		Json::Value& arrCom = jVal[strKeyarrCom];
-		//int arrComSize = (int)arrCom.size();
-		//for (int i = 0; i < arrComSize; ++i)
-		//{
-		//	if (arrCom[i].empty())
-		//		continue;
+		int arrComSize = (int)arrCom.size();
+		for (int i = 0; i < arrComSize; ++i)
+		{
+			if (arrCom[i].empty())
+				continue;
 
-		//	Json::Value& jsonComponent = arrCom[i];
+			Json::Value& jsonComponent = arrCom[i];
 
-		//	IComponent* pCom = nullptr;
-		//	switch ((eCOMPONENT_TYPE)i)
-		//	{
-		//		
-		//	case eCOMPONENT_TYPE::COLLIDER2D:
-		//	{
-		//		eCOLLIDER_TYPE_2D ColType = (eCOLLIDER_TYPE_2D)jsonComponent[string(RES_INFO::PREFAB::COMPONENT::COLLIDER2D::JSON_KEY::m_eColType)].asInt();
+			if (false == jsonComponent.isMember(JsonKey_IEntity::m_strKey))
+			{
+				continue;
+			}
 
-		//		switch (ColType)
-		//		{
-		//		case eCOLLIDER_TYPE_2D::RECT:
-		//			pCom = new cCom_Coll2D_Rect;
-		//			break;
-		//		case eCOLLIDER_TYPE_2D::CIRCLE:
-		//			pCom = new cCom_Coll2D_Circle;
-		//			break;
-		//		case eCOLLIDER_TYPE_2D::OBB:
-		//			pCom = new cCom_Coll2D_OBB;
-		//			break;
-		//		case eCOLLIDER_TYPE_2D::POINT:
-		//			pCom = new cCom_Coll2D_Point;
-		//			break;
-		//		default:
-		//			break;
-		//		}
+			const string& strKey = jsonComponent[JsonKey_IEntity::m_strKey].asString();
+			IComponent* pCom = cComMgr::GetInst()->GetNewCom(strKey);
+			if (nullptr == pCom)
+			{
+				string ErrMsg = "Failed to load Component\nComponent Name: ";
+				ErrMsg += strKey;
+				ERROR_MESSAGE(ErrMsg.c_str());
+				return false;
+			}
 
-		//		break;
-		//	}
-		//		
-		//	case eCOMPONENT_TYPE::COLLIDER3D:
-		//		break;
-		//	case eCOMPONENT_TYPE::ANIMATOR2D:
-		//		pCom = new cCom_Animator2D;
-		//		break;
-		//	case eCOMPONENT_TYPE::ANIMATOR3D:
-		//		break;
-		//	case eCOMPONENT_TYPE::LIGHT2D:
-		//		break;
-		//	case eCOMPONENT_TYPE::LIGHT3D:
-		//		break;
-		//	case eCOMPONENT_TYPE::CAMERA:
-		//		break;
+			//LoadJson -> Prefab 만드는 데 사용
+			//init이 먼저 호출되지 않음
+			//->IComponent를 먼저 추가해도 문제 없음
+			pCom = AddComponent(pCom);
+			if (nullptr == pCom)
+			{
+				return false;
+			}
+				
 
-		//	case eCOMPONENT_TYPE::RENDERER:
-		//	case eCOMPONENT_TYPE::MESH_RENDER:
-		//		pCom = new cCom_Renderer_Default;
-		//		break;
-		//	case eCOMPONENT_TYPE::PARTICLE_SYSTEM:
-		//		break;
-		//	case eCOMPONENT_TYPE::TILEMAP:
-		//	{
-		//		const char* strKey = RES_INFO::PREFAB::COMPONENT::RENDER_COMP::TILEMAP::m_TilemapType;
-		//		if (jsonComponent.isMember(strKey))
-		//		{
-		//			eTILEMAP_TYPE type = (eTILEMAP_TYPE)jsonComponent[strKey].asInt();
+			if (false == pCom->LoadJson(&jsonComponent))
+			{
+				return false;
+			}
 
-		//			switch (type)
-		//			{
-		//			case eTILEMAP_TYPE::ATLAS:
-		//				pCom = new cRenderer_Tilemap;
-		//				break;
-		//			case eTILEMAP_TYPE::COMPLETE:
-		//				pCom = new cCom_Renderer_TilemapComplete;
-		//				break;
-		//			default:
-		//				ERROR_MESSAGE("ITilemapBase Load Error");
-		//				break;
-		//			}
-		//		}
-
-		//	}
-
-
-
-		//		break;
-		//	case eCOMPONENT_TYPE::LANDSCAPE:
-		//		break;
-		//	case eCOMPONENT_TYPE::DECAL:
-		//		break;
-		//	case eCOMPONENT_TYPE::SCRIPT_HOLDER:
-		//		pCom = new cScriptHolder;
-		//		break;
-		//	case eCOMPONENT_TYPE::END:
-		//		break;
-		//	default:
-		//		break;
-		//	}
-
-		//	if (pCom)
-		//	{
-		//		//LoadJson -> Prefab 만드는 데 사용
-		//		//init이 먼저 호출되지 않음
-		//		//->IComponent를 먼저 추가해도 문제 없음
-		//		AddComponent(pCom);
-
-		//		if (false == pCom->LoadJson(&jsonComponent))
-		//		{
-		//			return false;
-		//		}
-		//	}
-		//}
+		}
 	}
 	else return false;
 
@@ -591,9 +518,12 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 
 IComponent* cGameObject::AddComponent(IComponent* _Component)
 {
+	if (nullptr == _Component)
+		return nullptr;
+
 	UINT ComType = (UINT)_Component->GetType();
 
-	if (GetKey().empty())
+	if (_Component->GetKey().empty())
 	{
 		ERROR_MESSAGE("String Key Not set!!!");
 		assert(false);
@@ -607,8 +537,12 @@ IComponent* cGameObject::AddComponent(IComponent* _Component)
 	}
 	else
 	{
-		//동일 컴포넌트 중복 등록시 에러 발생
-		assert(nullptr == m_vecCom[ComType]);
+		if (nullptr != m_vecCom[ComType])
+		{
+			SAFE_DELETE(_Component);
+			ERROR_MESSAGE("You cannot put two of the same component type.");
+			return nullptr;
+		}
 		m_vecCom[ComType] = _Component;
 	}
 
@@ -659,15 +593,16 @@ void cGameObject::RemoveComponent(eCOMPONENT_TYPE _eComType)
 
 std::span<IComponent* const> cGameObject::GetScripts()
 {
-	size_t size = m_vecCom.size();
+	std::span<IComponent* const> span;
 
+	size_t size = m_vecCom.size();
 	//스크립트가 없으면 빈 span을 반환
 	if (size > (size_t)eCOMPONENT_TYPE::SCRIPTS)
 	{
-		return std::span<IComponent* const>(m_vecCom.begin() + (size_t)eCOMPONENT_TYPE::SCRIPTS, m_vecCom.end());
+		span = std::span<IComponent* const>(m_vecCom.begin() + (size_t)eCOMPONENT_TYPE::SCRIPTS, m_vecCom.end());
 	}
 
-	return std::span<IComponent* const>();
+	return span;
 }
 
 //void cGameObject::AddScript(IScript* _Script)
