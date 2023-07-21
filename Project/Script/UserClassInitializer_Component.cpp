@@ -18,12 +18,6 @@
 
 #include "cCom_Renderer_TilemapSC.h"
 #include "cScript_CameraMove.h"
-#include "cScript_FSM_Attack.h"
-#include "cScript_FSM_Building_Prod.h"
-#include "cScript_FSM_Death.h"
-#include "cScript_FSM_Idle.h"
-#include "cScript_FSM_Move_Ground.h"
-#include "cScript_FSM_Move_Hover.h"
 #include "cScript_MainCamSC_InGame.h"
 #include "cScript_Mineral.h"
 #include "cScript_MouseCursor.h"
@@ -39,12 +33,6 @@ void UserClassInitializer::InitCom()
 {
 	CONSTRUCTOR_T(cCom_Renderer_TilemapSC);
 	CONSTRUCTOR_T(cScript_CameraMove);
-	CONSTRUCTOR_T(cScript_FSM_Attack);
-	CONSTRUCTOR_T(cScript_FSM_Building_Prod);
-	CONSTRUCTOR_T(cScript_FSM_Death);
-	CONSTRUCTOR_T(cScript_FSM_Idle);
-	CONSTRUCTOR_T(cScript_FSM_Move_Ground);
-	CONSTRUCTOR_T(cScript_FSM_Move_Hover);
 	CONSTRUCTOR_T(cScript_MainCamSC_InGame);
 	CONSTRUCTOR_T(cScript_Mineral);
 	CONSTRUCTOR_T(cScript_MouseCursor);

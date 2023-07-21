@@ -28,8 +28,8 @@ public:
     virtual void Init()  {}
     virtual void Start() {}
     virtual void Tick()  {}
-    virtual void FinalTick() final;
-    virtual void CleanUp() final;
+    virtual void FinalTick() final {};
+    virtual void CleanUp() final {};
 
     //충돌 발생 시 처리는 이 메소드를 오버라이딩해서 사용해주면 된다.
     virtual void BeginCollision(ICollider* _other, const Vec3& _v3HitPoint) {}

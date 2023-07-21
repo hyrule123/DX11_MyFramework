@@ -10,8 +10,9 @@
 
 ITilemapBase::ITilemapBase(eTILEMAP_TYPE _eTilemapType)
 	: m_TilemapType(_eTilemapType)
-	, m_uTileCountX(1)
-	, m_uTileCountY(1)
+	, m_uTileCountX()
+	, m_uTileCountY()
+	, m_uNumTiles()
 {
 	SetMesh(cResMgr::GetInst()->FindRes<cMesh>(strKey_RES_DEFAULT::MESH::RECT));
 }

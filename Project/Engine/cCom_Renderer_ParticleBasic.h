@@ -3,13 +3,12 @@
 
 #include "S_H_ParticleBasic.hlsli"
 
-#include "cCSModule_ParticleBasic.h"
 
 class cStructBuffer;
 class cCSModule_ParticleBasic;
 class cCom_Camera;
 class cComputeShader;
-class cShaderDataModule;
+class cGPUBufferModule;
 
 class cCom_Renderer_ParticleBasic :
     public IRenderer
@@ -30,13 +29,17 @@ public:
 private:
     //파티클 데이터를 처리해줄 컴퓨트쉐이더 주소
     Ptr<cComputeShader> m_CS;
-    cCSModule_ParticleBasic m_ParticleDataModule;
 
     bool                        m_bCreated;
     tParticleShareData          m_SharedData;
     tParticleTransform          m_TransformData;
     tParticleBasicSpawnSetting  m_BasicData;
     float                       m_AccTime;
+
+    std::unique_ptr<cStructBuffer> m_SBufferRW_Shared;
+    std::unique_ptr<cStructBuffer> m_SBuffer_ParticleSpawnSetting;
+    std::unique_ptr<cStructBuffer> m_SBufferRW_Transform;
+    Ptr<cTexture> m_Tex_Noise;
 
 public:
     void CreateParticle();

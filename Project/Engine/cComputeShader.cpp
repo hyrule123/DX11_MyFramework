@@ -12,7 +12,7 @@
 
 #include "jsoncpp.h"
 
-#include "cShaderDataModule.h"
+#include "cGPUBufferModule.h"
 
 
 
@@ -22,7 +22,6 @@ cComputeShader::cComputeShader()
 	, m_CS()
 	, m_arrNumThreads()
 	, m_ComputeShaderInfo{}
-	, m_pShaderDataModule()
 {
 }
 
@@ -35,18 +34,8 @@ cComputeShader::~cComputeShader()
 
 bool cComputeShader::BindData()
 {
-	//처리해줄 데이터가 없을 경우에는 바인딩 거는 의미가 없으므로 return
-	if (false == IsDataModuleReady())
-		return false;
-
-	//Bind를 걸면 계산해야 할 데이터가 반환됨.
-	//이 데이터를 통해서 쉐이더 그룹 수를 계산한.
-	m_ComputeShaderInfo.NumData = m_pShaderDataModule->BindDataCS();
-
 	if (false == IsDataReady())
 		return false;
-
-	CalcGroupNumber(m_ComputeShaderInfo.NumData);
 
 	//컴퓨트쉐이더 관련 공유 데이터를 상수버퍼를 통해서 전달
 	static cConstBuffer* pCBuffer = cDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_COMPUTE_SHADER_INFO);
@@ -190,12 +179,9 @@ void cComputeShader::CalcGroupNumber(const tNumDataCS& _NumData)
 }
 
 
-
-
-
 bool cComputeShader::Execute()
 {
-	if (nullptr == m_CS.Get() || nullptr == m_pShaderDataModule)
+	if (nullptr == m_CS.Get())
 		return false;
 
 	if (false == BindData())
@@ -205,9 +191,8 @@ bool cComputeShader::Execute()
 	CONTEXT->CSSetShader(m_CS.Get(), nullptr, 0);
 	CONTEXT->Dispatch(m_ComputeShaderInfo.uNumGroupX, m_ComputeShaderInfo.uNumGroupY, m_ComputeShaderInfo.uNumGroupZ);
 
-	//계산 후에는 unbind 및 포인터 초기화
-	m_pShaderDataModule->UnBind();
-	m_pShaderDataModule = nullptr;
+	//쉐이더 그룹 데이터를 초기화(에러 방지)
+	memset(&m_ComputeShaderInfo, 0, sizeof(tComputeShaderInfo));
 
 	return true;
 }

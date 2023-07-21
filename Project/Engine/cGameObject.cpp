@@ -21,7 +21,7 @@
 
 #include "EventDispatcher.h"
 
-#include "CPrefab.h"
+#include "cPrefab.h"
 
 //세이브, 로드에 사용
 #include "cResMgr.h"
@@ -385,7 +385,7 @@ bool cGameObject::SaveJson(Json::Value* _pJson)
 			}
 			childKey += RES_INFO::PREFAB::Ext;
 
-			CPrefab* Prefab = new CPrefab;
+			cPrefab* Prefab = new cPrefab;
 			Prefab->SetKey(childKey);
 
 			//Save 모드로 프리팹을 생성한 뒤 저장
@@ -554,7 +554,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 		const Json::Value& arrChild = jVal[strKey];
 		for (Json::ValueConstIterator iter = arrChild.begin(); iter != arrChild.end(); ++iter)
 		{
-			Ptr<CPrefab> pPrefab = cResMgr::GetInst()->Load<CPrefab>(iter->asString());
+			Ptr<cPrefab> pPrefab = cResMgr::GetInst()->Load<cPrefab>(iter->asString());
 			if (nullptr == pPrefab)
 			{
 				ERROR_MESSAGE("Child Prefab load failed.");
@@ -589,11 +589,16 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 }
 
 
-
-
-void cGameObject::AddComponent(IComponent* _Component)
+IComponent* cGameObject::AddComponent(IComponent* _Component)
 {
 	UINT ComType = (UINT)_Component->GetType();
+
+	if (GetKey().empty())
+	{
+		ERROR_MESSAGE("String Key Not set!!!");
+		assert(false);
+		return nullptr;
+	}
 
 	//동일 컴포넌트 중복 등록시 에러 발생
 	assert(nullptr == m_vecCom[ComType]);
@@ -608,6 +613,36 @@ void cGameObject::AddComponent(IComponent* _Component)
 	{
 		m_vecCom[ComType] = _Component;
 	}
+
+	return _Component;
+}
+
+IComponent* cGameObject::AddComponent(const std::string_view _strKey)
+{
+	IComponent* pCom = cComMgr::GetInst()->GetNewCom(_strKey);
+
+	if (nullptr == pCom)
+	{
+		return nullptr;
+	}
+
+	return AddComponent(pCom);
+}
+
+IComponent* cGameObject::GetComponent(const std::string_view _strKey)
+{
+	IComponent* pCom = nullptr;
+
+	for (size_t i = 0; i < m_vecCom.size(); ++i)
+	{
+		if (_strKey == m_vecCom[i]->GetKey())
+		{
+			pCom = m_vecCom[i];
+			break;
+		}
+	}
+
+	return pCom;
 }
 
 void cGameObject::RemoveComponent(eCOMPONENT_TYPE _eComType)

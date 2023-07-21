@@ -1,11 +1,11 @@
 #include "pch.h"
-#include "CUIobj_Light2D.h"
+#include "cUIobj_Light2D.h"
 
-CUIobj_Light2D::CUIobj_Light2D()
-	: CUIobj_Component("Light2D", eCOMPONENT_TYPE::LIGHT2D)
+cUIobj_Light2D::cUIobj_Light2D()
+	: cUIobj_Component("Light2D", eCOMPONENT_TYPE::LIGHT)
 {
 }
 
-CUIobj_Light2D::~CUIobj_Light2D()
+cUIobj_Light2D::~cUIobj_Light2D()
 {
 }

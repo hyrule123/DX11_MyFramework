@@ -10,8 +10,8 @@
 #include <Engine/cGameObject.h>
 
 #include "define_SC.h"
-#include "cScript_FSM_Move_Ground.h"
-#include "cScript_FSM_Attack.h"
+//#include "cScript_FSM_Move_Ground.h"
+//#include "cScript_FSM_Attack.h"
 
 
 #include <Engine/S_H_Struct.hlsli>
@@ -49,18 +49,18 @@ void cScript_MouseCursor::Tick()
 		//아닐 경우 + 우클릭을 했을 경우 이동 크립트를 가져와서 이동시킨다.
 		else if(KEY_DOWN(eKEY::RBTN))
 		{
-			(cFSM_Move_Base*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::MOVE));
-			cFSM_Move_Base* pMoveState = (cFSM_Move_Base*)m_pSelectedGameObject->ScriptHolder()->GetFSM(SC::FSM::MOVE);
+			//(cFSM_Move_Base*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::MOVE));
+			//cFSM_Move_Base* pMoveState = (cFSM_Move_Base*)m_pSelectedGameObject->ScriptHolder()->GetFSM(SC::FSM::MOVE);
 				
-			if (pMoveState)
-			{
-				pMoveState->SetDestination(m_v2CursorPos);
-			}
+			//if (pMoveState)
+			//{
+			//	pMoveState->SetDestination(m_v2CursorPos);
+			//}
 		}
 
 		else if (KEY_DOWN(eKEY::A))
 		{
-			cScript_FSM_Attack* pAttackState = (cScript_FSM_Attack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::ATTACK));
+			//cScript_FSM_Attack* pAttackState = (cScript_FSM_Attack*)(m_pSelectedGameObject->ScriptHolder()->Transition((UINT)SC::FSM::ATTACK));
 		}
 	}
 
@@ -117,5 +117,5 @@ void cScript_MouseCursor::CalcPos()
 	m_v2CursorPos.x += Pos.x;
 	m_v2CursorPos.y += Pos.y;
 
-	Transform().SetRelativePos(Vec3(m_v2CursorPos, 0.f));
+	GetOwner()->Transform().SetRelativePos(Vec3(m_v2CursorPos, 0.f));
 }

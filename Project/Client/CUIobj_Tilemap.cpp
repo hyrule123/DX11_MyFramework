@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "CUIobj_Tilemap.h"
+#include "cUIobj_Tilemap.h"
 
-CUIobj_Tilemap::CUIobj_Tilemap()
-	: CUIobj_Component("Tilemap", eCOMPONENT_TYPE::TILEMAP)
+cUIobj_Tilemap::cUIobj_Tilemap()
+	: cUIobj_Component("Tilemap", eCOMPONENT_TYPE::RENDERER)
 {
 }
 
-CUIobj_Tilemap::~CUIobj_Tilemap()
+cUIobj_Tilemap::~cUIobj_Tilemap()
 {
 }
 

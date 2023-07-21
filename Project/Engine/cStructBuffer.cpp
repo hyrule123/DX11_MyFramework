@@ -235,7 +235,7 @@ void cStructBuffer::UploadData(void* _pData, UINT _uCount)
 	}
 }
 
-void cStructBuffer::GetData(void* _pDest, UINT _uDestByteCapacity)
+void cStructBuffer::DownloadData(void* _pDest, UINT _uDestByteCapacity)
 {
 	ComPtr<ID3D11DeviceContext> pContext = CONTEXT;
 

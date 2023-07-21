@@ -1,7 +1,7 @@
 #pragma once
-#include "cShaderDataModule.h"
+#include "cGPUBufferModule.h"
 class cShaderData_Default :
-    public cShaderDataModule
+    public cGPUBufferModule
 {
     cShaderData_Default();
     virtual ~cShaderData_Default();

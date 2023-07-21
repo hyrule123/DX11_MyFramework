@@ -2,11 +2,8 @@
 
 #include <Engine/Ptr.h>
 
-class CAnimator2D;
-class CPrefab;
-class CAnim2DAtlas;
-
-
+class cPrefab;
+class cAnim2DAtlas;
 
 class ManualEdit
 {
@@ -33,8 +30,8 @@ private:
 
 	static void Map_Prefab_Save();
 
-	static Ptr<CAnim2DAtlas> LoadAnim(const string& _strKey);
-	static Ptr<CPrefab> LoadPrefab(const string& _strKey);
+	static Ptr<cAnim2DAtlas> LoadAnim(const string& _strKey);
+	static Ptr<cPrefab> LoadPrefab(const string& _strKey);
 
 
 };

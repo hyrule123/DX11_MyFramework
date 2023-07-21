@@ -11,9 +11,6 @@ enum class eTILEMAP_DEBUGMODE
     MINITILE
 };
 
-
-
-
 class cComputeShader;
 class cCom_Renderer_TilemapSC :
     public cCom_Renderer_TilemapComplete
@@ -47,28 +44,16 @@ private:
     vector<SC_Map::tUnitData> m_vecUnitData;
     vector<Vec2> m_vecStartLocation;
 
-
-
     bool    m_bMapLoaded;
     bool    m_bUnitLoaded;
 
-    class cMapDataModule : public cShaderDataModule
-    {
-    public:
-        cMapDataModule() {}
-        virtual ~cMapDataModule() {}
 
-        Ptr<cTexture> m_pMapTex;
-        SC_Map::tpSBufferTileSet m_arrpSBufferTileSet[(int)SC_Map::eTILESET_INFO::END];
-        std::unique_ptr<cStructBuffer> m_pSBuffer_MXTM;
-        std::unique_ptr<cStructBuffer> m_pSBufferRW_Megatile;
-        std::unique_ptr<cStructBuffer> m_pSBufferRW_Minitile;
-
-        tNumDataCS BindDataCS() override;
-        bool BindDataGS() override;
-        void UnBind() override;
-    };
-    cMapDataModule m_MapDataModule;
+    //Buffers
+    Ptr<cTexture> m_pMapTex;
+    SC_Map::tpSBufferTileSet m_arrpSBufferTileSet[(int)SC_Map::eTILESET_INFO::END];
+    std::unique_ptr<cStructBuffer> m_pSBuffer_MXTM;
+    std::unique_ptr<cStructBuffer> m_pSBufferRW_Megatile;
+    std::unique_ptr<cStructBuffer> m_pSBufferRW_Minitile;
 
 public:
     bool LoadMap(const string_view _strMapName);
@@ -86,12 +71,14 @@ private:
 
     std::shared_ptr<SC_Map::tMapDataChunk> MultiThread_CopyChunk(const std::string& _dataStr, SC_Map::eSCMAP_DATA_TYPE _eDataType);
 
-    bool UploadMapDataToCS();
+    bool CreateMapbuffers();
+
+    void PrepareMap();
+   
 
     void UnLoad();
     void LoadUnit();
     void UnLoadUnit();
-
     void StartLocation();
 };
 

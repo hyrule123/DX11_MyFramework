@@ -21,8 +21,8 @@
 #include <Engine/jsoncpp.h>
 
 #include "defineScript.h"
-#include "cScript_FSM_Idle.h"
-#include "cScript_FSM_Move_Ground.h"
+//#include "cScript_FSM_Idle.h"
+//#include "cScript_FSM_Move_Ground.h"
 #include "define_SC.h"
 
 namespace strKey_SCEntity

@@ -1,11 +1,11 @@
 #include "pch.h"
-#include "CUIobj_ParticleSystem.h"
+#include "cUIobj_ParticleSystem.h"
 
-CUIobj_ParticleSystem::CUIobj_ParticleSystem()
-	:CUIobj_Component("ParticleSystem", eCOMPONENT_TYPE::PARTICLE_SYSTEM)
+cUIobj_ParticleSystem::cUIobj_ParticleSystem()
+	:cUIobj_Component("ParticleSystem", eCOMPONENT_TYPE::RENDERER)
 {
 }
 
-CUIobj_ParticleSystem::~CUIobj_ParticleSystem()
+cUIobj_ParticleSystem::~cUIobj_ParticleSystem()
 {
 }

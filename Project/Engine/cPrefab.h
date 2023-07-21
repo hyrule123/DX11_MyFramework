@@ -5,13 +5,13 @@
 
 
 class cGameObject;
-class CPrefab :
+class cPrefab :
     public IRes
 {
 public:
-    CPrefab();
-    virtual ~CPrefab();
-    CLONE_DISABLE(CPrefab)
+    cPrefab();
+    virtual ~cPrefab();
+    CLONE_DISABLE(cPrefab)
 
 private:
     cGameObject* m_pPrefab;

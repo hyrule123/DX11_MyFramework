@@ -2,50 +2,53 @@
 #include "ManualEdit.h"
 
 
-#include <Engine/UserClassMgr.h>
-#include <Engine/CRandMgr.h>
+#include <Engine/cComMgr.h>
+#include <Engine/RandGen.h>
 #include <Engine/EventDispatcher.h>
 
 //Resource
-#include <Engine/CResMgr.h>
-#include <Engine/CAnim2DAtlas.h>
+#include <Engine/cResMgr.h>
+#include <Engine/cPrefab.h>
+#include <Engine/cAnim2DAtlas.h>
 
-#include <Engine/CTilemapComplete.h>
+#include <Engine/cCom_Renderer_TilemapComplete.h>
 
 //string Keys
 #include <Engine/strKey_Default.h>
-#include <Script/strKey_Script.h>
+#include <Script/strKey_Component.h>
 #include <Script/strKey_Texture.h>
-#include <Script/strKey_GShader.h>
-#include <Script/strkey_CShader.h>
+#include <Script/strKey_Shader.h>
 #include "strKey_Prefab.h"
 
 //Components
-#include <Engine/CCollider2D_Rect.h>
-#include <Engine/CAnimator2D.h>
-#include <Engine/CMeshRender.h>
-#include <Engine/CScriptHolder.h>
-#include <Engine/CPrefab.h>
-#include <Engine/CTransform.h>
+#include <Engine/cCom_Animator2D.h>
+#include <Engine/cCom_Coll2D_Rect.h>
+#include <Engine/cCom_Coll2D_Rect.h>
+#include <Engine/cCom_Renderer_Default.h>
+#include <Engine/cPrefab.h>
+#include <Engine/cTransform.h>
 
 //Scripts
 #include <Script/SC_Func.h>
 #include <Script/define_SC.h>
-#include <Script/CScript_FSM_Idle.h>
-#include <Script/CScript_FSM_Attack.h>
-#include <Script/CScript_FSM_Move_Ground.h>
-#include <Script/CScript_FSM_Death.h>
+
 #include <Script/CScript_SCEntity.h>
-#include <Script/CScript_FSM_Building_Prod.h>
+//#include <Script/CScript_FSM_Building_Prod.h>
+//#include <Script/CScript_FSM_Idle.h>
+//#include <Script/cScript_FSM_Attack.h>
+//#include <Script/CScript_FSM_Move_Ground.h>
+//#include <Script/CScript_FSM_Death.h>
 
 //HLSL Header
-#include <Script/S_H_SCUnitGround.hlsli>
+#include <HLSL/S_H_SCUnitGround.hlsli>
 
-#include <Script/CScript_TilemapSC.h>
+#include <Engine/cGameObject.h>
+
+#include <Script/strKey_Component.h>
 
 void ManualEdit::Edit()
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
 	//Terran-Common Animations
 	Terran_CommonAnim_Save();
@@ -93,26 +96,28 @@ void ManualEdit::Edit()
 
 void ManualEdit::TestCreate()
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
 	for (int i = 0; i < 1; ++i)
 	{
-		Ptr<CPrefab> MarinePrefab = CResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
-		CGameObject* Marine = MarinePrefab->Instantiate();
+		Ptr<cPrefab> MarinePrefab = cResMgr::GetInst()->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
+		cGameObject* Marine = MarinePrefab->Instantiate();
 
-		float randx = CRandMgr::GetInst()->GetRand<float>(-640.f, 640.f);
-		float randy = CRandMgr::GetInst()->GetRand<float>(-320.f, 320.f);
+		float randx = RandGen::GetRand<float>(-640.f, 640.f);
+		float randy = RandGen::GetRand<float>(-320.f, 320.f);
 		EventDispatcher::SpawnGameObject(Marine, Vec3(randx, randy, 0.f));
 
-		CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_Script::CScript_FSM_Move_Ground));
+		//CScript_FSM_Move_Ground* pMoveGround = static_cast<CScript_FSM_Move_Ground*>(Marine->ScriptHolder()->FindScript(strKey_Component::CScript_FSM_Move_Ground));
 
-		pMoveGround->SetSpeed(100.f);
+		//pMoveGround->SetSpeed(100.f);
 	}
 
 	{
-		Ptr<CPrefab> CCPrefab = pResMgr->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
-		CGameObject* CommandCenter = CCPrefab->Instantiate();
-		Ptr<CMaterial> pMtrl = CommandCenter->RenderComponent()->GetCurMaterial();
+		Ptr<cPrefab> CCPrefab = pResMgr->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
+		cGameObject* CommandCenter = CCPrefab->Instantiate();
+
+		
+		Ptr<cMaterial> pMtrl = CommandCenter->GetComponent<cCom_Renderer_Default>()->GetCurMaterial();
 
 		EventDispatcher::SpawnGameObject(CommandCenter, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::GroundUnitMain);
 	}
@@ -120,14 +125,14 @@ void ManualEdit::TestCreate()
 
 	//Mineral
 	{
-		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::strKey_PREFAB::MINERAL);
+		Ptr<cPrefab> pPrefab = pResMgr->Load<cPrefab>(SC::strKey_PREFAB::MINERAL);
 
 		//EventDispatcher::SpawnPrefab(pPrefab, Vec2(100.f, 100.f));
 	}
 
 	//Vespene
 	{
-		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
+		Ptr<cPrefab> pPrefab = pResMgr->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
 		EventDispatcher::SpawnPrefab2D(pPrefab, Vec2(-100.f, 100.f));
 	}
 
@@ -137,16 +142,16 @@ void ManualEdit::TestCreate()
 
 void ManualEdit::Terran_CommonAnim_Save()
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
 	//대형건물 건설 애니메이션(초반부)
 	//기본 시간은 100초이므로 이걸 재생속도 배율을 늘려서 사용할것(34초 -> 0.34f)
 	//또한 애니메이션도 1개 뿐이므로 동일한 키값을 사용
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::Construction_Large_tbldlrg__bmp);
+		Ptr<cTexture> pTex = cResMgr::GetInst()->Load<cTexture>(strKey_Texture::SC::Terran::Construction_Large_tbldlrg__bmp);
 		assert(nullptr != pTex);
 
-		Ptr<CAnim2DAtlas> pAnim = new CAnim2DAtlas;
+		Ptr<cAnim2DAtlas> pAnim = new cAnim2DAtlas;
 		//pAnim->SetKey(pTex->GetKey());
 		pAnim->SetAtlasTexture(pTex);
 		
@@ -168,12 +173,12 @@ void ManualEdit::Terran_CommonAnim_Save()
 
 void ManualEdit::MarineAnim_Save(const string& _strKey)
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
-	Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::marine_bmp);
+	Ptr<cTexture> pTex = cResMgr::GetInst()->Load<cTexture>(strKey_Texture::SC::Terran::marine_bmp);
 	assert(nullptr != pTex);
 
-	Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+	Ptr<cAnim2DAtlas> Atlas = new cAnim2DAtlas;
 	
 	Atlas->SetAtlasTexture(pTex);
 
@@ -206,66 +211,66 @@ void ManualEdit::MarineAnim_Save(const string& _strKey)
 
 void ManualEdit::MarinePrefab_Save(const string& _strKey)
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
-	CGameObject* pObj = new CGameObject;
-	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
+	cGameObject* pObj = new cGameObject;
+	pObj->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
 	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
 
 	//Collider
-	{
-		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+	{	
+		cCom_Coll2D_Rect* pCol = pObj->AddComponent<cCom_Coll2D_Rect>();
 		pObj->AddComponent(pCol);
 
 		pCol->SetFollowTransformSize(false);
 		pCol->SetCollSize(Vec2(17.f, 20.f));
 	}
 
-	//CAnimator2D
+	//cCom_Animator2D
 	{
-		CAnimator2D* pAnim = new CAnimator2D;
-		pObj->AddComponent(pAnim);
+		cCom_Animator2D* pAnim = pObj->AddComponent<cCom_Animator2D>();
 
-		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::Terran::marine_bmp);
+
+		Ptr<cAnim2DAtlas> pAtlas = cResMgr::GetInst()->Load<cAnim2DAtlas>(strKey_Texture::SC::Terran::marine_bmp);
 		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
 	}
 
 	//MeshRender
 	{
-		CMeshRender* pRenderCom = new CMeshRender;
+		cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
 		pObj->AddComponent(pRenderCom);
 
 		//Material
-		Ptr<CMaterial> pMtrl = new CMaterial;
+		Ptr<cMaterial> pMtrl = new cMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_GShader::SCUnitGround);
+		Ptr<cGraphicsShader> pShader = pResMgr->Load<cGraphicsShader>(strKey_Shader::Graphics::SCUnitGround);
 		pMtrl->SetShader(pShader);
 		
 		//Mesh
-		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		Ptr<cMesh> pMesh = pResMgr->FindRes<cMesh>(strKey_RES_DEFAULT::MESH::RECT);
 		pRenderCom->SetMesh(pMesh);
 	}
 	
 	//Script
 	{
-		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(UserClassMgr::GetNewScript(strKey_Script::CScript_SCEntity));
-		pObj->AddScript(pSCEntity);
+		cScript_SCEntity* pSCEntity = static_cast<cScript_SCEntity*>(cComMgr::GetInst()->GetNewCom(strKey_Com::cScript_SCEntity));
 		
-		CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(UserClassMgr::GetNewScript(strKey_Script::CScript_FSM_Idle));
-		pObj->AddScript(pFSMIdle);
+		//pObj->AddComponent<
+		//CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(cComMgr::GetNewScript(strKey_Component::CScript_FSM_Idle));
+		//pObj->AddScript(pFSMIdle);
 
-		CScript_FSM_Move_Ground* pFSMGround = GET_NEW_SCRIPT(CScript_FSM_Move_Ground);
-		pObj->AddScript(pFSMGround);
+		//CScript_FSM_Move_Ground* pFSMGround = GET_NEW_SCRIPT(CScript_FSM_Move_Ground);
+		//pObj->AddScript(pFSMGround);
 
-		CScript_FSM_Attack* pFSMAttack = GET_NEW_SCRIPT(CScript_FSM_Attack);
-		pObj->AddScript(pFSMAttack);
+		//cScript_FSM_Attack* pFSMAttack = GET_NEW_SCRIPT(cScript_FSM_Attack);
+		//pObj->AddScript(pFSMAttack);
 	}
 	
 	
 	
 
-	Ptr<CPrefab> pPrefab = new CPrefab;
+	Ptr<cPrefab> pPrefab = new cPrefab;
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(_strKey);
 }
@@ -274,13 +279,13 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 
 void ManualEdit::CommandCenter_Anim_Save()
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
 	//메인 스프라이트
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::CommandCenter_control__bmp);
+		Ptr<cTexture> pTex = cResMgr::GetInst()->Load<cTexture>(strKey_Texture::SC::Terran::CommandCenter_control__bmp);
 		assert(nullptr != pTex);
-		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Ptr<cAnim2DAtlas> Atlas = new cAnim2DAtlas;
 		Atlas->SetKey(pTex->GetKey());
 
 		Atlas->SetAtlasTexture(pTex);
@@ -311,75 +316,73 @@ void ManualEdit::CommandCenter_Anim_Save()
 	//생산 스프라이트(controlt)
 	//텍스처 한 장이므로 굳이 할필요가 없다
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::CommandCenter_Prod_controlt__bmp);
+		Ptr<cTexture> pTex = cResMgr::GetInst()->Load<cTexture>(strKey_Texture::SC::Terran::CommandCenter_Prod_controlt__bmp);
 		assert(nullptr != pTex);
-		//Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		//Ptr<cAnim2DAtlas> Atlas = new cAnim2DAtlas;
 		//Atlas->SetKey(pTex->GetKey());
 	}
 }
 
 void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
-	CGameObject* pObj = new CGameObject;
-	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
+	cGameObject* pObj = new cGameObject;
+	pObj->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
 	pObj->SetLayer(SC::LAYER_INFO::GroundUnitMain);
 
 	//Collider
 	{
-		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+		cCom_Coll2D_Rect* pCol = new cCom_Coll2D_Rect;
 		pObj->AddComponent(pCol);
 
 		SC_Func::SetSCBuildingSize(pCol, 3, 2, Vec4(6.f, 5.f, 7.f, 6.f));
 	}
 
-	//CAnimator2D
+	//cCom_Animator2D
 	{
-		CAnimator2D* pAnim = new CAnimator2D;
-		pObj->AddComponent(pAnim);
+		cCom_Animator2D* pAnim = pObj->AddComponent<cCom_Animator2D>();
 
-		Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::Terran::CommandCenter_control__bmp);
+		Ptr<cAnim2DAtlas> pAtlas = cResMgr::GetInst()->Load<cAnim2DAtlas>(strKey_Texture::SC::Terran::CommandCenter_control__bmp);
 		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
 
 		
-		pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::Terran::Construction_Large_tbldlrg__bmp);
+		pAtlas = cResMgr::GetInst()->Load<cAnim2DAtlas>(strKey_Texture::SC::Terran::Construction_Large_tbldlrg__bmp);
 		pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_1, pAtlas);
 	}
 
 	//MeshRender
 	{
-		CMeshRender* pRenderCom = new CMeshRender;
+		cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
 		pObj->AddComponent(pRenderCom);
 
 		//Material
-		Ptr<CMaterial> pMtrl = new CMaterial;
+		Ptr<cMaterial> pMtrl = new cMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_GShader::BuildingStructure);
+		Ptr<cGraphicsShader> pShader = pResMgr->Load<cGraphicsShader>(strKey_Shader::Graphics::BuildingStructure);
 		pMtrl->SetShader(pShader);
 
-		Ptr<CTexture> pFlash = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::Terran::CommandCenter_Prod_controlt__bmp);
+		Ptr<cTexture> pFlash = cResMgr::GetInst()->Load<cTexture>(strKey_Texture::SC::Terran::CommandCenter_Prod_controlt__bmp);
 
 		pMtrl->SetTexParam((eMTRLDATA_PARAM_TEX)iTexProdIdx, pFlash);
 
 		//Mesh
-		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		Ptr<cMesh> pMesh = pResMgr->FindRes<cMesh>(strKey_RES_DEFAULT::MESH::RECT);
 		pRenderCom->SetMesh(pMesh);
 	}
 
 	//Script
 	{
-		CScript_SCEntity* pEntity = GET_NEW_SCRIPT(CScript_SCEntity);
-		pObj->AddScript(pEntity);
+		pObj->AddComponent<cScript_SCEntity>();
 
-		CScript_FSM_Building_Prod* pFSMBuilding = static_cast<CScript_FSM_Building_Prod*>(UserClassMgr::GetNewScript(strKey_Script::CScript_FSM_Building_Prod));
-		pObj->AddScript(pFSMBuilding);
+		//CScript_FSM_Building_Prod* pFSMBuilding = static_cast<CScript_FSM_Building_Prod*>(cComMgr::GetNewScript(strKey_Component::CScript_FSM_Building_Prod));
+		//pObj->AddScript(pFSMBuilding);
 	}
 
-	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
+	pObj->SetKey(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
 
-	Ptr<CPrefab> pPrefab = new CPrefab;
+	Ptr<cPrefab> pPrefab = new cPrefab;
 	pPrefab->SetKey(_strKey);
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(_strKey);
@@ -388,15 +391,15 @@ void ManualEdit::CommandCenter_Prefab_Save(const string& _strKey)
 
 void ManualEdit::Mineral_Prefab_Save()
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
-	CGameObject* pObj = new CGameObject;
-	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::MINERAL_FIELD_TYPE_1));
+	cGameObject* pObj = new cGameObject;
+	pObj->SetKey(SC::GetUnitName(SC::eUNIT_ID::MINERAL_FIELD_TYPE_1));
 	pObj->SetLayer(SC::LAYER_INFO::Resource);
 
 	//Collider
 	{
-		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+		cCom_Coll2D_Rect* pCol = new cCom_Coll2D_Rect;
 		pObj->AddComponent(pCol);
 
 		SC_Func::SetSCBuildingSize(pCol, 2, 1, Vec4(0.f));
@@ -405,24 +408,24 @@ void ManualEdit::Mineral_Prefab_Save()
 
 	//MeshRender
 	{
-		CMeshRender* pRenderCom = new CMeshRender;
+		cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
 		pObj->AddComponent(pRenderCom);
 
 
 		//Material
-		Ptr<CMaterial> pMtrl = new CMaterial;
+		Ptr<cMaterial> pMtrl = new cMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::MINERAL_FIELD_TYPE_1));//프리팹 키와 동일한 키를 사용
 
 		pRenderCom->SetMaterial(pMtrl);
 
-		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_GShader::Mineral
+		Ptr<cGraphicsShader> pShader = pResMgr->Load<cGraphicsShader>(strKey_Shader::Graphics::Mineral
 		);
 		pMtrl->SetShader(pShader);
 
 		//미네랄 텍스처 등록
-		Ptr<CTexture> Mineral1 = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::min01_bmp);
-		Ptr<CTexture> Mineral2 = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::min02_bmp);
-		Ptr<CTexture> Mineral3 = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::min03_bmp);
+		Ptr<cTexture> Mineral1 = pResMgr->Load<cTexture>(strKey_Texture::SC::Neutral::min01_bmp);
+		Ptr<cTexture> Mineral2 = pResMgr->Load<cTexture>(strKey_Texture::SC::Neutral::min02_bmp);
+		Ptr<cTexture> Mineral3 = pResMgr->Load<cTexture>(strKey_Texture::SC::Neutral::min03_bmp);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, Mineral1);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_1, Mineral2);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_2, Mineral3);
@@ -438,7 +441,7 @@ void ManualEdit::Mineral_Prefab_Save()
 
 
 		//Mesh
-		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		Ptr<cMesh> pMesh = pResMgr->FindRes<cMesh>(strKey_RES_DEFAULT::MESH::RECT);
 		pRenderCom->SetMesh(pMesh);
 	}
 
@@ -446,24 +449,24 @@ void ManualEdit::Mineral_Prefab_Save()
 
 	//Script
 	{
-		pObj->AddScript(UserClassMgr::GetNewScript(strKey_Script::CScript_Mineral));
+		pObj->AddComponent(cComMgr::GetInst()->GetNewCom(strKey_Com::cScript_Mineral));
 	}
 
 
-	Ptr<CPrefab> pPrefab = new CPrefab;
+	Ptr<cPrefab> pPrefab = new cPrefab;
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(SC::strKey_PREFAB::MINERAL);
 }
 
 void ManualEdit::Vespene_Anim_Save()
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
 	//일반 연기
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::thingy::VSmoke_geysmok1__bmp);
+		Ptr<cTexture> pTex = cResMgr::GetInst()->Load<cTexture>(strKey_Texture::SC::thingy::VSmoke_geysmok1__bmp);
 		assert(nullptr != pTex);
-		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Ptr<cAnim2DAtlas> Atlas = new cAnim2DAtlas;
 		Atlas->SetKey(pTex->GetKey());
 
 		Atlas->SetAtlasTexture(pTex);
@@ -484,9 +487,9 @@ void ManualEdit::Vespene_Anim_Save()
 
 	//고갈 연기
 	{
-		Ptr<CTexture> pTex = CResMgr::GetInst()->Load<CTexture>(strKey_Texture::SC::thingy::VSmokeDeplete_geysmok4__bmp);
+		Ptr<cTexture> pTex = cResMgr::GetInst()->Load<cTexture>(strKey_Texture::SC::thingy::VSmokeDeplete_geysmok4__bmp);
 		assert(nullptr != pTex);
-		Ptr<CAnim2DAtlas> Atlas = new CAnim2DAtlas;
+		Ptr<cAnim2DAtlas> Atlas = new cAnim2DAtlas;
 		Atlas->SetKey(pTex->GetKey());
 
 		Atlas->SetAtlasTexture(pTex);
@@ -508,15 +511,15 @@ void ManualEdit::Vespene_Anim_Save()
 
 void ManualEdit::Vespene_Prefab_Save()
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
-	CGameObject* pObj = new CGameObject;
-	pObj->SetName(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
+	cGameObject* pObj = new cGameObject;
+	pObj->SetKey(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
 	pObj->SetLayer(SC::LAYER_INFO::Resource);
 
 	//Collider
 	{
-		CCollider2D_Rect* pCol = new CCollider2D_Rect;
+		cCom_Coll2D_Rect* pCol = new cCom_Coll2D_Rect;
 		pObj->AddComponent(pCol);
 
 		pCol->SetFollowTransformSize(false);
@@ -531,29 +534,28 @@ void ManualEdit::Vespene_Prefab_Save()
 
 	//MeshRender
 	{
-		CMeshRender* pRenderCom = new CMeshRender;
+		cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
 		pObj->AddComponent(pRenderCom);
 
 		//Material
-		Ptr<CMaterial> pMtrl = new CMaterial;
+		Ptr<cMaterial> pMtrl = new cMaterial;
 		pMtrl->SetKey(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));//프리팹 키와 동일한 키를 사용
 		pRenderCom->SetMaterial(pMtrl);
-		Ptr<CGraphicsShader> pShader = pResMgr->Load<CGraphicsShader>(strKey_GShader::VespineGeyser);
+		Ptr<cGraphicsShader> pShader = pResMgr->Load<cGraphicsShader>(strKey_Shader::Graphics::VespineGeyser);
 		pMtrl->SetShader(pShader);
 
-		Ptr<CTexture> VespeneTex = pResMgr->Load<CTexture>(strKey_Texture::SC::Neutral::geyser_bmp);
+		Ptr<cTexture> VespeneTex = pResMgr->Load<cTexture>(strKey_Texture::SC::Neutral::geyser_bmp);
 		assert(nullptr != VespeneTex);
 		pMtrl->SetTexParam(eMTRLDATA_PARAM_TEX::_0, VespeneTex);
 
 		//Mesh
-		Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+		Ptr<cMesh> pMesh = pResMgr->FindRes<cMesh>(strKey_RES_DEFAULT::MESH::RECT);
 		pRenderCom->SetMesh(pMesh);
 	}
 
 	//Script
 	{
-		CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(UserClassMgr::GetNewScript(strKey_Script::CScript_Vespene));
-		pObj->AddScript(pSCEntity);
+		pObj->AddComponent<cScript_SCEntity>();
 
 		//가스 스크립트 추가할것
 	}
@@ -563,8 +565,8 @@ void ManualEdit::Vespene_Prefab_Save()
 	constexpr int numSmoke = 3;
 	for(int i = 0; i < numSmoke; ++i)
 	{	
-		CGameObject* pChild = new CGameObject;
-		pChild->SetName(SC::strKey_PREFAB::VESPENE_SMOKE);
+		cGameObject* pChild = new cGameObject;
+		pChild->SetKey(SC::strKey_PREFAB::VESPENE_SMOKE);
 		pChild->SetLayer(SC::LAYER_INFO::Resource);
 
 		pObj->AddChildGameObj(pChild);
@@ -575,84 +577,75 @@ void ManualEdit::Vespene_Prefab_Save()
 			//pChild->Transform().SetRelativePosXY(Vec2(0.f, 0.f));
 		}
 
-		//CAnimator2D
+		//cCom_Animator2D
 		{
-			CAnimator2D* pAnim = new CAnimator2D;
-			pChild->AddComponent(pAnim);
+			cCom_Animator2D* pAnim = pChild->AddComponent<cCom_Animator2D>();
 
-			Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::thingy::VSmoke_geysmok1__bmp);
+			Ptr<cAnim2DAtlas> pAtlas = cResMgr::GetInst()->Load<cAnim2DAtlas>(strKey_Texture::SC::thingy::VSmoke_geysmok1__bmp);
 			pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_0, pAtlas);
 
 
-			pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(strKey_Texture::SC::thingy::VSmokeDeplete_geysmok4__bmp);
+			pAtlas = cResMgr::GetInst()->Load<cAnim2DAtlas>(strKey_Texture::SC::thingy::VSmokeDeplete_geysmok4__bmp);
 			pAnim->AddAtlasTex(eMTRLDATA_PARAM_TEX::_1, pAtlas);
 		}
 
 		//MeshRender
 		{
-			CMeshRender* pRenderCom = new CMeshRender;
+			cCom_Renderer_Default* pRenderCom = new cCom_Renderer_Default;
 			pChild->AddComponent(pRenderCom);
 
 			//Material
-			Ptr<CMaterial> pMtrl = new CMaterial;
+			Ptr<cMaterial> pMtrl = new cMaterial;
 			pMtrl->SetKey(SC::strKey_PREFAB::VESPENE_SMOKE);//프리팹 키와 똑같은 키를 사용
 			pRenderCom->SetMaterial(pMtrl);
-			Ptr<CGraphicsShader> pShader = pResMgr->FindRes<CGraphicsShader>(strKey_GShader::SCUnitGround);
+			Ptr<cGraphicsShader> pShader = pResMgr->FindRes<cGraphicsShader>(strKey_Shader::Graphics::SCUnitGround);
 			pMtrl->SetShader(pShader);
 
 			//Mesh
-			Ptr<CMesh> pMesh = pResMgr->FindRes<CMesh>(strKey_RES_DEFAULT::MESH::RECT);
+			Ptr<cMesh> pMesh = pResMgr->FindRes<cMesh>(strKey_RES_DEFAULT::MESH::RECT);
 			pRenderCom->SetMesh(pMesh);
 		}
 
 		//Script
 		{
-			CScript_SCEntity* pSCEntity = static_cast<CScript_SCEntity*>(UserClassMgr::GetNewScript(strKey_Script::CScript_VespeneSmoke));
-			pChild->AddScript(pSCEntity);
+			cScript_SCEntity* pSCEntity = pChild->AddComponent<cScript_SCEntity>();
 		}
 	}
 
-	Ptr<CPrefab> pPrefab = new CPrefab;
+	Ptr<cPrefab> pPrefab = new cPrefab;
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
 }
 
 void ManualEdit::Map_Prefab_Save()
 {
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
-	CGameObject* pObj = new CGameObject;
-	pObj->SetName(SC::strKey_PREFAB::MAPOBJ);
+	cGameObject* pObj = new cGameObject;
+	pObj->SetKey(SC::strKey_PREFAB::MAPOBJ);
 	pObj->SetLayer(SC::LAYER_INFO::TileMap);
 
 	//MeshRender
 	{
-		pObj->AddComponent(new CTilemapComplete);
+		pObj->AddComponent(new cCom_Renderer_TilemapComplete);
 	}
 
-	//Script
-	{
-		//재질과 메쉬는 해당 클래스에서 설정함.
-		CScript* TilamapScript = UserClassMgr::GetNewScript(strKey_Script::CScript_TilemapSC);
-		pObj->AddScript(TilamapScript);
-	}
-
-	Ptr<CPrefab> pPrefab = new CPrefab;
+	Ptr<cPrefab> pPrefab = new cPrefab;
 	pPrefab->RegisterPrefab(pObj);
 	pPrefab->Save(SC::strKey_PREFAB::MAPOBJ);
 }
 
-Ptr<CAnim2DAtlas> ManualEdit::LoadAnim(const string& _strKey)
+Ptr<cAnim2DAtlas> ManualEdit::LoadAnim(const string& _strKey)
 {
-	Ptr<CAnim2DAtlas> pAtlas = CResMgr::GetInst()->Load<CAnim2DAtlas>(_strKey);
+	Ptr<cAnim2DAtlas> pAtlas = cResMgr::GetInst()->Load<cAnim2DAtlas>(_strKey);
 	assert(nullptr != pAtlas);
 
 	return pAtlas;
 }
 
-Ptr<CPrefab> ManualEdit::LoadPrefab(const string& _strKey)
+Ptr<cPrefab> ManualEdit::LoadPrefab(const string& _strKey)
 {
-	Ptr<CPrefab> pPrefab = CResMgr::GetInst()->Load<CPrefab>(_strKey);
+	Ptr<cPrefab> pPrefab = cResMgr::GetInst()->Load<cPrefab>(_strKey);
 	assert(nullptr != pPrefab);
 
 	return pPrefab;

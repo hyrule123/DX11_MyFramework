@@ -14,7 +14,7 @@ namespace JsonKey_cComputeShader
     STRKEY_DECLARE(ShaderModule);
 }
 
-class cShaderDataModule;
+class cGPUBufferModule;
 class cComputeShader :
     public IShader
 {
@@ -62,22 +62,13 @@ public:
     //그룹 갯수 계산
     void CalcGroupNumber(const tNumDataCS& _NumData);
 
-    //쉐이더에 추가적으로 필요할 경우 붙일 수 있는 데이터 클래스(모듈)
-private:
-    cShaderDataModule* m_pShaderDataModule;
-public:
-    //데이터 소멸을 여기서 관리하지 않으므로 주의할 것
-    void SetShaderDataModule(cShaderDataModule* _pShaderModule) { m_pShaderDataModule = _pShaderModule; }
-    cShaderDataModule* GetShaderDataModule() { return m_pShaderDataModule; }
-
 public:
     //컴퓨터쉐이더 연산 시행
     bool Execute();
 
 private:
     inline bool IsDataReady();
-    inline bool IsDataModuleReady() { return m_pShaderDataModule; }
-    inline bool IsReady() { return (nullptr != m_CS) && IsDataReady() && IsDataModuleReady(); }
+    inline bool IsReady() { return (nullptr != m_CS) && IsDataReady(); }
 
 };
 

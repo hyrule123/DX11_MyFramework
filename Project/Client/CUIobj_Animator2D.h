@@ -1,11 +1,11 @@
 #pragma once
-#include "CUIobj_Component.h"
-class CUIobj_Animator2D :
-    public CUIobj_Component
+#include "cUIobj_Component.h"
+class cUIobj_Animator2D :
+    public cUIobj_Component
 {
 public:
-    CUIobj_Animator2D();
-    virtual ~CUIobj_Animator2D();
+    cUIobj_Animator2D();
+    virtual ~cUIobj_Animator2D();
 
 public:
     //자신이 담당하는 컴포넌트가 없을 경우 호출되는 함수

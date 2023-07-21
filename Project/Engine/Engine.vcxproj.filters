@@ -163,9 +163,6 @@
     <ClInclude Include="cShaderData_SetColor.h">
       <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </ClInclude>
-    <ClInclude Include="cCSModule_ParticleBasic.h">
-      <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
-    </ClInclude>
     <ClInclude Include="cShaderData_Init.h">
       <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
     </ClInclude>
@@ -195,9 +192,6 @@
     <ClInclude Include="cCom_Renderer_TilemapComplete.h">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="cShaderDataModule.h">
-      <Filter>_Source\07. Resource\06, 07. Shader</Filter>
-    </ClInclude>
     <ClInclude Include="DefaultClassInitializer.h">
       <Filter>_Source\03. Manager\10. ComMgr</Filter>
     </ClInclude>
@@ -218,6 +212,7 @@
     <ClInclude Include="cCom_Renderer_Default.h">
       <Filter>_Source\06. Component\08~Render Components\08. Basic Render</Filter>
     </ClInclude>
+    <ClInclude Include="cGPUBufferModule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -355,9 +350,6 @@
     <ClCompile Include="cShaderData_SetColor.cpp">
       <Filter>_HLSL, Shader Default\99. Compute\01. SetColor</Filter>
     </ClCompile>
-    <ClCompile Include="cCSModule_ParticleBasic.cpp">
-      <Filter>_HLSL, Shader Default\99. Compute\02. ParticleUpdate</Filter>
-    </ClCompile>
     <ClCompile Include="cShaderData_Init.cpp">
       <Filter>_HLSL, Shader Default\99. Compute\00. Initialize</Filter>
     </ClCompile>
@@ -373,9 +365,6 @@
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="cCom_Renderer_TilemapComplete.cpp">
       <Filter>_Source\06. Component\08~Render Components\10. Tilemap</Filter>
-    </ClCompile>
-    <ClCompile Include="cShaderDataModule.cpp">
-      <Filter>_Source\07. Resource\06, 07. Shader</Filter>
     </ClCompile>
     <ClCompile Include="DefaultClassInitializer.cpp">
       <Filter>_Source\03. Manager\10. ComMgr</Filter>
@@ -397,6 +386,7 @@
     <ClCompile Include="cCom_Renderer_Default.cpp">
       <Filter>_Source\06. Component\08~Render Components\08. Basic Render</Filter>
     </ClCompile>
+    <ClCompile Include="cGPUBufferModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_Source">

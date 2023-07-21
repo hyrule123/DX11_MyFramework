@@ -42,7 +42,7 @@ private:
     Vec3    m_v3RelativePos;
     Vec3    m_v3RelativeRot;
 
-    float m_fLongestDiagonalLen;
+    float   m_fLongestDiagonalLen;
 
     //앞, 위, 오른쪽으로 나타내는 직관적인 방향 정보
     //eDIR_TYPE 열거체를 사용.

@@ -1,13 +1,13 @@
 #include "pch.h"
-#include "CUIobj_Camera.h"
+#include "cUIobj_Camera.h"
 
-CUIobj_Camera::CUIobj_Camera()
-	: CUIobj_Component("Camera", eCOMPONENT_TYPE::CAMERA)
+cUIobj_Camera::cUIobj_Camera()
+	: cUIobj_Component("Camera", eCOMPONENT_TYPE::CAMERA)
 {
 	SetStrID("CameraUI");
 }
 
-CUIobj_Camera::~CUIobj_Camera()
+cUIobj_Camera::~cUIobj_Camera()
 {
 }
 

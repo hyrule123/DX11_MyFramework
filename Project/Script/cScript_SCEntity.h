@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine/IScript.h>
+
 #include <Engine/cKeyMgr.h>
 
 #include "define_SC.h"

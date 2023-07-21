@@ -101,9 +101,6 @@
     <ClInclude Include="define_SCMap.h">
       <Filter>UserComponents</Filter>
     </ClInclude>
-    <ClInclude Include="CCS_SCMapLoader.h">
-      <Filter>UserComponents</Filter>
-    </ClInclude>
     <ClInclude Include="cCom_Renderer_TilemapSC.h">
       <Filter>UserComponents</Filter>
     </ClInclude>
@@ -168,9 +165,6 @@
     </ClCompile>
     <ClCompile Include="UserClassInitializer_Script.cpp">
       <Filter>Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="CCS_SCMapLoader.cpp">
-      <Filter>UserComponents</Filter>
     </ClCompile>
     <ClCompile Include="cCom_Renderer_TilemapSC.cpp">
       <Filter>UserComponents</Filter>

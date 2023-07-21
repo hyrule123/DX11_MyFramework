@@ -1,17 +1,17 @@
 #pragma once
-#include "CUIobj_Component.h"
+#include "cUIobj_Component.h"
 
-class CUI_ComboBox;
-class CUIobj_Collider2D :
-    public CUIobj_Component
+class cUI_ComboBox;
+class cUIobj_Collider2D :
+    public cUIobj_Component
 {
 public:
-    CUIobj_Collider2D();
-    virtual ~CUIobj_Collider2D();
+    cUIobj_Collider2D();
+    virtual ~cUIobj_Collider2D();
 
 public:
     virtual void init() override;
-    virtual void tick() override;
+    virtual void Tick() override;
     virtual void CreateNewComUI() override;
     virtual void EditComUI() override;
 
@@ -19,7 +19,7 @@ public:
     //virtual void render_update() override;
 
 private:
-    CUI_ComboBox* m_ComboColTypeSelector;
+    cUI_ComboBox* m_ComboColTypeSelector;
 
     void RectEditUI();
     void CircleEditUI();

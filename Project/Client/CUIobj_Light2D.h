@@ -1,11 +1,11 @@
 #pragma once
-#include "CUIobj_Component.h"
-class CUIobj_Light2D :
-    public CUIobj_Component
+#include "cUIobj_Component.h"
+class cUIobj_Light2D :
+    public cUIobj_Component
 {
 public:
-    CUIobj_Light2D();
-    virtual ~CUIobj_Light2D();
+    cUIobj_Light2D();
+    virtual ~cUIobj_Light2D();
 
 public:
 };

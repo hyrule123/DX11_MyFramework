@@ -28,9 +28,9 @@ public:
 
 
 private:
-	string_view			m_strKey;
+	string			m_strKey;
 public:
 	void SetKey(const string_view _strName) {  m_strKey = _strName; }
-	const string_view GetKey() { return m_strKey; }
+	const string& GetKey() { return m_strKey; }
 };
 

@@ -1,43 +1,45 @@
 #include "pch.h"
-#include "CMainGameLevel.h"
+#include "MainGameLevel.h"
 
 #include <Engine/global.h>
 
-#include <Engine/CDevice.h>
+#include <Engine/cDevice.h>
 
-#include <Engine/CLevel.h>
-#include <Engine/CLevelMgr.h>
-#include <Engine/CLayer.h>
+#include <Engine/cLevel.h>
+#include <Engine/cLevelMgr.h>
+#include <Engine/cLayer.h>
 
 #include <Engine/ptr.h>
-#include <Engine/CTexture.h>
-#include <Engine/CResMgr.h>
+#include <Engine/cTexture.h>
+#include <Engine/cResMgr.h>
 #include <Engine/strKey_Default.h>
-#include <Engine/CGameObject.h>
+#include <Engine/cGameObject.h>
 #include <Engine/components.h>
-#include <Engine/CCollisionMgr.h>
+#include <Engine/cCollisionMgr.h>
 #include <Engine/CTimeMgr.h>
 
-#include <Engine/C_ComputeShader.h>
-#include <Engine/CCS_SetColor.h>
+#include <Engine/cComputeShader.h>
 
 
 #include <Engine/CTimeMgr.h>
-#include <Engine/CResMgr.h>
-#include <Engine/CRandMgr.h>
+#include <Engine/cResMgr.h>
+#include <Engine/RandGen.h>
 #include <Engine/EventDispatcher.h>
 #include <Engine/jsoncpp.h>
 
-#include <Script/strKey_Script.h>
+#include <Script/strKey_Component.h>
 #include <Script/strKey_Texture.h>
-#include <Script/strKey_GShader.h>
-#include <Script/CCS_SCMapLoader.h>
+#include <Script/strKey_Shader.h>
 
-#include <Script/CScript_FSM_Move_Ground.h>
+
+//#include <Script/CScript_FSM_Move_Ground.h>
 #include <Script/CScript_MouseCursor.h>
 #include <Script/define_SC.h>
 
-#include <Engine/UserClassMgr.h>
+#include <Engine/cComMgr.h>
+#include <Engine/cCom_Camera.h>
+
+#include <Script/strKey_Component.h>
 
 #include "ManualEdit.h"
 #include "strKey_Prefab.h"
@@ -56,14 +58,14 @@ void CreateMainGame()
 
 
 	//Layer 세팅
-	CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
+	cLevel* pLevel = cLevelMgr::GetInst()->GetCurLevel();
 
 	//Layer 이름 세팅
 	for (int i = 0; i < (int)SC::LAYER_INFO::idx::END; ++i)
 	{
-		CLayer& Layer = pLevel->GetLayer(i);
+		cLayer& Layer = pLevel->GetLayer(i);
 
-		Layer.SetName(SC::LAYER_INFO::strLayerName[i]);
+		Layer.SetKey(SC::LAYER_INFO::strLayerName[i]);
 
 		bool bYSort = false;
 
@@ -81,34 +83,35 @@ void CreateMainGame()
 	}
 
 	//Layer Z 정보 세팅
-	CCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::LAYER_INFO::MouseCursor);
-	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::GroundUnitMain);
-	CCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::Resource, SC::LAYER_INFO::GroundUnitMain);
+	cCollisionMgr::GetInst()->AddLayerInterAction2DAll(SC::LAYER_INFO::MouseCursor);
+	cCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::GroundUnitMain, SC::LAYER_INFO::GroundUnitMain);
+	cCollisionMgr::GetInst()->AddLayerInteraction2D(SC::LAYER_INFO::Resource, SC::LAYER_INFO::GroundUnitMain);
 
-	CCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
+	cCollisionMgr::GetInst()->AddLayerInteraction2D(0, 1);
 
-	Ptr<CMesh> CircleMesh = CResMgr::GetInst()->FindRes<CMesh>("CircleMesh");
-	Ptr<CMesh> RectMesh = CResMgr::GetInst()->FindRes<CMesh>("RectMesh");
+	Ptr<cMesh> CircleMesh = cResMgr::GetInst()->FindRes<cMesh>("CircleMesh");
+	Ptr<cMesh> RectMesh = cResMgr::GetInst()->FindRes<cMesh>("RectMesh");
 
-	CResMgr* pResMgr = CResMgr::GetInst();
+	cResMgr* pResMgr = cResMgr::GetInst();
 
 	//Map Object
 	{
-		Ptr<CPrefab> pPrefab = pResMgr->Load<CPrefab>(SC::strKey_PREFAB::MAPOBJ);
+		Ptr<cPrefab> pPrefab = pResMgr->Load<cPrefab>(SC::strKey_PREFAB::MAPOBJ);
 		assert(nullptr != pPrefab);
 		EventDispatcher::SpawnGameObject(pPrefab->Instantiate(), Vec3::Zero);
 	}
 
 	{
 		// Camera	
-		CGameObject* pObj = new CGameObject;
-		pObj->SetName("Camera");
-		CCamera* Cam = new CCamera;
+		cGameObject* pObj = new cGameObject;
+		cCom_Camera* Cam = pObj->AddComponent<cCom_Camera>();
+
 		pObj->AddComponent(Cam);
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
-		//pObj->AddComponent(new CTransform);
-		pObj->AddScript(UserClassMgr::GetNewScript(strKey_Script::CScript_MainCamSC_InGame));
+		//pObj->AddComponent(new cTransform);
+
+		pObj->AddComponent(cComMgr::GetInst()->GetNewCom(strKey_Com::cScript_MainCamSC_InGame));
 
 		EventDispatcher::SpawnGameObject(pObj, Vec3(0.f, 0.f, 0.f), SC::LAYER_INFO::Camera);
 	}
@@ -116,10 +119,10 @@ void CreateMainGame()
 
 //void LoadRes(eRES_TYPE _eResType)
 //{
-//	CResMgr* pResMgr = CResMgr::GetInst();
+//	cResMgr* pResMgr = cResMgr::GetInst();
 //	//우선 테스트를 위해서 모든 리소스를 순회돌면서 로드해준다.
 //	//텍스처 로드
-//	std::filesystem::path ResPath = CPathMgr::GetInst()->GetPathRel_Resource(_eResType);
+//	std::filesystem::path ResPath = cPathMgr::GetInst()->GetPathRel_Resource(_eResType);
 //
 //	std::filesystem::recursive_directory_iterator RIter;
 //	try
@@ -132,7 +135,7 @@ void CreateMainGame()
 //				continue;
 //			const auto& RelativePath = std::filesystem::relative(RIter->path(), ResPath);
 //			pResMgr->Load(_eResType, RelativePath);
-//			//pResMgr->Load<CTexture>(RelativePath);
+//			//pResMgr->Load<cTexture>(RelativePath);
 //		}
 //	}
 //	catch (const std::filesystem::filesystem_error& error)

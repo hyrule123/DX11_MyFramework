@@ -19,12 +19,6 @@ namespace strKey_Com
 {
 	STRKEY cCom_Renderer_TilemapSC = "cCom_Renderer_TilemapSC";
 	STRKEY cScript_CameraMove = "cScript_CameraMove";
-	STRKEY cScript_FSM_Attack = "cScript_FSM_Attack";
-	STRKEY cScript_FSM_Building_Prod = "cScript_FSM_Building_Prod";
-	STRKEY cScript_FSM_Death = "cScript_FSM_Death";
-	STRKEY cScript_FSM_Idle = "cScript_FSM_Idle";
-	STRKEY cScript_FSM_Move_Ground = "cScript_FSM_Move_Ground";
-	STRKEY cScript_FSM_Move_Hover = "cScript_FSM_Move_Hover";
 	STRKEY cScript_MainCamSC_InGame = "cScript_MainCamSC_InGame";
 	STRKEY cScript_Mineral = "cScript_Mineral";
 	STRKEY cScript_MouseCursor = "cScript_MouseCursor";

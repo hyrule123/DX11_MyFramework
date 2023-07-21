@@ -34,29 +34,67 @@ STRKEY strPath_StormLib = "StormLib_DLL_Release.dll";
 //#include <StormLib_DLL/StormLib.h>
 
 #include "define_SC.h"
-#include "CCS_SCMapLoader.h"
 #include "cScript_Mineral.h"
-#include "strKey_Script.h"
 #include "strKey_Shader.h"
 
 #include <Engine/cComMgr.h>
 
 #include <Engine/RandGen.h>
 #include <Engine/cCom_Camera.h>
+#include <Engine/cGameObject.h>
 
 //디버그 출력 확인용
 using namespace SC_Map;
 
 cCom_Renderer_TilemapSC::cCom_Renderer_TilemapSC()
 	: m_CS_MapLoader()
+	, m_eTileSet()
+	, m_strMapName()
+
 	, m_bMapLoaded()
 	, m_bUnitLoaded()
 	, m_eDebugMode()
 {
+	Ptr<cComputeShader> m_CS_MapLoader;
+
+	//타일 크기는 부모 클래스에 있음.
+	//UINT32 m_uNumMegatileX;
+	//UINT32 m_uNumMegatileY;
+
+	SC_Map::eTILESET_INFO m_eTileSet;
+
+	string m_strMapName;
+
+
+	vector<tMegaTile> m_vecMegaTile;
+	vector<tMiniTile> m_vecMiniTile;
+	vector<SC_Map::tUnitData> m_vecUnitData;
+	vector<Vec2> m_vecStartLocation;
+
+	bool    m_bMapLoaded;
+	bool    m_bUnitLoaded;
+
+
+	//Buffers
+	Ptr<cTexture> m_pMapTex;
+	SC_Map::tpSBufferTileSet m_arrpSBufferTileSet[(int)SC_Map::eTILESET_INFO::END];
+	std::unique_ptr<cStructBuffer> m_pSBuffer_MXTM;
+	std::unique_ptr<cStructBuffer> m_pSBufferRW_Megatile;
+	std::unique_ptr<cStructBuffer> m_pSBufferRW_Minitile;
 }
 
 cCom_Renderer_TilemapSC::~cCom_Renderer_TilemapSC()
 {
+	for (int i = 0; i < (int)SC_Map::eTILESET_INFO::END; ++i)
+	{
+		SAFE_DELETE_ARRAY(m_arrpSBufferTileSet[i].arrTileSetMember);
+	}
+}
+
+cCom_Renderer_TilemapSC::cCom_Renderer_TilemapSC(const cCom_Renderer_TilemapSC& _other)
+{
+	//구현 안됨
+	assert(nullptr);
 }
 
 
@@ -234,7 +272,6 @@ void cCom_Renderer_TilemapSC::Init()
 	//데이터 저장용 힙 영역을 제거
 	delete Tileset;
 
-
 	m_CS_MapLoader = cResMgr::GetInst()->Load<cComputeShader>(strKey_Shader::Compute::S_C_SCMapLoader);
 
 	assert(nullptr != m_CS_MapLoader);
@@ -279,11 +316,6 @@ eRENDER_RESULT cCom_Renderer_TilemapSC::Render()
 	g_SBufferShareData.iData1 = (int)GetTileCountX();
 	g_SBufferShareData.iData2 = (int)GetTileCountY();
 
-	//맵 데이터 바인딩
-	m_MapDataModule.BindDataGS();
-	m_MapDataModule.m_pSBuffer_MXTM->BindBufferSRV();
-	m_MapDataModule.m_pSBufferRW_Megatile->BindBufferSRV();
-	m_MapDataModule.m_pSBufferRW_Minitile->BindBufferSRV();
 
 	return cCom_Renderer_TilemapComplete::Render();
 }
@@ -295,6 +327,7 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 	if (_strMapName == m_strMapName)
 		return true;
 
+	//기본에 있던 데이터 언로드
 	UnLoad();
 
 	m_strMapName = _strMapName;
@@ -319,7 +352,7 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 	}
 
 	//맵데이터를 읽어오는것까지 성공했을 경우 CS로 데이터를 업로드한다.
-	if (false == UploadMapDataToCS())
+	if (false == CreateMapbuffers())
 	{
 		ERROR_MESSAGE("Failed to Upload Map Data to GPU!");
 		return false;
@@ -327,59 +360,69 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 
 	//타겟이 될 텍스처를 동적할당하고, UAV에 바인딩
 	m_pMapTex = new cTexture;
-	UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+	m_pMapTex->SetKey(m_strMapName);
 
+	UINT BindFlag = D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
 	UINT32 uDataX = 32u * GetTileCountX();
 	UINT32 uDataY = 32u * GetTileCountY();
 	m_pMapTex->Create(uDataX, uDataY, DXGI_FORMAT_B8G8R8A8_UNORM, BindFlag, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+
+	//현재 타일셋과 일치하는 타일셋 데이터를 바인딩
+	for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
+	{
+		m_arrpSBufferTileSet[(int)m_eTileSet].arrTileSetMember[i].BindBufferSRV();
+	}
+	m_pSBuffer_MXTM->BindBufferSRV();
 	m_pMapTex->BindData_UAV(REGISLOT_u_TEXTURERW_TARGET);
+	m_pSBufferRW_Megatile->BindBufferUAV();
+	m_pSBufferRW_Minitile->BindBufferUAV();
 
-	//맵 이름으로 키를 설정한다.
-	m_pMapTex->SetKey(m_strMapName);
 
-	//필요한 그룹의 수 계산
+	//필요한 그룹의 수 계산 후 컴퓨트쉐이더 실행
 	m_CS_MapLoader->CalcGroupNumber(tNumDataCS{ uDataX, uDataY, 1u });
-	m_CS_MapLoader->Execute();
+	if (false == m_CS_MapLoader->Execute())
+		return false;
 
-	UnBind();
+	m_bMapLoaded = true;
+	
+	PrepareMap();
 
-	return bLoaded;
+	return true;
 }
 
-void CCS_SCMapLoader::UnBind()
+void cCom_Renderer_TilemapSC::PrepareMap()
 {
 	//타일셋 Unbind
 	for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
 	{
-		m_arrpSBufferTileSet[(int)m_pMapWorkSpace->eTileSet].arrTileSetMember[i].UnBind();
+		m_arrpSBufferTileSet[(int)m_eTileSet].arrTileSetMember[i].UnBind();
 	}
-
-
 	//맵 데이터를 CPU 메모리로 복사 후 구조화 버퍼를 언바인드
-	UINT numTile = m_pMapWorkSpace->uNumMegatileX * m_pMapWorkSpace->uNumMegatileY;
-	m_pMapWorkSpace->vecMegaTile.resize(numTile);
-	m_pMapWorkSpace->pSBufferRW_Megatile->GetData(m_pMapWorkSpace->vecMegaTile.data(), sizeof(tMegaTile) * numTile);
-	m_pMapWorkSpace->pSBufferRW_Megatile->UnBind();
-
-
+	UINT numTile = GetNumTiles();
+	m_vecMegaTile.resize(numTile);
+	m_pSBufferRW_Megatile->DownloadData(m_vecMegaTile.data(), sizeof(tMegaTile) * numTile);
+	m_pSBufferRW_Megatile->UnBind();
 
 	//Walkability 데이터 가져온 뒤 제거
 	numTile *= 16;
-	m_pMapWorkSpace->vecMiniTile.resize(numTile);
-	m_pMapWorkSpace->pSBufferRW_Minitile->GetData(m_pMapWorkSpace->vecMiniTile.data(), sizeof(tMiniTile) * numTile);
-	m_pMapWorkSpace->pSBufferRW_Minitile->UnBind();
+	m_vecMiniTile.resize(numTile);
+	m_pSBufferRW_Minitile->DownloadData(m_vecMiniTile.data(), sizeof(tMiniTile) * numTile);
+	m_pSBufferRW_Minitile->UnBind();
 
 	//텍스처도 UAV 모드를 Unbind
-	m_pMapWorkSpace->pMapTex->UnBind();
+	m_pMapTex->UnBind();
 
 	if (true == m_bMapLoaded)
 	{
-		Tilemap()->GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_pMapData->m_pMapTex);
+		GetCurMaterial()->SetTexParam(eMTRLDATA_PARAM_TEX::_0, m_pMapTex);
 
-		cTransform& pTF = Transform();
+		cTransform& pTF = GetOwner()->Transform();
 
-		g_GlobalVal.fMapSizeX = (float)m_pMapData->uNumMegatileX * 32.f;
-		g_GlobalVal.fMapSizeY = (float)m_pMapData->uNumMegatileY * 32.f;
+		UINT MapSizeX = GetTileCountX();
+		UINT MapSizeY = GetTileCountY();
+
+		g_GlobalVal.fMapSizeX = (float)MapSizeX * 32.f;
+		g_GlobalVal.fMapSizeY = (float)MapSizeY * 32.f;
 		
 		pTF.SetSize(Vec3(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY, 1.f));
 
@@ -388,9 +431,6 @@ void CCS_SCMapLoader::UnBind()
 			Vec2 MapSize = Vec2(g_GlobalVal.fMapSizeX, g_GlobalVal.fMapSizeY);
 			GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_VEC2_MAPSIZE, &MapSize);
 		}
-
-		UINT MapSizeX = m_pMapData->uNumMegatileX;
-		UINT MapSizeY = m_pMapData->uNumMegatileY;
 
 		//#define MTRL_SCALAR_VEC2_MEGATILESIZE MTRLDATA_PARAM_SCALAR(VEC2, 0)
 		{
@@ -407,9 +447,6 @@ void CCS_SCMapLoader::UnBind()
 			GetOwner()->SetMtrlScalarParam(MTRL_SCALAR_VEC2_MINITILESIZE, &MapSize);
 		}
 		
-
-
-
 		//스타크래프트 맵의 좌표는 Left Top이 원점이므로
 		//맵의 좌측 상단을 원점으로 맞춰준다(2사분면에 집어넣어준다)
 		//y축만 음수로 뒤집으면 되니까 좌표 맞추기가 편해짐
@@ -422,8 +459,6 @@ void CCS_SCMapLoader::UnBind()
 	m_pSBuffer_MXTM->BindBufferSRV();
 	m_pSBufferRW_Megatile->BindBufferSRV();
 	m_pSBufferRW_Minitile->BindBufferSRV();
-
-	return m_bMapLoaded;
 }
 
 std::shared_ptr<tMapRawData> cCom_Renderer_TilemapSC::ExtractMap(const std::filesystem::path& _MapFilePath)
@@ -563,7 +598,7 @@ bool cCom_Renderer_TilemapSC::ReadMapData(std::shared_ptr<tMapRawData> _RawData)
 
 	UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->length / 16u;
 	m_pSBuffer_MXTM->Create((UINT)sizeof(MXTM), DataCount, arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->Data, DataCount);
-	m_pSBuffer_MXTM->BindBufferSRV();
+	
 
 	//지형 파일 읽기
 	if (arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TERRAIN]->length != 2)
@@ -627,14 +662,8 @@ std::shared_ptr<SC_Map::tMapDataChunk> cCom_Renderer_TilemapSC::MultiThread_Copy
 	return pData;
 }
 
-bool cCom_Renderer_TilemapSC::UploadMapDataToCS()
+bool cCom_Renderer_TilemapSC::CreateMapbuffers()
 {
-	//타일셋을 바인딩해준다.
-	for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
-	{
-		m_arrpSBufferTileSet[(int)m_eTileSet].arrTileSetMember[i].BindBufferSRV();
-	}
-
 	tSBufferDesc Desc = {};
 
 	Desc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_WRITE;
@@ -652,7 +681,6 @@ bool cCom_Renderer_TilemapSC::UploadMapDataToCS()
 		m_pSBufferRW_Megatile = std::make_unique<cStructBuffer>();
 		m_pSBufferRW_Megatile->SetDesc(Desc);
 		m_pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);
-		m_pSBufferRW_Megatile->BindBufferUAV();
 	}
 
 
@@ -666,10 +694,11 @@ bool cCom_Renderer_TilemapSC::UploadMapDataToCS()
 		//메가타일 하나당 16개의 미니타일이 존재
 		numTile *= 16;
 		m_pSBufferRW_Minitile->Create(sizeof(tMiniTile), numTile, nullptr, 0u);
-		m_pSBufferRW_Minitile->BindBufferUAV();
+		
 	}
 	return true;
 }
+
 
 void cCom_Renderer_TilemapSC::UnLoad()
 {
@@ -703,7 +732,7 @@ void cCom_Renderer_TilemapSC::LoadUnit()
 	{
 		const tUnitData& unit = m_vecUnitData[i];
 
-		Ptr<CPrefab> UnitPrefab = cResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName((SC::eUNIT_ID)unit.ID));
+		Ptr<cPrefab> UnitPrefab = cResMgr::GetInst()->Load<cPrefab>(SC::GetUnitName((SC::eUNIT_ID)unit.ID));
 
 		//유닛 생성. Y좌표계는 반전해줘야 함
 		cGameObject* SpawnedObj = nullptr;
@@ -723,11 +752,10 @@ void cCom_Renderer_TilemapSC::LoadUnit()
 			//미네랄 스프라이트 설정
 			int MineralType = 0;
 			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
-
+			
 			//미네랄 남은 자원량 설정
-			cScript_Mineral* pScriptMineral = static_cast<cScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_Script::cScript_Mineral));
+			cScript_Mineral* pScriptMineral = SpawnedObj->GetComponent<cScript_Mineral>();
 			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
-
 			break;
 
 		}
@@ -741,7 +769,7 @@ void cCom_Renderer_TilemapSC::LoadUnit()
 			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
 
 			//미네랄 남은 자원량 설정
-			cScript_Mineral* pScriptMineral = static_cast<cScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_Script::cScript_Mineral));
+			cScript_Mineral* pScriptMineral = SpawnedObj->GetComponent<cScript_Mineral>();
 			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
 
 			break;
@@ -756,7 +784,7 @@ void cCom_Renderer_TilemapSC::LoadUnit()
 			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_MINERAL_TEXINDEX, &MineralType);
 
 			//미네랄 남은 자원량 설정
-			cScript_Mineral* pScriptMineral = static_cast<cScript_Mineral*>(SpawnedObj->ScriptHolder()->FindScript(strKey_Script::cScript_Mineral));
+			cScript_Mineral* pScriptMineral = SpawnedObj->GetComponent<cScript_Mineral>();
 			pScriptMineral->SetMineralLeft((UINT)unit.Resources);
 
 			break;
@@ -766,7 +794,7 @@ void cCom_Renderer_TilemapSC::LoadUnit()
 		{
 			if (nullptr == SpawnedObj)
 				break;
-			float CurTileSet = (float)m_pMapData->eTileSet;
+			float CurTileSet = (float)m_eTileSet;
 			SpawnedObj->SetMtrlScalarParam(MTRL_SCALAR_FLOAT_VESPINE_SPRITE, &CurTileSet);
 		}
 		break;
@@ -828,7 +856,7 @@ void cCom_Renderer_TilemapSC::StartLocation()
 	int StartPos = (int)m_vecStartLocation.size();
 	StartPos = RandGen::GetRand(0, StartPos - 1);
 	{
-		Ptr<CPrefab> Command = cResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
+		Ptr<cPrefab> Command = cResMgr::GetInst()->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_COMMAND_CENTER));
 		assert(nullptr != Command);
 
 		EventDispatcher::SpawnPrefab2D(Command, m_vecStartLocation[StartPos]);
@@ -837,7 +865,7 @@ void cCom_Renderer_TilemapSC::StartLocation()
 		assert(pMainCam);
 		pMainCam->GetOwner()->Transform().SetRelativePosXY(m_vecStartLocation[StartPos]);
 
-		Ptr<CPrefab> Marine = cResMgr::GetInst()->Load<CPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
+		Ptr<cPrefab> Marine = cResMgr::GetInst()->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
 
 		assert(nullptr != Marine);
 
@@ -845,16 +873,3 @@ void cCom_Renderer_TilemapSC::StartLocation()
 	}
 }
 
-tNumDataCS cCom_Renderer_TilemapSC::cMapDataModule::BindDataCS()
-{
-	return tNumDataCS();
-}
-
-bool cCom_Renderer_TilemapSC::cMapDataModule::BindDataGS()
-{
-	return false;
-}
-
-void cCom_Renderer_TilemapSC::cMapDataModule::UnBind()
-{
-}

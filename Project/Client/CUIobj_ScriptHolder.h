@@ -1,13 +1,13 @@
 #pragma once
 
-#include "CUIobj_Component.h"
+#include "cUIobj_Component.h"
 
-class CUIobj_ScriptHolder :
-    public CUIobj_Component
+class cUIobj_ScriptHolder :
+    public cUIobj_Component
 {
 public:
-    CUIobj_ScriptHolder();
-    virtual ~CUIobj_ScriptHolder();
+    cUIobj_ScriptHolder();
+    virtual ~cUIobj_ScriptHolder();
 
 public:
     

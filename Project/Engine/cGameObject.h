@@ -54,7 +54,22 @@ private:
 public:
     inline void InitVecCom();
     //Add
-    void AddComponent(IComponent* _Component);
+    IComponent* AddComponent(IComponent* _Component);
+
+    IComponent* AddComponent(const std::string_view _strKey);
+
+    template <typename T>
+    T* AddComponent();
+
+    template <typename T>
+    eCOMPONENT_TYPE GetComponentType();
+
+    template <typename T>
+    T* GetComponent();
+
+    IComponent* GetComponent(const std::string_view _strkey);
+
+
 
     //cEventMgr 전용 함수. 직접 호출 시 에러 발생할 수 있음.
     void RemoveComponent(eCOMPONENT_TYPE _eComType);
@@ -89,14 +104,12 @@ public:
     void                SetParentMatrixUpdated();
     void                SetChildTransformToUpdate();
 
-
     //GPU에 보낼 cMaterial Scalar Data
 private:
     tMtrlScalarData          m_MtrlScalarData;
 public:
     void SetMtrlScalarParam(eMTRLDATA_PARAM_SCALAR _Param, const void* _Src);
     void SetMtrlScalarParam_IntFlag(eMTRLDATA_PARAM_SCALAR _intParam, INT32 _iFlag, bool _bOnOff);
-
 
     int GetMtrlScalarParam_Int(eMTRLDATA_PARAM_SCALAR _Param) const;
     float GetMtrlScalarParam_Float(eMTRLDATA_PARAM_SCALAR _Param) const;
@@ -154,16 +167,6 @@ public:
     IRenderer*          Renderer() const { return (IRenderer*)m_vecCom[(UINT)eCOMPONENT_TYPE::RENDERER]; }
 
     ILight*             Light() const { return (ILight*)(m_vecCom[(UINT)eCOMPONENT_TYPE::LIGHT]); }
-
-
-    template <typename T>
-    eCOMPONENT_TYPE GetComponentType();
-
-    template <typename T>
-    T* GetComponent();
-
-    template <typename T>
-    T* AddComponent();
 };
 
 inline void cGameObject::InitVecCom()
@@ -358,8 +361,22 @@ inline eCOMPONENT_TYPE cGameObject::GetComponentType()
 template<typename T>
 inline T* cGameObject::GetComponent()
 {
-    eCOMPONENT_TYPE ComType = GetComponentType<T>();
-    return dynamic_cast<T>(m_vecCom[(int)ComType]);
+    if constexpr (std::is_base_of_v<IScript, T>)
+    {
+        const std::string_view name = cComMgr::GetInst()->GetComName(std::type_index(typeid(T)));
+        for (size_t i = (size_t)eCOMPONENT_TYPE::SCRIPTS; i < m_vecCom.size(); ++i)
+        {
+            if (name == m_vecCom[i]->GetKey())
+                return static_cast<T*>(m_vecCom[i]);
+        }
+    }
+    else
+    {
+        eCOMPONENT_TYPE ComType = GetComponentType<T>();
+        return dynamic_cast<T*>(m_vecCom[(int)ComType]);
+    }
+
+    return nullptr;
 }
 
 template<typename T>

@@ -215,9 +215,8 @@
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="cComputeShader.h" />
     <ClInclude Include="cConstBuffer.h" />
-    <ClInclude Include="cShaderDataModule.h" />
+    <ClInclude Include="cGPUBufferModule.h" />
     <ClInclude Include="cShaderData_Init.h" />
-    <ClInclude Include="cCSModule_ParticleBasic.h" />
     <ClInclude Include="cShaderData_SetColor.h" />
     <ClInclude Include="cDevice.h" />
     <ClInclude Include="cEngine.h" />
@@ -296,9 +295,8 @@
     <ClCompile Include="IComponent.cpp" />
     <ClCompile Include="cComputeShader.cpp" />
     <ClCompile Include="cConstBuffer.cpp" />
-    <ClCompile Include="cShaderDataModule.cpp" />
+    <ClCompile Include="cGPUBufferModule.cpp" />
     <ClCompile Include="cShaderData_Init.cpp" />
-    <ClCompile Include="cCSModule_ParticleBasic.cpp" />
     <ClCompile Include="cShaderData_SetColor.cpp" />
     <ClCompile Include="cDevice.cpp" />
     <ClCompile Include="cEngine.cpp">

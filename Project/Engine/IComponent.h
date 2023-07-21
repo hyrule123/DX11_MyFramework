@@ -3,14 +3,15 @@
 
 #include "define.h"
 
+
 class cGameObject;
 class IComponent :
     public IEntity
 {
-    friend class cGameObject;
+protected:
+    IComponent(eCOMPONENT_TYPE _Type);
 
 public:
-    IComponent(eCOMPONENT_TYPE _Type);
     virtual ~IComponent();
 
     IComponent(const IComponent& _other);

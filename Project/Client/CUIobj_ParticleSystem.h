@@ -1,11 +1,11 @@
 #pragma once
-#include "CUIobj_Component.h"
-class CUIobj_ParticleSystem :
-    public CUIobj_Component
+#include "cUIobj_Component.h"
+class cUIobj_ParticleSystem :
+    public cUIobj_Component
 {
 public:
-    CUIobj_ParticleSystem();
-    virtual ~CUIobj_ParticleSystem();
+    cUIobj_ParticleSystem();
+    virtual ~cUIobj_ParticleSystem();
 
 private:
 

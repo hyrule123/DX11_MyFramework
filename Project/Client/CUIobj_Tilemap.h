@@ -1,11 +1,11 @@
 #pragma once
-#include "CUIobj_Component.h"
-class CUIobj_Tilemap :
-    public CUIobj_Component
+#include "cUIobj_Component.h"
+class cUIobj_Tilemap :
+    public cUIobj_Component
 {
 public:
-    CUIobj_Tilemap();
-    virtual ~CUIobj_Tilemap();
+    cUIobj_Tilemap();
+    virtual ~cUIobj_Tilemap();
 
 public:
 

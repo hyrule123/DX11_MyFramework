@@ -1,20 +1,20 @@
 #pragma once
-#include "CUI_BasicWindow.h"
+#include "cUI_BasicWindow.h"
 
-#include <Engine/CRes.h>
+#include <Engine/IRes.h>
 #include <Engine/ptr.h>
 
-class CGameObject;
-class CComponent;
+class cGameObject;
+class IComponent;
 
-class CUIobj_Component :
-    public CUI_BasicWindow
+class cUIobj_Component :
+    public cUI_BasicWindow
 {
 private:
-    CUIobj_Component() = delete;
+    cUIobj_Component() = delete;
 public:
-    CUIobj_Component(const string& _ID, eCOMPONENT_TYPE _Type);
-    virtual ~CUIobj_Component();
+    cUIobj_Component(const string& _ID, eCOMPONENT_TYPE _Type);
+    virtual ~cUIobj_Component();
 
 public:
 
@@ -37,20 +37,20 @@ protected:
     
 
 private:
-    CGameObject* m_pTarget;
+    cGameObject* m_pTarget;
     const eCOMPONENT_TYPE m_Type;
 
 public:
     //Setter
-    void SetTarget(CGameObject* _pTarget);
+    void SetTarget(cGameObject* _pTarget);
 
     //Getter
-    CGameObject* GetTargetObj() { return m_pTarget; }
+    cGameObject* GetTargetObj() { return m_pTarget; }
     eCOMPONENT_TYPE GetComponentType() { return m_Type; }
-    CComponent* GetMyTargetComponent();
+    IComponent* GetMyTargetComponent();
 
     //인자로 들어온 버퍼에 wstring 타입의 키값을 string 형태로 바꿔서 넣어주는 함수
-    const string& GetResKey(Ptr<CRes> _Res);
+    const std::string_view GetResKey(Ptr<IRes> _Res);
 
 
 };

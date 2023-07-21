@@ -11,8 +11,6 @@
 
 #include "cTransform.h"
 
-#include "cCSModule_ParticleBasic.h"
-
 #include "cTimeMgr.h"
 #include "RandGen.h"
 
@@ -20,12 +18,11 @@
 #include "cDevice.h"
 #include "cConstBuffer.h"
 
-#include "cShaderDataModule.h"
+#include "cGPUBufferModule.h"
 
 
 cCom_Renderer_ParticleBasic::cCom_Renderer_ParticleBasic()
-	: m_ParticleDataModule()
-	, m_CS()
+	: m_CS()
 	, m_bCreated()
 {
 	SetMesh(cResMgr::GetInst()->FindRes<cMesh>(string(strKey_RES_DEFAULT::MESH::POINT)));
@@ -44,7 +41,6 @@ cCom_Renderer_ParticleBasic::~cCom_Renderer_ParticleBasic()
 cCom_Renderer_ParticleBasic::cCom_Renderer_ParticleBasic(cCom_Renderer_ParticleBasic const& _other)
 	: IRenderer(_other)
 	, m_CS(_other.m_CS)
-	, m_ParticleDataModule(_other.m_ParticleDataModule)
 	, m_SharedData(_other.m_SharedData)
 	, m_TransformData(_other.m_TransformData)
 	, m_BasicData(_other.m_BasicData)
@@ -63,6 +59,16 @@ void cCom_Renderer_ParticleBasic::FinalTick()
 	if (m_bCreated)
 		return;
 
+	//세 버퍼중 하나라도 등록되어있지 않으면 return false해서 excute 과정을 중단
+	if (
+		nullptr == m_SBufferRW_Transform
+		||
+		nullptr == m_SBufferRW_Shared
+		||
+		nullptr == m_SBuffer_ParticleSpawnSetting
+		)
+		return;
+
 	//몇개 스폰할지 정보를 SharedRW 버퍼에 담아서 전송
 	float fSpawnCountPerTime = 1.f / (float)m_BasicData.iSpawnRate;
 	m_AccTime += DELTA_TIME;
@@ -75,18 +81,39 @@ void cCom_Renderer_ParticleBasic::FinalTick()
 
 		m_SharedData.iSpawnCount = (int)fData;
 
-		m_ParticleDataModule.m_SBufferRW_Shared->UploadData(&m_SharedData, 1u);
+		m_SBufferRW_Shared->UploadData(&m_SharedData, 1u);
 	}
 
-	m_CS->SetShaderDataModule(&m_ParticleDataModule);
+
+	//데이터를 컴퓨트쉐이더에 일괄적으로 전달
+	m_SBufferRW_Shared->BindBufferUAV();
+	m_SBuffer_ParticleSpawnSetting->BindBufferSRV();
+	m_SBufferRW_Transform->BindBufferUAV();
+
+	m_Tex_Noise->BindData_SRV(REGISLOT_t_TEXUTRE_NOISE, define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE);
+
+	m_CS->CalcGroupNumber(tNumDataCS{ m_SBufferRW_Transform->GetCapacity(), 1u, 1u });
 
 	//파티클 위치정보를 계산시킴.
-	m_CS->Execute();
+	if (false == m_CS->Execute())
+	{
+		ERROR_MESSAGE("Failed to Calculate particle!");
+		return;
+	}
+
+	//계산 후 UAV 바인딩을 해제.
+	m_SBufferRW_Transform->UnBind();
+	m_SBufferRW_Shared->UnBind();
+	m_SBuffer_ParticleSpawnSetting->UnBind();
+
+	
 
 	//렌더링하고 나면 PrevPos를 업데이트
 	m_BasicData.vOwnerPrevWorldPos = m_BasicData.vOwnerCurWorldPos;
 	m_BasicData.vOwnerCurWorldPos = GetOwner()->Transform().GetWorldPos();
 }
+
+
 
 eRENDER_RESULT cCom_Renderer_ParticleBasic::Render()
 {
@@ -99,7 +126,8 @@ eRENDER_RESULT cCom_Renderer_ParticleBasic::Render()
 
 	BindMtrlScalarDataToCBuffer();
 
-	m_ParticleDataModule.BindDataGS();
+	//파티클 위치정보를 SRV로 바인딩
+	m_SBufferRW_Transform->BindBufferSRV();
 
 	GetMesh()->renderInstanced(m_BasicData.iMaxParticleCount);
 
@@ -160,15 +188,15 @@ void cCom_Renderer_ParticleBasic::CreateParticle()
 	m_BasicData.fGravity = 9.8f;
 
 	//파티클 생성 세팅값 전송
-	m_ParticleDataModule.m_SBuffer_ParticleSpawnSetting->Create((UINT)sizeof(tParticleBasicSpawnSetting), 1u, &m_BasicData, 1u);
+	m_SBuffer_ParticleSpawnSetting->Create((UINT)sizeof(tParticleBasicSpawnSetting), 1u, &m_BasicData, 1u);
 
 	//파티클의 위치를 저장할 RW 구조화 버퍼 생성
-	m_ParticleDataModule.m_SBufferRW_Transform->Create((UINT)sizeof(tParticleTransform), m_BasicData.iMaxParticleCount, nullptr, 0u);
+	m_SBufferRW_Transform->Create((UINT)sizeof(tParticleTransform), m_BasicData.iMaxParticleCount, nullptr, 0u);
 
 	//노이즈 텍스처 지정
-	m_ParticleDataModule.m_Tex_Noise = cResMgr::GetInst()->Load<cTexture>(strKey_RES_DEFAULT::TEXTURE::NOISE_1);
-	assert(nullptr != m_ParticleDataModule.m_Tex_Noise);
-	m_SharedData.NoiseTexSize = m_ParticleDataModule.m_Tex_Noise->GetSize();
+	m_Tex_Noise = cResMgr::GetInst()->Load<cTexture>(strKey_RES_DEFAULT::TEXTURE::NOISE_1);
+	assert(nullptr != m_Tex_Noise);
+	m_SharedData.NoiseTexSize = m_Tex_Noise->GetSize();
 	
 
 	//공유 데이터 구조화 버퍼 생성
@@ -176,5 +204,5 @@ void cCom_Renderer_ParticleBasic::CreateParticle()
 	m_SharedData = {};
 	m_SharedData.uSeeds.x = RandGen::GetRand<UINT>(0u, UINT_MAX);
 	m_SharedData.uSeeds.y = RandGen::GetRand<UINT>(0u, UINT_MAX);
-	m_ParticleDataModule.m_SBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &m_SharedData, 1u);
+	m_SBufferRW_Shared->Create((UINT)sizeof(tParticleShareData), 1, &m_SharedData, 1u);
 }

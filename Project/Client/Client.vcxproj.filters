@@ -109,49 +109,43 @@
     <ClInclude Include="Client.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="framework.h">
-      <Filter>Default</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="EditorObjMgr.h">
-      <Filter>CEditorObjMgr</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiMgr.h">
+    <ClInclude Include="cImGuiMgr.h">
       <Filter>ImGui\00. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="UIobj_Inspector.h">
+    <ClInclude Include="cUIobj_Inspector.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Component.h">
+    <ClInclude Include="cUIobj_Component.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Collider2D.h">
+    <ClInclude Include="cUIobj_Collider2D.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\01. Collider2D UI</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_ScriptHolder.h">
+    <ClInclude Include="cUIobj_ScriptHolder.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\13. ScriptHolder UI</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Animator2D.h">
+    <ClInclude Include="cUIobj_Animator2D.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\03. Animator2D UI</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Camera.h">
+    <ClInclude Include="cUIobj_Camera.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\07. Camera UI</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Light2D.h">
+    <ClInclude Include="cUIobj_Light2D.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\05. Light2D UI</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_MeshRender.h">
+    <ClInclude Include="cUIobj_Renderer_Basic.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\08. MeshRender UI</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_Tilemap.h">
+    <ClInclude Include="cUIobj_Tilemap.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\10. Tilemap UI</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
@@ -169,68 +163,68 @@
     <ClInclude Include="ImGui\imgui_internal.h">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClInclude>
-    <ClInclude Include="UI_BasicWIndow.h">
+    <ClInclude Include="cUI_BasicWIndow.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Menu.h">
+    <ClInclude Include="cUI_Menu.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Menubar.h">
+    <ClInclude Include="cUI_Menubar.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Widget.h">
+    <ClInclude Include="cUI_Widget.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="UI_ComboBox.h">
+    <ClInclude Include="cUI_ComboBox.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
+    <ClInclude Include="cUI.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="UI_PopupWIndow.h">
+    <ClInclude Include="cUI_PopupWIndow.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Child.h">
+    <ClInclude Include="cUI_Child.h">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClInclude>
-    <ClInclude Include="CUIobj_ParticleSystem.h">
+    <ClInclude Include="cUIobj_ParticleSystem.h">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Image.h">
+    <ClInclude Include="cUI_Image.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Tree.h">
+    <ClInclude Include="cUI_Tree.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="UIobj_Contents.h">
+    <ClInclude Include="cUIobj_Contents.h">
       <Filter>ImGui\02. UI_Object\03. UI_Contents</Filter>
     </ClInclude>
-    <ClInclude Include="UIobj_Outliner.h">
+    <ClInclude Include="cUIobj_Outliner.h">
       <Filter>ImGui\02. UI_Object\04. UI_Outliner</Filter>
     </ClInclude>
-    <ClInclude Include="UI_MenuItem.h">
+    <ClInclude Include="cUI_MenuItem.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
     <ClInclude Include="MainGameLevel.h" />
-    <ClInclude Include="UI_DragNDrop.h">
+    <ClInclude Include="cUI_DragNDrop.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Structs.h">
+    <ClInclude Include="cUI_Structs.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="UIobj_MapViewer.h">
+    <ClInclude Include="cUIobj_MapViewer.h">
       <Filter>ImGui\02. UI_Object\05. UI_MapViewer</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Button.h">
+    <ClInclude Include="cUI_Button.h">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClInclude>
-    <ClInclude Include="UIobj_TestWindow.h">
+    <ClInclude Include="cUIobj_TestWindow.h">
       <Filter>ImGui\02. UI_Object\00. UI_TestWindow</Filter>
     </ClInclude>
-    <ClInclude Include="UIobj_AnimEditor.h">
+    <ClInclude Include="cUIobj_AnimEditor.h">
       <Filter>ImGui\02. UI_Object\06. UI_AnimEditor</Filter>
     </ClInclude>
-    <ClInclude Include="UIObj_SCPrefabEditor.h">
+    <ClInclude Include="cUIobj_SCPrefabEditor.h">
       <Filter>ImGui\02. UI_Object\06 UI_SCPrefabEditor</Filter>
     </ClInclude>
     <ClInclude Include="macroFunc_Imgui.h">
@@ -241,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="ManualEdit.h" />
     <ClInclude Include="strKey_Prefab.h" />
+    <ClInclude Include="cEditorObjMgr.h">
+      <Filter>CEditorObjMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -257,40 +254,40 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="EditorObjMgr.cpp">
+    <ClCompile Include="cEditorObjMgr.cpp">
       <Filter>CEditorObjMgr</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiMgr.cpp">
+    <ClCompile Include="cImGuiMgr.cpp">
       <Filter>ImGui\00. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="UIobj_Inspector.cpp">
+    <ClCompile Include="cUIobj_Inspector.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Component.cpp">
+    <ClCompile Include="cUIobj_Component.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Collider2D.cpp">
+    <ClCompile Include="cUIobj_Collider2D.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\01. Collider2D UI</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_ScriptHolder.cpp">
+    <ClCompile Include="cUIobj_ScriptHolder.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\13. ScriptHolder UI</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Animator2D.cpp">
+    <ClCompile Include="cUIobj_Animator2D.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\03. Animator2D UI</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Camera.cpp">
+    <ClCompile Include="cUIobj_Camera.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\07. Camera UI</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Light2D.cpp">
+    <ClCompile Include="cUIobj_Light2D.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\05. Light2D UI</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_MeshRender.cpp">
+    <ClCompile Include="cUIobj_Renderer_Basic.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\08. MeshRender UI</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_Tilemap.cpp">
+    <ClCompile Include="cUIobj_Tilemap.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\10. Tilemap UI</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -314,65 +311,65 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui\99. ImGuiSource</Filter>
     </ClCompile>
-    <ClCompile Include="UI_BasicWindow.cpp">
+    <ClCompile Include="cUI_BasicWindow.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Menu.cpp">
+    <ClCompile Include="cUI_Menu.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Menubar.cpp">
+    <ClCompile Include="cUI_Menubar.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Widget.cpp">
+    <ClCompile Include="cUI_Widget.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="UI_ComboBox.cpp">
+    <ClCompile Include="cUI_ComboBox.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
+    <ClCompile Include="cUI.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="UI_PopupWIndow.cpp">
+    <ClCompile Include="cUI_PopupWIndow.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Child.cpp">
+    <ClCompile Include="cUI_Child.cpp">
       <Filter>ImGui\01. UI_Interface</Filter>
     </ClCompile>
-    <ClCompile Include="CUIobj_ParticleSystem.cpp">
+    <ClCompile Include="cUIobj_ParticleSystem.cpp">
       <Filter>ImGui\02. UI_Object\01. UI_Inspector\ComponentUI\09. ParticleSystem UI</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Image.cpp">
+    <ClCompile Include="cUI_Image.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Tree.cpp">
+    <ClCompile Include="cUI_Tree.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="UIobj_Contents.cpp">
+    <ClCompile Include="cUIobj_Contents.cpp">
       <Filter>ImGui\02. UI_Object\03. UI_Contents</Filter>
     </ClCompile>
-    <ClCompile Include="UIobj_Outliner.cpp">
+    <ClCompile Include="cUIobj_Outliner.cpp">
       <Filter>ImGui\02. UI_Object\04. UI_Outliner</Filter>
     </ClCompile>
-    <ClCompile Include="UI_MenuItem.cpp">
+    <ClCompile Include="cUI_MenuItem.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
     <ClCompile Include="MainGameLevel.cpp" />
-    <ClCompile Include="UI_DragNDrop.cpp">
+    <ClCompile Include="cUI_DragNDrop.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="UIobj_MapViewer.cpp">
+    <ClCompile Include="cUIobj_MapViewer.cpp">
       <Filter>ImGui\02. UI_Object\05. UI_MapViewer</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Button.cpp">
+    <ClCompile Include="cUI_Button.cpp">
       <Filter>ImGui\01. UI_Interface\01. UI_Widget</Filter>
     </ClCompile>
-    <ClCompile Include="UIobj_TestWindow.cpp">
+    <ClCompile Include="cUIobj_TestWindow.cpp">
       <Filter>ImGui\02. UI_Object\00. UI_TestWindow</Filter>
     </ClCompile>
-    <ClCompile Include="UIobj_AnimEditor.cpp">
+    <ClCompile Include="cUIobj_AnimEditor.cpp">
       <Filter>ImGui\02. UI_Object\06. UI_AnimEditor</Filter>
     </ClCompile>
-    <ClCompile Include="UIObj_SCPrefabEditor.cpp">
+    <ClCompile Include="cUIobj_SCPrefabEditor.cpp">
       <Filter>ImGui\02. UI_Object\06 UI_SCPrefabEditor</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_stdlib.cpp">

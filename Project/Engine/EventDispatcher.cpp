@@ -6,7 +6,7 @@
 #include "cGameObject.h"
 #include "cTransform.h"
 
-#include "CPrefab.h"
+#include "cPrefab.h"
 
 //깊이 프리셋 값이 설정되어 있을 경우 WorldPos의 Z값은 무시됨.
 void EventDispatcher::SpawnGameObject(cGameObject* _pNewObject, const Vec3& _vWorldPos, int _LayerIdx)
@@ -28,7 +28,7 @@ void EventDispatcher::SpawnGameObject(cGameObject* _pNewObject, const Vec3& _vWo
 	cEventMgr::GetInst()->AddEvent(evn);
 }
 
-cGameObject* EventDispatcher::SpawnPrefab2D(Ptr<CPrefab> _Prefab, const Vec2& _vWorldPosXY)
+cGameObject* EventDispatcher::SpawnPrefab2D(Ptr<cPrefab> _Prefab, const Vec2& _vWorldPosXY)
 {
 	assert(nullptr != _Prefab && _Prefab->IsAvailable());
 	cGameObject* pObj = _Prefab->Instantiate();
@@ -46,7 +46,7 @@ cGameObject* EventDispatcher::SpawnPrefab2D(Ptr<CPrefab> _Prefab, const Vec2& _v
 	return pObj;
 }
 
-cGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec3& _vWorldPos)
+cGameObject* EventDispatcher::SpawnPrefab(Ptr<cPrefab> _Prefab, const Vec3& _vWorldPos)
 {
 	assert(nullptr != _Prefab && _Prefab->IsAvailable());
 	cGameObject* pObj = _Prefab->Instantiate();
@@ -64,7 +64,7 @@ cGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab, const Vec3& _vWo
 	return pObj;
 }
 
-cGameObject* EventDispatcher::SpawnPrefab(Ptr<CPrefab> _Prefab)
+cGameObject* EventDispatcher::SpawnPrefab(Ptr<cPrefab> _Prefab)
 {
 	assert(nullptr != _Prefab && _Prefab->IsAvailable());
 	cGameObject* pObj = _Prefab->Instantiate();

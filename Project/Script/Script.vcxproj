@@ -186,7 +186,6 @@ call "CodeGenerator_$(Configuration).exe" Script
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CCS_SCMapLoader.h" />
     <ClInclude Include="cFSM_Move_Base.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -237,7 +236,6 @@ call "CodeGenerator_$(Configuration).exe" Script
     <ClInclude Include="strKey_Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CCS_SCMapLoader.cpp" />
     <ClCompile Include="cFSM_Move_Base.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CPrefab.h"
+#include "cPrefab.h"
 
 #include "cGameObject.h"
 
@@ -13,21 +13,21 @@ namespace JsonKey_cPrefab
 
 }
 
-CPrefab::CPrefab()
+cPrefab::cPrefab()
 	: IRes(eRES_TYPE::PREFAB)
 	, m_pPrefab()
 	, m_bSaveMode()
 {
 }
 
-CPrefab::~CPrefab()
+cPrefab::~cPrefab()
 {
 	////저장모드가 아닐 경우에만 삭제
 	if(false == m_bSaveMode)
 		SAFE_DELETE(m_pPrefab);
 }
 
-void CPrefab::RegisterPrefab(cGameObject* _pPrefab, bool _bIsSaveMode)
+void cPrefab::RegisterPrefab(cGameObject* _pPrefab, bool _bIsSaveMode)
 {
 	assert(_pPrefab);
 
@@ -35,14 +35,14 @@ void CPrefab::RegisterPrefab(cGameObject* _pPrefab, bool _bIsSaveMode)
 	m_bSaveMode = _bIsSaveMode;
 }
 
-cGameObject* CPrefab::Instantiate()
+cGameObject* cPrefab::Instantiate()
 {
 	assert(m_pPrefab != nullptr);
 
 	return m_pPrefab->Clone();
 }
 
-bool CPrefab::Save(const std::filesystem::path& _fileName)
+bool cPrefab::Save(const std::filesystem::path& _fileName)
 {
 	SetKey(_fileName.string());
 
@@ -68,7 +68,7 @@ bool CPrefab::Save(const std::filesystem::path& _fileName)
 	return false;
 }
 
-bool CPrefab::Load(const std::filesystem::path& _fileName)
+bool cPrefab::Load(const std::filesystem::path& _fileName)
 {
 	const std::filesystem::path& prefabPath = cPathMgr::GetInst()->GetPathRel_Resource(eRES_TYPE::PREFAB);
 	std::filesystem::path filePath = prefabPath / _fileName;
@@ -94,7 +94,7 @@ bool CPrefab::Load(const std::filesystem::path& _fileName)
 	return false;
 }
 
-bool CPrefab::SaveJson(Json::Value* _pJVal)
+bool cPrefab::SaveJson(Json::Value* _pJVal)
 {
 	if (nullptr == _pJVal || nullptr == m_pPrefab)
 		return false;
@@ -119,7 +119,7 @@ bool CPrefab::SaveJson(Json::Value* _pJVal)
 	return true;
 }
 
-bool CPrefab::LoadJson(Json::Value* _pJVal)
+bool cPrefab::LoadJson(Json::Value* _pJVal)
 {
 	if (nullptr == _pJVal)
 		return false;

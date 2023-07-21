@@ -4,9 +4,9 @@
 #include "pch.h"
 #include "Client.h"
 
-#include "CEditorObjMgr.h"
+#include "cEditorObjMgr.h"
 
-#include "CImGuiMgr.h"
+#include "cImGuiMgr.h"
 
 #include <Script/UserClassInitializer.h>
 
@@ -42,18 +42,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    // CEngine 초기화
-    if (FAILED(CEngine::GetInst()->init(g_hWnd, SC_RES_X, SC_RES_Y, SC_RES_X * 2, SC_RES_Y * 2)))
+    // cEngine 초기화
+    if (FAILED(cEngine::GetInst()->init(g_hWnd, SC_RES_X, SC_RES_Y, SC_RES_X * 2, SC_RES_Y * 2)))
     {
         return 0;
     }
     //복사용 스크립트 원본 등록 함수 호출
     //UserClassInitializer::InitCS();
-    UserClassInitializer::InitScript();
+    UserClassInitializer::InitCom();
 
-    CEditorObjMgr::GetInst()->init();
+    cEditorObjMgr::GetInst()->init();
 
-    CImGuiMgr::GetInst()->init(g_hWnd);
+    cImGuiMgr::GetInst()->init(g_hWnd);
 
 
 
@@ -79,15 +79,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         else
         {
-            CEngine::GetInst()->progress();
-            CEditorObjMgr::GetInst()->progress();
+            cEngine::GetInst()->progress();
+            cEditorObjMgr::GetInst()->progress();
 
-            CImGuiMgr::GetInst()->progress();
+            cImGuiMgr::GetInst()->progress();
 
             // 렌더 종료
-            CEngine::GetInst()->present();
+            cEngine::GetInst()->present();
 
-            CEngine::GetInst()->cleartick();
+            cEngine::GetInst()->cleartick();
         }       
     }
 

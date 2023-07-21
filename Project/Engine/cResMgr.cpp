@@ -6,7 +6,6 @@
 #include "strKey_Default.h"
 
 #include "cShaderData_SetColor.h"
-#include "cCSModule_ParticleBasic.h"
 #include "cShaderData_Init.h"
 
 #include "cAnim2DAtlas.h"
@@ -420,7 +419,8 @@ bool cResMgr::CreateDefaultComputeShader()
 		
 		//Init모듈을 붙여주면 내부에서 쉐이더까지 로드
 		m_ShaderInitSettings = std::make_unique<cShaderData_Init>();
-		pCS->SetShaderDataModule(m_ShaderInitSettings.get());
+		tNumDataCS NumData = m_ShaderInitSettings->BindDataCS();
+		pCS->CalcGroupNumber(NumData);
 
 		if (false == pCS->Execute())
 		{
@@ -607,7 +607,7 @@ bool cResMgr::LoadUserGraphicsShaderAll()
 //		//TODO: 아직 클래스가 없음
 //		break;
 //	case eRES_TYPE::PREFAB:
-//		pRes = new CPrefab;
+//		pRes = new cPrefab;
 //		break;
 //	case eRES_TYPE::GRAPHICS_SHADER:
 //		pRes = new cGraphicsShader;

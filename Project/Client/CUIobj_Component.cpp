@@ -1,23 +1,23 @@
 #include "pch.h"
-#include "CUIobj_Component.h"
+#include "cUIobj_Component.h"
 
-#include <Engine/CGameObject.h>
+#include <Engine/cGameObject.h>
 #include <Engine/func.h>
 
 #include "macroFunc_Imgui.h"
 
-CUIobj_Component::CUIobj_Component(const string& _strName, eCOMPONENT_TYPE _Type)
-	: CUI_BasicWindow(_strName)
+cUIobj_Component::cUIobj_Component(const string& _strName, eCOMPONENT_TYPE _Type)
+	: cUI_BasicWindow(_strName)
 	, m_pTarget()
 	, m_Type(_Type)
 {
 }
 
-CUIobj_Component::~CUIobj_Component()
+cUIobj_Component::~cUIobj_Component()
 {
 }
 
-void CUIobj_Component::SetTarget(CGameObject* _pTarget)
+void cUIobj_Component::SetTarget(cGameObject* _pTarget)
 {
 	//타겟을 우선 대입
 	m_pTarget = _pTarget;
@@ -30,7 +30,7 @@ void CUIobj_Component::SetTarget(CGameObject* _pTarget)
 
 }
 
-CComponent* CUIobj_Component::GetMyTargetComponent()
+IComponent* cUIobj_Component::GetMyTargetComponent()
 {
 	if (nullptr == m_pTarget)
 		return nullptr;
@@ -38,7 +38,7 @@ CComponent* CUIobj_Component::GetMyTargetComponent()
 	return m_pTarget->GetComponent(m_Type);
 }
 
-const string& CUIobj_Component::GetResKey(Ptr<CRes> _Res)
+const std::string_view cUIobj_Component::GetResKey(Ptr<IRes> _Res)
 {
 	//Res 주소가 없다면 return
 	if (nullptr == _Res)
@@ -48,21 +48,21 @@ const string& CUIobj_Component::GetResKey(Ptr<CRes> _Res)
 }
 
 
-bool CUIobj_Component::beginUI()
+bool cUIobj_Component::beginUI()
 {
 	//아예 타겟 오브젝트가 없을경우에는 출력 안함
 	if (nullptr == m_pTarget)
 		return false;
 
 	//타겟 오브젝트가 있을 경우에는 컴포넌트 구분을 표시
-	IMGUI_Indicator(GetName().c_str(), ImColorPreset::DarkRed);
+	IMGUI_Indicator(GetKey().c_str(), ImColorPreset::DarkRed);
 
-	CUI_BasicWindow::beginUI();
+	cUI_BasicWindow::beginUI();
 	
 	return true;
 }
 
-void CUIobj_Component::render_update()
+void cUIobj_Component::render_update()
 {
 	//타겟 오브젝트가 있을 경우에는 새 컴포넌트 생성 알림 추가
 	if (nullptr == m_pTarget->GetComponent(m_Type))
@@ -80,8 +80,8 @@ void CUIobj_Component::render_update()
 	
 }
 
-void CUIobj_Component::endUI()
+void cUIobj_Component::endUI()
 {
-	CUI_BasicWindow::endUI();
+	cUI_BasicWindow::endUI();
 }
 

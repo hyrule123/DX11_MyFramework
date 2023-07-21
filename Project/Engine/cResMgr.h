@@ -11,7 +11,7 @@
 #include "cTexture.h"
 #include "cGraphicsShader.h"
 #include "cMaterial.h"
-#include "CPrefab.h"
+#include "cPrefab.h"
 #include "cComputeShader.h"
 #include "cAnim2DAtlas.h"
 #include "cComMgr.h"
@@ -140,7 +140,7 @@ inline eRES_TYPE cResMgr::GetResType()
     //    return eRES_TYPE::SOUND;
     //}
 
-    else if constexpr (std::is_base_of_v<CPrefab, T>)
+    else if constexpr (std::is_base_of_v<cPrefab, T>)
     {
         return eRES_TYPE::PREFAB;
     }

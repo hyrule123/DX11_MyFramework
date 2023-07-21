@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "CUIobj_ScriptHolder.h"
+#include "cUIobj_ScriptHolder.h"
 
-CUIobj_ScriptHolder::CUIobj_ScriptHolder()
-	: CUIobj_Component("ScriptHolder", eCOMPONENT_TYPE::SCRIPT_HOLDER)
+cUIobj_ScriptHolder::cUIobj_ScriptHolder()
+	: cUIobj_Component("ScriptHolder", eCOMPONENT_TYPE::SCRIPTS)
 {
 }
 
-CUIobj_ScriptHolder::~CUIobj_ScriptHolder()
+cUIobj_ScriptHolder::~cUIobj_ScriptHolder()
 {
 }
 

@@ -1,11 +1,11 @@
 #pragma once
-#include "CUIobj_Component.h"
-class CUIobj_Camera :
-    public CUIobj_Component
+#include "cUIobj_Component.h"
+class cUIobj_Camera :
+    public cUIobj_Component
 {
 public:
-    CUIobj_Camera();
-    virtual ~CUIobj_Camera();
+    cUIobj_Camera();
+    virtual ~cUIobj_Camera();
 
 public:
 

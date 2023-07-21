@@ -1,10 +1,10 @@
 #pragma once
-#include "cShaderDataModule.h"
+#include "cGPUBufferModule.h"
 
 class cStructBuffer;
 
 class cShaderData_Init :
-    public cShaderDataModule
+    public cGPUBufferModule
 {
 public:
     cShaderData_Init();

@@ -1,33 +1,33 @@
 #include "pch.h"
-#include "CUIobj_Collider2D.h"
-#include "CUI_ComboBox.h"
+#include "cUIobj_Collider2D.h"
+#include "cUI_ComboBox.h"
 
 #include "macroFunc_Imgui.h"
 
-#include <Engine/CGameObject.h>
-#include <Engine/CCollider2D_Rect.h>
-#include <Engine/CCollider2D_Point.h>
-#include <Engine/CCollider2D_Circle.h>
+#include <Engine/cGameObject.h>
+#include <Engine/cCom_Coll2D_Rect.h>
+#include <Engine/cCom_Coll2D_Point.h>
+#include <Engine/cCom_Coll2D_Circle.h>
 
 #include <Engine/EventDispatcher.h>
 
 #include <Script/SC_Func.h>
 
-CUIobj_Collider2D::CUIobj_Collider2D()
-	: CUIobj_Component("CCollider2D", eCOMPONENT_TYPE::COLLIDER2D)
+cUIobj_Collider2D::cUIobj_Collider2D()
+	: cUIobj_Component("CCollider2D", eCOMPONENT_TYPE::COLLIDER)
 	, m_ComboColTypeSelector()
 {
 	SetStrID("Collider2D");
 }
 
-CUIobj_Collider2D::~CUIobj_Collider2D()
+cUIobj_Collider2D::~cUIobj_Collider2D()
 {
 
 }
 
-void CUIobj_Collider2D::init()
+void cUIobj_Collider2D::init()
 {
-	m_ComboColTypeSelector = new CUI_ComboBox("Select Collider Type");
+	m_ComboColTypeSelector = new cUI_ComboBox("Select Collider Type");
 	AddChildUI(m_ComboColTypeSelector);
 
 	//충돌체 타입을 tPtrData에 저장해서 사용
@@ -39,11 +39,11 @@ void CUIobj_Collider2D::init()
 	//m_ComboColTypeSelector->AddItem(tComboItem{ "Point", });
 }
 
-void CUIobj_Collider2D::tick()
+void cUIobj_Collider2D::Tick()
 {
 }
 
-void CUIobj_Collider2D::CreateNewComUI()
+void cUIobj_Collider2D::CreateNewComUI()
 {
 	m_ComboColTypeSelector->SetActive(true);
 
@@ -56,10 +56,10 @@ void CUIobj_Collider2D::CreateNewComUI()
 		switch ((eCOLLIDER_TYPE_2D)Selected.pData.size)
 		{
 		case eCOLLIDER_TYPE_2D::RECT:
-			GetTargetObj()->AddComponent(new CCollider2D_Rect);
+			GetTargetObj()->AddComponent(new cCom_Coll2D_Rect);
 			break;
 		case eCOLLIDER_TYPE_2D::CIRCLE:
-			GetTargetObj()->AddComponent(new CCollider2D_Circle);
+			GetTargetObj()->AddComponent(new cCom_Coll2D_Circle);
 			break;
 		case eCOLLIDER_TYPE_2D::OBB:
 			ERROR_MESSAGE("Not Supported");
@@ -76,11 +76,11 @@ void CUIobj_Collider2D::CreateNewComUI()
 	}
 }
 
-void CUIobj_Collider2D::EditComUI()
+void cUIobj_Collider2D::EditComUI()
 {
 	m_ComboColTypeSelector->SetActive(false);
 
-	eCOLLIDER_TYPE_2D type = GetTargetObj()->Collider2D()->GetColliderType();
+	eCOLLIDER_TYPE_2D type = GetTargetObj()->GetComponent<ICollider2D>()->GetcColliderType();
 
 	switch (type)
 	{
@@ -106,13 +106,13 @@ void CUIobj_Collider2D::EditComUI()
 	if (ImGui::Button("Remove Collider"))
 	{
 		//여기 들어왔다는 건 충돌체 컴포넌트가 있다는 뜻이므로 검사할 필요 없이 바로 등록하면 됨.
-		EventDispatcher::RemoveComponent(GetTargetObj(), eCOMPONENT_TYPE::COLLIDER2D);
+		EventDispatcher::RemoveComponent(GetTargetObj(), eCOMPONENT_TYPE::COLLIDER);
 	}
 }
 
-void CUIobj_Collider2D::RectEditUI()
+void cUIobj_Collider2D::RectEditUI()
 {
-	CCollider2D_Rect* pRect = static_cast<CCollider2D_Rect*>(GetTargetObj()->Collider2D());
+	cCom_Coll2D_Rect* pRect = static_cast<cCom_Coll2D_Rect*>(GetTargetObj()->GetComponent<ICollider2D>());
 
 	IMGUI_AlignedText("Collider Size: ");
 	
@@ -148,9 +148,9 @@ void CUIobj_Collider2D::RectEditUI()
 	
 }
 
-void CUIobj_Collider2D::CircleEditUI()
+void cUIobj_Collider2D::CircleEditUI()
 {
-	CCollider2D_Circle* pCol = static_cast<CCollider2D_Circle*>(GetTargetObj()->Collider2D());
+	cCom_Coll2D_Circle* pCol = static_cast<cCom_Coll2D_Circle*>(GetTargetObj()->GetComponent<ICollider2D>());
 	float fRad = pCol->GetRadius();
 	
 	IMGUI_AlignedText("Radius : ");
@@ -161,7 +161,7 @@ void CUIobj_Collider2D::CircleEditUI()
 	}
 }
 
-//void CUIobj_Collider2D::render_update()
+//void cUIobj_Collider2D::render_update()
 //{
 //	ImGui::NewLine();
 //
