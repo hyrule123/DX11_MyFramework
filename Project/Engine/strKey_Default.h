@@ -9,8 +9,13 @@ namespace strkey_DefaultCom
 	STRKEY_DECLARE(cCom_Coll2D_OBB);
 	STRKEY_DECLARE(cCom_Coll2D_Point);
 	STRKEY_DECLARE(cCom_Coll2D_Rect);
+
+	STRKEY_DECLARE(cCom_Animator2D);
+
 	STRKEY_DECLARE(cCom_Light2D);
 	STRKEY_DECLARE(cCom_Camera);
+
+
 	STRKEY_DECLARE(cCom_Renderer_Default);
 	STRKEY_DECLARE(cCom_Renderer_ParticleBasic);
 	STRKEY_DECLARE(cCom_Renderer_TilemapAtlas);

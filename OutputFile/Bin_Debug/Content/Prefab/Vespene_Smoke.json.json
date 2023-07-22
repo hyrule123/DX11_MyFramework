@@ -3,6 +3,7 @@
 	{
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 6,
+		"m_strKey" : "Vespene_Smoke",
 		"m_vecChild_PREFAB" : [],
 		"m_vecCom" : 
 		[
@@ -15,12 +16,14 @@
 					"SC/thingy/VSmokeDeplete(geysmok4).bmp",
 					null,
 					null
-				]
+				],
+				"m_strKey" : "cCom_Animator2D"
 			},
 			null,
 			null,
 			{
 				"eComponentType" : 4,
+				"m_strKey" : "cCom_Renderer_Default",
 				"strKeyMesh" : "RectMesh",
 				"strKeyMtrl" : "Vespene_Smoke"
 			},
@@ -32,6 +35,7 @@
 				"m_eUnitSize" : 0,
 				"m_fBaseBuildTime" : 0,
 				"m_flagTech" : 0,
+				"m_strKey" : "cScript_SCEntity",
 				"m_strProdBuildingName" : "",
 				"m_uCostGas" : 0,
 				"m_uCostMineral" : 50,
@@ -40,5 +44,6 @@
 			}
 		]
 	},
-	"m_eResType" : 6
+	"m_eResType" : 6,
+	"m_strKey" : "Vespene_Smoke.json"
 }

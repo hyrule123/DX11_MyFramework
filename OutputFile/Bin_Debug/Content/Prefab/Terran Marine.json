@@ -3,6 +3,7 @@
 	{
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 7,
+		"m_strKey" : "Terran Marine",
 		"m_vecChild_PREFAB" : [],
 		"m_vecCom" : 
 		[
@@ -10,6 +11,7 @@
 				"eComponentType" : 0,
 				"m_bFollowTransformSize" : false,
 				"m_eColType" : 0,
+				"m_strKey" : "cCom_Coll2D_Rect",
 				"m_v3OffsetPos" : 
 				[
 					0,
@@ -31,16 +33,19 @@
 					null,
 					null,
 					null
-				]
+				],
+				"m_strKey" : "cCom_Animator2D"
 			},
 			null,
 			null,
 			{
 				"eComponentType" : 4,
+				"m_strKey" : "cCom_Renderer_Default",
 				"strKeyMesh" : "RectMesh",
 				"strKeyMtrl" : "Terran Marine"
 			}
 		]
 	},
-	"m_eResType" : 6
+	"m_eResType" : 6,
+	"m_strKey" : "Terran Marine"
 }

@@ -11,5 +11,6 @@
 		""
 	],
 	"m_eResType" : 2,
+	"m_strKey" : "Terran Marine",
 	"strKey_Shader" : "SCUnitGround.json"
 }

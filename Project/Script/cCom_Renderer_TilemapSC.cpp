@@ -46,231 +46,72 @@ STRKEY strPath_StormLib = "StormLib_DLL_Release.dll";
 //디버그 출력 확인용
 using namespace SC_Map;
 
+std::unique_ptr<cStructBuffer[]> cCom_Renderer_TilemapSC::m_arrSBuffer_TilesetData[(int)SC_Map::eTILESET_INFO::END]{};
+int cCom_Renderer_TilemapSC::m_iRefCount_TilesetData;
+
+
 cCom_Renderer_TilemapSC::cCom_Renderer_TilemapSC()
 	: m_CS_MapLoader()
 	, m_eTileSet()
 	, m_strMapName()
-
+	, m_vecMegaTile()
+	, m_vecMiniTile()
+	, m_vecUnitData()
+	, m_vecStartLocation()
 	, m_bMapLoaded()
 	, m_bUnitLoaded()
+	, m_pMapTex()
+	, m_pSBuffer_MXTM()
+	, m_pSBufferRW_Megatile()
+	, m_pSBufferRW_Minitile()
 	, m_eDebugMode()
 {
-	Ptr<cComputeShader> m_CS_MapLoader;
+	++m_iRefCount_TilesetData;
+}
 
-	//타일 크기는 부모 클래스에 있음.
-	//UINT32 m_uNumMegatileX;
-	//UINT32 m_uNumMegatileY;
-
-	SC_Map::eTILESET_INFO m_eTileSet;
-
-	string m_strMapName;
-
-
-	vector<tMegaTile> m_vecMegaTile;
-	vector<tMiniTile> m_vecMiniTile;
-	vector<SC_Map::tUnitData> m_vecUnitData;
-	vector<Vec2> m_vecStartLocation;
-
-	bool    m_bMapLoaded;
-	bool    m_bUnitLoaded;
-
-
-	//Buffers
-	Ptr<cTexture> m_pMapTex;
-	SC_Map::tpSBufferTileSet m_arrpSBufferTileSet[(int)SC_Map::eTILESET_INFO::END];
-	std::unique_ptr<cStructBuffer> m_pSBuffer_MXTM;
-	std::unique_ptr<cStructBuffer> m_pSBufferRW_Megatile;
-	std::unique_ptr<cStructBuffer> m_pSBufferRW_Minitile;
+cCom_Renderer_TilemapSC::cCom_Renderer_TilemapSC(const cCom_Renderer_TilemapSC& _other)
+	: cCom_Renderer_TilemapComplete(_other)
+	, m_CS_MapLoader()
+	, m_eTileSet(_other.m_eTileSet)
+	, m_strMapName(_other.m_strMapName)
+	, m_vecMegaTile(_other.m_vecMegaTile)
+	, m_vecMiniTile(_other.m_vecMiniTile)
+	, m_vecUnitData(_other.m_vecUnitData)
+	, m_vecStartLocation(_other.m_vecStartLocation)
+	, m_bMapLoaded(_other.m_bMapLoaded)
+	, m_bUnitLoaded(_other.m_bUnitLoaded)
+	, m_pMapTex(_other.m_pMapTex)
+	, m_pSBuffer_MXTM(_other.m_pSBuffer_MXTM)
+	, m_pSBufferRW_Megatile(_other.m_pSBufferRW_Megatile)
+	, m_pSBufferRW_Minitile(_other.m_pSBufferRW_Minitile)
+	, m_eDebugMode(_other.m_eDebugMode)
+{
+	++m_iRefCount_TilesetData;
 }
 
 cCom_Renderer_TilemapSC::~cCom_Renderer_TilemapSC()
 {
-	for (int i = 0; i < (int)SC_Map::eTILESET_INFO::END; ++i)
+	--m_iRefCount_TilesetData;
+	if (m_iRefCount_TilesetData <= 0)
 	{
-		SAFE_DELETE_ARRAY(m_arrpSBufferTileSet[i].arrTileSetMember);
+		m_iRefCount_TilesetData = 0;
+		for (int i = 0; i < (int)SC_Map::eTILESET_INFO::END; ++i)
+		{
+			m_arrSBuffer_TilesetData[i].reset();
+		}
 	}
 }
-
-cCom_Renderer_TilemapSC::cCom_Renderer_TilemapSC(const cCom_Renderer_TilemapSC& _other)
-{
-	//구현 안됨
-	assert(nullptr);
-}
-
 
 void cCom_Renderer_TilemapSC::Init()
 {
-	std::filesystem::path Path(cPathMgr::GetInst()->GetPathRel_Content());
-	Path /= DIRECTORY_NAME::SCMAP;
-	Path /= DIRECTORY_NAME::SCMAP_TILESET;
-
-	//타일셋 데이터를 저장할 메모리공간 동적할당 
-	SC_Map::tTileSet* Tileset = new SC_Map::tTileSet;
-
-	try
+	if (nullptr == m_arrSBuffer_TilesetData[0].get())
 	{
-		for (int TileSetIdx = 0; TileSetIdx < (int)SC_Map::eTILESET_INFO::END; ++TileSetIdx)
+		if (false == CreateTilesetData())
 		{
-			//타일셋 데이터 초기화
-			memset(Tileset, 0, sizeof(SC_Map::tTileSet));
-			std::filesystem::path FullPath = Path;
-
-			switch ((eTILESET_INFO)TileSetIdx)
-			{
-			case SC_Map::eTILESET_INFO::BADLANDS:
-				FullPath /= "badlands";
-				break;
-			case SC_Map::eTILESET_INFO::SPACE_PLATFORM:
-				FullPath /= "platform";
-				break;
-			case SC_Map::eTILESET_INFO::INSTALLATION:
-				FullPath /= "install";
-				break;
-			case SC_Map::eTILESET_INFO::ASH_WORLD:
-				FullPath /= "ashworld";
-				break;
-			case SC_Map::eTILESET_INFO::JUNGLE:
-				FullPath /= "jungle";
-				break;
-			case SC_Map::eTILESET_INFO::DESERT:
-				FullPath /= "Desert";
-				break;
-			case SC_Map::eTILESET_INFO::ICE:
-				FullPath /= "Ice";
-				break;
-			case SC_Map::eTILESET_INFO::TWILIGHT:
-				FullPath /= "Twilight";
-				break;
-			default:
-				break;
-			}
-
-			FullPath += ".CV5";
-			std::ios::openmode mode = std::ios::beg | std::ios::binary | std::ios::in;
-			std::ifstream fpCV5(FullPath, mode);
-			//_wfopen_s(&fpCV5, FullPath.wstring().c_str(), L"rb");
-
-			FullPath.replace_extension(".VX4");
-			std::ifstream fpVX4(FullPath, mode);
-			//_wfopen_s(&fpVX4, FullPath.wstring().c_str(), L"rb");
-
-			FullPath.replace_extension(".VR4");
-			std::ifstream fpVR4(FullPath, mode);
-			//_wfopen_s(&fpVR4, FullPath.wstring().c_str(), L"rb");
-
-			FullPath.replace_extension(".WPE");
-			std::ifstream fpWPE(FullPath, mode);
-			//_wfopen_s(&fpWPE, FullPath.wstring().c_str(), L"rb");
-
-			FullPath.replace_extension(".VF4");
-			std::ifstream fpVF4(FullPath, mode);
-			//_wfopen_s(&fpVF4, FullPath.wstring().c_str(), L"rb");
-
-			if (
-				false == fpCV5.is_open() ||
-				false == fpVX4.is_open() ||
-				false == fpVR4.is_open() ||
-				false == fpWPE.is_open() ||
-				false == fpVF4.is_open()
-				)
-			{
-				fpCV5.close();
-				fpVX4.close();
-				fpVR4.close();
-				fpWPE.close();
-				fpVF4.close();
-
-				throw(std::runtime_error("Tileset Data load failed!!"));
-			}
-
-
-			UINT16 cpy = (UINT16)0;
-			for (int i = 0; i < CV5_MAX; ++i)
-			{
-				//각각 2바이트씩 읽어와서 캐스트해서 구조체에 넣어준다.
-				fpCV5.read((char*)&cpy, sizeof(UINT16));
-				Tileset->cv5[i].TerrainType = (UINT32)cpy;
-				cpy = 0;
-
-				fpCV5.read((char*)&cpy, sizeof(UINT16));
-				Tileset->cv5[i].Flags = (UINT32)cpy;
-				cpy = 0;
-
-				//커서를 16만큼 앞으로 이동한뒤
-				fpCV5.seekg(16, std::ios::cur);
-
-				//다시 32바이트를 읽는다.
-				fpCV5.read((char*)&(Tileset->cv5[i].MegaTileIndex), sizeof(UINT16) * (size_t)16);
-
-				if (true == fpCV5.eof())
-					break;
-			}
-
-			fpVX4.read((char*)&(Tileset->vx4), sizeof(VX4) * VX4_MAX);
-			fpVR4.read((char*)&(Tileset->vr4), sizeof(VR4) * VR4_MAX);
-			fpWPE.read((char*)&(Tileset->wpe), sizeof(WPE) * WPE_MAX);
-			fpVF4.read((char*)&(Tileset->vf4), sizeof(VF4) * VF4_MAX);
-
-			//Desc 작성해서 SBuffer 생성
-			tSBufferDesc SDesc = {};
-			SDesc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
-			SDesc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
-
-			//타일셋 일괄적으로 동적 할당(2차원 배열)
-			m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember = new cStructBuffer[(int)SC_Map::eTILESET_MEMBER::END];
-
-			for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
-			{
-				//0 ~ 5번까지 일치시켜 놓았음.
-				SDesc.REGISLOT_t_SRV = i;
-
-				//Desc 설정
-				m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].SetDesc(SDesc);
-
-				//각자에게 맞는 구조화버퍼 공간 생성
-				switch ((SC_Map::eTILESET_MEMBER)i)
-				{
-				case SC_Map::eTILESET_MEMBER::CV5:
-					m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(CV5), (UINT)CV5_MAX, Tileset->cv5, (UINT)CV5_MAX);
-
-					break;
-				case SC_Map::eTILESET_MEMBER::VX4:
-					m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VX4), (UINT)VX4_MAX, Tileset->vx4, (UINT)VX4_MAX);
-
-					break;
-				case SC_Map::eTILESET_MEMBER::VF4:
-					m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VF4), (UINT)VF4_MAX, Tileset->vf4, (UINT)VF4_MAX);
-
-					break;
-				case SC_Map::eTILESET_MEMBER::VR4:
-					m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(VR4), (UINT)VR4_MAX, Tileset->vr4, (UINT)VR4_MAX);
-
-					break;
-				case SC_Map::eTILESET_MEMBER::WPE:
-					m_arrpSBufferTileSet[TileSetIdx].arrTileSetMember[i].Create((UINT)sizeof(WPE), (UINT)WPE_MAX, Tileset->wpe, (UINT)WPE_MAX);
-
-					break;
-
-				default:
-					break;
-				}
-			}
-
-			fpCV5.close();
-			fpVX4.close();
-			fpVR4.close();
-			fpWPE.close();
-			fpVF4.close();
+			ERROR_MESSAGE("Failed To import Tileset Data!");
+			std::abort();
 		}
 	}
-	catch (const std::runtime_error& error)
-	{
-		MessageBoxA(nullptr, error.what(), NULL, MB_OK);
-		throw(std::runtime_error("Program Terminate"));
-	}
-
-	//데이터 저장용 힙 영역을 제거
-	delete Tileset;
 
 	m_CS_MapLoader = cResMgr::GetInst()->Load<cComputeShader>(strKey_Shader::Compute::S_C_SCMapLoader);
 
@@ -370,7 +211,7 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 	//현재 타일셋과 일치하는 타일셋 데이터를 바인딩
 	for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
 	{
-		m_arrpSBufferTileSet[(int)m_eTileSet].arrTileSetMember[i].BindBufferSRV();
+		m_arrSBuffer_TilesetData[(int)m_eTileSet][i].BindBufferSRV();
 	}
 	m_pSBuffer_MXTM->BindBufferSRV();
 	m_pMapTex->BindData_UAV(REGISLOT_u_TEXTURERW_TARGET);
@@ -395,7 +236,7 @@ void cCom_Renderer_TilemapSC::PrepareMap()
 	//타일셋 Unbind
 	for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
 	{
-		m_arrpSBufferTileSet[(int)m_eTileSet].arrTileSetMember[i].UnBind();
+		m_arrSBuffer_TilesetData[(int)m_eTileSet][i].UnBind();
 	}
 	//맵 데이터를 CPU 메모리로 복사 후 구조화 버퍼를 언바인드
 	UINT numTile = GetNumTiles();
@@ -459,6 +300,175 @@ void cCom_Renderer_TilemapSC::PrepareMap()
 	m_pSBuffer_MXTM->BindBufferSRV();
 	m_pSBufferRW_Megatile->BindBufferSRV();
 	m_pSBufferRW_Minitile->BindBufferSRV();
+}
+
+bool cCom_Renderer_TilemapSC::CreateTilesetData()
+{
+	std::filesystem::path Path(cPathMgr::GetInst()->GetPathRel_Content());
+	Path /= DIRECTORY_NAME::SCMAP;
+	Path /= DIRECTORY_NAME::SCMAP_TILESET;
+
+	//타일셋 데이터를 저장할 메모리공간 동적할당(스택에 생성시 오버플로우 가능성 있음)
+	SC_Map::tTileSet* Tileset = new SC_Map::tTileSet;
+
+	for (int TileSetIdx = 0; TileSetIdx < (int)SC_Map::eTILESET_INFO::END; ++TileSetIdx)
+	{
+		//타일셋 데이터 초기화
+		memset(Tileset, 0, sizeof(SC_Map::tTileSet));
+		std::filesystem::path FullPath = Path;
+
+		switch ((eTILESET_INFO)TileSetIdx)
+		{
+		case SC_Map::eTILESET_INFO::BADLANDS:
+			FullPath /= "badlands";
+			break;
+		case SC_Map::eTILESET_INFO::SPACE_PLATFORM:
+			FullPath /= "platform";
+			break;
+		case SC_Map::eTILESET_INFO::INSTALLATION:
+			FullPath /= "install";
+			break;
+		case SC_Map::eTILESET_INFO::ASH_WORLD:
+			FullPath /= "ashworld";
+			break;
+		case SC_Map::eTILESET_INFO::JUNGLE:
+			FullPath /= "jungle";
+			break;
+		case SC_Map::eTILESET_INFO::DESERT:
+			FullPath /= "Desert";
+			break;
+		case SC_Map::eTILESET_INFO::ICE:
+			FullPath /= "Ice";
+			break;
+		case SC_Map::eTILESET_INFO::TWILIGHT:
+			FullPath /= "Twilight";
+			break;
+		default:
+			break;
+		}
+
+		FullPath += ".CV5";
+		std::ios::openmode mode = std::ios::beg | std::ios::binary | std::ios::in;
+		std::ifstream fpCV5(FullPath, mode);
+		//_wfopen_s(&fpCV5, FullPath.wstring().c_str(), L"rb");
+
+		FullPath.replace_extension(".VX4");
+		std::ifstream fpVX4(FullPath, mode);
+		//_wfopen_s(&fpVX4, FullPath.wstring().c_str(), L"rb");
+
+		FullPath.replace_extension(".VR4");
+		std::ifstream fpVR4(FullPath, mode);
+		//_wfopen_s(&fpVR4, FullPath.wstring().c_str(), L"rb");
+
+		FullPath.replace_extension(".WPE");
+		std::ifstream fpWPE(FullPath, mode);
+		//_wfopen_s(&fpWPE, FullPath.wstring().c_str(), L"rb");
+
+		FullPath.replace_extension(".VF4");
+		std::ifstream fpVF4(FullPath, mode);
+		//_wfopen_s(&fpVF4, FullPath.wstring().c_str(), L"rb");
+
+		if (
+			false == fpCV5.is_open() ||
+			false == fpVX4.is_open() ||
+			false == fpVR4.is_open() ||
+			false == fpWPE.is_open() ||
+			false == fpVF4.is_open()
+			)
+		{
+			fpCV5.close();
+			fpVX4.close();
+			fpVR4.close();
+			fpWPE.close();
+			fpVF4.close();
+
+			ERROR_MESSAGE("Failed to open Tilemap Data Files.");
+			return false;
+		}
+
+
+		UINT16 cpy = (UINT16)0;
+		for (int i = 0; i < CV5_MAX; ++i)
+		{
+			//각각 2바이트씩 읽어와서 캐스트해서 구조체에 넣어준다.
+			fpCV5.read((char*)&cpy, sizeof(UINT16));
+			Tileset->cv5[i].TerrainType = (UINT32)cpy;
+			cpy = 0;
+
+			fpCV5.read((char*)&cpy, sizeof(UINT16));
+			Tileset->cv5[i].Flags = (UINT32)cpy;
+			cpy = 0;
+
+			//커서를 16만큼 앞으로 이동한뒤
+			fpCV5.seekg(16, std::ios::cur);
+
+			//다시 32바이트를 읽는다.
+			fpCV5.read((char*)&(Tileset->cv5[i].MegaTileIndex), sizeof(UINT16) * (size_t)16);
+
+			if (true == fpCV5.eof())
+				break;
+		}
+
+		fpVX4.read((char*)&(Tileset->vx4), sizeof(VX4) * VX4_MAX);
+		fpVR4.read((char*)&(Tileset->vr4), sizeof(VR4) * VR4_MAX);
+		fpWPE.read((char*)&(Tileset->wpe), sizeof(WPE) * WPE_MAX);
+		fpVF4.read((char*)&(Tileset->vf4), sizeof(VF4) * VF4_MAX);
+
+		//Desc 작성해서 SBuffer 생성
+		tSBufferDesc SDesc = {};
+		SDesc.eSBufferType = eSTRUCT_BUFFER_TYPE::READ_ONLY;
+		SDesc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
+
+		//타일셋 일괄적으로 동적 할당(2차원 배열)
+		m_arrSBuffer_TilesetData[TileSetIdx] = std::make_unique<cStructBuffer[]>((int)SC_Map::eTILESET_MEMBER::END);
+
+		for (int i = 0; i < (int)SC_Map::eTILESET_MEMBER::END; ++i)
+		{
+			//0 ~ 5번까지 일치시켜 놓았음.
+			SDesc.REGISLOT_t_SRV = i;
+
+			//Desc 설정
+			m_arrSBuffer_TilesetData[TileSetIdx][i].SetDesc(SDesc);
+
+			//각자에게 맞는 구조화버퍼 공간 생성
+			switch ((SC_Map::eTILESET_MEMBER)i)
+			{
+			case SC_Map::eTILESET_MEMBER::CV5:
+				m_arrSBuffer_TilesetData[TileSetIdx][i].Create((UINT)sizeof(CV5), (UINT)CV5_MAX, Tileset->cv5, (UINT)CV5_MAX);
+
+				break;
+			case SC_Map::eTILESET_MEMBER::VX4:
+				m_arrSBuffer_TilesetData[TileSetIdx][i].Create((UINT)sizeof(VX4), (UINT)VX4_MAX, Tileset->vx4, (UINT)VX4_MAX);
+
+				break;
+			case SC_Map::eTILESET_MEMBER::VF4:
+				m_arrSBuffer_TilesetData[TileSetIdx][i].Create((UINT)sizeof(VF4), (UINT)VF4_MAX, Tileset->vf4, (UINT)VF4_MAX);
+
+				break;
+			case SC_Map::eTILESET_MEMBER::VR4:
+				m_arrSBuffer_TilesetData[TileSetIdx][i].Create((UINT)sizeof(VR4), (UINT)VR4_MAX, Tileset->vr4, (UINT)VR4_MAX);
+
+				break;
+			case SC_Map::eTILESET_MEMBER::WPE:
+				m_arrSBuffer_TilesetData[TileSetIdx][i].Create((UINT)sizeof(WPE), (UINT)WPE_MAX, Tileset->wpe, (UINT)WPE_MAX);
+
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		fpCV5.close();
+		fpVX4.close();
+		fpVR4.close();
+		fpWPE.close();
+		fpVF4.close();
+	}
+	//데이터 저장용 힙 영역을 제거
+	delete Tileset;
+
+	return true;
 }
 
 std::shared_ptr<tMapRawData> cCom_Renderer_TilemapSC::ExtractMap(const std::filesystem::path& _MapFilePath)
@@ -593,7 +603,7 @@ bool cCom_Renderer_TilemapSC::ReadMapData(std::shared_ptr<tMapRawData> _RawData)
 	SBufferDesc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
 	SBufferDesc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MXTM;
 
-	m_pSBuffer_MXTM = std::make_unique<cStructBuffer>();
+	m_pSBuffer_MXTM = std::make_shared<cStructBuffer>();
 	m_pSBuffer_MXTM->SetDesc(SBufferDesc);
 
 	UINT DataCount = (UINT)arrMapDataChunk[(int)eSCMAP_DATA_TYPE::TILEMAP_ATLAS]->length / 16u;
@@ -678,7 +688,7 @@ bool cCom_Renderer_TilemapSC::CreateMapbuffers()
 		Desc.REGISLOT_u_UAV = REGISLOT_u_SBUFFERRW_MEGATILE;
 
 		//Megatile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
-		m_pSBufferRW_Megatile = std::make_unique<cStructBuffer>();
+		m_pSBufferRW_Megatile = std::make_shared<cStructBuffer>();
 		m_pSBufferRW_Megatile->SetDesc(Desc);
 		m_pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);
 	}
@@ -689,7 +699,7 @@ bool cCom_Renderer_TilemapSC::CreateMapbuffers()
 		Desc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MINITILE;
 		Desc.REGISLOT_u_UAV = REGISLOT_u_SBUFFERRW_MINITILE;
 
-		m_pSBufferRW_Minitile = std::make_unique<cStructBuffer>(Desc);
+		m_pSBufferRW_Minitile = std::make_shared<cStructBuffer>(Desc);
 
 		//메가타일 하나당 16개의 미니타일이 존재
 		numTile *= 16;

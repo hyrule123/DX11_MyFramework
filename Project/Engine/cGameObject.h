@@ -53,9 +53,9 @@ private:
 
 public:
     inline void InitVecCom();
-    //Add
-    IComponent* AddComponent(IComponent* _Component);
 
+    //삭제 실패 시 내부에서 Component를 제거하고 nullptr이 반환됨.
+    IComponent* AddComponent(IComponent* _Component);
     IComponent* AddComponent(const std::string_view _strKey);
 
     template <typename T>
@@ -404,6 +404,6 @@ inline T* cGameObject::AddComponent()
         m_vecCom[(int)ComType] = pType;
     }
 
-
+    pType->SetOwner(this);
     return pType;
 }

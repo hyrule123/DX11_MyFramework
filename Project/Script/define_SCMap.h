@@ -104,14 +104,6 @@ namespace SC_Map
     };
 
 
-    //이렇게 선언한 이유: 아래 포인터에 동시에 여러개 동적할당 해야됨
-    //arrTileSetMember = new cStructBuffer[5]
-    class ::cStructBuffer;
-    struct tpSBufferTileSet
-    {
-        cStructBuffer* arrTileSetMember;
-    };
-
     //맵데이터로부터 로드해야하는 데이터들의 플래그
     enum class eSCMAP_DATA_TYPE
     {

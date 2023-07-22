@@ -28,7 +28,7 @@ bool IComponent::SaveJson(Json::Value* _pJson)
 {
 	if (nullptr == _pJson)
 		return false;
-	else if (false == IEntity::LoadJson(_pJson))
+	else if (false == IEntity::SaveJson(_pJson))
 		return false;
 
 	(*_pJson)[string(RES_INFO::PREFAB::COMPONENT::JSON_KEY::eComponentType)] = (int)m_eComponentType;

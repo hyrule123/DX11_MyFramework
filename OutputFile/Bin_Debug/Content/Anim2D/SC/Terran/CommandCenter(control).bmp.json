@@ -1,6 +1,7 @@
 {
 	"bRegularFrameSize" : true,
 	"m_eResType" : 4,
+	"m_strKey" : "SC/Terran/CommandCenter(control).bmp",
 	"mapAnim" : 
 	{
 		"IDLE" : 

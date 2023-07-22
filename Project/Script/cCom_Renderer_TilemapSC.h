@@ -17,10 +17,11 @@ class cCom_Renderer_TilemapSC :
 {
 public:
     cCom_Renderer_TilemapSC();
-    virtual ~cCom_Renderer_TilemapSC();
 
     cCom_Renderer_TilemapSC(const cCom_Renderer_TilemapSC& _other);
     CLONE(cCom_Renderer_TilemapSC);
+
+    virtual ~cCom_Renderer_TilemapSC();
 
 public:
     virtual void Init() override;
@@ -28,6 +29,9 @@ public:
     virtual eRENDER_RESULT Render() override;
 
 private:
+    static int m_iRefCount_TilesetData;
+    static std::unique_ptr<cStructBuffer[]> m_arrSBuffer_TilesetData[(int)SC_Map::eTILESET_INFO::END];
+
     Ptr<cComputeShader> m_CS_MapLoader;
 
     //타일 크기는 부모 클래스에 있음.
@@ -50,10 +54,9 @@ private:
 
     //Buffers
     Ptr<cTexture> m_pMapTex;
-    SC_Map::tpSBufferTileSet m_arrpSBufferTileSet[(int)SC_Map::eTILESET_INFO::END];
-    std::unique_ptr<cStructBuffer> m_pSBuffer_MXTM;
-    std::unique_ptr<cStructBuffer> m_pSBufferRW_Megatile;
-    std::unique_ptr<cStructBuffer> m_pSBufferRW_Minitile;
+    std::shared_ptr<cStructBuffer> m_pSBuffer_MXTM;
+    std::shared_ptr<cStructBuffer> m_pSBufferRW_Megatile;
+    std::shared_ptr<cStructBuffer> m_pSBufferRW_Minitile;
 
 public:
     bool LoadMap(const string_view _strMapName);
@@ -66,6 +69,8 @@ public:
 
 
 private:
+    bool CreateTilesetData();
+
     std::shared_ptr<SC_Map::tMapRawData> ExtractMap(const std::filesystem::path& _MapFilePath);
     bool ReadMapData(std::shared_ptr<SC_Map::tMapRawData> _RawData);
 

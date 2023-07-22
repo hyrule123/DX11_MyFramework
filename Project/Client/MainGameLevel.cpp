@@ -106,7 +106,6 @@ void CreateMainGame()
 		cGameObject* pObj = new cGameObject;
 		cCom_Camera* Cam = pObj->AddComponent<cCom_Camera>();
 
-		pObj->AddComponent(Cam);
 		pObj->Camera()->SetCamIndex(eCAMERA_INDEX::MAIN);
 		pObj->Camera()->SetProjType(ePROJ_TYPE::ORTHOGRAPHY);
 		//pObj->AddComponent(new cTransform);

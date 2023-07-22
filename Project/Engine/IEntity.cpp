@@ -5,6 +5,8 @@
 
 #include "strKey_Default.h"
 
+#include "cComMgr.h"
+
 UINT IEntity::g_iNextID = 0;
 
 IEntity::IEntity()
@@ -41,6 +43,8 @@ bool IEntity::SaveJson(Json::Value* _pJson)
 		ERROR_MESSAGE("Can't save without String Key!!");
 		return false;
 	}
+
+	jVal[JsonKey_IEntity::m_strKey] = m_strKey;
 
 	return true;
 }

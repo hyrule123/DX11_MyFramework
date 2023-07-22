@@ -230,30 +230,27 @@ void cEditorObjMgr::CreateDebugShape()
 	for (int i = 0; i < (int)eDEBUGSHAPE_TYPE::END; ++i)
 	{
 		m_arrDebugShape[i] = new cGameObject;
+		cCom_Renderer_Default* pMesh = m_arrDebugShape[i]->AddComponent<cCom_Renderer_Default>();
 
 		switch ((eDEBUGSHAPE_TYPE)i)
 		{
 		case eDEBUGSHAPE_TYPE::RECT:
 		{
-			cCom_Renderer_Default* pMesh = new cCom_Renderer_Default;
 			//월드행렬을 직접 받아서 쉐이더에 보낼 것이기 떄문에 Transform은 필요하지 않음.
 			Ptr<cMesh> pDebugMesh = cResMgr::GetInst()->FindRes<cMesh>(strKey_RES_DEFAULT::MESH::DEBUG_RECT);
 			Ptr<cMaterial> pDebugMtrl = cResMgr::GetInst()->FindRes<cMaterial>(strKey_RES_DEFAULT::MATERIAL::DEBUG_RECT);
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
-			m_arrDebugShape[i]->AddComponent(pMesh);
-
+			
 			break;
 		}
 
 		case eDEBUGSHAPE_TYPE::CIRCLE:
 		{
-			cCom_Renderer_Default* pMesh = new cCom_Renderer_Default;
 			Ptr<cMesh> pDebugMesh = cResMgr::GetInst()->FindRes<cMesh>(strKey_RES_DEFAULT::MESH::DEBUG_CIRCLE);
 			Ptr<cMaterial> pDebugMtrl = cResMgr::GetInst()->FindRes<cMaterial>(strKey_RES_DEFAULT::MATERIAL::DEBUG_CIRCLE);
 			pMesh->SetMesh(pDebugMesh);
 			pMesh->SetMaterial(pDebugMtrl);
-			m_arrDebugShape[i]->AddComponent(pMesh);
 			break;
 		}
 		case eDEBUGSHAPE_TYPE::CUBE:
@@ -273,15 +270,14 @@ void cEditorObjMgr::CreateDebugShape()
 void cEditorObjMgr::CreateEditorCamera()
 {
 	m_pEditorCam = new cGameObject;
-
-	cCom_Camera* pCam = new cCom_Camera;
-	m_pEditorCam->AddComponent(pCam);
+	
+	cCom_Camera* pCam = m_pEditorCam->AddComponent< cCom_Camera>();
 	pCam->SetLayerFlag(UINT32_MAX);
 	pCam->SetCamIndex(eCAMERA_INDEX::EDITOR);
 
 	cTransform& pTransform = m_pEditorCam->Transform();
 	pTransform.SetRelativePos(Vec3(0.f, 0.f, -100.f));
-m_pEditorCam->AddComponent<cScript_CameraMove>();
+	m_pEditorCam->AddComponent<cScript_CameraMove>();
 
 	cRenderMgr::GetInst()->SetEditorCam(m_pEditorCam->Camera());
 }

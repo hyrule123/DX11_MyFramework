@@ -34,6 +34,8 @@
 #include "cCom_Coll2D_Point.h"
 #include "cCom_Coll2D_Rect.h"
 
+#include "cCom_Animator2D.h"
+
 #include "cCom_Light2D.h"
 #include "cCom_Camera.h"
 
@@ -52,6 +54,8 @@ void DefaultClassInitializer::InitDefaultComponent()
 	pMgr->AddComConstructor<cCom_Coll2D_OBB>(strkey_DefaultCom::cCom_Coll2D_OBB);
 	pMgr->AddComConstructor<cCom_Coll2D_Point>(strkey_DefaultCom::cCom_Coll2D_Point);
 	pMgr->AddComConstructor<cCom_Coll2D_Rect>(strkey_DefaultCom::cCom_Coll2D_Rect);
+
+	pMgr->AddComConstructor<cCom_Animator2D>(strkey_DefaultCom::cCom_Animator2D);
 
 	pMgr->AddComConstructor<cCom_Light2D>(strkey_DefaultCom::cCom_Light2D);
 	pMgr->AddComConstructor<cCom_Camera>(strkey_DefaultCom::cCom_Camera);

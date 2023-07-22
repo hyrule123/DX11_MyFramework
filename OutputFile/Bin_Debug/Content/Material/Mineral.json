@@ -11,5 +11,6 @@
 		""
 	],
 	"m_eResType" : 2,
+	"m_strKey" : "Mineral",
 	"strKey_Shader" : "Mineral.json"
 }

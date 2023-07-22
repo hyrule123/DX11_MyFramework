@@ -689,7 +689,8 @@ namespace SC
 		"VESPENE_GAS_TANK_TYPE_2"
 	};
 
-	STRKEY GetUnitName(SC::eUNIT_ID _eID)
+
+	inline const char* GetUnitName(SC::eUNIT_ID _eID)
 	{
 		return SC::arrStrKey[(int)_eID];
 	}

@@ -57,7 +57,7 @@ void ManualEdit::Edit()
 	//Marine
 	{
 		//Animation
-		string strKey = strKey_Texture::SC::Terran::marine_bmp;
+		const char* strKey = strKey_Texture::SC::Terran::marine_bmp;
 		MarineAnim_Save(strKey);
 		LoadAnim(strKey);
 
@@ -265,8 +265,6 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 		//cScript_FSM_Attack* pFSMAttack = GET_NEW_SCRIPT(cScript_FSM_Attack);
 		//pObj->AddScript(pFSMAttack);
 	}
-	
-	
 	
 
 	Ptr<cPrefab> pPrefab = new cPrefab;

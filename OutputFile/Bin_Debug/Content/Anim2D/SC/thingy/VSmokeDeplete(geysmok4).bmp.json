@@ -1,6 +1,7 @@
 {
 	"bRegularFrameSize" : true,
 	"m_eResType" : 4,
+	"m_strKey" : "SC/thingy/VSmokeDeplete(geysmok4).bmp",
 	"mapAnim" : 
 	{
 		"VESPENE_SMOKE_1_DEPLETE" : 

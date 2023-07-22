@@ -3,6 +3,7 @@
 	{
 		"m_fLifeSpan" : -8388609,
 		"m_iLayerIdx" : 1,
+		"m_strKey" : "MapObj",
 		"m_vecChild_PREFAB" : [],
 		"m_vecCom" : 
 		[
@@ -13,10 +14,12 @@
 			{
 				"eComponentType" : 4,
 				"m_TilemapType" : 1,
+				"m_strKey" : "cCom_Renderer_TilemapSC",
 				"strKeyMesh" : "RectMesh",
 				"strKeyMtrl" : "cCom_Renderer_TilemapComplete"
 			}
 		]
 	},
-	"m_eResType" : 6
+	"m_eResType" : 6,
+	"m_strKey" : "MapObj"
 }
