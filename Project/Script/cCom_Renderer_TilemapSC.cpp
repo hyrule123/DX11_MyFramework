@@ -218,6 +218,7 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 
 	cConstBuffer* cBuffer = cDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_MTRL_SCALAR);
 	cBuffer->UploadData(&GetOwner()->GetMtrlScalarData());
+	cBuffer->BindBuffer(define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE);
 
 	m_pSBuffer_MXTM->BindBufferSRV();
 	m_pMapTex->BindData_UAV(REGISLOT_u_TEXTURERW_TARGET);
@@ -233,7 +234,7 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 	m_bMapLoaded = true;
 	
 	PrepareMap();
-
+	
 	return true;
 }
 
