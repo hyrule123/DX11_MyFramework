@@ -213,6 +213,7 @@
       <Filter>_Source\06. Component\08~Render Components\08. Basic Render</Filter>
     </ClInclude>
     <ClInclude Include="cGPUBufferModule.h" />
+    <ClInclude Include="AtExitFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -387,6 +388,7 @@
       <Filter>_Source\06. Component\08~Render Components\08. Basic Render</Filter>
     </ClCompile>
     <ClCompile Include="cGPUBufferModule.cpp" />
+    <ClCompile Include="AtExitFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_Source">

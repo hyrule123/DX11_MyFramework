@@ -62,13 +62,13 @@ void cUIobj_Collider2D::CreateNewComUI()
 			GetTargetObj()->AddComponent(new cCom_Coll2D_Circle);
 			break;
 		case eCOLLIDER_TYPE_2D::OBB:
-			ERROR_MESSAGE("Not Supported");
+			ERROR_MESSAGE_A("Not Supported");
 			break;
 		case eCOLLIDER_TYPE_2D::POINT:
-			ERROR_MESSAGE("Not Supported");
+			ERROR_MESSAGE_A("Not Supported");
 			break;
 		case eCOLLIDER_TYPE_2D::END:
-			ERROR_MESSAGE("Not Supported");
+			ERROR_MESSAGE_A("Not Supported");
 			break;
 		default:
 			break;
@@ -142,7 +142,7 @@ void cUIobj_Collider2D::RectEditUI()
 			SC_Func::SetSCBuildingSize(pRect, BuildingSize[0], BuildingSize[1], Offset);
 		else
 		{
-			ERROR_MESSAGE("Mega tile numbers must be more than 1");
+			ERROR_MESSAGE_A("Mega tile numbers must be more than 1");
 		}
 	}
 	

@@ -102,7 +102,7 @@ HRESULT cDirTreeNode::SearchRecursive(stdfs::path const& _rootPath, stdfs::path 
 	}
 	catch (stdfs::filesystem_error const& _err)
 	{
-		ERROR_MESSAGE(_err.what());
+		ERROR_MESSAGE_A(_err.what());
 		return E_ACCESSDENIED;
 	}
 

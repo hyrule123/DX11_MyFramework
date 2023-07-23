@@ -73,20 +73,20 @@ HRESULT cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIn
 {
 	if (false == m_bSBufferDescSet)
 	{
-		ERROR_MESSAGE("Must Set SBuffer Description!");
+		ERROR_MESSAGE_A("Must Set SBuffer Description!");
 		return E_FAIL;
 	}
 
 	//상수버퍼와 마찬가지로 16바이트 단위로 정렬되어 있어야 함.s
 	else if (0 != _uElemStride % 16)
 	{
-		ERROR_MESSAGE("The byte size of the structured buffer must be a multiple of 16.");
+		ERROR_MESSAGE_A("The byte size of the structured buffer must be a multiple of 16.");
 		return E_FAIL;
 	}
 
 	else if (_uElemCapacity < _uElemCount)
 	{
-		ERROR_MESSAGE("Element capacity of structured buffer must be more than element of input data!");
+		ERROR_MESSAGE_A("Element capacity of structured buffer must be more than element of input data!");
 		return E_FAIL;
 	}
 
@@ -125,7 +125,7 @@ HRESULT cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIn
 		//구조화버퍼 생성. ReleaseAndGetAddressOf() 함수를 통해서 기존 구조화 버퍼가 있다면 날려버리고 생성
 		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, pData, m_StructBuffer.ReleaseAndGetAddressOf())))
 		{
-			ERROR_MESSAGE("Failed to create Structured Buffer!");
+			ERROR_MESSAGE_A("Failed to create Structured Buffer!");
 			return E_FAIL;
 		}
 
@@ -154,7 +154,7 @@ HRESULT cStructBuffer::Create(UINT _uElemStride, UINT _uElemCapacity, void* _pIn
 		//구조화버퍼 생성
 		if (FAILED(DEVICE->CreateBuffer(&m_BufferDesc, pData, m_StructBuffer.ReleaseAndGetAddressOf())))
 		{
-			ERROR_MESSAGE("Failed to create Structured Buffer!");
+			ERROR_MESSAGE_A("Failed to create Structured Buffer!");
 			return E_FAIL;
 		}
 

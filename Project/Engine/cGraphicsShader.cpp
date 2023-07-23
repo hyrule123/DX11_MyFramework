@@ -231,7 +231,7 @@ if (false == jVal.isMember(_strKey))\
 	}
 	catch (const std::runtime_error& _err)
 	{
-		ERROR_MESSAGE(_err.what());
+		ERROR_MESSAGE_A(_err.what());
 		return false;
 	}
 

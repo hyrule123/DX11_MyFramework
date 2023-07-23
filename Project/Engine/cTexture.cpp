@@ -54,7 +54,7 @@ bool cTexture::Load(const std::filesystem::path& _fileName)
 
 	if (FAILED(hr))
 	{
-		ERROR_MESSAGE("cTexture Loading Failed");
+		ERROR_MESSAGE_A("cTexture Loading Failed");
 		return false;
 	}
 
@@ -66,7 +66,7 @@ bool cTexture::Load(const std::filesystem::path& _fileName)
 
 	if (FAILED(hr))
 	{
-		ERROR_MESSAGE("cTexture Loading Failed");
+		ERROR_MESSAGE_A("cTexture Loading Failed");
 		return false;
 	}
 

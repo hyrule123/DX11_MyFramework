@@ -224,7 +224,7 @@ HRESULT cDirTree::DetectNewComputeShader(std::vector<stdfs::path> const& _vecCSh
 			string ErrMsg = "Compute Shader\n";
 			ErrMsg += _vecCShader[i].string();
 			ErrMsg += "\n thread is Invalid.";
-			ERROR_MESSAGE(ErrMsg.c_str());
+			ERROR_MESSAGE_A(ErrMsg.c_str());
 			return E_FAIL;
 		}
 

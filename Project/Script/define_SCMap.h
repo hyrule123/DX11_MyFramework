@@ -139,18 +139,10 @@ namespace SC_Map
 
     struct tMapRawData
     {
-        char* pData;
-
-        //파일 사이즈( == 동적할당한 바이트 크기
-        DWORD Size;
+        std::string Data;
 
         //실제로 읽은 바이트 수
         DWORD ActualReadByte;
-
-        ~tMapRawData()
-        {
-            SAFE_DELETE_ARRAY(pData);
-        }
     };
 }
 

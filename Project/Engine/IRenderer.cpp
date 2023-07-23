@@ -50,7 +50,7 @@ bool IRenderer::SaveJson(Json::Value* _pJVal)
 
 	if (false == IsRenderReady())
 	{
-		ERROR_MESSAGE("Render IComponent is not prepared for render!!");
+		ERROR_MESSAGE_A("Render IComponent is not prepared for render!!");
 		return false;
 	}
 
@@ -83,7 +83,7 @@ bool IRenderer::LoadJson(Json::Value* _pJVal)
 
 			if (nullptr == m_pMesh)
 			{
-				ERROR_MESSAGE("Failed to load cMesh!!");
+				ERROR_MESSAGE_A("Failed to load cMesh!!");
 				return false;
 			}
 		}
@@ -98,7 +98,7 @@ bool IRenderer::LoadJson(Json::Value* _pJVal)
 
 			if (nullptr == pMtrl)
 			{
-				ERROR_MESSAGE("Failed to load cMaterial!!");
+				ERROR_MESSAGE_A("Failed to load cMaterial!!");
 				return false;
 			}
 

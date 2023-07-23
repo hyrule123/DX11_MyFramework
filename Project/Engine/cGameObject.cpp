@@ -268,6 +268,7 @@ void cGameObject::FinalTick()
 		}
 	}
 		
+	m_Transform.FinalTick();
 
 	//스크립트를 제외한 컴포넌트들에 대해 FinalTick()을 호출한다.
 	for (size_t i = 0; i < m_vecCom.size(); ++i)
@@ -330,7 +331,7 @@ bool cGameObject::SaveJson(Json::Value* _pJson)
 
 	if (GetKey().empty())
 	{
-		ERROR_MESSAGE("You must Set name to save prefab!!");
+		ERROR_MESSAGE_A("You must Set name to save prefab!!");
 		return false;
 	}
 
@@ -469,7 +470,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 			{
 				string ErrMsg = "Failed to load Component\nComponent Name: ";
 				ErrMsg += strKey;
-				ERROR_MESSAGE(ErrMsg.c_str());
+				ERROR_MESSAGE_A(ErrMsg.c_str());
 				return false;
 			}
 
@@ -503,7 +504,7 @@ bool cGameObject::LoadJson(Json::Value* _pJson)
 			Ptr<cPrefab> pPrefab = cResMgr::GetInst()->Load<cPrefab>(iter->asString());
 			if (nullptr == pPrefab)
 			{
-				ERROR_MESSAGE("Child Prefab load failed.");
+				ERROR_MESSAGE_A("Child Prefab load failed.");
 				DEBUG_BREAK;
 				return false;
 			}
@@ -527,7 +528,7 @@ IComponent* cGameObject::AddComponent(IComponent* _Component)
 
 	if (_Component->GetKey().empty())
 	{
-		ERROR_MESSAGE("String Key Not set!!!");
+		ERROR_MESSAGE_A("Component must have preset string key!!\nUse AddComponent<T> or cComMgr::GetNewComponent()");
 		assert(false);
 		SAFE_DELETE(_Component);
 		return nullptr;
@@ -542,7 +543,7 @@ IComponent* cGameObject::AddComponent(IComponent* _Component)
 		if (nullptr != m_vecCom[ComType])
 		{
 			SAFE_DELETE(_Component);
-			ERROR_MESSAGE("You cannot put two of the same component type.");
+			ERROR_MESSAGE_A("You cannot put two of the same component type.");
 			return nullptr;
 		}
 		m_vecCom[ComType] = _Component;

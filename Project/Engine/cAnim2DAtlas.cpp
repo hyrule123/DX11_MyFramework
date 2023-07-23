@@ -182,7 +182,7 @@ bool cAnim2DAtlas::LoadJson(Json::Value* _jVal)
 		Ptr<cTexture> tex = cResMgr::GetInst()->Load<cTexture>(strKey);
 		if (nullptr == tex)
 		{
-			ERROR_MESSAGE(string("Atlas cTexture " + strKey + "Load Failed!!").c_str());
+			ERROR_MESSAGE_A(string("Atlas cTexture " + strKey + "Load Failed!!").c_str());
 			DEBUG_BREAK;
 			return false;
 		}

@@ -108,7 +108,7 @@ void cCom_Renderer_TilemapSC::Init()
 	{
 		if (false == CreateTilesetData())
 		{
-			ERROR_MESSAGE("Failed To import Tileset Data!");
+			ERROR_MESSAGE_A("Failed To import Tileset Data!");
 			std::abort();
 		}
 	}
@@ -125,6 +125,8 @@ void cCom_Renderer_TilemapSC::Init()
 
 void cCom_Renderer_TilemapSC::Tick()
 {
+	//LoadMap("(4) Python 1.4.scx");
+
 	if (m_bMapLoaded)
 	{
 		//디버그 모드 설정
@@ -180,7 +182,7 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 	std::shared_ptr<SC_Map::tMapRawData> RawData = ExtractMap(MapPath);
 	if (nullptr == RawData)
 	{
-		ERROR_MESSAGE("Failed to Extract Starcraft Map File!");
+		ERROR_MESSAGE_A("Failed to Extract Starcraft Map File!");
 		return false;
 	}
 
@@ -188,14 +190,14 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 	//여기서 맵을 그려내는데 필요한 정보를 가져와야 함
 	if (false == ReadMapData(RawData))
 	{
-		ERROR_MESSAGE("Failed to Read Data!");
+		ERROR_MESSAGE_A("Failed to Read Data!");
 		return false;
 	}
 
 	//맵데이터를 읽어오는것까지 성공했을 경우 CS로 데이터를 업로드한다.
 	if (false == CreateMapbuffers())
 	{
-		ERROR_MESSAGE("Failed to Upload Map Data to GPU!");
+		ERROR_MESSAGE_A("Failed to Upload Map Data to GPU!");
 		return false;
 	}
 
@@ -213,6 +215,10 @@ bool cCom_Renderer_TilemapSC::LoadMap(const string_view _strMapName)
 	{
 		m_arrSBuffer_TilesetData[(int)m_eTileSet][i].BindBufferSRV();
 	}
+
+	cConstBuffer* cBuffer = cDevice::GetInst()->GetConstBuffer(REGISLOT_b_CBUFFER_MTRL_SCALAR);
+	cBuffer->UploadData(&GetOwner()->GetMtrlScalarData());
+
 	m_pSBuffer_MXTM->BindBufferSRV();
 	m_pMapTex->BindData_UAV(REGISLOT_u_TEXTURERW_TARGET);
 	m_pSBufferRW_Megatile->BindBufferUAV();
@@ -382,7 +388,7 @@ bool cCom_Renderer_TilemapSC::CreateTilesetData()
 			fpWPE.close();
 			fpVF4.close();
 
-			ERROR_MESSAGE("Failed to open Tilemap Data Files.");
+			ERROR_MESSAGE_A("Failed to open Tilemap Data Files.");
 			return false;
 		}
 
@@ -482,7 +488,7 @@ std::shared_ptr<tMapRawData> cCom_Renderer_TilemapSC::ExtractMap(const std::file
 
 	if (nullptr == DLLModule)
 	{
-		ERROR_MESSAGE("StormLib Load Failed!");
+		ERROR_MESSAGE_A("StormLib Load Failed!");
 		return nullptr;
 	}
 
@@ -517,7 +523,7 @@ std::shared_ptr<tMapRawData> cCom_Renderer_TilemapSC::ExtractMap(const std::file
 		int nError = GetLastError();
 		string Err = "ErrCode: ";
 		Err += std::to_string(nError);
-		ERROR_MESSAGE(Err.c_str());
+		ERROR_MESSAGE_A(Err.c_str());
 		return nullptr;
 	}
 
@@ -527,21 +533,21 @@ std::shared_ptr<tMapRawData> cCom_Renderer_TilemapSC::ExtractMap(const std::file
 		int nError = GetLastError();
 		string Err = "ErrCode: ";
 		Err += std::to_string(nError);
-		ERROR_MESSAGE(Err.c_str());
+		ERROR_MESSAGE_A(Err.c_str());
 		return nullptr;
 	}
 
 
 	// Read the file from the archive
-	shared_ptr<SC_Map::tMapRawData> pMap = std::make_shared<tMapRawData>();
+	std::shared_ptr<tMapRawData> RawData = std::make_shared<tMapRawData>();
 
 	//파일의 사이즈를 받아온 후 해당 파일을 받아올 공간을 동적할당 및 초기화한다.
-	pMap->Size = funcGetFileSize(hFile, NULL);
-	pMap->pData = new char[pMap->Size];
-	memset(pMap->pData, 0, (size_t)pMap->Size);
+	DWORD FileSize = funcGetFileSize(hFile, NULL);
+	RawData->Data.resize(FileSize);
+	memset(RawData->Data.data(), 0, RawData->Data.size());
 
 	//데이터를 읽어온다.
-	bool Suc = funcReadFile(hFile, pMap->pData, pMap->Size, &pMap->ActualReadByte, NULL);
+	bool Suc = funcReadFile(hFile, RawData->Data.data(), FileSize, &RawData->ActualReadByte, NULL);
 
 	//파일 연결 해제
 	funcCloseFile(hFile);
@@ -555,11 +561,11 @@ std::shared_ptr<tMapRawData> cCom_Renderer_TilemapSC::ExtractMap(const std::file
 		int nError = GetLastError();
 		string Err = "ErrCode: ";
 		Err += std::to_string(nError);
-		ERROR_MESSAGE(Err.c_str());
+		ERROR_MESSAGE_A(Err.c_str());
 		return nullptr;
 	}
 
-	return pMap;
+	return RawData;
 }
 
 bool cCom_Renderer_TilemapSC::ReadMapData(std::shared_ptr<tMapRawData> _RawData)
@@ -568,16 +574,13 @@ bool cCom_Renderer_TilemapSC::ReadMapData(std::shared_ptr<tMapRawData> _RawData)
 	//tMapDataChunk 자체의 데이터 사이즈는 크지 않으므로 스택에 생성
 	shared_ptr<tMapDataChunk> arrMapDataChunk[(int)eSCMAP_DATA_TYPE::END] = {};
 
-	
-	//읽어온 데이터를 string에 옮긴다.
-	std::string_view View(_RawData->pData, _RawData->Size);
-	string DataStr(View);
+
 
 	//멀티스레드 연습용
 	vector<future<shared_ptr<tMapDataChunk>>> vecFuture;
 	for (int i = 0; i < (int)eSCMAP_DATA_TYPE::END; ++i)
 	{
-		vecFuture.emplace_back(std::async(std::launch::async, &cCom_Renderer_TilemapSC::MultiThread_CopyChunk, this, std::cref(DataStr), (eSCMAP_DATA_TYPE)i));
+		vecFuture.emplace_back(std::async(std::launch::async, &cCom_Renderer_TilemapSC::MultiThread_CopyChunk, this, std::cref(_RawData->Data), (eSCMAP_DATA_TYPE)i));
 	}
 	for (int i = 0; i < (int)eSCMAP_DATA_TYPE::END; ++i)
 	{
@@ -603,6 +606,7 @@ bool cCom_Renderer_TilemapSC::ReadMapData(std::shared_ptr<tMapRawData> _RawData)
 	SBufferDesc.flag_PipelineBindTarget_SRV = define_Shader::ePIPELINE_STAGE_FLAG::__COMPUTE;
 	SBufferDesc.REGISLOT_t_SRV = REGISLOT_t_SBUFFER_MXTM;
 
+	m_pSBuffer_MXTM = nullptr;
 	m_pSBuffer_MXTM = std::make_shared<cStructBuffer>();
 	m_pSBuffer_MXTM->SetDesc(SBufferDesc);
 
@@ -688,6 +692,7 @@ bool cCom_Renderer_TilemapSC::CreateMapbuffers()
 		Desc.REGISLOT_u_UAV = REGISLOT_u_SBUFFERRW_MEGATILE;
 
 		//Megatile 정보를 보내고 받아올 구조화 버퍼를 생성한다.
+		m_pSBufferRW_Megatile = nullptr;
 		m_pSBufferRW_Megatile = std::make_shared<cStructBuffer>();
 		m_pSBufferRW_Megatile->SetDesc(Desc);
 		m_pSBufferRW_Megatile->Create(sizeof(tMegaTile), numTile, nullptr, 0u);

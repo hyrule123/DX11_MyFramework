@@ -60,7 +60,7 @@ bool ICollider2D::LoadJson(Json::Value* _pJVal)
 			return true;
 	}
 
-	ERROR_MESSAGE("ICollider Type Not Matching!!");
+	ERROR_MESSAGE_A("ICollider Type Not Matching!!");
 	return false;
 }
 

@@ -43,6 +43,21 @@
 				"m_strKey" : "cCom_Renderer_Default",
 				"strKeyMesh" : "RectMesh",
 				"strKeyMtrl" : "Terran Marine"
+			},
+			{
+				"eComponentType" : 5,
+				"m_eKeyShortcut" : 0,
+				"m_eMoveType" : 0,
+				"m_eRace" : 0,
+				"m_eUnitSize" : 0,
+				"m_fBaseBuildTime" : 0,
+				"m_flagTech" : 0,
+				"m_strKey" : "cScript_SCEntity",
+				"m_strProdBuildingName" : "",
+				"m_uCostGas" : 0,
+				"m_uCostMineral" : 50,
+				"m_uPopulation" : 0,
+				"m_uSightRange" : 5
 			}
 		]
 	},

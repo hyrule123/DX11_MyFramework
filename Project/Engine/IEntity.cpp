@@ -40,7 +40,7 @@ bool IEntity::SaveJson(Json::Value* _pJson)
 
 	if (m_strKey.empty())
 	{
-		ERROR_MESSAGE("Can't save without String Key!!");
+		ERROR_MESSAGE_A("Can't save without String Key!!");
 		return false;
 	}
 

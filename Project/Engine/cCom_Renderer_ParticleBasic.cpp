@@ -97,7 +97,7 @@ void cCom_Renderer_ParticleBasic::FinalTick()
 	//파티클 위치정보를 계산시킴.
 	if (false == m_CS->Execute())
 	{
-		ERROR_MESSAGE("Failed to Calculate particle!");
+		ERROR_MESSAGE_A("Failed to Calculate particle!");
 		return;
 	}
 

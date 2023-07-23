@@ -31,7 +31,8 @@
 #define DEBUG_BREAK
 #endif
 
-#define ERROR_MESSAGE(_aStrMessage) MessageBoxA(nullptr, _aStrMessage, NULL, MB_OK); DEBUG_BREAK
+#define ERROR_MESSAGE_A(_aStrMessage) MessageBoxA(nullptr, _aStrMessage, NULL, MB_OK); DEBUG_BREAK
+#define ERROR_MESSAGE_W(_wStrMessage) MessageBoxW(nullptr, _wStrMessage, NULL, MB_OK);
 #define ERROR_RUNTIME(_stdRuntimeError) MessageBoxA(nullptr, _stdRuntimeError.what(), nullptr, MB_OK); DEBUG_BREAK
 
 #define STRKEY constexpr const char*

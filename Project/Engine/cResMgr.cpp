@@ -413,7 +413,7 @@ bool cResMgr::CreateDefaultComputeShader()
 
 		if (FAILED(pCS->CreateShaderFromHeader(g_CS_HLSL_Init, sizeof(g_CS_HLSL_Init))))
 		{
-			ERROR_MESSAGE("Failed to HLSL Initialization.");
+			ERROR_MESSAGE_A("Failed to HLSL Initialization.");
 			return false;
 		}
 		
@@ -424,7 +424,7 @@ bool cResMgr::CreateDefaultComputeShader()
 
 		if (false == pCS->Execute())
 		{
-			ERROR_MESSAGE("HLSL Default Setting Initalize Failed.");
+			ERROR_MESSAGE_A("HLSL Default Setting Initalize Failed.");
 			return false;
 		}
 
@@ -455,7 +455,7 @@ bool cResMgr::CreateDefaultComputeShader()
 		pCS->SetThreadsPerGroup(SETCOLOR_THREADS_X, SETCOLOR_THREADS_Y, SETCOLOR_THREADS_Z);
 		if (FAILED(pCS->CreateShaderFromHeader(g_CS_Particle_Basic, sizeof(g_CS_Particle_Basic))))
 		{
-			ERROR_MESSAGE("Failed To Create Particle Basic Shader.");
+			ERROR_MESSAGE_A("Failed To Create Particle Basic Shader.");
 			return false;
 		}
 
@@ -618,7 +618,7 @@ bool cResMgr::LoadUserGraphicsShaderAll()
 //		break;
 //
 //	default:
-//		ERROR_MESSAGE("Unknown Resource Type!");
+//		ERROR_MESSAGE_A("Unknown Resource Type!");
 //		break;
 //	}
 //

@@ -4,6 +4,8 @@
 #include "pch.h"
 #include "Client.h"
 
+#include <Engine/Singleton.h>
+
 #include "cEditorObjMgr.h"
 
 #include "cImGuiMgr.h"
@@ -48,7 +50,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return 0;
     }
     //복사용 스크립트 원본 등록 함수 호출
-    //UserClassInitializer::InitCS();
     UserClassInitializer::InitCom();
 
     cEditorObjMgr::GetInst()->init();
@@ -90,6 +91,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             cEngine::GetInst()->cleartick();
         }       
     }
+
+
+    AtExit::CallAtExit();
 
     return (int) msg.wParam;
 }

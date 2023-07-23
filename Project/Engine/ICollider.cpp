@@ -111,7 +111,7 @@ bool ICollider::LoadJson(Json::Value* _pJson)
 	}
 	catch (const std::runtime_error& _err)
 	{
-		ERROR_MESSAGE(_err.what());
+		ERROR_MESSAGE_A(_err.what());
 		assert(false);
 		return false;
 	}

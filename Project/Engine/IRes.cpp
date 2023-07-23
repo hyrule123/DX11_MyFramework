@@ -44,7 +44,7 @@ bool IRes::Save(const std::filesystem::path& _fileName)
 		try { std::filesystem::create_directories(parentDir); }
 		catch (const std::filesystem::filesystem_error& _err)
 		{
-			ERROR_MESSAGE(_err.what());
+			ERROR_MESSAGE_A(_err.what());
 			DEBUG_BREAK;
 			return false;
 		}

@@ -254,6 +254,7 @@ void ManualEdit::MarinePrefab_Save(const string& _strKey)
 	//Script
 	{
 		cScript_SCEntity* pSCEntity = static_cast<cScript_SCEntity*>(cComMgr::GetInst()->GetNewCom(strKey_Com::cScript_SCEntity));
+		pObj->AddComponent(pSCEntity);
 		
 		//pObj->AddComponent<
 		//CScript_FSM_Idle* pFSMIdle = static_cast<CScript_FSM_Idle*>(cComMgr::GetNewScript(strKey_Component::CScript_FSM_Idle));

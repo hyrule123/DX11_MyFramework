@@ -80,7 +80,7 @@ bool cComputeShader::LoadJson(Json::Value* _jsonVal)
 	}
 	else
 	{
-		ERROR_MESSAGE("Failed to Load NumThread(ComputeShader)!");
+		ERROR_MESSAGE_A("Failed to Load NumThread(ComputeShader)!");
 		return false;
 	}
 	
@@ -217,7 +217,7 @@ inline bool cComputeShader::IsDataReady()
 //	std::ifstream ifs(newPath, flag);
 //	if (false == ifs.is_open())
 //	{
-//		ERROR_MESSAGE("Failed to open Shader bytecode File.");
+//		ERROR_MESSAGE_A("Failed to open Shader bytecode File.");
 //		return false;
 //	}
 //
@@ -227,7 +227,7 @@ inline bool cComputeShader::IsDataReady()
 //	HRESULT hr = D3DCreateBlob(fileSize, blob.GetAddressOf());
 //	if (FAILED(hr) || fileSize != blob->GetBufferSize())
 //	{
-//		ERROR_MESSAGE("Failed to Create Shader blob.");
+//		ERROR_MESSAGE_A("Failed to Create Shader blob.");
 //	}
 //	
 //	char* pCodeBegin = reinterpret_cast<char*>(blob->GetBufferPointer());

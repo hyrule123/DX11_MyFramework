@@ -106,7 +106,7 @@ bool cScript_SCEntity::LoadJson(Json::Value* _pJVal)
 	}
 	catch (const std::runtime_error& err)
 	{
-		ERROR_MESSAGE(err.what());
+		ERROR_MESSAGE_A(err.what());
 		return false;
 	}
 

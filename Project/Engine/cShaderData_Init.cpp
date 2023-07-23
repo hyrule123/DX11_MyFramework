@@ -35,7 +35,7 @@ cShaderData_Init::cShaderData_Init()
 
 	if FAILED(m_pSBuffer_InitSetting->Create(sizeof(tInitSetting), 1u, &g_InitSetting, 1u))
 	{
-		ERROR_MESSAGE("HLSL Initialization Failed.");
+		ERROR_MESSAGE_A("HLSL Initialization Failed.");
 	}
 }
 

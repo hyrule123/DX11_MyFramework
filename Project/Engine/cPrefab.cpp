@@ -103,7 +103,7 @@ bool cPrefab::SaveJson(Json::Value* _pJVal)
 
 	if (m_pPrefab->GetKey().empty())
 	{
-		ERROR_MESSAGE("No Key!");
+		ERROR_MESSAGE_A("No Key!");
 		return false;
 	}
 
