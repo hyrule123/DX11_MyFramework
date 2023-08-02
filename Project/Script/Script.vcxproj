@@ -147,8 +147,7 @@
 "$(SolutionDir)Copy_Script.bat" $(Configuration)</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)
-call "CodeGenerator_$(Configuration).exe" Script
+      <Command>start $(SolutionDir)CodeGenerator_$(Configuration).exe
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
