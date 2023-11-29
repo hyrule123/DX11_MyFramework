@@ -63,9 +63,9 @@ void cTimeMgr::Render()
 	// 1초에 한번
 	if (1.f <= m_fTime)
 	{
-		wchar_t szBuff[256] = {};
-		swprintf_s(szBuff, L"FPS : %d, DELTA_TIME : %f", m_iCallCount, m_fDeltaTime);
-		SetWindowText(cEngine::GetInst()->GetMainWnd(), szBuff);
+		//wchar_t szBuff[256] = {};
+		//swprintf_s(szBuff, L"FPS : %d, DELTA_TIME : %f", m_iCallCount, m_fDeltaTime);
+		//SetWindowText(cEngine::GetInst()->GetMainWnd(), szBuff);
 
 		m_fTime = 0.f;
 		m_iCallCount = 0;
