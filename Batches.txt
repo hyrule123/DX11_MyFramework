@@ -1,7 +1,0 @@
-:: 형태는 main()의 argc, argv과 동일함. 
-:: 0번 파라미터에는 파일 경로가 들어옴
-:: 1번 파라미터에는 실행 메시지가 들어옴
-:: 1번 메시지에는 빌드 이벤트에서 빌드 모드에 따라 Debug/Release 메시지가 들어오도록 해놓음
-:: -> cd $(SolutionDir) "$(SolutionDir)Copy_Engine.bat" $(Configuration)
-:: 아래 코드는 해당 메시지를 참조해서 경로를 생성하는 코드임. 
-:: %(변수)% = 문자열

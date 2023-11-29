@@ -18,10 +18,10 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
+#[Dd]ebug/
+#[Dd]ebugPublic/
+#[Rr]elease/
+#[Rr]eleases/
 x64/
 x86/
 [Ww][Ii][Nn]32/
@@ -30,6 +30,8 @@ x86/
 bld/
 [Oo]bj/
 [Oo]ut/
+[Oo]utput/
+
 [Ll]og/
 [Ll]ogs/
 
@@ -369,8 +371,8 @@ FodyWeavers.xsd
 # Build Result
 *.[eE][xX][eE]
 *.[iI]][dD][bB]
-*.[lL][iI][bB]
-*.[dD][lL][lL]
+#*.[lL][iI][bB]
+#*.[dD][lL][lL]
 *.[eE][xX][pP]
 *.[iI][dD][bB]
 ## HLSL Compiled Shader
@@ -379,22 +381,20 @@ FodyWeavers.xsd
 ## Winmerge
 *.[bB][aA][kK]
 
-#Include External Libraries
 
-# Except External/*/Engine Folder : Used to gather header files - automatically generated at build time
+# Exclude External - Treated as resource
 External/
 
-# Exclude *.pdb, *.exe file from OutputFile Bin Folder
-OutputFile/[Bb]in_Release/*
-OutputFile/[Bb]in_Debug/*
+# Exclude Resources
+Res/
 
-# Include Content(Resources) Files, Exclude Only Shader Files(*.fx) - will be copied after build
-!OutputFile/[Bb]in_Debug/content/
-# OutputFile/[Bb]in*/content/shader/
+# Exclude Shader header
+CompiledShaderHeader/
 
-# Exclude Unity cpp File
-Unity_*.cpp
+# 3D Modeling
+*.fbx
+*.blend
+FBX/
 
-# Exclude Compiled Shader Header Path
-DefaultShader/
-*.inc
+# text file
+*.txt
