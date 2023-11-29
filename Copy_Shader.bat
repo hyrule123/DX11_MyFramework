@@ -11,7 +11,7 @@ if "%Configuration%"=="" set Configuration=Debug
 echo Running %0... 
 echo Mode: %Platform%, %Configuration%
 
-set SRC=.\Project\Engine\DefaultShader\*.hlsli
+set SRC=.\Project\EngineBase\Engine\DefaultShader\*.hlsli
 set DEST=.\Project\UserShader\DefaultShader
 
 if exist %SRC% (
