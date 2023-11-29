@@ -1,15 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
-    <ClCompile Include="ContentsClassInitializer.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="ContentsClassInitializer.cpp" />
@@ -58,6 +54,11 @@
     <ClCompile Include="Scene_Title.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
+    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
+    <ClCompile Include="PCH_Contents.cpp" />
+    <ClCompile Include="Scene_Title.cpp" />
+    <ClCompile Include="ContentsClassInitializer.cpp" />
     <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
     <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
@@ -79,13 +80,6 @@
     <ClCompile Include="Scene_Play.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="Script_CameraMove.cpp" />
-    <ClCompile Include="ContentsClassInitializer.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
-    <ClCompile Include="PCH_Contents.cpp" />
-    <ClCompile Include="Scene_Play.cpp" />
-    <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="Script_CameraMove.cpp" />
     <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
     <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
@@ -98,7 +92,10 @@
     <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="*.cpp" />
+    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
+    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
+    <ClCompile Include="PCH_UserContents.cpp" />
+    <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="*.cpp" />
     <ClCompile Include="*.cpp" />
     <ClCompile Include="*.cpp">
@@ -169,6 +166,18 @@
     <ClCompile Include="PCH_UserContents.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
+    <ClCompile Include="UserContentsInitializer.cpp" />
+    <ClCompile Include="UserContentsInitializer_Scene.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Script.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Component.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Com_TestComponent.cpp" />
+    <ClCompile Include="Com_Renderer_TilemapSC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="strKey_Scene.h">
@@ -180,23 +189,26 @@
     <ClInclude Include="strKey_Shader.h">
       <Filter>Auto Generated</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsClassInitializer.h">
-      <Filter>Init</Filter>
-    </ClInclude>
     <ClInclude Include="PCH_UserContents.h">
       <Filter>PCH</Filter>
     </ClInclude>
     <ClInclude Include="Scene_Title.h" />
+    <ClInclude Include="UserContentsInitializer.h" />
+    <ClInclude Include="strKey_UserComponent.h">
+      <Filter>Auto Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Com_TestComponent.h" />
+    <ClInclude Include="Com_Renderer_TilemapSC.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auto Generated">
       <UniqueIdentifier>{98e37a8a-a2f3-46dd-91df-a371fc61baca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Init">
-      <UniqueIdentifier>{25d192fb-6b9d-4390-a88c-9cd0a2aef150}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{c9d56e49-3de8-4e37-86d5-3e550462f260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tilemap">
+      <UniqueIdentifier>{a1e4dcc0-3411-4108-a6f0-8cf939d81a5f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -206,13 +218,19 @@
     <Text Include="strKey_Scene.txt">
       <Filter>Auto Generated</Filter>
     </Text>
-    <Text Include="ContentsClassInitializer_Script.txt">
-      <Filter>Auto Generated</Filter>
-    </Text>
-    <Text Include="ContentsClassInitializer_Scene.txt">
-      <Filter>Auto Generated</Filter>
-    </Text>
     <Text Include="strKey_Shader.txt">
+      <Filter>Auto Generated</Filter>
+    </Text>
+    <Text Include="strKey_UserComponent.txt">
+      <Filter>Auto Generated</Filter>
+    </Text>
+    <Text Include="UserContentsInitializer_Scene.txt">
+      <Filter>Auto Generated</Filter>
+    </Text>
+    <Text Include="UserContentsInitializer_Script.txt">
+      <Filter>Auto Generated</Filter>
+    </Text>
+    <Text Include="UserContentsInitializer_Component.txt">
       <Filter>Auto Generated</Filter>
     </Text>
   </ItemGroup>

@@ -7,41 +7,9 @@
     <Filter Include="Sample">
       <UniqueIdentifier>{860083db-9b9f-4ad9-9f4f-c0c9db955d66}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SH_Common.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_CommonStruct.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_ConstBuffer.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_Func_Blur.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_Func_DecodeColor.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_Func_Light.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_Functions.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_Globals.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_Resource.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_Sampler.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
-    <None Include="SH_UserInterFace.hlsli">
-      <Filter>Default Headers</Filter>
-    </None>
+    <Filter Include="SCTilemapLoader">
+      <UniqueIdentifier>{a404360e-8bef-4e3d-a463-4bc4ed541bb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VS_Sample.hlsl">
@@ -59,5 +27,73 @@
     <FxCompile Include="PS_Sample.hlsl">
       <Filter>Sample</Filter>
     </FxCompile>
+    <FxCompile Include="CS_SCTilemapLoader.hlsl">
+      <Filter>SCTilemapLoader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DefaultShader\_3D.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Animation2D.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Common.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\CommonStruct.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\ConstBuffer.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Func_Animation3D.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Func_Blur.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Func_DecodeColor.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Func_Light.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Functions.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Globals.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Grid.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Light.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\NormalConverter.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Particle.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\PostProcess.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Resource.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\Sampler.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="DefaultShader\UserInterface.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
+    <None Include="SCTilemapLoader.hlsli">
+      <Filter>SCTilemapLoader</Filter>
+    </None>
+    <None Include="DefaultShader\Func_Bitwise.hlsli">
+      <Filter>Default Headers</Filter>
+    </None>
   </ItemGroup>
 </Project>

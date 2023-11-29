@@ -19,19 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SH_Common.hlsli" />
-    <None Include="SH_CommonStruct.hlsli" />
-    <None Include="SH_ConstBuffer.hlsli" />
-    <None Include="SH_Functions.hlsli" />
-    <None Include="SH_Func_Blur.hlsli" />
-    <None Include="SH_Func_DecodeColor.hlsli" />
-    <None Include="SH_Func_Light.hlsli" />
-    <None Include="SH_Globals.hlsli" />
-    <None Include="SH_Resource.hlsli" />
-    <None Include="SH_Sampler.hlsli" />
-    <None Include="SH_UserInterFace.hlsli" />
-  </ItemGroup>
-  <ItemGroup>
+    <FxCompile Include="CS_SCTilemapLoader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="GS_Sample.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
@@ -78,6 +75,29 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DefaultShader\Animation2D.hlsli" />
+    <None Include="DefaultShader\Common.hlsli" />
+    <None Include="DefaultShader\CommonStruct.hlsli" />
+    <None Include="DefaultShader\ConstBuffer.hlsli" />
+    <None Include="DefaultShader\Functions.hlsli" />
+    <None Include="DefaultShader\Func_Animation3D.hlsli" />
+    <None Include="DefaultShader\Func_Bitwise.hlsli" />
+    <None Include="DefaultShader\Func_Blur.hlsli" />
+    <None Include="DefaultShader\Func_DecodeColor.hlsli" />
+    <None Include="DefaultShader\Func_Light.hlsli" />
+    <None Include="DefaultShader\Globals.hlsli" />
+    <None Include="DefaultShader\Grid.hlsli" />
+    <None Include="DefaultShader\Light.hlsli" />
+    <None Include="DefaultShader\NormalConverter.hlsli" />
+    <None Include="DefaultShader\Particle.hlsli" />
+    <None Include="DefaultShader\PostProcess.hlsli" />
+    <None Include="DefaultShader\Resource.hlsli" />
+    <None Include="DefaultShader\Sampler.hlsli" />
+    <None Include="DefaultShader\UserInterface.hlsli" />
+    <None Include="DefaultShader\_3D.hlsli" />
+    <None Include="SCTilemapLoader.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -170,12 +190,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>cd $(SolutionDir)
+call Copy_Shader.bat $(Platform) $(Configuration)</Command>
     </PreBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -195,12 +219,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>cd $(SolutionDir)
+call Copy_Shader.bat $(Platform) $(Configuration)</Command>
     </PreBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -216,12 +244,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>cd $(SolutionDir)
+call Copy_Shader.bat $(Platform) $(Configuration)</Command>
     </PreBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -241,12 +273,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>cd $(SolutionDir)
+call Copy_Shader.bat $(Platform) $(Configuration)</Command>
     </PreBuildEvent>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

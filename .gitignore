@@ -391,6 +391,9 @@ Res/
 # Exclude Shader header
 CompiledShaderHeader/
 
+# Exclude Copied default Shader Header
+Project/UserShader/DefaultShader/
+
 # 3D Modeling
 *.fbx
 *.blend
@@ -398,3 +401,12 @@ FBX/
 
 # text file
 *.txt
+
+# ignore CodeGenerator-generated code
+strKey_UserComponent.h
+strKey_Script.h
+strKey_Scene.h
+strKey_Shader.h
+UserContentsInitializer_Component.cpp
+UserContentsInitializer_Script.cpp
+UserContentsInitializer_Scene.cpp

@@ -44,6 +44,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserShader", "Project\UserS
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Project\Client\Client.vcxproj", "{2FA04AC7-6017-43CF-90F2-767289B68C11}"
+	ProjectSection(ProjectDependencies) = postProject
+		{48BC2B1B-6C8F-499F-B5E9-4A9776259623} = {48BC2B1B-6C8F-499F-B5E9-4A9776259623}
+		{6DAFA788-499E-4B34-98EC-F4075A483B9E} = {6DAFA788-499E-4B34-98EC-F4075A483B9E}
+		{9CE7BE93-D84F-425E-9A1A-B500EAC0E517} = {9CE7BE93-D84F-425E-9A1A-B500EAC0E517}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

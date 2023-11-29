@@ -123,7 +123,7 @@
     </Link>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene</Command>
+start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene Shader</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -150,7 +150,7 @@ start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene</Command>
     </Link>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene</Command>
+start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene Shader</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -173,7 +173,7 @@ start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene</Command>
     </Link>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene Shader</Command>
+start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene Shader</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -200,11 +200,14 @@ start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene Shader</Comman
     </Link>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene Shader</Command>
+start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene Shader</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ContentsClassInitializer.h" />
+    <ClInclude Include="Com_Renderer_TilemapSC.h" />
+    <ClInclude Include="Com_TestComponent.h" />
+    <ClInclude Include="strKey_UserComponent.h" />
+    <ClInclude Include="UserContentsInitializer.h" />
     <ClInclude Include="PCH_UserContents.h" />
     <ClInclude Include="Scene_Title.h" />
     <ClInclude Include="strKey_Scene.h" />
@@ -212,9 +215,12 @@ start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene Shader</Comman
     <ClInclude Include="strKey_Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ContentsClassInitializer.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
+    <ClCompile Include="Com_Renderer_TilemapSC.cpp" />
+    <ClCompile Include="Com_TestComponent.cpp" />
+    <ClCompile Include="UserContentsInitializer.cpp" />
+    <ClCompile Include="UserContentsInitializer_Component.cpp" />
+    <ClCompile Include="UserContentsInitializer_Scene.cpp" />
+    <ClCompile Include="UserContentsInitializer_Script.cpp" />
     <ClCompile Include="PCH_UserContents.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -224,11 +230,13 @@ start CodeGenerator_$(Platform)_$(Configuration).exe Script Scene Shader</Comman
     <ClCompile Include="Scene_Title.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ContentsClassInitializer_Scene.txt" />
-    <Text Include="ContentsClassInitializer_Script.txt" />
     <Text Include="strKey_Scene.txt" />
     <Text Include="strKey_Script.txt" />
     <Text Include="strKey_Shader.txt" />
+    <Text Include="strKey_UserComponent.txt" />
+    <Text Include="UserContentsInitializer_Component.txt" />
+    <Text Include="UserContentsInitializer_Scene.txt" />
+    <Text Include="UserContentsInitializer_Script.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #include "PCH_Client.h"
 
 #include <EngineBase/Engine/GameMainWindow.h>
-#include <UserContents/ContentsClassInitializer.h>
+#include <UserContents/UserContentsInitializer.h>
 
 inline void DebugCheck(long _block);
 
@@ -24,7 +24,7 @@ BOOL APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     Desc.WindowIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 
-    Desc.ExternalInitFuncs.push_back(ehw::ContentsClassInitializer::Init);
+    Desc.ExternalInitFuncs.push_back(ehw::UserContentsInitializer::Init);
 
     Desc.GPUDesc.ResolutionX = 640u;
     Desc.GPUDesc.ResolutionY = 480u;
