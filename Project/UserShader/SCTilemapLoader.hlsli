@@ -3,6 +3,7 @@
 
 #include "DefaultShader/CommonStruct.hlsli"
 #include "DefaultShader/Resource.hlsli"
+#include "DefaultShader/Func_Bitwise.hlsli"
 
 //단위크기 : 2byte
 //총 갯수 : 맵의 가로크기(메가타일) * 세로크기(메가타일)
@@ -90,20 +91,28 @@ struct tMiniTile
 	float Padding;
 };
 
-SBUFFER(g_SBuffer_CV5, tCV5, t, 0);
-SBUFFER(g_SBuffer_VX4, tVX4, t, 1);
-SBUFFER(g_SBuffer_VF4, tVF4, t, 2);
-SBUFFER(g_SBuffer_VR4, tVR4, t, 3);
-SBUFFER(g_SBuffer_WPE, tWPE, t, 4);
+struct alignas(16)  tSCTilemapData
+{
+	float2 fMapSize;
+	uint2 uMapSize;
+};
 
-SBUFFER(g_SBuffer_MXTM, tMXTM, t, 9);
-SBUFFER(g_MegaTile, tMegaTile, t, 10);
-SBUFFER(g_MiniTile, tMiniTile, t, 11);
+CBUFFER(CB_SCTilemapData, tSCTilemapData, b, 0);
 
-TEXTURE2D(g_TargetSCTilemapTexture, t, 6);
+SBUFFER(SB_CV5, tCV5, t, 0);
+SBUFFER(SB_VX4, tVX4, t, 1);
+SBUFFER(SB_VF4, tVF4, t, 2);
+SBUFFER(SB_VR4, tVR4, t, 3);
+SBUFFER(SB_WPE, tWPE, t, 4);
 
-TEXTURE2D_RW(g_TargetSCTilemapTextureRW, u, 0, float4);
-SBUFFER_RW(g_MegaTileRW, tMegaTile, u, 1);
-SBUFFER_RW(g_MiniTileRW, tMiniTile, u, 2);
+SBUFFER(SB_MXTM, tMXTM, t, 9);
+SBUFFER(SB_MegaTile, tMegaTile, t, 10);
+SBUFFER(SB_MiniTile, tMiniTile, t, 11);
+
+TEXTURE2D(Tex_TargetTilemapSC, t, 6);
+
+TEXTURE2D_RW(TexRW_TargetTilemapSC, u, 0, float4);
+SBUFFER_RW(SBRW_MegaTile, tMegaTile, u, 1);
+SBUFFER_RW(SBRW_MiniTile, tMiniTile, u, 2);
 
 #endif //SC_TILEMAP_LOADER_HLSLI

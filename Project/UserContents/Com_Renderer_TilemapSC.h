@@ -20,6 +20,9 @@ namespace ehw
         virtual ~Com_Renderer_TilemapSC();
 
         virtual void FixedUpdate() override {}
+
+    private:
+        
     };
 }
 
