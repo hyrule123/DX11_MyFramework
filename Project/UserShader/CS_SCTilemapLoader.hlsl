@@ -7,7 +7,7 @@ uint ExtractWPEColorIdxFromVR4(in uint _uMiniTileIdx, in uint2 _u2GroupThreadID,
 
 
 [numthreads(32, 32, 1)]
-void CS_SCMapLoader(uint3 _uDTID : SV_DispatchThreadID, uint3 _uGTID : SV_GroupThreadID,
+void main(uint3 _uDTID : SV_DispatchThreadID, uint3 _uGTID : SV_GroupThreadID,
 uint3 _uGroupID : SV_GroupID)
 {	
 	//그룹 계산
@@ -26,7 +26,8 @@ uint3 _uGroupID : SV_GroupID)
 		//자신의 메가타일 인덱스에 Buildability를 저장
 		if (0x0080 & SB_CV5[group].Flags)
 		{
-			SB_MegaTile[CB_SCTilemapData.uMapSize.x * _uGroupID.y + _uGroupID.x].bBuildUnable = TRUE;
+			SBRW_MegaTile[CB_SCTilemapData.uMapSize.x * _uGroupID.y + _uGroupID.x].bBuildUnable = TRUE;
+			
 			
 			//g_TexRW_SCMap[_uDTID.xy] = float4(1.f, 0.f, 1.f, 1.f);
 			//return;
@@ -49,7 +50,7 @@ uint3 _uGroupID : SV_GroupID)
 		
 		if (0x0001 & UnpackedVF4)
 		{
-			SB_MiniTile[CB_SCTilemapData.uMapSize.x * 8u * MinitileIdxInMap.y + MinitileIdxInMap.x].bWalkable = TRUE;
+			SBRW_MiniTile[CB_SCTilemapData.uMapSize.x * 8u * MinitileIdxInMap.y + MinitileIdxInMap.x].bWalkable = TRUE;
 		}
 
 		if (0x0002 & UnpackedVF4)
