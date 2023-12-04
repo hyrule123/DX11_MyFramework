@@ -10,7 +10,14 @@ namespace ehw
         Com_TestComponent();
         virtual ~Com_TestComponent();
 
-        void FixedUpdate() override {}
+        virtual void Init()  override;
+        virtual void Awake()  override;
+        virtual void OnEnable()  override;
+        virtual void OnDisable()  override;
+        virtual void Start()  override;
+        virtual void Update()  override;
+        virtual void OnDestroy()  override;
+        virtual void InternalUpdate() override;
     };
 
 }

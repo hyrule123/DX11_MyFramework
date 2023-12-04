@@ -10,7 +10,7 @@
 namespace ehw
 {
 	Com_Renderer_TilemapSC::Com_Renderer_TilemapSC()
-		: IComponent(eComponentType::Renderer)
+		: IComponent(eComponentCategory::Renderer)
 	{
 	}
 	Com_Renderer_TilemapSC::~Com_Renderer_TilemapSC()
@@ -18,6 +18,6 @@ namespace ehw
 	}
 	void Com_Renderer_TilemapSC::Init()
 	{
-		m_TilemapLoaderCS = ResourceMgr::Load<CS_TilemapLoader>("CS_TilemapLoader");
+		m_TilemapLoader = ResourceMgr::Load<CS_TilemapLoader>("CS_TilemapLoader");
 	}
 }

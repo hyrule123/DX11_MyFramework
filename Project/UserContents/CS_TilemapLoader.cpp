@@ -5,7 +5,7 @@
 namespace ehw
 {
 	CS_TilemapLoader::CS_TilemapLoader()
-		: ComputeShader(uint3(32u, 32u, 1u))
+		: ComputeShader(typeid(ComputeShader), uint3(32u, 32u, 1u))
 	{
 	}
 	CS_TilemapLoader::~CS_TilemapLoader()

@@ -21,6 +21,7 @@
 #include <EngineBase/Engine/Com_Renderer_UIBase.h>
 
 #include "strKey_Script.h"
+#include "strKey_UserComponent.h"
 
 
 #include <EngineBase/Engine/EventMgr.h>
@@ -33,9 +34,8 @@ namespace ehw
 	Scene_Title::~Scene_Title()
 	{
 	}
-	void Scene_Title::Init()
+	void Scene_Title::OnEnter()
 	{
-		IScene::Init();
 
 		{
 			// Main Com_Camera Game Object
@@ -46,7 +46,7 @@ namespace ehw
 			tr->SetRelativePos(float3(0.0f, 0.0f, -20.0f));
 
 			Com_Camera* cameraComp = cameraObj->AddComponent<Com_Camera>();
-			cameraComp->SetProjectionType(define::eProjectionType::Perspective);
+			cameraComp->SetProjectionType(eProjectionType::Perspective);
 
 			//cameraObj->AddComponent(strKey::Script::Script_CameraMove);
 			//cameraObj->AddComponent(strKey::Script::Script_UIBase);
@@ -94,6 +94,9 @@ namespace ehw
 
 		{
 			GameObject* player = EventMgr::SpawnGameObject(eLayerType::Player);
+			player->SetName("TestObj");
+
+			player->AddComponent(strKey::com::Com_TestComponent);
 			//player->AddComponent<Script_Player>();
 
 			
@@ -104,18 +107,12 @@ namespace ehw
 	{
 		IScene::Update();
 	}
-	void Scene_Title::FixedUpdate()
-	{
-		IScene::FixedUpdate();
-	}
+
 	void Scene_Title::Render()
 	{
 		IScene::Render();
 	}
-	void Scene_Title::OnEnter()
-	{
 
-	}
 	void Scene_Title::OnExit()
 	{
 	}

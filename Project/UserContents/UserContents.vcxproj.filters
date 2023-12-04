@@ -3,28 +3,13 @@
   <ItemGroup>
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
-    <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="PCH_Contents.cpp" />
-    <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentsClassInitializer_Script.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
     <ClCompile Include="PCH_Contents.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="Scene_Title.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentsClassInitializer_Script.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="PCH_Contents.cpp">
@@ -49,12 +34,10 @@
     <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="ContentsClassInitializer.cpp" />
     <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
     <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="ContentsClassInitializer.cpp" />
     <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
     <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
@@ -87,18 +70,46 @@
     <ClCompile Include="PCH_UserContents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="UserContentsInitializer.cpp" />
-    <ClCompile Include="Com_TestComponent.cpp" />
-    <ClCompile Include="CS_TilemapLoader.cpp" />
     <ClCompile Include="PCH_UserContents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="UserContentsInitializer.cpp" />
-    <ClCompile Include="UserContentsInitializer_Component.cpp" />
-    <ClCompile Include="UserContentsInitializer_Scene.cpp" />
-    <ClCompile Include="UserContentsInitializer_Script.cpp" />
-    <ClCompile Include="*.cpp">
+    <ClCompile Include="Com_TestComponent.cpp">
       <Filter>Init</Filter>
     </ClCompile>
-    <ClCompile Include="*.cpp">
+    <ClCompile Include="CS_TilemapLoader.cpp">
+      <Filter>Init</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH_UserContents.cpp">
+      <Filter>Init</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene_Title.cpp">
+      <Filter>Init</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer.cpp">
+      <Filter>Init</Filter>
+    </ClCompile>
+    <ClCompile Include="Com_TestComponent.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="CS_TilemapLoader.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH_UserContents.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene_Title.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Component.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Scene.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Script.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="*.cpp">
@@ -194,6 +205,33 @@
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="UserContentsInitializer_Component.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Component.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Scene.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Script.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Com_TestComponent.cpp">
+      <Filter>UserComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CS_TilemapLoader.cpp">
+      <Filter>UserComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene_Title.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Component.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Scene.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Script.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
   </ItemGroup>

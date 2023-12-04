@@ -25,7 +25,7 @@ namespace ehw
         virtual ~Com_Renderer_TilemapSC();
 
         virtual void Init() override;
-        virtual void FixedUpdate() override {}
+        virtual void InternalUpdate() override {}
 
     private:
         static int m_iRefCount_TilesetData;
