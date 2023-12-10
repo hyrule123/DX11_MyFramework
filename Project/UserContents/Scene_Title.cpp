@@ -9,7 +9,6 @@
 #include <EngineBase/Engine/Com_Camera.h>
 #include <EngineBase/Engine/Com_Renderer_Sprite.h>
 #include <EngineBase/Engine/GridScript.h>
-#include <EngineBase/Engine/Object.h>
 #include <EngineBase/Engine/InputMgr.h>
 #include <EngineBase/Engine/ICollider2D.h>
 #include <EngineBase/Engine/CollisionMgr.h>
@@ -24,8 +23,6 @@
 #include "strKey_UserComponent.h"
 
 
-#include <EngineBase/Engine/EventMgr.h>
-
 namespace ehw
 {
 	Scene_Title::Scene_Title()
@@ -39,7 +36,7 @@ namespace ehw
 
 		{
 			// Main Com_Camera Game Object
-			GameObject* cameraObj = EventMgr::SpawnGameObject(eLayerType::Com_Camera);
+			GameObject* cameraObj = NewGameObject(eLayerType::Com_Camera);
 			cameraObj->SetName("MainCamera");
 
 			Com_Transform* tr = cameraObj->AddComponent<Com_Transform>();
@@ -56,7 +53,7 @@ namespace ehw
 		}
 
 		{
-			GameObject* dirLight = EventMgr::SpawnGameObject(eLayerType::Player);
+			GameObject* dirLight = NewGameObject(eLayerType::Player);
 			dirLight->AddComponent<Com_Transform>();
 
 			Com_Light3D* light3d = dirLight->AddComponent<Com_Light3D>();
@@ -66,7 +63,7 @@ namespace ehw
 		}
 
 		{
-			GameObject* dirLight = EventMgr::SpawnGameObject(eLayerType::Player);
+			GameObject* dirLight = NewGameObject(eLayerType::Player);
 			dirLight->AddComponent<Com_Transform>();
 			dirLight->SetName("Point1000");
 
@@ -78,7 +75,7 @@ namespace ehw
 		}
 
 		{
-			GameObject* dirLight = EventMgr::SpawnGameObject(eLayerType::Player);
+			GameObject* dirLight = NewGameObject(eLayerType::Player);
 			dirLight->AddComponent<Com_Transform>();
 			dirLight->SetName("Point500");
 
@@ -93,10 +90,11 @@ namespace ehw
 
 
 		{
-			GameObject* player = EventMgr::SpawnGameObject(eLayerType::Player);
+			GameObject* player = NewGameObject(eLayerType::Player);
 			player->SetName("TestObj");
 
 			player->AddComponent(strKey::com::Com_TestComponent);
+			//player->AddComponent()
 			//player->AddComponent<Script_Player>();
 
 			
@@ -105,12 +103,12 @@ namespace ehw
 	}
 	void Scene_Title::Update()
 	{
-		IScene::Update();
+		iScene::Update();
 	}
 
 	void Scene_Title::Render()
 	{
-		IScene::Render();
+		iScene::Render();
 	}
 
 	void Scene_Title::OnExit()

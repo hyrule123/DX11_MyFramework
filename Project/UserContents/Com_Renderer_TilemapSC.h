@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineBase/Engine/IComponent.h>
+#include <EngineBase/Engine/iComponent.h>
 
 #include "define_SCMap.h"
 
@@ -18,7 +18,7 @@ namespace ehw
     class CS_TilemapLoader;
     class Texture;
     class Com_Renderer_TilemapSC :
-        public IComponent
+        public iComponent
     {
     public:
         Com_Renderer_TilemapSC();

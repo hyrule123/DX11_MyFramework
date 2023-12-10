@@ -208,6 +208,7 @@ start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene 
     <ClInclude Include="Com_TestComponent.h" />
     <ClInclude Include="CS_TilemapLoader.h" />
     <ClInclude Include="define_SCMap.h" />
+    <ClInclude Include="Script_Test.h" />
     <ClInclude Include="strKey_UserComponent.h" />
     <ClInclude Include="UserContentsInitializer.h" />
     <ClInclude Include="PCH_UserContents.h" />
@@ -220,6 +221,7 @@ start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene 
     <ClCompile Include="Com_Renderer_TilemapSC.cpp" />
     <ClCompile Include="Com_TestComponent.cpp" />
     <ClCompile Include="CS_TilemapLoader.cpp" />
+    <ClCompile Include="Script_Test.cpp" />
     <ClCompile Include="UserContentsInitializer.cpp" />
     <ClCompile Include="UserContentsInitializer_Component.cpp" />
     <ClCompile Include="UserContentsInitializer_Scene.cpp" />

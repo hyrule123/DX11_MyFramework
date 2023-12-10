@@ -1,10 +1,10 @@
 #pragma once
-#include <EngineBase/Engine/ComputeShader.h>
+#include <EngineBase/Engine/iComputeShader.h>
 
 namespace ehw
 {
     class CS_TilemapLoader :
-        public ComputeShader
+        public iComputeShader
     {
     public:
         CS_TilemapLoader();

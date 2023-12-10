@@ -7,7 +7,7 @@
 namespace ehw
 {
 	Com_TestComponent::Com_TestComponent()
-		:IComponent(eComponentCategory::Animator)
+		:iComponent(eComponentCategory::Animator)
 	{
 	}
 	Com_TestComponent::~Com_TestComponent()
@@ -42,10 +42,6 @@ namespace ehw
 		{
 			GetOwner()->SetActive(false);
 		}
-	}
-	void Com_TestComponent::OnDestroy()
-	{
-		int a = 3;
 	}
 	void Com_TestComponent::InternalUpdate()
 	{
