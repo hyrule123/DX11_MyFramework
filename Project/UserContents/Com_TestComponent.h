@@ -1,10 +1,10 @@
 #pragma once
-#include <EngineBase/Engine/IComponent.h>
+#include <EngineBase/Engine/iComponent.h>
 
 namespace ehw
 {
     class Com_TestComponent :
-        public IComponent
+        public iComponent
     {
     public:
         Com_TestComponent();
@@ -16,7 +16,6 @@ namespace ehw
         virtual void OnDisable()  override;
         virtual void Start()  override;
         virtual void Update()  override;
-        virtual void OnDestroy()  override;
         virtual void InternalUpdate() override;
     };
 

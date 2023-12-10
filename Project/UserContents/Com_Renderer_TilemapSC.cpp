@@ -10,7 +10,7 @@
 namespace ehw
 {
 	Com_Renderer_TilemapSC::Com_Renderer_TilemapSC()
-		: IComponent(eComponentCategory::Renderer)
+		: iComponent(eComponentCategory::Renderer)
 	{
 	}
 	Com_Renderer_TilemapSC::~Com_Renderer_TilemapSC()
