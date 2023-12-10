@@ -11,7 +11,7 @@
 #include <EngineBase/Engine/GridScript.h>
 #include <EngineBase/Engine/InputMgr.h>
 #include <EngineBase/Engine/ICollider2D.h>
-#include <EngineBase/Engine/CollisionMgr.h>
+#include <EngineBase/Engine/CollisionManager.h>
 #include <EngineBase/Engine/Com_Animator2D.h>
 #include <EngineBase/Engine/Com_Light3D.h>
 #include <EngineBase/Engine/Com_Animator3D.h>
@@ -93,7 +93,7 @@ namespace ehw
 			GameObject* player = NewGameObject(eLayerType::Player);
 			player->SetName("TestObj");
 
-			player->AddComponent(strKey::com::Com_TestComponent);
+			player->AddComponent(strKey::component::Com_TestComponent);
 			//player->AddComponent()
 			//player->AddComponent<Script_Player>();
 
