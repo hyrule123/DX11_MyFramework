@@ -3,7 +3,7 @@
 
 #include "strKey_Scene.h"
 
-#include <EngineBase/Engine/SceneMgr.h>
+#include <EngineBase/Engine/SceneManager.h>
 
 namespace ehw
 {
@@ -22,6 +22,6 @@ namespace ehw
 	void UserContentsInitializer::InitUserContents()
 	{
 		//예시 씬을 첫 시작으로 등록
-		SceneMgr::LoadScene(strKey::scene::Scene_Title);
+		SceneManager::LoadScene(strKey::scene::Scene_Title);
 	}
 }

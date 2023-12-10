@@ -1,7 +1,7 @@
 #include "PCH_UserContents.h"
 #include "Com_TestComponent.h"
 
-#include <EngineBase/Engine/InputMgr.h>
+#include <EngineBase/Engine/InputManager.h>
 #include <EngineBase/Engine/GameObject.h>
 
 namespace ehw
@@ -38,7 +38,7 @@ namespace ehw
 	{
 		int a = 3;
 
-		if (InputMgr::GetKeyDown(eKeyCode::E))
+		if (InputManager::GetKeyDown(eKeyCode::E))
 		{
 			GetOwner()->SetActive(false);
 		}

@@ -1,15 +1,15 @@
 #include "PCH_UserContents.h"
 #include "Scene_Title.h"
 
-#include <EngineBase/Engine/ResourceMgr.h>
+#include <EngineBase/Engine/ResourceManager.h>
+#include <EngineBase/Engine/RenderManager.h>
 #include <EngineBase/Engine/Com_Transform.h>
 #include <EngineBase/Engine/Com_Renderer_Mesh.h>
-#include <EngineBase/Engine/RenderMgr.h>
 #include <EngineBase/Engine/Texture.h>
 #include <EngineBase/Engine/Com_Camera.h>
 #include <EngineBase/Engine/Com_Renderer_Sprite.h>
 #include <EngineBase/Engine/GridScript.h>
-#include <EngineBase/Engine/InputMgr.h>
+#include <EngineBase/Engine/InputManager.h>
 #include <EngineBase/Engine/ICollider2D.h>
 #include <EngineBase/Engine/CollisionManager.h>
 #include <EngineBase/Engine/Com_Animator2D.h>
@@ -49,7 +49,7 @@ namespace ehw
 			//cameraObj->AddComponent(strKey::Script::Script_UIBase);
 
 
-			RenderMgr::SetMainCamera(cameraComp);
+			RenderManager::SetMainCamera(cameraComp);
 		}
 
 		{

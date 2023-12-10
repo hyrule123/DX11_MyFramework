@@ -1,7 +1,7 @@
 #include "PCH_UserContents.h"
 #include "Script_Test.h"
 
-#include <EngineBase/Engine/InputMgr.h>
+#include <EngineBase/Engine/InputManager.h>
 
 namespace ehw 
 {

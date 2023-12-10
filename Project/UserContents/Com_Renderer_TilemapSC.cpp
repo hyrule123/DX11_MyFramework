@@ -3,7 +3,7 @@
 
 #include "CS_TilemapLoader.h"
 
-#include <EngineBase/Engine/ResourceMgr.h>
+#include <EngineBase/Engine/ResourceManager.h>
 
 
 
@@ -18,6 +18,6 @@ namespace ehw
 	}
 	void Com_Renderer_TilemapSC::Init()
 	{
-		m_TilemapLoader = ResourceMgr::Load<CS_TilemapLoader>("CS_TilemapLoader");
+		m_TilemapLoader = ResourceManager::Load<CS_TilemapLoader>("CS_TilemapLoader");
 	}
 }
