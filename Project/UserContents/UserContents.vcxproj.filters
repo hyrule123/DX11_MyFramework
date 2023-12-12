@@ -2,8 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="PCH_Contents.cpp" />
-    <ClCompile Include="PCH_Contents.cpp" />
-    <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="PCH_Contents.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
@@ -22,8 +20,6 @@
     <ClCompile Include="Scene_Title.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
@@ -38,7 +34,6 @@
     <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="ContentsClassInitializer.cpp" />
     <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
     <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
@@ -72,12 +67,6 @@
     </ClCompile>
     <ClCompile Include="UserContentsInitializer.cpp">
       <Filter>Init</Filter>
-    </ClCompile>
-    <ClCompile Include="Com_TestComponent.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="CS_TilemapLoader.cpp">
-      <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="PCH_UserContents.cpp">
       <Filter>Auto Generated</Filter>
@@ -121,7 +110,31 @@
     <ClCompile Include="UserContentsInitializer_Script.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
-    <ClCompile Include="*.cpp">
+    <ClCompile Include="Com_TestComponent.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="CS_TilemapLoader.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH_UserContents.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene_Title.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Script_Test.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Component.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Scene.cpp">
+      <Filter>Auto Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="UserContentsInitializer_Script.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="PCH_Contents.cpp">
@@ -249,7 +262,18 @@
     <ClCompile Include="Scene_Title.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Script_Test.cpp" />
+    <ClCompile Include="Scene_Title.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Script_Test.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Com_TestComponent.cpp">
+      <Filter>UserComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CS_TilemapLoaderSC.cpp">
+      <Filter>UserComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="strKey_Scene.h">
@@ -278,10 +302,12 @@
     <ClInclude Include="Com_TestComponent.h">
       <Filter>UserComponent</Filter>
     </ClInclude>
-    <ClInclude Include="CS_TilemapLoader.h">
+    <ClInclude Include="CS_TilemapLoaderSC.h">
       <Filter>UserComponent</Filter>
     </ClInclude>
-    <ClInclude Include="Script_Test.h" />
+    <ClInclude Include="Script_Test.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auto Generated">

@@ -15,7 +15,7 @@ enum class eTilemap_DebugMode
 namespace ehw
 {
     class StructBuffer;
-    class CS_TilemapLoader;
+    class CS_TilemapLoaderSC;
     class Texture;
     class Com_Renderer_TilemapSC :
         public iComponent
@@ -28,22 +28,28 @@ namespace ehw
         virtual void InternalUpdate() override {}
 
     private:
-        static int m_iRefCount_TilesetData;
-        static std::unique_ptr<StructBuffer[]> m_arrSBuffer_TilesetData[(int)SC_Map::eTILESET_INFO::END];
+        void CreateTilesetData();
 
-        std::shared_ptr<CS_TilemapLoader> m_TilemapLoader;
+    private:
+        //이 클래스 전체가 공유해서 사용하는 데이터(이 클래스가 하나도 없을경우 메모리 해제)
+        static std::array<std::shared_ptr<StructBuffer[]>, (int)scMap::eTilesetInfo::END> 
+            s_arrSBuffer_TilesetData;
+
+        std::array<std::shared_ptr<StructBuffer[]>, (int)scMap::eTilesetInfo::END> m_arrSBuffer_TilesetData;
+      
+        std::shared_ptr<CS_TilemapLoaderSC> m_TilemapLoader;
 
         uint m_uNumMegatileX;
         uint m_uNumMegatileY;
 
-        SC_Map::eTILESET_INFO m_eTileSet;
+        scMap::eTilesetInfo m_eTileSet;
 
         std::string m_strMapName;
 
 
         std::vector<tMegaTile> m_vecMegaTile;
         std::vector<tMiniTile> m_vecMiniTile;
-        std::vector<SC_Map::tUnitData> m_vecUnitData;
+        std::vector<scMap::tUnitData> m_vecUnitData;
         std::vector<float2> m_vecStartLocation;
 
         bool    m_bMapLoaded;
@@ -52,9 +58,9 @@ namespace ehw
 
         //Buffers
         std::shared_ptr<Texture> m_pMapTex;
-        std::shared_ptr<StructBuffer> m_pSBuffer_MXTM;
-        std::shared_ptr<StructBuffer> m_pSBufferRW_Megatile;
-        std::shared_ptr<StructBuffer> m_pSBufferRW_Minitile;
+        std::shared_ptr<StructBuffer> m_SBuffer_MXTM;
+        std::shared_ptr<StructBuffer> m_SBufferRW_Megatile;
+        std::shared_ptr<StructBuffer> m_SBufferRW_Minitile;
     };
 }
 

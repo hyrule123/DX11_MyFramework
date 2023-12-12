@@ -3,12 +3,12 @@
 
 namespace ehw
 {
-    class CS_TilemapLoader :
+    class CS_TilemapLoaderSC :
         public iComputeShader
     {
     public:
-        CS_TilemapLoader();
-        virtual ~CS_TilemapLoader();
+        CS_TilemapLoaderSC();
+        virtual ~CS_TilemapLoaderSC();
 
         virtual eResult Load(const std::filesystem::path& _filePath) override;
 

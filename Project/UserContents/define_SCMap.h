@@ -5,7 +5,7 @@
 
 #include <UserShader/SCTilemapLoader.hlsli>
 
-namespace SC_Map
+namespace scMap
 {
     struct tUnitData
     {
@@ -64,7 +64,7 @@ namespace SC_Map
     */
 
     //스타크래프트 맵 데이터 속 "ERA" 안에 들어있는 정보 
-    enum class eTILESET_INFO : UINT32
+    enum class eTilesetInfo : UINT32
     {
         BADLANDS = 0x00,
         SPACE_PLATFORM = 0x01,
@@ -77,19 +77,31 @@ namespace SC_Map
         END = 0x08
     };
 
-
-
-    enum class eTILESET_MEMBER
+    constexpr const char* eTilesetInfo_String[(int)eTilesetInfo::END] =
     {
-        CV5,
-        VX4,
-        VF4,
-        VR4,
-        WPE,
+        "badlands",
+        "platform",
+        "install",
+        "ashworld",
+        "jungle",
+        "Desert",
+        "Ice",
+        "Twilight",
+    };
+
+
+
+    enum class eTilesetMember
+    {
+        CV5 = Register_t_SB_CV5,
+        VX4 = Register_t_SB_VX4,
+        VF4 = Register_t_SB_VF4,
+        VR4 = Register_t_SB_VR4,
+        WPE = Register_t_SB_WPE,
         END
     };
 
-    struct tTileSet
+    struct tTileset
     {
         tCV5 cv5[CV5_MAX];
         tVX4 vx4[VX4_MAX];
@@ -100,7 +112,7 @@ namespace SC_Map
 
 
     //맵데이터로부터 로드해야하는 데이터들의 플래그
-    enum class eSCMAP_DATA_TYPE
+    enum class eSCmapDataType
     {
         TERRAIN,
         MAPSIZE,
@@ -109,7 +121,7 @@ namespace SC_Map
         END
     };
 
-    constexpr const char* strKey_SCMap[(int)eSCMAP_DATA_TYPE::END] = {
+    constexpr const char* strKey_SCMap[(int)eSCmapDataType::END] = {
         "ERA", "DIM", "MTXM", "UNIT"
     };
 

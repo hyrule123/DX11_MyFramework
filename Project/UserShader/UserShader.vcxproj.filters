@@ -7,7 +7,7 @@
     <Filter Include="Sample">
       <UniqueIdentifier>{860083db-9b9f-4ad9-9f4f-c0c9db955d66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SCTilemapLoader">
+    <Filter Include="SCTilemap">
       <UniqueIdentifier>{a404360e-8bef-4e3d-a463-4bc4ed541bb5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -28,7 +28,13 @@
       <Filter>Sample</Filter>
     </FxCompile>
     <FxCompile Include="CS_SCTilemapLoader.hlsl">
-      <Filter>SCTilemapLoader</Filter>
+      <Filter>SCTilemap</Filter>
+    </FxCompile>
+    <FxCompile Include="VS_SCTilemap.hlsl">
+      <Filter>SCTilemap</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_SCTilemap.hlsl">
+      <Filter>SCTilemap</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +96,7 @@
       <Filter>Default Headers</Filter>
     </None>
     <None Include="SCTilemapLoader.hlsli">
-      <Filter>SCTilemapLoader</Filter>
+      <Filter>SCTilemap</Filter>
     </None>
     <None Include="DefaultShader\Func_Bitwise.hlsli">
       <Filter>Default Headers</Filter>

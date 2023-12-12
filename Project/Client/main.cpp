@@ -12,6 +12,7 @@ BOOL APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     DebugCheck(0);
 
+    
 
     tDesc_GameMainWindow Desc{};
     Desc.Inst = hInstance;
