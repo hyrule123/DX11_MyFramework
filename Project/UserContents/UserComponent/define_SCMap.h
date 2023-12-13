@@ -1,9 +1,9 @@
 #pragma once
 //CCS_SCMapLoader과 cCom_Renderer_TilemapSC 쉐이더에서 공유하는 구조체들을 모아놓은 헤더
-#include <EngineBase/Engine/defines.h>
+#include <Engine/defines.h>
 #include <memory>
 
-#include <UserShader/SCTilemapLoader.hlsli>
+#include <UserShader/SCTilemap/SCTilemapLoader.hlsli>
 
 namespace scMap
 {

@@ -1,8 +1,7 @@
-#include "PCH_UserContents.h"
 #include "Com_TestComponent.h"
 
-#include <EngineBase/Engine/InputManager.h>
-#include <EngineBase/Engine/GameObject.h>
+#include <Engine/Manager/InputManager.h>
+#include <Engine/Game/GameObject.h>
 
 namespace ehw
 {

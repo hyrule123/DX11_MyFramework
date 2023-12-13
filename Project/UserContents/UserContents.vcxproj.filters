@@ -1,19 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="PCH_Contents.cpp" />
-    <ClCompile Include="PCH_Contents.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene_Title.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="PCH_Contents.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene_Title.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
     <ClCompile Include="PCH_Contents.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
@@ -22,16 +9,10 @@
     </ClCompile>
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
-    <ClCompile Include="ContentsClassInitializer_Script.cpp" />
     <ClCompile Include="PCH_Contents.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="ContentsClassInitializer_Scene.cpp" />
@@ -86,10 +67,7 @@
     <ClCompile Include="UserContentsInitializer_Script.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
-    <ClCompile Include="Com_TestComponent.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="CS_TilemapLoader.cpp">
+    <ClCompile Include="UserComponent\Com_TestComponent.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="PCH_UserContents.cpp">
@@ -110,19 +88,13 @@
     <ClCompile Include="UserContentsInitializer_Script.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
-    <ClCompile Include="Com_TestComponent.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="CS_TilemapLoader.cpp">
-      <Filter>Auto Generated</Filter>
-    </ClCompile>
     <ClCompile Include="PCH_UserContents.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="Scene_Title.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
-    <ClCompile Include="Script_Test.cpp">
+    <ClCompile Include="Script\Script_Test.cpp">
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="UserContentsInitializer.cpp">
@@ -140,9 +112,26 @@
     <ClCompile Include="PCH_Contents.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
-    <ClCompile Include="*.cpp" />
-    <ClCompile Include="*.cpp" />
-    <ClCompile Include="*.cpp" />
+    <ClCompile Include="Com_TestComponent.cpp" />
+    <ClCompile Include="UserComponent\CS_TilemapLoaderSC.cpp" />
+    <ClCompile Include="PCH_UserContents.cpp" />
+    <ClCompile Include="Scene_Title.cpp" />
+    <ClCompile Include="UserContentsInitializer.cpp" />
+    <ClCompile Include="UserContentsInitializer_Component.cpp" />
+    <ClCompile Include="UserContentsInitializer_Scene.cpp" />
+    <ClCompile Include="UserContentsInitializer_Script.cpp" />
+    <ClCompile Include="Com_TestComponent.cpp" />
+    <ClCompile Include="PCH_UserContents.cpp" />
+    <ClCompile Include="Scene_Title.cpp" />
+    <ClCompile Include="Script_Test.cpp" />
+    <ClCompile Include="UserContentsInitializer.cpp" />
+    <ClCompile Include="UserContentsInitializer_Component.cpp" />
+    <ClCompile Include="UserContentsInitializer_Scene.cpp" />
+    <ClCompile Include="UserContentsInitializer_Script.cpp" />
+    <ClCompile Include="UserContentsInitializer.cpp" />
+    <ClCompile Include="UserContentsInitializer_Component.cpp" />
+    <ClCompile Include="UserContentsInitializer_Scene.cpp" />
+    <ClCompile Include="UserContentsInitializer_Script.cpp" />
     <ClCompile Include="*.cpp" />
     <ClCompile Include="*.cpp" />
     <ClCompile Include="*.cpp" />
@@ -204,7 +193,7 @@
       <Filter>Auto Generated</Filter>
     </ClCompile>
     <ClCompile Include="Com_TestComponent.cpp" />
-    <ClCompile Include="Com_Renderer_TilemapSC.cpp">
+    <ClCompile Include="UserComponent\Com_Renderer_TilemapSC.cpp">
       <Filter>Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="Scene_Title.cpp">
@@ -212,9 +201,6 @@
     </ClCompile>
     <ClCompile Include="PCH_UserContents.cpp" />
     <ClCompile Include="Com_TestComponent.cpp">
-      <Filter>UserComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="CS_TilemapLoader.cpp">
       <Filter>UserComponent</Filter>
     </ClCompile>
     <ClCompile Include="UserContentsInitializer_Script.cpp">
@@ -274,6 +260,9 @@
     <ClCompile Include="CS_TilemapLoaderSC.cpp">
       <Filter>UserComponent</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Scene_Title.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="strKey_Scene.h">
@@ -289,23 +278,23 @@
     <ClInclude Include="strKey_UserComponent.h">
       <Filter>Auto Generated</Filter>
     </ClInclude>
-    <ClInclude Include="Com_Renderer_TilemapSC.h">
+    <ClInclude Include="UserComponent\Com_Renderer_TilemapSC.h">
       <Filter>Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="define_SCMap.h">
+    <ClInclude Include="UserComponent\define_SCMap.h">
       <Filter>Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="Scene_Title.h">
+    <ClInclude Include="Scene\Scene_Title.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="PCH_UserContents.h" />
-    <ClInclude Include="Com_TestComponent.h">
+    <ClInclude Include="UserComponent\Com_TestComponent.h">
       <Filter>UserComponent</Filter>
     </ClInclude>
-    <ClInclude Include="CS_TilemapLoaderSC.h">
+    <ClInclude Include="UserComponent\CS_TilemapLoaderSC.h">
       <Filter>UserComponent</Filter>
     </ClInclude>
-    <ClInclude Include="Script_Test.h">
+    <ClInclude Include="Script\Script_Test.h">
       <Filter>Script</Filter>
     </ClInclude>
   </ItemGroup>

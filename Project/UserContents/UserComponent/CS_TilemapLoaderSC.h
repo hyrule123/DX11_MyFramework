@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineBase/Engine/iComputeShader.h>
+#include <Engine/Resource/Shader/iComputeShader.h>
 
 namespace ehw
 {

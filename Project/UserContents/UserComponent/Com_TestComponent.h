@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineBase/Engine/iComponent.h>
+#include <Engine/Game/Component/iComponent.h>
 
 namespace ehw
 {

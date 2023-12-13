@@ -1,13 +1,13 @@
-#include "PCH_UserContents.h"
+
 #include "Com_Renderer_TilemapSC.h"
 
 #include "CS_TilemapLoaderSC.h"
 
-#include <EngineBase/Engine/ResourceManager.h>
-#include <EngineBase/Engine/PathManager.h>
-#include <EngineBase/Engine/StructBuffer.h>
+#include <Engine/Manager/ResourceManager.h>
+#include <Engine/Manager/PathManager.h>
+#include <Engine/GPU/StructBuffer.h>
 
-#include "strKey_Shader.h"
+#include "../strKey_Shader.h"
 
 namespace ehw
 {

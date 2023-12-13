@@ -75,7 +75,7 @@
     <IntDir>$(SolutionDir)BinObj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
     <OutDir>$(SolutionDir)External\lib\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..;$(SolutionDir)\Project\EngineBase;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)External\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
@@ -83,7 +83,7 @@
     <IntDir>$(SolutionDir)BinObj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
     <OutDir>$(SolutionDir)External\lib\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..;$(SolutionDir)\Project\EngineBase;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)External\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
@@ -91,7 +91,7 @@
     <IntDir>$(SolutionDir)BinObj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
     <OutDir>$(SolutionDir)External\lib\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..;$(SolutionDir)\Project\EngineBase;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)External\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
@@ -99,7 +99,7 @@
     <IntDir>$(SolutionDir)BinObj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
     <OutDir>$(SolutionDir)External\lib\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..;$(SolutionDir)\Project\EngineBase;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)External\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
@@ -116,6 +116,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <ForcedIncludeFiles>PCH_UserContents.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +142,7 @@ start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene 
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <ForcedIncludeFiles>PCH_UserContents.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,6 +168,7 @@ start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene 
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 /GR- %(AdditionalOptions)</AdditionalOptions>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <ForcedIncludeFiles>PCH_UserContents.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -191,6 +194,7 @@ start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene 
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 /GR- %(AdditionalOptions)</AdditionalOptions>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <ForcedIncludeFiles>PCH_UserContents.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -204,24 +208,24 @@ start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene 
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Com_Renderer_TilemapSC.h" />
-    <ClInclude Include="Com_TestComponent.h" />
-    <ClInclude Include="CS_TilemapLoaderSC.h" />
-    <ClInclude Include="define_SCMap.h" />
-    <ClInclude Include="Script_Test.h" />
+    <ClInclude Include="UserComponent\Com_Renderer_TilemapSC.h" />
+    <ClInclude Include="UserComponent\Com_TestComponent.h" />
+    <ClInclude Include="UserComponent\CS_TilemapLoaderSC.h" />
+    <ClInclude Include="UserComponent\define_SCMap.h" />
+    <ClInclude Include="Script\Script_Test.h" />
     <ClInclude Include="strKey_UserComponent.h" />
     <ClInclude Include="UserContentsInitializer.h" />
     <ClInclude Include="PCH_UserContents.h" />
-    <ClInclude Include="Scene_Title.h" />
+    <ClInclude Include="Scene\Scene_Title.h" />
     <ClInclude Include="strKey_Scene.h" />
     <ClInclude Include="strKey_Script.h" />
     <ClInclude Include="strKey_Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Com_Renderer_TilemapSC.cpp" />
-    <ClCompile Include="Com_TestComponent.cpp" />
-    <ClCompile Include="CS_TilemapLoaderSC.cpp" />
-    <ClCompile Include="Script_Test.cpp" />
+    <ClCompile Include="UserComponent\Com_Renderer_TilemapSC.cpp" />
+    <ClCompile Include="UserComponent\Com_TestComponent.cpp" />
+    <ClCompile Include="UserComponent\CS_TilemapLoaderSC.cpp" />
+    <ClCompile Include="Script\Script_Test.cpp" />
     <ClCompile Include="UserContentsInitializer.cpp" />
     <ClCompile Include="UserContentsInitializer_Component.cpp" />
     <ClCompile Include="UserContentsInitializer_Scene.cpp" />
@@ -232,16 +236,12 @@ start CodeGenerator_$(Platform)_$(Configuration).exe UserComponent Script Scene 
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Scene_Title.cpp" />
+    <ClCompile Include="Scene\Scene_Title.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="strKey_Scene.txt" />
-    <Text Include="strKey_Script.txt" />
-    <Text Include="strKey_Shader.txt" />
-    <Text Include="strKey_UserComponent.txt" />
-    <Text Include="UserContentsInitializer_Component.txt" />
-    <Text Include="UserContentsInitializer_Scene.txt" />
-    <Text Include="UserContentsInitializer_Script.txt" />
+    <Text Include="FoundScenes.txt" />
+    <Text Include="FoundScripts.txt" />
+    <Text Include="FoundUserComponents.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

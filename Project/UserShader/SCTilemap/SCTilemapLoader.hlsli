@@ -1,9 +1,9 @@
 #ifndef SC_TILEMAP_LOADER_HLSLI
 #define SC_TILEMAP_LOADER_HLSLI
 
-#include "DefaultShader/CommonStruct.hlsli"
-#include "DefaultShader/Resource.hlsli"
-#include "DefaultShader/Func_Bitwise.hlsli"
+#include "../DefaultShader/CommonStruct.hlsli"
+#include "../DefaultShader/Resource.hlsli"
+#include "../DefaultShader/Func_Bitwise.hlsli"
 
 //단위크기 : 2byte
 //총 갯수 : 맵의 가로크기(메가타일) * 세로크기(메가타일)

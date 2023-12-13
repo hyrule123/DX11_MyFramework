@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="CS_SCTilemapLoader.hlsl">
+    <FxCompile Include="SCTilemap\CS_SCTilemapLoader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
@@ -29,7 +29,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="GS_Sample.hlsl">
+    <FxCompile Include="Sample\GS_Sample.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -39,7 +39,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PS_Sample.hlsl">
+    <FxCompile Include="Sample\PS_Sample.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -49,19 +49,19 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PS_SCTilemap.hlsl">
+    <FxCompile Include="SCTilemap\PS_SCTilemap.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="VS_Sample.hlsl">
+    <FxCompile Include="Sample\VS_Sample.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="HS_Sample.hlsl">
+    <FxCompile Include="Sample\HS_Sample.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Hull</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Hull</ShaderType>
@@ -71,7 +71,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Hull</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="DS_Sample.hlsl">
+    <FxCompile Include="Sample\DS_Sample.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Domain</ShaderType>
@@ -81,7 +81,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="VS_SCTilemap.hlsl">
+    <FxCompile Include="SCTilemap\VS_SCTilemap.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -89,27 +89,10 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DefaultShader\Animation2D.hlsli" />
-    <None Include="DefaultShader\Common.hlsli" />
-    <None Include="DefaultShader\CommonStruct.hlsli" />
-    <None Include="DefaultShader\ConstBuffer.hlsli" />
-    <None Include="DefaultShader\Functions.hlsli" />
-    <None Include="DefaultShader\Func_Animation3D.hlsli" />
-    <None Include="DefaultShader\Func_Bitwise.hlsli" />
-    <None Include="DefaultShader\Func_Blur.hlsli" />
-    <None Include="DefaultShader\Func_DecodeColor.hlsli" />
-    <None Include="DefaultShader\Func_Light.hlsli" />
-    <None Include="DefaultShader\Globals.hlsli" />
-    <None Include="DefaultShader\Grid.hlsli" />
-    <None Include="DefaultShader\Light.hlsli" />
-    <None Include="DefaultShader\NormalConverter.hlsli" />
-    <None Include="DefaultShader\Particle.hlsli" />
-    <None Include="DefaultShader\PostProcess.hlsli" />
-    <None Include="DefaultShader\Resource.hlsli" />
-    <None Include="DefaultShader\Sampler.hlsli" />
-    <None Include="DefaultShader\UserInterface.hlsli" />
-    <None Include="DefaultShader\_3D.hlsli" />
-    <None Include="SCTilemapLoader.hlsli" />
+    <None Include="SCTilemap\SCTilemapLoader.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="FoundShaders.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

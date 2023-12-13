@@ -74,28 +74,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)BinObj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..;$(SolutionDir)Project\EngineBase;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)External\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)BinObj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..;$(SolutionDir)Project\EngineBase;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)External\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)BinObj\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..;$(SolutionDir)Project\EngineBase;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)External\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)BinObj\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>..;$(SolutionDir)Project\EngineBase;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)External\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)External\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
