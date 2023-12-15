@@ -12,11 +12,14 @@ namespace ehw
 
         virtual eResult Load(const std::filesystem::path& _filePath) override;
 
+        eResult LoadMap(const std::filesystem::path& _filePath);
+
     protected:
         virtual bool BindData() override;
         virtual void UnBindData() override;
 
-
+    private:
+        void CreateTilesetData();
 
     };
 }

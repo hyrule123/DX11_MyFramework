@@ -50,6 +50,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Project\Client\Cl
 		{9CE7BE93-D84F-425E-9A1A-B500EAC0E517} = {9CE7BE93-D84F-425E-9A1A-B500EAC0E517}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine git", "Engine git", "{1E5054E2-8496-40DD-B059-15CF44452F0E}"
+	ProjectSection(SolutionItems) = preProject
+		Project\EngineBase\.editorconfig = Project\EngineBase\.editorconfig
+		Project\EngineBase\.gitattributes = Project\EngineBase\.gitattributes
+		Project\EngineBase\.gitignore = Project\EngineBase\.gitignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -108,6 +115,7 @@ Global
 		{9CE7BE93-D84F-425E-9A1A-B500EAC0E517} = {BCBC18FF-9369-4532-85F9-865FD0981208}
 		{48BC2B1B-6C8F-499F-B5E9-4A9776259623} = {BCBC18FF-9369-4532-85F9-865FD0981208}
 		{2FA04AC7-6017-43CF-90F2-767289B68C11} = {86A74A44-51C7-4F3C-A9FD-6C7731C85137}
+		{1E5054E2-8496-40DD-B059-15CF44452F0E} = {5D6E3B5F-D33A-41F9-BD8D-E0D1A977D472}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E52D4D5-2BDB-4E9F-A410-9F851776CFDC}

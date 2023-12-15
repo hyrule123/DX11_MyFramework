@@ -388,9 +388,6 @@ External/
 # Exclude Resources
 Res/
 
-# Exclude Shader header
-CompiledShaderHeader/
-
 # Exclude Copied default Shader Header
 Project/UserShader/DefaultShader/
 
