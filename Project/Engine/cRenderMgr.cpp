@@ -26,6 +26,7 @@ cRenderMgr::cRenderMgr()
     , m_bDebugRenderUpdated()
     , m_pcLight2DStructBuffer()
     , m_bEditorCamMode(false)
+    , m_drawCallCount()
 {
 }
 
@@ -106,6 +107,7 @@ void cRenderMgr::Render()
 {
     UpdateBuffer();
 
+    m_drawCallCount = 0;
     if (true == m_bEditorCamMode)
         render_editor();
     else
@@ -201,6 +203,9 @@ void cRenderMgr::renderAll()
 
                 AddInstancingQueue(Key, ScalarData);
             }
+            else {
+                ++m_drawCallCount;
+            }
         }
 
         //모두 순회 돌았으면 인스턴싱으로 렌더링
@@ -229,6 +234,7 @@ void cRenderMgr::InstancedRender()
 
         cMesh* pMesh = (cMesh*)(iter.first.pMesh);
         pMesh->renderInstanced(instances);
+        ++m_drawCallCount;
     }
     //인스턴싱 대기열 클리어 
     m_mapInstancing.clear();

@@ -60,6 +60,8 @@ private:
 	//인스턴싱용 SBuffer
 	std::unique_ptr<cStructBuffer> m_pSBuffer_Instancing;
 
+	int m_drawCallCount;
+
 public:
 	//inline getter
 	cCom_Camera* GetCamera(eCAMERA_INDEX _iCamIdx) { return m_arrCam[(int)_iCamIdx]; }
@@ -83,6 +85,8 @@ public:
 
 	void AddInstancingQueue(const tInstancingKey& _Key, const tMtrlScalarData& _Value);
 	void InstancedRender();
+
+	int GetDrawcallCount() const { return m_drawCallCount; }
 
 private:
 	//Upload + Bind

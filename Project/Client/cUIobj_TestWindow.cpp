@@ -151,7 +151,8 @@ void cUIobj_TestWindow::render_update()
 			//pObj->ScriptHolder()->Transition(SC::FSM::ATTACK);
 		}
 	}
-
+	ShowMarineInstanceCount();
+	ShowDrawCallCount();
 	ShowFPS();
 	//if (ImGui::Button("Save GameObject"))
 	//{
@@ -216,5 +217,22 @@ void cUIobj_TestWindow::ShowFPS()
 	
 	std::string str = "Current FPS: ";
 	str += std::to_string(m_FPS);
+	ImGui::Text(str.c_str());
+}
+
+void cUIobj_TestWindow::ShowMarineInstanceCount()
+{
+	cLayer& ResourceLayer = cLevelMgr::GetInst()->GetCurLevel()->GetLayer(SC::LAYER_INFO::GroundUnitMain);
+	const vector<cGameObject*>& vecObj = ResourceLayer.GetvecObj();
+	size_t size = vecObj.size();
+	std::string str = "Current Marine Instances: ";
+	str += std::to_string(size);
+	ImGui::Text(str.c_str());
+}
+
+void cUIobj_TestWindow::ShowDrawCallCount()
+{
+	std::string str = "Current Drawcalls: ";
+	str += std::to_string(cRenderMgr::GetInst()->GetDrawcallCount());
 	ImGui::Text(str.c_str());
 }

@@ -882,6 +882,7 @@ void cCom_Renderer_TilemapSC::StartLocation()
 		assert(pMainCam);
 		pMainCam->GetOwner()->Transform().SetRelativePosXY(m_vecStartLocation[StartPos]);
 
+		//TODO: 테스트용 마린(차후 제거할 것)
 		Ptr<cPrefab> Marine = cResMgr::GetInst()->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
 		assert(nullptr != Marine);
 		auto* obj = EventDispatcher::SpawnPrefab2D(Marine, m_vecStartLocation[StartPos] + Vec2(100.f, 100.f));

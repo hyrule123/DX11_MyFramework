@@ -26,5 +26,7 @@ private:
     void FindTestObj();
     void ChangeDebugMode(int _iMode);
     void ShowFPS();
+    void ShowMarineInstanceCount();
+    void ShowDrawCallCount();
 };
 
