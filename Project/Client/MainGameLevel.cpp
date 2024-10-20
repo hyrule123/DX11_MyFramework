@@ -48,13 +48,14 @@
 
 void CreateMainGame()
 {
-	ManualEdit::Edit();
+	//ManualEdit::Edit();
 
 	//LoadRes(eRES_TYPE::TEXTURE);
 	//LoadRes(eRES_TYPE::MATERIAL);
 	//LoadRes(eRES_TYPE::PREFAB);
 
-	ManualEdit::TestCreate();
+	ManualEdit::Edit();
+	//ManualEdit::TestCreate();
 
 
 	//Layer 세팅

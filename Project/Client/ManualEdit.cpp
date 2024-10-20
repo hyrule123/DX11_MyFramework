@@ -103,6 +103,8 @@ void ManualEdit::TestCreate()
 	{
 		Ptr<cPrefab> MarinePrefab = cResMgr::GetInst()->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
 		cGameObject* Marine = MarinePrefab->Instantiate();
+		auto* animator = Marine->GetComponent<cCom_Animator2D>();
+		animator->Play("IDLE", eANIM_PLAYMODE::NORMAL_LOOP, false);
 
 		float randx = RandGen::GetRand<float>(-640.f, 640.f);
 		float randy = RandGen::GetRand<float>(-320.f, 320.f);
@@ -134,7 +136,11 @@ void ManualEdit::TestCreate()
 	//Vespene
 	{
 		Ptr<cPrefab> pPrefab = pResMgr->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::VESPENE_GEYSER));
-		EventDispatcher::SpawnPrefab2D(pPrefab, Vec2(-100.f, 100.f));
+		cGameObject* obj = EventDispatcher::SpawnPrefab2D(pPrefab, Vec2(-100.f, 100.f));
+		cCom_Animator2D* anim2d = obj->GetComponent<cCom_Animator2D>();
+		if (anim2d) {
+
+		}
 	}
 
 

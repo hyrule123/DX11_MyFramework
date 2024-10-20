@@ -145,21 +145,21 @@ bool cAnim2DAtlas::SaveJson(Json::Value* _jVal)
 			mapAnim[iter.first] = Json::Value(Json::objectValue);
 			Json::Value& anim2dVal = mapAnim[iter.first];
 
-			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::eAnimType] = (int)iter.second.eAnimType;
-			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::uColTotal] = iter.second.uColTotal;
-			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::uRowTotal] = iter.second.uRowTotal;
-			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::uNumFrame] = iter.second.uNumFrame;
+			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::eAnimType] = (int)iter.second->eAnimType;
+			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::uColTotal] = iter.second->uColTotal;
+			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::uRowTotal] = iter.second->uRowTotal;
+			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::uNumFrame] = iter.second->uNumFrame;
 
 			//float은 int 값으로 변환해서 저장한다.
-			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::fFullPlayTime] = Pack_float_int(iter.second.fFullPlayTime).i;
-			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::vPivot] = Pack_v2_i64(iter.second.vPivot).i64;
+			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::fFullPlayTime] = Pack_float_int(iter.second->fFullPlayTime).i;
+			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::vPivot] = Pack_v2_i64(iter.second->vPivot).i64;
 
 			anim2dVal[JsonKey_Anim2DAtlas::Anim2D::vecFrame] = Json::Value(Json::ValueType::arrayValue);
 			Json::Value& vecFrame = anim2dVal[JsonKey_Anim2DAtlas::Anim2D::vecFrame];
 
-			for (size_t i = 0; i < iter.second.vecFrame.size(); ++i)
+			for (size_t i = 0; i < iter.second->vecFrame.size(); ++i)
 			{
-				vecFrame.append(iter.second.vecFrame[i]);
+				vecFrame.append(iter.second->vecFrame[i]);
 			}
 		}
 	}
@@ -252,30 +252,30 @@ bool cAnim2DAtlas::LoadJson(Json::Value* _jVal)
 			const Json::ValueConstIterator& mapIterEnd = mapAnim.end();
 			for (Json::ValueConstIterator mapIter = mapAnim.begin(); mapIter != mapIterEnd; ++mapIter)
 			{
-				tAnim2D anim = {};
-				anim.strKeyAnim2D = mapIter.key().asString();
+				tAnim2D* anim = new tAnim2D;
+				anim->strKeyAnim2D = mapIter.key().asString();
 				
 				const Json::Value& animVal = *mapIter;
-				anim.eAnimType = (eANIM_TYPE)animVal[JsonKey_Anim2DAtlas::Anim2D::eAnimType].asInt();
-				anim.uColTotal = animVal[JsonKey_Anim2DAtlas::Anim2D::uColTotal].asUInt();
-				anim.uRowTotal = animVal[JsonKey_Anim2DAtlas::Anim2D::uRowTotal].asUInt();
+				anim->eAnimType = (eANIM_TYPE)animVal[JsonKey_Anim2DAtlas::Anim2D::eAnimType].asInt();
+				anim->uColTotal = animVal[JsonKey_Anim2DAtlas::Anim2D::uColTotal].asUInt();
+				anim->uRowTotal = animVal[JsonKey_Anim2DAtlas::Anim2D::uRowTotal].asUInt();
 
-				anim.uNumFrame = animVal[JsonKey_Anim2DAtlas::Anim2D::uNumFrame].asUInt();
-				if (anim.uNumFrame == 0u)
+				anim->uNumFrame = animVal[JsonKey_Anim2DAtlas::Anim2D::uNumFrame].asUInt();
+				if (anim->uNumFrame == 0u)
 				{
 					MessageBoxA(nullptr, "Total number of Animation2D frame is 0.", nullptr, MB_OK);
 					return false;
 				}
 
-				anim.fFullPlayTime = Pack_float_int(animVal[JsonKey_Anim2DAtlas::Anim2D::fFullPlayTime].asInt()).f;
-				anim.fTimePerFrame = anim.fFullPlayTime / (float)anim.uNumFrame;
-				anim.vPivot = Pack_v2_i64(animVal[JsonKey_Anim2DAtlas::Anim2D::vPivot].asInt64()).v2;
+				anim->fFullPlayTime = Pack_float_int(animVal[JsonKey_Anim2DAtlas::Anim2D::fFullPlayTime].asInt()).f;
+				anim->fTimePerFrame = anim->fFullPlayTime / (float)anim->uNumFrame;
+				anim->vPivot = Pack_v2_i64(animVal[JsonKey_Anim2DAtlas::Anim2D::vPivot].asInt64()).v2;
 
 				if (animVal.isMember(JsonKey_Anim2DAtlas::Anim2D::vecFrame))
 				{
 					for (const auto& vecFrmIter : animVal[JsonKey_Anim2DAtlas::Anim2D::vecFrame])
 					{
-						anim.vecFrame.emplace_back(vecFrmIter.asUInt());
+						anim->vecFrame.emplace_back(vecFrmIter.asUInt());
 					}
 				}
 
@@ -433,60 +433,55 @@ void cAnim2DAtlas::SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, U
 
 
 
-tAnim2D* cAnim2DAtlas::AddAnim2D(const string_view _strAnimKey, const tAnim2D& _vecAnimFrameIdx,
+tAnim2D* cAnim2DAtlas::AddAnim2D(const string_view _strAnimKey, std::unique_ptr<tAnim2D> _anim,
 	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
 )
 {
-	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, _vecAnimFrameIdx));
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, std::move(_anim)));
 
-	tAnim2D& Anim = pair.first->second;
-	Anim.uColTotal = 0u;
-	Anim.uRowTotal = 0u;
+	tAnim2D* Anim = pair.first->second.get();
+	Anim->uColTotal = 0u;
+	Anim->uRowTotal = 0u;
 
-	Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+	Anim->uNumFrame = (UINT)Anim->vecFrame.size();
 
-	Anim.fFullPlayTime = _fFullPlayTime;
-	Anim.eAnimType = _eAnimType;
-	Anim.vPivot = _vPivot;
-	Anim.strKeyAnim2D = _strAnimKey;
+	Anim->fFullPlayTime = _fFullPlayTime;
+	Anim->eAnimType = _eAnimType;
+	Anim->vPivot = _vPivot;
+	Anim->strKeyAnim2D = _strAnimKey;
 
-	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+	Anim->fTimePerFrame = (float)Anim->fFullPlayTime / (float)Anim->uNumFrame;
 
-	return &(pair.first->second);
+	return Anim;
 }
 
 tAnim2D* cAnim2DAtlas::AddAnim2D(const string_view _strAnimKey, const vector<UINT>& _vecFrame, float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot)
 {
-	tAnim2D frameIdx = {};
-	size_t size = _vecFrame.size();
-	for (size_t i = 0; i < size; i++)
-	{
-		frameIdx.vecFrame.push_back(_vecFrame[i]);
-	}
+	std::unique_ptr<tAnim2D> Anim = std::make_unique<tAnim2D>();
+	Anim->vecFrame = _vecFrame;
+	
+	Anim->uColTotal = 0u;
+	Anim->uRowTotal = 0u;
 
-	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, frameIdx));
+	Anim->uNumFrame = (UINT)Anim->vecFrame.size();
 
-	tAnim2D& Anim = pair.first->second;
-	Anim.uColTotal = 0u;
-	Anim.uRowTotal = 0u;
+	Anim->fFullPlayTime = _fFullPlayTime;
+	Anim->eAnimType = _eAnimType;
+	Anim->vPivot = _vPivot;
+	Anim->strKeyAnim2D = _strAnimKey;
 
-	Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+	Anim->fTimePerFrame = (float)Anim->fFullPlayTime / (float)Anim->uNumFrame;
 
-	Anim.fFullPlayTime = _fFullPlayTime;
-	Anim.eAnimType = _eAnimType;
-	Anim.vPivot = _vPivot;
-	Anim.strKeyAnim2D = _strAnimKey;
 
-	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
-
-	return &(pair.first->second);
+	tAnim2D* ret = Anim.get();
+	m_mapAnim.insert(make_pair(_strAnimKey, std::move(Anim)));
+	return ret;
 }
 
 tAnim2D* cAnim2DAtlas::AddAnim2D(const string_view _strAnimKey, UINT _uColStart, UINT _uColPitch, UINT _uRowStart, UINT _uRowPitch,
 	float _fFullPlayTime, eANIM_TYPE _eAnimType, Vec2 _vPivot
 )
 {
-
 	UINT colend = _uColStart + _uColPitch;
 	UINT rowend = _uRowStart + _uRowPitch;
 
@@ -498,42 +493,44 @@ tAnim2D* cAnim2DAtlas::AddAnim2D(const string_view _strAnimKey, UINT _uColStart,
 		&& _uRowStart <= rowend
 	);
 
-	tAnim2D Anim = {};
+	std::unique_ptr<tAnim2D> Anim = std::make_unique<tAnim2D>();
 
 
 	for (UINT Col = _uColStart; Col < colend; Col++)
 	{
 		for (UINT Row = _uRowStart; Row < rowend; Row++)
 		{
-			Anim.vecFrame.push_back((Col * m_uRowTotal + Row));
+			Anim->vecFrame.push_back((Col * m_uRowTotal + Row));
 		}
 	}
 
-	Anim.uColTotal = colend - _uColStart;
-	Anim.uRowTotal = rowend - _uRowStart;
+	Anim->uColTotal = colend - _uColStart;
+	Anim->uRowTotal = rowend - _uRowStart;
 
-	Anim.fFullPlayTime = _fFullPlayTime;
-	Anim.eAnimType = _eAnimType; 
-	Anim.vPivot = _vPivot;
-	Anim.strKeyAnim2D = _strAnimKey;
+	Anim->fFullPlayTime = _fFullPlayTime;
+	Anim->eAnimType = _eAnimType; 
+	Anim->vPivot = _vPivot;
+	Anim->strKeyAnim2D = _strAnimKey;
 
-	switch (Anim.eAnimType)
+	switch (Anim->eAnimType)
 	{
 	case eANIM_TYPE::SEQUENTIAL:
-		Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+		Anim->uNumFrame = (UINT)Anim->vecFrame.size();
 		break;
 	case eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP:
-		Anim.uNumFrame = Anim.uRowTotal;
+		Anim->uNumFrame = Anim->uRowTotal;
 		break;
 	default:
 		break;
 	}
 
-	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+	Anim->fTimePerFrame = (float)Anim->fFullPlayTime / (float)Anim->uNumFrame;
 
-	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, Anim));
+	tAnim2D* ret = Anim.get();
 
-	return &(pair.first->second);
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, std::move(Anim)));
+
+	return ret;
 }
 
 tAnim2D* cAnim2DAtlas::AddAnim2D_SC_Redundant(const string_view _strAnimKey, UINT _uRowStart, UINT _uRowPitch, float _fFullPlayTime, Vec2 _vPivot)
@@ -544,7 +541,7 @@ tAnim2D* cAnim2DAtlas::AddAnim2D_SC_Redundant(const string_view _strAnimKey, UIN
 		&& 9u == m_uColTotal
 	);
 
-	tAnim2D Anim = {};
+	std::unique_ptr<tAnim2D> Anim = std::make_unique<tAnim2D>();
 
 	UINT _uRowEnd = _uRowStart + _uRowPitch;
 
@@ -552,63 +549,65 @@ tAnim2D* cAnim2DAtlas::AddAnim2D_SC_Redundant(const string_view _strAnimKey, UIN
 	{
 		for (UINT Row = _uRowStart; Row < _uRowEnd; Row++)
 		{
-			Anim.vecFrame.push_back((Col * m_uRowTotal + Row));
+			Anim->vecFrame.push_back((Col * m_uRowTotal + Row));
 		}
 	}
 
-	Anim.uColTotal = m_uColTotal;
-	Anim.uRowTotal = _uRowEnd - _uRowStart;
+	Anim->uColTotal = m_uColTotal;
+	Anim->uRowTotal = _uRowEnd - _uRowStart;
 
-	Anim.fFullPlayTime = _fFullPlayTime;
-	Anim.eAnimType = eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP;
-	Anim.vPivot = _vPivot;
-	Anim.strKeyAnim2D = _strAnimKey;
+	Anim->fFullPlayTime = _fFullPlayTime;
+	Anim->eAnimType = eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP;
+	Anim->vPivot = _vPivot;
+	Anim->strKeyAnim2D = _strAnimKey;
 
-	switch (Anim.eAnimType)
+	switch (Anim->eAnimType)
 	{
 	case eANIM_TYPE::SEQUENTIAL:
-		Anim.uNumFrame = (UINT)Anim.vecFrame.size();
+		Anim->uNumFrame = (UINT)Anim->vecFrame.size();
 		break;
 	case eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP:
-		Anim.uNumFrame = Anim.uRowTotal;
+		Anim->uNumFrame = Anim->uRowTotal;
 		break;
 	default:
 		break;
 	}
 
-	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
-
-	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, Anim));
-	return &(pair.first->second);
+	Anim->fTimePerFrame = (float)Anim->fFullPlayTime / (float)Anim->uNumFrame;
+	
+	tAnim2D* ret = Anim.get();
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, std::move(Anim)));
+	return ret;
 }
 
 //
 tAnim2D* cAnim2DAtlas::AddAnim2D_vecRowIndex(const string_view _strAnimKey, const vector<UINT>& _vecRow, float _fFullPlayTime, Vec2 _vPivot)
 {
-	tAnim2D Anim = {};
+	std::unique_ptr<tAnim2D> Anim = std::make_unique<tAnim2D>();
 
 	size_t rowsize = _vecRow.size();
 	for (UINT col = 0; col < m_uColTotal; ++col)
 	{
 		for (size_t row = 0; row < rowsize; row++)
 		{
-			Anim.vecFrame.push_back((UINT)(col * m_uRowTotal + _vecRow[row]));
+			Anim->vecFrame.push_back((UINT)(col * m_uRowTotal + _vecRow[row]));
 		}
 	}
 
-	Anim.uColTotal = m_uColTotal;
-	Anim.uRowTotal = (UINT)rowsize;
-	Anim.uNumFrame = Anim.uRowTotal;
+	Anim->uColTotal = m_uColTotal;
+	Anim->uRowTotal = (UINT)rowsize;
+	Anim->uNumFrame = Anim->uRowTotal;
 
-	Anim.fFullPlayTime = _fFullPlayTime;
-	Anim.eAnimType = eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP;
-	Anim.vPivot = _vPivot;
-	Anim.strKeyAnim2D = _strAnimKey;
+	Anim->fFullPlayTime = _fFullPlayTime;
+	Anim->eAnimType = eANIM_TYPE::DIRECTIONAL_COL_HALF_FLIP;
+	Anim->vPivot = _vPivot;
+	Anim->strKeyAnim2D = _strAnimKey;
 
-	Anim.fTimePerFrame = (float)Anim.fFullPlayTime / (float)Anim.uNumFrame;
+	Anim->fTimePerFrame = (float)Anim->fFullPlayTime / (float)Anim->uNumFrame;
 
-	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, Anim));
-	return &(pair.first->second);
+	tAnim2D* ret = Anim.get();
+	auto pair = m_mapAnim.insert(make_pair(_strAnimKey, std::move(Anim)));
+	return ret;
 }
 
 const tAnim2D* cAnim2DAtlas::FindAnim2D(const string_view _AnimIdxStrKey)
@@ -618,8 +617,16 @@ const tAnim2D* cAnim2DAtlas::FindAnim2D(const string_view _AnimIdxStrKey)
 	if (iter == m_mapAnim.end())
 		return nullptr;
 
-	return &(iter->second);
+	return iter->second.get();
 }
+
+const tAnim2D* cAnim2DAtlas::GetFirstAnim()
+{
+	if (m_mapAnim.empty()) { return nullptr; }
+
+	return m_mapAnim.begin()->second.get();
+}
+
 
 Vec2 cAnim2DAtlas::GetFrameSize(UINT _uIdxFrameUV) const
 {

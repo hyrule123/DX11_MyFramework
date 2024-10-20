@@ -6,11 +6,12 @@
 
 #include <Engine/strKey_Default.h>
 
-
+#include <Engine/cTimeMgr.h>
 #include <Engine/cPathMgr.h>
 #include <Engine/cResMgr.h>
 #include <Engine/cGameObject.h>
 #include <Engine/cTransform.h>
+#include <Engine/cCom_Animator2D.h>
 
 #include <Engine/cCom_Renderer_Default.h>
 #include <Engine/strKey_Default.h>
@@ -37,6 +38,9 @@ cUIobj_TestWindow::cUIobj_TestWindow()
 	: cUI_BasicWindow("TestWindow")
 	, m_pMapObj()
 	, m_TilemapRenderer()
+	, m_FPS_Timer()
+	, m_FPS_Counter()
+	, m_FPS()
 {
 	SetSaveEnable(true);
 }
@@ -140,11 +144,15 @@ void cUIobj_TestWindow::render_update()
 			RandVal += CamPos;
 
 			cGameObject* pObj = EventDispatcher::SpawnPrefab2D(Marine, RandVal);
-
+			cCom_Animator2D* animator = pObj->GetComponent<cCom_Animator2D>();
+			if (animator) {
+				animator->Play("ATTACK", eANIM_PLAYMODE::NORMAL_LOOP, false);
+			}
 			//pObj->ScriptHolder()->Transition(SC::FSM::ATTACK);
 		}
 	}
 
+	ShowFPS();
 	//if (ImGui::Button("Save GameObject"))
 	//{
 	//	std::filesystem::path TestSave = "ParentTest.json";
@@ -194,4 +202,19 @@ void cUIobj_TestWindow::FindTestObj()
 void cUIobj_TestWindow::ChangeDebugMode(int _iMode)
 {
 
+}
+
+void cUIobj_TestWindow::ShowFPS()
+{
+	++m_FPS_Counter;
+	m_FPS_Timer += cTimeMgr::GetInst()->GetDeltaTime();
+	if (1.f <= m_FPS_Timer) {
+		m_FPS = m_FPS_Counter;
+		m_FPS_Timer = 0.f;
+		m_FPS_Counter = 0;
+	}
+	
+	std::string str = "Current FPS: ";
+	str += std::to_string(m_FPS);
+	ImGui::Text(str.c_str());
 }

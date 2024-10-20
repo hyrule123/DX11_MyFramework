@@ -33,7 +33,7 @@ public:
 
 public:
     
-
+    virtual void Start() override;
     virtual void FinalTick() override;
     virtual void CleanUp() override;
 
@@ -89,6 +89,9 @@ public:
 
     const tAnim2D* FindAnim(const string_view _strKey_Anim);
     bool Play(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlayMode, bool _bReverse);
+    bool Play(const tAnim2D* _anim2D, eANIM_PLAYMODE _ePlayMode, bool _bReverse);
+    void PlayFirst();
+    bool IsPlaying() const { return m_pCurAnim; }
 
     //재생 '준비'만 해놓고 대기
     //PlayAgain()을 통해서 재생

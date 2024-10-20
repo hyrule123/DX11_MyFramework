@@ -15,6 +15,7 @@
 #include <Engine/cRenderMgr.h>
 #include <Engine/cTransform.h>
 #include <Engine/cCom_Renderer_TilemapComplete.h>
+#include <Engine/cCom_Animator2D.h>
 
 #include <HLSL/S_H_Tilemap_SC.hlsli>
 
@@ -882,10 +883,12 @@ void cCom_Renderer_TilemapSC::StartLocation()
 		pMainCam->GetOwner()->Transform().SetRelativePosXY(m_vecStartLocation[StartPos]);
 
 		Ptr<cPrefab> Marine = cResMgr::GetInst()->Load<cPrefab>(SC::GetUnitName(SC::eUNIT_ID::TERRAN_MARINE));
-
 		assert(nullptr != Marine);
-
-		EventDispatcher::SpawnPrefab2D(Marine, m_vecStartLocation[StartPos] + Vec2(100.f, 100.f));
+		auto* obj = EventDispatcher::SpawnPrefab2D(Marine, m_vecStartLocation[StartPos] + Vec2(100.f, 100.f));
+		cCom_Animator2D* anim2d = obj->GetComponent<cCom_Animator2D>();
+		if (anim2d) {
+			anim2d->Play("IDLE", eANIM_PLAYMODE::NORMAL_LOOP, false);
+		}
 	}
 }
 

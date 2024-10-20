@@ -104,7 +104,7 @@ bool cCom_Animator2D::LoadJson(Json::Value* _pJVal)
 {
     if (nullptr == _pJVal)
         return false;
-    else if (false == IComponent::SaveJson(_pJVal))
+    else if (false == IComponent::LoadJson(_pJVal))
         return false;
 
     Json::Value& jVal = *_pJVal;
@@ -153,6 +153,13 @@ bool cCom_Animator2D::LoadJson(Json::Value* _pJVal)
     return true;
 }
 
+
+void cCom_Animator2D::Start()
+{
+    if (nullptr == m_pCurAnim) {
+        PlayFirst();
+    }
+}
 
 void cCom_Animator2D::FinalTick()
 {
@@ -373,17 +380,23 @@ bool cCom_Animator2D::Play(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlay
             break;
         }
     }
+        
+    return Play(pAnim, _ePlayMode, _bReverse);
+}
 
-    if (nullptr == pAnim)
+bool cCom_Animator2D::Play(const tAnim2D* _anim2D, eANIM_PLAYMODE _ePlayMode, bool _bReverse)
+{
+    if (nullptr == _anim2D) {
         return false;
+    }
 
     //동일한 애니메이션에 대해 재생을 요청했을 경우 그냥 냅둠(true 반환)
-    else if (pAnim == m_pCurAnim)
+    else if (_anim2D == m_pCurAnim) {
         return true;
+    }
 
     //예외처리 완료. 애니메이션 전환
-    m_pCurAnim = pAnim;
-
+    m_pCurAnim = _anim2D;
 
     //재생 준비
     m_ePlayMode = _ePlayMode;
@@ -395,14 +408,16 @@ bool cCom_Animator2D::Play(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlay
 
     m_uMaxFrameCount = m_pCurAnim->uNumFrame;
 
-    if (false == m_bReverse)
+    if (false == m_bReverse) {
         m_iCurFrameIdx = 0;
-    else
+    }
+    else {
         m_iCurFrameIdx = (int)m_uMaxFrameCount - 1;
+    }   
 
     m_fTimePerFrame = m_pCurAnim->fTimePerFrame;
     m_fFullPlayTime = m_pCurAnim->fFullPlayTime;
-        
+
     if (m_arrAtlasTex[m_iCurAtlasTexIdx]->IsFrameSizeRegular())
     {
         GetOwner()->Transform().SetSize(Vec3(m_arrAtlasTex[m_iCurAtlasTexIdx]->GetFrameSize(0u), 1.f));
@@ -410,9 +425,21 @@ bool cCom_Animator2D::Play(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlay
 
     GetOwner()->Renderer()->SetDisable(false);
     SetDisable(false);
-            
+
     //재생준비 완료 - true 반환
     return true;
+}
+
+void cCom_Animator2D::PlayFirst()
+{
+    if (m_arrAtlasTex[0].Get()) {
+        const auto& anims = m_arrAtlasTex[0]->GetAnimations();
+        if (anims.empty()) {
+            return;
+        }
+
+        Play(anims.begin()->second.get(), eANIM_PLAYMODE::NORMAL_LOOP, false);
+    }
 }
 
 bool cCom_Animator2D::PreparePlay(const string_view _strKey_Anim, eANIM_PLAYMODE _ePlayMode, bool _bReverse)

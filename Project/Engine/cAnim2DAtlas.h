@@ -119,7 +119,7 @@ private:
 
     //개별 애니메이션의 프레임 번호가 저장되어있는 벡터를 들고있는 변수
     //실제 애니메이션이 저장되는 장소
-    unordered_map<string, tAnim2D, tUmap_StringHasher, std::equal_to<>> m_mapAnim;
+    unordered_map<string, std::unique_ptr<tAnim2D>, tUmap_StringHasher, std::equal_to<>> m_mapAnim;
 
     //그리드 형태의 애니메이션일 경우 사용
     UINT m_uRowTotal;
@@ -146,11 +146,11 @@ public:
     //중복된 방향(180도 8방향)을 가지는 애니메이션 프레임을 만들 때
     //이미지가 중복되어 있음
     void SetNewAnimUV_SC_Redundant(UINT _uRowTotal, UINT _uRowStart, UINT _uRowPitch);
-
+    const unordered_map<string, std::unique_ptr<tAnim2D>, tUmap_StringHasher, std::equal_to<>>& GetAnimations() const { return m_mapAnim; }
 
     //애니메이션 생성 메소드
     //================================================================================================================
-    tAnim2D* AddAnim2D(const string_view _strAnimKey, const tAnim2D& _vecAnimFrameIdx, 
+    tAnim2D* AddAnim2D(const string_view _strAnimKey, std::unique_ptr<tAnim2D> _vecAnimFrameIdx, 
          float _fFullPlayTime, eANIM_TYPE _eAnimType = eANIM_TYPE::SEQUENTIAL, Vec2 _vPivot = Vec2(0.5f, 0.5f)
     );
 
@@ -172,6 +172,7 @@ public:
 
 
     const tAnim2D* FindAnim2D(const string_view _AnimIdxStrKey);
+    const tAnim2D* GetFirstAnim();
     
     const tAnimFrameUV& GetFrameUVData(int _iIdx) { return m_vecFrameUV[_iIdx]; }
 
